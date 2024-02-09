@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
-		F3EA66CE2B7643EE002417CE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* ContentView.swift */; };
+		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
 		F3EA66D32B7643F0002417CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66D22B7643F0002417CE /* Preview Assets.xcassets */; };
 		F3EA66DD2B7643F0002417CE /* CappleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66DC2B7643F0002417CE /* CappleTests.swift */; };
 		F3EA66E72B7643F0002417CE /* CappleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66E62B7643F0002417CE /* CappleUITests.swift */; };
 		F3EA66E92B7643F0002417CE /* CappleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66E82B7643F0002417CE /* CappleUITestsLaunchTests.swift */; };
+		F3EA66F82B764474002417CE /* DummyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66F72B764474002417CE /* DummyModel.swift */; };
+		F3EA66FD2B7644D0002417CE /* ApiEnpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66FC2B7644D0002417CE /* ApiEnpoints.swift */; };
+		F3EA67032B764504002417CE /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67022B764504002417CE /* BaseResponse.swift */; };
+		F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67052B76450F002417CE /* BaseRequest.swift */; };
+		F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA670E2B7645AB002417CE /* HomeViewModel.swift */; };
+		F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67112B76460F002417CE /* ArrowButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +42,7 @@
 /* Begin PBXFileReference section */
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
-		F3EA66CD2B7643EE002417CE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F3EA66CF2B7643F0002417CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F3EA66D22B7643F0002417CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F3EA66D82B7643F0002417CE /* CappleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CappleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +50,12 @@
 		F3EA66E22B7643F0002417CE /* CappleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CappleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66E62B7643F0002417CE /* CappleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleUITests.swift; sourceTree = "<group>"; };
 		F3EA66E82B7643F0002417CE /* CappleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F3EA66F72B764474002417CE /* DummyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyModel.swift; sourceTree = "<group>"; };
+		F3EA66FC2B7644D0002417CE /* ApiEnpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEnpoints.swift; sourceTree = "<group>"; };
+		F3EA67022B764504002417CE /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		F3EA67052B76450F002417CE /* BaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequest.swift; sourceTree = "<group>"; };
+		F3EA670E2B7645AB002417CE /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		F3EA67112B76460F002417CE /* ArrowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,9 +106,11 @@
 		F3EA66CA2B7643EE002417CE /* Capple */ = {
 			isa = PBXGroup;
 			children = (
-				F3EA66CB2B7643EE002417CE /* CappleApp.swift */,
-				F3EA66CD2B7643EE002417CE /* ContentView.swift */,
-				F3EA66CF2B7643F0002417CE /* Assets.xcassets */,
+				F3EA67092B764550002417CE /* Resource */,
+				F3EA67082B76453F002417CE /* Presentation */,
+				F3EA67072B764530002417CE /* App */,
+				F3EA66F92B764479002417CE /* Data */,
+				F3EA66F52B76445E002417CE /* Domain */,
 				F3EA66D12B7643F0002417CE /* Preview Content */,
 			);
 			path = Capple;
@@ -125,6 +139,122 @@
 				F3EA66E82B7643F0002417CE /* CappleUITestsLaunchTests.swift */,
 			);
 			path = CappleUITests;
+			sourceTree = "<group>";
+		};
+		F3EA66F52B76445E002417CE /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA66F62B764460002417CE /* Entity */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		F3EA66F62B764460002417CE /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA66F72B764474002417CE /* DummyModel.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		F3EA66F92B764479002417CE /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA66FA2B76447C002417CE /* Network */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F3EA66FA2B76447C002417CE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA66FE2B7644DF002417CE /* DataMapping */,
+				F3EA66FC2B7644D0002417CE /* ApiEnpoints.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F3EA66FE2B7644DF002417CE /* DataMapping */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA67002B7644F0002417CE /* Request */,
+				F3EA66FF2B7644EA002417CE /* Response */,
+			);
+			path = DataMapping;
+			sourceTree = "<group>";
+		};
+		F3EA66FF2B7644EA002417CE /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA67022B764504002417CE /* BaseResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		F3EA67002B7644F0002417CE /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA67052B76450F002417CE /* BaseRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		F3EA67072B764530002417CE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA66CB2B7643EE002417CE /* CappleApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F3EA67082B76453F002417CE /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA67102B7645FC002417CE /* Helper */,
+				F3EA670A2B764567002417CE /* HomeView */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		F3EA67092B764550002417CE /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA66CF2B7643F0002417CE /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		F3EA670A2B764567002417CE /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA670D2B764580002417CE /* ViewModel */,
+				F3EA670C2B76457B002417CE /* View */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		F3EA670C2B76457B002417CE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA66CD2B7643EE002417CE /* HomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F3EA670D2B764580002417CE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA670E2B7645AB002417CE /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F3EA67102B7645FC002417CE /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				F3EA67112B76460F002417CE /* ArrowButton.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,7 +387,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3EA66CE2B7643EE002417CE /* ContentView.swift in Sources */,
+				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
+				F3EA66F82B764474002417CE /* DummyModel.swift in Sources */,
+				F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */,
+				F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */,
+				F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */,
+				F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */,
+				F3EA66FD2B7644D0002417CE /* ApiEnpoints.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
