@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07D96EB12B77714F00754819 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EB02B77714E00754819 /* Colors.xcassets */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07D96EB02B77714E00754819 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				F3EA66CF2B7643F0002417CE /* Assets.xcassets */,
+				07D96EB02B77714E00754819 /* Colors.xcassets */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D96EB12B77714F00754819 /* Colors.xcassets in Resources */,
 				F3EA66D32B7643F0002417CE /* Preview Assets.xcassets in Resources */,
 				F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */,
 			);
