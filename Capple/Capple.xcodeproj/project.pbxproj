@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		07D96EB12B77714F00754819 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EB02B77714E00754819 /* Colors.xcassets */; };
 		07D96EB32B77737500754819 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EB22B77737500754819 /* Color+Extension.swift */; };
+		07D96EC52B7796FE00754819 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */; };
+		07D96ECA2B7796FE00754819 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EC12B7796FE00754819 /* Pretendard-SemiBold.otf */; };
+		07D96ECC2B7796FE00754819 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EC32B7796FE00754819 /* Pretendard-Bold.otf */; };
+		07D96ECD2B7796FE00754819 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EC42B7796FE00754819 /* Pretendard-Regular.otf */; };
+		07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96ED02B7797CD00754819 /* Font+Extension.swift */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -44,6 +49,12 @@
 /* Begin PBXFileReference section */
 		07D96EB02B77714E00754819 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		07D96EB22B77737500754819 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		07D96EC12B7796FE00754819 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		07D96EC32B7796FE00754819 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		07D96EC42B7796FE00754819 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		07D96ECE2B77973E00754819 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		07D96ED02B7797CD00754819 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -87,6 +98,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07D96EBB2B77969000754819 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				07D96ED02B7797CD00754819 /* Font+Extension.swift */,
+				07D96EC32B7796FE00754819 /* Pretendard-Bold.otf */,
+				07D96EC12B7796FE00754819 /* Pretendard-SemiBold.otf */,
+				07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */,
+				07D96EC42B7796FE00754819 /* Pretendard-Regular.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		07D96ECF2B7797B000754819 /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				07D96EB22B77737500754819 /* Color+Extension.swift */,
+				07D96EB02B77714E00754819 /* Colors.xcassets */,
+			);
+			path = Color;
+			sourceTree = "<group>";
+		};
 		F3EA66BF2B7643EE002417CE = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +142,7 @@
 		F3EA66CA2B7643EE002417CE /* Capple */ = {
 			isa = PBXGroup;
 			children = (
+				07D96ECE2B77973E00754819 /* Info.plist */,
 				F3EA67092B764550002417CE /* Resource */,
 				F3EA67082B76453F002417CE /* Presentation */,
 				F3EA67072B764530002417CE /* App */,
@@ -224,8 +257,8 @@
 			isa = PBXGroup;
 			children = (
 				F3EA66CF2B7643F0002417CE /* Assets.xcassets */,
-				07D96EB02B77714E00754819 /* Colors.xcassets */,
-				07D96EB22B77737500754819 /* Color+Extension.swift */,
+				07D96ECF2B7797B000754819 /* Color */,
+				07D96EBB2B77969000754819 /* Font */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -367,9 +400,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D96ECC2B7796FE00754819 /* Pretendard-Bold.otf in Resources */,
+				07D96ECD2B7796FE00754819 /* Pretendard-Regular.otf in Resources */,
 				07D96EB12B77714F00754819 /* Colors.xcassets in Resources */,
 				F3EA66D32B7643F0002417CE /* Preview Assets.xcassets in Resources */,
 				F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */,
+				07D96EC52B7796FE00754819 /* Pretendard-Medium.otf in Resources */,
+				07D96ECA2B7796FE00754819 /* Pretendard-SemiBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +437,7 @@
 				F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */,
 				F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */,
 				F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */,
+				07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */,
 				F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEnpoints.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
@@ -568,6 +606,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Capple/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Capple/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -596,6 +635,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Capple/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Capple/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
