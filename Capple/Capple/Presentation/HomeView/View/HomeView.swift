@@ -14,6 +14,7 @@ struct HomeView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, world!")
+                .foregroundStyle(BrandPink.button)
         }
         .padding()
     }
