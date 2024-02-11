@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/swift
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift
 
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+
 ### Swift ###
 # Xcode
 #
