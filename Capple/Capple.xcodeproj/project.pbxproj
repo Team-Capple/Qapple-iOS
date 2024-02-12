@@ -14,6 +14,8 @@
 		07D96ECC2B7796FE00754819 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EC32B7796FE00754819 /* Pretendard-Bold.otf */; };
 		07D96ECD2B7796FE00754819 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EC42B7796FE00754819 /* Pretendard-Regular.otf */; };
 		07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96ED02B7797CD00754819 /* Font+Extension.swift */; };
+		07D96ED62B79E7C000754819 /* TodayQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96ED52B79E7C000754819 /* TodayQuestionViewModel.swift */; };
+		07D96ED82B79E7EB00754819 /* TodayQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96ED72B79E7EB00754819 /* TodayQuestionView.swift */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -55,6 +57,8 @@
 		07D96EC42B7796FE00754819 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		07D96ECE2B77973E00754819 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		07D96ED02B7797CD00754819 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
+		07D96ED52B79E7C000754819 /* TodayQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayQuestionViewModel.swift; sourceTree = "<group>"; };
+		07D96ED72B79E7EB00754819 /* TodayQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayQuestionView.swift; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -117,6 +121,31 @@
 				07D96EB02B77714E00754819 /* Colors.xcassets */,
 			);
 			path = Color;
+			sourceTree = "<group>";
+		};
+		07D96ED22B79E79600754819 /* TodayQuestionView */ = {
+			isa = PBXGroup;
+			children = (
+				07D96ED42B79E7AC00754819 /* ViewModel */,
+				07D96ED32B79E7A400754819 /* View */,
+			);
+			path = TodayQuestionView;
+			sourceTree = "<group>";
+		};
+		07D96ED32B79E7A400754819 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07D96ED72B79E7EB00754819 /* TodayQuestionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		07D96ED42B79E7AC00754819 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				07D96ED52B79E7C000754819 /* TodayQuestionViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		F3EA66BF2B7643EE002417CE = {
@@ -249,6 +278,7 @@
 			children = (
 				F3EA67102B7645FC002417CE /* Helper */,
 				F3EA670A2B764567002417CE /* HomeView */,
+				07D96ED22B79E79600754819 /* TodayQuestionView */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -431,7 +461,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D96ED62B79E7C000754819 /* TodayQuestionViewModel.swift in Sources */,
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
+				07D96ED82B79E7EB00754819 /* TodayQuestionView.swift in Sources */,
 				07D96EB32B77737500754819 /* Color+Extension.swift in Sources */,
 				F3EA66F82B764474002417CE /* DummyModel.swift in Sources */,
 				F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */,
