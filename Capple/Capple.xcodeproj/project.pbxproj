@@ -16,6 +16,12 @@
 		07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96ED02B7797CD00754819 /* Font+Extension.swift */; };
 		07D96ED62B79E7C000754819 /* TodayQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96ED52B79E7C000754819 /* TodayQuestionViewModel.swift */; };
 		07D96ED82B79E7EB00754819 /* TodayQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96ED72B79E7EB00754819 /* TodayQuestionView.swift */; };
+		07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96ED92B79F03C00754819 /* TodayQuestionActionButton.swift */; };
+		07D96EDC2B7A167200754819 /* SeeAllButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EDB2B7A167200754819 /* SeeAllButton.swift */; };
+		07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EDD2B7A17EF00754819 /* Separator.swift */; };
+		07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EDF2B7A1AA600754819 /* AnswerCell.swift */; };
+		07D96EE62B7A52AB00754819 /* FlexView in Frameworks */ = {isa = PBXBuildFile; productRef = 07D96EE52B7A52AB00754819 /* FlexView */; };
+		07D96EE92B7A6D4D00754819 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EE82B7A6D4D00754819 /* View+Extension.swift */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -59,6 +65,11 @@
 		07D96ED02B7797CD00754819 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		07D96ED52B79E7C000754819 /* TodayQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayQuestionViewModel.swift; sourceTree = "<group>"; };
 		07D96ED72B79E7EB00754819 /* TodayQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayQuestionView.swift; sourceTree = "<group>"; };
+		07D96ED92B79F03C00754819 /* TodayQuestionActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayQuestionActionButton.swift; sourceTree = "<group>"; };
+		07D96EDB2B7A167200754819 /* SeeAllButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllButton.swift; sourceTree = "<group>"; };
+		07D96EDD2B7A17EF00754819 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
+		07D96EDF2B7A1AA600754819 /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
+		07D96EE82B7A6D4D00754819 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -82,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D96EE62B7A52AB00754819 /* FlexView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +148,10 @@
 			isa = PBXGroup;
 			children = (
 				07D96ED72B79E7EB00754819 /* TodayQuestionView.swift */,
+				07D96ED92B79F03C00754819 /* TodayQuestionActionButton.swift */,
+				07D96EDB2B7A167200754819 /* SeeAllButton.swift */,
+				07D96EDD2B7A17EF00754819 /* Separator.swift */,
+				07D96EDF2B7A1AA600754819 /* AnswerCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -146,6 +162,14 @@
 				07D96ED52B79E7C000754819 /* TodayQuestionViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		07D96EE72B7A6D4000754819 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				07D96EE82B7A6D4D00754819 /* View+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		F3EA66BF2B7643EE002417CE = {
@@ -276,6 +300,7 @@
 		F3EA67082B76453F002417CE /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				07D96EE72B7A6D4000754819 /* Extension */,
 				F3EA67102B7645FC002417CE /* Helper */,
 				F3EA670A2B764567002417CE /* HomeView */,
 				07D96ED22B79E79600754819 /* TodayQuestionView */,
@@ -342,6 +367,9 @@
 			dependencies = (
 			);
 			name = Capple;
+			packageProductDependencies = (
+				07D96EE52B7A52AB00754819 /* FlexView */,
+			);
 			productName = Capple;
 			productReference = F3EA66C82B7643EE002417CE /* Capple.app */;
 			productType = "com.apple.product-type.application";
@@ -414,6 +442,9 @@
 				Base,
 			);
 			mainGroup = F3EA66BF2B7643EE002417CE;
+			packageReferences = (
+				07D96EE42B7A52AA00754819 /* XCRemoteSwiftPackageReference "FlexView" */,
+			);
 			productRefGroup = F3EA66C92B7643EE002417CE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -463,14 +494,19 @@
 			files = (
 				07D96ED62B79E7C000754819 /* TodayQuestionViewModel.swift in Sources */,
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
+				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
+				07D96EE92B7A6D4D00754819 /* View+Extension.swift in Sources */,
 				07D96ED82B79E7EB00754819 /* TodayQuestionView.swift in Sources */,
 				07D96EB32B77737500754819 /* Color+Extension.swift in Sources */,
 				F3EA66F82B764474002417CE /* DummyModel.swift in Sources */,
 				F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */,
+				07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */,
 				F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */,
 				F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */,
 				07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */,
+				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
 				F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */,
+				07D96EDC2B7A167200754819 /* SeeAllButton.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEnpoints.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
 			);
@@ -636,6 +672,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Capple/Preview Content\"";
+				DEVELOPMENT_TEAM = 9XG4S4XZWN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Capple/Info.plist;
@@ -665,6 +702,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Capple/Preview Content\"";
+				DEVELOPMENT_TEAM = 9XG4S4XZWN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Capple/Info.plist;
@@ -798,6 +836,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		07D96EE42B7A52AA00754819 /* XCRemoteSwiftPackageReference "FlexView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/berbschloe/FlexView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		07D96EE52B7A52AB00754819 /* FlexView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 07D96EE42B7A52AA00754819 /* XCRemoteSwiftPackageReference "FlexView" */;
+			productName = FlexView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F3EA66C02B7643EE002417CE /* Project object */;
 }
