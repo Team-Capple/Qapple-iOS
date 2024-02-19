@@ -46,7 +46,7 @@ extension Color {
     
     /// 라벨(텍스트) 색상
     enum TextLabel {
-        static let wh = Color(.main)
+        static let main = Color(.main)
         static let sub1 = Color(.sub1)
         static let sub2 = Color(.sub2)
         static let sub3 = Color(.sub3)
