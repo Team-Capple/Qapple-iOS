@@ -23,6 +23,7 @@
 		07D96EE62B7A52AB00754819 /* FlexView in Frameworks */ = {isa = PBXBuildFile; productRef = 07D96EE52B7A52AB00754819 /* FlexView */; };
 		07D96EE92B7A6D4D00754819 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EE82B7A6D4D00754819 /* View+Extension.swift */; };
 		F36B0EEB2B8655AE009EBE1D /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EEA2B8655AE009EBE1D /* SignInView.swift */; };
+		F36B0EF32B86568F009EBE1D /* SignUpNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EF22B86568F009EBE1D /* SignUpNicknameView.swift */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -72,6 +73,7 @@
 		07D96EDF2B7A1AA600754819 /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
 		07D96EE82B7A6D4D00754819 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		F36B0EEA2B8655AE009EBE1D /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		F36B0EF22B86568F009EBE1D /* SignUpNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpNicknameView.swift; path = ../../../../../../../Documents/SignUpNicknameView.swift; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -186,6 +188,22 @@
 			isa = PBXGroup;
 			children = (
 				F36B0EEA2B8655AE009EBE1D /* SignInView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F36B0EF02B865676009EBE1D /* SignUpView */ = {
+			isa = PBXGroup;
+			children = (
+				F36B0EF12B865685009EBE1D /* View */,
+			);
+			path = SignUpView;
+			sourceTree = "<group>";
+		};
+		F36B0EF12B865685009EBE1D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F36B0EF22B86568F009EBE1D /* SignUpNicknameView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -318,6 +336,7 @@
 		F3EA67082B76453F002417CE /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				F36B0EF02B865676009EBE1D /* SignUpView */,
 				F36B0EE82B865590009EBE1D /* SignInView */,
 				07D96EE72B7A6D4000754819 /* Extension */,
 				F3EA67102B7645FC002417CE /* Helper */,
@@ -529,6 +548,7 @@
 				07D96EDC2B7A167200754819 /* SeeAllButton.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEnpoints.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
+				F36B0EF32B86568F009EBE1D /* SignUpNicknameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
