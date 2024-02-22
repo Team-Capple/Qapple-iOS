@@ -20,7 +20,7 @@ struct TodayQuestionView: View {
                 VStack(spacing: 0) {
                     WaitingQuestionView(viewModel: viewModel)
                     
-                    TodayQuestionActionButtonView()
+                    TodayQuestionActionButtonView(viewModel: viewModel)
                     
                     AnswerPreview()
                 }
@@ -86,7 +86,11 @@ private struct WaitingQuestionView: View {
 // MARK: - TodayQuestionActionButtonView
 private struct TodayQuestionActionButtonView: View {
     
-    var buttonText = "이전 질문 보러가기"
+    @ObservedObject private var viewModel: TodayQuestionViewModel
+    
+    fileprivate init(viewModel: TodayQuestionViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -96,7 +100,7 @@ private struct TodayQuestionActionButtonView: View {
                 .cornerRadius(32, corners: .bottomLeft)
                 .cornerRadius(32, corners: .bottomRight)
             
-            TodayQuestionActionButton(buttonText)
+            TodayQuestionActionButton(viewModel.buttonText)
         }
     }
 }
