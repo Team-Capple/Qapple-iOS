@@ -27,6 +27,7 @@
 		F36B0EF52B8656CC009EBE1D /* SignUpTermsAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EF42B8656CC009EBE1D /* SignUpTermsAgreementView.swift */; };
 		F36B0EF72B865A3F009EBE1D /* SignUpCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EF62B865A3F009EBE1D /* SignUpCompletedView.swift */; };
 		F36B0EFA2B86746D009EBE1D /* KeyboardReadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */; };
+		F37C17862B872F9C005E5072 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -80,6 +81,7 @@
 		F36B0EF42B8656CC009EBE1D /* SignUpTermsAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpTermsAgreementView.swift; path = ../../../../../../../Documents/SignUpTermsAgreementView.swift; sourceTree = "<group>"; };
 		F36B0EF62B865A3F009EBE1D /* SignUpCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpCompletedView.swift; path = ../../../../../../../Documents/SignUpCompletedView.swift; sourceTree = "<group>"; };
 		F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardReadable.swift; sourceTree = "<group>"; };
+		F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				07D96ED02B7797CD00754819 /* Font+Extension.swift */,
+				F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */,
 				07D96EC32B7796FE00754819 /* Pretendard-Bold.otf */,
 				07D96EC12B7796FE00754819 /* Pretendard-SemiBold.otf */,
 				07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */,
@@ -518,6 +521,7 @@
 			files = (
 				07D96ECC2B7796FE00754819 /* Pretendard-Bold.otf in Resources */,
 				07D96ECD2B7796FE00754819 /* Pretendard-Regular.otf in Resources */,
+				F37C17862B872F9C005E5072 /* Pretendard-ExtraBold.otf in Resources */,
 				07D96EB12B77714F00754819 /* Colors.xcassets in Resources */,
 				F3EA66D32B7643F0002417CE /* Preview Assets.xcassets in Resources */,
 				F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */,
