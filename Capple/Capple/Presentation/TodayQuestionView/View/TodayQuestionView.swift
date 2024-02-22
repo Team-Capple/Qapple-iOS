@@ -18,7 +18,7 @@ struct TodayQuestionView: View {
                 Color(Background.first)
                 
                 VStack(spacing: 0) {
-                    WaitingQuestionView()
+                    WaitingQuestionView(viewModel: viewModel)
                     
                     TodayQuestionActionButtonView()
                     
@@ -34,8 +34,11 @@ struct TodayQuestionView: View {
 // MARK: - WaitingQuestionView
 private struct WaitingQuestionView: View {
     
-    var makingQuestionText = "오전 질문을 만들고 있어요"
-    var makingSeconds = "03:30:35"
+    @ObservedObject private var viewModel: TodayQuestionViewModel
+    
+    fileprivate init(viewModel: TodayQuestionViewModel) {
+        self.viewModel = viewModel
+    }
     
     fileprivate var body: some View {
         ZStack {
@@ -46,7 +49,7 @@ private struct WaitingQuestionView: View {
             VStack {
                 Spacer()
                 
-                Text(makingQuestionText)
+                Text(viewModel.titleText)
                     .font(.pretendard(.bold, size: 16))
                     .foregroundStyle(.wh)
                     .frame(height: 11)
@@ -54,10 +57,12 @@ private struct WaitingQuestionView: View {
                 Spacer()
                     .frame(height: 16)
                 
-                Text(makingSeconds)
+                Text(viewModel.timerSeconds)
                     .font(.pretendard(.bold, size: 38))
                     .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
                     .frame(height: 27)
+                    .monospacedDigit()
+                    .kerning(-2)
                 
                 Spacer()
                     .frame(height: 10)
@@ -72,6 +77,9 @@ private struct WaitingQuestionView: View {
         }
         .frame(height: 348)
         .ignoresSafeArea()
+        .onAppear {
+            viewModel.startTimer()
+        }
     }
 }
 
