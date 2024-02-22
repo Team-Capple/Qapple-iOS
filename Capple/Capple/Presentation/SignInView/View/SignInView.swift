@@ -27,8 +27,7 @@ struct SignInView: View {
                     
                     Text("CAPPLE")
                         .foregroundStyle(Color.main)
-                        .font(.system(size: 56))
-                        .fontWeight(.bold)
+                        .font(Font.pretendard(.extraBold, size: 56))
                         .padding(.top, -40)
                     
                     Spacer()
