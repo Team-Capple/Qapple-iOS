@@ -20,11 +20,16 @@ struct SignInView: View {
                     Spacer()
                     
                     // 로고
+                    Image("Capple")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 400)
+                    
                     Text("CAPPLE")
                         .foregroundStyle(Color.main)
                         .font(.system(size: 56))
                         .fontWeight(.bold)
-                        .padding(.top, 8)
+                        .padding(.top, -40)
                     
                     Spacer()
                     
