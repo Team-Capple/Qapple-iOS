@@ -18,11 +18,11 @@ struct TodayQuestionView: View {
                 Color(Background.first)
                 
                 VStack(spacing: 0) {
-                    WaitingQuestionView(viewModel: viewModel)
+                    HeaderView(viewModel: viewModel)
                     
-                    TodayQuestionActionButtonView(viewModel: viewModel)
+                    HeaderButtonView(viewModel: viewModel)
                     
-                    AnswerPreview()
+                    AnswerPreview(viewModel: viewModel)
                 }
             }
         }
@@ -31,8 +31,8 @@ struct TodayQuestionView: View {
     }
 }
 
-// MARK: - WaitingQuestionView
-private struct WaitingQuestionView: View {
+// MARK: - HeaderView
+private struct HeaderView: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
     
@@ -49,27 +49,7 @@ private struct WaitingQuestionView: View {
             VStack {
                 Spacer()
                 
-                Text(viewModel.titleText)
-                    .font(.pretendard(.bold, size: 16))
-                    .foregroundStyle(.wh)
-                    .frame(height: 11)
-                
-                Spacer()
-                    .frame(height: 16)
-                
-                Text(viewModel.timerSeconds)
-                    .font(.pretendard(.bold, size: 38))
-                    .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
-                    .frame(height: 27)
-                    .monospacedDigit()
-                    .kerning(-2)
-                
-                Spacer()
-                    .frame(height: 10)
-                
-                Image(.timer)
-                    .scaledToFit()
-                    .frame(width: 120 , height: 120)
+                HeaderContentView(viewModel: viewModel)
                 
                 Spacer()
                     .frame(height: 20)
@@ -83,8 +63,81 @@ private struct WaitingQuestionView: View {
     }
 }
 
-// MARK: - TodayQuestionActionButtonView
-private struct TodayQuestionActionButtonView: View {
+// MARK: - HeaderTextView
+private struct HeaderContentView: View {
+    
+    @ObservedObject private var viewModel: TodayQuestionViewModel
+    
+    fileprivate init(viewModel: TodayQuestionViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    fileprivate var body: some View {
+        
+        // 1. 질문 생성 중
+        if viewModel.state == .creating {
+            Text(viewModel.titleText)
+                .font(.pretendard(.bold, size: 16))
+                .foregroundStyle(.wh)
+                .frame(height: 11)
+            
+            Spacer()
+                .frame(height: 16)
+            
+            Text(viewModel.timerSeconds)
+                .font(.pretendard(.bold, size: 38))
+                .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
+                .frame(height: 27)
+                .monospacedDigit()
+                .kerning(-2)
+            
+            Spacer()
+                .frame(height: 10)
+            
+            Image(.timer)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 120 , height: 120)
+        }
+        
+        // 2. 질문 준비 완료
+        else if viewModel.state == .ready {
+            Text(viewModel.titleText)
+                .font(.pretendard(.bold, size: 23))
+                .foregroundStyle(.wh)
+                .lineSpacing(6)
+                .multilineTextAlignment(.center)
+            
+            Spacer()
+                .frame(height: 10)
+            
+            Image(.ready)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 120 , height: 120)
+        }
+        
+        // 3. 답변 완료
+        else if viewModel.state == .complete {
+            Text(viewModel.titleText)
+                .font(.pretendard(.bold, size: 23))
+                .foregroundStyle(.wh)
+                .lineSpacing(6)
+                .multilineTextAlignment(.center)
+            
+            Spacer()
+                .frame(height: 10)
+            
+            Image(.complete)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 120 , height: 120)
+        }
+    }
+}
+
+// MARK: - HeaderButtonView
+private struct HeaderButtonView: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
     
@@ -100,7 +153,15 @@ private struct TodayQuestionActionButtonView: View {
                 .cornerRadius(32, corners: .bottomLeft)
                 .cornerRadius(32, corners: .bottomRight)
             
-            TodayQuestionActionButton(viewModel.buttonText)
+            TodayQuestionActionButton(
+                viewModel.buttonText,
+                priority: viewModel.state == .ready
+                ? .primary : .secondary
+            ) {
+                // TODO: - 이전 답변, 답변하기, 다른 답변 Navigation 연결
+                print("timeZone: \(viewModel.timeZone)")
+                print("state: \(viewModel.state)")
+            }
         }
     }
 }
@@ -108,16 +169,11 @@ private struct TodayQuestionActionButtonView: View {
 // MARK: - AnswerPreview
 private struct AnswerPreview: View {
     
-    var questionMark: AttributedString = {
-        var text = AttributedString("Q. ")
-        text.foregroundColor = BrandPink.text
-        return text
-    }()
+    @ObservedObject private var viewModel: TodayQuestionViewModel
     
-    var questionText: AttributedString = "아카데미 러너 중\n가장 마음에 드는 유형이 있나요?"
-    var previewTitle = "이전 답변 좋아요 TOP 3"
-    
-    var answers = [1, 2, 3]
+    fileprivate init(viewModel: TodayQuestionViewModel) {
+        self.viewModel = viewModel
+    }
     
     fileprivate var body: some View {
         ZStack(alignment: .leading) {
@@ -130,7 +186,7 @@ private struct AnswerPreview: View {
                     Spacer()
                         .frame(height: 44)
                     
-                    Text(questionMark + questionText)
+                    Text(viewModel.listTitleText)
                         .font(.pretendard(.bold, size: 20))
                         .foregroundStyle(TextLabel.main)
                     
@@ -138,7 +194,7 @@ private struct AnswerPreview: View {
                         .frame(height: 32)
                     
                     HStack {
-                        Text(previewTitle)
+                        Text(viewModel.listSubText)
                             .font(.pretendard(.medium, size: 14))
                             .foregroundStyle(TextLabel.sub3)
                             .frame(height: 10)
@@ -155,7 +211,7 @@ private struct AnswerPreview: View {
                 
                 Spacer()
                 
-                ForEach(answers, id: \.self) { _ in
+                ForEach(viewModel.answerList, id: \.self) { _ in
                     VStack(spacing: 24) {
                         AnswerCell()
                             .padding(.horizontal, 24)
