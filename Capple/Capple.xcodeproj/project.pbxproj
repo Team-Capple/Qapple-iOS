@@ -28,6 +28,7 @@
 		F36B0EF72B865A3F009EBE1D /* SignUpCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EF62B865A3F009EBE1D /* SignUpCompletedView.swift */; };
 		F36B0EFA2B86746D009EBE1D /* KeyboardReadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */; };
 		F37C17862B872F9C005E5072 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */; };
+		F37C179F2B88977E005E5072 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C179E2B88977E005E5072 /* Question.swift */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -82,6 +83,7 @@
 		F36B0EF62B865A3F009EBE1D /* SignUpCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpCompletedView.swift; path = ../../../../../../../Documents/SignUpCompletedView.swift; sourceTree = "<group>"; };
 		F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardReadable.swift; sourceTree = "<group>"; };
 		F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
+		F37C179E2B88977E005E5072 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 		F3EA66F62B764460002417CE /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				F37C179E2B88977E005E5072 /* Question.swift */,
 				F3EA66F72B764474002417CE /* DummyModel.swift */,
 			);
 			path = Entity;
@@ -570,6 +573,7 @@
 				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
 				F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */,
 				07D96EDC2B7A167200754819 /* SeeAllButton.swift in Sources */,
+				F37C179F2B88977E005E5072 /* Question.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEnpoints.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
 				F36B0EF32B86568F009EBE1D /* SignUpNicknameView.swift in Sources */,
