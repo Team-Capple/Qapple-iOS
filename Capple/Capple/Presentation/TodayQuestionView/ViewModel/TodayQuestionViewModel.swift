@@ -57,17 +57,20 @@ extension TodayQuestionViewModel {
     }
     
     /// 리스트 타이틀 텍스트를 반환합니다.
-    var listTitleText: String {
+    var listTitleText: AttributedString {
         
         // Q. Mark
-        var questionMark = AttributedString("Q.")
+        var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
         
+        let creatingText: AttributedString = "아카데미 러너 중\n가장 마음에 드는 유형이 있나요?"
+        let completeText: AttributedString = "최근에 먹었던 음식 중\n가장 인상깊었던 것은 무엇인가요?"
+        
         // TODO: - 서버 통신으로 질문 가져오기
-        var text = "리스트 타이틀"
-        if state == .creating { text = "\(questionMark) 아카데미 러너 중\n가장 마음에 드는 유형이 있나요?" }
+        var text = AttributedString()
+        if state == .creating { text = questionMark + creatingText }
         else if state == .ready { text = "어떤 질문이 나왔을까요?" }
-        else if state == .complete { text = "\(questionMark) 최근에 먹었던 음식 중\n가장 인상깊었던 것은 무엇인가요?" }
+        else if state == .complete { text = questionMark + completeText }
         return text
     }
     

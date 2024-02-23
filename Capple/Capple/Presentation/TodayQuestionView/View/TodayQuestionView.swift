@@ -180,7 +180,7 @@ private struct AnswerPreview: View {
             Color(Background.first)
                 .ignoresSafeArea()
             
-            /// 상단 타이틀
+            // 상단 타이틀
             VStack(spacing: 14) {
                 VStack(alignment: .leading) {
                     Spacer()

@@ -9,6 +9,8 @@ import Foundation
 
 struct QuestionTimeManager {
     
+    ///
+    
     /// QuestionTimeZone을 현재 시간에 맞게 업데이트합니다.
     func fetchTimezone() -> QuestionTimeZone {
         let calendar = Calendar.current
@@ -26,7 +28,8 @@ struct QuestionTimeManager {
         return timeZone
     }
     
-    
+    /// 다음 질문 생성까지 남은 시간을 문자열 형태로 반환합니다.
+    /// ex) 03:35:56
     func fetchTimerSeconds(_ timeZone: QuestionTimeZone) -> String {
         let calendar = Calendar.current
         let date = Date()
