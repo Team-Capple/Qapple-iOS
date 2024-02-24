@@ -12,10 +12,10 @@ struct MyPageView: View {
         SectionInfo(
             sectionTitle: "질문/답변",
             sectionContents: [
-                "작성한 답변", 
+                "작성한 답변",
                 "좋아요 한 질문",
                 "좋아요 한 답변"
-            ], 
+            ],
             sectionIcons: [
                 "WriteAnswerIcon",
                 "LikeQuestionIcon",
@@ -48,20 +48,19 @@ struct MyPageView: View {
     ]
     
     var body: some View {
-        ScrollView {
-            ZStack(alignment: .topLeading) {
+        ZStack(alignment: .topLeading) {
+            Background.second.ignoresSafeArea()
+            ScrollView {
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     MyProfileSummary()
-
+                    
                     ForEach(sectionInfos.indices, id: \.self) { index in
                         MyPageSection(sectionInfo: sectionInfos[index])
                     }
                 }
             }
         }
-        .background(Background.second)
-        
     }
 }
 

@@ -12,7 +12,7 @@ struct MyPageSection: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text(sectionInfo.sectionTitle)
                     .foregroundStyle(TextLabel.main)
                     .font(Font.pretendard(.bold, size: 18))
@@ -31,6 +31,7 @@ struct MyPageSection: View {
                                 .foregroundStyle(TextLabel.sub2)
                                 .font(Font.pretendard(.medium, size: 16))
                                 .frame(height: 12)
+                            Spacer()
                         }
                         .padding(EdgeInsets(top: 12, leading: 0, bottom: 12, trailing: 0))
                     }
