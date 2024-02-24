@@ -40,6 +40,9 @@
 		F37C17A92B8899BC005E5072 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A82B8899BC005E5072 /* QuestionView.swift */; };
 		F3D452CC2B8A4468000BA51C /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452CB2B8A4468000BA51C /* MyPageSection.swift */; };
 		F3D452D12B8A55BD000BA51C /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D02B8A55BD000BA51C /* ProfileEditView.swift */; };
+		F3D452D32B8A6015000BA51C /* CustomNavigationBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D22B8A6015000BA51C /* CustomNavigationBackButton.swift */; };
+		F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D42B8A647F000BA51C /* UINavigationController+Extension.swift */; };
+		F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D62B8A663E000BA51C /* CustomNavigationTextButton.swift */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -106,6 +109,9 @@
 		F37C17A82B8899BC005E5072 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		F3D452CB2B8A4468000BA51C /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 		F3D452D02B8A55BD000BA51C /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
+		F3D452D22B8A6015000BA51C /* CustomNavigationBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBackButton.swift; sourceTree = "<group>"; };
+		F3D452D42B8A647F000BA51C /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
+		F3D452D62B8A663E000BA51C /* CustomNavigationTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTextButton.swift; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -206,6 +212,7 @@
 			children = (
 				07D96EE82B7A6D4D00754819 /* View+Extension.swift */,
 				073C3DE12B871F130016C333 /* TimeInterval+Extension.swift */,
+				F3D452D42B8A647F000BA51C /* UINavigationController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -497,6 +504,8 @@
 				073C3DDD2B8714240016C333 /* QuestionTimeZone.swift */,
 				073C3DDF2B87143B0016C333 /* QuestionState.swift */,
 				073C3DD92B870D3B0016C333 /* QuestionTimeManager.swift */,
+				F3D452D22B8A6015000BA51C /* CustomNavigationBackButton.swift */,
+				F3D452D62B8A663E000BA51C /* CustomNavigationTextButton.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -652,6 +661,7 @@
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
 				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
 				F37C17A92B8899BC005E5072 /* QuestionView.swift in Sources */,
+				F3D452D32B8A6015000BA51C /* CustomNavigationBackButton.swift in Sources */,
 				F37C178C2B873658005E5072 /* MyProfileSummary.swift in Sources */,
 				07D96EE92B7A6D4D00754819 /* View+Extension.swift in Sources */,
 				F36B0EFA2B86746D009EBE1D /* KeyboardReadable.swift in Sources */,
@@ -661,6 +671,7 @@
 				07D96EB32B77737500754819 /* Color+Extension.swift in Sources */,
 				F3EA66F82B764474002417CE /* DummyModel.swift in Sources */,
 				073C3DDA2B870D3B0016C333 /* QuestionTimeManager.swift in Sources */,
+				F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */,
 				F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */,
 				07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */,
 				F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */,
@@ -677,6 +688,7 @@
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
 				073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */,
 				F36B0EF32B86568F009EBE1D /* SignUpNicknameView.swift in Sources */,
+				F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

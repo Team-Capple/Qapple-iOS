@@ -101,6 +101,22 @@ struct ProfileEditView: View {
             }
             
         }
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                CustomNavigationBackButton()
+            }
+            ToolbarItem(placement: .principal) {
+                Text("프로필")
+                    .foregroundStyle(TextLabel.main)
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: ProfileEditView()) {
+                    CustomNavigationTextButton(text: "완료", color: BrandPink.text)
+                }
+            }
+        }
     }
 }
 

@@ -61,6 +61,23 @@ struct MyPageView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                CustomNavigationBackButton()
+            }
+            ToolbarItem(placement: .principal) {
+                Text("프로필")
+                    .foregroundStyle(TextLabel.main)
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: ProfileEditView()) {
+                    Text("수정")
+                        .foregroundStyle(TextLabel.sub3)
+                }
+            }
+        }
     }
 }
 
