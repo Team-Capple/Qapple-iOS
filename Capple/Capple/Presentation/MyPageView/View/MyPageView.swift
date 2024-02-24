@@ -48,19 +48,17 @@ struct MyPageView: View {
     ]
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Background.second.ignoresSafeArea()
-            ScrollView {
+        ScrollView {
+            
+            VStack(alignment: .leading, spacing: 0) {
+                MyProfileSummary()
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    MyProfileSummary()
-                    
-                    ForEach(sectionInfos.indices, id: \.self) { index in
-                        MyPageSection(sectionInfo: sectionInfos[index])
-                    }
+                ForEach(sectionInfos.indices, id: \.self) { index in
+                    MyPageSection(sectionInfo: sectionInfos[index])
                 }
             }
         }
+        .background(Background.second)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
