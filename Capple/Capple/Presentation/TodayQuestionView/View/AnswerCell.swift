@@ -18,8 +18,8 @@ struct AnswerCell: View {
     var keywords = ["와플유니버시티", "당근맨", "무자비", "잔망루피", "애플", "아카데미", "디벨로퍼", "디자이너"]
     
     var likeCount = 32
-    @State var isLike = false
     
+    @State var isLike = false
     @State var likeColor = GrayScale.secondaryButton
     
     var body: some View {
@@ -68,8 +68,8 @@ struct AnswerCell: View {
                     .frame(height: 12)
                 
                 Button {
-                    likeColor = isLike ? GrayScale.secondaryButton : BrandPink.button
                     isLike.toggle()
+                    likeColor = isLike ? BrandPink.button : GrayScale.secondaryButton
                     // TODO: - 좋아요 탭 기능 구현
                 } label: {
                     HStack(spacing: 4) {
