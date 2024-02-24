@@ -11,6 +11,7 @@ extension Font {
     
     /// Pretendard 폰트명 열거형
     enum Pretendard: String {
+        case extraBold = "Pretendard-ExtraBold"
         case bold = "Pretendard-Bold"
         case semiBold = "Pretendard-SemiBold"
         case medium = "Pretendard-Medium"
