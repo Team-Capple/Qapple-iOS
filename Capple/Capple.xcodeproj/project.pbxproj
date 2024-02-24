@@ -39,6 +39,7 @@
 		F37C17A72B889999005E5072 /* QuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A62B889999005E5072 /* QuestionViewModel.swift */; };
 		F37C17A92B8899BC005E5072 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A82B8899BC005E5072 /* QuestionView.swift */; };
 		F3D452CC2B8A4468000BA51C /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452CB2B8A4468000BA51C /* MyPageSection.swift */; };
+		F3D452D12B8A55BD000BA51C /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D02B8A55BD000BA51C /* ProfileEditView.swift */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
 		F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* HomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
@@ -104,6 +105,7 @@
 		F37C17A62B889999005E5072 /* QuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewModel.swift; sourceTree = "<group>"; };
 		F37C17A82B8899BC005E5072 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		F3D452CB2B8A4468000BA51C /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
+		F3D452D02B8A55BD000BA51C /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CD2B7643EE002417CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -294,6 +296,22 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		F3D452CE2B8A55A5000BA51C /* ProfileEditView */ = {
+			isa = PBXGroup;
+			children = (
+				F3D452CF2B8A55AB000BA51C /* View */,
+			);
+			path = ProfileEditView;
+			sourceTree = "<group>";
+		};
+		F3D452CF2B8A55AB000BA51C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F3D452D02B8A55BD000BA51C /* ProfileEditView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F3EA66BF2B7643EE002417CE = {
 			isa = PBXGroup;
 			children = (
@@ -424,6 +442,7 @@
 		F3EA67082B76453F002417CE /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				F3D452CE2B8A55A5000BA51C /* ProfileEditView */,
 				F37C17A02B889923005E5072 /* SearchResultView */,
 				F37C17872B873419005E5072 /* MyPageView */,
 				F36B0EF02B865676009EBE1D /* SignUpView */,
@@ -624,6 +643,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D452D12B8A55BD000BA51C /* ProfileEditView.swift in Sources */,
 				F36B0EEB2B8655AE009EBE1D /* SignInView.swift in Sources */,
 				F37C17A42B889956005E5072 /* SearchResultView.swift in Sources */,
 				F36B0EF52B8656CC009EBE1D /* SignUpTermsAgreementView.swift in Sources */,

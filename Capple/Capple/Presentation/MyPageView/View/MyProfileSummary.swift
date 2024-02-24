@@ -12,7 +12,7 @@ struct MyProfileSummary: View {
     var joinDate: String = "2024.02.09"
     
     var body: some View {
-        ZStack(alignment: .leading) {
+        ZStack {
             Background.second
                 .ignoresSafeArea()
             
@@ -36,6 +36,7 @@ struct MyProfileSummary: View {
                         .frame(height: 10)
                 }
                 .frame(height: 40)
+                Spacer()
             }
             .padding(24)
         }
