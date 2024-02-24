@@ -15,6 +15,9 @@ struct CustomNavigationBackButton: View {
             self.presentationMode.wrappedValue.dismiss()
         } label: {
             Image("CustomBackButtonIcon") // 아이콘 변경 가능
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24)
             .foregroundStyle(TextLabel.main)
         }
     }

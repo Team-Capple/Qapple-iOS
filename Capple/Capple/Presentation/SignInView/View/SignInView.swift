@@ -12,7 +12,7 @@ struct SignInView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 0) {
                 Spacer()
                 
                 // 로고

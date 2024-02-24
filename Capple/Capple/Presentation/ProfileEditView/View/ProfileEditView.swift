@@ -24,6 +24,18 @@ struct ProfileEditView: View {
     var body: some View {
         
         VStack(spacing: 0) {
+            CustomNavigationBar(
+                leadingView: { CustomNavigationBackButton() },
+                principalView: {
+                    Text("프로필")
+                        .font(Font.pretendard(.semiBold, size: 17))
+                        .foregroundStyle(TextLabel.main)
+                    
+                },
+                trailingView: {
+                    CustomNavigationTextButton(text: "완료", color: BrandPink.text)
+                },
+                backgroundColor: Background.second)
             
             Button {
                 
@@ -101,20 +113,6 @@ struct ProfileEditView: View {
 
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                CustomNavigationBackButton()
-            }
-            ToolbarItem(placement: .principal) {
-                Text("프로필")
-                    .foregroundStyle(TextLabel.main)
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(destination: ProfileEditView()) {
-                    CustomNavigationTextButton(text: "완료", color: BrandPink.text)
-                }
-            }
-        }
     }
 }
 

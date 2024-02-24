@@ -48,34 +48,36 @@ struct MyPageView: View {
     ]
     
     var body: some View {
-        ScrollView {
-            
-            VStack(alignment: .leading, spacing: 0) {
-                MyProfileSummary()
+        VStack {
+            CustomNavigationBar(
+                leadingView: { CustomNavigationBackButton() },
+                principalView: {
+                    Text("프로필")
+                        .font(Font.pretendard(.semiBold, size: 17))
+                        .foregroundStyle(TextLabel.main)
+                    
+                },
+                trailingView: {
+                        NavigationLink(destination: ProfileEditView()) {
+                            Text("수정")
+                                .foregroundStyle(TextLabel.sub3)
+                        }
+                },
+                backgroundColor: Background.second)
+            ScrollView {
                 
-                ForEach(sectionInfos.indices, id: \.self) { index in
-                    MyPageSection(sectionInfo: sectionInfos[index])
+                VStack(alignment: .leading, spacing: 0) {
+                    MyProfileSummary()
+                    
+                    ForEach(sectionInfos.indices, id: \.self) { index in
+                        MyPageSection(sectionInfo: sectionInfos[index])
+                    }
                 }
             }
         }
         .background(Background.second)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                CustomNavigationBackButton()
-            }
-            ToolbarItem(placement: .principal) {
-                Text("프로필")
-                    .foregroundStyle(TextLabel.main)
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(destination: ProfileEditView()) {
-                    Text("수정")
-                        .foregroundStyle(TextLabel.sub3)
-                }
-            }
-        }
     }
 }
 
