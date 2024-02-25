@@ -62,7 +62,6 @@ struct TodayQuestionView: View {
                 }
             }
         }
-        //        .ignoresSafeArea()
         .background(Background.second)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
@@ -86,6 +85,7 @@ private struct HeaderView: View {
             
             VStack {
                 Spacer()
+                    .frame(height: 12)
                 
                 HeaderContentView(viewModel: viewModel)
                 
@@ -94,14 +94,13 @@ private struct HeaderView: View {
             }
             .frame(height: 260)
         }
-//        .ignoresSafeArea()
         .onAppear {
             viewModel.startTimer()
         }
     }
 }
 
-// MARK: - HeaderTextView
+// MARK: - HeaderContentView
 private struct HeaderContentView: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
@@ -185,6 +184,9 @@ private struct HeaderButtonView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
+            
+            Color(Background.first)
+            
             Rectangle()
                 .frame(height: 28)
                 .foregroundStyle(Background.second)
