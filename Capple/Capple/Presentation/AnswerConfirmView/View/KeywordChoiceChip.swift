@@ -17,7 +17,7 @@ struct KeywordChoiceChip: View {
     var title: String
     var buttonType: ButtonType
     
-    init(title: String, buttonType: ButtonType) {
+    init(_ title: String = "", buttonType: ButtonType) {
         self.title = title
         self.buttonType = buttonType
     }
@@ -35,7 +35,7 @@ struct KeywordChoiceChip: View {
             .foregroundStyle(.wh)
         }
         .padding(.horizontal, 12)
-        .padding(.vertical, 8)
+        .frame(height: 32)
         .background(GrayScale.secondaryButton)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
@@ -46,6 +46,6 @@ struct KeywordChoiceChip: View {
         Color.Background.first
             .ignoresSafeArea()
         
-        KeywordChoiceChip(title: "키워드", buttonType: .addKeyword)
+        KeywordChoiceChip("키워드", buttonType: .addKeyword)
     }
 }

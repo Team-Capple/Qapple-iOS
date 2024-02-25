@@ -32,12 +32,24 @@ struct AnswerConfirmView: View {
                     Spacer()
                         .frame(height: 56)
                     
-                    Group {
-                        Text("키워드")
-                            .font(.pretendard(.semiBold, size: 14))
-                            .foregroundStyle(TextLabel.sub3)
-                    }
-                    .padding(.horizontal, 24)
+                    Text("키워드")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(TextLabel.sub3)
+                        .padding(.horizontal, 24)
+                    
+                    Spacer()
+                        .frame(height: 24)
+                    
+                    KeywordChoiceChip(buttonType: .addKeyword)
+                        .padding(.horizontal, 20)
+                    
+                    Spacer()
+                        .frame(height: 24)
+                    
+                    Text("* 내 답변을 표현할 수 있는 키워드를 추가해보세요")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(TextLabel.sub3)
+                        .padding(.horizontal, 24)
                 }
             }
             .toolbar {
