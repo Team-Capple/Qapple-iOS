@@ -12,12 +12,48 @@ struct TodayQuestionView: View {
     @StateObject var viewModel: TodayQuestionViewModel
     
     var body: some View {
-        ScrollView {
-            
-            ZStack {
-                Color(Background.first)
-                
+        VStack(spacing: 0) {
+            CustomNavigationBar(
+                leadingView: { },
+                principalView: {
+                    HStack(spacing: 20) {
+                        Button {
+                            
+                        } label: {
+                            Text("답변하기")
+                        }
+                        Button {
+                            
+                        } label: {
+                            Text("모아보기")
+                        }
+                    }
+                    .font(Font.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(TextLabel.main)
+                },
+                trailingView: {
+                    HStack(spacing: 8) {
+                        Button {
+                            
+                        } label: {
+                            Image("NoticeIcon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24 , height: 24)
+                        }
+                        
+                        NavigationLink(destination: MyPageView()) {
+                            Image("Capple")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24 , height: 24)
+                        }
+                    }
+                },
+                backgroundColor: Background.second)
+            ScrollView {
                 VStack(spacing: 0) {
+                    
                     HeaderView(viewModel: viewModel)
                     
                     HeaderButtonView(viewModel: viewModel)
@@ -26,8 +62,10 @@ struct TodayQuestionView: View {
                 }
             }
         }
-        .ignoresSafeArea()
-        .background(Background.first)
+        //        .ignoresSafeArea()
+        .background(Background.second)
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -54,9 +92,9 @@ private struct HeaderView: View {
                 Spacer()
                     .frame(height: 20)
             }
+            .frame(height: 260)
         }
-        .frame(height: 348)
-        .ignoresSafeArea()
+//        .ignoresSafeArea()
         .onAppear {
             viewModel.startTimer()
         }

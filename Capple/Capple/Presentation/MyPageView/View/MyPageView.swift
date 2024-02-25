@@ -48,8 +48,22 @@ struct MyPageView: View {
     ]
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Background.second.ignoresSafeArea()
+        VStack {
+            CustomNavigationBar(
+                leadingView: { CustomNavigationBackButton() },
+                principalView: {
+                    Text("프로필")
+                        .font(Font.pretendard(.semiBold, size: 17))
+                        .foregroundStyle(TextLabel.main)
+                    
+                },
+                trailingView: {
+                        NavigationLink(destination: ProfileEditView()) {
+                            Text("수정")
+                                .foregroundStyle(TextLabel.sub3)
+                        }
+                },
+                backgroundColor: Background.second)
             ScrollView {
                 
                 VStack(alignment: .leading, spacing: 0) {
@@ -61,6 +75,9 @@ struct MyPageView: View {
                 }
             }
         }
+        .background(Background.second)
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

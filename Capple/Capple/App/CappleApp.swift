@@ -9,9 +9,21 @@ import SwiftUI
 
 @main
 struct CappleApp: App {
+    
+    init() {
+        setNavigationTitleAttributes()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            MyPageView()
+            SignInView()
         }
+    }
+    
+    private func setNavigationTitleAttributes() {
+        // Large Navigation Title
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        // Inline Navigation Title
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
     }
 }
