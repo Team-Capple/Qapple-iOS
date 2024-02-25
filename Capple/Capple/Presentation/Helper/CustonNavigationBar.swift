@@ -39,7 +39,7 @@ struct CustomNavigationBar<Leading: View, Principal: View, Trailing: View>: View
             }
         }
         .padding()
-        .frame(height: 24)
+        .frame(height: 48)
         .background(backgroundColor)
     }
 }
