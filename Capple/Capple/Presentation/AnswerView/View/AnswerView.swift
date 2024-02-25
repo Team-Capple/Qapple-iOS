@@ -10,10 +10,8 @@ import SwiftUI
 struct AnswerView: View {
     
     @StateObject var viewModel: AnswerViewModel
-    @State private var answerText = ""
     @State private var fontSize: CGFloat = 48
-    @State private var textFieldHeight: CGFloat = 0
-    @FocusState private var isFocused: Bool
+    @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
         NavigationStack {
@@ -36,21 +34,21 @@ struct AnswerView: View {
                     Spacer()
                     
                     ZStack {
-                        if answerText.isEmpty {
+                        if viewModel.answerText.isEmpty {
                             Text("자유롭게 생각을\n작성해주세요")
                                 .foregroundStyle(TextLabel.placeholder)
                         }
                         
-                        TextField(text: $answerText, axis: .vertical) {
+                        TextField(text: $viewModel.answerText, axis: .vertical) {
                             Color.clear
                         }
                         .foregroundStyle(.wh)
-                        .focused($isFocused)
-                        .onChange(of: answerText) { oldText, newText in
+                        .focused($isTextFieldFocused)
+                        .onChange(of: viewModel.answerText) { oldText, newText in
                             
                             // 글자 수 제한 로직
-                            if newText.count > 250 {
-                                answerText = oldText
+                            if newText.count > viewModel.textLimited {
+                                viewModel.answerText = oldText
                             }
                             
                             // 폰트 크기 변경 로직
@@ -75,7 +73,7 @@ struct AnswerView: View {
                     
                     HStack {
                         Spacer()
-                        Text("\(answerText.count)/250")
+                        Text("\(viewModel.answerText.count)/\(viewModel.textLimited)")
                             .font(.pretendard(.medium, size: 14))
                             .foregroundStyle(TextLabel.sub3)
                     }
@@ -84,7 +82,7 @@ struct AnswerView: View {
                 .padding(.horizontal, 24)
             }
             .onTapGesture {
-                isFocused = false
+                isTextFieldFocused = false
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -102,15 +100,15 @@ struct AnswerView: View {
                     } label: {
                         Text("다음")
                             .font(
-                                .pretendard(answerText.isEmpty ?
+                                .pretendard(viewModel.answerText.isEmpty ?
                                     .medium : .semiBold, size: 17)
                             )
                             .foregroundStyle(
-                                answerText.isEmpty ?
+                                viewModel.answerText.isEmpty ?
                                 TextLabel.disable : BrandPink.text
                             )
                     }
-                    .disabled(answerText.isEmpty ? true : false)
+                    .disabled(viewModel.answerText.isEmpty ? true : false)
                 }
             }
         }

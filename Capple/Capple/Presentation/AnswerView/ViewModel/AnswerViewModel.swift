@@ -9,6 +9,13 @@ import Foundation
 
 final class AnswerViewModel: ObservableObject {
     
+    @Published var answerText: String
+    
+    let textLimited = 250
+    
+    init() {
+        self.answerText = ""
+    }
 }
 
 // MARK: - Text
