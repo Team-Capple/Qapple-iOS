@@ -1,5 +1,5 @@
 //
-//  AnswerConfirmView.swift
+//  ConfirmAnswerView.swift
 //  Capple
 //
 //  Created by 김민준 on 2/25/24.
@@ -7,9 +7,11 @@
 
 import SwiftUI
 
-struct AnswerConfirmView: View {
+struct ConfirmAnswerView: View {
     
-    @StateObject var viewModel: AnswerConfirmViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @StateObject var viewModel: ConfirmAnswerViewModel
+    @State private var isButtonActive = false
     
     var body: some View {
         NavigationStack {
@@ -30,7 +32,7 @@ struct AnswerConfirmView: View {
                         .padding(.horizontal, 24)
                     
                     Spacer()
-                        .frame(height: 56)
+                        .frame(height: 24)
                     
                     Text("키워드")
                         .font(.pretendard(.semiBold, size: 14))
@@ -50,22 +52,31 @@ struct AnswerConfirmView: View {
                         .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(TextLabel.sub3)
                         .padding(.horizontal, 24)
+                    
+                    Spacer()
+                    
+                    ActionButton("완료", isActive: $isButtonActive)
+                        .padding(.horizontal, 24)
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        // TODO: - Navigation/뒤로가기
+                        presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "chevron.left")
                             .foregroundStyle(.wh)
+                            .frame(width: 32, height: 32)
                     }
                 }
             }
+            .navigationBarBackButtonHidden()
         }
     }
 }
 
 #Preview {
-    AnswerConfirmView(viewModel: .init())
+    ConfirmAnswerView(viewModel: .init(answer: """
+생각이 깊고 마음이 따뜻한 사람이 좋은 것 같아요. 함께 프로젝트를 진행하며 믿고 의지할 수 있잖아요 그렇죠? 저는 그렇게 생각하는데 다른 사람들은 모르겠네요 ㅎㅎ
+"""))
 }

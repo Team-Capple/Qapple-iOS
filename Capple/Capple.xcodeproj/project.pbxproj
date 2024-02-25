@@ -13,10 +13,12 @@
 		073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073C3DE12B871F130016C333 /* TimeInterval+Extension.swift */; };
 		07BF36362B8B36D10047F3F7 /* AnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36352B8B36D10047F3F7 /* AnswerViewModel.swift */; };
 		07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36372B8B36FB0047F3F7 /* AnswerView.swift */; };
-		07BF363D2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF363C2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift */; };
-		07BF363F2B8B82C90047F3F7 /* AnswerConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF363E2B8B82C90047F3F7 /* AnswerConfirmView.swift */; };
+		07BF363D2B8B82B70047F3F7 /* ConfirmAnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF363C2B8B82B70047F3F7 /* ConfirmAnswerViewModel.swift */; };
+		07BF363F2B8B82C90047F3F7 /* ConfirmAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */; };
 		07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */; };
 		07BF36432B8B8A970047F3F7 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36422B8B8A970047F3F7 /* ActionButton.swift */; };
+		07BF36482B8B9C290047F3F7 /* SearchKeywordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36472B8B9C290047F3F7 /* SearchKeywordViewModel.swift */; };
+		07BF364A2B8B9C420047F3F7 /* SearchKeywordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36492B8B9C420047F3F7 /* SearchKeywordView.swift */; };
 		07D96EB12B77714F00754819 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EB02B77714E00754819 /* Colors.xcassets */; };
 		07D96EB32B77737500754819 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EB22B77737500754819 /* Color+Extension.swift */; };
 		07D96EC52B7796FE00754819 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */; };
@@ -89,10 +91,12 @@
 		073C3DE12B871F130016C333 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		07BF36352B8B36D10047F3F7 /* AnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewModel.swift; sourceTree = "<group>"; };
 		07BF36372B8B36FB0047F3F7 /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
-		07BF363C2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerConfirmViewModel.swift; sourceTree = "<group>"; };
-		07BF363E2B8B82C90047F3F7 /* AnswerConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerConfirmView.swift; sourceTree = "<group>"; };
+		07BF363C2B8B82B70047F3F7 /* ConfirmAnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmAnswerViewModel.swift; sourceTree = "<group>"; };
+		07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmAnswerView.swift; sourceTree = "<group>"; };
 		07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordChoiceChip.swift; sourceTree = "<group>"; };
 		07BF36422B8B8A970047F3F7 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		07BF36472B8B9C290047F3F7 /* SearchKeywordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordViewModel.swift; sourceTree = "<group>"; };
+		07BF36492B8B9C420047F3F7 /* SearchKeywordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordView.swift; sourceTree = "<group>"; };
 		07D96EB02B77714E00754819 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		07D96EB22B77737500754819 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -195,19 +199,19 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		07BF36392B8B827C0047F3F7 /* AnswerConfirmView */ = {
+		07BF36392B8B827C0047F3F7 /* ConfirmAnswerView */ = {
 			isa = PBXGroup;
 			children = (
 				07BF363B2B8B82A60047F3F7 /* ViewModel */,
 				07BF363A2B8B82A00047F3F7 /* View */,
 			);
-			path = AnswerConfirmView;
+			path = ConfirmAnswerView;
 			sourceTree = "<group>";
 		};
 		07BF363A2B8B82A00047F3F7 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				07BF363E2B8B82C90047F3F7 /* AnswerConfirmView.swift */,
+				07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */,
 				07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */,
 				07BF36422B8B8A970047F3F7 /* ActionButton.swift */,
 			);
@@ -217,7 +221,32 @@
 		07BF363B2B8B82A60047F3F7 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				07BF363C2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift */,
+				07BF363C2B8B82B70047F3F7 /* ConfirmAnswerViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		07BF36442B8B9BC30047F3F7 /* SearchKeywordView */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36462B8B9C1C0047F3F7 /* ViewModel */,
+				07BF36452B8B9C150047F3F7 /* View */,
+			);
+			path = SearchKeywordView;
+			sourceTree = "<group>";
+		};
+		07BF36452B8B9C150047F3F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36492B8B9C420047F3F7 /* SearchKeywordView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		07BF36462B8B9C1C0047F3F7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36472B8B9C290047F3F7 /* SearchKeywordViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -525,7 +554,8 @@
 				F3EA670A2B764567002417CE /* HomeView */,
 				07D96ED22B79E79600754819 /* TodayQuestionView */,
 				07BF36322B8B36A30047F3F7 /* AnswerView */,
-				07BF36392B8B827C0047F3F7 /* AnswerConfirmView */,
+				07BF36392B8B827C0047F3F7 /* ConfirmAnswerView */,
+				07BF36442B8B9BC30047F3F7 /* SearchKeywordView */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -729,9 +759,10 @@
 				07D96ED62B79E7C000754819 /* TodayQuestionViewModel.swift in Sources */,
 				F37C178A2B873436005E5072 /* MyPageView.swift in Sources */,
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
+				07BF36482B8B9C290047F3F7 /* SearchKeywordViewModel.swift in Sources */,
 				07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */,
 				F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */,
-				07BF363D2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift in Sources */,
+				07BF363D2B8B82B70047F3F7 /* ConfirmAnswerViewModel.swift in Sources */,
 				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
 				F37C17A92B8899BC005E5072 /* QuestionView.swift in Sources */,
 				F3D452D32B8A6015000BA51C /* CustomNavigationBackButton.swift in Sources */,
@@ -756,7 +787,8 @@
 				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
 				F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */,
 				073C3DE02B87143B0016C333 /* QuestionState.swift in Sources */,
-				07BF363F2B8B82C90047F3F7 /* AnswerConfirmView.swift in Sources */,
+				07BF364A2B8B9C420047F3F7 /* SearchKeywordView.swift in Sources */,
+				07BF363F2B8B82C90047F3F7 /* ConfirmAnswerView.swift in Sources */,
 				073C3DDE2B8714240016C333 /* QuestionTimeZone.swift in Sources */,
 				07D96EDC2B7A167200754819 /* SeeAllButton.swift in Sources */,
 				F37C179F2B88977E005E5072 /* Question.swift in Sources */,

@@ -11,6 +11,7 @@ struct AnswerView: View {
     
     @StateObject var viewModel: AnswerViewModel
     @State private var fontSize: CGFloat = 48
+    @State private var isPresented = false
     @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
@@ -30,7 +31,6 @@ struct AnswerView: View {
                         .multilineTextAlignment(.center)
                         .lineSpacing(4)
                         .padding(.bottom, 32)
-                        .padding(.horizontal, 24)
                     
                     Spacer()
                     
@@ -97,7 +97,7 @@ struct AnswerView: View {
                 
                 ToolbarItem {
                     Button {
-                        // TODO: - Navigation/다음 화면 이동
+                        isPresented.toggle()
                     } label: {
                         Text("다음")
                             .font(
@@ -111,6 +111,9 @@ struct AnswerView: View {
                     }
                     .disabled(viewModel.answerText.isEmpty ? true : false)
                 }
+            }
+            .navigationDestination(isPresented: $isPresented) {
+                ConfirmAnswerView(viewModel: .init(answer: viewModel.answerText))
             }
         }
     }

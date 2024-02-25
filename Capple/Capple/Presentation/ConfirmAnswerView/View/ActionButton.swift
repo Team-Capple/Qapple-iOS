@@ -30,6 +30,7 @@ struct ActionButton: View {
         .frame(height: 58)
         .background(isActive ? BrandPink.button : GrayScale.secondaryButton)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .disabled(isActive ? false : true)
     }
 }
 
