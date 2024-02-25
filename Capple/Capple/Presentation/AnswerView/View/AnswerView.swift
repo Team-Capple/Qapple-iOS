@@ -30,6 +30,7 @@ struct AnswerView: View {
                         .multilineTextAlignment(.center)
                         .lineSpacing(4)
                         .padding(.bottom, 32)
+                        .padding(.horizontal, 24)
                     
                     Spacer()
                     
@@ -87,7 +88,7 @@ struct AnswerView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
-                        // TODO: - 답변하기 화면 닫기
+                        // TODO: - Navigation/답변하기 화면 닫기
                     } label: {
                         Image(systemName: "xmark")
                             .foregroundStyle(.wh)
@@ -96,7 +97,7 @@ struct AnswerView: View {
                 
                 ToolbarItem {
                     Button {
-                        // TODO: - 다음 화면 이동
+                        // TODO: - Navigation/다음 화면 이동
                     } label: {
                         Text("다음")
                             .font(

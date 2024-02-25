@@ -15,6 +15,7 @@
 		07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36372B8B36FB0047F3F7 /* AnswerView.swift */; };
 		07BF363D2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF363C2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift */; };
 		07BF363F2B8B82C90047F3F7 /* AnswerConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF363E2B8B82C90047F3F7 /* AnswerConfirmView.swift */; };
+		07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */; };
 		07D96EB12B77714F00754819 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EB02B77714E00754819 /* Colors.xcassets */; };
 		07D96EB32B77737500754819 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EB22B77737500754819 /* Color+Extension.swift */; };
 		07D96EC52B7796FE00754819 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */; };
@@ -89,6 +90,7 @@
 		07BF36372B8B36FB0047F3F7 /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
 		07BF363C2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerConfirmViewModel.swift; sourceTree = "<group>"; };
 		07BF363E2B8B82C90047F3F7 /* AnswerConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerConfirmView.swift; sourceTree = "<group>"; };
+		07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordChoiceChip.swift; sourceTree = "<group>"; };
 		07D96EB02B77714E00754819 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		07D96EB22B77737500754819 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				07BF363E2B8B82C90047F3F7 /* AnswerConfirmView.swift */,
+				07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -722,6 +725,7 @@
 				07D96ED62B79E7C000754819 /* TodayQuestionViewModel.swift in Sources */,
 				F37C178A2B873436005E5072 /* MyPageView.swift in Sources */,
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
+				07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */,
 				F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */,
 				07BF363D2B8B82B70047F3F7 /* AnswerConfirmViewModel.swift in Sources */,
 				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
