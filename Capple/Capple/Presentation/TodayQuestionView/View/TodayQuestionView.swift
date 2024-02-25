@@ -36,14 +36,14 @@ struct TodayQuestionView: View {
                         Button {
                             
                         } label: {
-                            Image("NoticeIcon")
+                            Image(.noticeIcon)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 24 , height: 24)
                         }
                         
                         NavigationLink(destination: MyPageView()) {
-                            Image("Capple")
+                            Image(.capple)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 24 , height: 24)
