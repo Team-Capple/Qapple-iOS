@@ -10,11 +10,25 @@ import SwiftUI
 struct CustomNavigationBackButton: View {
     @Environment(\.presentationMode) var presentationMode
     
+    enum ButtonType: String {
+        case arrow = "CustomBackButtonIcon"
+        case xmark = "Xmark"
+    }
+    
+    let buttonType: ButtonType
+    let action: () -> Void
+    
+    init(buttonType: ButtonType, action: @escaping () -> Void = {}) {
+        self.buttonType = buttonType
+        self.action = action
+    }
+    
     var body: some View {
         Button {
             self.presentationMode.wrappedValue.dismiss()
+            action()
         } label: {
-            Image("CustomBackButtonIcon") // 아이콘 변경 가능
+            Image(buttonType.rawValue) // 아이콘 변경 가능
                 .resizable()
                 .scaledToFit()
                 .frame(width: 24, height: 24)
@@ -24,5 +38,5 @@ struct CustomNavigationBackButton: View {
 }
 
 #Preview {
-    CustomNavigationBackButton()
+    CustomNavigationBackButton(buttonType: .arrow)
 }

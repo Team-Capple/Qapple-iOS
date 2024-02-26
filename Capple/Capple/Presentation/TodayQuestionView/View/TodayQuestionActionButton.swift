@@ -39,7 +39,6 @@ struct TodayQuestionActionButton: View {
         .foregroundStyle(TextLabel.main)
         .background(backgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        .padding(0)
     }
 }
 

@@ -50,7 +50,7 @@ struct MyPageView: View {
     var body: some View {
         VStack {
             CustomNavigationBar(
-                leadingView: { CustomNavigationBackButton() },
+                leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
                 principalView: {
                     Text("프로필")
                         .font(Font.pretendard(.semiBold, size: 17))

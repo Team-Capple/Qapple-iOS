@@ -65,20 +65,20 @@ struct AnswerCell: View {
                 }
                 
                 Spacer()
-                    .frame(height: 12)
+                    .frame(height: 16)
                 
                 Button {
                     isLike.toggle()
-                    likeColor = isLike ? BrandPink.button : GrayScale.secondaryButton
                     // TODO: - 좋아요 탭 기능 구현
                 } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "heart.fill")
+                    HStack(spacing: 6) {
+                        Image(isLike ? .heartActive : .heart)
+                            .resizable()
                             .frame(width: 24, height: 24)
-                        .foregroundStyle(likeColor)
+                            .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
                         
                         Text("\(likeCount)")
-                            .font(.pretendard(.medium, size: 14))
+                            .font(.pretendard(.medium, size: 15))
                             .foregroundStyle(TextLabel.sub3)
                     }
                 }

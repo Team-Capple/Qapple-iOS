@@ -26,7 +26,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
         
         VStack(spacing: 0) {
                 CustomNavigationBar(
-                    leadingView: { CustomNavigationBackButton() },
+                    leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
                     principalView: { Text("회원가입")
                         .font(Font.pretendard(.semiBold, size: 17))
                         .foregroundStyle(TextLabel.main) },

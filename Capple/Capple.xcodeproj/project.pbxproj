@@ -11,6 +11,14 @@
 		073C3DDE2B8714240016C333 /* QuestionTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073C3DDD2B8714240016C333 /* QuestionTimeZone.swift */; };
 		073C3DE02B87143B0016C333 /* QuestionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073C3DDF2B87143B0016C333 /* QuestionState.swift */; };
 		073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073C3DE12B871F130016C333 /* TimeInterval+Extension.swift */; };
+		07BF36362B8B36D10047F3F7 /* AnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36352B8B36D10047F3F7 /* AnswerViewModel.swift */; };
+		07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36372B8B36FB0047F3F7 /* AnswerView.swift */; };
+		07BF363F2B8B82C90047F3F7 /* ConfirmAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */; };
+		07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */; };
+		07BF36432B8B8A970047F3F7 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36422B8B8A970047F3F7 /* ActionButton.swift */; };
+		07BF36482B8B9C290047F3F7 /* SearchKeywordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36472B8B9C290047F3F7 /* SearchKeywordViewModel.swift */; };
+		07BF364A2B8B9C420047F3F7 /* SearchKeywordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36492B8B9C420047F3F7 /* SearchKeywordView.swift */; };
+		07BF364C2B8C598B0047F3F7 /* Keyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF364B2B8C598B0047F3F7 /* Keyword.swift */; };
 		07D96EB12B77714F00754819 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EB02B77714E00754819 /* Colors.xcassets */; };
 		07D96EB32B77737500754819 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D96EB22B77737500754819 /* Color+Extension.swift */; };
 		07D96EC52B7796FE00754819 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */; };
@@ -81,6 +89,14 @@
 		073C3DDD2B8714240016C333 /* QuestionTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTimeZone.swift; sourceTree = "<group>"; };
 		073C3DDF2B87143B0016C333 /* QuestionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionState.swift; sourceTree = "<group>"; };
 		073C3DE12B871F130016C333 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
+		07BF36352B8B36D10047F3F7 /* AnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewModel.swift; sourceTree = "<group>"; };
+		07BF36372B8B36FB0047F3F7 /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
+		07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmAnswerView.swift; sourceTree = "<group>"; };
+		07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordChoiceChip.swift; sourceTree = "<group>"; };
+		07BF36422B8B8A970047F3F7 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		07BF36472B8B9C290047F3F7 /* SearchKeywordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordViewModel.swift; sourceTree = "<group>"; };
+		07BF36492B8B9C420047F3F7 /* SearchKeywordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordView.swift; sourceTree = "<group>"; };
+		07BF364B2B8C598B0047F3F7 /* Keyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyword.swift; sourceTree = "<group>"; };
 		07D96EB02B77714E00754819 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		07D96EB22B77737500754819 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -158,6 +174,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07BF36322B8B36A30047F3F7 /* AnswerView */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36332B8B36B90047F3F7 /* ViewModel */,
+				07BF36342B8B36C10047F3F7 /* View */,
+			);
+			path = AnswerView;
+			sourceTree = "<group>";
+		};
+		07BF36332B8B36B90047F3F7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36352B8B36D10047F3F7 /* AnswerViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		07BF36342B8B36C10047F3F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36372B8B36FB0047F3F7 /* AnswerView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		07BF36392B8B827C0047F3F7 /* ConfirmAnswerView */ = {
+			isa = PBXGroup;
+			children = (
+				07BF363A2B8B82A00047F3F7 /* View */,
+			);
+			path = ConfirmAnswerView;
+			sourceTree = "<group>";
+		};
+		07BF363A2B8B82A00047F3F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */,
+				07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */,
+				07BF36422B8B8A970047F3F7 /* ActionButton.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		07BF36442B8B9BC30047F3F7 /* SearchKeywordView */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36462B8B9C1C0047F3F7 /* ViewModel */,
+				07BF36452B8B9C150047F3F7 /* View */,
+			);
+			path = SearchKeywordView;
+			sourceTree = "<group>";
+		};
+		07BF36452B8B9C150047F3F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36492B8B9C420047F3F7 /* SearchKeywordView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		07BF36462B8B9C1C0047F3F7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				07BF36472B8B9C290047F3F7 /* SearchKeywordViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		07D96EBB2B77969000754819 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,6 +544,9 @@
 				F3EA67102B7645FC002417CE /* Helper */,
 				F3EA670A2B764567002417CE /* HomeView */,
 				07D96ED22B79E79600754819 /* TodayQuestionView */,
+				07BF36322B8B36A30047F3F7 /* AnswerView */,
+				07BF36392B8B827C0047F3F7 /* ConfirmAnswerView */,
+				07BF36442B8B9BC30047F3F7 /* SearchKeywordView */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -506,6 +593,7 @@
 				073C3DDD2B8714240016C333 /* QuestionTimeZone.swift */,
 				073C3DDF2B87143B0016C333 /* QuestionState.swift */,
 				073C3DD92B870D3B0016C333 /* QuestionTimeManager.swift */,
+				07BF364B2B8C598B0047F3F7 /* Keyword.swift */,
 				F3D452D22B8A6015000BA51C /* CustomNavigationBackButton.swift */,
 				F3D452D62B8A663E000BA51C /* CustomNavigationTextButton.swift */,
 				F3D452D82B8A7019000BA51C /* CustonNavigationBar.swift */,
@@ -658,10 +746,14 @@
 				F3D452D12B8A55BD000BA51C /* ProfileEditView.swift in Sources */,
 				F36B0EEB2B8655AE009EBE1D /* SignInView.swift in Sources */,
 				F37C17A42B889956005E5072 /* SearchResultView.swift in Sources */,
+				07BF36432B8B8A970047F3F7 /* ActionButton.swift in Sources */,
 				F392AC462B8B2E370069AD7B /* SignUpTermsAgreementView.swift in Sources */,
 				07D96ED62B79E7C000754819 /* TodayQuestionViewModel.swift in Sources */,
 				F37C178A2B873436005E5072 /* MyPageView.swift in Sources */,
+				07BF364C2B8C598B0047F3F7 /* Keyword.swift in Sources */,
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
+				07BF36482B8B9C290047F3F7 /* SearchKeywordViewModel.swift in Sources */,
+				07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */,
 				F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */,
 				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
 				F37C17A92B8899BC005E5072 /* QuestionView.swift in Sources */,
@@ -677,14 +769,18 @@
 				073C3DDA2B870D3B0016C333 /* QuestionTimeManager.swift in Sources */,
 				F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */,
 				F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */,
+				07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */,
 				07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */,
 				F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */,
 				F3D452CC2B8A4468000BA51C /* MyPageSection.swift in Sources */,
 				F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */,
 				07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */,
+				07BF36362B8B36D10047F3F7 /* AnswerViewModel.swift in Sources */,
 				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
 				F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */,
 				073C3DE02B87143B0016C333 /* QuestionState.swift in Sources */,
+				07BF364A2B8B9C420047F3F7 /* SearchKeywordView.swift in Sources */,
+				07BF363F2B8B82C90047F3F7 /* ConfirmAnswerView.swift in Sources */,
 				073C3DDE2B8714240016C333 /* QuestionTimeZone.swift in Sources */,
 				07D96EDC2B7A167200754819 /* SeeAllButton.swift in Sources */,
 				F37C179F2B88977E005E5072 /* Question.swift in Sources */,
@@ -856,7 +952,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Capple/Preview Content\"";
-				DEVELOPMENT_TEAM = U5F437QJA7;
+				DEVELOPMENT_TEAM = 9XG4S4XZWN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Capple/Info.plist;
@@ -865,6 +961,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -886,7 +983,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Capple/Preview Content\"";
-				DEVELOPMENT_TEAM = U5F437QJA7;
+				DEVELOPMENT_TEAM = 9XG4S4XZWN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Capple/Info.plist;
@@ -895,6 +992,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

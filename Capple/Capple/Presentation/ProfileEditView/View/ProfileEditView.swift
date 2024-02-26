@@ -25,7 +25,9 @@ struct ProfileEditView: View {
         
         VStack(spacing: 0) {
             CustomNavigationBar(
-                leadingView: { CustomNavigationBackButton() },
+                leadingView: {
+                    CustomNavigationBackButton(buttonType: .arrow)
+                },
                 principalView: {
                     Text("프로필")
                         .font(Font.pretendard(.semiBold, size: 17))
@@ -33,7 +35,12 @@ struct ProfileEditView: View {
                     
                 },
                 trailingView: {
-                    CustomNavigationTextButton(text: "완료", color: BrandPink.text)
+                    CustomNavigationTextButton(
+                        text: "완료",
+                        color: BrandPink.text,
+                        buttonType: .dismiss,
+                        isPresented: .constant(false) // 추후 수정 필요
+                    )
                 },
                 backgroundColor: Background.second)
             

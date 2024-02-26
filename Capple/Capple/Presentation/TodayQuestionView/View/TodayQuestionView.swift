@@ -9,63 +9,77 @@ import SwiftUI
 
 struct TodayQuestionView: View {
     
-    @StateObject var viewModel: TodayQuestionViewModel
+    @StateObject var viewModel: TodayQuestionViewModel = .init()
+    
+    @State private var isClickedOnReady: Bool = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            CustomNavigationBar(
-                leadingView: { },
-                principalView: {
-                    HStack(spacing: 20) {
-                        Button {
-                            
-                        } label: {
-                            Text("답변하기")
+        ZStack {
+            Color(Background.first)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                CustomNavigationBar(
+                    leadingView: { },
+                    principalView: {
+                        HStack(spacing: 20) {
+                            Button {
+                                // TODO: - 답변하기 리프레시
+                            } label: {
+                                Text("답변하기")
+                                    .font(.pretendard(.semiBold, size: 14))
+                                    .foregroundStyle(TextLabel.main)
+                            }
+                            Button {
+                                // TODO: - 모아보기 화면 전환
+                            } label: {
+                                Text("모아보기")
+                                    .font(.pretendard(.semiBold, size: 14))
+                                    .foregroundStyle(TextLabel.sub4)
+                            }
                         }
-                        Button {
+                        .font(Font.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(TextLabel.sub4)
+                    },
+                    trailingView: {
+                        HStack(spacing: 8) {
+                            Button {
+                                
+                            } label: {
+                                Image(.noticeIcon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24 , height: 24)
+                            }
                             
-                        } label: {
-                            Text("모아보기")
+                            NavigationLink(destination: MyPageView()) {
+                                Image(.capple)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24 , height: 24)
+                            }
                         }
-                    }
-                    .font(Font.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(TextLabel.main)
-                },
-                trailingView: {
-                    HStack(spacing: 8) {
-                        Button {
-                            
-                        } label: {
-                            Image("NoticeIcon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24 , height: 24)
-                        }
+                    },
+                    backgroundColor: Background.second)
+                ScrollView {
+                    VStack(spacing: 0) {
                         
-                        NavigationLink(destination: MyPageView()) {
-                            Image("Capple")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24 , height: 24)
-                        }
+                        HeaderView(viewModel: viewModel)
+                        
+                        HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isClickedOnReady)
+                        
+                        AnswerPreview(viewModel: viewModel)
                     }
-                },
-                backgroundColor: Background.second)
-            ScrollView {
-                VStack(spacing: 0) {
-                    
-                    HeaderView(viewModel: viewModel)
-                    
-                    HeaderButtonView(viewModel: viewModel)
-                    
-                    AnswerPreview(viewModel: viewModel)
                 }
+                .scrollIndicators(.hidden)
+            }
+            .background(Background.second)
+            .navigationBarBackButtonHidden()
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $isClickedOnReady) {
+                AnswerView()
             }
         }
-        //        .ignoresSafeArea()
-        .background(Background.second)
-        .navigationBarBackButtonHidden()
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -80,12 +94,12 @@ private struct HeaderView: View {
     
     fileprivate var body: some View {
         ZStack {
-            
             Color(Background.second)
                 .ignoresSafeArea()
             
             VStack {
                 Spacer()
+                    .frame(height: 12)
                 
                 HeaderContentView(viewModel: viewModel)
                 
@@ -94,14 +108,13 @@ private struct HeaderView: View {
             }
             .frame(height: 260)
         }
-//        .ignoresSafeArea()
         .onAppear {
             viewModel.startTimer()
         }
     }
 }
 
-// MARK: - HeaderTextView
+// MARK: - HeaderContentView
 private struct HeaderContentView: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
@@ -179,12 +192,18 @@ private struct HeaderButtonView: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
     
-    fileprivate init(viewModel: TodayQuestionViewModel) {
+    @Binding var isClickedOnReady: Bool
+    
+    fileprivate init(viewModel: TodayQuestionViewModel, isClickedOnReady: Binding<Bool>) {
         self.viewModel = viewModel
+        self._isClickedOnReady = isClickedOnReady
     }
     
     var body: some View {
         ZStack(alignment: .top) {
+            
+            Color(Background.first)
+            
             Rectangle()
                 .frame(height: 28)
                 .foregroundStyle(Background.second)
@@ -197,6 +216,11 @@ private struct HeaderButtonView: View {
                 ? .primary : .secondary
             ) {
                 // TODO: - 이전 답변, 답변하기, 다른 답변 Navigation 연결
+                
+                if viewModel.state == .ready {
+                    isClickedOnReady.toggle()
+                }
+                
                 print("timeZone: \(viewModel.timeZone)")
                 print("state: \(viewModel.state)")
             }
@@ -216,9 +240,8 @@ private struct AnswerPreview: View {
     fileprivate var body: some View {
         ZStack(alignment: .leading) {
             Color(Background.first)
-                .ignoresSafeArea()
+                .padding(.bottom, -720)
             
-            // 상단 타이틀
             VStack(spacing: 14) {
                 VStack(alignment: .leading) {
                     Spacer()
