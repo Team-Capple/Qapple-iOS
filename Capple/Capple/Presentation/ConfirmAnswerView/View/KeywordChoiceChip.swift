@@ -16,27 +16,40 @@ struct KeywordChoiceChip: View {
     
     var title: String
     var buttonType: ButtonType
+    var action: () -> Void
     
-    init(_ title: String = "", buttonType: ButtonType) {
+    init(_ title: String = "", buttonType: ButtonType, action: @escaping () -> Void) {
         self.title = title
         self.buttonType = buttonType
+        self.action = action
     }
     
     var body: some View {
         
         Button {
-            // TODO: - 키워드 추가 액션
+            if buttonType == .addKeyword { action() }
         } label: {
             HStack(spacing: 4) {
                 Text(buttonType == .label ? title: "키워드 추가")
-                if buttonType == .addKeyword { Image(systemName: "plus") }
+                
+                if buttonType == .addKeyword {
+                    Image(systemName: "plus")
+                } else {
+                    Button {
+                        action()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .resizable()
+                            .frame(width: 10, height: 10)
+                    }
+                }
             }
             .font(.pretendard(.semiBold, size: 14))
             .foregroundStyle(.wh)
         }
         .padding(.horizontal, 12)
         .frame(height: 32)
-        .background(GrayScale.secondaryButton)
+        .background(buttonType == .addKeyword ? GrayScale.secondaryButton : BrandPink.button)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
@@ -46,6 +59,9 @@ struct KeywordChoiceChip: View {
         Color.Background.first
             .ignoresSafeArea()
         
-        KeywordChoiceChip("키워드", buttonType: .addKeyword)
+        VStack {
+            KeywordChoiceChip("키워드", buttonType: .addKeyword, action: {})
+            KeywordChoiceChip("키워드", buttonType: .label, action: {})
+        }
     }
 }

@@ -25,7 +25,7 @@ struct ProfileEditView: View {
         
         VStack(spacing: 0) {
             CustomNavigationBar(
-                leadingView: { CustomNavigationBackButton() },
+                leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
                 principalView: {
                     Text("프로필")
                         .font(Font.pretendard(.semiBold, size: 17))
