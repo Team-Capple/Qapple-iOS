@@ -24,18 +24,22 @@ struct TodayQuestionView: View {
                     principalView: {
                         HStack(spacing: 20) {
                             Button {
-                                
+                                // TODO: - 답변하기 리프레시
                             } label: {
                                 Text("답변하기")
+                                    .font(.pretendard(.semiBold, size: 14))
+                                    .foregroundStyle(TextLabel.main)
                             }
                             Button {
-                                
+                                // TODO: - 모아보기 화면 전환
                             } label: {
                                 Text("모아보기")
+                                    .font(.pretendard(.semiBold, size: 14))
+                                    .foregroundStyle(TextLabel.sub4)
                             }
                         }
                         .font(Font.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(TextLabel.main)
+                        .foregroundStyle(TextLabel.sub4)
                     },
                     trailingView: {
                         HStack(spacing: 8) {
@@ -67,6 +71,7 @@ struct TodayQuestionView: View {
                         AnswerPreview(viewModel: viewModel)
                     }
                 }
+                .scrollIndicators(.hidden)
             }
             .background(Background.second)
             .navigationBarBackButtonHidden()
