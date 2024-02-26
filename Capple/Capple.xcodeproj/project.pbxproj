@@ -202,7 +202,6 @@
 		07BF36392B8B827C0047F3F7 /* ConfirmAnswerView */ = {
 			isa = PBXGroup;
 			children = (
-				07BF363B2B8B82A60047F3F7 /* ViewModel */,
 				07BF363A2B8B82A00047F3F7 /* View */,
 			);
 			path = ConfirmAnswerView;
@@ -216,13 +215,6 @@
 				07BF36422B8B8A970047F3F7 /* ActionButton.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		07BF363B2B8B82A60047F3F7 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		07BF36442B8B9BC30047F3F7 /* SearchKeywordView */ = {
