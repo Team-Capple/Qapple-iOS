@@ -65,6 +65,7 @@ struct ConfirmAnswerView: View {
                 
                 ActionButton("완료", isActive: $isButtonActive)
                     .padding(.horizontal, 24)
+                    .animation(.bouncy(duration: 0.3), value: isButtonActive)
             }
         }
         .background(Background.second)
@@ -105,8 +106,7 @@ private struct KeywordView: View {
                 }
                 :
                 KeywordChoiceChip(keyword.name, buttonType: .label) {
-                    guard let index = viewModel.flexKeywords.firstIndex(of: keyword) else { return }
-                    viewModel.keywords.remove(at: index)
+                    viewModel.removeKeyword(keyword)
                     isButtonActive = viewModel.keywords.isEmpty ? false : true
                 }
             }

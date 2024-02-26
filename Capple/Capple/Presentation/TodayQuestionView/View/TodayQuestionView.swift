@@ -14,61 +14,66 @@ struct TodayQuestionView: View {
     @State private var isClickedOnReady: Bool = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            CustomNavigationBar(
-                leadingView: { },
-                principalView: {
-                    HStack(spacing: 20) {
-                        Button {
-                            
-                        } label: {
-                            Text("답변하기")
+        ZStack {
+            Color(Background.first)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                CustomNavigationBar(
+                    leadingView: { },
+                    principalView: {
+                        HStack(spacing: 20) {
+                            Button {
+                                
+                            } label: {
+                                Text("답변하기")
+                            }
+                            Button {
+                                
+                            } label: {
+                                Text("모아보기")
+                            }
                         }
-                        Button {
+                        .font(Font.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(TextLabel.main)
+                    },
+                    trailingView: {
+                        HStack(spacing: 8) {
+                            Button {
+                                
+                            } label: {
+                                Image(.noticeIcon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24 , height: 24)
+                            }
                             
-                        } label: {
-                            Text("모아보기")
+                            NavigationLink(destination: MyPageView()) {
+                                Image(.capple)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24 , height: 24)
+                            }
                         }
-                    }
-                    .font(Font.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(TextLabel.main)
-                },
-                trailingView: {
-                    HStack(spacing: 8) {
-                        Button {
-                            
-                        } label: {
-                            Image(.noticeIcon)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24 , height: 24)
-                        }
+                    },
+                    backgroundColor: Background.second)
+                ScrollView {
+                    VStack(spacing: 0) {
                         
-                        NavigationLink(destination: MyPageView()) {
-                            Image(.capple)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24 , height: 24)
-                        }
+                        HeaderView(viewModel: viewModel)
+                        
+                        HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isClickedOnReady)
+                        
+                        AnswerPreview(viewModel: viewModel)
                     }
-                },
-                backgroundColor: Background.second)
-            ScrollView {
-                VStack(spacing: 0) {
-                    
-                    HeaderView(viewModel: viewModel)
-                    
-                    HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isClickedOnReady)
-                    
-                    AnswerPreview(viewModel: viewModel)
                 }
             }
-        }
-        .background(Background.second)
-        .navigationBarBackButtonHidden()
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(isPresented: $isClickedOnReady) {
-            AnswerView()
+            .background(Background.second)
+            .navigationBarBackButtonHidden()
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $isClickedOnReady) {
+                AnswerView()
+            }
         }
     }
 }
@@ -84,7 +89,6 @@ private struct HeaderView: View {
     
     fileprivate var body: some View {
         ZStack {
-            
             Color(Background.second)
                 .ignoresSafeArea()
             
@@ -231,7 +235,7 @@ private struct AnswerPreview: View {
     fileprivate var body: some View {
         ZStack(alignment: .leading) {
             Color(Background.first)
-                .ignoresSafeArea()
+                .padding(.bottom, -720)
             
             VStack(spacing: 14) {
                 VStack(alignment: .leading) {

@@ -72,8 +72,14 @@ extension AnswerViewModel {
 extension AnswerViewModel {
     
     /// 기존의 키워드를 추가합니다.
-    func addKeyword(_ name: String) {
-        keywords.append(.init(name: name))
+    func addKeyword(_ keyword: Keyword) {
+        keywords.append(.init(name: keyword.name))
+    }
+    
+    /// 추가한 키워드를 목록에서 삭제합니다.
+    func removeKeyword(_ keyword: Keyword) {
+        guard let index = flexKeywords.firstIndex(of: keyword) else { return }
+        keywords.remove(at: index)
     }
     
     /// 검색어로 새로운 키워드를 생성합니다.
