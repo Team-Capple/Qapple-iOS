@@ -16,14 +16,17 @@ struct CustomNavigationBackButton: View {
     }
     
     let buttonType: ButtonType
+    let action: () -> Void
     
-    init(buttonType: ButtonType) {
+    init(buttonType: ButtonType, action: @escaping () -> Void = {}) {
         self.buttonType = buttonType
+        self.action = action
     }
     
     var body: some View {
         Button {
             self.presentationMode.wrappedValue.dismiss()
+            action()
         } label: {
             Image(buttonType.rawValue) // 아이콘 변경 가능
                 .resizable()
@@ -31,7 +34,6 @@ struct CustomNavigationBackButton: View {
                 .frame(width: 24, height: 24)
             .foregroundStyle(TextLabel.main)
         }
-        // .padding(.leading, 24)
     }
 }
 

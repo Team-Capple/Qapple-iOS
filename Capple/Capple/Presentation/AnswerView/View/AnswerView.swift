@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AnswerView: View {
     
-    @StateObject var viewModel: AnswerViewModel
+    @StateObject var viewModel: AnswerViewModel = .init()
     @State private var fontSize: CGFloat = 48
     @State private var isPresented = false
     @FocusState private var isTextFieldFocused: Bool
@@ -17,6 +17,23 @@ struct AnswerView: View {
     var body: some View {
         
         VStack {
+            CustomNavigationBar(
+                leadingView: {
+                    CustomNavigationBackButton(buttonType: .xmark)
+                },
+                principalView: {},
+                trailingView: {
+                    CustomNavigationTextButton(
+                        text: "다음",
+                        color: viewModel.answer.isEmpty ?
+                        TextLabel.disable : BrandPink.text,
+                        buttonType: .next,
+                        isPresented: $isPresented
+                    )
+                        .disabled(viewModel.answer.isEmpty ? true : false)
+                },
+                backgroundColor: .clear
+            )
             
             Spacer()
                 .frame(height: 24)
@@ -27,6 +44,7 @@ struct AnswerView: View {
                 .multilineTextAlignment(.center)
                 .lineSpacing(4)
                 .padding(.bottom, 32)
+                .padding(.horizontal, 24)
             
             Spacer()
             
@@ -34,6 +52,7 @@ struct AnswerView: View {
                 if viewModel.answer.isEmpty {
                     Text("자유롭게 생각을\n작성해주세요")
                         .foregroundStyle(TextLabel.placeholder)
+                        .padding(.horizontal, 24)
                 }
                 
                 TextField(text: $viewModel.answer, axis: .vertical) {
@@ -41,6 +60,7 @@ struct AnswerView: View {
                 }
                 .foregroundStyle(.wh)
                 .focused($isTextFieldFocused)
+                .padding(.horizontal, 24)
                 .onChange(of: viewModel.answer) { oldText, newText in
                     
                     // 글자 수 제한 로직
@@ -73,44 +93,17 @@ struct AnswerView: View {
                 Text("\(viewModel.answer.count)/\(viewModel.textLimited)")
                     .font(.pretendard(.medium, size: 14))
                     .foregroundStyle(TextLabel.sub3)
+                    .padding(.horizontal, 24)
             }
             .padding(.bottom, 12)
         }
-        .padding(.horizontal, 24)
         .background(Background.second)
         .onTapGesture {
             isTextFieldFocused = false
         }
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button {
-                    // TODO: - Navigation/답변하기 화면 닫기
-                } label: {
-                    Image(systemName: "xmark")
-                        .foregroundStyle(.wh)
-                }
-            }
-            
-            ToolbarItem {
-                Button {
-                    isPresented.toggle()
-                } label: {
-                    Text("다음")
-                        .font(
-                            .pretendard(viewModel.answer.isEmpty ?
-                                .medium : .semiBold, size: 17)
-                        )
-                        .foregroundStyle(
-                            viewModel.answer.isEmpty ?
-                            TextLabel.disable : BrandPink.text
-                        )
-                }
-                .disabled(viewModel.answer.isEmpty ? true : false)
-            }
-        }
+        .navigationBarBackButtonHidden()
         .navigationDestination(isPresented: $isPresented) {
-            ConfirmAnswerView()
-                .environmentObject(viewModel)
+            ConfirmAnswerView(viewModel: viewModel)
         }
     }
 }

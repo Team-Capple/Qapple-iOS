@@ -9,7 +9,9 @@ import SwiftUI
 
 struct TodayQuestionView: View {
     
-    @StateObject var viewModel: TodayQuestionViewModel
+    @StateObject var viewModel: TodayQuestionViewModel = .init()
+    
+    @State private var isClickedOnReady: Bool = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -56,7 +58,7 @@ struct TodayQuestionView: View {
                     
                     HeaderView(viewModel: viewModel)
                     
-                    HeaderButtonView(viewModel: viewModel)
+                    HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isClickedOnReady)
                     
                     AnswerPreview(viewModel: viewModel)
                 }
@@ -65,6 +67,9 @@ struct TodayQuestionView: View {
         .background(Background.second)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(isPresented: $isClickedOnReady) {
+            AnswerView()
+        }
     }
 }
 
@@ -178,8 +183,11 @@ private struct HeaderButtonView: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
     
-    fileprivate init(viewModel: TodayQuestionViewModel) {
+    @Binding var isClickedOnReady: Bool
+    
+    fileprivate init(viewModel: TodayQuestionViewModel, isClickedOnReady: Binding<Bool>) {
         self.viewModel = viewModel
+        self._isClickedOnReady = isClickedOnReady
     }
     
     var body: some View {
@@ -199,6 +207,11 @@ private struct HeaderButtonView: View {
                 ? .primary : .secondary
             ) {
                 // TODO: - 이전 답변, 답변하기, 다른 답변 Navigation 연결
+                
+                if viewModel.state == .ready {
+                    isClickedOnReady.toggle()
+                }
+                
                 print("timeZone: \(viewModel.timeZone)")
                 print("state: \(viewModel.state)")
             }

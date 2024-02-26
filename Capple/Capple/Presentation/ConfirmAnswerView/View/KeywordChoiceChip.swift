@@ -31,6 +31,8 @@ struct KeywordChoiceChip: View {
         } label: {
             HStack(spacing: 4) {
                 Text(buttonType == .label ? title: "키워드 추가")
+                    .lineLimit(1)
+                    .truncationMode(.tail)
                 
                 if buttonType == .addKeyword {
                     Image(systemName: "plus")
@@ -61,7 +63,7 @@ struct KeywordChoiceChip: View {
         
         VStack {
             KeywordChoiceChip("키워드", buttonType: .addKeyword, action: {})
-            KeywordChoiceChip("키워드", buttonType: .label, action: {})
+            KeywordChoiceChip("맨유리버풀첼시토트넘아스날맨시티뉴캐슬울버햄튼브라이튼아스톤빌라", buttonType: .label, action: {})
         }
     }
 }

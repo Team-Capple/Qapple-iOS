@@ -16,53 +16,21 @@ struct SearchKeywordView: View {
     }
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject var viewModel: AnswerViewModel
+    @ObservedObject var viewModel: AnswerViewModel
     
     @State private var searchState: SearchState = .initial
     @State private var alignment: HorizontalAlignment = .leading
     @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color(Background.second)
-                    .ignoresSafeArea()
-                
-                VStack(alignment: searchState == .initial ? .leading : .center) {
-                    Separator()
-                    Spacer()
-                    VStack {
-                        
-                        // 초기 상태
-                        if searchState == .initial || viewModel.search.isEmpty {
-                            InitialView()
-                                .environmentObject(viewModel)
-                        }
-                        
-                        // 검색 결과 없음
-                        else if searchState == .none {
-                            NoneView()
-                                .environmentObject(viewModel)
-                        }
-                    }
-                }
-            }
-            .onTapGesture {
-                isTextFieldFocused = false
-            }
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .foregroundStyle(.wh)
-                            .frame(width: 32, height: 32)
-                    }
-                }
-                
-                ToolbarItem(placement: .cancellationAction) {
-                    
+        
+        VStack(alignment: searchState == .initial ? .leading : .center) {
+            
+            CustomNavigationBar(
+                leadingView: {
+                    CustomNavigationBackButton(buttonType: .arrow)
+                },
+                principalView: {
                     TextField(text: $viewModel.search) {
                         Text(viewModel.search.isEmpty ? "키워드 검색" : "")
                             .font(.pretendard(.semiBold, size: 16))
@@ -70,22 +38,43 @@ struct SearchKeywordView: View {
                     }
                     .font(.pretendard(.semiBold, size: 16))
                     .foregroundStyle(.wh)
-                    .padding(.leading, -8)
+                    .padding(.leading, 36)
                     .focused($isTextFieldFocused)
+                    .onSubmit {
+                        searchState = .none
+                    }
+                },
+                trailingView: {},
+                backgroundColor: .clear
+            )
+            
+            Separator()
+            Spacer()
+            VStack {
+                
+                // 초기 상태
+                if searchState == .initial || viewModel.search.isEmpty {
+                    InitialView(viewModel: viewModel)
                 }
                 
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        // TODO: - 검색하기
-                        searchState = .none
-                    } label: {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundStyle(.wh)
-                            .frame(width: 32, height: 32)
-                    }
+                // 검색 결과 없음
+                else if searchState == .none {
+                    NoneView(viewModel: viewModel)
+                }
+                
+                // 검색 결과 표시
+                else if searchState == .result {
+                    
                 }
             }
-            .navigationBarBackButtonHidden()
+        }
+        .background(Background.second)
+        .onTapGesture {
+            isTextFieldFocused = false
+        }
+        .navigationBarBackButtonHidden()
+        .onDisappear {
+            viewModel.search = ""
         }
     }
 }
@@ -93,37 +82,40 @@ struct SearchKeywordView: View {
 // MARK: - InitialView
 private struct InitialView: View {
     
-    @EnvironmentObject var viewModel: AnswerViewModel
+    @ObservedObject var viewModel: AnswerViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Spacer()
-                .frame(height: 28)
-            
-            ForEach(viewModel.keywordPreviews, id: \.self) { keyword in
-                Button {
-                    // TODO: - 키워드 적용하기
-                    viewModel.keywords.append(.init(name: "테스트"))
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Text(keyword.name)
-                        .font(.pretendard(.medium, size: 16))
-                        .foregroundStyle(TextLabel.sub1)
+        
+        ScrollView {
+            VStack(alignment: .leading) {
+                ForEach(viewModel.keywordPreviews, id: \.self) { keyword in
+                    Button {
+                        viewModel.addKeyword(keyword.name)
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text(keyword.name)
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(TextLabel.sub1)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                    }
+                    .padding(.bottom, 24)
                 }
-                .padding(.bottom, 24)
+                .padding(.leading, 24)
             }
-            .padding(.leading, 24)
-            
-            Spacer()
+            .padding(.top, 24)
         }
+        
+        Spacer()
     }
 }
 
 // MARK: - NoneView
 private struct NoneView: View {
     
-    @EnvironmentObject var viewModel: AnswerViewModel
+    @ObservedObject var viewModel: AnswerViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         VStack {
@@ -145,7 +137,8 @@ private struct NoneView: View {
                 .frame(height: 24)
             
             KeywordChoiceChip(buttonType: .addKeyword) {
-                // TODO: - 키워드 추가 액션
+                viewModel.createNewKeywordAsSearch()
+                presentationMode.wrappedValue.dismiss()
             }
             
             Spacer()
@@ -153,7 +146,39 @@ private struct NoneView: View {
     }
 }
 
+// MARK: - ResultView
+private struct ResultView: View {
+    
+    @ObservedObject var viewModel: AnswerViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                
+                // TODO: - 네트워킹 검색 결과 출력
+                ForEach(viewModel.keywordPreviews, id: \.self) { keyword in
+                    Button {
+                        viewModel.addKeyword(keyword.name)
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text(keyword.name)
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(TextLabel.sub1)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                    }
+                    .padding(.bottom, 24)
+                }
+                .padding(.leading, 24)
+            }
+            .padding(.top, 24)
+        }
+        
+        Spacer()
+    }
+}
+
 #Preview {
     SearchKeywordView(viewModel: .init())
-        .environmentObject(AnswerViewModel())
 }

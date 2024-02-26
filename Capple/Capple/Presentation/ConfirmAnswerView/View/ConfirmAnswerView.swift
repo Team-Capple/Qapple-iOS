@@ -11,14 +11,21 @@ import FlexView
 struct ConfirmAnswerView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject var viewModel: AnswerViewModel
+    @ObservedObject var viewModel: AnswerViewModel
     @State private var isButtonActive = false
     @State private var isPresented = false
     
     var body: some View {
         
-        VStack(alignment: .leading) {
-            CustomNavigationBackButton(buttonType: .arrow)
+        VStack {
+            CustomNavigationBar(
+                leadingView: {
+                    CustomNavigationBackButton(buttonType: .arrow)
+                },
+                principalView: {},
+                trailingView: {},
+                backgroundColor: .clear
+            )
             
             Spacer()
                 .frame(height: 24)
@@ -34,46 +41,39 @@ struct ConfirmAnswerView: View {
             Spacer()
                 .frame(height: 24)
             
-            Text("키워드")
-                .font(.pretendard(.semiBold, size: 14))
-                .foregroundStyle(TextLabel.sub3)
-                .padding(.horizontal, 24)
-            
-            Spacer()
-                .frame(height: 24)
-            
-            KeywordView(viewModel: viewModel, isPresented: $isPresented)
-                .padding(.horizontal, 20)
-            
-            Spacer()
-                .frame(height: 24)
-            
-            Text("* 내 답변을 표현할 수 있는 키워드를 추가해보세요")
-                .font(.pretendard(.medium, size: 14))
-                .foregroundStyle(TextLabel.sub3)
-                .padding(.horizontal, 24)
-            
-            Spacer()
-            
-            ActionButton("완료", isActive: $isButtonActive)
-                .padding(.horizontal, 24)
+            VStack(alignment: .leading) {
+                Text("키워드")
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(TextLabel.sub3)
+                    .padding(.horizontal, 24)
+                
+                Spacer()
+                    .frame(height: 24)
+                
+                KeywordView(viewModel: viewModel, isPresented: $isPresented, isButtonActive: $isButtonActive)
+                    .padding(.horizontal, 20)
+                
+                Spacer()
+                    .frame(height: 24)
+                
+                Text("* 내 답변을 표현할 수 있는 키워드를 추가해보세요")
+                    .font(.pretendard(.medium, size: 14))
+                    .foregroundStyle(TextLabel.sub3)
+                    .padding(.horizontal, 24)
+                
+                Spacer()
+                
+                ActionButton("완료", isActive: $isButtonActive)
+                    .padding(.horizontal, 24)
+            }
         }
         .background(Background.second)
-        //        .toolbar {
-        //            ToolbarItem(placement: .topBarLeading) {
-        //                Button {
-        //                    presentationMode.wrappedValue.dismiss()
-        //                } label: {
-        //                    Image(systemName: "chevron.left")
-        //                        .foregroundStyle(.wh)
-        //                        .frame(width: 32, height: 32)
-        //                }
-        //            }
-        //        }
         .navigationBarBackButtonHidden()
         .navigationDestination(isPresented: $isPresented) {
-            SearchKeywordView(viewModel: .init())
-                .environmentObject(viewModel)
+            SearchKeywordView(viewModel: viewModel)
+        }
+        .onAppear {
+            isButtonActive = viewModel.keywords.isEmpty ? false : true
         }
     }
 }
@@ -83,34 +83,37 @@ private struct KeywordView: View {
     
     @ObservedObject private var viewModel: AnswerViewModel
     @Binding var isPresented: Bool
+    @Binding var isButtonActive: Bool
     
-    fileprivate init(viewModel: AnswerViewModel, isPresented: Binding<Bool>) {
+    fileprivate init(viewModel: AnswerViewModel, isPresented: Binding<Bool>, isButtonActive: Binding<Bool>) {
         self.viewModel = viewModel
         self._isPresented = isPresented
+        self._isButtonActive = isButtonActive
     }
     
     var body: some View {
-        if viewModel.keywords.isEmpty {
+        if viewModel.keywords.count < 1 {
             KeywordChoiceChip(buttonType: .addKeyword) {
                 isPresented.toggle()
             }
-        }
-        
-        FlexView(data: viewModel.keywords, spacing: 8, alignment: .leading) { keyword in
-            keyword == viewModel.keywords.last ?
-            KeywordChoiceChip(buttonType: .addKeyword) {
-                isPresented.toggle()
-            }
-            :
-            KeywordChoiceChip(keyword.name, buttonType: .label) {
-                guard let index = viewModel.keywords.firstIndex(of: keyword) else { return }
-                viewModel.keywords.remove(at: index)
+        } else {
+            FlexView(data: viewModel.flexKeywords, spacing: 8, alignment: .leading) { keyword in
+                
+                keyword == viewModel.flexKeywords.last ?
+                KeywordChoiceChip(buttonType: .addKeyword) {
+                    isPresented.toggle()
+                }
+                :
+                KeywordChoiceChip(keyword.name, buttonType: .label) {
+                    guard let index = viewModel.flexKeywords.firstIndex(of: keyword) else { return }
+                    viewModel.keywords.remove(at: index)
+                    isButtonActive = viewModel.keywords.isEmpty ? false : true
+                }
             }
         }
     }
 }
 
 #Preview {
-    ConfirmAnswerView()
-        .environmentObject(AnswerViewModel())
+    ConfirmAnswerView(viewModel: .init())
 }

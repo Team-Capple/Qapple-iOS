@@ -9,11 +9,11 @@ import Foundation
 
 final class SearchKeywordViewModel: ObservableObject {
     
-    @Published var searchText: String
+    @Published var search: String
     @Published var keywordPreviews: [Keyword]
     
-    init(searchText: String = "") {
-        self.searchText = searchText
+    init(search: String = "") {
+        self.search = search
         self.keywordPreviews = [
             .init(name: "와플유니버시티"),
             .init(name: "당근맨"),
