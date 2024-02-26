@@ -25,14 +25,19 @@ struct KeywordChoiceChip: View {
     }
     
     var body: some View {
-        
         Button {
             if buttonType == .addKeyword { action() }
         } label: {
             HStack(spacing: 4) {
-                Text(buttonType == .label ? title: "키워드 추가")
-                    .lineLimit(1)
-                    .truncationMode(.tail)
+                
+                if buttonType == .label {
+                    Text(title)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .frame(maxWidth: 240)
+                } else {
+                    Text("키워드 추가")
+                }
                 
                 if buttonType == .addKeyword {
                     Image(systemName: "plus")
