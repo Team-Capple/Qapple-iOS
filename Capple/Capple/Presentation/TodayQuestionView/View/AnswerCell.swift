@@ -22,6 +22,8 @@ struct AnswerCell: View {
     @State var isLike = false
     @State var likeColor = GrayScale.secondaryButton
     
+    let seeMoreAction: () -> Void
+    
     var body: some View {
         
         /// 프로필
@@ -86,7 +88,7 @@ struct AnswerCell: View {
             
             /// 아이콘
             Button {
-                // TODO: - 신고 창 띄우기
+                seeMoreAction()
             } label: {
                 Image(systemName: "ellipsis")
                     .foregroundStyle(TextLabel.sub2)
@@ -101,6 +103,6 @@ struct AnswerCell: View {
         Color(Background.first)
             .ignoresSafeArea()
         
-        AnswerCell()
+        AnswerCell(seeMoreAction: {})
     }
 }

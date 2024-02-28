@@ -10,8 +10,8 @@ import SwiftUI
 struct TodayQuestionView: View {
     
     @StateObject var viewModel: TodayQuestionViewModel = .init()
-    
-    @State private var isClickedOnReady: Bool = false
+    @State private var isClickedOnReady = false
+    @State private var isBottomSheetPresented = false
     
     var body: some View {
         ZStack {
@@ -68,7 +68,7 @@ struct TodayQuestionView: View {
                         
                         HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isClickedOnReady)
                         
-                        AnswerPreview(viewModel: viewModel)
+                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                     }
                 }
                 .scrollIndicators(.hidden)
@@ -232,9 +232,11 @@ private struct HeaderButtonView: View {
 private struct AnswerPreview: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
+    @Binding private var isBottomSheetPresented: Bool
     
-    fileprivate init(viewModel: TodayQuestionViewModel) {
+    fileprivate init(viewModel: TodayQuestionViewModel, isBottomSheetPresented: Binding<Bool>) {
         self.viewModel = viewModel
+        self._isBottomSheetPresented = isBottomSheetPresented
     }
     
     fileprivate var body: some View {
@@ -274,8 +276,14 @@ private struct AnswerPreview: View {
                 
                 ForEach(viewModel.answerList, id: \.self) { _ in
                     VStack(spacing: 24) {
-                        AnswerCell()
+                        AnswerCell() {
+                            isBottomSheetPresented.toggle()
+                        }
                             .padding(.horizontal, 24)
+                            .sheet(isPresented: $isBottomSheetPresented) {
+                                SeeMoreView()
+                                    .presentationDetents([.height(84)])
+                            }
                         
                         Separator()
                             .padding(.leading, 24)

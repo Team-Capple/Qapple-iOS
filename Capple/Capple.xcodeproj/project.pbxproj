@@ -11,6 +11,7 @@
 		073C3DDE2B8714240016C333 /* QuestionTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073C3DDD2B8714240016C333 /* QuestionTimeZone.swift */; };
 		073C3DE02B87143B0016C333 /* QuestionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073C3DDF2B87143B0016C333 /* QuestionState.swift */; };
 		073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073C3DE12B871F130016C333 /* TimeInterval+Extension.swift */; };
+		074819002B8F3DDE00380F14 /* SeeMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074818FF2B8F3DDE00380F14 /* SeeMoreView.swift */; };
 		07BF36362B8B36D10047F3F7 /* AnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36352B8B36D10047F3F7 /* AnswerViewModel.swift */; };
 		07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF36372B8B36FB0047F3F7 /* AnswerView.swift */; };
 		07BF363F2B8B82C90047F3F7 /* ConfirmAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */; };
@@ -89,6 +90,7 @@
 		073C3DDD2B8714240016C333 /* QuestionTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTimeZone.swift; sourceTree = "<group>"; };
 		073C3DDF2B87143B0016C333 /* QuestionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionState.swift; sourceTree = "<group>"; };
 		073C3DE12B871F130016C333 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
+		074818FF2B8F3DDE00380F14 /* SeeMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoreView.swift; sourceTree = "<group>"; };
 		07BF36352B8B36D10047F3F7 /* AnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewModel.swift; sourceTree = "<group>"; };
 		07BF36372B8B36FB0047F3F7 /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
 		07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmAnswerView.swift; sourceTree = "<group>"; };
@@ -174,6 +176,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		074818FD2B8F3DB900380F14 /* SeeMoreView */ = {
+			isa = PBXGroup;
+			children = (
+				074818FE2B8F3DD300380F14 /* View */,
+			);
+			path = SeeMoreView;
+			sourceTree = "<group>";
+		};
+		074818FE2B8F3DD300380F14 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				074818FF2B8F3DDE00380F14 /* SeeMoreView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		07BF36322B8B36A30047F3F7 /* AnswerView */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,6 +565,7 @@
 				07BF36322B8B36A30047F3F7 /* AnswerView */,
 				07BF36392B8B827C0047F3F7 /* ConfirmAnswerView */,
 				07BF36442B8B9BC30047F3F7 /* SearchKeywordView */,
+				074818FD2B8F3DB900380F14 /* SeeMoreView */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -786,6 +805,7 @@
 				F37C179F2B88977E005E5072 /* Question.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEnpoints.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
+				074819002B8F3DDE00380F14 /* SeeMoreView.swift in Sources */,
 				073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */,
 				F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */,
 				F3D452D92B8A7019000BA51C /* CustonNavigationBar.swift in Sources */,
