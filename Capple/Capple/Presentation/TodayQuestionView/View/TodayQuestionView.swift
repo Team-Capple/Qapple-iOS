@@ -10,8 +10,9 @@ import SwiftUI
 struct TodayQuestionView: View {
     
     @StateObject var viewModel: TodayQuestionViewModel = .init()
-    
-    @State private var isClickedOnReady: Bool = false
+    @State private var isClickedOnReady = false
+    @State private var isBottomSheetPresented = false
+    @State private var isReportViewPresented = false
     
     var body: some View {
         ZStack {
@@ -68,7 +69,7 @@ struct TodayQuestionView: View {
                         
                         HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isClickedOnReady)
                         
-                        AnswerPreview(viewModel: viewModel)
+                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
                     }
                 }
                 .scrollIndicators(.hidden)
@@ -78,6 +79,9 @@ struct TodayQuestionView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $isClickedOnReady) {
                 AnswerView()
+            }
+            .navigationDestination(isPresented: $isReportViewPresented) {
+                ReportView()
             }
         }
     }
@@ -232,9 +236,17 @@ private struct HeaderButtonView: View {
 private struct AnswerPreview: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
+    @Binding private var isBottomSheetPresented: Bool
+    @Binding private var isReportViewPresented: Bool
     
-    fileprivate init(viewModel: TodayQuestionViewModel) {
+    fileprivate init(
+        viewModel: TodayQuestionViewModel,
+        isBottomSheetPresented: Binding<Bool>,
+        isReportViewPresented: Binding<Bool>
+    ) {
         self.viewModel = viewModel
+        self._isBottomSheetPresented = isBottomSheetPresented
+        self._isReportViewPresented = isReportViewPresented
     }
     
     fileprivate var body: some View {
@@ -274,8 +286,14 @@ private struct AnswerPreview: View {
                 
                 ForEach(viewModel.answerList, id: \.self) { _ in
                     VStack(spacing: 24) {
-                        AnswerCell()
+                        AnswerCell() {
+                            isBottomSheetPresented.toggle()
+                        }
                             .padding(.horizontal, 24)
+                            .sheet(isPresented: $isBottomSheetPresented) {
+                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
+                                    .presentationDetents([.height(84)])
+                            }
                         
                         Separator()
                             .padding(.leading, 24)
