@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct SeeMoreView: View {
+    
+    @Binding var isBottomSheetPresented: Bool
+    @Binding var isReportViewPresented: Bool
+    
     var body: some View {
         ZStack {
             
@@ -27,7 +31,8 @@ struct SeeMoreView: View {
                 }
                 
                 Button {
-                    // TODO: - 신고하기
+                    isBottomSheetPresented = false
+                    isReportViewPresented = true
                 } label: {
                     Text("신고")
                         .font(.pretendard(.medium, size: 16))
@@ -43,5 +48,5 @@ struct SeeMoreView: View {
 }
 
 #Preview {
-    SeeMoreView()
+    SeeMoreView(isBottomSheetPresented: .constant(false), isReportViewPresented: .constant(false))
 }

@@ -12,6 +12,7 @@ struct TodayQuestionView: View {
     @StateObject var viewModel: TodayQuestionViewModel = .init()
     @State private var isClickedOnReady = false
     @State private var isBottomSheetPresented = false
+    @State private var isReportViewPresented = false
     
     var body: some View {
         ZStack {
@@ -68,7 +69,7 @@ struct TodayQuestionView: View {
                         
                         HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isClickedOnReady)
                         
-                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
+                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
                     }
                 }
                 .scrollIndicators(.hidden)
@@ -78,6 +79,9 @@ struct TodayQuestionView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $isClickedOnReady) {
                 AnswerView()
+            }
+            .navigationDestination(isPresented: $isReportViewPresented) {
+                ReportView()
             }
         }
     }
@@ -233,10 +237,16 @@ private struct AnswerPreview: View {
     
     @ObservedObject private var viewModel: TodayQuestionViewModel
     @Binding private var isBottomSheetPresented: Bool
+    @Binding private var isReportViewPresented: Bool
     
-    fileprivate init(viewModel: TodayQuestionViewModel, isBottomSheetPresented: Binding<Bool>) {
+    fileprivate init(
+        viewModel: TodayQuestionViewModel,
+        isBottomSheetPresented: Binding<Bool>,
+        isReportViewPresented: Binding<Bool>
+    ) {
         self.viewModel = viewModel
         self._isBottomSheetPresented = isBottomSheetPresented
+        self._isReportViewPresented = isReportViewPresented
     }
     
     fileprivate var body: some View {
@@ -281,7 +291,7 @@ private struct AnswerPreview: View {
                         }
                             .padding(.horizontal, 24)
                             .sheet(isPresented: $isBottomSheetPresented) {
-                                SeeMoreView()
+                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
                                     .presentationDetents([.height(84)])
                             }
                         
