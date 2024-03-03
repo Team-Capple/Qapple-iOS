@@ -208,7 +208,7 @@ private struct QuestionListView: View {
                             }
                             
                             Spacer()
-                                .frame(height: 24)
+                                .frame(height: 16)
                             
                             Separator()
                                 .padding(.leading, 24)
@@ -235,6 +235,7 @@ private struct QuestionListView: View {
                 
             }
             .padding(.top, 24)
+            .scrollIndicators(.hidden)
             .refreshable {
                 // searchText = "" // 검색 텍스트 초기화
                 viewModel.reloadQuestions() // ViewModel에서 원래 목록을 다시 로드하는 메서드를 호출합니다.

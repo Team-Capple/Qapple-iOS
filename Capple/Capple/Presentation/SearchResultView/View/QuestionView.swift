@@ -10,8 +10,8 @@ struct QuestionView: View {
     @State private var isLike = false
     @State private var likeCount = 32
     
-    @State private var isComment = false
-    @State private var commentCount = 48
+//    @State private var isComment = false
+//    @State private var commentCount = 48
 
     var body: some View {
         VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
@@ -102,21 +102,21 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 12)
                 
-                Button {
-                    isComment.toggle()
-                    // TODO: - 댓글 창 이동
-                } label: {
-                    HStack(spacing: 6) {
-                        Image(isComment ? .commentActive : .comment)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
-                        
-                        Text("\(commentCount)")
-                            .font(.pretendard(.medium, size: 15))
-                            .foregroundStyle(TextLabel.sub3)
-                    }
-                }
+//                Button {
+//                    isComment.toggle()
+//                    // TODO: - 댓글 창 이동
+//                } label: {
+//                    HStack(spacing: 6) {
+//                        Image(isComment ? .commentActive : .comment)
+//                            .resizable()
+//                            .frame(width: 24, height: 24)
+//                            .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
+//                        
+//                        Text("\(commentCount)")
+//                            .font(.pretendard(.medium, size: 15))
+//                            .foregroundStyle(TextLabel.sub3)
+//                    }
+//                }
                 
                 Spacer()
                 
