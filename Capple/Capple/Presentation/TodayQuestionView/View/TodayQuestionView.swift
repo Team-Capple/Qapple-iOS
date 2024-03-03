@@ -13,6 +13,7 @@ struct TodayQuestionView: View {
     @State private var isClickedOnReady = false
     @State private var isBottomSheetPresented = false
     @State private var isReportViewPresented = false
+    @State private var isAlertViewPresented = false
     
     var body: some View {
         ZStack {
@@ -45,7 +46,7 @@ struct TodayQuestionView: View {
                     trailingView: {
                         HStack(spacing: 8) {
                             Button {
-                                
+                                isAlertViewPresented.toggle()
                             } label: {
                                 Image(.noticeIcon)
                                     .resizable()
@@ -82,6 +83,9 @@ struct TodayQuestionView: View {
             }
             .navigationDestination(isPresented: $isReportViewPresented) {
                 ReportView()
+            }
+            .navigationDestination(isPresented: $isAlertViewPresented) {
+                AlertView()
             }
         }
     }

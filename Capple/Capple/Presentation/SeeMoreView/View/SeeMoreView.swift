@@ -34,9 +34,9 @@ struct SeeMoreView: View {
                     isBottomSheetPresented = false
                     isReportViewPresented = true
                 } label: {
-                    Text("신고")
+                    Text("신고하기")
                         .font(.pretendard(.medium, size: 16))
-                        .foregroundStyle(TextLabel.main)
+                        .foregroundStyle(Context.warning)
                 }
                 .frame(height: 40)
                 .padding(.horizontal, 24)
