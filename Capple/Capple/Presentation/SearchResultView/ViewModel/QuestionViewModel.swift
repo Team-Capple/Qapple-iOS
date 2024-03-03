@@ -1,76 +1,85 @@
-//
-//  QuestionViewModel.swift
-//  Capple
-//
-//  Created by 심현희 Lee on 2/23/24.
-//
-
 import Foundation
-import CoreData
+import Combine
 
+// 질문 데이터를 관리하는 ViewModel
 class QuestionViewModel: ObservableObject {
+    @Published var filteredQuestions: [Question] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     
-    @Published var searchQuery = "" {
-        didSet {
-            filterQuestions()
-        }
-    }
-    @Published var filteredQuestions: [Question] = [] // 필터링된 질문 목록
+    @Published var questions: [Question] = [] // 모든 질문의 목록입니다.
+    @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     
-    @Published var questions: [Question] = []
-    @Published var isLoading = false
-    private var currentPage = 0
-    private let pageSize = 10
+    private var currentPage = 0 // 현재 로드된 페이지 번호입니다.
+    private let pageSize = 15 // 한 번에 로드할 데이터의 양입니다.
     
+    @Published var searchQuery = ""
+
+    // searchQuery의 변경을 감지하고 필터링을 수행합니다.
+    // private var cancellables: Set<AnyCancellable> = []
+
     init() {
-        loadMoreContent()
-        // 원본 질문 목록을 로드하는 로직을 여기에 추가합니다.
-        
-        questions = []
-        // ... 여기에 Question 객체들을 초기화하는 코드 ...
-        
-        filterQuestions() // 초기 필터링 실행
+        loadMoreContent() // 초기 데이터 로딩
+
     }
-    
-    
+    // 필요에 따라 추가 콘텐츠를 로드합니다.
     func loadMoreContentIfNeeded(currentItem item: Question?) {
-        guard let item = item else {
-            loadMoreContent()
-            return
-        }
+        guard let item = item, !isLoading else { return }
         
         let thresholdIndex = questions.index(questions.endIndex, offsetBy: -5)
-        if questions.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
+        if let itemIndex = questions.firstIndex(where: { $0.id == item.id }), itemIndex >= thresholdIndex {
             loadMoreContent()
         }
     }
     
-    private func loadMoreContent() {
+    // 실제로 새로운 콘텐츠를 로드하는 메소드입니다.
+    func loadMoreContent() {
         guard !isLoading else { return }
         isLoading = true
         
-        // Here you would load new content from a data source or API
-        // For the sake of simplicity, we're just appending new questions
-        let newQuestions = (1...30).map { i in
-            Question(id: i, title: "Question \(i)", detail: "This is the detail for question \(i).", tags: ["Tag1", "Tag2"], likes: i, comments: i)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.questions.append(contentsOf: newQuestions)
-            self.isLoading = false
-        }
-    }
-    private func filterQuestions() {
-        if searchQuery.isEmpty {
-            filteredQuestions = questions // 검색어가 비어있다면 모든 질문을 보여줍니다.
-        } else {
-            filteredQuestions = questions.filter { question in
-                // 대소문자를 구분하지 않고 검색어가 제목, 상세 내용, 태그 중 하나라도 포함되는지 확인합니다.
-                question.title.localizedCaseInsensitiveContains(searchQuery) ||
-                question.detail.localizedCaseInsensitiveContains(searchQuery) ||
-                question.tags.contains { $0.localizedCaseInsensitiveContains(searchQuery) }
+        // 새로운 질문들을 로드하는 로직을 구현합니다.
+        // 예시로, 임시 데이터를 생성하여 추가합니다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self = self else { return }
+            
+            let newQuestions = (1...10).map { i in
+                Question(id: self.currentPage * self.pageSize + i, title: "Question \((self.currentPage * self.pageSize) + i)", detail: "This is the detail for question \((self.currentPage * self.pageSize) + i).", tags: ["Tag\(i)", "Tag\(i * 2)"], likes: i * 2, comments: i * 3)
             }
+            self.questions.append(contentsOf: newQuestions )
+            self.filterQuestions(with: searchQuery)
+            self.isLoading = false
+            self.currentPage += 1
         }
     }
     
+    // 검색 쿼리에 따라 질문 목록을 필터링합니다.
+    func filterQuestions(with searchText : String) {
+        print("\(searchText)")
+        if searchText.isEmpty {
+            filteredQuestions =  self.questions
+
+        } else {
+            filteredQuestions = self.questions.filter { question in
+                question.title.localizedCaseInsensitiveContains(searchText) ||
+                question.detail.localizedCaseInsensitiveContains(searchText) ||
+                question.tags.contains(where: { $0.localizedCaseInsensitiveContains(searchText) })
+            }
+        }
+
+
+    }
+    
+ /*   func initiate(with searchText : String) {
+        $searchQuery
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink(receiveValue: { [weak self] searchText in
+                       self?.filteredQuestions = self?.filterQuestions(with: searchText) ?? []
+                   })
+            .store(in: &cancellables)
+    }
+  */
+}
+extension QuestionViewModel {
+    func reloadQuestions() {
+       loadMoreContent()
+    }
 }
