@@ -10,6 +10,7 @@ import SwiftUI
 struct TodayQuestionView: View {
     
     @StateObject var viewModel: TodayQuestionViewModel = .init()
+    @Binding var topTab: TopTab
     @State private var isClickedOnReady = false
     @State private var isBottomSheetPresented = false
     @State private var isReportViewPresented = false
@@ -34,6 +35,7 @@ struct TodayQuestionView: View {
                             }
                             Button {
                                 // TODO: - 모아보기 화면 전환
+                                topTab = .collecting
                             } label: {
                                 Text("모아보기")
                                     .font(.pretendard(.semiBold, size: 14))
@@ -313,5 +315,5 @@ private struct AnswerPreview: View {
 }
 
 #Preview {
-    TodayQuestionView(viewModel: TodayQuestionViewModel())
+    TodayQuestionView(viewModel: TodayQuestionViewModel(), topTab: .constant(.answering))
 }

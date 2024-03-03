@@ -28,7 +28,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
                 CustomNavigationBar(
                     leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
                     principalView: { Text("회원가입")
-                        .font(Font.pretendard(.semiBold, size: 17))
+                        .font(Font.pretendard(.semiBold, size: 15))
                         .foregroundStyle(TextLabel.main) },
                     trailingView: { },
                     backgroundColor: Background.first)

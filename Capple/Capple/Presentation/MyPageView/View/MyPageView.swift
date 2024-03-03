@@ -53,7 +53,7 @@ struct MyPageView: View {
                 leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
                 principalView: {
                     Text("프로필")
-                        .font(Font.pretendard(.semiBold, size: 17))
+                        .font(Font.pretendard(.semiBold, size: 15))
                         .foregroundStyle(TextLabel.main)
                     
                 },
