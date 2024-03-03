@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Keyword: Hashable {
+struct Keyword: Hashable, Codable {
     let name: String
 }
