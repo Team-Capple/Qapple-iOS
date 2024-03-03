@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AlertView: View {
     
-    @StateObject var viewModel: AlertViewModel
+    @StateObject var viewModel: AlertViewModel = .init()
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -40,9 +40,10 @@ struct AlertView: View {
                 Spacer()
             }
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
 #Preview {
-    AlertView(viewModel: .init())
+    AlertView()
 }

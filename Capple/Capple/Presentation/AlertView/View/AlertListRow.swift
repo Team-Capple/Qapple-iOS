@@ -16,20 +16,27 @@ struct AlertListRow: View {
             Button {
                 
             } label: {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(alert.title)
-                        .font(.pretendard(.semiBold, size: 15))
-                        .foregroundStyle(TextLabel.main)
+                HStack {
+                    Spacer()
+                        .frame(width: 24)
                     
-                    Text(alert.contents)
-                        .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(TextLabel.sub2)
-                        .multilineTextAlignment(.leading)
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(alert.title)
+                            .font(.pretendard(.semiBold, size: 15))
+                            .foregroundStyle(TextLabel.main)
+                        
+                        Text(alert.contents)
+                            .font(.pretendard(.medium, size: 14))
+                            .foregroundStyle(TextLabel.sub2)
+                            .multilineTextAlignment(.leading)
+                        
+                        Text(alert.question)
+                            .font(.pretendard(.medium, size: 14))
+                            .foregroundStyle(TextLabel.sub4)
+                            .multilineTextAlignment(.leading)
+                    }
                     
-                    Text(alert.question)
-                        .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(TextLabel.sub4)
-                        .multilineTextAlignment(.leading)
+                    Spacer()
                 }
             }
         .padding(.vertical, 24)
