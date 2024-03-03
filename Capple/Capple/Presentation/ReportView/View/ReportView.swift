@@ -24,10 +24,14 @@ struct ReportView: View {
             
             VStack {
                 CustomNavigationBar(
-                    leadingView: {
+                    leadingView:{
                         CustomNavigationBackButton(buttonType: .arrow)
                     },
-                    principalView: {},
+                    principalView: {
+                        Text("신고하기")
+                            .font(Font.pretendard(.semiBold, size: 15))
+                            .foregroundStyle(TextLabel.main)
+                    },
                     trailingView: {},
                     backgroundColor: .clear
                 )
