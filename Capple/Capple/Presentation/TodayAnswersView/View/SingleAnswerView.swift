@@ -29,7 +29,11 @@ struct SingleAnswerView: View {
                                 .fontWeight(.bold) // 글자 두께를 굵게 설정합니다.
                         }
             
-            Text("\(answer.likes) likes") // 좋아요 수와 댓글 수를 표시합니다.
+            Text("\(answer.content) This is Description and contents") // 좋아요 수
+                .foregroundColor(.gray) // 글자 색상을 회색으로 설정합니다.
+                .font(.caption) // 작은 글자 크기로 설정
+            
+            Text("\(answer.likes) likes") // 좋아요 수
                 .foregroundColor(.gray) // 글자 색상을 회색으로 설정합니다.
                 .font(.caption) // 작은 글자 크기로 설정합니다.
             
