@@ -6,8 +6,10 @@ struct SearchResultView: View {
     @StateObject var viewModel: QuestionViewModel = .init() // 뷰 모델을 관찰합니다.
     @Binding var topTab: TopTab
     @State private var searchText = "" // 사용자 검색 텍스트를 저장합니다.
-    @State private var isTextEditing = false
+    // @State private var isTextEditing = false
+    @State private var isBottomSheetPresented = false
     @State private var isAlertViewPresented = false
+    @State private var isReportViewPresented = false
     
 //    // 뷰 모델을 초기화하는 생성자입니다.
 //    init(viewModel: QuestionViewModel = QuestionViewModel()) {
@@ -70,15 +72,23 @@ struct SearchResultView: View {
                 Spacer()
                     .frame(height: 0)
                 
-                QuestionListView(viewModel: viewModel)
+                QuestionListView(
+                    viewModel: viewModel,
+                    isBottomSheetPresented: $isBottomSheetPresented,
+                    isReportViewPresented: $isReportViewPresented
+                )
             }
         }
-        // .searchable(text: $searchText, prompt: "검색어를 입력하세요") // 검색 기능을 추가합니다.
-        .foregroundColor(isTextEditing ? .white : .black)
         .navigationBarBackButtonHidden()
         .navigationDestination(isPresented: $isAlertViewPresented) {
             AlertView()
         }
+        .navigationDestination(isPresented: $isReportViewPresented) {
+            ReportView()
+        }
+        
+        // .searchable(text: $searchText, prompt: "검색어를 입력하세요") // 검색 기능을 추가합니다.
+        // .foregroundColor(isTextEditing ? .white : .black)
 //        .onChange(of: searchText) {
 //            /* newValue, oldValue in
 //             viewModel.searchQuery = newValue // 사용자가 검색 텍스트를 변경할 때마다 뷰 모델의 검색 쿼리를 업데이트합니다.
@@ -138,9 +148,13 @@ private struct HeaderView: View {
 private struct QuestionListView: View {
     
     @ObservedObject private var viewModel: QuestionViewModel
+    @Binding var isBottomSheetPresented: Bool
+    @Binding var isReportViewPresented: Bool
     
-    fileprivate init(viewModel: QuestionViewModel) {
+    fileprivate init(viewModel: QuestionViewModel, isBottomSheetPresented: Binding<Bool>, isReportViewPresented: Binding<Bool>) {
         self.viewModel = viewModel
+        self._isBottomSheetPresented = isBottomSheetPresented
+        self._isReportViewPresented = isReportViewPresented
     }
     
     var body: some View {
@@ -185,9 +199,13 @@ private struct QuestionListView: View {
                     ForEach(viewModel.questionMockDatas) { question in
                         VStack {
                             QuestionView(question: question, seeMoreAction: {
-                                
+                                isBottomSheetPresented.toggle()
                             })
                             .padding(.horizontal, 24)
+                            .sheet(isPresented: $isBottomSheetPresented) {
+                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
+                                    .presentationDetents([.height(84)])
+                            }
                             
                             Spacer()
                                 .frame(height: 24)
@@ -201,7 +219,6 @@ private struct QuestionListView: View {
 // TODO: 현희 누나 기존 코드 목업 데이터로 교체
 //                    ForEach(viewModel.filteredQuestions) { question in
 //                        QuestionView(question: question, seeMoreAction: {
-//                            // TODO: 바텀 시트 띄우기
 //                        }) // 각 질문에 대한 뷰를 생성합니다.
 //                            .onAppear {
 //                                viewModel.loadMoreContentIfNeeded(currentItem: question) // 필요한 경우 더 많은 내용을 로드합니다.

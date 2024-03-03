@@ -13,8 +13,8 @@ struct TodayQuestionView: View {
     @Binding var topTab: TopTab
     @State private var isClickedOnReady = false
     @State private var isBottomSheetPresented = false
-    @State private var isReportViewPresented = false
     @State private var isAlertViewPresented = false
+    @State private var isReportViewPresented = false
     
     var body: some View {
         ZStack {
