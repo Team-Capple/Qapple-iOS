@@ -24,6 +24,7 @@ struct ReportListRow: View {
                 .foregroundStyle(.wh)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .frame(height: 48)
+                .padding(.leading, 24)
                 .background(Background.first)
         }
     }
@@ -32,7 +33,7 @@ struct ReportListRow: View {
 #Preview {
     ZStack {
         
-        Color(Background.first)
+        Color(Background.second)
             .ignoresSafeArea()
      
         ReportListRow(title: "버튼입니당")

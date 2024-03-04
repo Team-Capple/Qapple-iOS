@@ -49,7 +49,7 @@ struct SignUpCompletedView: View {
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $isChecked) {
-            TodayQuestionView(viewModel: TodayQuestionViewModel())
+            HomeView()
         }
     }
 }

@@ -1,52 +1,154 @@
 import SwiftUI
+import FlexView
 
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionView: View {
+    
     var question: Question // 이 뷰에서 사용할 질문 객체입니다.
+    let seeMoreAction: () -> Void
+    
+    @State private var isLike = false
+    @State private var likeCount = 32
+    
+//    @State private var isComment = false
+//    @State private var commentCount = 48
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) { // 세로 스택을 사용해 요소들을 정렬합니다.
-            Text(question.title) // 질문의 제목을 표시합니다.
-                .foregroundColor(.white) // 글자 색상을 흰색으로 설정합니다.
-                .font(.title3) // 글자 크기를 설정합니다.
-                .fontWeight(.bold) // 글자 두께를 굵게 설정합니다.
+        VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
             
-            Text("\(question.likes) likes • \(question.comments) comments") // 좋아요 수와 댓글 수를 표시합니다.
-                .foregroundColor(.gray) // 글자 색상을 회색으로 설정합니다.
-                .font(.caption) // 작은 글자 크기로 설정합니다.
-            
-            Divider().background(Color.gray) // 구분선을 추가합니다.
-            
-            Text(question.detail) // 질문의 상세 설명을 표시합니다.
-                .foregroundColor(.white) // 글자 색상을 흰색으로 설정합니다.
-                .font(.body) // 본문 글자 크기로 설정합니다.
-            
-            HStack { // 가로 스택을 사용해 태그를 나열합니다.
-                ForEach(question.tags, id: \.self) { tag in
-                    Text("#\(tag)") // 각 태그를 표시합니다.
-                        .foregroundColor(.blue) // 글자 색상을 파란색으로 설정합니다.
-                        .font(.caption) // 작은 글자 크기로 설정합니다.
+            // MARK: - 상단 날짜
+            HStack(alignment: .center) {
+                Text("\(question.timeZone == .am || question.timeZone == .amCreate ? "오전" : "오후")질문")
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(GrayScale.icon)
+                
+                Spacer()
+                    .frame(width: 4)
+                
+                Rectangle()
+                    .frame(width: 1, height: 10)
+                    .foregroundStyle(GrayScale.icon)
+                
+                Spacer()
+                    .frame(width: 4)
+                
+                Text("\(question.date.fullDate)")
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(GrayScale.icon)
+                
+                Spacer()
+                    .frame(width: 8)
+                
+                if question.state == .ready || question.state == .complete {
+                    Text("ON AIR")
+                        .font(.pretendard(.bold, size: 9))
+                        .foregroundStyle(.wh)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .background(Context.onAir)
+                        .cornerRadius(18, corners: .allCorners)
+                }
+                
+                Spacer()
+                
+                Button {
+                     seeMoreAction()
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .foregroundStyle(TextLabel.sub2)
+                        .frame(width: 20, height: 20)
                 }
             }
             
-            HStack { // 좋아요와 댓글 아이콘을 가로로 나열합니다.
-                Image(systemName: "heart.fill") // 좋아요 아이콘을 표시합니다.
-                    .foregroundColor(.red) // 아이콘 색상을 빨간색으로 설정합니다.
-                Text("\(question.likes)") // 좋아요 수를 표시합니다.
-                    .foregroundColor(.white) // 글자 색상을 흰색으로 설정합니다.
-                    .font(.subheadline) // 약간 작은 글자 크기로 설정합니다.
-                Spacer() // 좋아요와 댓글 사이에 공간을 추가합니다.
-                Image(systemName: "message") // 댓글 아이콘을 표시합니다.
-                    .foregroundColor(.white) // 아이콘 색상을 흰색으로 설정합니다.
-                Text("\(question.comments)") // 댓글 수를 표시합니다.
-                    .foregroundColor(.white) // 글자 색상을 흰색으로 설정합니다.
-                    .font(.subheadline) // 약간 작은 글자 크기로 설정합니다.
+            Spacer()
+                .frame(height: 16)
+            
+            // MARK: - 본문
+            Text(question.title) // 질문의 제목을 표시합니다.
+                .font(.pretendard(.bold, size: 17))
+                .foregroundStyle(TextLabel.main)
+            
+            Spacer()
+                .frame(height: 20)
+            
+            // MARK: - 키워드
+            FlexView(data: question.keywords, spacing: 8, alignment: .leading) { keyword in
+                Text("#\(keyword.name)")
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(BrandPink.text)
+            }
+            
+            Spacer()
+                .frame(height: 16)
+            
+            // MARK: - 좋아요, 댓글
+            HStack {
+                Button {
+                    isLike.toggle()
+                    // TODO: - 좋아요 탭 기능 구현
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(isLike ? .heartActive : .heart)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
+                        
+                        Text("\(likeCount)")
+                            .font(.pretendard(.medium, size: 15))
+                            .foregroundStyle(TextLabel.sub3)
+                    }
+                }
+                
+                Spacer()
+                    .frame(width: 12)
+                
+//                Button {
+//                    isComment.toggle()
+//                    // TODO: - 댓글 창 이동
+//                } label: {
+//                    HStack(spacing: 6) {
+//                        Image(isComment ? .commentActive : .comment)
+//                            .resizable()
+//                            .frame(width: 24, height: 24)
+//                            .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
+//                        
+//                        Text("\(commentCount)")
+//                            .font(.pretendard(.medium, size: 15))
+//                            .foregroundStyle(TextLabel.sub3)
+//                    }
+//                }
+                
+                Spacer()
+                
+                Button {
+                    // TODO: 답변하기 화면 이동
+                } label: {
+                    Text("답변하기")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(TextLabel.main)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(BrandPink.button)
+                        .cornerRadius(30, corners: .allCorners)
+                }
+
             }
         }
-        .padding() // 내부 요소와의 간격을 설정합니다.
-        .background(Color.gray.opacity(0.2)) // 배경색을 설정하고 투명도를 조절합니다.
-        .cornerRadius(10) // 모서리를 둥글게 처리합니다.
-        .padding(.horizontal) // 좌우 간격을 설정합니다.
+        .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
     }
 }
 
+#Preview {
+    QuestionView(
+        question: .init(
+            id: 0,
+            timeZone: .am,
+            date: Date(),
+            state: .complete,
+            title: "오전 질문에 답변 후\n모든 내용을 확인해보세요",
+            keywords: [.init(name: "무자비"), .init(name: "당근맨"), .init(name: "와플대학")],
+            likes: 38,
+            comments: 185
+        ), seeMoreAction: {}
+    )
+}

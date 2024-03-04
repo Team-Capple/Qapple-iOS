@@ -8,20 +8,16 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @State private var topTab: TopTab = .answering
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            
-            Text("캐플캐플")
-                .foregroundStyle(BrandPink.button)
-                .font(.pretendard(.bold, size: 24))
-            
-            Text("폰트 테스트")
-                .font(.pretendard(.semiBold, size: 36))
+        switch topTab {
+        case .answering:
+            TodayQuestionView(topTab: $topTab)
+        case .collecting:
+            SearchResultView(topTab: $topTab)
         }
-        .padding()
     }
 }
 
