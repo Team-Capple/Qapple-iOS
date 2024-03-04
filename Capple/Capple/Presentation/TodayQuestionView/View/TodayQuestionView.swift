@@ -11,10 +11,11 @@ struct TodayQuestionView: View {
     
     @StateObject var viewModel: TodayQuestionViewModel = .init()
     @Binding var topTab: TopTab
-    @State private var isClickedOnReady = false
+    @State private var isAnswerViewPresented = false
     @State private var isBottomSheetPresented = false
     @State private var isAlertViewPresented = false
     @State private var isReportViewPresented = false
+    @State private var isTodayAnswerViewPresented = false
     
     var body: some View {
         ZStack {
@@ -70,9 +71,9 @@ struct TodayQuestionView: View {
                         
                         HeaderView(viewModel: viewModel)
                         
-                        HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isClickedOnReady)
+                        HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isAnswerViewPresented)
                         
-                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
+                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented, isTodayAnswerViewPresented: $isTodayAnswerViewPresented)
                     }
                 }
                 .scrollIndicators(.hidden)
@@ -80,7 +81,7 @@ struct TodayQuestionView: View {
             .background(Background.second)
             .navigationBarBackButtonHidden()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(isPresented: $isClickedOnReady) {
+            .navigationDestination(isPresented: $isAnswerViewPresented) {
                 AnswerView()
             }
             .navigationDestination(isPresented: $isReportViewPresented) {
@@ -88,6 +89,9 @@ struct TodayQuestionView: View {
             }
             .navigationDestination(isPresented: $isAlertViewPresented) {
                 AlertView()
+            }
+            .navigationDestination(isPresented: $isTodayAnswerViewPresented) {
+                TodayAnswerView()
             }
         }
     }
@@ -244,15 +248,18 @@ private struct AnswerPreview: View {
     @ObservedObject private var viewModel: TodayQuestionViewModel
     @Binding private var isBottomSheetPresented: Bool
     @Binding private var isReportViewPresented: Bool
+    @Binding private var isTodayAnswerViewPresented: Bool
     
     fileprivate init(
         viewModel: TodayQuestionViewModel,
         isBottomSheetPresented: Binding<Bool>,
-        isReportViewPresented: Binding<Bool>
+        isReportViewPresented: Binding<Bool>,
+        isTodayAnswerViewPresented: Binding<Bool>
     ) {
         self.viewModel = viewModel
         self._isBottomSheetPresented = isBottomSheetPresented
         self._isReportViewPresented = isReportViewPresented
+        self._isTodayAnswerViewPresented = isTodayAnswerViewPresented
     }
     
     fileprivate var body: some View {
@@ -280,7 +287,7 @@ private struct AnswerPreview: View {
                         
                         Spacer()
                         
-                        SeeAllButton()
+                        SeeAllButton(isTodayAnswerViewPresented: $isTodayAnswerViewPresented)
                     }
                 }
                 .padding(.horizontal, 24)

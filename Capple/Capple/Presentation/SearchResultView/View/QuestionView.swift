@@ -11,6 +11,7 @@ struct QuestionView: View {
     @State private var likeCount = 32
     
     @Binding var isTodayAnswerViewPresented: Bool
+    @Binding var isAnswerViewPresented: Bool
     
 //    @State private var isComment = false
 //    @State private var commentCount = 48
@@ -123,7 +124,7 @@ struct QuestionView: View {
                 Spacer()
                 
                 Button {
-                    // TODO: 답변하기 페이지 이동
+                    isAnswerViewPresented.toggle()
                 } label: {
                     Text("답변하기")
                         .font(.pretendard(.medium, size: 14))
@@ -154,6 +155,8 @@ struct QuestionView: View {
             keywords: [.init(name: "무자비"), .init(name: "당근맨"), .init(name: "와플대학")],
             likes: 38,
             comments: 185
-        ), seeMoreAction: {}, isTodayAnswerViewPresented: .constant(false)
+        ), seeMoreAction: {},
+           isTodayAnswerViewPresented: .constant(false),
+           isAnswerViewPresented: .constant(false)
     )
 }
