@@ -10,6 +10,7 @@ struct SearchResultView: View {
     @State private var isBottomSheetPresented = false
     @State private var isAlertViewPresented = false
     @State private var isReportViewPresented = false
+    @State private var isTodayAnswerViewPresented = false
     
 //    // 뷰 모델을 초기화하는 생성자입니다.
 //    init(viewModel: QuestionViewModel = QuestionViewModel()) {
@@ -75,7 +76,8 @@ struct SearchResultView: View {
                 QuestionListView(
                     viewModel: viewModel,
                     isBottomSheetPresented: $isBottomSheetPresented,
-                    isReportViewPresented: $isReportViewPresented
+                    isReportViewPresented: $isReportViewPresented,
+                    isTodayAnswerViewPresented: $isTodayAnswerViewPresented
                 )
             }
         }
@@ -85,6 +87,9 @@ struct SearchResultView: View {
         }
         .navigationDestination(isPresented: $isReportViewPresented) {
             ReportView()
+        }
+        .navigationDestination(isPresented: $isTodayAnswerViewPresented) {
+            TodayAnswerView()
         }
         
         // .searchable(text: $searchText, prompt: "검색어를 입력하세요") // 검색 기능을 추가합니다.
@@ -150,11 +155,13 @@ private struct QuestionListView: View {
     @ObservedObject private var viewModel: QuestionViewModel
     @Binding var isBottomSheetPresented: Bool
     @Binding var isReportViewPresented: Bool
+    @Binding var isTodayAnswerViewPresented: Bool
     
-    fileprivate init(viewModel: QuestionViewModel, isBottomSheetPresented: Binding<Bool>, isReportViewPresented: Binding<Bool>) {
+    fileprivate init(viewModel: QuestionViewModel, isBottomSheetPresented: Binding<Bool>, isReportViewPresented: Binding<Bool>, isTodayAnswerViewPresented: Binding<Bool>) {
         self.viewModel = viewModel
         self._isBottomSheetPresented = isBottomSheetPresented
         self._isReportViewPresented = isReportViewPresented
+        self._isTodayAnswerViewPresented = isTodayAnswerViewPresented
     }
     
     var body: some View {
@@ -200,7 +207,7 @@ private struct QuestionListView: View {
                         VStack {
                             QuestionView(question: question, seeMoreAction: {
                                 isBottomSheetPresented.toggle()
-                            })
+                            }, isTodayAnswerViewPresented: $isTodayAnswerViewPresented)
                             .padding(.horizontal, 24)
                             .sheet(isPresented: $isBottomSheetPresented) {
                                 SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)

@@ -16,9 +16,22 @@ struct TodayAnswerView: View {
         
 
     var body: some View {
-        NavigationView {
             
             VStack(alignment: .leading) {
+                
+                CustomNavigationBar(
+                    leadingView:{
+                        CustomNavigationBackButton(buttonType: .arrow)
+                    },
+                    principalView: {
+                        Text("오늘의 질문")
+                            .font(Font.pretendard(.semiBold, size: 15))
+                            .foregroundStyle(TextLabel.main)
+                    },
+                    trailingView: {},
+                    backgroundColor: .clear
+                )
+                
                 // 키워드 스크롤 뷰
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
@@ -133,16 +146,16 @@ struct TodayAnswerView: View {
                     }
                 }
             }
-            .navigationBarTitle("오늘의 질문", displayMode: .inline)
-            .navigationBarItems(leading: Button(action: {}) {
-                Image(systemName: "arrow.left")
-                    .foregroundColor(.white)
-            }, trailing: Button(action: {}) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.white)
-            })
             .background(Color.Background.first)
-        }
+            .navigationBarBackButtonHidden()
+//            .navigationBarTitle("오늘의 질문", displayMode: .inline)
+//            .navigationBarItems(leading: Button(action: {}) {
+//                Image(systemName: "arrow.left")
+//                    .foregroundColor(.white)
+//            }, trailing: Button(action: {}) {
+//                Image(systemName: "magnifyingglass")
+//                    .foregroundColor(.white)
+//            })
     }
 }
 
