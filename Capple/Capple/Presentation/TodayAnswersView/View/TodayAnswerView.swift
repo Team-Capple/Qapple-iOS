@@ -79,7 +79,7 @@ private struct KeywordScrollView: View {
 private struct FloatingQuestionCard: View {
     
     @ObservedObject var viewModel: TodayAnswersViewModel
-    @State private var isCardExpanded: Bool = true
+    @State private var isCardExpanded = true
     
     fileprivate init(viewModel: TodayAnswersViewModel) {
         self.viewModel = viewModel
@@ -88,13 +88,10 @@ private struct FloatingQuestionCard: View {
     var body: some View {
         if isCardExpanded { // 카드가 확장되어 있는 경우에만 내용을 보여줍니다.
             HStack {
-                Image(systemName: "q.circle.fill") // Q 아이콘 추가
-                    .foregroundColor(.white)
-                    .padding(.leading, 5)
-                
-                Text(viewModel.todayQuestion)
-                    .font(.system(size: 17, weight: .regular))
-                    .foregroundColor(.white)
+                Text(viewModel.todayQuestionText)
+                    .font(.pretendard(.semiBold, size: 15))
+                    .foregroundStyle(TextLabel.main)
+                    .padding(.leading, 12)
                 
                 Spacer() // 화살표를 오른쪽으로 밀어내기 위해 Spacer 추가
                 
@@ -106,15 +103,14 @@ private struct FloatingQuestionCard: View {
                     Image(systemName: "chevron.up") // 위쪽 화살표 아이콘 추가
                         .foregroundColor(.white)
                 }
-                .padding(.trailing, 5)
+                .padding(.trailing, 12)
             }
-            .padding()
             .frame(maxWidth: .infinity)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
             .background(Color.Background.second)
-            .cornerRadius(15)
-            .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
-            .padding(.horizontal)
-            .padding(.top, 20)
+            .cornerRadius(12)
+            // .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
         } else { // 카드가 축소되어 있는 경우, 확장 버튼만 보여줍니다.
             Button(action: {
                 withAnimation {
