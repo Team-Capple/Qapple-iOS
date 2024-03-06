@@ -299,14 +299,15 @@ private struct AnswerPreview: View {
                 
                 ForEach(viewModel.answerList, id: \.self) { _ in
                     VStack(spacing: 24) {
-                        AnswerCell() {
+                        
+                        AnswerCell(profileName: "튼튼한 당근", answer: "", keywords: []) {
                             isBottomSheetPresented.toggle()
                         }
-                            .padding(.horizontal, 24)
-                            .sheet(isPresented: $isBottomSheetPresented) {
-                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
-                                    .presentationDetents([.height(84)])
-                            }
+                        .padding(.horizontal, 24)
+                        .sheet(isPresented: $isBottomSheetPresented) {
+                            SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
+                                .presentationDetents([.height(84)])
+                        }
                         
                         Separator()
                             .padding(.leading, 24)

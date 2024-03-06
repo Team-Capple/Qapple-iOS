@@ -18,6 +18,10 @@ struct TodayAnswerView: View {
             Spacer()
                 .frame(height: 16)
             FloatingQuestionCard(viewModel: viewModel)
+            
+            Spacer()
+                .frame(height: 32)
+
             AnswerScrollView(viewModel: viewModel)
         }
         .navigationBarBackButtonHidden()
@@ -69,7 +73,7 @@ private struct KeywordScrollView: View {
                         }
                 }
             }
-            .padding(.horizontal)
+            .padding(.horizontal, 20)
         }
     }
 }
@@ -105,7 +109,7 @@ private struct FloatingQuestionCard: View {
                     .foregroundColor(.white)
             }
         }
-        .padding(16)
+        .padding(14)
         .frame(maxWidth: .infinity)
         .background(GrayScale.secondaryButton)
         .cornerRadius(15)
@@ -128,28 +132,61 @@ private struct AnswerScrollView: View {
         
         ScrollView(.vertical, showsIndicators: true) {
             LazyVStack {
-                ForEach(Array(viewModel.answers.enumerated()), id:\.offset) { index, answer in
-                    GeometryReader { geometry in
-                        let frame = geometry.frame(in: .global)
-                        let midY = frame.midY
-                        let screenHeight = UIScreen.main.bounds.height
-                        let scale = min(1.0, 1 - abs(midY - screenHeight / 2) / (screenHeight / 2))
-                        SingleAnswerView(answer: answer)
-                            .scaleEffect(scale) // 중앙에 위치할수록 더 크게 표시
-                            .frame(height: self.cardHeight)
-                            .padding()
-                            .onAppear {
-                                viewModel.loadMoreContentIfNeeded(currentIndex: index)
+                
+                ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
+                    VStack(spacing: 24) {
+                        
+                        AnswerCell(
+                            profileName: answer.nickname ?? "닉네임",
+                            answer: answer.content ?? "콘텐츠",
+                            keywords: viewModel.keywords,
+                            seeMoreAction: {
+                                
                             }
+                        )
+                        .padding(.horizontal, 24)
+                        
+//                        AnswerCell() {
+//                            // isBottomSheetPresented.toggle()
+//                        }
+//                            .padding(.horizontal, 24)
+//                            .sheet(isPresented: $isBottomSheetPresented) {
+//                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
+//                                    .presentationDetents([.height(84)])
+//                            }
+                        
+                        Separator()
+                            .padding(.leading, 24)
                     }
-                }.frame(height: self.cardHeight) // GeometryReader에도 높이 설정
+                    .padding(.bottom, 16)
+                }
+                
+
+                // MARK: - 기존 현희 누나 코드
+//                ForEach(Array(viewModel.answers.enumerated()), id:\.offset) { index, answer in
+//                    GeometryReader { geometry in
+//                        let frame = geometry.frame(in: .global)
+//                        let midY = frame.midY
+//                        let screenHeight = UIScreen.main.bounds.height
+//                        let scale = min(1.0, 1 - abs(midY - screenHeight / 2) / (screenHeight / 2))
+//                        SingleAnswerView(answer: answer)
+//                            .scaleEffect(scale) // 중앙에 위치할수록 더 크게 표시
+//                            .frame(height: self.cardHeight)
+//                            .padding()
+//                            .onAppear {
+//                                viewModel.loadMoreContentIfNeeded(currentIndex: index)
+//                            }
+//                    }
+//                }
+//                .frame(height: self.cardHeight) // GeometryReader에도 높이 설정
+
+                // 로딩 화면
                 if viewModel.isLoading {
                     ProgressView()
                         .scaleEffect(1.5)
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         .padding(.vertical, 20)
                 }
-                
             }
         }
     }
