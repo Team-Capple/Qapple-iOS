@@ -11,11 +11,9 @@ import FlexView
 struct AnswerCell: View {
     
     var profileImageText = "튼"
-    var profileName = "튼튼한 당근"
-    
-    var answer = "생각이 깊고 마음이 따뜻한 사람이 좋은 것 같아요. 함께 프로젝트를 진행하며 믿고 의지할 수 있자나요 생각이 깊고 마음이 따뜻한 사람이 좋은 것 같아요."
-    
-    var keywords = ["와플유니버시티", "당근맨", "무자비", "잔망루피", "애플", "아카데미", "디벨로퍼", "디자이너"]
+    var profileName: String
+    var answer: String
+    var keywords: [String]
     
     var likeCount = 32
     
@@ -103,6 +101,13 @@ struct AnswerCell: View {
         Color(Background.first)
             .ignoresSafeArea()
         
-        AnswerCell(seeMoreAction: {})
+        AnswerCell(profileName: "튼튼한 당근",
+                   answer: "겨울에 먹었던 따뜻하고 얼큰한 매콤 쌀국수가 떠올라!",
+                   keywords: [
+                    "와플유니버시티",
+                    "쌀국수"
+                   ],
+                   seeMoreAction: {
+        })
     }
 }
