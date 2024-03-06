@@ -45,9 +45,6 @@ private struct CustomNavigationView: View {
         )
     }
     
-    
-    
-    
     // MARK: - 키워드 스크롤 뷰
     private struct KeywordScrollView: View {
         
@@ -73,9 +70,10 @@ private struct CustomNavigationView: View {
                 .padding(.horizontal)
             }
         }
-        
     }
-}// MARK: - 플로팅 질문 카드
+}
+
+// MARK: - 플로팅 질문 카드
 private struct FloatingQuestionCard: View {
     
     @ObservedObject var viewModel: TodayAnswersViewModel
@@ -86,49 +84,31 @@ private struct FloatingQuestionCard: View {
     }
     
     var body: some View {
-        if isCardExpanded { // 카드가 확장되어 있는 경우에만 내용을 보여줍니다.
-            HStack {
-                Text(viewModel.todayQuestionText)
-                    .font(.pretendard(.semiBold, size: 15))
-                    .foregroundStyle(TextLabel.main)
-                    .padding(.leading, 12)
-                
-                Spacer() // 화살표를 오른쪽으로 밀어내기 위해 Spacer 추가
-                
-                Button(action: {
-                    withAnimation {
-                        isCardExpanded.toggle() // 버튼 클릭 시 카드 확장/축소 상태 토글
-                    }
-                }) {
-                    Image(systemName: "chevron.up") // 위쪽 화살표 아이콘 추가
-                        .foregroundColor(.white)
-                }
-                .padding(.trailing, 5)
-            }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.Background.second)
-            .cornerRadius(15)
-            .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
-            .padding(.horizontal)
-            .padding(.top, 20)
-        } else { // 카드가 축소되어 있는 경우, 확장 버튼만 보여줍니다.
-            Button(action: {
+        
+        HStack {
+            Text(viewModel.todayQuestionText)
+                .font(.pretendard(.semiBold, size: 15))
+                .foregroundStyle(TextLabel.main)
+                .lineLimit(isCardExpanded ? 3 : 0)
+            
+            Spacer() // 화살표를 오른쪽으로 밀어내기 위해 Spacer 추가
+            
+            Button {
                 withAnimation {
                     isCardExpanded.toggle() // 버튼 클릭 시 카드 확장/축소 상태 토글
                 }
-            }) {
-                Image(systemName: "chevron.down") // 아래쪽 화살표 아이콘으로 변경
+            } label: {
+                Image(isCardExpanded ? .arrowUp : .arrowDown)
+                    .resizable()
+                    .frame(width: 28, height: 28)
                     .foregroundColor(.white)
-                    .padding()
-                    .background(Color.Background.second)
-                    .cornerRadius(15)
-                    .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.horizontal)
             }
         }
-        
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .background(GrayScale.secondaryButton)
+        .cornerRadius(15)
+        .padding(.horizontal, 20)
     }
     
 }
@@ -174,9 +154,6 @@ private struct AnswerScrollView: View {
     }
 }
 
-struct TodayAnswerView_Previews: PreviewProvider {
-    static var previews: some View {
-        TodayAnswerView()
-    }
+#Preview {
+    TodayAnswerView()
 }
-
