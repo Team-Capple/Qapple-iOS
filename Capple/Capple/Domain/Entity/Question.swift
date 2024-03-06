@@ -10,4 +10,3 @@ struct Question: Identifiable, Codable {
     var likes: Int
     var comments: Int
 }
-
