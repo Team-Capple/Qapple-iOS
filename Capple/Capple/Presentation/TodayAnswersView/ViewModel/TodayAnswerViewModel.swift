@@ -88,8 +88,8 @@ class TodayAnswersViewModel: ObservableObject {
             }
         }
 */
-    }
-}
+    
+
 
 // MARK: - 텍스트 반환
 extension TodayAnswersViewModel {
