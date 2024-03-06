@@ -88,3 +88,18 @@ class TodayAnswersViewModel: ObservableObject {
             }
         }
 */
+    }
+}
+
+// MARK: - 텍스트 반환
+extension TodayAnswersViewModel {
+    
+    /// 오늘의 질문 텍스트를 반환합니다.
+    var todayQuestionText: AttributedString {
+        var questionMark = AttributedString("Q. ")
+        questionMark.foregroundColor = BrandPink.text
+        let creatingText = AttributedString("\(todayQuestion)")
+        return questionMark + creatingText
+    }
+}
+

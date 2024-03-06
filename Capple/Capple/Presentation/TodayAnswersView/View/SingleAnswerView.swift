@@ -48,3 +48,14 @@ struct SingleAnswerView: View {
     }
 }
 
+#Preview {
+    SingleAnswerView(
+        answer: .init(
+            id: 0,
+            name: "",
+            content: "",
+            tags: [],
+            likes: 0
+        )
+    )
+}
