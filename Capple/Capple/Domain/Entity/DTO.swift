@@ -8,7 +8,7 @@
 import Foundation
 
 /// 질문
-struct NewQuestion: Identifiable & Codable {
+struct NewQuestion: Identifiable, Codable {
     let id: Int // 키값
     let content: String // 질문 내용
     let questionStatus: String // 상태
@@ -20,7 +20,7 @@ struct NewQuestion: Identifiable & Codable {
 }
 
 /// 답변
-struct NewAnswer: Identifiable & Codable {
+struct NewAnswer: Identifiable, Codable {
     let id: Int // 키값
     let memberId: Int // 멤버 키
     let questionId: Int // 질문 키
@@ -32,7 +32,7 @@ struct NewAnswer: Identifiable & Codable {
 }
 
 /// 사용자
-struct Member: Identifiable & Codable {
+struct Member: Identifiable, Codable {
     let id: Int // 키값
     let nickname: String // 닉네임
     let email: String // 학생증 이메일
@@ -43,7 +43,7 @@ struct Member: Identifiable & Codable {
 }
 
 /// 사용자 프로필 이미지
-struct MemberProfileImage: Identifiable & Codable {
+struct MemberProfileImage: Identifiable, Codable {
     let id: Int // 키값
     let imageUrl: String // 접근 URL
     let inUse: Bool // 사용 상태
@@ -53,31 +53,33 @@ struct MemberProfileImage: Identifiable & Codable {
     let deletedAt: Date // 삭제 시각
 }
 
-struct Tag: Identifiable & Codable {
+/// 태그(키워드)
+struct Tag: Identifiable, Codable {
     let id: Int // 키값
     let content: String // 태그 이름
-    let count: Int // 태극 사용된 횟수
+    let count: Int // 태그 사용된 횟수
     let answerId: Int // 답변 키
     let questionId: Int // 질문 키
 }
 
 /// 질문 좋아요
-struct QuestionHeart: Identifiable & Codable {
+struct QuestionHeart: Identifiable, Codable {
     let id: Int // 키값
     let memberId: Int // 멤버 키
     let questionId: Int // 질문 키
 }
 
 /// 답변 좋아요
-struct AnswerHeart: Identifiable & Codable {
+struct AnswerHeart: Identifiable, Codable {
     let id: Int // 키값
     let answerId: Int // 답변 키
     let memberId: Int // 멤버 키
 }
 
+/// 질문 상태
 enum QuestionStatus: String {
     case live = "LIVE" // 진행중
     case old = "OLD" // 종료
-    case hold = "HOLD" // 대기?
-    case pending = "PENDING" // 대기?
+    case hold = "HOLD" // 질문 건의 대기
+    case pending = "PENDING" // 질문 건의 승인
 }
