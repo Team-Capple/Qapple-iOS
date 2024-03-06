@@ -14,6 +14,9 @@ struct TodayAnswerView: View {
     var body: some View {
         VStack(alignment: .leading) {
             CustomNavigationView()
+            KeywordScrollView(viewModel: viewModel)
+            Spacer()
+                .frame(height: 16)
             FloatingQuestionCard(viewModel: viewModel)
             AnswerScrollView(viewModel: viewModel)
         }
@@ -44,31 +47,29 @@ private struct CustomNavigationView: View {
             backgroundColor: .clear
         )
     }
+}
+
+// MARK: - 키워드 스크롤 뷰
+private struct KeywordScrollView: View {
     
-    // MARK: - 키워드 스크롤 뷰
-    private struct KeywordScrollView: View {
-        
-        @ObservedObject var viewModel: TodayAnswersViewModel
-        
-        fileprivate init(viewModel: TodayAnswersViewModel) {
-            self.viewModel = viewModel
-        }
-        
-        var body: some View {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(viewModel.keywords, id: \.self) { keyword in
-                        Text(keyword)
-                            .font(.system(size: 14, weight: .medium))
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 16)
-                            .background(Color.Background.second)
-                            .cornerRadius(20)
-                            .foregroundColor(.white)
-                    }
+    @ObservedObject var viewModel: TodayAnswersViewModel
+    
+    fileprivate init(viewModel: TodayAnswersViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(viewModel.keywords, id: \.self) { keyword in
+                    KeywordSelector(
+                        keywordText: keyword,
+                        keywordCount: 13) {
+                            // TODO: 키워드 선택
+                        }
                 }
-                .padding(.horizontal)
             }
+            .padding(.horizontal)
         }
     }
 }
