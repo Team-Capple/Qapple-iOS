@@ -10,8 +10,7 @@ import SwiftUI
 
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct SingleAnswerView: View {
-    var answer: SingleAnswer // 이 뷰에서 사용할 질문 객체입니다.
-
+    var answer: Answer
     var body: some View {
         VStack(alignment: .leading, spacing: 10) { // 세로 스택을 사용해 요소들을 정렬합니다.
             
@@ -22,37 +21,22 @@ struct SingleAnswerView: View {
                                 .frame(width: 50, height: 50) // 이미지의 크기를 설정합니다.
                                 .clipShape(Circle()) // 이미지를 원형으로 자릅니다.
                                 .padding(.trailing, 10) // 이미지와 이름 사이의 간격을 설정합니다.
-                            
-                            Text(answer.name) // 질문의 제목을 표시합니다.
+               
+                Text(answer.nickname ?? "nickname") // 유저 닉네임 표시합니다.
                                 .foregroundColor(.white) // 글자 색상을 흰색으로 설정합니다.
                                 .font(.title3) // 글자 크기를 설정합니다.
                                 .fontWeight(.bold) // 글자 두께를 굵게 설정합니다.
-                        }
-            
-            Text("\(answer.content) This is Description and contents") // 좋아요 수
-                .foregroundColor(.gray) // 글자 색상을 회색으로 설정합니다.
-                .font(.caption) // 작은 글자 크기로 설정
-            
-            Text("\(answer.likes) likes") // 좋아요 수
-                .foregroundColor(.gray) // 글자 색상을 회색으로 설정합니다.
-                .font(.caption) // 작은 글자 크기로 설정합니다.
-            
-            Divider().background(Color.gray) // 구분선을 추가합니다.
-            
-            
-            
-            HStack { // 가로 스택을 사용해 태그를 나열합니다.
-                ForEach(answer.tags, id: \.self) { tag in
-                    Text("#\(tag)") // 각 태그를 표시합니다.
-                        .foregroundColor(.blue) // 글자 색상을 파란색으로 설정합니다.
-                        .font(.caption) // 작은 글자 크기로 설정합니다.
+                VStack {
+                    Text(answer.tags ?? "tags") .foregroundColor(.gray) // 글자 색상을 회색으로 설정합니다.
+                            .font(.caption) // 작은 글자 크기로 설정합니다.
+                            
                 }
             }
-            
+            Divider().background(Color.gray) // 구분선을 추가합니다.
             HStack { // 좋아요와 댓글 아이콘을 가로로 나열합니다.
                 Image(systemName: "heart.fill") // 좋아요 아이콘을 표시합니다.
                     .foregroundColor(.red) // 아이콘 색상을 빨간색으로 설정합니다.
-                Text("\(answer.likes)") // 좋아요 수를 표시합니다.
+                Text(answer.content ?? "content") // 좋아요 수를 표시합니다.
                     .foregroundColor(.white) // 글자 색상을 흰색으로 설정합니다.
                     .font(.subheadline) // 약간 작은 글자 크기로 설정합니다.
             }

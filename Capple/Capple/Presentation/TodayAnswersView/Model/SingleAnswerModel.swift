@@ -5,13 +5,24 @@
 //  Created by ShimHyeonhee on 3/3/24.
 //
 
+
 import Foundation
-struct SingleAnswer: Identifiable {
-    var id: Int
-    var name: String
-    var content: String
-    var tags: [String]
-    var likes: Int
-    // 여기에 더 많은 필드를 추가할 수 있습니다.
+
+struct ServerResponse: Codable {
+    let timeStamp: String
+    let code: String
+    let message: String
+    let result: AnswerResult
 }
 
+struct AnswerResult: Codable {
+    var answerInfos: [Answer]
+}
+
+struct Answer: Codable {
+    var profileImage: String?
+    var nickname: String?
+    var content: String?
+    var tags: String?
+    
+}
