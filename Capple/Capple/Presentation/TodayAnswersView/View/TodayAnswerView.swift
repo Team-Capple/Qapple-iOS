@@ -10,28 +10,19 @@ import SwiftUI
 struct TodayAnswerView: View {
     
     @ObservedObject var viewModel = TodayAnswersViewModel()
-    let cardHeight: CGFloat = 150 // 답변 카드의 높이를 정의합니다.
-    @State private var isCardExpanded: Bool = true // 플로팅 카드 확장/축소 상태 관리를 위한 상태 변수 추가
+    
     var body: some View {
-        NavigationView {
-            VStack(alignment: .leading) {
-                // 키워드 스크롤 뷰
-                CustomNavigationView() // CustomNavigationView를 가장 상단에 위치시킵니다.
-                               
-                // KeywordScrollView(viewModel: viewModel)
-                // 플로팅 질문 카드
-                FloatingQuestionCard(viewModel: viewModel)
-                // 답변 스크롤 뷰
-                AnswerScrollView(viewModel: viewModel)
-                
-            }
-            .navigationBarHidden(false)
-            .background(Color.Background.first)
+        VStack(alignment: .leading) {
+            CustomNavigationView()
+            FloatingQuestionCard(viewModel: viewModel)
+            AnswerScrollView(viewModel: viewModel)
         }
+        .navigationBarBackButtonHidden()
+        .background(Color.Background.first)
     }
 }
 
-                // MARK: - 커스텀 네비게이션
+// MARK: - 커스텀 네비게이션
 private struct CustomNavigationView: View {
     var body: some View {
         CustomNavigationBar(
@@ -53,11 +44,11 @@ private struct CustomNavigationView: View {
             backgroundColor: .clear
         )
     }
-                    
-                
-                
-                
-                // MARK: - 키워드 스크롤 뷰
+    
+    
+    
+    
+    // MARK: - 키워드 스크롤 뷰
     private struct KeywordScrollView: View {
         
         @ObservedObject var viewModel: TodayAnswersViewModel
@@ -142,7 +133,7 @@ private struct FloatingQuestionCard: View {
     
 }
 
-        // MARK: - 답변 스크롤 뷰
+// MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
     
     @ObservedObject var viewModel: TodayAnswersViewModel
@@ -153,39 +144,39 @@ private struct AnswerScrollView: View {
     }
     
     var body: some View {
- 
-            ScrollView(.vertical, showsIndicators: true) {
-                LazyVStack {
-                    ForEach(Array(viewModel.answers.enumerated()), id:\.offset) { index, answer in
-                        GeometryReader { geometry in
-                            let frame = geometry.frame(in: .global)
-                            let midY = frame.midY
-                            let screenHeight = UIScreen.main.bounds.height
-                            let scale = min(1.0, 1 - abs(midY - screenHeight / 2) / (screenHeight / 2))
-                            SingleAnswerView(answer: answer)
-                                .scaleEffect(scale) // 중앙에 위치할수록 더 크게 표시
-                                .frame(height: self.cardHeight)
-                                .padding()
-                                .onAppear {
-                                    viewModel.loadMoreContentIfNeeded(currentIndex: index)
-                                }
-                        }
-                    }.frame(height: self.cardHeight) // GeometryReader에도 높이 설정
-                    if viewModel.isLoading {
-                        ProgressView()
-                            .scaleEffect(1.5)
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .padding(.vertical, 20)
+        
+        ScrollView(.vertical, showsIndicators: true) {
+            LazyVStack {
+                ForEach(Array(viewModel.answers.enumerated()), id:\.offset) { index, answer in
+                    GeometryReader { geometry in
+                        let frame = geometry.frame(in: .global)
+                        let midY = frame.midY
+                        let screenHeight = UIScreen.main.bounds.height
+                        let scale = min(1.0, 1 - abs(midY - screenHeight / 2) / (screenHeight / 2))
+                        SingleAnswerView(answer: answer)
+                            .scaleEffect(scale) // 중앙에 위치할수록 더 크게 표시
+                            .frame(height: self.cardHeight)
+                            .padding()
+                            .onAppear {
+                                viewModel.loadMoreContentIfNeeded(currentIndex: index)
+                            }
                     }
+                }.frame(height: self.cardHeight) // GeometryReader에도 높이 설정
+                if viewModel.isLoading {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .padding(.vertical, 20)
+                }
                 
             }
         }
     }
 }
-                    
+
 struct TodayAnswerView_Previews: PreviewProvider {
     static var previews: some View {
         TodayAnswerView()
     }
 }
-                
+
