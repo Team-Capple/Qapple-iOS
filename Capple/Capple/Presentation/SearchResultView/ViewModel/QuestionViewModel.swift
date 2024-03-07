@@ -3,12 +3,12 @@ import Combine
 
 // 질문 데이터를 관리하는 ViewModel
 class QuestionViewModel: ObservableObject {
-    @Published var filteredQuestions: [Question] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
+    @Published var filteredQuestions: [Questions] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     
-    @Published var questions: [Question] = [] // 모든 질문의 목록입니다.
+    @Published var questions: [Questions] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
-    
-    @Published var questionMockDatas: [Question] = [
+    /*
+    @Published var questionMockDatas: [Questions] = [
         .init(
             id: 0,
             timeZone: .am,
@@ -42,9 +42,7 @@ class QuestionViewModel: ObservableObject {
             comments: 185
         )
     ]
-    
-    private var currentPage = 0 // 현재 로드된 페이지 번호입니다.
-    private let pageSize = 15 // 한 번에 로드할 데이터의 양입니다.
+    */
     
     @Published var searchQuery = ""
 
@@ -52,9 +50,51 @@ class QuestionViewModel: ObservableObject {
     // private var cancellables: Set<AnyCancellable> = []
 
     init() {
-        loadMoreContent() // 초기 데이터 로딩
+        getQuestions() // 초기 데이터 로딩
 
     }
+    
+    
+    func getQuestions() {
+           guard let url = URL(string: "http://43.203.126.187:8080/questions") else { return }
+        print("start")
+           URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+               DispatchQueue.main.async {
+                   guard let self = self else { return }
+                   if let error = error {
+                       print("Error submitting questions: \(error)")
+                       return
+                   }
+                   guard let data = data else {
+                       print("No data in response")
+                       return
+                   }
+                   do {
+                       let decodedData = try JSONDecoder().decode(QuestionsResponse.self, from: data)
+                       let newQuestions = decodedData.result
+                       self.questions.append(contentsOf: newQuestions)                       
+                       print(self.questions)
+                   } catch {
+                       print("Error decoding response: \(error)")
+                   }
+               }
+           }.resume()
+       }
+    func loadMoreContentIfNeeded(currentIndex index: Int) {
+        // 배열의 마지막에서 5번째 인덱스를 계산합니다.
+        // 이 값은 더 많은 내용을 로드해야 하는 "임계 인덱스"가 됩니다.
+        let thresholdIndex = questions.count - 10
+        // 현재 인덱스가 임계 인덱스보다 크거나 같으면 추가 데이터를 로드합니다.
+        if index >= thresholdIndex {
+            getQuestions()
+        }
+    }
+
+
+    
+// MARK: - 이전코드
+    /*
+    
     // 필요에 따라 추가 콘텐츠를 로드합니다.
     func loadMoreContentIfNeeded(currentItem item: Question?) {
         guard let item = item, !isLoading else { return }
@@ -94,25 +134,26 @@ class QuestionViewModel: ObservableObject {
             self.currentPage += 1
         }
     }
-    
+    */
+
     // 검색 쿼리에 따라 질문 목록을 필터링합니다.
     func filterQuestions(with searchText : String) {
         print("\(searchText)")
         if searchText.isEmpty {
             filteredQuestions =  self.questions
-
         } else {
             filteredQuestions = self.questions.filter { question in
-                question.title.localizedCaseInsensitiveContains(searchText) ||
-                // question.detail.localizedCaseInsensitiveContains(searchText) ||
-                question.keywords.contains(where: { $0.name.localizedCaseInsensitiveContains(searchText) })
+                if let content = question.content {
+                    return content.contains(searchText)
+                } else {
+                    return false
+                }
             }
         }
-
-
     }
-    
- /*   func initiate(with searchText : String) {
+
+    /*
+   func initiate(with searchText : String) {
         $searchQuery
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .removeDuplicates()
@@ -123,8 +164,9 @@ class QuestionViewModel: ObservableObject {
     }
   */
 }
+
 extension QuestionViewModel {
     func reloadQuestions() {
-       loadMoreContent()
+       getQuestions()
     }
 }
