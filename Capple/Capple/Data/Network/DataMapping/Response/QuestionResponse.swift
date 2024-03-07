@@ -10,7 +10,7 @@ import Foundation
 struct QuestionResponse {
     
     /// 메인 질문 조회 Response
-    struct AllQuestions: Codable {
+    struct MainQuestions: Codable {
         let questionId: Int
         let questionStatus: String
         let content: String
