@@ -3,9 +3,9 @@ import Combine
 
 // 질문 데이터를 관리하는 ViewModel
 class QuestionViewModel: ObservableObject {
-    @Published var filteredQuestions: [QuestionsResponse] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
+    @Published var filteredQuestions: [Questions] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     
-    @Published var questions: [QuestionsResponse] = [] // 모든 질문의 목록입니다.
+    @Published var questions: [Questions] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     /*
     @Published var questionMockDatas: [Questions] = [
@@ -57,6 +57,7 @@ class QuestionViewModel: ObservableObject {
     
     func getQuestions() {
            guard let url = URL(string: "http://43.203.126.187:8080/questions") else { return }
+        print("start")
            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                DispatchQueue.main.async {
                    guard let self = self else { return }
@@ -69,8 +70,9 @@ class QuestionViewModel: ObservableObject {
                        return
                    }
                    do {
-                       let decodedData = try JSONDecoder().decode(QuestionsResponse.self, from: data) // QuestionsResponse 형식으로 디코딩
-                       self.questions.append(decodedData) // 디코딩된 데이터의 result 속성을 questions 배열에 추가
+                       let decodedData = try JSONDecoder().decode(QuestionsResponse.self, from: data)
+                       let newQuestions = decodedData.result
+                       self.questions.append(contentsOf: newQuestions)                       
                        print(self.questions)
                    } catch {
                        print("Error decoding response: \(error)")
@@ -141,7 +143,7 @@ class QuestionViewModel: ObservableObject {
             filteredQuestions =  self.questions
         } else {
             filteredQuestions = self.questions.filter { question in
-                if let content = question.result.content {
+                if let content = question.content {
                     return content.contains(searchText)
                 } else {
                     return false

@@ -4,7 +4,7 @@ import FlexView
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionView: View {
     
-    var questions: QuestionsResponse // 이 뷰에서 사용할 질문 객체입니다.
+    var questions: Questions // 이 뷰에서 사용할 질문 객체입니다.
     let seeMoreAction: () -> Void
     
     @State private var isLike = false
@@ -24,7 +24,7 @@ struct QuestionView: View {
                 
                 
                 // MARK: - 현희코드
-                Text("\(questions.timeStamp)")
+                Text(questions.timeZone ?? "am")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
@@ -45,7 +45,7 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 4)
                 
-                Text("\(questions.result.date.fullDate)")
+                Text("\(questions.date.fullDate)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
@@ -53,7 +53,7 @@ struct QuestionView: View {
                     .frame(width: 8)
                 
                 // MARK: - 현희코드
-                Text(questions.result.state ?? "Default State")
+                Text(questions.state ?? "Default State")
                     .font(.pretendard(.bold, size: 9))
                     .foregroundStyle(.wh)
                     .padding(.horizontal, 6)
@@ -88,7 +88,7 @@ struct QuestionView: View {
                 .frame(height: 16)
             
             // MARK: - 본문
-            Text(questions.result.content ?? "Default Content") // 질문의 내용을 표시합니다.
+            Text(questions.content ?? "Default Content") // 질문의 내용을 표시합니다.
                 .font(.pretendard(.bold, size: 17))
                 .foregroundStyle(TextLabel.main)
             
@@ -97,7 +97,7 @@ struct QuestionView: View {
             
             
             // MARK: - 키워드
-            FlexView(data: questions.result.keywords, spacing: 8, alignment: .leading) { keyword in
+            FlexView(data: questions.keywords, spacing: 8, alignment: .leading) { keyword in
                 Text("#\(keyword)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(BrandPink.text)

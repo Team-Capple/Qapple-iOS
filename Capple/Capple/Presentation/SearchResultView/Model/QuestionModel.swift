@@ -13,7 +13,7 @@ struct QuestionsResponse: Codable,Identifiable {
     let timeStamp: String
     let code: String
     let message: String
-    let result: Questions
+    let result: [Questions]
 }
 
 struct Questions: Codable {
