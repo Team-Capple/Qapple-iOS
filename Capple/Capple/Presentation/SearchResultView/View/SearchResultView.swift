@@ -214,17 +214,15 @@ private struct QuestionListView: View {
             
             ScrollView {
                 LazyVStack {
-                    ForEach(viewModel.questionMockDatas) { question in
-                        VStack {
-                            QuestionView(question: question, seeMoreAction: {
-                                isBottomSheetPresented.toggle()
-                            }, isTodayAnswerViewPresented: $isTodayAnswerViewPresented, isAnswerViewPresented: $isAnswerViewPresented)
+                    ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
+                        VStack(spacing: 24) {
+                            QuestionView(questions: question, seeMoreAction: {},
+                                         isTodayAnswerViewPresented:  $isTodayAnswerViewPresented, isAnswerViewPresented: $isAnswerViewPresented)
                             .padding(.horizontal, 24)
                             .sheet(isPresented: $isBottomSheetPresented) {
                                 SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
                                     .presentationDetents([.height(84)])
                             }
-                            
                             Spacer()
                                 .frame(height: 16)
                             

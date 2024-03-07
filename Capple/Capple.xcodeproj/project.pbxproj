@@ -39,6 +39,7 @@
 		67B1850E2B9436450057E6BB /* TodayAnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1850D2B9436450057E6BB /* TodayAnswerViewModel.swift */; };
 		67B185112B9436C10057E6BB /* SingleAnswerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B185102B9436C10057E6BB /* SingleAnswerModel.swift */; };
 		67B185132B9453E30057E6BB /* SingleAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B185122B9453E30057E6BB /* SingleAnswerView.swift */; };
+		67F102952B994B0300DA17A4 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F102942B994B0300DA17A4 /* QuestionModel.swift */; };
 		82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790B2B93291C00CC7708 /* ReportView.swift */; };
 		82C3790E2B93292200CC7708 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790D2B93292200CC7708 /* ReportViewModel.swift */; };
 		82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790F2B9330BA00CC7708 /* ReportListRow.swift */; };
@@ -134,6 +135,7 @@
 		67B1850D2B9436450057E6BB /* TodayAnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAnswerViewModel.swift; sourceTree = "<group>"; };
 		67B185102B9436C10057E6BB /* SingleAnswerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAnswerModel.swift; sourceTree = "<group>"; };
 		67B185122B9453E30057E6BB /* SingleAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAnswerView.swift; sourceTree = "<group>"; };
+		67F102942B994B0300DA17A4 /* QuestionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
 		82C3790B2B93291C00CC7708 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		82C3790D2B93292200CC7708 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		82C3790F2B9330BA00CC7708 /* ReportListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListRow.swift; sourceTree = "<group>"; };
@@ -390,6 +392,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		67F102932B994AF000DA17A4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				67F102942B994B0300DA17A4 /* QuestionModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		82C379082B93290700CC7708 /* ReportView */ = {
 			isa = PBXGroup;
 			children = (
@@ -505,6 +515,7 @@
 		F37C17A02B889923005E5072 /* SearchResultView */ = {
 			isa = PBXGroup;
 			children = (
+				67F102932B994AF000DA17A4 /* Model */,
 				F37C17A52B88997E005E5072 /* ViewModel */,
 				F37C17A12B889941005E5072 /* View */,
 			);
@@ -945,6 +956,7 @@
 				82C379192B93483B00CC7708 /* AlertListRow.swift in Sources */,
 				82D583B72B9844E6003CC424 /* KeywordSelector.swift in Sources */,
 				67B185132B9453E30057E6BB /* SingleAnswerView.swift in Sources */,
+				67F102952B994B0300DA17A4 /* QuestionModel.swift in Sources */,
 				F37C179F2B88977E005E5072 /* Question.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEnpoints.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,

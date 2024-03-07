@@ -4,7 +4,7 @@ import FlexView
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionView: View {
     
-    var question: Question // 이 뷰에서 사용할 질문 객체입니다.
+    var questions: QuestionsResponse // 이 뷰에서 사용할 질문 객체입니다.
     let seeMoreAction: () -> Void
     
     @State private var isLike = false
@@ -21,10 +21,20 @@ struct QuestionView: View {
             
             // MARK: - 상단 날짜
             HStack(alignment: .center) {
-                Text("\(question.timeZone == .am || question.timeZone == .amCreate ? "오전" : "오후")질문")
+                
+                
+                // MARK: - 현희코드
+                Text("\(questions.timeStamp)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
+                
+                // MARK: - 민준코드
+                /*
+                Text("\(questions.timeZone == .am || questions.timeZone == .amCreate ? "오전" : "오후")질문")
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(GrayScale.icon)
+                */
                 Spacer()
                     .frame(width: 4)
                 
@@ -35,14 +45,25 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 4)
                 
-                Text("\(question.date.fullDate)")
+                Text("\(questions.result.date.fullDate)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
                 Spacer()
                     .frame(width: 8)
                 
-                if question.state == .ready || question.state == .complete {
+                // MARK: - 현희코드
+                Text(questions.result.state ?? "Default State")
+                    .font(.pretendard(.bold, size: 9))
+                    .foregroundStyle(.wh)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(Context.onAir)
+                    .cornerRadius(18, corners: .allCorners)
+
+                /*
+                // MARK: - 민준코드
+                if questions.result.state == .ready || questions.result.state == .complete {
                     Text("ON AIR")
                         .font(.pretendard(.bold, size: 9))
                         .foregroundStyle(.wh)
@@ -51,7 +72,7 @@ struct QuestionView: View {
                         .background(Context.onAir)
                         .cornerRadius(18, corners: .allCorners)
                 }
-                
+                */
                 Spacer()
                 
                 Button {
@@ -67,16 +88,17 @@ struct QuestionView: View {
                 .frame(height: 16)
             
             // MARK: - 본문
-            Text(question.title) // 질문의 제목을 표시합니다.
+            Text(questions.result.content ?? "Default Content") // 질문의 내용을 표시합니다.
                 .font(.pretendard(.bold, size: 17))
                 .foregroundStyle(TextLabel.main)
             
             Spacer()
                 .frame(height: 20)
             
+            
             // MARK: - 키워드
-            FlexView(data: question.keywords, spacing: 8, alignment: .leading) { keyword in
-                Text("#\(keyword.name)")
+            FlexView(data: questions.result.keywords, spacing: 8, alignment: .leading) { keyword in
+                Text("#\(keyword)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(BrandPink.text)
             }
@@ -144,9 +166,13 @@ struct QuestionView: View {
     }
 }
 
+
+
+// MARK: - 한톨 코드
+/*
 #Preview {
     QuestionView(
-        question: .init(
+        questions: .init(
             id: 0,
             timeZone: .am,
             date: Date(),
@@ -160,3 +186,4 @@ struct QuestionView: View {
            isAnswerViewPresented: .constant(false)
     )
 }
+*/
