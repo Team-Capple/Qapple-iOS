@@ -15,6 +15,12 @@ struct HomeView: View {
         switch topTab {
         case .answering:
             TodayQuestionView(topTab: $topTab)
+                .onAppear {
+                    Task {
+                        let tagSearch = try await NetworkManager.fetchSearchTag(request: .init(keyword: "키워드"))
+                        print(tagSearch)
+                    }
+                }
         case .collecting:
             SearchResultView(topTab: $topTab)
         }

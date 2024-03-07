@@ -14,14 +14,14 @@ enum ApiEndpoints {
     
     enum Path: String {
         case questions = "/questions"
+        case tagSearch = "/tags/search?"
     }
 }
 
 extension ApiEndpoints {
     
     /// 기본 URL 주소 문자열을 반환합니다.
-    static func basicURLString(path: ApiEndpoints.Path) -> URL? {
-        let url = URL(string: "\(scheme)://\(host):\(port)\(path.rawValue)")
-        return url
+    static func basicURLString(path: ApiEndpoints.Path) -> String {
+        return "\(scheme)://\(host):\(port)\(path.rawValue)"
     }
 }
