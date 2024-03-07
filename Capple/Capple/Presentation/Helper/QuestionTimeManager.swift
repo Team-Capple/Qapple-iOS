@@ -9,8 +9,6 @@ import Foundation
 
 struct QuestionTimeManager {
     
-    ///
-    
     /// QuestionTimeZone을 현재 시간에 맞게 업데이트합니다.
     func fetchTimezone() -> QuestionTimeZone {
         let calendar = Calendar.current

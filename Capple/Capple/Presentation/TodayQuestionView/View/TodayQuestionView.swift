@@ -300,7 +300,7 @@ private struct AnswerPreview: View {
                 ForEach(viewModel.answerList, id: \.self) { _ in
                     VStack(spacing: 24) {
                         
-                        AnswerCell(profileName: "튼튼한 당근", answer: "", keywords: []) {
+                        AnswerCell(profileName: "튼튼한 당근", answer: "안녕하세요!", keywords: ["하이"]) {
                             isBottomSheetPresented.toggle()
                         }
                         .padding(.horizontal, 24)
