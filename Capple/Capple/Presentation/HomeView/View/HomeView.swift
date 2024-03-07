@@ -16,9 +16,13 @@ struct HomeView: View {
         case .answering:
             TodayQuestionView(topTab: $topTab)
                 .onAppear {
+                    
+                    // TODO: 테스트용 코드
                     Task {
                         let tagSearch = try await NetworkManager.fetchSearchTag(request: .init(keyword: "키워드"))
+                        let popularTag = try await NetworkManager.fetchPopularTagsInQuestion(request: .init(questionId: 1))
                         print(tagSearch)
+                        print(popularTag)
                     }
                 }
         case .collecting:

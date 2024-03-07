@@ -73,5 +73,33 @@ extension NetworkManager {
         let decodeData = try decoder.decode(BaseResponse<TagResponse.Search>.self, from: data)
         return decodeData.result
     }
+    
+    /// 질문에 많이 사용된 태그(키워드)를 조회합니다.
+    static func fetchPopularTagsInQuestion(request: TagRequest.PopularTagsInQuestion) async throws -> TagResponse.PopularTagsInQuestion {
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .popularTagsInQuestion) + "/\(request.questionId)"
+        guard let url = URL(string: urlString) else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // URLSession 생성
+        let (data, response) = try await URLSession.shared.data(from: url)
+        print(data)
+        print(response)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            print("Error: badRequest")
+            throw NetworkError.badRequest
+        }
+        
+        // 디코딩
+        let decoder = JSONDecoder()
+        let decodeData = try decoder.decode(BaseResponse<TagResponse.PopularTagsInQuestion>.self, from: data)
+        return decodeData.result
+    }
 }
 

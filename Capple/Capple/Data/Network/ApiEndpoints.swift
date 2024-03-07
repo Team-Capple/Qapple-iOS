@@ -15,6 +15,7 @@ enum ApiEndpoints {
     enum Path: String {
         case questions = "/questions"
         case tagSearch = "/tags/search?"
+        case popularTagsInQuestion = "/tags"
     }
 }
 

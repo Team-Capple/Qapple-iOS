@@ -13,4 +13,9 @@ struct TagResponse {
     struct Search: Codable {
         let tags: [String]
     }
+    
+    /// 질문에 많이 사용된 태그(키워드) 조회 Response
+    struct PopularTagsInQuestion: Codable {
+        let tags: [String]
+    }
 }
