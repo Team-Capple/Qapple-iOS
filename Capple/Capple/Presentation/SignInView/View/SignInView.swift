@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignInView: View {
     @State private var clickedLoginButton: Bool = false
+    @ObservedObject var authViewModel = AuthViewModel()
     
     var body: some View {
         NavigationStack {
@@ -29,16 +30,17 @@ struct SignInView: View {
                 Spacer()
                 
                 // 로그인 버튼
-                Button {
-                    // TODO: 로그인 기능 구현
-                    /// 이미 회원이면 메인화면으로 이동
-                    /// 회원이 아니라면 회원가입으로 이동
-                    
-                    clickedLoginButton.toggle()
-                    
-                } label: {
-                    Image("AppleIDLoginButton")
-                }
+//                Button {
+//                    // TODO: 로그인 기능 구현
+//                    /// 이미 회원이면 메인화면으로 이동
+//                    /// 회원이 아니라면 회원가입으로 이동
+//                    
+//                    clickedLoginButton.toggle()
+//                    
+//                } label: {
+//                    Image("AppleIDLoginButton")
+//                }
+                AppleLoginButton(authViewModel: authViewModel)
             }
             .background(Background.first)
             .navigationDestination(isPresented: $clickedLoginButton) {

@@ -58,6 +58,8 @@
 		82D583BD2B9859D7003CC424 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583BC2B9859D7003CC424 /* NetworkError.swift */; };
 		F36B0EEB2B8655AE009EBE1D /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EEA2B8655AE009EBE1D /* SignInView.swift */; };
 		F36B0EFA2B86746D009EBE1D /* KeyboardReadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */; };
+		F36F37C32B9B7A29002EC36B /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F37C22B9B7A29002EC36B /* AppleLoginButton.swift */; };
+		F36F37C82B9B7A54002EC36B /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F37C72B9B7A54002EC36B /* AuthViewModel.swift */; };
 		F37C17862B872F9C005E5072 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */; };
 		F37C178A2B873436005E5072 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17892B873436005E5072 /* MyPageView.swift */; };
 		F37C178C2B873658005E5072 /* MyProfileSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C178B2B873658005E5072 /* MyProfileSummary.swift */; };
@@ -158,6 +160,9 @@
 		82D583BC2B9859D7003CC424 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		F36B0EEA2B8655AE009EBE1D /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardReadable.swift; sourceTree = "<group>"; };
+		F36F37C12B9B78F3002EC36B /* Capple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Capple.entitlements; sourceTree = "<group>"; };
+		F36F37C22B9B7A29002EC36B /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
+		F36F37C72B9B7A54002EC36B /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		F37C17892B873436005E5072 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		F37C178B2B873658005E5072 /* MyProfileSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileSummary.swift; sourceTree = "<group>"; };
@@ -463,6 +468,7 @@
 		F36B0EE82B865590009EBE1D /* SignInView */ = {
 			isa = PBXGroup;
 			children = (
+				F36F37C42B9B7A2F002EC36B /* ViewModel */,
 				F36B0EE92B865595009EBE1D /* View */,
 			);
 			path = SignInView;
@@ -472,6 +478,7 @@
 			isa = PBXGroup;
 			children = (
 				F36B0EEA2B8655AE009EBE1D /* SignInView.swift */,
+				F36F37C22B9B7A29002EC36B /* AppleLoginButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -500,6 +507,14 @@
 				F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		F36F37C42B9B7A2F002EC36B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F36F37C72B9B7A54002EC36B /* AuthViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		F37C17872B873419005E5072 /* MyPageView */ = {
@@ -586,6 +601,7 @@
 		F3EA66CA2B7643EE002417CE /* Capple */ = {
 			isa = PBXGroup;
 			children = (
+				F36F37C12B9B78F3002EC36B /* Capple.entitlements */,
 				07D96EE72B7A6D4000754819 /* Extension */,
 				F36B0EF82B86742C009EBE1D /* Protocol */,
 				07D96ECE2B77973E00754819 /* Info.plist */,
@@ -923,6 +939,7 @@
 				F37C178A2B873436005E5072 /* MyPageView.swift in Sources */,
 				07BF364C2B8C598B0047F3F7 /* Keyword.swift in Sources */,
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
+				F36F37C82B9B7A54002EC36B /* AuthViewModel.swift in Sources */,
 				07BF36482B8B9C290047F3F7 /* SearchKeywordViewModel.swift in Sources */,
 				07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */,
 				F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */,
@@ -958,6 +975,7 @@
 				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
 				82C3791B2B93499300CC7708 /* Alert.swift in Sources */,
 				F3EA66CE2B7643EE002417CE /* HomeView.swift in Sources */,
+				F36F37C32B9B7A29002EC36B /* AppleLoginButton.swift in Sources */,
 				073C3DE02B87143B0016C333 /* QuestionState.swift in Sources */,
 				82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */,
 				07BF364A2B8B9C420047F3F7 /* SearchKeywordView.swift in Sources */,
@@ -1141,10 +1159,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Capple/Capple.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Capple/Preview Content\"";
-				DEVELOPMENT_TEAM = 9XG4S4XZWN;
+				DEVELOPMENT_TEAM = G64N5NJ4Q6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Capple/Info.plist;
@@ -1159,7 +1178,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Capple;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Capple.appleacademy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1172,10 +1191,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Capple/Capple.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Capple/Preview Content\"";
-				DEVELOPMENT_TEAM = 9XG4S4XZWN;
+				DEVELOPMENT_TEAM = G64N5NJ4Q6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Capple/Info.plist;
@@ -1190,7 +1210,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Capple;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Capple.appleacademy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
