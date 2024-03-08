@@ -234,9 +234,6 @@ private struct HeaderButtonView: View {
                 if viewModel.state == .ready {
                     isClickedOnReady.toggle()
                 }
-                
-                print("timeZone: \(viewModel.timeZone)")
-                print("state: \(viewModel.state)")
             }
         }
     }
@@ -297,10 +294,14 @@ private struct AnswerPreview: View {
                 
                 Spacer()
                 
-                ForEach(viewModel.answerList, id: \.self) { _ in
+                ForEach(viewModel.answerList, id: \.self) { answer in
                     VStack(spacing: 24) {
                         
-                        AnswerCell(profileName: "튼튼한 당근", answer: "안녕하세요!", keywords: ["하이"]) {
+                        AnswerCell(
+                            profileName: answer.nickname,
+                            answer: answer.content,
+                            keywords: [answer.tags]
+                        ) {
                             isBottomSheetPresented.toggle()
                         }
                         .padding(.horizontal, 24)

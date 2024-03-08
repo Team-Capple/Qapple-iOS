@@ -13,9 +13,16 @@ enum ApiEndpoints {
     static let port = 8080
     
     enum Path: String {
+        
+        // MARK: - 질문
         case questions = "/questions"
+        
+        // MARK: - 태그
         case tagSearch = "/tags/search?"
         case popularTagsInQuestion = "/tags"
+        
+        // MARK: - 답변
+        case answersOfQuestion = "/answers/question"
     }
 }
 

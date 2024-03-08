@@ -10,10 +10,10 @@ import Foundation
 struct AnswerResponse {
     
     /// 특정 질문에 대한 답변 리스트 Response
-    struct Search: Codable {
+    struct AnswersOfQuestion: Codable {
         let answerInfos: [AnswerInfos] // 답변 리스트
         
-        struct AnswerInfos: Codable {
+        struct AnswerInfos: Codable, Hashable {
             let profileImage: String // 프로필 이미지 URL
             let nickname: String // 닉네임
             let content: String // 답변 내용

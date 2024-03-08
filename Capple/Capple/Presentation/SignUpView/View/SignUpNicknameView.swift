@@ -72,7 +72,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
                             .frame(height: 14)
                             .onChange(of: nickname) { newNickname in
                                 // 20글자 제한
-                                print(newNickname)
+                                // print(newNickname)
                                 if newNickname.isEmpty {
                                     isEnableButton = false
                                 } else {
@@ -130,7 +130,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
             } else {
                 keyboardBottomPadding = 0
             }
-            print("Is keyboard visible? ", newIsKeyboardVisible)
+            // print("Is keyboard visible? ", newIsKeyboardVisible)
             isKeyboardVisible = newIsKeyboardVisible
         }
         .navigationBarBackButtonHidden()

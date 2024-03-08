@@ -18,7 +18,8 @@ final class TodayQuestionViewModel: ObservableObject {
     var timer: Timer?
     
     // TODO: - 임시 답변 리스트
-    var answerList = [1, 2, 3]
+    @Published var mainQuestion: QuestionResponse.MainQuestions
+    @Published var answerList: [AnswerResponse.AnswersOfQuestion.AnswerInfos]
     
     init() {
         let currentTimeZone = dateManager.fetchTimezone()
@@ -30,6 +31,38 @@ final class TodayQuestionViewModel: ObservableObject {
             self.state = .ready
         } else {
             self.state = .creating
+        }
+        
+        // 변수 초기화
+        self.mainQuestion = .init(questionId: 1, questionStatus: "LIVE", content: "")
+        self.answerList = []
+        
+        // 데이터 패치
+        // self.fetchMainQuestion()
+        // self.fetchAnswersOfMainQuestion()
+    }
+}
+
+// MARK: - 질문 업데이트
+extension TodayQuestionViewModel {
+    
+    /// 메인 질문을 업데이트합니다.
+    func fetchMainQuestion() {
+        Task {
+            let mainQuestion = try await NetworkManager.fetchMainQuestions()
+            self.mainQuestion = mainQuestion
+        }
+    }
+}
+
+// MARK: - 답변 업데이트
+extension TodayQuestionViewModel {
+    
+    /// 메인 질문에 대한 답변 3개를 업데이트 받습니다.
+    func fetchAnswersOfMainQuestion() {
+        Task {
+            let answers = try await NetworkManager.fetchAnswersOfQuestion(request: .init(questionId: mainQuestion.questionId, keyword: "", size: 3))
+            self.answerList = answers.answerInfos
         }
     }
 }
@@ -63,10 +96,9 @@ extension TodayQuestionViewModel {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
         
-        let creatingText: AttributedString = "아카데미 러너 중\n가장 마음에 드는 유형이 있나요?"
+        let creatingText = AttributedString(mainQuestion.content)
         let completeText: AttributedString = "최근에 먹었던 음식 중\n가장 인상깊었던 것은 무엇인가요?"
         
-        // TODO: - 서버 통신으로 질문 가져오기
         var text = AttributedString()
         if state == .creating { text = questionMark + creatingText }
         else if state == .ready { text = "어떤 질문이 나왔을까요?" }

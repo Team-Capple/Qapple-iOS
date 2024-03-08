@@ -16,13 +16,11 @@ struct HomeView: View {
         case .answering:
             TodayQuestionView(topTab: $topTab)
                 .onAppear {
-                    
-                    // TODO: 테스트용 코드
                     Task {
-                        let tagSearch = try await NetworkManager.fetchSearchTag(request: .init(keyword: "키워드"))
-                        let popularTag = try await NetworkManager.fetchPopularTagsInQuestion(request: .init(questionId: 1))
-                        print(tagSearch)
-                        print(popularTag)
+                        try await NetworkManager.fetchMainQuestions()
+                        try await NetworkManager.fetchAnswersOfQuestion(request: .init(questionId: 1, keyword: "string", size: 3))
+                        try await NetworkManager.fetchSearchTag(request: .init(keyword: "string"))
+                        try await NetworkManager.fetchPopularTagsInQuestion(request: .init(questionId: 1))
                     }
                 }
         case .collecting:
