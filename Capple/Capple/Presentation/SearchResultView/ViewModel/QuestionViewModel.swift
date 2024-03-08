@@ -7,6 +7,15 @@ class QuestionViewModel: ObservableObject {
     
     @Published var questions: [Questions] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
+    
+    var timeZoneFormatted: String {
+           if let timeZone = questions.first?.timeZone {
+               return timeZone == "am" ? "오전 질문" : "오후 질문"
+           } else {
+               return "오전 질문" // 기본값 설정
+           }
+       }
+    
     /*
     @Published var questionMockDatas: [Questions] = [
         .init(
@@ -70,9 +79,8 @@ class QuestionViewModel: ObservableObject {
                        return
                    }
                    do {
-                       let decodedData = try JSONDecoder().decode(QuestionsResponse.self, from: data)
-                       let newQuestions = decodedData.result
-                       self.questions.append(contentsOf: newQuestions)                       
+                       let decodedData = try JSONDecoder().decode(Questions.self, from: data)
+                       self.questions.append(decodedData)
                        print(self.questions)
                    } catch {
                        print("Error decoding response: \(error)")

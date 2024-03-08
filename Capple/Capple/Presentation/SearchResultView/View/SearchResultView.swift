@@ -95,37 +95,41 @@ struct SearchResultView: View {
             AnswerView()
         }
         
-        // .searchable(text: $searchText, prompt: "검색어를 입력하세요") // 검색 기능을 추가합니다.
-        // .foregroundColor(isTextEditing ? .white : .black)
-//        .onChange(of: searchText) {
-//            /* newValue, oldValue in
-//             viewModel.searchQuery = newValue // 사용자가 검색 텍스트를 변경할 때마다 뷰 모델의 검색 쿼리를 업데이트합니다.
-//             */
-//            isTextEditing = true
-//            
-//        }
-//        .onSubmit(of: .search) {
-//            isTextEditing = true
-//            viewModel.filterQuestions(with: searchText)
-//        }
-//        .navigationTitle("질문목록") // 네비게이션 바의 두 번째 제목을 설정합니다.
-//        .navigationBarTitleDisplayMode(.inline)
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button(action: {
-//                    // 이 버튼을 클릭하면 검색 상태를 초기화
-//                    searchText = ""
-//                    viewModel.reloadQuestions() // 여기서 'reloadQuestions'는 모든 질문을 다시 로드하는 메서드입니다.
-//                }) {
-//                    Image(systemName: "arrow.clockwise") // 새로고침 아이콘
-//                }
-//                Button(action: {
-//                    
-//                }) {
-//                    Image(systemName: "magnifyingglass") // 돋보기 아이콘을 표시합니다.
-//                }
-//            }
-//        }
+        
+        // MARK: - 필터링(서칭)기능
+        /*
+         .searchable(text: $searchText, prompt: "검색어를 입력하세요") // 검색 기능을 추가합니다.
+         .foregroundColor(isTextEditing ? .white : .black)
+        .onChange(of: searchText) {
+            /* newValue, oldValue in
+             viewModel.searchQuery = newValue // 사용자가 검색 텍스트를 변경할 때마다 뷰 모델의 검색 쿼리를 업데이트합니다.
+             */
+            isTextEditing = true
+            
+        }
+        .onSubmit(of: .search) {
+            isTextEditing = true
+            viewModel.filterQuestions(with: searchText)
+        }
+        .navigationTitle("질문목록") // 네비게이션 바의 두 번째 제목을 설정합니다.
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    // 이 버튼을 클릭하면 검색 상태를 초기화
+                    searchText = ""
+                    viewModel.reloadQuestions() // 여기서 'reloadQuestions'는 모든 질문을 다시 로드하는 메서드입니다.
+                }) {
+                    Image(systemName: "arrow.clockwise") // 새로고침 아이콘
+                }
+                Button(action: {
+                    
+                }) {
+                    Image(systemName: "magnifyingglass") // 돋보기 아이콘을 표시합니다.
+                }
+            }
+        }
+         */
     }
 }
 

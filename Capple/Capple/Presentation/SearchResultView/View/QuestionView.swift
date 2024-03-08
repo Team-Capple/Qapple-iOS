@@ -1,12 +1,17 @@
 import SwiftUI
 import FlexView
+import Foundation
 
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionView: View {
     
     var questions: Questions // 이 뷰에서 사용할 질문 객체입니다.
     let seeMoreAction: () -> Void
-    
+    let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            return formatter
+        }()
     @State private var isLike = false
     @State private var likeCount = 32
     
@@ -24,11 +29,10 @@ struct QuestionView: View {
                 
                 
                 // MARK: - 현희코드
-                Text(questions.timeZone ?? "am")
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(GrayScale.icon)
-                
-                
+                Text(questions.timeZone ?? "오전 질문") // timeZoneFormatted 프로퍼티 사용
+                                   .font(.pretendard(.semiBold, size: 14))
+                                   .foregroundStyle(GrayScale.icon)
+            
                 // MARK: - 민준코드
                 /*
                 Text("\(questions.timeZone == .am || questions.timeZone == .amCreate ? "오전" : "오후")질문")
@@ -45,10 +49,10 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 4)
                 
-                Text("\(questions.date.fullDate)")
+                Text(dateFormatter.string(from: questions.date ?? Date())) // Date가 옵셔널일 수 있으므로 nil일 경우 기본값으로 현재 날짜를 사용
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
-                
+
                 Spacer()
                     .frame(width: 8)
                 
@@ -97,7 +101,7 @@ struct QuestionView: View {
             
             
             // MARK: - 키워드
-            FlexView(data: questions.keywords, spacing: 8, alignment: .leading) { keyword in
+            FlexView(data: questions.keywords ?? ["keywords"], spacing: 8, alignment: .leading) { keyword in
                 Text("#\(keyword)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(BrandPink.text)

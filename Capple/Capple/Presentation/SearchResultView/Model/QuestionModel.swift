@@ -9,7 +9,7 @@ import Foundation
 
 
 struct QuestionsResponse: Codable,Identifiable {
-    var id: Int
+    var id: Int?
     let timeStamp: String
     let code: String
     let message: String
@@ -17,15 +17,14 @@ struct QuestionsResponse: Codable,Identifiable {
 }
 
 struct Questions: Codable {
-
-    var questionId: Int
+    var questionId: Int?
     var questionStatus: String?
     var content: String?
     var timeZone: String?
-    var date: Date
+    var date: Date?
     var state: String?
-    var keywords: [String]
-    var likes: Int
-    var comments: Int
+    var keywords: [String]?
+    var likes: Int?
+    var comments: Int?
 }
 
