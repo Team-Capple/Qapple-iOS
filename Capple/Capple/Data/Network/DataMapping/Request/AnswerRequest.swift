@@ -1,0 +1,18 @@
+//
+//  AnswerRequest.swift
+//  Capple
+//
+//  Created by 김민준 on 3/8/24.
+//
+
+import Foundation
+
+class AnswerRequest {
+    
+    /// 특정 질문에 대한 답변 요청 구조체
+    struct AnswerList {
+        let questionId: Int
+        let keyword: String = "" // 검색할 키워드
+        let size: Int = 10 // 조회 할 질문의 개수
+    }
+}
