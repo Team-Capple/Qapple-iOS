@@ -9,9 +9,8 @@ import SwiftUI
 
 struct AnswerView: View {
     
-    @StateObject var viewModel: AnswerViewModel = .init()
+    @ObservedObject var viewModel: AnswerViewModel
     @State private var fontSize: CGFloat = 48
-    @State private var isPresented = false
     @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
@@ -28,11 +27,10 @@ struct AnswerView: View {
                     principalView: {},
                     trailingView: {
                         CustomNavigationTextButton(
-                            text: "다음",
+                            title: "다음",
                             color: viewModel.answer.isEmpty ?
                             TextLabel.disable : BrandPink.text,
-                            buttonType: .next,
-                            isPresented: $isPresented
+                            buttonType: .next(pathType: .confirmAnswer)
                         )
                             .disabled(viewModel.answer.isEmpty ? true : false)
                     },
@@ -105,9 +103,6 @@ struct AnswerView: View {
                 isTextFieldFocused = false
             }
             .navigationBarBackButtonHidden()
-            .navigationDestination(isPresented: $isPresented) {
-                ConfirmAnswerView(viewModel: viewModel)
-            }
         }
     }
 }

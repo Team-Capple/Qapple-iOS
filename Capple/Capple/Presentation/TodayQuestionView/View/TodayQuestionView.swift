@@ -9,9 +9,9 @@ import SwiftUI
 
 struct TodayQuestionView: View {
     
+    @EnvironmentObject private var pathModel: PathModel
     @StateObject var viewModel: TodayQuestionViewModel = .init()
-    @Binding var topTab: TopTab
-    @State private var isAnswerViewPresented = false
+    @Binding var tab: Tab
     @State private var isBottomSheetPresented = false
     @State private var isAlertViewPresented = false
     @State private var isReportViewPresented = false
@@ -36,7 +36,7 @@ struct TodayQuestionView: View {
                             }
                             Button {
                                 // TODO: - 모아보기 화면 전환
-                                topTab = .collecting
+                                tab = .collecting
                             } label: {
                                 Text("모아보기")
                                     .font(.pretendard(.semiBold, size: 14))
@@ -71,7 +71,7 @@ struct TodayQuestionView: View {
                         
                         HeaderView(viewModel: viewModel)
                         
-                        HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isAnswerViewPresented)
+                        HeaderButtonView(viewModel: viewModel)
                         
                         AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented, isTodayAnswerViewPresented: $isTodayAnswerViewPresented)
                     }
@@ -81,9 +81,6 @@ struct TodayQuestionView: View {
             .background(Background.second)
             .navigationBarBackButtonHidden()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(isPresented: $isAnswerViewPresented) {
-                AnswerView()
-            }
             .navigationDestination(isPresented: $isReportViewPresented) {
                 ReportView()
             }
@@ -204,13 +201,11 @@ private struct HeaderContentView: View {
 // MARK: - HeaderButtonView
 private struct HeaderButtonView: View {
     
+    @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: TodayQuestionViewModel
     
-    @Binding var isClickedOnReady: Bool
-    
-    fileprivate init(viewModel: TodayQuestionViewModel, isClickedOnReady: Binding<Bool>) {
+    fileprivate init(viewModel: TodayQuestionViewModel) {
         self.viewModel = viewModel
-        self._isClickedOnReady = isClickedOnReady
     }
     
     var body: some View {
@@ -232,7 +227,7 @@ private struct HeaderButtonView: View {
                 // TODO: - 이전 답변, 답변하기, 다른 답변 Navigation 연결
                 
                 if viewModel.state == .ready {
-                    isClickedOnReady.toggle()
+                    pathModel.paths.append(.answer)
                 }
             }
         }
@@ -324,5 +319,5 @@ private struct AnswerPreview: View {
 }
 
 #Preview {
-    TodayQuestionView(viewModel: TodayQuestionViewModel(), topTab: .constant(.answering))
+    TodayQuestionView(viewModel: TodayQuestionViewModel(), tab: .constant(.answering))
 }

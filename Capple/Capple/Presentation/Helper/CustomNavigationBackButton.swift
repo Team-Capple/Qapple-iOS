@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CustomNavigationBackButton: View {
-    @Environment(\.presentationMode) var presentationMode
+    
+    @EnvironmentObject private var pathModel: PathModel
     
     enum ButtonType: String {
         case arrow = "CustomBackButtonIcon"
@@ -25,7 +26,7 @@ struct CustomNavigationBackButton: View {
     
     var body: some View {
         Button {
-            self.presentationMode.wrappedValue.dismiss()
+            pathModel.paths.removeLast()
             action()
         } label: {
             Image(buttonType.rawValue) // 아이콘 변경 가능

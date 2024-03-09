@@ -9,29 +9,28 @@ import SwiftUI
 
 struct CustomNavigationTextButton: View {
     
+    @EnvironmentObject private var pathModel: PathModel
+    
+    /// 버튼 타입
     enum ButtonType {
-        case dismiss
-        case next
+        case dismiss // Pop
+        case next(pathType: PathType) // Push
     }
     
-    
-    let text: String
-    let color: Color
-    let buttonType: ButtonType
-    
-    @Environment(\.presentationMode) var presentationMode
-    
-    @Binding var isPresented: Bool
+    let title: String // 버튼 타이틀
+    let color: Color // 버튼 컬러
+    let buttonType: ButtonType // 버튼 타입
     
     var body: some View {
         Button {
-            if buttonType == .dismiss {
-                self.presentationMode.wrappedValue.dismiss()
-            } else if buttonType == .next {
-                isPresented.toggle() // 추후 옵셔널 문제 생기면 여길 보시오
+            switch buttonType {
+            case .dismiss:
+                pathModel.paths.removeLast()
+            case let .next(pathType):
+                pathModel.paths.append(pathType)
             }
         } label: {
-            Text(text)
+            Text(title)
             .foregroundStyle(color)
         }
     }
@@ -39,9 +38,8 @@ struct CustomNavigationTextButton: View {
 
 #Preview {
     CustomNavigationTextButton(
-        text: "String",
+        title: "String",
         color: TextLabel.main,
-        buttonType: .dismiss,
-        isPresented: .constant(false)
+        buttonType: .dismiss
     )
 }

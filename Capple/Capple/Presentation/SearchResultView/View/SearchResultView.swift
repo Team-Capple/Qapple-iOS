@@ -4,7 +4,7 @@ import SwiftUI
 struct SearchResultView: View {
     
     @StateObject var viewModel: QuestionViewModel = .init() // 뷰 모델을 관찰합니다.
-    @Binding var topTab: TopTab
+    @Binding var topTab: Tab
     @State private var searchText = "" // 사용자 검색 텍스트를 저장합니다.
     // @State private var isTextEditing = false
     @State private var isBottomSheetPresented = false
@@ -92,7 +92,7 @@ struct SearchResultView: View {
             TodayAnswerView()
         }
         .navigationDestination(isPresented: $isAnswerViewPresented) {
-            AnswerView()
+            AnswerView(viewModel: .init())
         }
         
         

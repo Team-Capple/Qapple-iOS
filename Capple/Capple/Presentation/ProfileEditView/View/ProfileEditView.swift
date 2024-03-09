@@ -36,10 +36,9 @@ struct ProfileEditView: View {
                 },
                 trailingView: {
                     CustomNavigationTextButton(
-                        text: "완료",
+                        title: "완료",
                         color: BrandPink.text,
-                        buttonType: .dismiss,
-                        isPresented: .constant(false) // 추후 수정 필요
+                        buttonType: .dismiss // 추후 수정 필요
                     )
                 },
                 backgroundColor: Background.second)

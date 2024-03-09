@@ -10,6 +10,8 @@ import AuthenticationServices
 
 struct AppleLoginButton: View {
     @ObservedObject var authViewModel: AuthViewModel
+    @Binding var clickedLoginButton: Bool
+    
     var body: some View {
         HStack {
             Image(.appleIDLoginButton)
@@ -24,6 +26,7 @@ struct AppleLoginButton: View {
                 onCompletion: { result in
                     Task {
                         await authViewModel.appleLoginCompletion(result: result)
+                        clickedLoginButton = true
                     }
                 }
             )
@@ -33,5 +36,5 @@ struct AppleLoginButton: View {
 }
 
 #Preview {
-    AppleLoginButton(authViewModel: AuthViewModel())
+    AppleLoginButton(authViewModel: AuthViewModel(), clickedLoginButton: .constant(false))
 }

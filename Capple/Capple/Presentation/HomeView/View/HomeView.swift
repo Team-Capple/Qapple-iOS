@@ -9,23 +9,34 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State private var topTab: TopTab = .answering
+    @StateObject private var pathModel = PathModel()
+    @StateObject var answerViewModel: AnswerViewModel = .init()
+    @State private var tab: Tab = .answering
     
     var body: some View {
-        switch topTab {
-        case .answering:
-            TodayQuestionView(topTab: $topTab)
-                .onAppear {
-                    Task {
-                        try await NetworkManager.fetchMainQuestions()
-                        try await NetworkManager.fetchAnswersOfQuestion(request: .init(questionId: 1, keyword: "string", size: 3))
-                        try await NetworkManager.fetchSearchTag(request: .init(keyword: "string"))
-                        try await NetworkManager.fetchPopularTagsInQuestion(request: .init(questionId: 1))
+        
+        NavigationStack(path: $pathModel.paths) {
+            switch tab {
+                
+            // 답변하기
+            case .answering:
+                TodayQuestionView(tab: $tab)
+                    .navigationDestination(for: PathType.self) { pathType in
+                        if pathType == .answer {
+                            AnswerView(viewModel: answerViewModel)
+                        } else if pathType == .confirmAnswer {
+                            ConfirmAnswerView(viewModel: answerViewModel)
+                        } else if pathType == .searchKeyword {
+                            SearchKeywordView(viewModel: answerViewModel)
+                        }
                     }
-                }
-        case .collecting:
-            SearchResultView(topTab: $topTab)
+                
+            // 모아보기
+            case .collecting:
+                SearchResultView(topTab: $tab)
+            }
         }
+        .environmentObject(pathModel)
     }
 }
 

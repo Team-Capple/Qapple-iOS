@@ -16,7 +16,8 @@ struct CappleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            SignInView()
+            HomeView()
+            // SignInView()
             // SearchResultView()
         }
     }

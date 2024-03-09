@@ -40,7 +40,7 @@ struct SignInView: View {
 //                } label: {
 //                    Image("AppleIDLoginButton")
 //                }
-                AppleLoginButton(authViewModel: authViewModel)
+                AppleLoginButton(authViewModel: authViewModel, clickedLoginButton: $clickedLoginButton)
             }
             .background(Background.first)
             .navigationDestination(isPresented: $clickedLoginButton) {
