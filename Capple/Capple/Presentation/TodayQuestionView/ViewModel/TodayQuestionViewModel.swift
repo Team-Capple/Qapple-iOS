@@ -26,12 +26,14 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         self.timerSeconds = dateManager.fetchTimerSeconds(currentTimeZone)
         
-        if currentTimeZone == .am || currentTimeZone == .pm {
-            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
-            self.state = .ready
-        } else {
-            self.state = .creating
-        }
+        self.state = .ready
+        
+//        if currentTimeZone == .am || currentTimeZone == .pm {
+//            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
+//            self.state = .ready
+//        } else {
+//            self.state = .creating
+//        }
         
         // 변수 초기화
         self.mainQuestion = .init(questionId: 1, questionStatus: "LIVE", content: "")

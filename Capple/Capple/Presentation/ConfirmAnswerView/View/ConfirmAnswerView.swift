@@ -63,7 +63,9 @@ struct ConfirmAnswerView: View {
                 
                 Spacer()
                 
-                ActionButton("완료", isActive: $isButtonActive)
+                ActionButton("완료", isActive: $isButtonActive) {
+                    // TODO: 완료 후 답변 자세히 보기 화면으로 이동
+                }
                     .padding(.horizontal, 24)
                     .animation(.bouncy(duration: 0.3), value: isButtonActive)
             }
