@@ -9,8 +9,9 @@ import SwiftUI
 import AuthenticationServices
 
 struct AppleLoginButton: View {
+    
+    @EnvironmentObject var pathModel: PathModel
     @ObservedObject var authViewModel: AuthViewModel
-    @Binding var clickedLoginButton: Bool
     
     var body: some View {
         HStack {
@@ -26,7 +27,7 @@ struct AppleLoginButton: View {
                 onCompletion: { result in
                     Task {
                         await authViewModel.appleLoginCompletion(result: result)
-                        clickedLoginButton = true
+                        pathModel.paths.append(.inputNickName)
                     }
                 }
             )
@@ -36,5 +37,5 @@ struct AppleLoginButton: View {
 }
 
 #Preview {
-    AppleLoginButton(authViewModel: AuthViewModel(), clickedLoginButton: .constant(false))
+    AppleLoginButton(authViewModel: AuthViewModel())
 }

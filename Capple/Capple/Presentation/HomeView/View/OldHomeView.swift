@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct OldHomeView: View {
     
     @StateObject private var pathModel = PathModel()
     @StateObject var answerViewModel: AnswerViewModel = .init()
@@ -41,5 +41,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    OldHomeView()
 }

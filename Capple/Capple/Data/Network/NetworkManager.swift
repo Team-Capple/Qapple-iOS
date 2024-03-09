@@ -16,7 +16,7 @@ extension NetworkManager {
     
     /// 오늘의 메인 질문을 조회합니다.
     @MainActor
-    static func fetchMainQuestions() async throws -> QuestionResponse.MainQuestions {
+    static func fetchMainQuestions() async throws -> QuestionResponse.Questions {
         
         // URL 객체 생성
         let urlString = ApiEndpoints.basicURLString(path: .questions)
@@ -39,9 +39,14 @@ extension NetworkManager {
         
         // 디코딩
         let decoder = JSONDecoder()
-        let decodeData = try decoder.decode(BaseResponse<QuestionResponse.MainQuestions>.self, from: data)
-        print("QuestionResponse.MainQuestions: \(decodeData.result)")
-        return decodeData.result
+        do {
+            let decodeData = try decoder.decode(BaseResponse<QuestionResponse.Questions>.self, from: data)
+            print("QuestionResponse.MainQuestions: \(decodeData.result)")
+            return decodeData.result
+        } catch {
+            print("Decode 에러")
+            throw NetworkError.decodeFailed
+        }
     }
 }
 

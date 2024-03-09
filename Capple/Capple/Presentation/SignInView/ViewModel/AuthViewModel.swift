@@ -9,6 +9,8 @@ import Foundation
 import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
+    
+    @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var authorizationCode: String = ""
     @Published var name: String = ""
     
