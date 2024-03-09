@@ -206,23 +206,7 @@ private struct QuestionListView: View {
                         }
                         .padding(.bottom, 24)
                     }
-                    
-// TODO: 현희 누나 기존 코드 목업 데이터로 교체
-//                    ForEach(viewModel.filteredQuestions) { question in
-//                        QuestionView(question: question, seeMoreAction: {
-//                        }) // 각 질문에 대한 뷰를 생성합니다.
-//                            .onAppear {
-//                                viewModel.loadMoreContentIfNeeded(currentItem: question) // 필요한 경우 더 많은 내용을 로드합니다.
-//                            }
-//                            .padding(.vertical, 8) // 질문 사이의 수직 패딩을 추가합니다.
-//                            // .background(Color.black) // 각 질문의 배경색을 검정색으로 설정합니다.
-//                    }
-//                    if viewModel.isLoading { // 로딩 중인 경우 로딩 인디케이터를 표시합니다.
-//                        ProgressView()
-//                            .scaleEffect(1.5)
-//                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-//                    }
-                }
+                       }
                 
             }
             .padding(.top, 24)

@@ -6,8 +6,9 @@ import Foundation
 struct QuestionView: View {
     
     @EnvironmentObject var pathModel: PathModel
-    
-    var questions: Questions // 이 뷰에서 사용할 질문 객체입니다.
+  
+    var questions: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
+  
     let seeMoreAction: () -> Void
     let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
@@ -15,10 +16,7 @@ struct QuestionView: View {
             return formatter
         }()
     @State private var isLike = false
-    @State private var likeCount = 32
-    
-//    @State private var isComment = false
-//    @State private var commentCount = 48
+    @State private var isComment = false
 
     var body: some View {
         VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
@@ -27,11 +25,12 @@ struct QuestionView: View {
             HStack(alignment: .center) {
                 
                 
-                // MARK: - 현희코드
+                // MARK: - 타임존 현희코드
+                /*
                 Text(questions.timeZone ?? "오전 질문") // timeZoneFormatted 프로퍼티 사용
                                    .font(.pretendard(.semiBold, size: 14))
                                    .foregroundStyle(GrayScale.icon)
-            
+                */
                 // MARK: - 민준코드
                 /*
                 Text("\(questions.timeZone == .am || questions.timeZone == .amCreate ? "오전" : "오후")질문")
@@ -48,15 +47,18 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 4)
                 
+                
+                // MARK: - 시간 코드
+                /*
                 Text(dateFormatter.string(from: questions.date ?? Date())) // Date가 옵셔널일 수 있으므로 nil일 경우 기본값으로 현재 날짜를 사용
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
 
                 Spacer()
                     .frame(width: 8)
-                
+                */
                 // MARK: - 현희코드
-                Text(questions.state ?? "Default State")
+                Text(questions.questionStatus ?? "Default State")
                     .font(.pretendard(.bold, size: 9))
                     .foregroundStyle(.wh)
                     .padding(.horizontal, 6)
@@ -98,13 +100,18 @@ struct QuestionView: View {
             Spacer()
                 .frame(height: 20)
             
+            Text(questions.tag ?? "tag")
+                .font(.pretendard(.semiBold, size: 14))
+                .foregroundStyle(BrandPink.text)
             
-            // MARK: - 키워드
-            FlexView(data: questions.keywords ?? ["keywords"], spacing: 8, alignment: .leading) { keyword in
+            /*
+            // MARK: - 키워드(예전코드)
+            FlexView(data: QuestionsInfos.tag ?? "tag", spacing: 8, alignment: .leading) { keyword in
                 Text("#\(keyword)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(BrandPink.text)
             }
+            */
             
             Spacer()
                 .frame(height: 16)
@@ -120,31 +127,31 @@ struct QuestionView: View {
                             .resizable()
                             .frame(width: 24, height: 24)
                             .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
-                        
-                        Text("\(likeCount)")
+                        Text(String(questions.likeCount ?? 0)) // 질문의 내용을 표시합니다.
                             .font(.pretendard(.medium, size: 15))
                             .foregroundStyle(TextLabel.sub3)
+                        
                     }
                 }
                 
                 Spacer()
                     .frame(width: 12)
                 
-//                Button {
-//                    isComment.toggle()
-//                    // TODO: - 댓글 창 이동
-//                } label: {
-//                    HStack(spacing: 6) {
-//                        Image(isComment ? .commentActive : .comment)
-//                            .resizable()
-//                            .frame(width: 24, height: 24)
-//                            .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
-//                        
-//                        Text("\(commentCount)")
-//                            .font(.pretendard(.medium, size: 15))
-//                            .foregroundStyle(TextLabel.sub3)
-//                    }
-//                }
+                Button {
+                    isComment.toggle()
+                    // TODO: - 댓글 창 이동
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(isComment ? .commentActive : .comment)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
+                        
+                        Text(String(questions.commentCount ?? 0))
+                            .font(.pretendard(.medium, size: 15))
+                            .foregroundStyle(TextLabel.sub3)
+                    }
+                }
                 
                 Spacer()
                 
