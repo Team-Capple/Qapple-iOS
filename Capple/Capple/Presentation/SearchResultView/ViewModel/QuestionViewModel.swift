@@ -3,11 +3,15 @@ import Combine
 
 // 질문 데이터를 관리하는 ViewModel
 class QuestionViewModel: ObservableObject {
-    @Published var filteredQuestions: [QuestionsInfos] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
+    @Published var filteredQuestions: [QuestionResponse.Questions.QuestionsInfos] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     
-    @Published var questions: [QuestionsInfos] = [] // 모든 질문의 목록입니다.
+    @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     
+    
+    
+    // MARK: - 타임존 코드 
+    /*
     var timeZoneFormatted: String {
            if let timeZone = questions.first?.timeZone {
                return timeZone == "am" ? "오전 질문" : "오후 질문"
@@ -15,7 +19,7 @@ class QuestionViewModel: ObservableObject {
                return "오전 질문" // 기본값 설정
            }
        }
-    
+    */
     
     @Published var searchQuery = ""
 
@@ -47,7 +51,7 @@ class QuestionViewModel: ObservableObject {
                        switch httpResponse.statusCode {
                        case 200...299:
                            // 성공적인 응답 처리
-                           if let data = data {
+                           if data != nil {
                                // 데이터 처리
                            }
                        default:
@@ -57,20 +61,21 @@ class QuestionViewModel: ObservableObject {
                    }
                        
                        // MARK: - 데이터처리
-                       guard let data = data else {
+                   guard let data = data else {
                        print("No data in response")
                        return
                    }
                    do {
-
-                       let decodedData = try JSONDecoder().decode(QuestionsInfos.self, from: data)
-                       print(decodedData)
-                       self.questions.append(decodedData)
-                       print(self.questions)
+                       let decodedData = try JSONDecoder().decode(BaseResponse<QuestionResponse.Questions>.self, from: data)
+                       DispatchQueue.main.async {
+                           self.questions = decodedData.result.questionInfos ?? []
+                                  print("Decoded data: \(self.questions)")
+                           self.questions.append(contentsOf: self.questions)
+                         
+                       }
                    } catch {
                        print("Error decoding response: \(error)")
-                   }
-               }
+                   }               }
            }.resume()
        }
     func loadMoreContentIfNeeded(currentIndex index: Int) {
@@ -128,7 +133,9 @@ class QuestionViewModel: ObservableObject {
         }
     }
     */
-
+    
+    // MARK: - 필터링
+    /*
     // 검색 쿼리에 따라 질문 목록을 필터링합니다.
     func filterQuestions(with searchText : String) {
         print("\(searchText)")
@@ -136,7 +143,7 @@ class QuestionViewModel: ObservableObject {
             filteredQuestions =  self.questions
         } else {
             filteredQuestions = self.questions.filter { question in
-                if let content = question.content {
+                if let content = question.self {
                     return content.contains(searchText)
                 } else {
                     return false
@@ -144,7 +151,7 @@ class QuestionViewModel: ObservableObject {
             }
         }
     }
-
+     */
     /*
    func initiate(with searchText : String) {
         $searchQuery
