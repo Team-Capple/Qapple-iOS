@@ -13,11 +13,6 @@ struct SearchResultView: View {
     @State private var isReportViewPresented = false
     @State private var isTodayAnswerViewPresented = false
     
-//    // 뷰 모델을 초기화하는 생성자입니다.
-//    init(viewModel: QuestionViewModel = QuestionViewModel()) {
-//        self.viewModel = viewModel
-//    }
-    
     var body: some View {
         
         ZStack {

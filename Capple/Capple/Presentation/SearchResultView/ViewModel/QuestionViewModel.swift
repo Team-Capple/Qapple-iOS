@@ -3,9 +3,9 @@ import Combine
 
 // 질문 데이터를 관리하는 ViewModel
 class QuestionViewModel: ObservableObject {
-    @Published var filteredQuestions: [Questions] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
+    @Published var filteredQuestions: [QuestionsInfos] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     
-    @Published var questions: [Questions] = [] // 모든 질문의 목록입니다.
+    @Published var questions: [QuestionsInfos] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     
     var timeZoneFormatted: String {
@@ -16,42 +16,6 @@ class QuestionViewModel: ObservableObject {
            }
        }
     
-    /*
-    @Published var questionMockDatas: [Questions] = [
-        .init(
-            id: 0,
-            timeZone: .am,
-            date: Date(),
-            state: .complete,
-            title: "오전 질문에 답변 후\n모든 내용을 확인해보세요",
-            keywords: [.init(name: "무자비"), .init(name: "당근맨"), .init(name: "와플대학")],
-            likes: 38,
-            comments: 185
-        ),
-        
-        .init(
-            id: 1,
-            timeZone: .am,
-            date: Date(),
-            state: .complete,
-            title: "오전 질문에 답변 후\n모든 내용을 확인해보세요",
-            keywords: [.init(name: "무자비"), .init(name: "당근맨"), .init(name: "와플대학")],
-            likes: 38,
-            comments: 185
-        ),
-    
-        .init(
-            id: 2,
-            timeZone: .am,
-            date: Date(),
-            state: .complete,
-            title: "오전 질문에 답변 후\n모든 내용을 확인해보세요",
-            keywords: [.init(name: "무자비"), .init(name: "당근맨"), .init(name: "와플대학")],
-            likes: 38,
-            comments: 185
-        )
-    ]
-    */
     
     @Published var searchQuery = ""
 
@@ -74,12 +38,33 @@ class QuestionViewModel: ObservableObject {
                        print("Error submitting questions: \(error)")
                        return
                    }
-                   guard let data = data else {
+                   
+                   // MARK: - 상태코드확인 처리
+                   if let httpResponse = response as? HTTPURLResponse {
+                       print("HTTP Status Code: \(httpResponse.statusCode)")
+                       
+                       // 상태 코드를 검사하여 다음 단계를 결정합니다.
+                       switch httpResponse.statusCode {
+                       case 200...299:
+                           // 성공적인 응답 처리
+                           if let data = data {
+                               // 데이터 처리
+                           }
+                       default:
+                           // 다른 상태 코드 처리
+                           print("Received HTTP \(httpResponse.statusCode)")
+                       }
+                   }
+                       
+                       // MARK: - 데이터처리
+                       guard let data = data else {
                        print("No data in response")
                        return
                    }
                    do {
-                       let decodedData = try JSONDecoder().decode(Questions.self, from: data)
+
+                       let decodedData = try JSONDecoder().decode(QuestionsInfos.self, from: data)
+                       print(decodedData)
                        self.questions.append(decodedData)
                        print(self.questions)
                    } catch {
