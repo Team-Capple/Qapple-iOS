@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TopTab {
+enum Tab {
     case answering // 답변하기
     case collecting // 모아보기
 }

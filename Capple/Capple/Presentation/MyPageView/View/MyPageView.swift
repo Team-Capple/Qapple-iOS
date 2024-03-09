@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MyPageView: View {
+    
+    @EnvironmentObject var pathModel: PathModel
+    
     private let sectionInfos: [SectionInfo] = [
         SectionInfo(
             sectionTitle: "질문/답변",
@@ -58,10 +61,12 @@ struct MyPageView: View {
                     
                 },
                 trailingView: {
-                        NavigationLink(destination: ProfileEditView()) {
-                            Text("수정")
-                                .foregroundStyle(TextLabel.sub3)
-                        }
+                    Button {
+                        pathModel.paths.append(.profileEdit)
+                    } label: {
+                        Text("수정")
+                            .foregroundStyle(TextLabel.sub3)
+                    }
                 },
                 backgroundColor: Background.second)
             ScrollView {

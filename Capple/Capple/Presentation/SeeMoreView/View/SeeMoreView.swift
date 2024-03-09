@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SeeMoreView: View {
     
+    @EnvironmentObject var pathModel: PathModel
     @Binding var isBottomSheetPresented: Bool
-    @Binding var isReportViewPresented: Bool
     
     var body: some View {
         ZStack {
@@ -32,7 +32,7 @@ struct SeeMoreView: View {
                 
                 Button {
                     isBottomSheetPresented = false
-                    isReportViewPresented = true
+                    pathModel.paths.append(.report)
                 } label: {
                     Text("신고하기")
                         .font(.pretendard(.medium, size: 16))
@@ -48,5 +48,5 @@ struct SeeMoreView: View {
 }
 
 #Preview {
-    SeeMoreView(isBottomSheetPresented: .constant(false), isReportViewPresented: .constant(false))
+    SeeMoreView(isBottomSheetPresented: .constant(false))
 }

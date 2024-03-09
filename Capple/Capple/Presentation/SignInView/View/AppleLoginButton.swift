@@ -9,7 +9,10 @@ import SwiftUI
 import AuthenticationServices
 
 struct AppleLoginButton: View {
+    
+    @EnvironmentObject var pathModel: PathModel
     @ObservedObject var authViewModel: AuthViewModel
+    
     var body: some View {
         HStack {
             Image(.appleIDLoginButton)
@@ -24,6 +27,7 @@ struct AppleLoginButton: View {
                 onCompletion: { result in
                     Task {
                         await authViewModel.appleLoginCompletion(result: result)
+                        pathModel.paths.append(.inputNickName)
                     }
                 }
             )

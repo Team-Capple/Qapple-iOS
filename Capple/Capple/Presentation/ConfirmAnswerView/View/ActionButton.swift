@@ -11,16 +11,18 @@ struct ActionButton: View {
     
     @Binding var isActive: Bool
     
-    var title: String
+    let title: String
+    let action: () -> Void
     
-    init(_ title: String, isActive: Binding<Bool>) {
+    init(_ title: String, isActive: Binding<Bool>, action: @escaping () -> Void) {
         self.title = title
         self._isActive = isActive
+        self.action = action
     }
     
     var body: some View {
         Button {
-            //
+            action()
         } label: {
             Text(title)
                 .font(.pretendard(.semiBold, size: 18))
@@ -39,6 +41,6 @@ struct ActionButton: View {
         Color.Background.first
             .ignoresSafeArea()
         
-        ActionButton("버튼입니당", isActive: .constant(true))
+        ActionButton("버튼입니당", isActive: .constant(true), action: {})
     }
 }

@@ -10,10 +10,9 @@ import FlexView
 
 struct ConfirmAnswerView: View {
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject private var pathModel: PathModel
     @ObservedObject var viewModel: AnswerViewModel
     @State private var isButtonActive = false
-    @State private var isPresented = false
     
     var body: some View {
         
@@ -50,7 +49,8 @@ struct ConfirmAnswerView: View {
                 Spacer()
                     .frame(height: 24)
                 
-                KeywordView(viewModel: viewModel, isPresented: $isPresented, isButtonActive: $isButtonActive)
+                KeywordView(viewModel: viewModel,
+                            isButtonActive: $isButtonActive)
                     .padding(.horizontal, 20)
                 
                 Spacer()
@@ -63,16 +63,16 @@ struct ConfirmAnswerView: View {
                 
                 Spacer()
                 
-                ActionButton("완료", isActive: $isButtonActive)
+                ActionButton("완료", isActive: $isButtonActive) {
+                    // TODO: 완료 후 답변 자세히 보기 화면으로 이동
+                    pathModel.paths.removeAll()
+                }
                     .padding(.horizontal, 24)
                     .animation(.bouncy(duration: 0.3), value: isButtonActive)
             }
         }
         .background(Background.second)
         .navigationBarBackButtonHidden()
-        .navigationDestination(isPresented: $isPresented) {
-            SearchKeywordView(viewModel: viewModel)
-        }
         .onAppear {
             isButtonActive = viewModel.keywords.isEmpty ? false : true
         }
@@ -82,27 +82,26 @@ struct ConfirmAnswerView: View {
 // MARK: - KeywordView
 private struct KeywordView: View {
     
+    @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: AnswerViewModel
-    @Binding var isPresented: Bool
     @Binding var isButtonActive: Bool
     
-    fileprivate init(viewModel: AnswerViewModel, isPresented: Binding<Bool>, isButtonActive: Binding<Bool>) {
+    fileprivate init(viewModel: AnswerViewModel, isButtonActive: Binding<Bool>) {
         self.viewModel = viewModel
-        self._isPresented = isPresented
         self._isButtonActive = isButtonActive
     }
     
     var body: some View {
         if viewModel.keywords.count < 1 {
             KeywordChoiceChip(buttonType: .addKeyword) {
-                isPresented.toggle()
+                pathModel.paths.append(.searchKeyword)
             }
         } else {
             FlexView(data: viewModel.flexKeywords, spacing: 8, alignment: .leading) { keyword in
                 
                 keyword == viewModel.flexKeywords.last ?
                 KeywordChoiceChip(buttonType: .addKeyword) {
-                    isPresented.toggle()
+                    pathModel.paths.append(.searchKeyword)
                 }
                 :
                 KeywordChoiceChip(keyword.name, buttonType: .label) {

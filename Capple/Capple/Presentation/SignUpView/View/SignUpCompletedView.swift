@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct SignUpCompletedView: View {
-    // 추후 중복 검사 변수 나오면 삭제 예정
-    @State private var isChecked: Bool = false
-    @State private var isCompleted: Bool = true
+    
+    @EnvironmentObject var pathModel: PathModel
+    @ObservedObject var authViewModel: AuthViewModel
+    
+    @State private var isCompleted: Bool = true // 추후 중복 검사 변수 나오면 삭제 예정
     
     var body: some View {
         
@@ -39,7 +41,8 @@ struct SignUpCompletedView: View {
             
             Button {
                 // 중복 체크가 성공했으면
-                isChecked.toggle()
+                pathModel.paths.removeAll()
+                authViewModel.isSignIn = true
             } label: {
                 Image("NextDefaultButton")
             }
@@ -48,12 +51,9 @@ struct SignUpCompletedView: View {
         .background(Background.first)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(isPresented: $isChecked) {
-            HomeView()
-        }
     }
 }
 
 #Preview {
-    SignUpCompletedView()
+    SignUpCompletedView(authViewModel: .init())
 }

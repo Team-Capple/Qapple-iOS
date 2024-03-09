@@ -9,13 +9,10 @@ import SwiftUI
 
 struct TodayQuestionView: View {
     
+    @EnvironmentObject private var pathModel: PathModel
     @StateObject var viewModel: TodayQuestionViewModel = .init()
-    @Binding var topTab: TopTab
-    @State private var isAnswerViewPresented = false
+    @Binding var tab: Tab
     @State private var isBottomSheetPresented = false
-    @State private var isAlertViewPresented = false
-    @State private var isReportViewPresented = false
-    @State private var isTodayAnswerViewPresented = false
     
     var body: some View {
         ZStack {
@@ -36,7 +33,7 @@ struct TodayQuestionView: View {
                             }
                             Button {
                                 // TODO: - 모아보기 화면 전환
-                                topTab = .collecting
+                                tab = .collecting
                             } label: {
                                 Text("모아보기")
                                     .font(.pretendard(.semiBold, size: 14))
@@ -49,7 +46,7 @@ struct TodayQuestionView: View {
                     trailingView: {
                         HStack(spacing: 8) {
                             Button {
-                                isAlertViewPresented.toggle()
+                                pathModel.paths.append(.alert)
                             } label: {
                                 Image(.noticeIcon)
                                     .resizable()
@@ -57,7 +54,9 @@ struct TodayQuestionView: View {
                                     .frame(width: 24 , height: 24)
                             }
                             
-                            NavigationLink(destination: MyPageView()) {
+                            Button {
+                                pathModel.paths.append(.myPage)
+                            } label: {
                                 Image(.capple)
                                     .resizable()
                                     .scaledToFit()
@@ -71,9 +70,9 @@ struct TodayQuestionView: View {
                         
                         HeaderView(viewModel: viewModel)
                         
-                        HeaderButtonView(viewModel: viewModel, isClickedOnReady: $isAnswerViewPresented)
+                        HeaderButtonView(viewModel: viewModel)
                         
-                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented, isTodayAnswerViewPresented: $isTodayAnswerViewPresented)
+                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                     }
                 }
                 .scrollIndicators(.hidden)
@@ -81,18 +80,6 @@ struct TodayQuestionView: View {
             .background(Background.second)
             .navigationBarBackButtonHidden()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(isPresented: $isAnswerViewPresented) {
-                AnswerView()
-            }
-            .navigationDestination(isPresented: $isReportViewPresented) {
-                ReportView()
-            }
-            .navigationDestination(isPresented: $isAlertViewPresented) {
-                AlertView()
-            }
-            .navigationDestination(isPresented: $isTodayAnswerViewPresented) {
-                TodayAnswerView()
-            }
         }
     }
 }
@@ -204,13 +191,11 @@ private struct HeaderContentView: View {
 // MARK: - HeaderButtonView
 private struct HeaderButtonView: View {
     
+    @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: TodayQuestionViewModel
     
-    @Binding var isClickedOnReady: Bool
-    
-    fileprivate init(viewModel: TodayQuestionViewModel, isClickedOnReady: Binding<Bool>) {
+    fileprivate init(viewModel: TodayQuestionViewModel) {
         self.viewModel = viewModel
-        self._isClickedOnReady = isClickedOnReady
     }
     
     var body: some View {
@@ -232,11 +217,8 @@ private struct HeaderButtonView: View {
                 // TODO: - 이전 답변, 답변하기, 다른 답변 Navigation 연결
                 
                 if viewModel.state == .ready {
-                    isClickedOnReady.toggle()
+                    pathModel.paths.append(.answer)
                 }
-                
-                print("timeZone: \(viewModel.timeZone)")
-                print("state: \(viewModel.state)")
             }
         }
     }
@@ -245,21 +227,16 @@ private struct HeaderButtonView: View {
 // MARK: - AnswerPreview
 private struct AnswerPreview: View {
     
+    @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: TodayQuestionViewModel
     @Binding private var isBottomSheetPresented: Bool
-    @Binding private var isReportViewPresented: Bool
-    @Binding private var isTodayAnswerViewPresented: Bool
     
     fileprivate init(
         viewModel: TodayQuestionViewModel,
-        isBottomSheetPresented: Binding<Bool>,
-        isReportViewPresented: Binding<Bool>,
-        isTodayAnswerViewPresented: Binding<Bool>
+        isBottomSheetPresented: Binding<Bool>
     ) {
         self.viewModel = viewModel
         self._isBottomSheetPresented = isBottomSheetPresented
-        self._isReportViewPresented = isReportViewPresented
-        self._isTodayAnswerViewPresented = isTodayAnswerViewPresented
     }
     
     fileprivate var body: some View {
@@ -287,7 +264,9 @@ private struct AnswerPreview: View {
                         
                         Spacer()
                         
-                        SeeAllButton(isTodayAnswerViewPresented: $isTodayAnswerViewPresented)
+                        SeeAllButton {
+                            pathModel.paths.append(.todayAnswer)
+                        }
                     }
                 }
                 .padding(.horizontal, 24)
@@ -297,15 +276,19 @@ private struct AnswerPreview: View {
                 
                 Spacer()
                 
-                ForEach(viewModel.answerList, id: \.self) { _ in
+                ForEach(viewModel.answerList, id: \.self) { answer in
                     VStack(spacing: 24) {
                         
-                        AnswerCell(profileName: "튼튼한 당근", answer: "안녕하세요!", keywords: ["하이"]) {
+                        AnswerCell(
+                            profileName: answer.nickname,
+                            answer: answer.content,
+                            keywords: [answer.tags]
+                        ) {
                             isBottomSheetPresented.toggle()
                         }
                         .padding(.horizontal, 24)
                         .sheet(isPresented: $isBottomSheetPresented) {
-                            SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
+                            SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
                         
@@ -323,5 +306,5 @@ private struct AnswerPreview: View {
 }
 
 #Preview {
-    TodayQuestionView(viewModel: TodayQuestionViewModel(), topTab: .constant(.answering))
+    TodayQuestionView(viewModel: TodayQuestionViewModel(), tab: .constant(.answering))
 }

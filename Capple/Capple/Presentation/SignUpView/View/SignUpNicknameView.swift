@@ -9,13 +9,16 @@ import SwiftUI
 import Combine
 
 struct SignUpNicknameView: View, KeyboardReadable {
+    
+    @EnvironmentObject var pathModel: PathModel
+    
+    
     @State private var nickname: String = ""
     @State private var isKeyboardVisible = false
     @State private var keyboardBottomPadding: CGFloat = 0
     
     // 추후 중복 검사 변수 나오면 삭제 예정
     @State private var isEnableButton: Bool = false
-    @State private var isClicked: Bool = false
     
     private let nicknameLimit: Int = 15
     private var description: String = "* 캐플주스는 익명 닉네임을 권장하고 있어요"
@@ -72,7 +75,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
                             .frame(height: 14)
                             .onChange(of: nickname) { newNickname in
                                 // 20글자 제한
-                                print(newNickname)
+                                // print(newNickname)
                                 if newNickname.isEmpty {
                                     isEnableButton = false
                                 } else {
@@ -111,7 +114,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
             
             Button {
                 // 중복 체크가 성공했으면
-                isClicked.toggle()
+                pathModel.paths.append(.agreement)
             } label: {
                 if isEnableButton {
                     Image("NextDefaultButton")
@@ -130,14 +133,11 @@ struct SignUpNicknameView: View, KeyboardReadable {
             } else {
                 keyboardBottomPadding = 0
             }
-            print("Is keyboard visible? ", newIsKeyboardVisible)
+            // print("Is keyboard visible? ", newIsKeyboardVisible)
             isKeyboardVisible = newIsKeyboardVisible
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(isPresented: $isClicked) {
-            SignUpTermsAgreementView()
-        }
     }
 }
 

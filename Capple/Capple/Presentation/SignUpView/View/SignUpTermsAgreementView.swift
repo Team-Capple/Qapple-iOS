@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct SignUpTermsAgreementView: View {
-    // 추후 중복 검사 변수 나오면 삭제 예정
-    @State private var isChecked: Bool = false
-    @State private var isCompleted: Bool = false
+    
+    @EnvironmentObject var pathModel: PathModel
+    @State private var isChecked: Bool = false // 추후 중복 검사 변수 나오면 삭제 예정
     
     var body: some View {
         
@@ -42,7 +42,7 @@ struct SignUpTermsAgreementView: View {
             Spacer()
             
             Button {
-                isCompleted.toggle()
+                pathModel.paths.append(.signUpCompleted)
             } label: {
                 if isChecked {
                     Image("NextDefaultButton")
@@ -56,9 +56,6 @@ struct SignUpTermsAgreementView: View {
         .background(Background.first)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(isPresented: $isCompleted) {
-            SignUpCompletedView()
-        }
     }
 }
 
