@@ -9,11 +9,11 @@ import SwiftUI
 
 struct SeeAllButton: View {
     
-    @Binding var isTodayAnswerViewPresented: Bool
+    let action: () -> Void
     
     var body: some View {
         Button {
-            isTodayAnswerViewPresented.toggle()
+            action()
         } label: {
             HStack(spacing: 1) {
                 Text("전체보기")
@@ -30,6 +30,6 @@ struct SeeAllButton: View {
 #Preview {
     ZStack {
         Background.first.ignoresSafeArea()
-        SeeAllButton(isTodayAnswerViewPresented: .constant(false))
+        SeeAllButton {}
     }
 }

@@ -121,7 +121,9 @@ private struct FloatingQuestionCard: View {
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
     
+    @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
+    @State private var isBottomSheetPresented = false
     let cardHeight: CGFloat = 150 // 답변 카드의 높이를 정의합니다.
     
     fileprivate init(viewModel: TodayAnswersViewModel) {
@@ -141,19 +143,14 @@ private struct AnswerScrollView: View {
                             answer: answer.content ?? "콘텐츠",
                             keywords: viewModel.keywords,
                             seeMoreAction: {
-                                
+                                isBottomSheetPresented.toggle()
                             }
                         )
                         .padding(.horizontal, 24)
-                        
-//                        AnswerCell() {
-//                            // isBottomSheetPresented.toggle()
-//                        }
-//                            .padding(.horizontal, 24)
-//                            .sheet(isPresented: $isBottomSheetPresented) {
-//                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
-//                                    .presentationDetents([.height(84)])
-//                            }
+                        .sheet(isPresented: $isBottomSheetPresented) {
+                            SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
+                                .presentationDetents([.height(84)])
+                        }
                         
                         Separator()
                             .padding(.leading, 24)

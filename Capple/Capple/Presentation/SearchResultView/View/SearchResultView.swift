@@ -3,20 +3,11 @@ import SwiftUI
 // 질문 목록을 보여주는 뷰를 정의합니다.
 struct SearchResultView: View {
     
-    @StateObject var viewModel: QuestionViewModel = .init() // 뷰 모델을 관찰합니다.
+    @EnvironmentObject var pathModel: PathModel
+    @ObservedObject var viewModel: QuestionViewModel = .init() // 뷰 모델을 관찰합니다.
     @Binding var topTab: Tab
     @State private var searchText = "" // 사용자 검색 텍스트를 저장합니다.
-    // @State private var isTextEditing = false
     @State private var isBottomSheetPresented = false
-    @State private var isAnswerViewPresented = false
-    @State private var isAlertViewPresented = false
-    @State private var isReportViewPresented = false
-    @State private var isTodayAnswerViewPresented = false
-    
-//    // 뷰 모델을 초기화하는 생성자입니다.
-//    init(viewModel: QuestionViewModel = QuestionViewModel()) {
-//        self.viewModel = viewModel
-//    }
     
     var body: some View {
         
@@ -50,7 +41,7 @@ struct SearchResultView: View {
                     trailingView: {
                         HStack(spacing: 8) {
                             Button {
-                                isAlertViewPresented.toggle()
+                                pathModel.paths.append(.alert)
                             } label: {
                                 Image(.noticeIcon)
                                     .resizable()
@@ -58,7 +49,9 @@ struct SearchResultView: View {
                                     .frame(width: 24 , height: 24)
                             }
                             
-                            NavigationLink(destination: MyPageView()) {
+                            Button {
+                                pathModel.paths.append(.myPage)
+                            } label: {
                                 Image(.capple)
                                     .resizable()
                                     .scaledToFit()
@@ -75,25 +68,11 @@ struct SearchResultView: View {
                 
                 QuestionListView(
                     viewModel: viewModel,
-                    isBottomSheetPresented: $isBottomSheetPresented,
-                    isReportViewPresented: $isReportViewPresented,
-                    isTodayAnswerViewPresented: $isTodayAnswerViewPresented, isAnswerViewPresented: $isAnswerViewPresented
+                    isBottomSheetPresented: $isBottomSheetPresented
                 )
             }
         }
         .navigationBarBackButtonHidden()
-        .navigationDestination(isPresented: $isAlertViewPresented) {
-            AlertView()
-        }
-        .navigationDestination(isPresented: $isReportViewPresented) {
-            ReportView()
-        }
-        .navigationDestination(isPresented: $isTodayAnswerViewPresented) {
-            TodayAnswerView()
-        }
-        .navigationDestination(isPresented: $isAnswerViewPresented) {
-            AnswerView(viewModel: .init())
-        }
         
         
         // MARK: - 필터링(서칭)기능
@@ -161,22 +140,13 @@ private struct QuestionListView: View {
     
     @ObservedObject private var viewModel: QuestionViewModel
     @Binding var isBottomSheetPresented: Bool
-    @Binding var isReportViewPresented: Bool
-    @Binding var isTodayAnswerViewPresented: Bool
-    @Binding var isAnswerViewPresented: Bool
     
     fileprivate init(
         viewModel: QuestionViewModel,
-        isBottomSheetPresented: Binding<Bool>,
-        isReportViewPresented: Binding<Bool>,
-        isTodayAnswerViewPresented: Binding<Bool>,
-        isAnswerViewPresented: Binding<Bool>
+        isBottomSheetPresented: Binding<Bool>
     ) {
         self.viewModel = viewModel
         self._isBottomSheetPresented = isBottomSheetPresented
-        self._isReportViewPresented = isReportViewPresented
-        self._isTodayAnswerViewPresented = isTodayAnswerViewPresented
-        self._isAnswerViewPresented = isAnswerViewPresented
     }
     
     var body: some View {
@@ -220,11 +190,12 @@ private struct QuestionListView: View {
                 LazyVStack {
                     ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                         VStack(spacing: 24) {
-                            QuestionView(questions: question, seeMoreAction: {},
-                                         isTodayAnswerViewPresented:  $isTodayAnswerViewPresented, isAnswerViewPresented: $isAnswerViewPresented)
+                            QuestionView(questions: question, seeMoreAction: {
+                                isBottomSheetPresented.toggle()
+                            })
                             .padding(.horizontal, 24)
                             .sheet(isPresented: $isBottomSheetPresented) {
-                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented, isReportViewPresented: $isReportViewPresented)
+                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                     .presentationDetents([.height(84)])
                             }
                             Spacer()

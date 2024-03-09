@@ -28,6 +28,10 @@ struct MainView: View {
 private struct HomeView: View {
     
     @EnvironmentObject var pathModel: PathModel
+    
+    @StateObject var answerViewModel: AnswerViewModel = .init()
+    @StateObject var questionViewModel: QuestionViewModel = .init()
+    
     @State private var tab: Tab = .answering
     
     var body: some View {
@@ -35,8 +39,67 @@ private struct HomeView: View {
             switch tab {
             case .answering:
                 TodayQuestionView(tab: $tab)
+                    .navigationDestination(for: PathType.self) { path in
+                        switch path {
+                        case .answer:
+                            AnswerView(viewModel: answerViewModel)
+                            
+                        case .confirmAnswer:
+                            ConfirmAnswerView(viewModel: answerViewModel)
+                            
+                        case .searchKeyword:
+                            SearchKeywordView(viewModel: answerViewModel)
+                            
+                        case .todayAnswer:
+                            TodayAnswerView()
+                            
+                        case .myPage:
+                            MyPageView()
+                            
+                        case .profileEdit:
+                            ProfileEditView()
+                            
+                        case .alert:
+                            AlertView()
+                            
+                        case .report:
+                            ReportView()
+                            
+                        default: EmptyView()
+                        }
+                    }
+                
             case .collecting:
                 SearchResultView(topTab: $tab)
+                    .navigationDestination(for: PathType.self) { path in
+                        switch path {
+                        case .todayAnswer:
+                            TodayAnswerView()
+                            
+                        case .answer:
+                            AnswerView(viewModel: answerViewModel)
+                            
+                        case .confirmAnswer:
+                            ConfirmAnswerView(viewModel: answerViewModel)
+                            
+                        case .searchKeyword:
+                            SearchKeywordView(viewModel: answerViewModel)
+                            
+                        case .myPage:
+                            MyPageView()
+                            
+                        case .profileEdit:
+                            ProfileEditView()
+                            
+                        case .alert:
+                            AlertView()
+                            
+                        case .report:
+                            ReportView()
+                            
+                        default: EmptyView()
+                        }
+                    }
             }
         }
     }

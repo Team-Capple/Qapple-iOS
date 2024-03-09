@@ -18,6 +18,17 @@ enum PathType: Hashable {
     case answer // 답변하기
     case confirmAnswer // 답변확인(키워드선택)
     case searchKeyword // 키워드 검색
+    
+    /// 모아보기
+    case todayAnswer
+    
+    /// 마이페이지
+    case myPage
+    case profileEdit
+    
+    // 알림 및 신고
+    case alert
+    case report
 }
 
 class PathModel: ObservableObject {

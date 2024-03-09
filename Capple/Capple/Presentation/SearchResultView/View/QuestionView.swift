@@ -5,6 +5,8 @@ import Foundation
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionView: View {
     
+    @EnvironmentObject var pathModel: PathModel
+    
     var questions: Questions // 이 뷰에서 사용할 질문 객체입니다.
     let seeMoreAction: () -> Void
     let dateFormatter: DateFormatter = {
@@ -14,9 +16,6 @@ struct QuestionView: View {
         }()
     @State private var isLike = false
     @State private var likeCount = 32
-    
-    @Binding var isTodayAnswerViewPresented: Bool
-    @Binding var isAnswerViewPresented: Bool
     
 //    @State private var isComment = false
 //    @State private var commentCount = 48
@@ -150,7 +149,7 @@ struct QuestionView: View {
                 Spacer()
                 
                 Button {
-                    isAnswerViewPresented.toggle()
+                    pathModel.paths.append(.answer)
                 } label: {
                     Text("답변하기")
                         .font(.pretendard(.medium, size: 14))
@@ -165,7 +164,7 @@ struct QuestionView: View {
         }
         .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
         .onTapGesture {
-            isTodayAnswerViewPresented.toggle()
+            pathModel.paths.append(.todayAnswer)
         }
     }
 }

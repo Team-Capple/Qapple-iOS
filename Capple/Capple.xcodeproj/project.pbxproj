@@ -79,7 +79,6 @@
 		F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D62B8A663E000BA51C /* CustomNavigationTextButton.swift */; };
 		F3D452D92B8A7019000BA51C /* CustonNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D82B8A7019000BA51C /* CustonNavigationBar.swift */; };
 		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
-		F3EA66CE2B7643EE002417CE /* OldHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CD2B7643EE002417CE /* OldHomeView.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
 		F3EA66D32B7643F0002417CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66D22B7643F0002417CE /* Preview Assets.xcassets */; };
 		F3EA66DD2B7643F0002417CE /* CappleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66DC2B7643F0002417CE /* CappleTests.swift */; };
@@ -89,7 +88,6 @@
 		F3EA66FD2B7644D0002417CE /* ApiEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66FC2B7644D0002417CE /* ApiEndpoints.swift */; };
 		F3EA67032B764504002417CE /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67022B764504002417CE /* BaseResponse.swift */; };
 		F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67052B76450F002417CE /* BaseRequest.swift */; };
-		F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA670E2B7645AB002417CE /* HomeViewModel.swift */; };
 		F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67112B76460F002417CE /* ArrowButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -185,7 +183,6 @@
 		F3D452D82B8A7019000BA51C /* CustonNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustonNavigationBar.swift; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Capple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
-		F3EA66CD2B7643EE002417CE /* OldHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldHomeView.swift; sourceTree = "<group>"; };
 		F3EA66CF2B7643F0002417CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F3EA66D22B7643F0002417CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F3EA66D82B7643F0002417CE /* CappleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CappleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,7 +194,6 @@
 		F3EA66FC2B7644D0002417CE /* ApiEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndpoints.swift; sourceTree = "<group>"; };
 		F3EA67022B764504002417CE /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		F3EA67052B76450F002417CE /* BaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequest.swift; sourceTree = "<group>"; };
-		F3EA670E2B7645AB002417CE /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F3EA67112B76460F002417CE /* ArrowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -730,7 +726,6 @@
 				F36B0EF02B865676009EBE1D /* SignUpView */,
 				F36B0EE82B865590009EBE1D /* SignInView */,
 				F3EA67102B7645FC002417CE /* Helper */,
-				F3EA670A2B764567002417CE /* HomeView */,
 				07D96ED22B79E79600754819 /* TodayQuestionView */,
 				07BF36322B8B36A30047F3F7 /* AnswerView */,
 				07BF36392B8B827C0047F3F7 /* ConfirmAnswerView */,
@@ -748,31 +743,6 @@
 				07D96EBB2B77969000754819 /* Font */,
 			);
 			path = Resource;
-			sourceTree = "<group>";
-		};
-		F3EA670A2B764567002417CE /* HomeView */ = {
-			isa = PBXGroup;
-			children = (
-				F3EA670D2B764580002417CE /* ViewModel */,
-				F3EA670C2B76457B002417CE /* View */,
-			);
-			path = HomeView;
-			sourceTree = "<group>";
-		};
-		F3EA670C2B76457B002417CE /* View */ = {
-			isa = PBXGroup;
-			children = (
-				F3EA66CD2B7643EE002417CE /* OldHomeView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		F3EA670D2B764580002417CE /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				F3EA670E2B7645AB002417CE /* HomeViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		F3EA67102B7645FC002417CE /* Helper */ = {
@@ -967,7 +937,6 @@
 				F3EA66F82B764474002417CE /* DummyModel.swift in Sources */,
 				073C3DDA2B870D3B0016C333 /* QuestionTimeManager.swift in Sources */,
 				F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */,
-				F3EA670F2B7645AB002417CE /* HomeViewModel.swift in Sources */,
 				07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */,
 				07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */,
 				F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */,
@@ -980,7 +949,6 @@
 				67B185112B9436C10057E6BB /* SingleAnswerModel.swift in Sources */,
 				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
 				82C3791B2B93499300CC7708 /* Alert.swift in Sources */,
-				F3EA66CE2B7643EE002417CE /* OldHomeView.swift in Sources */,
 				F36F37C32B9B7A29002EC36B /* AppleLoginButton.swift in Sources */,
 				073C3DE02B87143B0016C333 /* QuestionState.swift in Sources */,
 				82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */,
