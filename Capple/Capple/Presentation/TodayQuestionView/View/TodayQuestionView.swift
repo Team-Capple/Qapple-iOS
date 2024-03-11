@@ -32,7 +32,6 @@ struct TodayQuestionView: View {
                                     .foregroundStyle(TextLabel.main)
                             }
                             Button {
-                                // TODO: - 모아보기 화면 전환
                                 tab = .collecting
                             } label: {
                                 Text("모아보기")
@@ -253,8 +252,10 @@ private struct AnswerPreview: View {
                         
                         Spacer()
                         
-                        SeeAllButton {
-                            pathModel.paths.append(.todayAnswer)
+                        if viewModel.state != .ready {
+                            SeeAllButton {
+                                pathModel.paths.append(.todayAnswer)
+                            }
                         }
                     }
                 }

@@ -26,7 +26,7 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         self.timerSeconds = dateManager.fetchTimerSeconds(currentTimeZone)
         
-        self.state = .ready
+        self.state = .creating
         
 //        if currentTimeZone == .am || currentTimeZone == .pm {
 //            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
