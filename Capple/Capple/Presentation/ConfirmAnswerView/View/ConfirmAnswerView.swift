@@ -85,6 +85,8 @@ private struct KeywordView: View {
     @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: AnswerViewModel
     @Binding var isButtonActive: Bool
+    @State private var isKeywordInputAlertPresented = false
+    @State private var keywordInputText = ""
     
     fileprivate init(viewModel: AnswerViewModel, isButtonActive: Binding<Bool>) {
         self.viewModel = viewModel
@@ -92,23 +94,40 @@ private struct KeywordView: View {
     }
     
     var body: some View {
-        if viewModel.keywords.count < 1 {
-            KeywordChoiceChip(buttonType: .addKeyword) {
-                pathModel.paths.append(.searchKeyword)
-            }
-        } else {
-            FlexView(data: viewModel.flexKeywords, spacing: 8, alignment: .leading) { keyword in
-                
-                keyword == viewModel.flexKeywords.last ?
+        Group {
+            if viewModel.keywords.count < 1 {
                 KeywordChoiceChip(buttonType: .addKeyword) {
-                    // TODO: 키워드 입력 창 띄우기
+                    isKeywordInputAlertPresented.toggle()
                 }
-                :
-                KeywordChoiceChip(keyword.name, buttonType: .label) {
-                    viewModel.removeKeyword(keyword)
-                    isButtonActive = viewModel.keywords.isEmpty ? false : true
+            } else {
+                FlexView(data: viewModel.flexKeywords, spacing: 8, alignment: .leading) { keyword in
+                    
+                    keyword == viewModel.flexKeywords.last ?
+                    KeywordChoiceChip(buttonType: .addKeyword) {
+                        isKeywordInputAlertPresented.toggle()
+                    }
+                    :
+                    KeywordChoiceChip(keyword.name, buttonType: .label) {
+                        viewModel.removeKeyword(keyword)
+                        isButtonActive = viewModel.keywords.isEmpty ? false : true
+                    }
                 }
             }
+        }
+        .alert("키워드를 입력하세요.", isPresented: $isKeywordInputAlertPresented) {
+            TextField("ex) 애플, 아카데미", text: $keywordInputText)
+            
+            Button("취소", role: .cancel, action: {
+                keywordInputText = ""
+            })
+            
+            Button("확인", action: {
+                viewModel.createNewKeyword(keywordInputText)
+                isButtonActive = viewModel.keywords.isEmpty ? false : true
+                keywordInputText = ""
+            })
+        } message: {
+            
         }
     }
 }

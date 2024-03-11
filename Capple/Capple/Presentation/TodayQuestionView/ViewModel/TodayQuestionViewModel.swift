@@ -26,7 +26,7 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         self.timerSeconds = dateManager.fetchTimerSeconds(currentTimeZone)
         
-        self.state = .creating
+        self.state = .ready
         
 //        if currentTimeZone == .am || currentTimeZone == .pm {
 //            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
@@ -40,7 +40,9 @@ final class TodayQuestionViewModel: ObservableObject {
         self.answerList = []
         
         // 데이터 패치
-        // self.fetchMainQuestion()
+        Task {
+            await self.fetchMainQuestion()
+        }
         // self.fetchAnswersOfMainQuestion()
     }
 }
@@ -49,11 +51,9 @@ final class TodayQuestionViewModel: ObservableObject {
 extension TodayQuestionViewModel {
     
     /// 메인 질문을 업데이트합니다.
+    @MainActor
     func fetchMainQuestion() {
-        Task {
-            let mainQuestion = try await NetworkManager.fetchMainQuestions()
-            self.mainQuestion = mainQuestion
-        }
+       // TODO: 메인 질문 가져오기 API 연결
     }
 }
 

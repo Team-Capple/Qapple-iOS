@@ -83,7 +83,7 @@ extension AnswerViewModel {
     }
     
     /// 검색어로 새로운 키워드를 생성합니다.
-    func createNewKeywordAsSearch() {
-        keywords.append(.init(name: search))
+    func createNewKeyword(_ keyword: String) {
+        keywords.append(.init(name: keyword))
     }
 }
