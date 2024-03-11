@@ -18,6 +18,7 @@ struct QuestionResponse {
             var id: Int?
             var questionId: Int?
             var questionStatus: String?
+            var liveAt: String?
             var content: String?
             var tag: String?
             var likeCount: Int?
