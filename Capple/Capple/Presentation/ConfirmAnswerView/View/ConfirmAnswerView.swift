@@ -101,7 +101,7 @@ private struct KeywordView: View {
                 
                 keyword == viewModel.flexKeywords.last ?
                 KeywordChoiceChip(buttonType: .addKeyword) {
-                    pathModel.paths.append(.searchKeyword)
+                    // TODO: 키워드 입력 창 띄우기
                 }
                 :
                 KeywordChoiceChip(keyword.name, buttonType: .label) {

@@ -120,65 +120,63 @@ struct QuestionView: View {
                 Spacer()
                     .frame(height: 20)
                 
+            HStack {
                 Text(questions.tag ?? "tag")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(BrandPink.text)
                 
                 Spacer()
-                    .frame(height: 16)
+                
+                Button {
+                    pathModel.paths.append(.answer)
+                } label: {
+                    Text("답변하기")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(TextLabel.main)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(BrandPink.button)
+                        .cornerRadius(30, corners: .allCorners)
+                }
+            }
                 
                 // MARK: - 좋아요, 댓글
                 HStack {
-                    Button {
-                        isLike.toggle()
-                        viewModel.likeButtonTapped(for: questions)
-                        // TODO: - 좋아요 탭 기능 구현
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image(isLike ? .heartActive : .heart)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
-                            Text(String(questions.likeCount ?? 0)) // 질문의 내용을 표시합니다.
-                                .font(.pretendard(.medium, size: 15))
-                                .foregroundStyle(TextLabel.sub3)
-                            
-                        }
-                    }
-                    
-                    Spacer()
-                        .frame(width: 12)
-                    
-                    Button {
-                        isComment.toggle()
-                        // TODO: - 댓글 창 이동
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image(isComment ? .commentActive : .comment)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
-                            
-                            Text(String(questions.commentCount ?? 0))
-                                .font(.pretendard(.medium, size: 15))
-                                .foregroundStyle(TextLabel.sub3)
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        pathModel.paths.append(.answer)
-                    } label: {
-                        Text("답변하기")
-                            .font(.pretendard(.medium, size: 14))
-                            .foregroundStyle(TextLabel.main)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(BrandPink.button)
-                            .cornerRadius(30, corners: .allCorners)
-                    }
-                    
+//                    Button {
+//                        isLike.toggle()
+//                        viewModel.likeButtonTapped(for: questions)
+//                        // TODO: - 좋아요 탭 기능 구현
+//                    } label: {
+//                        HStack(spacing: 6) {
+//                            Image(isLike ? .heartActive : .heart)
+//                                .resizable()
+//                                .frame(width: 24, height: 24)
+//                                .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
+//                            Text(String(questions.likeCount ?? 0)) // 질문의 내용을 표시합니다.
+//                                .font(.pretendard(.medium, size: 15))
+//                                .foregroundStyle(TextLabel.sub3)
+//                            
+//                        }
+//                    }
+//                    
+//                    Spacer()
+//                        .frame(width: 12)
+//                    
+//                    Button {
+//                        isComment.toggle()
+//                        // TODO: - 댓글 창 이동
+//                    } label: {
+//                        HStack(spacing: 6) {
+//                            Image(isComment ? .commentActive : .comment)
+//                                .resizable()
+//                                .frame(width: 24, height: 24)
+//                                .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
+//                            
+//                            Text(String(questions.commentCount ?? 0))
+//                                .font(.pretendard(.medium, size: 15))
+//                                .foregroundStyle(TextLabel.sub3)
+//                        }
+//                    }
                 }
             }
             .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
@@ -188,25 +186,6 @@ struct QuestionView: View {
         }
     }
     
-    
-    
-    // MARK: - 한톨 코드
-    /*
-     #Preview {
-     QuestionView(
-     questions: .init(
-     id: 0,
-     timeZone: .am,
-     date: Date(),
-     state: .complete,
-     title: "오전 질문에 답변 후\n모든 내용을 확인해보세요",
-     keywords: [.init(name: "무자비"), .init(name: "당근맨"), .init(name: "와플대학")],
-     likes: 38,
-     comments: 185
-     ), seeMoreAction: {},
-     isTodayAnswerViewPresented: .constant(false),
-     isAnswerViewPresented: .constant(false)
-     )
-     }
-     */
-
+#Preview {
+    QuestionView(questions: .init(), seeMoreAction: {})
+}

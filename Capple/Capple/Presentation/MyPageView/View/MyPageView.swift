@@ -12,39 +12,41 @@ struct MyPageView: View {
     @EnvironmentObject var pathModel: PathModel
     
     private let sectionInfos: [SectionInfo] = [
-        SectionInfo(
-            sectionTitle: "질문/답변",
-            sectionContents: [
-                "작성한 답변",
-                "좋아요 한 질문",
-                "좋아요 한 답변"
-            ],
-            sectionIcons: [
-                "WriteAnswerIcon",
-                "LikeQuestionIcon",
-                "LikeAnswerIcon"]
-        ),
+//        SectionInfo(
+//            sectionTitle: "질문/답변",
+//            sectionContents: [
+//                "작성한 답변",
+//                "좋아요 한 질문",
+//                "좋아요 한 답변"
+//            ],
+//            sectionIcons: [
+//                "WriteAnswerIcon",
+//                "LikeQuestionIcon",
+//                "LikeAnswerIcon"]
+//        ),
         SectionInfo(
             sectionTitle: "문의 및 제보",
             sectionContents: [
                 "문의하기",
-                "캐플 디스코드",
-                "캐플 인스타",
-                "캐플 오픈채팅방"
+//                "캐플 디스코드",
+//                "캐플 인스타",
+//                "캐플 오픈채팅방"
             ],
             sectionIcons: [
                 "InquiryIcon",
-                "DiscodeIcon",
-                "InstagramIcon",
-                "OpenChatIcon"
+//                "DiscodeIcon",
+//                "InstagramIcon",
+//                "OpenChatIcon"
             ]
         ),
         SectionInfo(
             sectionTitle: "계정 관리",
             sectionContents: [
-                "로그아웃"
+                "로그아웃",
+                "회원탈퇴"
             ],
             sectionIcons: [
+                "SignOutIcon",
                 "SignOutIcon"
             ]
         )
@@ -61,12 +63,12 @@ struct MyPageView: View {
                     
                 },
                 trailingView: {
-                    Button {
-                        pathModel.paths.append(.profileEdit)
-                    } label: {
-                        Text("수정")
-                            .foregroundStyle(TextLabel.sub3)
-                    }
+//                    Button {
+//                        pathModel.paths.append(.profileEdit)
+//                    } label: {
+//                        Text("수정")
+//                            .foregroundStyle(TextLabel.sub3)
+//                    }
                 },
                 backgroundColor: Background.second)
             ScrollView {

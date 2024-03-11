@@ -44,24 +44,13 @@ struct TodayQuestionView: View {
                         .foregroundStyle(TextLabel.sub4)
                     },
                     trailingView: {
-                        HStack(spacing: 8) {
-                            Button {
-                                pathModel.paths.append(.alert)
-                            } label: {
-                                Image(.noticeIcon)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 24 , height: 24)
-                            }
-                            
-                            Button {
-                                pathModel.paths.append(.myPage)
-                            } label: {
-                                Image(.capple)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 24 , height: 24)
-                            }
+                        Button {
+                            pathModel.paths.append(.myPage)
+                        } label: {
+                            Image(.capple)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24 , height: 24)
                         }
                     },
                     backgroundColor: Background.second)
