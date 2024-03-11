@@ -15,8 +15,7 @@ class NetworkManager: ObservableObject {
 extension NetworkManager {
     
     /// 오늘의 메인 질문을 조회합니다.
-    @MainActor
-    static func fetchMainQuestions() async throws -> QuestionResponse.Questions {
+    static func fetchQuestions() async throws -> QuestionResponse.Questions {
         
         // URL 객체 생성
         let urlString = ApiEndpoints.basicURLString(path: .questions)

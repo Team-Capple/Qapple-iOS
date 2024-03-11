@@ -14,7 +14,7 @@ struct TodayAnswerView: View {
     var body: some View {
         VStack(alignment: .leading) {
             CustomNavigationView()
-            KeywordScrollView(viewModel: viewModel)
+            // KeywordScrollView(viewModel: viewModel)
             Spacer()
                 .frame(height: 16)
             FloatingQuestionCard(viewModel: viewModel)
@@ -41,13 +41,7 @@ private struct CustomNavigationView: View {
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main)
             },
-            trailingView: {
-                Button {
-                    // TODO: 답변 검색화면 이동
-                } label: {
-                    Image(.search)
-                }
-            },
+            trailingView: {},
             backgroundColor: .clear
         )
     }

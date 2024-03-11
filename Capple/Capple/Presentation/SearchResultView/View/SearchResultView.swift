@@ -39,24 +39,13 @@ struct SearchResultView: View {
                         .foregroundStyle(TextLabel.sub4)
                     },
                     trailingView: {
-                        HStack(spacing: 8) {
-                            Button {
-                                pathModel.paths.append(.alert)
-                            } label: {
-                                Image(.noticeIcon)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 24 , height: 24)
-                            }
-                            
-                            Button {
-                                pathModel.paths.append(.myPage)
-                            } label: {
-                                Image(.capple)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 24 , height: 24)
-                            }
+                        Button {
+                            pathModel.paths.append(.myPage)
+                        } label: {
+                            Image(.capple)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24 , height: 24)
                         }
                     },
                     backgroundColor: Background.first)
@@ -73,42 +62,6 @@ struct SearchResultView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        
-        
-        // MARK: - 필터링(서칭)기능
-        /*
-         .searchable(text: $searchText, prompt: "검색어를 입력하세요") // 검색 기능을 추가합니다.
-         .foregroundColor(isTextEditing ? .white : .black)
-        .onChange(of: searchText) {
-            /* newValue, oldValue in
-             viewModel.searchQuery = newValue // 사용자가 검색 텍스트를 변경할 때마다 뷰 모델의 검색 쿼리를 업데이트합니다.
-             */
-            isTextEditing = true
-            
-        }
-        .onSubmit(of: .search) {
-            isTextEditing = true
-            viewModel.filterQuestions(with: searchText)
-        }
-        .navigationTitle("질문목록") // 네비게이션 바의 두 번째 제목을 설정합니다.
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    // 이 버튼을 클릭하면 검색 상태를 초기화
-                    searchText = ""
-                    viewModel.reloadQuestions() // 여기서 'reloadQuestions'는 모든 질문을 다시 로드하는 메서드입니다.
-                }) {
-                    Image(systemName: "arrow.clockwise") // 새로고침 아이콘
-                }
-                Button(action: {
-                    
-                }) {
-                    Image(systemName: "magnifyingglass") // 돋보기 아이콘을 표시합니다.
-                }
-            }
-        }
-         */
     }
 }
 
@@ -159,25 +112,6 @@ private struct QuestionListView: View {
                     .foregroundStyle(TextLabel.sub3)
                 
                 Spacer()
-                
-                Button {
-                    // TODO: 최신순/인기순 필터
-                } label: {
-                    Text("최신순")
-                        .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(BrandPink.text)
-                }
-                
-                Spacer()
-                    .frame(width: 12)
-                
-                Button {
-                 // TODO: 검색 화면 이동
-                } label: {
-                    Image(.search)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
             }
             .padding(.horizontal, 24)
             
@@ -189,24 +123,22 @@ private struct QuestionListView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
-                        VStack(spacing: 24) {
-                            QuestionView(questions: question, seeMoreAction: {
+                        VStack(spacing: 20) {
+                            QuestionView(questions: question) {
                                 isBottomSheetPresented.toggle()
-                            })
+                            }
                             .padding(.horizontal, 24)
                             .sheet(isPresented: $isBottomSheetPresented) {
                                 SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                     .presentationDetents([.height(84)])
                             }
-                            Spacer()
-                                .frame(height: 16)
                             
                             Separator()
                                 .padding(.leading, 24)
                         }
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 20)
                     }
-                       }
+                }
                 
             }
             .padding(.top, 24)

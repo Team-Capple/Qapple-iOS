@@ -32,7 +32,6 @@ struct TodayQuestionView: View {
                                     .foregroundStyle(TextLabel.main)
                             }
                             Button {
-                                // TODO: - 모아보기 화면 전환
                                 tab = .collecting
                             } label: {
                                 Text("모아보기")
@@ -44,24 +43,13 @@ struct TodayQuestionView: View {
                         .foregroundStyle(TextLabel.sub4)
                     },
                     trailingView: {
-                        HStack(spacing: 8) {
-                            Button {
-                                pathModel.paths.append(.alert)
-                            } label: {
-                                Image(.noticeIcon)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 24 , height: 24)
-                            }
-                            
-                            Button {
-                                pathModel.paths.append(.myPage)
-                            } label: {
-                                Image(.capple)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 24 , height: 24)
-                            }
+                        Button {
+                            pathModel.paths.append(.myPage)
+                        } label: {
+                            Image(.capple)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24 , height: 24)
                         }
                     },
                     backgroundColor: Background.second)
@@ -264,8 +252,10 @@ private struct AnswerPreview: View {
                         
                         Spacer()
                         
-                        SeeAllButton {
-                            pathModel.paths.append(.todayAnswer)
+                        if viewModel.state != .ready {
+                            SeeAllButton {
+                                pathModel.paths.append(.todayAnswer)
+                            }
                         }
                     }
                 }

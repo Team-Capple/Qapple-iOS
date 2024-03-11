@@ -64,24 +64,24 @@ struct AnswerCell: View {
                         .foregroundStyle(BrandPink.text)
                 }
                 
-                Spacer()
-                    .frame(height: 16)
+//                Spacer()
+//                    .frame(height: 16)
                 
-                Button {
-                    isLike.toggle()
-                    // TODO: - 좋아요 탭 기능 구현
-                } label: {
-                    HStack(spacing: 6) {
-                        Image(isLike ? .heartActive : .heart)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
-                        
-                        Text("\(likeCount)")
-                            .font(.pretendard(.medium, size: 15))
-                            .foregroundStyle(TextLabel.sub3)
-                    }
-                }
+//                Button {
+//                    isLike.toggle()
+//                    // TODO: - 좋아요 탭 기능 구현
+//                } label: {
+//                    HStack(spacing: 6) {
+//                        Image(isLike ? .heartActive : .heart)
+//                            .resizable()
+//                            .frame(width: 24, height: 24)
+//                            .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
+//                        
+//                        Text("\(likeCount)")
+//                            .font(.pretendard(.medium, size: 15))
+//                            .foregroundStyle(TextLabel.sub3)
+//                    }
+//                }
             }
             
             /// 아이콘

@@ -142,7 +142,7 @@ private struct NoneView: View {
                 .frame(height: 24)
             
             KeywordChoiceChip(buttonType: .addKeyword) {
-                viewModel.createNewKeywordAsSearch()
+                // viewModel.createNewKeyword()
                 presentationMode.wrappedValue.dismiss()
             }
             
