@@ -17,12 +17,10 @@ struct QuestionResponse {
         struct QuestionsInfos: Codable,Identifiable {
             var id: Int?
             var questionId: Int?
-            var questionStatus: String?
+            var questionStatus: QuestionStatus?
             var liveAt: String?
             var content: String?
             var tag: String?
-            var likeCount: Int?
-            var commentCount: Int?
         }
     }
 }

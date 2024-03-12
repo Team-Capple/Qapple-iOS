@@ -23,7 +23,6 @@ struct AnswerCell: View {
     let seeMoreAction: () -> Void
     
     var body: some View {
-        
         /// 프로필
         HStack(alignment: .top) {
             Text(profileImageText)
@@ -64,50 +63,36 @@ struct AnswerCell: View {
                         .foregroundStyle(BrandPink.text)
                 }
                 
-//                Spacer()
-//                    .frame(height: 16)
+                //                Spacer()
+                //                    .frame(height: 16)
                 
-//                Button {
-//                    isLike.toggle()
-//                    // TODO: - 좋아요 탭 기능 구현
-//                } label: {
-//                    HStack(spacing: 6) {
-//                        Image(isLike ? .heartActive : .heart)
-//                            .resizable()
-//                            .frame(width: 24, height: 24)
-//                            .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
-//                        
-//                        Text("\(likeCount)")
-//                            .font(.pretendard(.medium, size: 15))
-//                            .foregroundStyle(TextLabel.sub3)
-//                    }
-//                }
-            }
-            
-            /// 아이콘
-            Button {
-                seeMoreAction()
-            } label: {
-                Image(systemName: "ellipsis")
-                    .foregroundStyle(TextLabel.sub2)
-                    .frame(width: 20, height: 20)
+                //                Button {
+                //                    isLike.toggle()
+                //                    // TODO: - 좋아요 탭 기능 구현
+                //                } label: {
+                //                    HStack(spacing: 6) {
+                //                        Image(isLike ? .heartActive : .heart)
+                //                            .resizable()
+                //                            .frame(width: 24, height: 24)
+                //                            .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
+                //
+                //                        Text("\(likeCount)")
+                //                            .font(.pretendard(.medium, size: 15))
+                //                            .foregroundStyle(TextLabel.sub3)
+                //                    }
+                //                }
+                
+                
+                /// 아이콘
+                Button {
+                    seeMoreAction()
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .foregroundStyle(TextLabel.sub2)
+                        .frame(width: 20, height: 20)
+                }
+                
             }
         }
-    }
-}
-
-#Preview {
-    ZStack {
-        Color(Background.first)
-            .ignoresSafeArea()
-        
-        AnswerCell(profileName: "튼튼한 당근",
-                   answer: "겨울에 먹었던 따뜻하고 얼큰한 매콤 쌀국수가 떠올라!",
-                   keywords: [
-                    "와플유니버시티",
-                    "쌀국수"
-                   ],
-                   seeMoreAction: {
-        })
     }
 }

@@ -118,7 +118,6 @@ private struct AnswerScrollView: View {
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isBottomSheetPresented = false
-    let cardHeight: CGFloat = 150 // 답변 카드의 높이를 정의합니다.
     
     fileprivate init(viewModel: TodayAnswersViewModel) {
         self.viewModel = viewModel
@@ -128,10 +127,12 @@ private struct AnswerScrollView: View {
         
         ScrollView(.vertical, showsIndicators: true) {
             LazyVStack {
-                
                 ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                    VStack(spacing: 24) {
+                    VStack {
+                        SingleAnswerView(answer: answer, seeMoreAction: {   isBottomSheetPresented.toggle()} )
                         
+                        // MARK: - 한톨코드
+                        /*
                         AnswerCell(
                             profileName: answer.nickname ?? "닉네임",
                             answer: answer.content ?? "콘텐츠",
@@ -140,14 +141,12 @@ private struct AnswerScrollView: View {
                                 isBottomSheetPresented.toggle()
                             }
                         )
-                        .padding(.horizontal, 24)
+                         */
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
                         
-                        Separator()
-                            .padding(.leading, 24)
                     }
                     .padding(.bottom, 16)
                 }

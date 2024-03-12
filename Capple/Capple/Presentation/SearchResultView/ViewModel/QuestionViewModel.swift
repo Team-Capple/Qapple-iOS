@@ -73,14 +73,16 @@ class QuestionViewModel: ObservableObject {
             getQuestions()
         }
     }
-    // 좋아요 버튼이 눌렸을 때 호출되는 메소드
-       func likeButtonTapped(for question: QuestionResponse.Questions.QuestionsInfos) {
+    
+    // MARK: - 좋아요
+    /*
+    func likeButtonTapped(for question: QuestionResponse.Questions.QuestionsInfos) {
            guard questions.firstIndex(where: { $0.id == question.id }) != nil else { return }
            // 해당 질문의 likeCount 증가
            guard var likes = question.likeCount else { return }
            likes += 1
        }
-    
+    */
     // MARK: - 필터링
     /*
     // 검색 쿼리에 따라 질문 목록을 필터링합니다.
