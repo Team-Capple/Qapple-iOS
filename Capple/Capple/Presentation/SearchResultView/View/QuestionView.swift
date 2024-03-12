@@ -99,17 +99,17 @@ struct QuestionView: View {
                 
                 // MARK: - 상단 날짜
                 HStack(alignment: .center) {
-                 
+                    
                     Button {
                         seeMoreAction()
+                        showingReportSheet = true
                     } label: {
                         Image(systemName: "ellipsis")
                             .foregroundStyle(TextLabel.sub2)
                             .frame(width: 20, height: 20)
-                    } .contextMenu {
-                        Button("신고하기") {
-                            showingReportSheet = true
-                        }
+                    }
+                    .sheet(isPresented: $showingReportSheet) {
+                        ReportView()
                     }
                    
                     

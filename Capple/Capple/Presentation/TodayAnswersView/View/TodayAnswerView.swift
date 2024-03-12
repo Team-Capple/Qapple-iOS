@@ -12,16 +12,15 @@ struct TodayAnswerView: View {
     @ObservedObject var viewModel = TodayAnswersViewModel()
     
     var body: some View {
+        
         VStack(alignment: .leading) {
             CustomNavigationView()
-            // KeywordScrollView(viewModel: viewModel)
+            KeywordScrollView(viewModel: viewModel)
             Spacer()
                 .frame(height: 16)
             FloatingQuestionCard(viewModel: viewModel)
-            
             Spacer()
                 .frame(height: 32)
-
             AnswerScrollView(viewModel: viewModel)
         }
         .navigationBarBackButtonHidden()
@@ -83,13 +82,11 @@ private struct FloatingQuestionCard: View {
     }
     
     var body: some View {
-        
         HStack {
             Text(viewModel.todayQuestionText)
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.main)
                 .lineLimit(isCardExpanded ? 3 : 0)
-            
             Spacer() // 화살표를 오른쪽으로 밀어내기 위해 Spacer 추가
             
             Button {
@@ -124,61 +121,28 @@ private struct AnswerScrollView: View {
     }
     
     var body: some View {
-        
-        ScrollView(.vertical, showsIndicators: true) {
-            LazyVStack {
+        ScrollView(.vertical, showsIndicators: false) {
+            LazyVStack{
                 ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                    VStack {
-                        SingleAnswerView(answer: answer, seeMoreAction: {   isBottomSheetPresented.toggle()} )
-                        
-                        // MARK: - 한톨코드
-                        /*
-                        AnswerCell(
-                            profileName: answer.nickname ?? "닉네임",
-                            answer: answer.content ?? "콘텐츠",
-                            keywords: viewModel.keywords,
-                            seeMoreAction: {
-                                isBottomSheetPresented.toggle()
-                            }
-                        )
-                         */
+                    SingleAnswerView(answer: answer, seeMoreAction: {   isBottomSheetPresented.toggle()} )
+                    
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
-                        
-                    }
-                    .padding(.bottom, 16)
-                }
+                    Separator()
+                        .padding(.leading, 24)
                 
-
-                // MARK: - 기존 현희 누나 코드
-//                ForEach(Array(viewModel.answers.enumerated()), id:\.offset) { index, answer in
-//                    GeometryReader { geometry in
-//                        let frame = geometry.frame(in: .global)
-//                        let midY = frame.midY
-//                        let screenHeight = UIScreen.main.bounds.height
-//                        let scale = min(1.0, 1 - abs(midY - screenHeight / 2) / (screenHeight / 2))
-//                        SingleAnswerView(answer: answer)
-//                            .scaleEffect(scale) // 중앙에 위치할수록 더 크게 표시
-//                            .frame(height: self.cardHeight)
-//                            .padding()
-//                            .onAppear {
-//                                viewModel.loadMoreContentIfNeeded(currentIndex: index)
-//                            }
-//                    }
-//                }
-//                .frame(height: self.cardHeight) // GeometryReader에도 높이 설정
-
-                // 로딩 화면
-                if viewModel.isLoading {
-                    ProgressView()
-                        .scaleEffect(1.5)
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .padding(.vertical, 20)
                 }
             }
+            if viewModel.isLoading {
+                ProgressView()
+                    .scaleEffect(1.5)
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .padding(.vertical, 20)
+            }
         }
+        .padding(.horizontal,24)
     }
 }
 

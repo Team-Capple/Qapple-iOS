@@ -24,5 +24,4 @@ struct Answer: Codable {
     var nickname: String?
     var content: String?
     var tags: String?
-    
 }
