@@ -954,7 +954,6 @@
 				82C379192B93483B00CC7708 /* AlertListRow.swift in Sources */,
 				82D583B72B9844E6003CC424 /* KeywordSelector.swift in Sources */,
 				67B185132B9453E30057E6BB /* SingleAnswerView.swift in Sources */,
-				F37C179F2B88977E005E5072 /* Question.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEndpoints.swift in Sources */,
 				828715C82B9BFB9E001627DB /* MainPathModel.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,

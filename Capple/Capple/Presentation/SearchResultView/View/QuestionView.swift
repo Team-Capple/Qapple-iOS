@@ -7,11 +7,12 @@ struct QuestionView: View {
     
     @EnvironmentObject var pathModel: PathModel
     
+    @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
     @State var questions: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
     @State private var dateString: String = "" // 상태 변수 정의
     @ObservedObject var viewModel: QuestionViewModel = .init() // 뷰 모델을 관찰합니다.
     let seeMoreAction: () -> Void
-    
+    var questionStatus: String = ""
     
     // MARK: - 타임존, 데이트
     // DateFormatter 인스턴스 생성 및 설정
@@ -34,21 +35,6 @@ struct QuestionView: View {
         }
     }
     
-    
-    func dateToString(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // 원하는 출력 형식으로 설정
-        formatter.timeZone = TimeZone.current // 시스템 시간대 사용
-        formatter.locale = Locale.current // 시스템 로케일 사용
-        return formatter.string(from: date)
-    }
-    lazy var outputFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "a" // '오전'/'오후'만 표시
-        formatter.locale = Locale(identifier: "ko_KR")
-        return formatter
-    }()
-    
     func stringToDate(_ dateString: String) -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" // 날짜 형식은 입력되는 문자열 형식에 맞춰야 합니다.
@@ -56,8 +42,24 @@ struct QuestionView: View {
         formatter.locale = Locale(identifier: "en_US_POSIX") // ISO8601 등의 표준 형식을 처리하기 위해 권장
         return formatter.date(from: dateString)
     }
-    @State private var isLike = false
-    @State private var isComment = false
+    var questionStatusRawValue: String {
+        switch questions.questionStatus {
+        case .live:
+            return QuestionStatus.live.rawValue
+        case .old:
+            return QuestionStatus.old.rawValue
+        case .hold:
+            return QuestionStatus.hold.rawValue
+        case .pending:
+            return QuestionStatus.pending.rawValue
+        default:
+            return "UNKNOWN"
+        }
+    }
+
+
+    //@State private var isLike = false
+    //@State private var isComment = false
     
     var body: some View {
         VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
@@ -83,16 +85,15 @@ struct QuestionView: View {
                 
                 Spacer()
                     .frame(width: 8)
-                
-                if questions.questionStatus ?? "ON AIR" == QuestionStatus.live.rawValue {
-                    Text("ON AIR")
+         
+                    Text(questionStatusRawValue)
                         .font(.pretendard(.bold, size: 9))
                         .foregroundStyle(.wh)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 3)
                         .background(Context.onAir)
                         .cornerRadius(18, corners: .allCorners)
-                }
+                
                 
                 Spacer()
                 
@@ -105,9 +106,17 @@ struct QuestionView: View {
                         Image(systemName: "ellipsis")
                             .foregroundStyle(TextLabel.sub2)
                             .frame(width: 20, height: 20)
+                    } .contextMenu {
+                        Button("신고하기") {
+                            showingReportSheet = true
+                        }
                     }
+                   
+                    
                 }
                 
+            }.sheet(isPresented: $showingReportSheet) {
+                ReportView()
             }
                 Spacer()
                     .frame(height: 16)
@@ -121,10 +130,16 @@ struct QuestionView: View {
                     .frame(height: 20)
                 
             HStack {
-                Text(questions.tag ?? "tag")
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(BrandPink.text)
-                
+              
+                Text(questions.tag?
+                       .split(separator: " ")
+                       .map { "#\($0)" }
+                       .joined(separator: " ") ?? "#tag")
+                       .font(.pretendard(.semiBold, size: 14))
+                       .foregroundStyle(BrandPink.text)
+               
+            
+
                 Spacer()
                 
                 Button {

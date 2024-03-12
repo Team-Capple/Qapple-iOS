@@ -77,7 +77,7 @@ struct AnswerHeart: Identifiable, Codable {
 }
 
 /// 질문 상태
-enum QuestionStatus: String {
+enum QuestionStatus: String, Codable {
     case live = "LIVE" // 진행중
     case old = "OLD" // 종료
     case hold = "HOLD" // 질문 건의 대기
