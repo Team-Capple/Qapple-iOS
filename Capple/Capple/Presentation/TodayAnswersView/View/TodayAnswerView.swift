@@ -10,9 +10,13 @@ import SwiftUI
 struct TodayAnswerView: View {
     
     @ObservedObject var viewModel = TodayAnswersViewModel()
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     
+     
     var body: some View {
-        
+        @ObservedObject var sharedData = SharedData()
+
         VStack(alignment: .leading) {
             CustomNavigationView()
             KeywordScrollView(viewModel: viewModel)
@@ -111,28 +115,47 @@ private struct FloatingQuestionCard: View {
 
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
-    
+    @ObservedObject var sharedData = SharedData()
+
+     let seeMoreAction: () -> Void
+
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isBottomSheetPresented = false
     
     fileprivate init(viewModel: TodayAnswersViewModel) {
         self.viewModel = viewModel
+        sharedData = SharedData()
+        self.seeMoreAction = {}
+            // 여기서 `pathModel`은 @EnvironmentObject로 선언되었으므로 별도의 초기화가 필요 없습니다.
+            // `@EnvironmentObject`는 다른 방식으로 값을 주입받기 때문입니다.
+            self.isBottomSheetPresented = false
     }
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack{
-                ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                    SingleAnswerView(answer: answer, seeMoreAction: {   isBottomSheetPresented.toggle()} )
+      
+            ScrollView(.vertical, showsIndicators: false) {
+                LazyVStack{
                     
+                    ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
+                        GeometryReader { geometry in
+                        SingleAnswerView(answer: answer, seeMoreAction: {
+                            print(index)
+                            isBottomSheetPresented.toggle()
+                        }, seeMoreReport: {
+                            
+                            print(CGFloat(geometry.size.height))
+                            sharedData.offset = CGFloat(index+1)
+                                return CGFloat(geometry.size.height)
+                          
+                        })
+                        
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
-                    Separator()
-                        .padding(.leading, 24)
-                
+                        
+                    }
                 }
             }
             if viewModel.isLoading {

@@ -10,7 +10,7 @@ import SwiftUI
 struct ReportListRow: View {
     
     let title: String
-    
+
     init(title: String) {
         self.title = title
     }
@@ -26,6 +26,7 @@ struct ReportListRow: View {
                 .frame(height: 48)
                 .padding(.leading, 24)
                 .background(Background.first)
+               
         }
     }
 }
