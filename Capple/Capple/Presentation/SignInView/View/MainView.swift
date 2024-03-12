@@ -117,6 +117,12 @@ private struct SignInView: View {
             signInView
                 .navigationDestination(for: PathType.self) { path in
                     switch path {
+                    case .email:
+                        SignUpEmailView()
+                        
+                    case .authCode:
+                        SignUpAuthCodeView()
+                        
                     case .inputNickName:
                         SignUpNicknameView()
                         
