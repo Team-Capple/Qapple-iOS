@@ -116,9 +116,9 @@ private struct FloatingQuestionCard: View {
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
     @ObservedObject var sharedData = SharedData()
-
-     let seeMoreAction: () -> Void
-
+    
+    let seeMoreAction: () -> Void
+    
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isBottomSheetPresented = false
@@ -127,48 +127,48 @@ private struct AnswerScrollView: View {
         self.viewModel = viewModel
         sharedData = SharedData()
         self.seeMoreAction = {}
-            // 여기서 `pathModel`은 @EnvironmentObject로 선언되었으므로 별도의 초기화가 필요 없습니다.
-            // `@EnvironmentObject`는 다른 방식으로 값을 주입받기 때문입니다.
-            self.isBottomSheetPresented = false
+        // 여기서 `pathModel`은 @EnvironmentObject로 선언되었으므로 별도의 초기화가 필요 없습니다.
+        // `@EnvironmentObject`는 다른 방식으로 값을 주입받기 때문입니다.
+        self.isBottomSheetPresented = false
     }
+    @State private var reportButtonPosition: CGPoint = .zero // ellipsis 버튼 위치 저장을 위한 State
     
     var body: some View {
-      
-            ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack{
-                    
-                    ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                        GeometryReader { geometry in
+        
+        ScrollView(.vertical, showsIndicators: false) {
+            LazyVStack{
+                ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
+                    GeometryReader { geometry in
                         SingleAnswerView(answer: answer, seeMoreAction: {
                             print(index)
                             isBottomSheetPresented.toggle()
                         }, seeMoreReport: {
-                            
                             print(CGFloat(geometry.size.height))
                             sharedData.offset = CGFloat(index+1)
-                                return CGFloat(geometry.size.height)
-                          
+                            return CGPoint(x: geometry.frame(in: .global).minX, y: geometry.frame(in: .global).minY)
+                            
                         })
+                        // 이 값은 NewReportButtonView의 실제 크기와 위치에 따라 조정될 수 있습니다.
                         
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
-                        
                     }
+                    
+                }
+                }
+                if viewModel.isLoading {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .padding(.vertical, 20)
                 }
             }
-            if viewModel.isLoading {
-                ProgressView()
-                    .scaleEffect(1.5)
-                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                    .padding(.vertical, 20)
-            }
-        }
-        .padding(.horizontal,24)
+            .padding(.horizontal,24)
+        
     }
 }
-
 #Preview {
     TodayAnswerView()
 }

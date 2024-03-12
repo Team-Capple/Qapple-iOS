@@ -23,8 +23,10 @@ struct NewReportView: View {
                 
                 VStack {
                     List(moreList, id: \.self) { more in
+                       
                         Button {
                             // TODO: 신고하기 이동
+                            
                         } label: {
                             ReportListRow(title: more)
                             
