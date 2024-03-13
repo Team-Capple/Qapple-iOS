@@ -116,17 +116,25 @@ struct SingleAnswerView: View {
                  .animation(.default, value: sharedData.showingReportSheet)
                  */
                 
-                if sharedData.showingReportSheet && sharedData.innerShowingReportSheet  {
-                    
-                    
-                    // .sheet(isPresented: $showingReportSheet) {
-                    //   ReportView()
-                    
-                    NewReportButtonView()
-                        .offset(x: seeMoreReport().x  , y: seeMoreReport().y  ) // 이 값은 NewReportButtonView의 실제 크기와 위치에 따라 조정될 수 있습니다.
-                        .animation(.default, value: showReportButton)
-                    
-                }
+                // MARK: - 기존코드
+                /*
+                ZStack{
+                    if sharedData.showingReportSheet && sharedData.innerShowingReportSheet  {
+                        
+                        
+                        // .sheet(isPresented: $showingReportSheet) {
+                        //   ReportView()
+                        
+                        NewReportButtonView()
+                        // .offset(x: seeMoreReport().x + 50 , y: seeMoreReport().y - 50 ) // 이 값은 NewReportButtonView의 실제 크기와 위치에 따라 조정될 수 있습니다.
+                            .animation(.default, value: showReportButton)
+                            .onTapGesture {
+                                sharedData.showingReportSheet = false
+                                
+                            }
+                    }
+                }.zIndex(1)
+                */
                 /*
                  HStack { // 좋아요와 댓글 아이콘을 가로로 나열합니다.
                  Image(systemName: "heart.fill") // 좋아요 아이콘을 표시합니다.
@@ -138,14 +146,28 @@ struct SingleAnswerView: View {
                  */
                 
             }
-            
         }.onTapGesture {
-            sharedData.showingReportSheet = false
+            sharedData.innerShowingReportSheet = false
             // 이곳에 실제 모달을 보여주는 트리거
             
-        }.onTapGesture {
-            sharedData.innerShowingReportSheet = true
         }
+        ZStack{
+            if sharedData.showingReportSheet && sharedData.innerShowingReportSheet  {
+                
+                
+                // .sheet(isPresented: $showingReportSheet) {
+                //   ReportView()
+                
+                NewReportButtonView()
+                    .offset(x: sharedData.offset + 40 , y: sharedData.offset )
+                //  .offset(x: seeMoreReport().x , y: seeMoreReport().y ) // 이 값은 NewReportButtonView의 실제 크기와 위치에 따라 조정될 수 있습니다.
+                    .animation(.default, value: showReportButton)
+                    .onTapGesture {
+                        sharedData.showingReportSheet = false
+                        
+                    }
+            }
+        }.zIndex(1)
     }
 }
 /*

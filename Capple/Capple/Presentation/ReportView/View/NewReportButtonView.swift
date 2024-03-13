@@ -37,7 +37,7 @@ struct NewReportButtonView: View {
                 if sharedData.innerShowingReportSheet {
                     
                     NewReportView()
-                        .offset(x: reportButtonPosition.x - 50 , y: reportButtonPosition.y - 260  ) // 이 값은 NewReportButtonView의 실제 크기와 위치에 따라 조정될 수 있습니다.
+                        .offset(x: reportButtonPosition.x - 70 , y: reportButtonPosition.y - 270  ) // 이 값은 NewReportButtonView의 실제 크기와 위치에 따라 조정될 수 있습니다.
                     
                     
                     //   .transition(.move(edge: .bottom)) // 모달 등장 애니메이션
