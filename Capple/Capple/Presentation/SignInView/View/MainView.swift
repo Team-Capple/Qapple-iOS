@@ -129,6 +129,9 @@ private struct SignInView: View {
                     case .agreement:
                         SignUpTermsAgreementView()
                         
+                    case .privacy:
+                        SignUpPrivacyView()
+                        
                     case .signUpCompleted:
                         SignUpCompletedView(authViewModel: authViewModel)
                         

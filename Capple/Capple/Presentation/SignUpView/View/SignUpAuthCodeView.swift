@@ -63,11 +63,13 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                             .foregroundStyle(isEnableButton ? TextLabel.main : BrandPink.text)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
+                            .keyboardType(.numberPad)
                         
                         Spacer()
                         
                         Button {
-                            
+                            // TODO: 인증 코드 확인 API
+                            isEnableButton = true
                         } label: {
                             Text("인증 코드 확인")
                                 .font(.pretendard(.medium, size: 14))

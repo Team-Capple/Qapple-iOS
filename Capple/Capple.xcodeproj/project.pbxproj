@@ -47,6 +47,7 @@
 		828715C82B9BFB9E001627DB /* MainPathModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715C72B9BFB9E001627DB /* MainPathModel.swift */; };
 		8295BDAA2BA04D1300115FA8 /* SignUpEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDA92BA04D1300115FA8 /* SignUpEmailView.swift */; };
 		8295BDAC2BA0645200115FA8 /* SignUpAuthCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDAB2BA0645200115FA8 /* SignUpAuthCodeView.swift */; };
+		8295BDAE2BA1CD8F00115FA8 /* SignUpPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDAD2BA1CD8F00115FA8 /* SignUpPrivacyView.swift */; };
 		82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790B2B93291C00CC7708 /* ReportView.swift */; };
 		82C3790E2B93292200CC7708 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790D2B93292200CC7708 /* ReportViewModel.swift */; };
 		82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790F2B9330BA00CC7708 /* ReportListRow.swift */; };
@@ -150,6 +151,7 @@
 		828715C72B9BFB9E001627DB /* MainPathModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPathModel.swift; sourceTree = "<group>"; };
 		8295BDA92BA04D1300115FA8 /* SignUpEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailView.swift; sourceTree = "<group>"; };
 		8295BDAB2BA0645200115FA8 /* SignUpAuthCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAuthCodeView.swift; sourceTree = "<group>"; };
+		8295BDAD2BA1CD8F00115FA8 /* SignUpPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPrivacyView.swift; sourceTree = "<group>"; };
 		82C3790B2B93291C00CC7708 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		82C3790D2B93292200CC7708 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		82C3790F2B9330BA00CC7708 /* ReportListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListRow.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 				8295BDAB2BA0645200115FA8 /* SignUpAuthCodeView.swift */,
 				F392AC422B8B2E370069AD7B /* SignUpNicknameView.swift */,
 				F392AC432B8B2E370069AD7B /* SignUpTermsAgreementView.swift */,
+				8295BDAD2BA1CD8F00115FA8 /* SignUpPrivacyView.swift */,
 				F392AC442B8B2E370069AD7B /* SignUpCompletedView.swift */,
 			);
 			path = View;
@@ -901,6 +904,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3D452D12B8A55BD000BA51C /* ProfileEditView.swift in Sources */,
+				8295BDAE2BA1CD8F00115FA8 /* SignUpPrivacyView.swift in Sources */,
 				F36B0EEB2B8655AE009EBE1D /* MainView.swift in Sources */,
 				82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */,
 				F37C17A42B889956005E5072 /* SearchResultView.swift in Sources */,
