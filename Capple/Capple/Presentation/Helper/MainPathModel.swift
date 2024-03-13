@@ -10,8 +10,11 @@ import Foundation
 enum PathType: Hashable {
     
     /// 로그인&회원가입
+    case email // 이메일 인증
+    case authCode // 인증 코드 입력
     case inputNickName // 닉네임 입력
     case agreement // 약관 동의
+    case privacy // 개인정보 처리방침
     case signUpCompleted // 완료
     
     /// 답변하기

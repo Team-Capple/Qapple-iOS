@@ -12,7 +12,6 @@ struct SignUpNicknameView: View, KeyboardReadable {
     
     @EnvironmentObject var pathModel: PathModel
     
-    
     @State private var nickname: String = ""
     @State private var isKeyboardVisible = false
     @State private var keyboardBottomPadding: CGFloat = 0
@@ -23,7 +22,6 @@ struct SignUpNicknameView: View, KeyboardReadable {
     private let nicknameLimit: Int = 15
     private var description: String = "* 캐플주스는 익명 닉네임을 권장하고 있어요"
     private var validationFailedDescription: String = "이미 사용 중인 닉네임이에요"
-    
     
     var body: some View {
         
@@ -42,7 +40,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
                     .font(Font.pretendard(.bold, size: 24))
                     .frame(height: 17)
                 
-                Spacer().frame(height: 23)
+                Spacer().frame(height: 22)
                 
                 Text("닉네임은 이후에도 변경이 가능해요")
                     .foregroundStyle(TextLabel.sub3)

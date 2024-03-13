@@ -27,7 +27,7 @@ struct AppleLoginButton: View {
                 onCompletion: { result in
                     Task {
                         await authViewModel.appleLoginCompletion(result: result)
-                        pathModel.paths.append(.inputNickName)
+                        pathModel.paths.append(.email)
                     }
                 }
             )
