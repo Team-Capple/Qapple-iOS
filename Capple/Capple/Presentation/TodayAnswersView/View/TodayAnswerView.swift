@@ -10,18 +10,21 @@ import SwiftUI
 struct TodayAnswerView: View {
     
     @ObservedObject var viewModel = TodayAnswersViewModel()
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     
+     
     var body: some View {
+        @ObservedObject var sharedData = SharedData()
+
         VStack(alignment: .leading) {
             CustomNavigationView()
-            // KeywordScrollView(viewModel: viewModel)
+            KeywordScrollView(viewModel: viewModel)
             Spacer()
                 .frame(height: 16)
             FloatingQuestionCard(viewModel: viewModel)
-            
             Spacer()
                 .frame(height: 32)
-
             AnswerScrollView(viewModel: viewModel)
         }
         .navigationBarBackButtonHidden()
@@ -83,13 +86,11 @@ private struct FloatingQuestionCard: View {
     }
     
     var body: some View {
-        
         HStack {
             Text(viewModel.todayQuestionText)
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.main)
                 .lineLimit(isCardExpanded ? 3 : 0)
-            
             Spacer() // 화살표를 오른쪽으로 밀어내기 위해 Spacer 추가
             
             Button {
@@ -114,6 +115,9 @@ private struct FloatingQuestionCard: View {
 
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
+    @ObservedObject var sharedData = SharedData()
+    
+    let seeMoreAction: () -> Void
     
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
@@ -121,56 +125,39 @@ private struct AnswerScrollView: View {
     
     fileprivate init(viewModel: TodayAnswersViewModel) {
         self.viewModel = viewModel
+        sharedData = SharedData()
+        self.seeMoreAction = {}
+        // 여기서 `pathModel`은 @EnvironmentObject로 선언되었으므로 별도의 초기화가 필요 없습니다.
+        // `@EnvironmentObject`는 다른 방식으로 값을 주입받기 때문입니다.
+        self.isBottomSheetPresented = false
     }
+    @State private var reportButtonPosition: CGPoint = .zero // ellipsis 버튼 위치 저장을 위한 State
     
     var body: some View {
         
-        ScrollView(.vertical, showsIndicators: true) {
-            LazyVStack {
+        ScrollView(.vertical, showsIndicators: false) {
+            LazyVStack{
                 ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                    VStack {
-                        SingleAnswerView(answer: answer, seeMoreAction: {   isBottomSheetPresented.toggle()} )
+                    GeometryReader { geometry in
+                        SingleAnswerView(answer: answer, seeMoreAction: {
+                            print(index)
+                            isBottomSheetPresented.toggle()
+                        }, seeMoreReport: {
+                            print(CGFloat(geometry.size.height))
+                            sharedData.offset = CGFloat(index+1)
+                            return CGPoint(x: geometry.frame(in: .global).minX, y: geometry.frame(in: .global).minY)
+                            
+                        })
+                        // 이 값은 NewReportButtonView의 실제 크기와 위치에 따라 조정될 수 있습니다.
                         
-                        // MARK: - 한톨코드
-                        /*
-                        AnswerCell(
-                            profileName: answer.nickname ?? "닉네임",
-                            answer: answer.content ?? "콘텐츠",
-                            keywords: viewModel.keywords,
-                            seeMoreAction: {
-                                isBottomSheetPresented.toggle()
-                            }
-                        )
-                         */
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
-                        
                     }
-                    .padding(.bottom, 16)
+                    
                 }
-                
-
-                // MARK: - 기존 현희 누나 코드
-//                ForEach(Array(viewModel.answers.enumerated()), id:\.offset) { index, answer in
-//                    GeometryReader { geometry in
-//                        let frame = geometry.frame(in: .global)
-//                        let midY = frame.midY
-//                        let screenHeight = UIScreen.main.bounds.height
-//                        let scale = min(1.0, 1 - abs(midY - screenHeight / 2) / (screenHeight / 2))
-//                        SingleAnswerView(answer: answer)
-//                            .scaleEffect(scale) // 중앙에 위치할수록 더 크게 표시
-//                            .frame(height: self.cardHeight)
-//                            .padding()
-//                            .onAppear {
-//                                viewModel.loadMoreContentIfNeeded(currentIndex: index)
-//                            }
-//                    }
-//                }
-//                .frame(height: self.cardHeight) // GeometryReader에도 높이 설정
-
-                // 로딩 화면
+                }
                 if viewModel.isLoading {
                     ProgressView()
                         .scaleEffect(1.5)
@@ -178,10 +165,10 @@ private struct AnswerScrollView: View {
                         .padding(.vertical, 20)
                 }
             }
-        }
+            .padding(.horizontal,24)
+        
     }
 }
-
 #Preview {
     TodayAnswerView()
 }
