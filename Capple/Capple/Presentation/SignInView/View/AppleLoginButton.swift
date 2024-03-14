@@ -27,11 +27,15 @@ struct AppleLoginButton: View {
                 onCompletion: { result in
                     Task {
                         await authViewModel.appleLoginCompletion(result: result)
-                        pathModel.paths.append(.email)
+                        switch result {
+                        case .success(_):
+                            pathModel.paths.append(.email)
+                        case .failure(_):
+                            break
+                        }
                     }
                 }
             )
-//            .blendMode(.overlay)
         }
     }
 }
