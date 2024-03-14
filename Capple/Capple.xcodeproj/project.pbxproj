@@ -51,6 +51,7 @@
 		8295BDAA2BA04D1300115FA8 /* SignUpEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDA92BA04D1300115FA8 /* SignUpEmailView.swift */; };
 		8295BDAC2BA0645200115FA8 /* SignUpAuthCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDAB2BA0645200115FA8 /* SignUpAuthCodeView.swift */; };
 		8295BDAE2BA1CD8F00115FA8 /* SignUpPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDAD2BA1CD8F00115FA8 /* SignUpPrivacyView.swift */; };
+		8295BDB02BA31C5C00115FA8 /* PrivacyDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDAF2BA31C5C00115FA8 /* PrivacyDocument.swift */; };
 		82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790B2B93291C00CC7708 /* ReportView.swift */; };
 		82C3790E2B93292200CC7708 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790D2B93292200CC7708 /* ReportViewModel.swift */; };
 		82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790F2B9330BA00CC7708 /* ReportListRow.swift */; };
@@ -158,6 +159,7 @@
 		8295BDA92BA04D1300115FA8 /* SignUpEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailView.swift; sourceTree = "<group>"; };
 		8295BDAB2BA0645200115FA8 /* SignUpAuthCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAuthCodeView.swift; sourceTree = "<group>"; };
 		8295BDAD2BA1CD8F00115FA8 /* SignUpPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPrivacyView.swift; sourceTree = "<group>"; };
+		8295BDAF2BA31C5C00115FA8 /* PrivacyDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyDocument.swift; sourceTree = "<group>"; };
 		82C3790B2B93291C00CC7708 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		82C3790D2B93292200CC7708 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		82C3790F2B9330BA00CC7708 /* ReportListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListRow.swift; sourceTree = "<group>"; };
@@ -766,6 +768,7 @@
 				82C3791A2B93499300CC7708 /* Alert.swift */,
 				82C3791E2B94A50000CC7708 /* Tab.swift */,
 				828715C72B9BFB9E001627DB /* MainPathModel.swift */,
+				8295BDAF2BA31C5C00115FA8 /* PrivacyDocument.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -961,6 +964,7 @@
 				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
 				82C3791B2B93499300CC7708 /* Alert.swift in Sources */,
 				F36F37C32B9B7A29002EC36B /* AppleLoginButton.swift in Sources */,
+				8295BDB02BA31C5C00115FA8 /* PrivacyDocument.swift in Sources */,
 				073C3DE02B87143B0016C333 /* QuestionState.swift in Sources */,
 				82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */,
 				07BF364A2B8B9C420047F3F7 /* SearchKeywordView.swift in Sources */,
@@ -1166,7 +1170,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Capple.appledeveloperacademy;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.capple-iOS.AppleDeveloperAcademy";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1198,7 +1202,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Capple.appledeveloperacademy;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.capple-iOS.AppleDeveloperAcademy";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

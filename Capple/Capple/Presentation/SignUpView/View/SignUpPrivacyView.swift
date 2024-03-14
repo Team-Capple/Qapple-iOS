@@ -24,7 +24,11 @@ struct SignUpPrivacyView: View {
             Spacer()
             
             VStack(alignment: .leading, spacing: 0) {
-                
+                ScrollView {
+                    Text(privacyText)
+                        .font(.pretendard(.medium, size: 16))
+                        .foregroundStyle(TextLabel.main)
+                }
             }
             .padding(.horizontal, 24)
         }
