@@ -13,10 +13,9 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
     
-    @State private var authenticationCode = ""
-    @State private var isEnableButton = false
     @State private var isKeyboardVisible = false
     @State private var keyboardBottomPadding: CGFloat = 0
+    
     private let codeLimit = 4
     
     var body: some View {
@@ -55,7 +54,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                     .frame(height: 21)
                 
                 ZStack(alignment: .leading) {
-                    if authenticationCode.isEmpty {
+                    if authViewModel.certifyCode.isEmpty {
                         Text("인증 코드를 입력해주세요")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 20))
@@ -63,30 +62,29 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                     }
                     
                     HStack(spacing: 0) {
-                        TextField("", text: $authenticationCode)
-                            .foregroundStyle(isEnableButton ? TextLabel.main : BrandPink.text)
+                        TextField("", text: $authViewModel.certifyCode)
+                            .foregroundStyle(authViewModel.isCertifyCodeVerified ? TextLabel.main : BrandPink.text)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
                             .keyboardType(.numberPad)
-                            .onChange(of: authenticationCode) { newCode in
+                            .onChange(of: authViewModel.certifyCode) { newCode in
                                 if newCode.count > codeLimit {
-                                    authenticationCode = String(newCode.prefix(codeLimit))
+                                    authViewModel.certifyCode = String(newCode.prefix(codeLimit))
                                 }
                             }
                         
                         Spacer()
                         
                         Button {
-                            // TODO: 인증 코드 확인 API
-                            isEnableButton = true
+                            authViewModel.requestCertifyCode()
                         } label: {
                             Text("인증 코드 확인")
                                 .font(.pretendard(.medium, size: 14))
-                                .foregroundStyle(authenticationCode.count < 4 ? TextLabel.sub4 : TextLabel.main)
+                                .foregroundStyle(authViewModel.certifyCode.count < 4 ? TextLabel.sub4 : TextLabel.main)
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 8)
-                        .background(authenticationCode.count < 4 ? GrayScale.secondaryButton : BrandPink.button)
+                        .background(authViewModel.certifyCode.count < 4 ? GrayScale.secondaryButton : BrandPink.button)
                         .cornerRadius(20, corners: .allCorners)
                     }
                     .frame(height: 14)
@@ -97,7 +95,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                 
                 Rectangle()
                     .frame(height: 2)
-                    .foregroundStyle(isEnableButton ? GrayScale.wh : (authenticationCode.isEmpty ? GrayScale.wh : BrandPink.button))
+                    .foregroundStyle(authViewModel.isCertifyCodeVerified ? GrayScale.wh : (authViewModel.certifyCode.isEmpty ? GrayScale.wh : BrandPink.button))
                 
                 Spacer()
                     .frame(height: 28)
@@ -131,15 +129,15 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                 Button {
                     pathModel.paths.append(.inputNickName)
                 } label: {
-                    if isEnableButton {
+                    if authViewModel.isCertifyCodeVerified {
                         Image(.nextDefaultButton)
                     } else {
                         Image(.nextDisableButton)
                     }
                 }
                 .padding(.bottom, keyboardBottomPadding)
-                .disabled(!isEnableButton)
-                .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: isEnableButton)
+                .disabled(!authViewModel.isCertifyCodeVerified)
+                .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: authViewModel.isCertifyCodeVerified)
             }
             .padding(.horizontal, 24)
         }

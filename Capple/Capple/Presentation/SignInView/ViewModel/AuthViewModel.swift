@@ -14,6 +14,8 @@ class AuthViewModel: ObservableObject {
     @Published var authorizationCode: String = ""
     @Published var name: String = ""
     @Published var email: String = ""
+    @Published var certifyCode: String = ""
+    @Published var isCertifyCodeVerified = false
     
     var signInResponse: MemberResponse.SignIn = .init(accessToken: nil, refreshToken: nil, isMember: false)
 }
@@ -72,7 +74,30 @@ extension AuthViewModel {
     /// 대학 이메일 인증을 요청합니다.
     func requestEmailCertification() {
         Task {
-            try await NetworkManager.requestUniversityMailAuth(request: .init(key: APIKey.univcertKey, email: "\(email)@postech.ac.kr"))
+            try await NetworkManager.requestUniversityMailAuth(
+                request: .init(
+                    key: APIKey.univcertKey,
+                    email: "\(email)@postech.ac.kr"
+                )
+            )
+        }
+    }
+    
+    /// 대학 이메일 인증 코드를 확인합니다.
+    @MainActor
+    func requestCertifyCode() {
+        Task {
+            let response = try await NetworkManager.requestUniversityCertifyCode(
+                request: .init(
+                    key: APIKey.univcertKey,
+                    email: "\(email)@postech.ac.kr",
+                    code: Int(certifyCode) ?? 0
+                )
+            )
+            
+            if response.success {
+                isCertifyCodeVerified = true
+            }
         }
     }
 }

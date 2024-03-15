@@ -15,4 +15,11 @@ class UNIVCERTRequest {
         var univName: String = "POSTECH"
         var univ_check: Bool = false
     }
+    
+    struct CertifyCode: Codable {
+        let key: String
+        let email: String
+        var univName: String = "POSTECH"
+        let code: Int
+    }
 }

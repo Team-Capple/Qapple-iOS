@@ -12,4 +12,11 @@ struct UNIVCERTResponse {
     struct UserMailAuthentication: Codable {
         let success: Bool
     }
+    
+    struct CertifyCode: Codable {
+        let success: Bool
+        let univName: String
+        let certified_email: String
+        let certified_date: String
+    }
 }
