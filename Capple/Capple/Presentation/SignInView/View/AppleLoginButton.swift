@@ -11,7 +11,7 @@ import AuthenticationServices
 struct AppleLoginButton: View {
     
     @EnvironmentObject var pathModel: PathModel
-    @ObservedObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
         HStack {
@@ -41,5 +41,5 @@ struct AppleLoginButton: View {
 }
 
 #Preview {
-    AppleLoginButton(authViewModel: AuthViewModel())
+    AppleLoginButton()
 }

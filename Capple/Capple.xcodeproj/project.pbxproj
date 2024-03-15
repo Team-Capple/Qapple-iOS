@@ -57,6 +57,10 @@
 		8295BDB62BA322A300115FA8 /* NetworkManager+Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */; };
 		8295BDB82BA322E600115FA8 /* NetworkManager+Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */; };
 		8295BDBA2BA3231000115FA8 /* NetworkManager+Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */; };
+		8295BDBD2BA3304500115FA8 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDBC2BA3304500115FA8 /* APIKey.swift */; };
+		8295BDBF2BA3315100115FA8 /* UNIVCERTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDBE2BA3315100115FA8 /* UNIVCERTRequest.swift */; };
+		8295BDC12BA331E000115FA8 /* UNIVCERTResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDC02BA331E000115FA8 /* UNIVCERTResponse.swift */; };
+		8295BDC32BA3322600115FA8 /* NetworkManager+UNIVCERT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDC22BA3322600115FA8 /* NetworkManager+UNIVCERT.swift */; };
 		82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790B2B93291C00CC7708 /* ReportView.swift */; };
 		82C3790E2B93292200CC7708 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790D2B93292200CC7708 /* ReportViewModel.swift */; };
 		82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790F2B9330BA00CC7708 /* ReportListRow.swift */; };
@@ -170,6 +174,10 @@
 		8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Answer.swift"; sourceTree = "<group>"; };
 		8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Tag.swift"; sourceTree = "<group>"; };
 		8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Member.swift"; sourceTree = "<group>"; };
+		8295BDBC2BA3304500115FA8 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		8295BDBE2BA3315100115FA8 /* UNIVCERTRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNIVCERTRequest.swift; sourceTree = "<group>"; };
+		8295BDC02BA331E000115FA8 /* UNIVCERTResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNIVCERTResponse.swift; sourceTree = "<group>"; };
+		8295BDC22BA3322600115FA8 /* NetworkManager+UNIVCERT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+UNIVCERT.swift"; sourceTree = "<group>"; };
 		82C3790B2B93291C00CC7708 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		82C3790D2B93292200CC7708 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		82C3790F2B9330BA00CC7708 /* ReportListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListRow.swift; sourceTree = "<group>"; };
@@ -427,6 +435,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8295BDBB2BA3303700115FA8 /* Key */ = {
+			isa = PBXGroup;
+			children = (
+				8295BDBC2BA3304500115FA8 /* APIKey.swift */,
+			);
+			path = Key;
+			sourceTree = "<group>";
+		};
 		82C379082B93290700CC7708 /* ReportView */ = {
 			isa = PBXGroup;
 			children = (
@@ -679,6 +695,7 @@
 		F3EA66F92B764479002417CE /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				8295BDBB2BA3303700115FA8 /* Key */,
 				F3EA66FA2B76447C002417CE /* Network */,
 			);
 			path = Data;
@@ -692,6 +709,7 @@
 				8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */,
 				8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */,
 				8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */,
+				8295BDC22BA3322600115FA8 /* NetworkManager+UNIVCERT.swift */,
 				F3EA66FC2B7644D0002417CE /* ApiEndpoints.swift */,
 				82D583BC2B9859D7003CC424 /* NetworkError.swift */,
 			);
@@ -715,6 +733,7 @@
 				828715BD2B99FC54001627DB /* TagResponse.swift */,
 				828715C12B9AC91A001627DB /* AnswerResponse.swift */,
 				8295BDB32BA3222200115FA8 /* MemberResponse.swift */,
+				8295BDC02BA331E000115FA8 /* UNIVCERTResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -726,6 +745,7 @@
 				828715BB2B99F6EA001627DB /* TagRequest.swift */,
 				828715BF2B9AC866001627DB /* AnswerRequest.swift */,
 				8295BDB12BA3209000115FA8 /* MemberRequest.swift */,
+				8295BDBE2BA3315100115FA8 /* UNIVCERTRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -966,6 +986,7 @@
 				6709800B2BA0A1FF00EE494D /* ReportClass.swift in Sources */,
 				F3EA66F82B764474002417CE /* DummyModel.swift in Sources */,
 				073C3DDA2B870D3B0016C333 /* QuestionTimeManager.swift in Sources */,
+				8295BDBD2BA3304500115FA8 /* APIKey.swift in Sources */,
 				F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */,
 				07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */,
 				07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */,
@@ -973,8 +994,10 @@
 				8295BDB22BA3209000115FA8 /* MemberRequest.swift in Sources */,
 				82D583BD2B9859D7003CC424 /* NetworkError.swift in Sources */,
 				F3D452CC2B8A4468000BA51C /* MyPageSection.swift in Sources */,
+				8295BDC12BA331E000115FA8 /* UNIVCERTResponse.swift in Sources */,
 				670980072BA095A000EE494D /* NewReportView.swift in Sources */,
 				F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */,
+				8295BDC32BA3322600115FA8 /* NetworkManager+UNIVCERT.swift in Sources */,
 				82C3791F2B94A50000CC7708 /* Tab.swift in Sources */,
 				8295BDB42BA3222200115FA8 /* MemberResponse.swift in Sources */,
 				07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */,
@@ -1001,6 +1024,7 @@
 				82C379192B93483B00CC7708 /* AlertListRow.swift in Sources */,
 				82D583B72B9844E6003CC424 /* KeywordSelector.swift in Sources */,
 				67B185132B9453E30057E6BB /* SingleAnswerView.swift in Sources */,
+				8295BDBF2BA3315100115FA8 /* UNIVCERTRequest.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEndpoints.swift in Sources */,
 				828715C82B9BFB9E001627DB /* MainPathModel.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,

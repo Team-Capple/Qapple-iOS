@@ -10,7 +10,7 @@ import SwiftUI
 struct SignUpCompletedView: View {
     
     @EnvironmentObject var pathModel: PathModel
-    @ObservedObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     @State private var isCompleted: Bool = true // 추후 중복 검사 변수 나오면 삭제 예정
     
@@ -55,5 +55,5 @@ struct SignUpCompletedView: View {
 }
 
 #Preview {
-    SignUpCompletedView(authViewModel: .init())
+    SignUpCompletedView()
 }

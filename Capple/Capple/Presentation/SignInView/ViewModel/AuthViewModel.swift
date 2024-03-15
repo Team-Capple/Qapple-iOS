@@ -13,8 +13,13 @@ class AuthViewModel: ObservableObject {
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var authorizationCode: String = ""
     @Published var name: String = ""
+    @Published var email: String = ""
     
     var signInResponse: MemberResponse.SignIn = .init(accessToken: nil, refreshToken: nil, isMember: false)
+}
+
+// MARK: - 애플 로그인
+extension AuthViewModel {
     
     // Apple 로그인 요청 처리
     func appleLogin(request: ASAuthorizationAppleIDRequest) async {
@@ -57,6 +62,17 @@ class AuthViewModel: ObservableObject {
         case .failure(let error):
             print(error.localizedDescription)
             print("error")
+        }
+    }
+}
+
+// MARK: - 이메일 인증
+extension AuthViewModel {
+    
+    /// 대학 이메일 인증을 요청합니다.
+    func requestEmailCertification() {
+        Task {
+            try await NetworkManager.requestUniversityMailAuth(request: .init(key: APIKey.univcertKey, email: "\(email)@postech.ac.kr"))
         }
     }
 }
