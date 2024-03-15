@@ -75,17 +75,23 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                         
                         Spacer()
                         
-                        Button {
-                            authViewModel.requestCertifyCode()
-                        } label: {
-                            Text("인증 코드 확인")
-                                .font(.pretendard(.medium, size: 14))
-                                .foregroundStyle(authViewModel.certifyCode.count < 4 ? TextLabel.sub4 : TextLabel.main)
+                        if authViewModel.isCertifyCodeVerified {
+                            Text("인증 완료")
+                                .font(.pretendard(.medium, size: 16))
+                                .foregroundStyle(BrandPink.text)
+                        } else {
+                            Button {
+                                authViewModel.requestCertifyCode()
+                            } label: {
+                                Text("인증 코드 확인")
+                                    .font(.pretendard(.medium, size: 14))
+                                    .foregroundStyle(authViewModel.certifyCode.count < 4 ? TextLabel.sub4 : TextLabel.main)
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(authViewModel.certifyCode.count < 4 ? GrayScale.secondaryButton : BrandPink.button)
+                            .cornerRadius(20, corners: .allCorners)
                         }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(authViewModel.certifyCode.count < 4 ? GrayScale.secondaryButton : BrandPink.button)
-                        .cornerRadius(20, corners: .allCorners)
                     }
                     .frame(height: 14)
                 }
@@ -101,27 +107,27 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                     .frame(height: 28)
                 
                 HStack {
-                    VStack(alignment: .leading) {
+                    if !authViewModel.isCertifyCodeVerified {
                         Text("메일이 오지 않았나요? 스팸 메일함 혹은\n이메일 주소를 다시 한번 확인해주세요.")
                             .font(Font.pretendard(.semiBold, size: 14))
                             .foregroundStyle(TextLabel.sub3)
                             .lineLimit(2)
                             .lineSpacing(6)
+                        
+                        Spacer()
+                        
+                        Button {
+                            // TODO: 메일 재발송 로직
+                        } label: {
+                            Text("메일 재발송")
+                                .font(.pretendard(.medium, size: 14))
+                                .foregroundStyle(TextLabel.main)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(GrayScale.secondaryButton)
+                        .cornerRadius(20, corners: .allCorners)
                     }
-                    
-                    Spacer()
-                    
-                    Button {
-                        // TODO: 메일 재발송 로직
-                    } label: {
-                        Text("메일 재발송")
-                            .font(.pretendard(.medium, size: 14))
-                            .foregroundStyle(TextLabel.main)
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(GrayScale.secondaryButton)
-                    .cornerRadius(20, corners: .allCorners)
                 }
                 
                 Spacer()
