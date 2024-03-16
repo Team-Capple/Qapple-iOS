@@ -13,3 +13,4 @@ struct BaseResponse<ResultType: Codable>: Codable {
     let message: String
     let result: ResultType
 }
+

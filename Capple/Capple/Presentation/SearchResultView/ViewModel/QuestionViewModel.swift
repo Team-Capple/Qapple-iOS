@@ -4,7 +4,7 @@ import Combine
 // 질문 데이터를 관리하는 ViewModel
 class QuestionViewModel: ObservableObject {
     @Published var filteredQuestions: [QuestionResponse.Questions.QuestionsInfos] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
-    
+    @Published var selectedQuestionId: Int? = nil
     @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     @Published var searchQuery = ""
@@ -19,8 +19,13 @@ class QuestionViewModel: ObservableObject {
     
     
     func getQuestions() {
-           guard let url = URL(string: "http://43.203.126.187:8080/questions") else { return }
-        print("start")
+        guard let url = URL(string: "http://43.203.126.187:8080/questions") else { return }
+        var request = URLRequest(url: url)
+           request.httpMethod = "GET" 
+           // 여기에 accessToken을 HTTP 헤더에 추가
+           let accessToken = "실제_액세스_토큰"
+           request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+
            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                DispatchQueue.main.async {
                    guard let self = self else { return }

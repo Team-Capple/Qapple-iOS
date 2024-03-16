@@ -11,57 +11,63 @@ struct SearchResultView: View {
     
     var body: some View {
         
-        ZStack {
-            Color(Background.first)
-                .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
-            
-            VStack(spacing: 0) {
-                CustomNavigationBar(
-                    leadingView: { },
-                    principalView: {
-                        HStack(spacing: 20) {
-                            Button {
-                                topTab = .answering
-                            } label: {
-                                Text("답변하기")
-                                    .font(.pretendard(.semiBold, size: 14))
-                                    .foregroundStyle(TextLabel.sub4)
+        NavigationView {
+            ZStack {
+                Color(Background.first)
+                    .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
+                NavigationLink(
+                    destination: TodayAnswerView(questionId: viewModel.selectedQuestionId ?? 1),
+                     isActive: .constant(viewModel.selectedQuestionId != nil),
+                     label: { EmptyView() }
+                           )
+                VStack(spacing: 0) {
+                    CustomNavigationBar(
+                        leadingView: { },
+                        principalView: {
+                            HStack(spacing: 20) {
+                                Button {
+                                    topTab = .answering
+                                } label: {
+                                    Text("답변하기")
+                                        .font(.pretendard(.semiBold, size: 14))
+                                        .foregroundStyle(TextLabel.sub4)
+                                }
+                                Button {
+                                    // TODO: - 모아보기 리프레시
+                                } label: {
+                                    Text("모아보기")
+                                        .font(.pretendard(.semiBold, size: 14))
+                                        .foregroundStyle(TextLabel.main)
+                                }
                             }
+                            .font(Font.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(TextLabel.sub4)
+                        },
+                        trailingView: {
                             Button {
-                                // TODO: - 모아보기 리프레시
+                                pathModel.paths.append(.myPage)
                             } label: {
-                                Text("모아보기")
-                                    .font(.pretendard(.semiBold, size: 14))
-                                    .foregroundStyle(TextLabel.main)
+                                Image(.capple)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24 , height: 24)
                             }
-                        }
-                        .font(Font.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(TextLabel.sub4)
-                    },
-                    trailingView: {
-                        Button {
-                            pathModel.paths.append(.myPage)
-                        } label: {
-                            Image(.capple)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24 , height: 24)
-                        }
-                    },
-                    backgroundColor: Background.first)
-                
-                HeaderView(viewModel: viewModel)
-                
-                Spacer()
-                    .frame(height: 0)
-                
-                QuestionListView(
-                    viewModel: viewModel,
-                    isBottomSheetPresented: $isBottomSheetPresented
-                )
+                        },
+                        backgroundColor: Background.first)
+                    
+                    HeaderView(viewModel: viewModel)
+                    
+                    Spacer()
+                        .frame(height: 0)
+                    
+                    QuestionListView(
+                        viewModel: viewModel,
+                        isBottomSheetPresented: $isBottomSheetPresented
+                    )
+                }
             }
+            .navigationBarBackButtonHidden()
         }
-        .navigationBarBackButtonHidden()
     }
 }
 
@@ -125,6 +131,7 @@ private struct QuestionListView: View {
                     ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                         VStack(spacing: 20) {
                             QuestionView(questions: question) {
+                                viewModel.selectedQuestionId = question.questionId
                                 isBottomSheetPresented.toggle()
                             }
                             .padding(.horizontal, 24)

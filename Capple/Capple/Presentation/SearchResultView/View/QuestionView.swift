@@ -102,6 +102,7 @@ struct QuestionView: View {
                     
                     Button {
                         seeMoreAction()
+                        
                         showingReportSheet = true
                     } label: {
                         Image(systemName: "ellipsis")
