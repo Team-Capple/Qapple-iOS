@@ -11,6 +11,7 @@ import AuthenticationServices
 class AuthViewModel: ObservableObject {
     
     @Published var isSignIn = false // 로그인 되었는지 확인
+    @Published var isSignUp = false // 회원가입 로직 실행용
     @Published var authorizationCode: String = "" // 로그인 인증 코드
     @Published var nickname: String = "" // 닉네임
     @Published var email: String = "" // 이메일
@@ -47,6 +48,7 @@ extension AuthViewModel {
     }
     
     // Apple 로그인 완료 처리
+    @MainActor
     func appleLoginCompletion(result: Result<ASAuthorization, Error>) async {
         // Apple 로그인 완료 후 처리하는 코드
         switch result {
@@ -68,7 +70,6 @@ extension AuthViewModel {
                     print("AuthorizationCode: \(authorizationCode)")
                 }
                 
-                // 로그인 요청
                 Task {
                     do {
                         let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
@@ -80,8 +81,10 @@ extension AuthViewModel {
                     
                     if signInResponse.isMember {
                         print("뭐야 너 멤버잖아? 홈 화면으로 이동시켜주마")
+                        isSignIn = true
                     } else {
                         print("아직 멤버가 아니군! 회원가입 필요")
+                        // TODO: 이메일 입력 뷰로 path 추가해야함,,
                     }
                 }
                 

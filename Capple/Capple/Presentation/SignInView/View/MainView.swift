@@ -112,6 +112,7 @@ private struct HomeView: View {
 private struct SignInView: View {
     
     @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var clickedLoginButton: Bool = false
     
     var body: some View {
@@ -141,6 +142,11 @@ private struct SignInView: View {
                         EmptyView()
                     }
                 }
+        }
+        .onChange(of: authViewModel.isSignIn) { _, isSignIn in
+            if isSignIn {
+                pathModel.paths.append(.email)
+            }
         }
     }
     
