@@ -143,8 +143,8 @@ private struct SignInView: View {
                     }
                 }
         }
-        .onChange(of: authViewModel.isSignIn) { _, isSignIn in
-            if isSignIn {
+        .onChange(of: authViewModel.isSignUp) { _, isSignUp in
+            if isSignUp {
                 pathModel.paths.append(.email)
             }
         }

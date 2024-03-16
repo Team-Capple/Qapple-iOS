@@ -84,7 +84,7 @@ extension AuthViewModel {
                         isSignIn = true
                     } else {
                         print("아직 멤버가 아니군! 회원가입 필요")
-                        // TODO: 이메일 입력 뷰로 path 추가해야함,,
+                        isSignUp = true
                     }
                 }
                 
