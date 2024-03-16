@@ -12,9 +12,10 @@ class QuestionViewModel: ObservableObject {
     private var authViewModel: AuthViewModel?
 
        // AuthViewModel을 매개변수로 받는 초기화 메서드 추가
-       init(authViewModel: AuthViewModel) {
+    init(authViewModel: AuthViewModel) {
            self.authViewModel = authViewModel
-           updateQuestions(using: authViewModel)
+        updateQuestions(using: authViewModel)
+           getQuestions(accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJtZW1iZXJJZCI6NCwicm9sZSI6IlJPTEVfQUNBREVNSUVSIiwiaWF0IjoxNzEwNTg4NzI2LCJleHAiOjE3MTE0NTI3MjZ9.AL0jYCqf-SbrVeBNHN87QEEz7oDQBOltVOrsoObVRKK54qt0YVM0xZQObXAKDo0go6bno6h8O0zlnSJmiei5kg" )
        }
        
     
@@ -35,7 +36,7 @@ class QuestionViewModel: ObservableObject {
         guard let url = URL(string: "http://43.203.126.187:8080/questions") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue(accessToken, forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
               //  request.setValue("Bearer \(String(describing: AuthViewModel))", forHTTPHeaderField: "Authorization")
 
@@ -75,7 +76,8 @@ class QuestionViewModel: ObservableObject {
                        DispatchQueue.main.async {
                            self.questions = decodedData.result.questionInfos ?? []
                                   print("Decoded data: \(self.questions)")
-                           self.questions.append(contentsOf: self.questions)
+                       //    self.questions.append(contentsOf: self.questions)
+                           
                          
                        }
                    } catch {

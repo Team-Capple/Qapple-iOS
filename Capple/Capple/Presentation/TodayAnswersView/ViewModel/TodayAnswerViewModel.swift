@@ -17,7 +17,7 @@ class TodayAnswersViewModel: ObservableObject {
     @Published var filteredAnswer: [Answer] = []
     @Published var searchQuery = ""
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
-    private var questionId: Int
+    private var questionId: Int?
        
      
     private var cancellables: Set<AnyCancellable> = []
@@ -27,6 +27,7 @@ class TodayAnswersViewModel: ObservableObject {
         submitAnswer()
     }
     func testFetchData() {
+        guard let questionId else { return }
         guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
@@ -39,6 +40,8 @@ class TodayAnswersViewModel: ObservableObject {
     
     
     func submitAnswer() {
+        guard let questionId else { return }
+
            guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
            do {
                URLSession.shared.dataTask(with: url) { [weak self] data, response, error in

@@ -42,6 +42,19 @@ struct QuestionView: View {
         formatter.locale = Locale(identifier: "en_US_POSIX") // ISO8601 등의 표준 형식을 처리하기 위해 권장
         return formatter.date(from: dateString)
     }
+    
+    func formattedDate(from string: String?) -> String {
+        guard let string = string, let date = ISO8601DateFormatter().date(from: string) else {
+            return Date().formattedDate()
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: date)
+    }
+
+    
+    
+    
     var questionStatusRawValue: String {
         switch questions.questionStatus {
         case .live:
@@ -78,7 +91,7 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 4)
                 
-                Text(questions.livedAt ?? "\(Date().fullDate)") // 기본값으로 dateString 사용
+                Text(formattedDate(from: questions.livedAt))
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
@@ -204,4 +217,11 @@ struct QuestionView: View {
     
 #Preview {
     QuestionView(questions: .init(), seeMoreAction: {})
+}
+extension Date {
+    func formattedDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: self)
+    }
 }

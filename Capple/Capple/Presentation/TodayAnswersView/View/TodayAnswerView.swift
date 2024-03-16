@@ -14,8 +14,8 @@ struct TodayAnswerView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     
-    init(questionId: Int) {
-        self.viewModel = TodayAnswersViewModel(questionId: questionId)
+    init(questionId: Int?) {
+        self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1)
     }
 
      
