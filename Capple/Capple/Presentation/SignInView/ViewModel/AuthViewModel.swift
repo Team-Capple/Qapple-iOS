@@ -79,6 +79,8 @@ extension AuthViewModel {
                         print("로그인 리스폰스 못받음 ㅡㅡ")
                     }
                     
+                    print("액세스 토큰!: \(signInResponse.accessToken ?? "값 없음...")")
+                    
                     if signInResponse.isMember {
                         print("뭐야 너 멤버잖아? 홈 화면으로 이동시켜주마")
                         isSignIn = true
