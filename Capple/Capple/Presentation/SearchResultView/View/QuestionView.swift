@@ -64,7 +64,7 @@ struct QuestionView: View {
     var body: some View {
         VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
             HStack(alignment: .center) {
-                Text("\(questions.liveAt ?? "오전 질문" == QuestionTimeZone.am.rawValue || questions.liveAt ?? "오전 질문" == QuestionTimeZone.amCreate.rawValue ? "오전" : "오후")질문")
+                Text("\(questions.livedAt ?? "오전 질문" == QuestionTimeZone.am.rawValue || questions.livedAt ?? "오전 질문" == QuestionTimeZone.amCreate.rawValue ? "오전" : "오후")질문")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
@@ -78,7 +78,7 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 4)
                 
-                Text(questions.liveAt ?? "\(Date().fullDate)") // 기본값으로 dateString 사용
+                Text(questions.livedAt ?? "\(Date().fullDate)") // 기본값으로 dateString 사용
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 

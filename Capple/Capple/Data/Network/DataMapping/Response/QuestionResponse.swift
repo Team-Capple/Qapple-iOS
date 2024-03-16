@@ -18,10 +18,10 @@ struct QuestionResponse {
             var id: Int?
             var questionId: Int?
             var questionStatus: QuestionStatus?
-            var liveAt: String?
+            var livedAt: String?
             var content: String?
             var tag: String?
-            var answered: Bool?
+            var isAnswered: Bool?
         }
     }
 }

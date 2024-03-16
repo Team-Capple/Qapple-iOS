@@ -16,17 +16,15 @@ class QuestionViewModel: ObservableObject {
         getQuestions() // 초기 데이터 로딩
 
     }
-    
+  //  @Published var accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJtZW1iZXJJZCI6NCwicm9sZSI6IlJPTEVfQUNBREVNSUVSIiwiaWF0IjoxNzEwNTg4NzI2LCJleHAiOjE3MTE0NTI3MjZ9.AL0jYCqf-SbrVeBNHN87QEEz7oDQBOltVOrsoObVRKK54qt0YVM0xZQObXAKDo0go6bno6h8O0zlnSJmiei5kg"
     
     func getQuestions() {
         guard let url = URL(string: "http://43.203.126.187:8080/questions") else { return }
         var request = URLRequest(url: url)
-           request.httpMethod = "GET" 
-           // 여기에 accessToken을 HTTP 헤더에 추가
-           let accessToken = "실제_액세스_토큰"
-           request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(String(describing: AuthViewModel.init().signInResponse.accessToken))", forHTTPHeaderField: "Authorization")
 
-           URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+           URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
                DispatchQueue.main.async {
                    guard let self = self else { return }
                    if let error = error {
@@ -53,6 +51,7 @@ class QuestionViewModel: ObservableObject {
                        
                        // MARK: - 데이터처리
                    guard let data = data else {
+                       
                        print("No data in response")
                        return
                    }
@@ -65,7 +64,7 @@ class QuestionViewModel: ObservableObject {
                          
                        }
                    } catch {
-                       print("Error decoding response: \(error)")
+                       print("Error decoding question response: \(error)")
                    }               }
            }.resume()
        }

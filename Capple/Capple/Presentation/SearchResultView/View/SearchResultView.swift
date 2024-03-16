@@ -11,16 +11,13 @@ struct SearchResultView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Color(Background.first)
                     .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
-                NavigationLink(
-                    destination: TodayAnswerView(questionId: viewModel.selectedQuestionId ?? 1),
-                     isActive: .constant(viewModel.selectedQuestionId != nil),
-                     label: { EmptyView() }
-                           )
+               
                 VStack(spacing: 0) {
+                   
                     CustomNavigationBar(
                         leadingView: { },
                         principalView: {
@@ -64,6 +61,10 @@ struct SearchResultView: View {
                         viewModel: viewModel,
                         isBottomSheetPresented: $isBottomSheetPresented
                     )
+                }
+                
+                .navigationDestination(for: Int.self) { questionId in
+                    TodayAnswerView(questionId: questionId)
                 }
             }
             .navigationBarBackButtonHidden()
@@ -130,10 +131,13 @@ private struct QuestionListView: View {
                 LazyVStack {
                     ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                         VStack(spacing: 20) {
-                            QuestionView(questions: question) {
-                                viewModel.selectedQuestionId = question.questionId
-                                isBottomSheetPresented.toggle()
-                            }
+                            Button(action: {
+                                  viewModel.selectedQuestionId = question.questionId
+                            }){
+                                QuestionView(questions: question) {
+                                    viewModel.selectedQuestionId = question.questionId
+                                    isBottomSheetPresented.toggle()
+                                }}
                             .padding(.horizontal, 24)
                             .sheet(isPresented: $isBottomSheetPresented) {
                                 SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
