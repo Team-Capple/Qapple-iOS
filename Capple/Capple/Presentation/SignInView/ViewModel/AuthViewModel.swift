@@ -37,7 +37,7 @@ extension AuthViewModel {
     }
 }
 
-// MARK: - 애플 로그인
+// MARK: - 로그인 & 회원가입
 extension AuthViewModel {
     
     // Apple 로그인 요청 처리
@@ -70,9 +70,19 @@ extension AuthViewModel {
                 
                 // 로그인 요청
                 Task {
-                    let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
-                    self.signInResponse = signInResponse
-                    print(signInResponse)
+                    do {
+                        let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
+                        self.signInResponse = signInResponse
+                        print("잘 받음!: \(self.signInResponse)")
+                    } catch {
+                        print("로그인 리스폰스 못받음 ㅡㅡ")
+                    }
+                    
+                    if signInResponse.isMember {
+                        print("뭐야 너 멤버잖아? 홈 화면으로 이동시켜주마")
+                    } else {
+                        print("아직 멤버가 아니군! 회원가입 필요")
+                    }
                 }
                 
             default:
@@ -81,6 +91,21 @@ extension AuthViewModel {
         case .failure(let error):
             print(error.localizedDescription)
             print("error")
+        }
+    }
+    
+    /// 회원가입을 요청합니다.
+    @MainActor
+    func requestSignUp() {
+        Task {
+            try await NetworkManager.requestSignUp(
+                request: .init(
+                    signUpToken: signInResponse.refreshToken ?? "",
+                    email: "\(email)@postech.ac.kr",
+                    nickname: nickname,
+                    profileImage: ""
+                )
+            )
         }
     }
 }

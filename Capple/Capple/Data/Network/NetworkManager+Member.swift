@@ -43,4 +43,49 @@ extension NetworkManager {
             throw NetworkError.decodeFailed
         }
     }
+    
+    /// 회원가입 요청을 합니다.
+    static func requestSignUp(request: MemberRequest.SignUp) async throws -> MemberResponse.SignUp {
+        
+        // JSON Request
+        guard let requestData = try? JSONEncoder().encode(request) else {
+            print("JSON Request 데이터 생성 실패")
+            throw NetworkError.badRequest
+        }
+        
+        print("요청 데이터: \(request)")
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .signUp)
+        guard let url = URL(string: urlString) else {
+            print("URL 객체 생성 실패")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // Request 객체 생성
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // URLSession 실행
+        let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
+        print(data)
+        print(response)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            throw NetworkError.badRequest
+        }
+        
+        // 디코딩
+        let decoder = JSONDecoder()
+        do {
+            let decodeData = try decoder.decode(BaseResponse<MemberResponse.SignUp>.self, from: data)
+            print("MemberResponse.SignUp: \(decodeData.result)")
+            return decodeData.result
+        } catch {
+            throw NetworkError.decodeFailed
+        }
+    }
 }

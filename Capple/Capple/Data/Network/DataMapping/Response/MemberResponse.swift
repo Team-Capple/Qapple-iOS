@@ -14,4 +14,9 @@ struct MemberResponse {
         let refreshToken: String?
         let isMember: Bool
     }
+    
+    struct SignUp: Codable {
+        let accessToken: String?
+        let refreshToken: String?
+    }
 }
