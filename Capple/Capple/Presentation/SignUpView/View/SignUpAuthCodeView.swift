@@ -16,7 +16,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
     @State private var isKeyboardVisible = false
     @State private var keyboardBottomPadding: CGFloat = 0
     
-    private let codeLimit = 4
+    private let codeLimit = 6
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -90,7 +90,13 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)
                             .background(authViewModel.certifyCode.count < 4 ? GrayScale.secondaryButton : BrandPink.button)
+                            .disabled(authViewModel.certifyCode.count < 4 ? true : false)
                             .cornerRadius(20, corners: .allCorners)
+                            .alert("인증 코드가 일치하지 않아요", isPresented: $authViewModel.isCertifyCodeInvalid) {
+                                Button("확인", role: .cancel) {}
+                            } message: {
+                              Text("메일함의 인증코드를 다시 확인해주세요.")
+                            }
                         }
                     }
                     .frame(height: 14)
@@ -117,7 +123,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                         Spacer()
                         
                         Button {
-                            // TODO: 메일 재발송 로직
+                            authViewModel.requestEmailCertification()
                         } label: {
                             Text("메일 재발송")
                                 .font(.pretendard(.medium, size: 14))
@@ -127,6 +133,9 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                         .padding(.vertical, 8)
                         .background(GrayScale.secondaryButton)
                         .cornerRadius(20, corners: .allCorners)
+                        .alert("메일이 재발송 되었어요.", isPresented: $authViewModel.isMailResend) {
+                            Button("확인", role: .cancel) {}
+                        }
                     }
                 }
                 
@@ -157,6 +166,9 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
             isKeyboardVisible = newIsKeyboardVisible
         }
         .navigationBarBackButtonHidden()
+        .onDisappear {
+            authViewModel.certifyCode.removeAll()
+        }
     }
 }
 

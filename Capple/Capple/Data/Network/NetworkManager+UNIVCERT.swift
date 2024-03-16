@@ -84,8 +84,12 @@ extension NetworkManager {
         
         // 디코딩
         let decoder = JSONDecoder()
-        let decodeData = try decoder.decode(UNIVCERTResponse.CertifyCode.self, from: data)
-        print("UNIVCERTResponse.CertifyCode: \(decodeData)")
-        return decodeData
+        do {
+            let decodeData = try decoder.decode(UNIVCERTResponse.CertifyCode.self, from: data)
+            print("UNIVCERTResponse.CertifyCode: \(decodeData)")
+            return decodeData
+        } catch {
+            throw NetworkError.decodeFailed
+        }
     }
 }

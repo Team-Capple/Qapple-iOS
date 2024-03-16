@@ -15,7 +15,11 @@ class AuthViewModel: ObservableObject {
     @Published var name: String = ""
     @Published var email: String = ""
     @Published var certifyCode: String = ""
-    @Published var isCertifyCodeVerified = false
+    @Published var isMailResend = false
+    
+    @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
+    @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
+    @Published var isCertifyCodeFailed = false // 인증 코드 실패 여부
     
     var signInResponse: MemberResponse.SignIn = .init(accessToken: nil, refreshToken: nil, isMember: false)
 }
@@ -72,14 +76,19 @@ extension AuthViewModel {
 extension AuthViewModel {
     
     /// 대학 이메일 인증을 요청합니다.
+    @MainActor
     func requestEmailCertification() {
         Task {
-            try await NetworkManager.requestUniversityMailAuth(
+            let response = try await NetworkManager.requestUniversityMailAuth(
                 request: .init(
                     key: APIKey.univcertKey,
                     email: "\(email)@postech.ac.kr"
                 )
             )
+            
+            if isCertifyCodeFailed {
+                isMailResend = true
+            }
         }
     }
     
@@ -87,16 +96,24 @@ extension AuthViewModel {
     @MainActor
     func requestCertifyCode() {
         Task {
-            let response = try await NetworkManager.requestUniversityCertifyCode(
-                request: .init(
-                    key: APIKey.univcertKey,
-                    email: "\(email)@postech.ac.kr",
-                    code: Int(certifyCode) ?? 0
+            do {
+                let response = try await NetworkManager.requestUniversityCertifyCode(
+                    request: .init(
+                        key: APIKey.univcertKey,
+                        email: "\(email)@postech.ac.kr",
+                        code: Int(certifyCode) ?? 0
+                    )
                 )
-            )
-            
-            if response.success {
-                isCertifyCodeVerified = true
+                
+                // 인증 성공 케이스
+                if response.success {
+                    isCertifyCodeVerified = true
+                }
+                
+            } catch {
+                // 인증 실패 케이스
+                isCertifyCodeInvalid = true
+                isCertifyCodeFailed = true
             }
         }
     }

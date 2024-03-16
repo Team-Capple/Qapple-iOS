@@ -79,7 +79,7 @@ struct SignUpEmailView: View, KeyboardReadable {
                     .frame(height: 18)
                 
                 HStack {
-                    Text("* POVIS 계정 아이디를 입력해주세요")
+                    Text("* POSTECH 계정 아이디를 입력해주세요")
                         .font(Font.pretendard(.semiBold, size: 14))
                         .foregroundStyle(TextLabel.sub3)
                         .frame(height: 10)
@@ -115,6 +115,9 @@ struct SignUpEmailView: View, KeyboardReadable {
             isKeyboardVisible = newIsKeyboardVisible
         }
         .navigationBarBackButtonHidden()
+        .onDisappear {
+            authViewModel.email.removeAll()
+        }
     }
 }
 
