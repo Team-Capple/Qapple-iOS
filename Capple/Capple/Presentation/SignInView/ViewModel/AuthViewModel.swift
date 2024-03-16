@@ -11,17 +11,30 @@ import AuthenticationServices
 class AuthViewModel: ObservableObject {
     
     @Published var isSignIn = false // 로그인 되었는지 확인
-    @Published var authorizationCode: String = ""
-    @Published var name: String = ""
-    @Published var email: String = ""
-    @Published var certifyCode: String = ""
-    @Published var isMailResend = false
+    @Published var authorizationCode: String = "" // 로그인 인증 코드
+    @Published var nickname: String = "" // 닉네임
+    @Published var email: String = "" // 이메일
+    @Published var certifyCode: String = "" // 이메일 인증 코드
+    
+    @Published var isMailResend = false // 메일 재발송 여부
     
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
     @Published var isCertifyCodeFailed = false // 인증 코드 실패 여부
     
     var signInResponse: MemberResponse.SignIn = .init(accessToken: nil, refreshToken: nil, isMember: false)
+}
+
+// MARK: - Helper
+extension AuthViewModel {
+    
+    /// 모든 로그인/회원가입 정보를 초기화합니다.
+    func resetAllInfo() {
+        authorizationCode.removeAll()
+        nickname.removeAll()
+        email.removeAll()
+        certifyCode.removeAll()
+    }
 }
 
 // MARK: - 애플 로그인
@@ -79,12 +92,15 @@ extension AuthViewModel {
     @MainActor
     func requestEmailCertification() {
         Task {
-            let response = try await NetworkManager.requestUniversityMailAuth(
+            let _ = try await NetworkManager.requestUniversityMailAuth(
                 request: .init(
                     key: APIKey.univcertKey,
                     email: "\(email)@postech.ac.kr"
                 )
             )
+            
+            // 인증 코드 초기화
+            certifyCode.removeAll()
             
             if isCertifyCodeFailed {
                 isMailResend = true

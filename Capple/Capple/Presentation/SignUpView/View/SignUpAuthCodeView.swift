@@ -22,12 +22,15 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
         VStack(alignment: .leading) {
             CustomNavigationBar(
                 leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
-                principalView: { Text("인증 코드 입력")
+                principalView: { Text("회원가입")
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main) },
                 trailingView: { },
                 backgroundColor: Background.first
             )
+            
+            Spacer()
+                .frame(height: 32)
             
             VStack(alignment: .leading) {
                 Text("인증 메일을 발송했어요")
@@ -67,6 +70,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
                             .keyboardType(.numberPad)
+                            .disabled(authViewModel.isCertifyCodeVerified)
                             .onChange(of: authViewModel.certifyCode) { newCode in
                                 if newCode.count > codeLimit {
                                     authViewModel.certifyCode = String(newCode.prefix(codeLimit))
@@ -141,17 +145,10 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                 
                 Spacer()
                 
-                Button {
+                ActionButton("확인", isActive: $authViewModel.isCertifyCodeVerified, action: {
                     pathModel.paths.append(.inputNickName)
-                } label: {
-                    if authViewModel.isCertifyCodeVerified {
-                        Image(.nextDefaultButton)
-                    } else {
-                        Image(.nextDisableButton)
-                    }
-                }
+                })
                 .padding(.bottom, keyboardBottomPadding)
-                .disabled(!authViewModel.isCertifyCodeVerified)
                 .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: authViewModel.isCertifyCodeVerified)
             }
             .padding(.horizontal, 24)
@@ -167,7 +164,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
         }
         .navigationBarBackButtonHidden()
         .onDisappear {
-            authViewModel.certifyCode.removeAll()
+            authViewModel.isCertifyCodeFailed = false
         }
     }
 }

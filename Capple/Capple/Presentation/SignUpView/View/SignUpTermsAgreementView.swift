@@ -10,6 +10,7 @@ import SwiftUI
 struct SignUpTermsAgreementView: View {
     
     @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var isChecked: Bool = false // 추후 중복 검사 변수 나오면 삭제 예정
     
     var body: some View {
@@ -25,9 +26,10 @@ struct SignUpTermsAgreementView: View {
                 backgroundColor: Background.first)
             
             Spacer()
+                .frame(height: 32)
             
             VStack(alignment: .leading, spacing: 0) {
-                Text("사용할 닉네임을 입력해주세요")
+                Text("캐플에 오신것을 환영합니다!")
                     .foregroundStyle(TextLabel.main)
                     .font(Font.pretendard(.bold, size: 24))
                     .frame(height: 17)
@@ -75,20 +77,13 @@ struct SignUpTermsAgreementView: View {
                 }
                 
                 Spacer()
+                
+                ActionButton("확인", isActive: $isChecked, action: {
+                    pathModel.paths.append(.signUpCompleted)
+                })
+                .animation(.easeIn, value: isChecked)
             }
             .padding(.horizontal, 24)
-            
-            Button {
-                pathModel.paths.append(.signUpCompleted)
-            } label: {
-                if isChecked {
-                    Image("NextDefaultButton")
-                } else {
-                    Image("NextDisableButton")
-                }
-            }
-            .disabled(!isChecked)
-            .animation(.easeIn, value: isChecked)
         }
         .background(Background.first)
         .navigationBarBackButtonHidden()
@@ -98,4 +93,6 @@ struct SignUpTermsAgreementView: View {
 
 #Preview {
     SignUpTermsAgreementView()
+        .environmentObject(PathModel())
+        .environmentObject(AuthViewModel())
 }

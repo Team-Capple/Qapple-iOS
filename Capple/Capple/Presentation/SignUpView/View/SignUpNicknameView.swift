@@ -11,8 +11,8 @@ import Combine
 struct SignUpNicknameView: View, KeyboardReadable {
     
     @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
-    @State private var nickname: String = ""
     @State private var isKeyboardVisible = false
     @State private var keyboardBottomPadding: CGFloat = 0
     
@@ -25,20 +25,23 @@ struct SignUpNicknameView: View, KeyboardReadable {
     
     var body: some View {
         
-        VStack(spacing: 0) {
-                CustomNavigationBar(
-                    leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
-                    principalView: { Text("회원가입")
+        VStack(alignment: .leading) {
+            CustomNavigationBar(
+                leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
+                principalView: { Text("회원가입")
                         .font(Font.pretendard(.semiBold, size: 15))
-                        .foregroundStyle(TextLabel.main) },
-                    trailingView: { },
-                    backgroundColor: Background.first)
+                    .foregroundStyle(TextLabel.main) },
+                trailingView: { },
+                backgroundColor: Background.first
+            )
             
-            VStack(alignment: .leading, spacing: 0) {
+            Spacer()
+                .frame(height: 32)
+            
+            VStack(alignment: .leading) {
                 Text("사용할 닉네임을 입력해주세요")
                     .foregroundStyle(TextLabel.main)
                     .font(Font.pretendard(.bold, size: 24))
-                    .frame(height: 17)
                 
                 Spacer().frame(height: 22)
                 
@@ -59,7 +62,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
                 
                 ZStack(alignment: .leading) {
                     // PlaceHolder(색상 변경때문에 사용)
-                    if nickname.isEmpty {
+                    if authViewModel.nickname.isEmpty {
                         Text("닉네임을 입력해주세요.")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 20))
@@ -67,11 +70,11 @@ struct SignUpNicknameView: View, KeyboardReadable {
                     }
                     
                     HStack(spacing: 0) {
-                        TextField("", text: $nickname)
+                        TextField("", text: $authViewModel.nickname)
                             .foregroundStyle(isEnableButton ? TextLabel.main: Context.warning)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
-                            .onChange(of: nickname) { newNickname in
+                            .onChange(of: authViewModel.nickname) { newNickname in
                                 // 20글자 제한
                                 // print(newNickname)
                                 if newNickname.isEmpty {
@@ -80,10 +83,10 @@ struct SignUpNicknameView: View, KeyboardReadable {
                                     isEnableButton = true
                                 }
                                 if newNickname.count > nicknameLimit {
-                                    nickname = String(newNickname.prefix(nicknameLimit))
+                                    authViewModel.nickname = String(newNickname.prefix(nicknameLimit))
                                 }
                             }
-                        Text("\(nickname.count)/\(nicknameLimit)")
+                        Text("\(authViewModel.nickname.count)/\(nicknameLimit)")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 14))
                             .frame(height: 8)
@@ -96,33 +99,27 @@ struct SignUpNicknameView: View, KeyboardReadable {
                 
                 Rectangle()
                     .frame(height: 2)
-                    .foregroundStyle(isEnableButton ? GrayScale.wh : (nickname.isEmpty ? GrayScale.wh : BrandPink.button))
+                    .foregroundStyle(isEnableButton ? GrayScale.wh : (authViewModel.nickname.isEmpty ? GrayScale.wh : BrandPink.button))
                 
                 Spacer().frame(height: 18)
                 
                 
-                Text("\(isEnableButton ? description : (nickname.isEmpty ? description : validationFailedDescription))")
+                Text("\(isEnableButton ? description : (authViewModel.nickname.isEmpty ? description : validationFailedDescription))")
                     .font(Font.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(isEnableButton ? TextLabel.sub1 : (nickname.isEmpty ? TextLabel.sub1 : Context.warning))
+                    .foregroundStyle(isEnableButton ? TextLabel.sub1 : (authViewModel.nickname.isEmpty ? TextLabel.sub1 : Context.warning))
                     .frame(height: 10)
+                
+                Spacer()
+                
+                ActionButton("확인", isActive: $isEnableButton, action: {
+                    pathModel.paths.append(.agreement)
+                })
+                .padding(.bottom, keyboardBottomPadding)
+                .animation(.easeIn, value: isEnableButton)
             }
-            .padding(24)
+            .padding(.horizontal, 24)
             
             Spacer()
-            
-            Button {
-                // 중복 체크가 성공했으면
-                pathModel.paths.append(.agreement)
-            } label: {
-                if isEnableButton {
-                    Image("NextDefaultButton")
-                } else {
-                    Image("NextDisableButton")
-                }
-            }
-            .padding(.bottom, keyboardBottomPadding)
-            .disabled(!isEnableButton)
-            .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: isEnableButton)
         }
         .background(Background.first)
         .onReceive(keyboardPublisher) { newIsKeyboardVisible in
@@ -131,7 +128,6 @@ struct SignUpNicknameView: View, KeyboardReadable {
             } else {
                 keyboardBottomPadding = 0
             }
-            // print("Is keyboard visible? ", newIsKeyboardVisible)
             isKeyboardVisible = newIsKeyboardVisible
         }
         .navigationBarBackButtonHidden()
@@ -141,4 +137,5 @@ struct SignUpNicknameView: View, KeyboardReadable {
 
 #Preview {
     SignUpNicknameView()
+        .environmentObject(AuthViewModel())
 }

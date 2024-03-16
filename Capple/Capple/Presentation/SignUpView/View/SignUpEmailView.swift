@@ -20,13 +20,18 @@ struct SignUpEmailView: View, KeyboardReadable {
     var body: some View {
         VStack(alignment: .leading) {
             CustomNavigationBar(
-                leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
-                principalView: { Text("이메일 인증")
+                leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
+                    authViewModel.resetAllInfo()
+                }},
+                principalView: { Text("회원가입")
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main) },
                 trailingView: { },
                 backgroundColor: Background.first
             )
+            
+            Spacer()
+                .frame(height: 32)
             
             VStack(alignment: .leading) {
                 Text("이메일을 입력해주세요")
@@ -115,9 +120,6 @@ struct SignUpEmailView: View, KeyboardReadable {
             isKeyboardVisible = newIsKeyboardVisible
         }
         .navigationBarBackButtonHidden()
-        .onDisappear {
-            authViewModel.email.removeAll()
-        }
     }
 }
 

@@ -103,7 +103,6 @@
 		F3EA66FD2B7644D0002417CE /* ApiEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66FC2B7644D0002417CE /* ApiEndpoints.swift */; };
 		F3EA67032B764504002417CE /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67022B764504002417CE /* BaseResponse.swift */; };
 		F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67052B76450F002417CE /* BaseRequest.swift */; };
-		F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA67112B76460F002417CE /* ArrowButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,7 +223,6 @@
 		F3EA66FC2B7644D0002417CE /* ApiEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndpoints.swift; sourceTree = "<group>"; };
 		F3EA67022B764504002417CE /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		F3EA67052B76450F002417CE /* BaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequest.swift; sourceTree = "<group>"; };
-		F3EA67112B76460F002417CE /* ArrowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,7 +305,6 @@
 			children = (
 				07BF363E2B8B82C90047F3F7 /* ConfirmAnswerView.swift */,
 				07BF36402B8B86310047F3F7 /* KeywordChoiceChip.swift */,
-				07BF36422B8B8A970047F3F7 /* ActionButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -792,8 +789,8 @@
 		F3EA67102B7645FC002417CE /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				F3EA67112B76460F002417CE /* ArrowButton.swift */,
 				073C3DDD2B8714240016C333 /* QuestionTimeZone.swift */,
+				07BF36422B8B8A970047F3F7 /* ActionButton.swift */,
 				073C3DDF2B87143B0016C333 /* QuestionState.swift */,
 				073C3DD92B870D3B0016C333 /* QuestionTimeManager.swift */,
 				07BF364B2B8C598B0047F3F7 /* Keyword.swift */,
@@ -990,7 +987,6 @@
 				F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */,
 				07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */,
 				07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */,
-				F3EA67122B76460F002417CE /* ArrowButton.swift in Sources */,
 				8295BDB22BA3209000115FA8 /* MemberRequest.swift in Sources */,
 				82D583BD2B9859D7003CC424 /* NetworkError.swift in Sources */,
 				F3D452CC2B8A4468000BA51C /* MyPageSection.swift in Sources */,
