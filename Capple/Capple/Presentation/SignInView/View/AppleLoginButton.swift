@@ -11,7 +11,7 @@ import AuthenticationServices
 struct AppleLoginButton: View {
     
     @EnvironmentObject var pathModel: PathModel
-    @ObservedObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
         HStack {
@@ -27,15 +27,13 @@ struct AppleLoginButton: View {
                 onCompletion: { result in
                     Task {
                         await authViewModel.appleLoginCompletion(result: result)
-                        pathModel.paths.append(.email)
                     }
                 }
             )
-//            .blendMode(.overlay)
         }
     }
 }
 
 #Preview {
-    AppleLoginButton(authViewModel: AuthViewModel())
+    AppleLoginButton()
 }

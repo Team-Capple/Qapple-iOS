@@ -23,6 +23,10 @@ enum ApiEndpoints {
         
         // MARK: - 답변
         case answersOfQuestion = "/answers/question"
+        
+        // MARK: - 멤버
+        case signIn = "/members/sign-in"
+        case signUp = "/members/sign-up"
     }
 }
 

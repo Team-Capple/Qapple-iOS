@@ -9,8 +9,9 @@ import SwiftUI
 
 struct SignUpCompletedView: View {
     
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var pathModel: PathModel
-    @ObservedObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     @State private var isCompleted: Bool = true // 추후 중복 검사 변수 나오면 삭제 예정
     
@@ -51,9 +52,11 @@ struct SignUpCompletedView: View {
         .background(Background.first)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        // TODO: 뒤로가기 제스처 비활성화 필요!!
+        // 회원가입 다됐는데 뒤로가기 되면 곤란해요
     }
 }
 
 #Preview {
-    SignUpCompletedView(authViewModel: .init())
+    SignUpCompletedView()
 }

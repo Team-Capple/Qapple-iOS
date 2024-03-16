@@ -16,11 +16,14 @@ struct MainView: View {
         Group {
             if authViewModel.isSignIn {
                 HomeView()
+                    .environmentObject(pathModel)
+                    .environmentObject(authViewModel)
             } else {
-                SignInView(authViewModel: authViewModel)
+                SignInView()
+                    .environmentObject(pathModel)
+                    .environmentObject(authViewModel)
             }
         }
-        .environmentObject(pathModel)
     }
 }
 
@@ -109,7 +112,7 @@ private struct HomeView: View {
 private struct SignInView: View {
     
     @EnvironmentObject var pathModel: PathModel
-    @ObservedObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     @State private var clickedLoginButton: Bool = false
     
     var body: some View {
@@ -133,12 +136,17 @@ private struct SignInView: View {
                         SignUpPrivacyView()
                         
                     case .signUpCompleted:
-                        SignUpCompletedView(authViewModel: authViewModel)
+                        SignUpCompletedView()
                         
                     default:
                         EmptyView()
                     }
                 }
+        }
+        .onChange(of: authViewModel.isSignUp) { _, isSignUp in
+            if isSignUp {
+                pathModel.paths.append(.email)
+            }
         }
     }
     
@@ -158,7 +166,7 @@ private struct SignInView: View {
             
             Spacer()
             
-            AppleLoginButton(authViewModel: authViewModel)
+            AppleLoginButton()
         }
         .background(Background.first)
     }
