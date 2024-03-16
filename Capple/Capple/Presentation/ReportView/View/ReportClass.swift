@@ -10,4 +10,6 @@ class SharedData: ObservableObject {
     @Published var showingReportSheet: Bool = false
     @Published var innerShowingReportSheet: Bool = false
     @Published var offset: CGFloat = 0
+    @Published var reportButtonPosition: CGPoint? = nil
+   
 }

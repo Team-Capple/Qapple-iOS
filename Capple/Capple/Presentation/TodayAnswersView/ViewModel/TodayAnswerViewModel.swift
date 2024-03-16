@@ -11,20 +11,21 @@ import Foundation
 import Combine
 
 class TodayAnswersViewModel: ObservableObject {
-    @Published var keywords: [String] = ["ALL", "쌀국수", "와플", "물", "아무고토", "없어요", "샐러드", "처갓집양념치킨"]
-    @Published var todayQuestion: String = "가장 최근에 먹었던 음식 중 가장 인상깊었던 것은 무엇인가요?"
+    @Published var keywords: [String] = []
+    @Published var todayQuestion: String = ""
     @Published var answers: [Answer] = []
     @Published var filteredAnswer: [Answer] = []
     @Published var searchQuery = ""
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
-    
+    private var questionId: Int
+       
+     
     private var cancellables: Set<AnyCancellable> = []
-    private let questionId = 1 // 질문넘버
-    
-    init() {
+   
+    init(questionId: Int) {
+        self.questionId = questionId
         submitAnswer()
     }
-    
     func testFetchData() {
         guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -55,6 +56,7 @@ class TodayAnswersViewModel: ObservableObject {
                            let decodedData = try JSONDecoder().decode(ServerResponse.self, from: data)
                               let newAnswers = decodedData.result.answerInfos
                               self.answers.append(contentsOf: newAnswers)
+                           print(self.answers)
                        } catch {
                            print("Error decoding response: \(error)")
                        }
@@ -70,6 +72,7 @@ class TodayAnswersViewModel: ObservableObject {
         // 현재 인덱스가 임계 인덱스보다 크거나 같으면 추가 데이터를 로드합니다.
         if index >= thresholdIndex {
             submitAnswer()
+            print("reload 됩니다")
         }
     }
 }
@@ -93,7 +96,6 @@ class TodayAnswersViewModel: ObservableObject {
 
 // MARK: - 텍스트 반환
 extension TodayAnswersViewModel {
-    
     /// 오늘의 질문 텍스트를 반환합니다.
     var todayQuestionText: AttributedString {
         var questionMark = AttributedString("Q. ")

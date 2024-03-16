@@ -9,17 +9,22 @@ import Foundation
 import SwiftUI
 struct TodayAnswerView: View {
     
-    @ObservedObject var viewModel = TodayAnswersViewModel()
+    @ObservedObject var viewModel: TodayAnswersViewModel
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     
+    init(questionId: Int) {
+        self.viewModel = TodayAnswersViewModel(questionId: questionId)
+    }
+
      
     var body: some View {
         @ObservedObject var sharedData = SharedData()
 
         VStack(alignment: .leading) {
             CustomNavigationView()
-            KeywordScrollView(viewModel: viewModel)
+           // KeywordScrollView(viewModel: viewModel)
             Spacer()
                 .frame(height: 16)
             FloatingQuestionCard(viewModel: viewModel)
@@ -116,39 +121,35 @@ private struct FloatingQuestionCard: View {
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
     @ObservedObject var sharedData = SharedData()
-    
+     
     let seeMoreAction: () -> Void
     
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isBottomSheetPresented = false
-    
-    fileprivate init(viewModel: TodayAnswersViewModel) {
+   
+    init(viewModel: TodayAnswersViewModel) {
         self.viewModel = viewModel
         sharedData = SharedData()
         self.seeMoreAction = {}
-        // 여기서 `pathModel`은 @EnvironmentObject로 선언되었으므로 별도의 초기화가 필요 없습니다.
-        // `@EnvironmentObject`는 다른 방식으로 값을 주입받기 때문입니다.
         self.isBottomSheetPresented = false
     }
-    @State private var reportButtonPosition: CGPoint = .zero // ellipsis 버튼 위치 저장을 위한 State
-    
+  
     var body: some View {
-        
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack{
                 ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                    GeometryReader { geometry in
                         SingleAnswerView(answer: answer, seeMoreAction: {
                             print(index)
                             isBottomSheetPresented.toggle()
                         }, seeMoreReport: {
-                            print(CGFloat(geometry.size.height))
-                            sharedData.offset = CGFloat(index+1)
-                            return CGPoint(x: geometry.frame(in: .global).minX, y: geometry.frame(in: .global).minY)
+                            return CGPoint(x: 10.0, y: 10.0)
+                            // print(CGFloat(geometry.size.height))
+                         //   sharedData.offset = CGFloat(index+1)
+                          //  return CGPoint(x: geometry.frame(in: .global).minX, y: geometry.frame(in: .global).minY)
                             
                         })
-                        // 이 값은 NewReportButtonView의 실제 크기와 위치에 따라 조정될 수 있습니다.
+                        .onTapGesture {self.sharedData.reportButtonPosition = CGPoint(x: 270, y: -index * 100)            }
                         
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
@@ -156,8 +157,8 @@ private struct AnswerScrollView: View {
                         }
                     }
                     
-                }
-                }
+                
+        }
                 if viewModel.isLoading {
                     ProgressView()
                         .scaleEffect(1.5)
@@ -165,10 +166,15 @@ private struct AnswerScrollView: View {
                         .padding(.vertical, 20)
                 }
             }
-            .padding(.horizontal,24)
+        .padding(.horizontal,24)
+        
+
+            
         
     }
 }
+
 #Preview {
-    TodayAnswerView()
+    TodayAnswerView(questionId: 1)
 }
+

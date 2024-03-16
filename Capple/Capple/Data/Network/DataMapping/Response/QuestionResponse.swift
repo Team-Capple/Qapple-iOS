@@ -21,6 +21,7 @@ struct QuestionResponse {
             var liveAt: String?
             var content: String?
             var tag: String?
+            var answered: Bool?
         }
     }
 }
