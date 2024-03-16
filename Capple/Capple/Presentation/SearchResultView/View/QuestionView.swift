@@ -10,7 +10,7 @@ struct QuestionView: View {
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
     @State var questions: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
     @State private var dateString: String = "" // 상태 변수 정의
-    @ObservedObject var viewModel: QuestionViewModel = .init() // 뷰 모델을 관찰합니다.
+     
     let seeMoreAction: () -> Void
     var questionStatus: String = ""
     

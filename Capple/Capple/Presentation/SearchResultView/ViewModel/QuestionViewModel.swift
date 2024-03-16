@@ -8,21 +8,36 @@ class QuestionViewModel: ObservableObject {
     @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     @Published var searchQuery = ""
+   
+    private var authViewModel: AuthViewModel?
 
+       // AuthViewModel을 매개변수로 받는 초기화 메서드 추가
+       init(authViewModel: AuthViewModel) {
+           self.authViewModel = authViewModel
+           updateQuestions(using: authViewModel)
+       }
+       
+    
     // searchQuery의 변경을 감지하고 필터링을 수행합니다.
     // private var cancellables: Set<AnyCancellable> = []
 
-    init() {
-        getQuestions() // 초기 데이터 로딩
-
-    }
   //  @Published var accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJtZW1iZXJJZCI6NCwicm9sZSI6IlJPTEVfQUNBREVNSUVSIiwiaWF0IjoxNzEwNTg4NzI2LCJleHAiOjE3MTE0NTI3MjZ9.AL0jYCqf-SbrVeBNHN87QEEz7oDQBOltVOrsoObVRKK54qt0YVM0xZQObXAKDo0go6bno6h8O0zlnSJmiei5kg"
-    
-    func getQuestions() {
+    func updateQuestions(using authViewModel: AuthViewModel) {
+           guard let accessToken = authViewModel.signInResponse.accessToken else { return }
+           
+           // 이제 accessToken을 사용하여 질문을 불러올 수 있습니다.
+           getQuestions(accessToken: accessToken)
+       
+       }
+
+    func getQuestions(accessToken: String) {
+        
         guard let url = URL(string: "http://43.203.126.187:8080/questions") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(String(describing: AuthViewModel.init().signInResponse.accessToken))", forHTTPHeaderField: "Authorization")
+        request.setValue(accessToken, forHTTPHeaderField: "Authorization")
+        
+              //  request.setValue("Bearer \(String(describing: AuthViewModel))", forHTTPHeaderField: "Authorization")
 
            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
                DispatchQueue.main.async {
@@ -68,16 +83,17 @@ class QuestionViewModel: ObservableObject {
                    }               }
            }.resume()
        }
+    /*
     func loadMoreContentIfNeeded(currentIndex index: Int) {
         // 배열의 마지막에서 5번째 인덱스를 계산합니다.
         // 이 값은 더 많은 내용을 로드해야 하는 "임계 인덱스"가 됩니다.
         let thresholdIndex = questions.count - 10
         // 현재 인덱스가 임계 인덱스보다 크거나 같으면 추가 데이터를 로드합니다.
         if index >= thresholdIndex {
-            getQuestions()
+            getQuestions(accessToken: accessToken)
         }
     }
-    
+    */
     // MARK: - 좋아요
     /*
     func likeButtonTapped(for question: QuestionResponse.Questions.QuestionsInfos) {
@@ -118,8 +134,3 @@ class QuestionViewModel: ObservableObject {
   */
 }
 
-extension QuestionViewModel {
-    func reloadQuestions() {
-       getQuestions()
-    }
-}

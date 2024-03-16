@@ -29,11 +29,12 @@ struct MainView: View {
 
 // MARK: - 홈 뷰
 private struct HomeView: View {
-    
+    @StateObject var authViewModel: AuthViewModel = .init()
+   
     @EnvironmentObject var pathModel: PathModel
     
     @StateObject var answerViewModel: AnswerViewModel = .init()
-    @StateObject var questionViewModel: QuestionViewModel = .init()
+//    @StateObject var questionViewModel: QuestionViewModel = .init()
     
     @State private var tab: Tab = .answering
     
@@ -73,8 +74,8 @@ private struct HomeView: View {
                     }
                 
             case .collecting:
-                SearchResultView(topTab: $tab)
-                    .navigationDestination(for: PathType.self) { path in
+                SearchResultView(viewModel: QuestionViewModel(authViewModel: authViewModel), topTab: $tab)
+                  .navigationDestination(for: PathType.self) { path in
                         switch path {
                         case .todayAnswer:
                             TodayAnswerView(questionId: 1)
