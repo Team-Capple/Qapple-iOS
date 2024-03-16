@@ -101,13 +101,20 @@ extension AuthViewModel {
     @MainActor
     func requestSignUp() {
         Task {
-            try await NetworkManager.requestSignUp(
+            let signUpData = try await NetworkManager.requestSignUp(
                 request: .init(
                     signUpToken: signInResponse.refreshToken ?? "",
                     email: "\(email)@postech.ac.kr",
                     nickname: nickname,
                     profileImage: ""
                 )
+            )
+            
+            // 토큰 데이터 업데이트
+            self.signInResponse = .init(
+                accessToken: signUpData.accessToken,
+                refreshToken: signUpData.refreshToken,
+                isMember: true
             )
         }
     }
