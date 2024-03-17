@@ -13,12 +13,13 @@ class QuestionViewModel: ObservableObject {
 
        // AuthViewModel을 매개변수로 받는 초기화 메서드 추가
     init(authViewModel: AuthViewModel) {
-           self.authViewModel = authViewModel
+        self.authViewModel = authViewModel
         updateQuestions(using: authViewModel)
-           getQuestions(accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJtZW1iZXJJZCI6NCwicm9sZSI6IlJPTEVfQUNBREVNSUVSIiwiaWF0IjoxNzEwNTg4NzI2LCJleHAiOjE3MTE0NTI3MjZ9.AL0jYCqf-SbrVeBNHN87QEEz7oDQBOltVOrsoObVRKK54qt0YVM0xZQObXAKDo0go6bno6h8O0zlnSJmiei5kg" )
-       }
+        getQuestions(accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJtZW1iZXJJZCI6NCwicm9sZSI6IlJPTEVfQUNBREVNSUVSIiwiaWF0IjoxNzEwNTg4NzI2LCJleHAiOjE3MTE0NTI3MjZ9.AL0jYCqf-SbrVeBNHN87QEEz7oDQBOltVOrsoObVRKK54qt0YVM0xZQObXAKDo0go6bno6h8O0zlnSJmiei5kg" )
+        print(contentForQuestion(withId: selectedQuestionId ?? 10) ?? "아무것도 안나왔네용 ")
+    }
        
-    
+
     // searchQuery의 변경을 감지하고 필터링을 수행합니다.
     // private var cancellables: Set<AnyCancellable> = []
 
@@ -76,6 +77,7 @@ class QuestionViewModel: ObservableObject {
                        DispatchQueue.main.async {
                            self.questions = decodedData.result.questionInfos ?? []
                                   print("Decoded data: \(self.questions)")
+                      
                        //    self.questions.append(contentsOf: self.questions)
                            
                          
@@ -136,3 +138,10 @@ class QuestionViewModel: ObservableObject {
   */
 }
 
+extension QuestionViewModel {
+    func contentForQuestion(withId id: Int?) -> String? {
+        guard let id = id else { return "string" }
+        return questions.first { $0.questionId == id }?.content ?? "default String"
+        
+    }
+}

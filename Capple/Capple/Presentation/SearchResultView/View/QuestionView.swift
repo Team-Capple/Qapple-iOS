@@ -73,7 +73,7 @@ struct QuestionView: View {
     
     var body: some View {
         
-        NavigationLink(destination: TodayAnswerView(questionId: questions.questionId ?? 1, tab: $tab)) {
+        NavigationLink(destination: TodayAnswerView(questionId: questions.questionId ?? 1, tab: $tab, questionContent: "default")) {
             // QuestionView의 메인 콘텐츠를 여기에 배치합니다.
             VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
                 HStack(alignment: .center) {
@@ -157,7 +157,6 @@ struct QuestionView: View {
                     Spacer()
                     
                     Button {
-                        
                         pathModel.paths.append(.todayAnswer(questions.questionId ?? 1))
                     } label: {
                         Text("답변하기")

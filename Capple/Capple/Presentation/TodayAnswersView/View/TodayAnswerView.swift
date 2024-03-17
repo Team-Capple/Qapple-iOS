@@ -11,24 +11,29 @@ struct TodayAnswerView: View {
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @Binding var tab: Tab
+    var questionContent: String
+    var questionId: Int
+   
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    
-    init(questionId: Int?, tab: Binding<Tab>) {
-        self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1)
+  
+    init(questionId: Int?, tab: Binding<Tab>, questionContent: String) {
+        self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1, questionContent: questionContent)
         self._tab = tab
+        self.questionContent = questionContent
+        self.questionId = questionId ?? 2
     }
 
      
     var body: some View {
         @ObservedObject var sharedData = SharedData()
-
+        
         VStack(alignment: .leading) {
             CustomNavigationView()
            // KeywordScrollView(viewModel: viewModel)
             Spacer()
                 .frame(height: 16)
-            FloatingQuestionCard(viewModel: viewModel)
+           
+            FloatingQuestionCard(questionId: questionId, tab: $tab, questionContent: questionContent)
             Spacer()
                 .frame(height: 32)
             AnswerScrollView(viewModel: viewModel, tab: $tab)
@@ -83,17 +88,21 @@ private struct KeywordScrollView: View {
 
 // MARK: - 플로팅 질문 카드
 private struct FloatingQuestionCard: View {
-    
+    var questionContent: String
+    var questionId: Int?  // 추가됨
+    @Binding var tab: Tab
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isCardExpanded = true
     
-    fileprivate init(viewModel: TodayAnswersViewModel) {
-        self.viewModel = viewModel
-    }
-    
+  
+    init(questionId: Int?, tab: Binding<Tab>, questionContent: String) {
+           self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1, questionContent: questionContent)
+           self._tab = tab
+           self.questionContent = questionContent
+       }
     var body: some View {
         HStack {
-            Text(viewModel.todayQuestion)
+            Text(questionContent)
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.main)
                 .lineLimit(isCardExpanded ? 3 : 0)
@@ -175,6 +184,6 @@ private struct AnswerScrollView: View {
 
 struct TodayAnswerView_Previews: PreviewProvider {
     static var previews: some View {
-        TodayAnswerView(questionId: 1, tab: .constant(.answering)) 
+        TodayAnswerView(questionId: 1, tab: .constant(.answering), questionContent: "디폴트")
     }
 }

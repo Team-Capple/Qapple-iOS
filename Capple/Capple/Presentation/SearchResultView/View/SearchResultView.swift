@@ -66,7 +66,7 @@ struct SearchResultView: View {
                 .navigationDestination(for: PathType.self) {  pathType in
                     switch pathType {
                       case .todayAnswer(let questionId):
-                          TodayAnswerView(questionId: questionId, tab: $tab)
+                        TodayAnswerView(questionId: questionId, tab: $tab, questionContent: "default")
                       // 다른 경로에 대한 뷰를 여기 추가...
                       default:
                           EmptyView() 
@@ -114,6 +114,7 @@ struct SearchResultView: View {
         @ObservedObject private var viewModel: QuestionViewModel
         @Binding var isBottomSheetPresented: Bool
         @Binding var tab: Tab
+        public var todayQuestionTitle: String = ""
         
         fileprivate init(
             viewModel: QuestionViewModel, tab: Binding<Tab>,
@@ -143,12 +144,21 @@ struct SearchResultView: View {
                     .frame(height: 12)
                 
                 Separator()
-                
+             
                 ScrollView {
                     LazyVStack {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
+                                // MARK: - 확인용코드
                                 /*
+                                Button (action: {
+                                    print(question.questionId ?? 1234566)
+                                }, label: {
+                                    /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
+                                })
+                                */
+                                /*
+                                
                                 Button(action: {
                                   pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
                                     print("this is question", question)
@@ -157,13 +167,29 @@ struct SearchResultView: View {
                                 })
                                  */
                                 //{
-                                NavigationLink(destination: TodayAnswerView(questionId: question.questionId ?? 1, tab: $tab)) {
+                                
+                                /*
+                                NavigationLink(destination: TodayAnswerView(questionId: question.questionId ?? 1, tab: $tab,questionContent: viewModel.contentForQuestion(withId: question.questionId ?? 1) ?? "내용 없음")) {
                                     QuestionView(tab: $tab, questions: question) {
+                                       
                                         print("this is question", question)
                                         print("this is questionID maybe...",question.questionId ?? "default value")
                                         isBottomSheetPresented.toggle()
                                     }
                                 }
+                                 */
+                                NavigationLink(destination: TodayAnswerView(
+                                    questionId: question.questionId,
+                                    tab: $tab,
+                                    questionContent: viewModel.contentForQuestion(withId: question.questionId) ?? "내용 없음"
+                                )) {
+                                   QuestionView(tab: $tab, questions: question){
+                                        isBottomSheetPresented.toggle()
+                                      
+                                    }
+                                }
+
+                               
                                 /*
                                      NavigationLink(destination: TodayAnswerView(questionId: question.questionId ?? 1, tab: $tab)) {
                                          QuestionView(questions: question) {

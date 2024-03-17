@@ -11,6 +11,8 @@ import Foundation
 import Combine
 
 class TodayAnswersViewModel: ObservableObject {
+    
+     
     @Published var keywords: [String] = []
     @Published var todayQuestion: String = ""
     @Published var answers: [Answer] = []
@@ -22,10 +24,15 @@ class TodayAnswersViewModel: ObservableObject {
      
     private var cancellables: Set<AnyCancellable> = []
    
-    init(questionId: Int) {
+    init(questionId: Int, questionContent: String) {
         self.questionId = questionId
+        self.todayQuestion = questionContent
         submitAnswer()
     }
+    
+    
+ 
+    
     func testFetchData() {
         guard let questionId else { return }
         guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
@@ -59,6 +66,7 @@ class TodayAnswersViewModel: ObservableObject {
                            let decodedData = try JSONDecoder().decode(ServerResponse.self, from: data)
                               let newAnswers = decodedData.result.answerInfos
                               self.answers.append(contentsOf: newAnswers)
+                              
                            print(self.answers)
                        } catch {
                            print("Error decoding response: \(error)")
