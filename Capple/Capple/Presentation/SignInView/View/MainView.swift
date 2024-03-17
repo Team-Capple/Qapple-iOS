@@ -78,7 +78,7 @@ private struct HomeView: View {
                   .navigationDestination(for: PathType.self) { path in
                         switch path {
                         case .todayAnswer:
-                            TodayAnswerView(questionId: 1, tab: $tab, questionContent: "default")
+                            TodayAnswerView(questionId: 1, tab: $tab, questionContent: "default질문은 이것입니다")
                             
                         case .answer:
                             AnswerView(viewModel: answerViewModel)

@@ -27,14 +27,14 @@ class TodayAnswersViewModel: ObservableObject {
     init(questionId: Int, questionContent: String) {
         self.questionId = questionId
         self.todayQuestion = questionContent
-        submitAnswer()
+        loadAnswersForQuestion()
     }
     
     
  
     
     func testFetchData() {
-        guard let questionId else { return }
+        guard let questionId = self.questionId else { return }
         guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
@@ -46,14 +46,15 @@ class TodayAnswersViewModel: ObservableObject {
     }
     
     
-    func submitAnswer() {
-        guard let questionId else { return }
+    func loadAnswersForQuestion() {
+        guard let questionId = self.questionId else { return }
 
            guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
            do {
                URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                    DispatchQueue.main.async {
                        guard let self = self else { return }
+                       self.isLoading = false
                        if let error = error {
                            print("Error submitting answer: \(error)")
                            return
@@ -82,7 +83,7 @@ class TodayAnswersViewModel: ObservableObject {
         let thresholdIndex = answers.count - 10
         // 현재 인덱스가 임계 인덱스보다 크거나 같으면 추가 데이터를 로드합니다.
         if index >= thresholdIndex {
-            submitAnswer()
+            loadAnswersForQuestion()
             print("reload 됩니다")
         }
     }
@@ -112,6 +113,7 @@ extension TodayAnswersViewModel {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
         let creatingText = AttributedString("\(todayQuestion)")
+        print(todayQuestion, "this is default Question STring")
         return questionMark + creatingText
     }
 }

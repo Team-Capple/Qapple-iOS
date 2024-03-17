@@ -65,8 +65,8 @@ struct SearchResultView: View {
                 }
                 .navigationDestination(for: PathType.self) {  pathType in
                     switch pathType {
-                      case .todayAnswer(let questionId):
-                        TodayAnswerView(questionId: questionId, tab: $tab, questionContent: "default")
+                      case .todayAnswer(let questionId, let questionContent):
+                        TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
                       // 다른 경로에 대한 뷰를 여기 추가...
                       default:
                           EmptyView() 
