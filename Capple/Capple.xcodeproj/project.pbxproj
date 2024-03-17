@@ -43,6 +43,7 @@
 		67B185112B9436C10057E6BB /* SingleAnswerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B185102B9436C10057E6BB /* SingleAnswerModel.swift */; };
 		67B185132B9453E30057E6BB /* SingleAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B185122B9453E30057E6BB /* SingleAnswerView.swift */; };
 		82398F092B98ABB4006269E0 /* DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82398F082B98ABB4006269E0 /* DTO.swift */; };
+		825226E82BA6E529006998E8 /* SignInInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825226E72BA6E529006998E8 /* SignInInfo.swift */; };
 		828715BC2B99F6EA001627DB /* TagRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715BB2B99F6EA001627DB /* TagRequest.swift */; };
 		828715BE2B99FC54001627DB /* TagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715BD2B99FC54001627DB /* TagResponse.swift */; };
 		828715C02B9AC866001627DB /* AnswerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715BF2B9AC866001627DB /* AnswerRequest.swift */; };
@@ -159,6 +160,7 @@
 		67B185102B9436C10057E6BB /* SingleAnswerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAnswerModel.swift; sourceTree = "<group>"; };
 		67B185122B9453E30057E6BB /* SingleAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAnswerView.swift; sourceTree = "<group>"; };
 		82398F082B98ABB4006269E0 /* DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTO.swift; sourceTree = "<group>"; };
+		825226E72BA6E529006998E8 /* SignInInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInfo.swift; sourceTree = "<group>"; };
 		828715BB2B99F6EA001627DB /* TagRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRequest.swift; sourceTree = "<group>"; };
 		828715BD2B99FC54001627DB /* TagResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagResponse.swift; sourceTree = "<group>"; };
 		828715BF2B9AC866001627DB /* AnswerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerRequest.swift; sourceTree = "<group>"; };
@@ -432,6 +434,18 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		825226E62BA6E505006998E8 /* NetworklManager */ = {
+			isa = PBXGroup;
+			children = (
+				82D583BA2B985462003CC424 /* NetworkManager+Question.swift */,
+				8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */,
+				8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */,
+				8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */,
+				8295BDC22BA3322600115FA8 /* NetworkManager+UNIVCERT.swift */,
+			);
+			name = NetworklManager;
+			sourceTree = "<group>";
+		};
 		8295BDBB2BA3303700115FA8 /* Key */ = {
 			isa = PBXGroup;
 			children = (
@@ -702,13 +716,7 @@
 			isa = PBXGroup;
 			children = (
 				F3EA66FE2B7644DF002417CE /* DataMapping */,
-				82D583BA2B985462003CC424 /* NetworkManager+Question.swift */,
-				8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */,
-				8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */,
-				8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */,
-				8295BDC22BA3322600115FA8 /* NetworkManager+UNIVCERT.swift */,
-				F3EA66FC2B7644D0002417CE /* ApiEndpoints.swift */,
-				82D583BC2B9859D7003CC424 /* NetworkError.swift */,
+				825226E62BA6E505006998E8 /* NetworklManager */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -716,6 +724,9 @@
 		F3EA66FE2B7644DF002417CE /* DataMapping */ = {
 			isa = PBXGroup;
 			children = (
+				F3EA66FC2B7644D0002417CE /* ApiEndpoints.swift */,
+				825226E72BA6E529006998E8 /* SignInInfo.swift */,
+				82D583BC2B9859D7003CC424 /* NetworkError.swift */,
 				F3EA67002B7644F0002417CE /* Request */,
 				F3EA66FF2B7644EA002417CE /* Response */,
 			);
@@ -993,6 +1004,7 @@
 				8295BDC12BA331E000115FA8 /* UNIVCERTResponse.swift in Sources */,
 				670980072BA095A000EE494D /* NewReportView.swift in Sources */,
 				F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */,
+				825226E82BA6E529006998E8 /* SignInInfo.swift in Sources */,
 				8295BDC32BA3322600115FA8 /* NetworkManager+UNIVCERT.swift in Sources */,
 				82C3791F2B94A50000CC7708 /* Tab.swift in Sources */,
 				8295BDB42BA3222200115FA8 /* MemberResponse.swift in Sources */,

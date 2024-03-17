@@ -24,4 +24,12 @@ struct QuestionResponse {
             var answered: Bool?
         }
     }
+    
+    /// 오늘의 메인 질문
+    struct MainQuestion: Codable {
+        let questionId: Int
+        let questionStatus: String
+        let content: String
+        let isAnswered: Bool
+    }
 }

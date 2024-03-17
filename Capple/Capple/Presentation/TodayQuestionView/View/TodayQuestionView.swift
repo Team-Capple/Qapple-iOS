@@ -10,7 +10,9 @@ import SwiftUI
 struct TodayQuestionView: View {
     
     @EnvironmentObject private var pathModel: PathModel
+    @EnvironmentObject private var authViewModel: AuthViewModel
     @StateObject var viewModel: TodayQuestionViewModel = .init()
+    
     @Binding var tab: Tab
     @State private var isBottomSheetPresented = false
     
@@ -21,7 +23,7 @@ struct TodayQuestionView: View {
             
             VStack(spacing: 0) {
                 CustomNavigationBar(
-                    leadingView: { },
+                    leadingView: {},
                     principalView: {
                         HStack(spacing: 20) {
                             Button {

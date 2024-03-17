@@ -18,7 +18,7 @@ final class TodayQuestionViewModel: ObservableObject {
     var timer: Timer?
     
     // TODO: - 임시 답변 리스트
-    @Published var mainQuestion: QuestionResponse.Questions
+    @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.AnswerInfos]
     
     init() {
@@ -26,7 +26,7 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         self.timerSeconds = dateManager.fetchTimerSeconds(currentTimeZone)
         
-        self.state = .ready
+        self.state = .creating
         
 //        if currentTimeZone == .am || currentTimeZone == .pm {
 //            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
@@ -36,37 +36,33 @@ final class TodayQuestionViewModel: ObservableObject {
 //        }
         
         // 변수 초기화
-        self.mainQuestion = .init(questionInfos: [])
+        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
         self.answerList = []
         
-        // 데이터 패치
         Task {
-            await self.fetchMainQuestion()
+            await requestMainQuestion()
         }
-        // self.fetchAnswersOfMainQuestion()
     }
 }
 
 // MARK: - 질문 업데이트
 extension TodayQuestionViewModel {
     
-    /// 메인 질문을 업데이트합니다.
+    /// 오늘의 메인 질문을 요청하고 업데이트합니다.
     @MainActor
-    func fetchMainQuestion() {
-       // TODO: 메인 질문 가져오기 API 연결
+    func requestMainQuestion() async {
+        do {
+            let mainQuestion = try await NetworkManager.fetchMainQuestion()
+            self.mainQuestion = mainQuestion
+        } catch {
+            print("메인 질문 업데이트 실패")
+        }
     }
 }
 
 // MARK: - 답변 업데이트
 extension TodayQuestionViewModel {
     
-    /// 메인 질문에 대한 답변 3개를 업데이트 받습니다.
-    func fetchAnswersOfMainQuestion() {
-        Task {
-//            let answers = try await NetworkManager.fetchAnswersOfQuestion(request: .init(questionId: mainQuestion.questionId, keyword: "", size: 3))
-            // self.answerList = answers.answerInfos
-        }
-    }
 }
 
 // MARK: - 텍스트
@@ -98,7 +94,7 @@ extension TodayQuestionViewModel {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
         
-        let creatingText = AttributedString("질문 테스트")
+        let creatingText = AttributedString(mainQuestion.content)
         let completeText: AttributedString = "최근에 먹었던 음식 중\n가장 인상깊었던 것은 무엇인가요?"
         
         var text = AttributedString()
