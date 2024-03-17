@@ -25,7 +25,7 @@ class QuestionViewModel: ObservableObject {
 
   //  @Published var accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJtZW1iZXJJZCI6NCwicm9sZSI6IlJPTEVfQUNBREVNSUVSIiwiaWF0IjoxNzEwNTg4NzI2LCJleHAiOjE3MTE0NTI3MjZ9.AL0jYCqf-SbrVeBNHN87QEEz7oDQBOltVOrsoObVRKK54qt0YVM0xZQObXAKDo0go6bno6h8O0zlnSJmiei5kg"
     func updateQuestions(using authViewModel: AuthViewModel) {
-           guard let accessToken = authViewModel.signInResponse.accessToken else { return }
+        let accessToken = SignInInfo.shared.accessToken()
            
            // 이제 accessToken을 사용하여 질문을 불러올 수 있습니다.
            getQuestions(accessToken: accessToken)
