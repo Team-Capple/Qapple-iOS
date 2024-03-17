@@ -53,10 +53,11 @@ private struct HomeView: View {
                             
                         case .searchKeyword:
                             SearchKeywordView(viewModel: answerViewModel)
+                           
                             
-                        case .todayAnswer:
-                            TodayAnswerView(questionId: 1,tab: $tab, questionContent: "default")
-                            
+                        case .todayAnswer(let questionId, let questionContent):
+                            TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
+
                         case .myPage:
                             MyPageView()
                             

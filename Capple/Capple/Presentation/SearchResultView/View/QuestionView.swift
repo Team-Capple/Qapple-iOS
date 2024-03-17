@@ -38,19 +38,36 @@ struct QuestionView: View {
     func stringToDate(_ dateString: String) -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" // 날짜 형식은 입력되는 문자열 형식에 맞춰야 합니다.
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
-        formatter.locale = Locale(identifier: "en_US_POSIX") // ISO8601 등의 표준 형식을 처리하기 위해 권장
+       // formatter.locale = Locale(identifier: "en_US_POSIX") // ISO8601 등의 표준 형식을 처리하기 위해 권장
         return formatter.date(from: dateString)
     }
     
-    func formattedDate(from string: String?) -> String {
-        guard let string = string, let date = ISO8601DateFormatter().date(from: string) else {
-            return Date().formattedDate()
+    func formattedDate(from dateString: String) -> String {
+        // Define the ISO8601 formatter for parsing the date string.
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds] // Handles strings with fractional seconds
+
+        // Define a standard date formatter for the desired output format.
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "yyyy-MM-dd" // The desired output format
+
+        // Try parsing with the ISO8601 formatter.
+        if let date = isoFormatter.date(from: dateString) {
+            return outputFormatter.string(from: date) // Return the formatted date string
+        } else {
+            // If the ISO8601 formatter fails, try parsing with the standard formatter.
+            let standardFormatter = DateFormatter()
+            standardFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" // Handle strings without fractional seconds
+            standardFormatter.timeZone = TimeZone(abbreviation: "UTC") // Match the time zone used in your original strings if necessary
+
+            if let date = standardFormatter.date(from: dateString) {
+                return outputFormatter.string(from: date) // Return the formatted date string
+            } else {
+                return "날짜 변환 실패" // Return a failure message if both parsing attempts fail
+            }
         }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: date)
     }
+
 
     var questionStatusRawValue: String {
         switch questions.questionStatus {
@@ -73,7 +90,7 @@ struct QuestionView: View {
     
     var body: some View {
         
-        NavigationLink(destination: TodayAnswerView(questionId: questions.questionId ?? 1, tab: $tab, questionContent: "default")) {
+        NavigationLink(destination: TodayAnswerView(questionId: questions.questionId, tab: $tab, questionContent: questions.content)) {
             // QuestionView의 메인 콘텐츠를 여기에 배치합니다.
             VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
                 HStack(alignment: .center) {
@@ -90,8 +107,8 @@ struct QuestionView: View {
                     
                     Spacer()
                         .frame(width: 4)
-                    
-                    Text(formattedDate(from: questions.livedAt))
+                   
+                    Text(formattedDate(from: questions.livedAt ?? "default"))
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(GrayScale.icon)
                     
@@ -155,9 +172,9 @@ struct QuestionView: View {
                 
 
                     Spacer()
-                    
+                        
                     Button {
-                        pathModel.paths.append(.todayAnswer(questions.questionId ?? 1))
+                        pathModel.paths.append(.todayAnswer(questionId: 1, questionContent: "default"))
                     } label: {
                         Text("답변하기")
                             .font(.pretendard(.medium, size: 14))
@@ -208,6 +225,7 @@ struct QuestionView: View {
     //                    }
                     }
                 }
+            
                 .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
         }
         

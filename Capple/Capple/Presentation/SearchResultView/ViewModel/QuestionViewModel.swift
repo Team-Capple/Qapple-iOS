@@ -141,7 +141,10 @@ class QuestionViewModel: ObservableObject {
 extension QuestionViewModel {
     func contentForQuestion(withId id: Int?) -> String? {
         guard let id = id else { return "string" }
-        return questions.first { $0.questionId == id }?.content ?? "default String"
+        print(questions.first {$0.questionId == id }?.content!,"QuestionViewModel에서의 questions.first값")
+        guard let content = questions.first { $0.questionId == id }?.content else { return "Question ViewModel 에서의 디폴트 스트링" }
+        print(content)
+        return content
         
     }
 }

@@ -24,14 +24,37 @@ class TodayAnswersViewModel: ObservableObject {
      
     private var cancellables: Set<AnyCancellable> = []
    
-    init(questionId: Int, questionContent: String) {
+    init(questionId: Int) {
+        loadAnswersForQuestion()
         self.questionId = questionId
-        self.todayQuestion = questionContent
+        self.isLoading = true
+        fetchQuestionContent(questionId: questionId)
+        
+        QuestionService.shared.contentForQuestion(withId: questionId) { [weak self] content in
+                  DispatchQueue.main.async {
+                      print(questionId, "비동기ID")
+                      
+                      self?.todayQuestion = content ?? "질문내용을 불러오는데 실패했습니다."
+                      print(content)
+                      self?.isLoading = false
+                  }
+              }
+         
         loadAnswersForQuestion()
     }
     
     
- 
+    private func fetchQuestionContent(questionId: Int) {
+           QuestionService.shared.contentForQuestion(withId: questionId) { [weak self] content in
+               DispatchQueue.main.async {
+                   // 비동기적으로 가져온 질문 내용을 ViewModel의 todayQuestion 프로퍼티에 저장
+                   print(questionId, "비동기ID")
+                   print(content)
+                   self?.todayQuestion = content ?? "질문 내용을 불러오는데 실패했습니다."
+                   self?.isLoading = false
+               }
+           }
+       }
     
     func testFetchData() {
         guard let questionId = self.questionId else { return }
@@ -47,8 +70,10 @@ class TodayAnswersViewModel: ObservableObject {
     
     
     func loadAnswersForQuestion() {
+        
         guard let questionId = self.questionId else { return }
-
+        print("loadAnswersForQuestion: ", questionId)
+      
            guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
            do {
                URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -67,7 +92,7 @@ class TodayAnswersViewModel: ObservableObject {
                            let decodedData = try JSONDecoder().decode(ServerResponse.self, from: data)
                               let newAnswers = decodedData.result.answerInfos
                               self.answers.append(contentsOf: newAnswers)
-                              
+                         
                            print(self.answers)
                        } catch {
                            print("Error decoding response: \(error)")
@@ -80,7 +105,7 @@ class TodayAnswersViewModel: ObservableObject {
     func loadMoreContentIfNeeded(currentIndex index: Int) {
         // 배열의 마지막에서 5번째 인덱스를 계산합니다.
         // 이 값은 더 많은 내용을 로드해야 하는 "임계 인덱스"가 됩니다.
-        let thresholdIndex = answers.count - 10
+        let thresholdIndex = answers.count
         // 현재 인덱스가 임계 인덱스보다 크거나 같으면 추가 데이터를 로드합니다.
         if index >= thresholdIndex {
             loadAnswersForQuestion()
@@ -113,7 +138,7 @@ extension TodayAnswersViewModel {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
         let creatingText = AttributedString("\(todayQuestion)")
-        print(todayQuestion, "this is default Question STring")
+        print(todayQuestion, "TodayAnswersViewModel에서 todayQuestion 스트링")
         return questionMark + creatingText
     }
 }

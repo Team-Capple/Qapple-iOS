@@ -42,7 +42,7 @@ struct SearchResultView: View {
                         },
                         trailingView: {
                             Button {
-                                pathModel.paths.append(.myPage)
+                            
                             } label: {
                                 Image(.capple)
                                     .resizable()
@@ -51,8 +51,6 @@ struct SearchResultView: View {
                             }
                         },
                         backgroundColor: Background.first)
-                    
-                    
                     HeaderView(viewModel: viewModel)
                     
                     QuestionListView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
@@ -63,21 +61,16 @@ struct SearchResultView: View {
                     
                     
                 }
-                .navigationDestination(for: PathType.self) {  pathType in
-                    switch pathType {
-                      case .todayAnswer(let questionId, let questionContent):
-                        TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
-                      // 다른 경로에 대한 뷰를 여기 추가...
-                      default:
-                          EmptyView() 
-                      }
-                         
-                }
-                /*
-                .navigationDestination(for: Int.self) { questionId in
-                    TodayAnswerView(questionId: questionId, tab: $tab)
-                }
-                */
+            }
+            
+            .navigationDestination(for: PathType.self) {  pathType in
+                switch pathType {
+                  case .todayAnswer(let questionId, let questionContent):
+                    TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
+                  default:
+                      EmptyView()
+                  }
+                     
             }
             .navigationBarBackButtonHidden()
         }
@@ -181,7 +174,7 @@ struct SearchResultView: View {
                                 NavigationLink(destination: TodayAnswerView(
                                     questionId: question.questionId,
                                     tab: $tab,
-                                    questionContent: viewModel.contentForQuestion(withId: question.questionId) ?? "내용 없음"
+                                    questionContent: viewModel.contentForQuestion(withId: question.questionId) ?? "네비게이션링크에서 디폴트 스트링 입니다"
                                 )) {
                                    QuestionView(tab: $tab, questions: question){
                                         isBottomSheetPresented.toggle()

@@ -24,7 +24,9 @@ enum PathType: Hashable {
     
     /// 모아보기
     ///
-    case todayAnswer(Int)
+    /// 모아보기
+ //   case todayAnswer
+    case todayAnswer(questionId: Int, questionContent: String)
     
     /// 마이페이지
     case myPage

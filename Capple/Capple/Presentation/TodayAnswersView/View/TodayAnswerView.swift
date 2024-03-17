@@ -11,15 +11,15 @@ struct TodayAnswerView: View {
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @Binding var tab: Tab
-    var questionContent: String
-    var questionId: Int
-   
+    @State var questionContent: String = "default Title" // 여기에 기본값을 제공합니다.
+    @State var questionId: Int = 2 // 여기에 기본값을 제공합니다.
+     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
   
-    init(questionId: Int?, tab: Binding<Tab>, questionContent: String) {
-        self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1, questionContent: questionContent)
+    init(questionId: Int?, tab: Binding<Tab>, questionContent: String?) {
+        self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1)
         self._tab = tab
-        self.questionContent = questionContent
+        self.questionContent = questionContent ?? "default Title"
         self.questionId = questionId ?? 2
     }
 
@@ -33,7 +33,7 @@ struct TodayAnswerView: View {
             Spacer()
                 .frame(height: 16)
            
-            FloatingQuestionCard(questionContent: questionContent,tab:$tab, viewModel: viewModel, questionId: questionId)
+            FloatingQuestionCard(questionContent: questionContent ,tab:$tab, viewModel: viewModel, questionId: questionId)
             Spacer()
                 .frame(height: 32)
             AnswerScrollView(viewModel: viewModel, tab: $tab)
@@ -89,12 +89,12 @@ private struct KeywordScrollView: View {
 // MARK: - 플로팅 질문 카드
 private struct FloatingQuestionCard: View {
   
-    var questionContent: String // 질문 내용을 저장할 프로퍼티
+    @State   var questionContent: String // 질문 내용을 저장할 프로퍼티
      @Binding var tab: Tab // 현재 탭을 저장할 프로퍼티
      @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
      @State private var isCardExpanded = true // 카드 확장 상태
 
-    var questionId: Int?  // 추가됨
+    @State var questionId: Int?  // 추가됨
     
   /*
     init(questionId: Int?, tab: Binding<Tab>, questionContent: String) {
