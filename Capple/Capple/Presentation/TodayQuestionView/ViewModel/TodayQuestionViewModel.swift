@@ -38,35 +38,17 @@ final class TodayQuestionViewModel: ObservableObject {
         // 변수 초기화
         self.mainQuestion = .init(questionInfos: [])
         self.answerList = []
-        
-        // 데이터 패치
-        Task {
-            await self.fetchMainQuestion()
-        }
-        // self.fetchAnswersOfMainQuestion()
     }
 }
 
 // MARK: - 질문 업데이트
 extension TodayQuestionViewModel {
     
-    /// 메인 질문을 업데이트합니다.
-    @MainActor
-    func fetchMainQuestion() {
-       // TODO: 메인 질문 가져오기 API 연결
-    }
 }
 
 // MARK: - 답변 업데이트
 extension TodayQuestionViewModel {
     
-    /// 메인 질문에 대한 답변 3개를 업데이트 받습니다.
-    func fetchAnswersOfMainQuestion() {
-        Task {
-//            let answers = try await NetworkManager.fetchAnswersOfQuestion(request: .init(questionId: mainQuestion.questionId, keyword: "", size: 3))
-            // self.answerList = answers.answerInfos
-        }
-    }
 }
 
 // MARK: - 텍스트

@@ -16,6 +16,7 @@ enum ApiEndpoints {
         
         // MARK: - 질문
         case questions = "/questions"
+        case mainQuestion = "/questions/main"
         
         // MARK: - 태그
         case tagSearch = "/tags/search?"
