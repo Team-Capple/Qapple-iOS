@@ -256,7 +256,7 @@ private struct AnswerPreview: View {
                         
                         if viewModel.state != .ready {
                             SeeAllButton {
-                                pathModel.paths.append(.todayAnswer)
+                                pathModel.paths.append(.todayAnswer(questionId: 1, questionContent: "this is today Question String"))
                             }
                         }
                     }

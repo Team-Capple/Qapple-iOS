@@ -29,11 +29,12 @@ struct MainView: View {
 
 // MARK: - 홈 뷰
 private struct HomeView: View {
-    
+    @StateObject var authViewModel: AuthViewModel = .init()
+   
     @EnvironmentObject var pathModel: PathModel
     
     @StateObject var answerViewModel: AnswerViewModel = .init()
-    @StateObject var questionViewModel: QuestionViewModel = .init()
+//    @StateObject var questionViewModel: QuestionViewModel = .init()
     
     @State private var tab: Tab = .answering
     
@@ -52,10 +53,11 @@ private struct HomeView: View {
                             
                         case .searchKeyword:
                             SearchKeywordView(viewModel: answerViewModel)
+                           
                             
-                        case .todayAnswer:
-                            TodayAnswerView(questionId: 1)
-                            
+                        case .todayAnswer(let questionId, let questionContent):
+                            TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
+
                         case .myPage:
                             MyPageView()
                             
@@ -73,11 +75,11 @@ private struct HomeView: View {
                     }
                 
             case .collecting:
-                SearchResultView(topTab: $tab)
-                    .navigationDestination(for: PathType.self) { path in
+                SearchResultView(viewModel: QuestionViewModel(authViewModel: authViewModel), tab: $tab)
+                  .navigationDestination(for: PathType.self) { path in
                         switch path {
                         case .todayAnswer:
-                            TodayAnswerView(questionId: 1)
+                            TodayAnswerView(questionId: 1, tab: $tab, questionContent: "default질문은 이것입니다")
                             
                         case .answer:
                             AnswerView(viewModel: answerViewModel)

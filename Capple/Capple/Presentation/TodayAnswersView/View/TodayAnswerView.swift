@@ -8,29 +8,35 @@
 import Foundation
 import SwiftUI
 struct TodayAnswerView: View {
-    
+    @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
-    
+    @Binding var tab: Tab
+    @State var questionContent: String = "default Title" // 여기에 기본값을 제공합니다.
+    @State var questionId: Int = 2 // 여기에 기본값을 제공합니다.
+     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    
-    init(questionId: Int) {
-        self.viewModel = TodayAnswersViewModel(questionId: questionId)
+  
+    init(questionId: Int?, tab: Binding<Tab>, questionContent: String?) {
+        self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1)
+        self._tab = tab
+        self.questionContent = questionContent ?? "default Title"
+        self.questionId = questionId ?? 2
     }
 
      
     var body: some View {
         @ObservedObject var sharedData = SharedData()
-
+        
         VStack(alignment: .leading) {
             CustomNavigationView()
            // KeywordScrollView(viewModel: viewModel)
             Spacer()
                 .frame(height: 16)
-            FloatingQuestionCard(viewModel: viewModel)
+           
+            FloatingQuestionCard(questionContent: questionContent ,tab:$tab, viewModel: viewModel, questionId: questionId)
             Spacer()
                 .frame(height: 32)
-            AnswerScrollView(viewModel: viewModel)
+            AnswerScrollView(viewModel: viewModel, tab: $tab)
         }
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
@@ -82,14 +88,21 @@ private struct KeywordScrollView: View {
 
 // MARK: - 플로팅 질문 카드
 private struct FloatingQuestionCard: View {
+  
+    @State   var questionContent: String // 질문 내용을 저장할 프로퍼티
+     @Binding var tab: Tab // 현재 탭을 저장할 프로퍼티
+     @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
+     @State private var isCardExpanded = true // 카드 확장 상태
+
+    @State var questionId: Int?  // 추가됨
     
-    @ObservedObject var viewModel: TodayAnswersViewModel
-    @State private var isCardExpanded = true
-    
-    fileprivate init(viewModel: TodayAnswersViewModel) {
-        self.viewModel = viewModel
-    }
-    
+  /*
+    init(questionId: Int?, tab: Binding<Tab>, questionContent: String) {
+           self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1, questionContent: questionContent)
+           self._tab = tab
+           self.questionContent = questionContent
+       }
+   */
     var body: some View {
         HStack {
             Text(viewModel.todayQuestionText)
@@ -120,19 +133,23 @@ private struct FloatingQuestionCard: View {
 
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
-    @ObservedObject var sharedData = SharedData()
-     
+ //   @ObservedObject var sharedData = SharedData()
+    
+    @Binding var tab: Tab
+   
     let seeMoreAction: () -> Void
     
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isBottomSheetPresented = false
-   
-    init(viewModel: TodayAnswersViewModel) {
+  
+    init(viewModel: TodayAnswersViewModel, tab: Binding<Tab>) {
         self.viewModel = viewModel
-        sharedData = SharedData()
+        //sharedData = SharedData()
         self.seeMoreAction = {}
         self.isBottomSheetPresented = false
+        self._tab = tab
+       
     }
   
     var body: some View {
@@ -143,14 +160,12 @@ private struct AnswerScrollView: View {
                             print(index)
                             isBottomSheetPresented.toggle()
                         }, seeMoreReport: {
-                            return CGPoint(x: 10.0, y: 10.0)
-                            // print(CGFloat(geometry.size.height))
-                         //   sharedData.offset = CGFloat(index+1)
-                          //  return CGPoint(x: geometry.frame(in: .global).minX, y: geometry.frame(in: .global).minY)
-                            
+                            tab = .answering
+                            return CGPoint(x: 10.0, y: CGFloat(index * 100)) // 단순 예시
                         })
+                    /*
                         .onTapGesture {self.sharedData.reportButtonPosition = CGPoint(x: 270, y: -index * 100)            }
-                        
+                     */
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
@@ -167,14 +182,11 @@ private struct AnswerScrollView: View {
                 }
             }
         .padding(.horizontal,24)
-        
-
-            
-        
     }
 }
 
-#Preview {
-    TodayAnswerView(questionId: 1)
+struct TodayAnswerView_Previews: PreviewProvider {
+    static var previews: some View {
+        TodayAnswerView(questionId: 1, tab: .constant(.answering), questionContent: "디폴트")
+    }
 }
-
