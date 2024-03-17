@@ -6,11 +6,11 @@ import Foundation
 struct QuestionView: View {
     
     @EnvironmentObject var pathModel: PathModel
-    
+    @Binding var tab: Tab
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
     @State var questions: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
     @State private var dateString: String = "" // 상태 변수 정의
-     
+  
     let seeMoreAction: () -> Void
     var questionStatus: String = ""
     
@@ -52,9 +52,6 @@ struct QuestionView: View {
         return formatter.string(from: date)
     }
 
-    
-    
-    
     var questionStatusRawValue: String {
         switch questions.questionStatus {
         case .live:
@@ -75,153 +72,154 @@ struct QuestionView: View {
     //@State private var isComment = false
     
     var body: some View {
-        VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
-            HStack(alignment: .center) {
-                Text("\(questions.livedAt ?? "오전 질문" == QuestionTimeZone.am.rawValue || questions.livedAt ?? "오전 질문" == QuestionTimeZone.amCreate.rawValue ? "오전" : "오후")질문")
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(GrayScale.icon)
-                
-                Spacer()
-                    .frame(width: 4)
-                
-                Rectangle()
-                    .frame(width: 1, height: 10)
-                    .foregroundStyle(GrayScale.icon)
-                
-                Spacer()
-                    .frame(width: 4)
-                
-                Text(formattedDate(from: questions.livedAt))
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(GrayScale.icon)
-                
-                
-                Spacer()
-                    .frame(width: 8)
-         
-                    Text(questionStatusRawValue)
-                        .font(.pretendard(.bold, size: 9))
-                        .foregroundStyle(.wh)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 3)
-                        .background(Context.onAir)
-                        .cornerRadius(18, corners: .allCorners)
-                
-                
-                Spacer()
-                
-                // MARK: - 상단 날짜
+        
+        NavigationLink(destination: TodayAnswerView(questionId: questions.questionId ?? 1, tab: $tab)) {
+            // QuestionView의 메인 콘텐츠를 여기에 배치합니다.
+            VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
                 HStack(alignment: .center) {
+                    Text("\(questions.livedAt ?? "오전 질문" == QuestionTimeZone.am.rawValue || questions.livedAt ?? "오전 질문" == QuestionTimeZone.amCreate.rawValue ? "오전" : "오후")질문")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(GrayScale.icon)
+                    
+                    Spacer()
+                        .frame(width: 4)
+                    
+                    Rectangle()
+                        .frame(width: 1, height: 10)
+                        .foregroundStyle(GrayScale.icon)
+                    
+                    Spacer()
+                        .frame(width: 4)
+                    
+                    Text(formattedDate(from: questions.livedAt))
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(GrayScale.icon)
+                    
+                    
+                    Spacer()
+                        .frame(width: 8)
+             
+                        Text(questionStatusRawValue)
+                            .font(.pretendard(.bold, size: 9))
+                            .foregroundStyle(.wh)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 3)
+                            .background(Context.onAir)
+                            .cornerRadius(18, corners: .allCorners)
+                    
+                    
+                    Spacer()
+                    
+                    // MARK: - 상단 날짜
+                    HStack(alignment: .center) {
+                        
+                        Button {
+                            seeMoreAction()
+                            
+                            showingReportSheet = true
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundStyle(TextLabel.sub2)
+                                .frame(width: 20, height: 20)
+                        }
+                        .sheet(isPresented: $showingReportSheet) {
+                            ReportView()
+                        }
+                       
+                        
+                    }
+                    
+                }.sheet(isPresented: $showingReportSheet) {
+                    ReportView()
+                }
+                    Spacer()
+                        .frame(height: 16)
+                    
+                    // MARK: - 본문
+                    Text(questions.content ?? "Default Content") // 질문의 내용을 표시합니다.
+                        .font(.pretendard(.bold, size: 17))
+                        .foregroundStyle(TextLabel.main)
+                    
+                    Spacer()
+                        .frame(height: 20)
+                    
+                HStack {
+                  
+                    Text(questions.tag?
+                           .split(separator: " ")
+                           .map { "#\($0)" }
+                           .joined(separator: " ") ?? "#tag")
+                           .font(.pretendard(.semiBold, size: 14))
+                           .foregroundStyle(BrandPink.text)
+                   
+                
+
+                    Spacer()
                     
                     Button {
-                        seeMoreAction()
                         
-                        showingReportSheet = true
+                        pathModel.paths.append(.todayAnswer(questions.questionId ?? 1))
                     } label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundStyle(TextLabel.sub2)
-                            .frame(width: 20, height: 20)
+                        Text("답변하기")
+                            .font(.pretendard(.medium, size: 14))
+                            .foregroundStyle(TextLabel.main)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(BrandPink.button)
+                            .cornerRadius(30, corners: .allCorners)
                     }
-                    .sheet(isPresented: $showingReportSheet) {
-                        ReportView()
+                }
+                    
+                    // MARK: - 좋아요, 댓글
+                    HStack {
+    //                    Button {
+    //                        isLike.toggle()
+    //                        viewModel.likeButtonTapped(for: questions)
+    //                        // TODO: - 좋아요 탭 기능 구현
+    //                    } label: {
+    //                        HStack(spacing: 6) {
+    //                            Image(isLike ? .heartActive : .heart)
+    //                                .resizable()
+    //                                .frame(width: 24, height: 24)
+    //                                .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
+    //                            Text(String(questions.likeCount ?? 0)) // 질문의 내용을 표시합니다.
+    //                                .font(.pretendard(.medium, size: 15))
+    //                                .foregroundStyle(TextLabel.sub3)
+    //
+    //                        }
+    //                    }
+    //
+    //                    Spacer()
+    //                        .frame(width: 12)
+    //
+    //                    Button {
+    //                        isComment.toggle()
+    //                        // TODO: - 댓글 창 이동
+    //                    } label: {
+    //                        HStack(spacing: 6) {
+    //                            Image(isComment ? .commentActive : .comment)
+    //                                .resizable()
+    //                                .frame(width: 24, height: 24)
+    //                                .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
+    //
+    //                            Text(String(questions.commentCount ?? 0))
+    //                                .font(.pretendard(.medium, size: 15))
+    //                                .foregroundStyle(TextLabel.sub3)
+    //                        }
+    //                    }
                     }
-                   
-                    
                 }
-                
-            }.sheet(isPresented: $showingReportSheet) {
-                ReportView()
-            }
-                Spacer()
-                    .frame(height: 16)
-                
-                // MARK: - 본문
-                Text(questions.content ?? "Default Content") // 질문의 내용을 표시합니다.
-                    .font(.pretendard(.bold, size: 17))
-                    .foregroundStyle(TextLabel.main)
-                
-                Spacer()
-                    .frame(height: 20)
-                
-            HStack {
-              
-                Text(questions.tag?
-                       .split(separator: " ")
-                       .map { "#\($0)" }
-                       .joined(separator: " ") ?? "#tag")
-                       .font(.pretendard(.semiBold, size: 14))
-                       .foregroundStyle(BrandPink.text)
-               
-            
-
-                Spacer()
-                
-                Button {
-                    
-                    pathModel.paths.append(.answer)
-                } label: {
-                    Text("답변하기")
-                        .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(TextLabel.main)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(BrandPink.button)
-                        .cornerRadius(30, corners: .allCorners)
-                }.onTapGesture {
-                    pathModel.paths.append(.todayAnswer(questions.questionId ?? 1))
-                }
-            }
-                
-                // MARK: - 좋아요, 댓글
-                HStack {
-//                    Button {
-//                        isLike.toggle()
-//                        viewModel.likeButtonTapped(for: questions)
-//                        // TODO: - 좋아요 탭 기능 구현
-//                    } label: {
-//                        HStack(spacing: 6) {
-//                            Image(isLike ? .heartActive : .heart)
-//                                .resizable()
-//                                .frame(width: 24, height: 24)
-//                                .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
-//                            Text(String(questions.likeCount ?? 0)) // 질문의 내용을 표시합니다.
-//                                .font(.pretendard(.medium, size: 15))
-//                                .foregroundStyle(TextLabel.sub3)
-//                            
-//                        }
-//                    }
-//                    
-//                    Spacer()
-//                        .frame(width: 12)
-//                    
-//                    Button {
-//                        isComment.toggle()
-//                        // TODO: - 댓글 창 이동
-//                    } label: {
-//                        HStack(spacing: 6) {
-//                            Image(isComment ? .commentActive : .comment)
-//                                .resizable()
-//                                .frame(width: 24, height: 24)
-//                                .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
-//                            
-//                            Text(String(questions.commentCount ?? 0))
-//                                .font(.pretendard(.medium, size: 15))
-//                                .foregroundStyle(TextLabel.sub3)
-//                        }
-//                    }
-                }
-            }
-            .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
-            .onTapGesture {
-            
-                pathModel.paths.append(.todayAnswer(questions.questionId ?? 1))
-            }
+                .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
+        }
+        
         }
     }
-    
+
+/*
 #Preview {
-    QuestionView(questions: .init(), seeMoreAction: {})
+    QuestionView(tab: $tab, questions: .init(), seeMoreAction: {})
 }
+ */
 extension Date {
     func formattedDate() -> String {
         let formatter = DateFormatter()

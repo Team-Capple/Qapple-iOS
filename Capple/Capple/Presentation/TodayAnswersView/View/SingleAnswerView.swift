@@ -20,7 +20,7 @@ struct SingleAnswerView: View {
     let seeMoreAction: () -> Void
     let seeMoreReport: () -> CGPoint
     
-      @State private var showingReportSheet = false // NewReportButtonView 표시 여부
+    @State private var showingReportSheet = false // NewReportButtonView 표시 여부
       @State private var innerShowingReportSheet = false
       @State private var reportButtonPosition: CGPoint? = nil // Report 버튼의 위치
       
@@ -70,11 +70,11 @@ struct SingleAnswerView: View {
                         
                         
                         Button {
-                            sharedData.showingReportSheet = true
+                            showingReportSheet = true
                             
-                            print("showingReportSheet",sharedData.showingReportSheet)
-                            print("innerShowingReportSheet", sharedData.innerShowingReportSheet)
-                            print("reportButtonPosition", sharedData.reportButtonPosition!)
+                         //   print("showingReportSheet",sharedData.showingReportSheet)
+                        //print("innerShowingReportSheet", sharedData.innerShowingReportSheet)
+                       //     print("reportButtonPosition", sharedData.reportButtonPosition!)
                             
                         } label: {
                             Image(systemName: "ellipsis")

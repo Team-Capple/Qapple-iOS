@@ -55,7 +55,7 @@ struct SearchResultView: View {
                     
                     HeaderView(viewModel: viewModel)
                     
-                    QuestionListView(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
+                    QuestionListView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
                         .environmentObject(pathModel)
                     
                     Spacer()
@@ -113,14 +113,18 @@ struct SearchResultView: View {
         @EnvironmentObject var pathModel: PathModel
         @ObservedObject private var viewModel: QuestionViewModel
         @Binding var isBottomSheetPresented: Bool
+        @Binding var tab: Tab
         
         fileprivate init(
-            viewModel: QuestionViewModel,
+            viewModel: QuestionViewModel, tab: Binding<Tab>,
             isBottomSheetPresented: Binding<Bool>
         ) {
             self.viewModel = viewModel
             self._isBottomSheetPresented = isBottomSheetPresented
+            self._tab = tab
+            
         }
+       
         
         var body: some View {
             
@@ -144,17 +148,44 @@ struct SearchResultView: View {
                     LazyVStack {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
+                                /*
                                 Button(action: {
-                                    pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
-                                    
-                                }){
-                                    QuestionView(questions: question) {
-                                        pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
-                                    
+                                  pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
+                                    print("this is question", question)
+                                    print("this is questionID maybe...",question.questionId ?? "default value")
+                                    isBottomSheetPresented.toggle()
+                                })
+                                 */
+                                //{
+                                NavigationLink(destination: TodayAnswerView(questionId: question.questionId ?? 1, tab: $tab)) {
+                                    QuestionView(tab: $tab, questions: question) {
+                                        print("this is question", question)
+                                        print("this is questionID maybe...",question.questionId ?? "default value")
                                         isBottomSheetPresented.toggle()
-                                    } .onTapGesture {
-                                        pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
                                     }
+                                }
+                                /*
+                                     NavigationLink(destination: TodayAnswerView(questionId: question.questionId ?? 1, tab: $tab)) {
+                                         QuestionView(questions: question) {
+                                             // 액션 정의
+                                             pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
+                                             print("this is question", question)
+                                             print("this is questionID maybe...",question.questionId ?? "default value")
+                                             isBottomSheetPresented.toggle()
+                                         }
+                                 */
+                                
+                                     /*
+                                        QuestionView(questions: question) {
+                                            // 액션 정의
+                                            pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
+                                            print("this is question", question)
+                                            print("this is questionID maybe...",question.questionId ?? "default value")
+                                            isBottomSheetPresented.toggle()
+                                            isBottomSheetPresented.toggle()
+                                        }
+                                    */
+                                   
                                 }
                                
                                 .padding(.horizontal, 24)
@@ -181,7 +212,7 @@ struct SearchResultView: View {
         }
     }
     
-}
+
 /*
 #Preview {
     SearchResultView(topTab: .constant(.collecting))

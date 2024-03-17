@@ -93,7 +93,7 @@ private struct FloatingQuestionCard: View {
     
     var body: some View {
         HStack {
-            Text(viewModel.todayQuestionText)
+            Text(viewModel.todayQuestion)
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.main)
                 .lineLimit(isCardExpanded ? 3 : 0)
