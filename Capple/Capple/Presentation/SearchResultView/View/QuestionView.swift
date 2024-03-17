@@ -4,7 +4,6 @@ import Foundation
 
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionView: View {
-    
     @EnvironmentObject var pathModel: PathModel
     @Binding var tab: Tab
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
@@ -90,7 +89,7 @@ struct QuestionView: View {
     
     var body: some View {
         
-        NavigationLink(destination: TodayAnswerView(questionId: questions.questionId, tab: $tab, questionContent: questions.content)) {
+    //    NavigationLink(destination: TodayAnswerView(questionId: questions.questionId, tab: $tab, questionContent: questions.content)) {
             // QuestionView의 메인 콘텐츠를 여기에 배치합니다.
             VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
                 HStack(alignment: .center) {
@@ -174,7 +173,7 @@ struct QuestionView: View {
                     Spacer()
                         
                     Button {
-                        pathModel.paths.append(.todayAnswer(questionId: 1, questionContent: "default"))
+                        pathModel.paths.append(.answer)
                     } label: {
                         Text("답변하기")
                             .font(.pretendard(.medium, size: 14))
@@ -225,12 +224,14 @@ struct QuestionView: View {
     //                    }
                     }
                 }
+        
+        
             
                 .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
         }
         
         }
-    }
+    
 
 /*
 #Preview {

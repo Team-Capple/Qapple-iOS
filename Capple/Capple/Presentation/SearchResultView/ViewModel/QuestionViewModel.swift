@@ -8,29 +8,20 @@ class QuestionViewModel: ObservableObject {
     @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     @Published var searchQuery = ""
+    let accessToken = SignInInfo.shared.accessToken()
    
-    private var authViewModel: AuthViewModel?
-
        // AuthViewModel을 매개변수로 받는 초기화 메서드 추가
-    init(authViewModel: AuthViewModel) {
-        self.authViewModel = authViewModel
-        updateQuestions(using: authViewModel)
-        getQuestions(accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJtZW1iZXJJZCI6NCwicm9sZSI6IlJPTEVfQUNBREVNSUVSIiwiaWF0IjoxNzEwNTg4NzI2LCJleHAiOjE3MTE0NTI3MjZ9.AL0jYCqf-SbrVeBNHN87QEEz7oDQBOltVOrsoObVRKK54qt0YVM0xZQObXAKDo0go6bno6h8O0zlnSJmiei5kg" )
-        print(contentForQuestion(withId: selectedQuestionId ?? 10) ?? "아무것도 안나왔네용 ")
+    init() {
+        getQuestions(accessToken: accessToken)
+        
     }
        
 
     // searchQuery의 변경을 감지하고 필터링을 수행합니다.
     // private var cancellables: Set<AnyCancellable> = []
 
-  //  @Published var accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJtZW1iZXJJZCI6NCwicm9sZSI6IlJPTEVfQUNBREVNSUVSIiwiaWF0IjoxNzEwNTg4NzI2LCJleHAiOjE3MTE0NTI3MjZ9.AL0jYCqf-SbrVeBNHN87QEEz7oDQBOltVOrsoObVRKK54qt0YVM0xZQObXAKDo0go6bno6h8O0zlnSJmiei5kg"
-    func updateQuestions(using authViewModel: AuthViewModel) {
-        let accessToken = SignInInfo.shared.accessToken()
-           
-           // 이제 accessToken을 사용하여 질문을 불러올 수 있습니다.
-           getQuestions(accessToken: accessToken)
-       
-       }
+  
+   
 
     func getQuestions(accessToken: String) {
         
@@ -38,9 +29,6 @@ class QuestionViewModel: ObservableObject {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        
-              //  request.setValue("Bearer \(String(describing: AuthViewModel))", forHTTPHeaderField: "Authorization")
-
            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
                DispatchQueue.main.async {
                    guard let self = self else { return }
@@ -141,6 +129,7 @@ class QuestionViewModel: ObservableObject {
 extension QuestionViewModel {
     func contentForQuestion(withId id: Int?) -> String? {
         guard let id = id else { return "string" }
+        print(id, "QuestionViewModel에서 ID가 들어옵니다")
         print(questions.first {$0.questionId == id }?.content!,"QuestionViewModel에서의 questions.first값")
         guard let content = questions.first { $0.questionId == id }?.content else { return "Question ViewModel 에서의 디폴트 스트링" }
         print(content)

@@ -53,9 +53,8 @@ private struct HomeView: View {
                             
                         case .searchKeyword:
                             SearchKeywordView(viewModel: answerViewModel)
-                           
-                            
-                        case .todayAnswer(let questionId, let questionContent):
+                
+                       case .todayAnswer(let questionId, let questionContent):
                             TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
 
                         case .myPage:
@@ -75,7 +74,7 @@ private struct HomeView: View {
                     }
                 
             case .collecting:
-                SearchResultView(viewModel: QuestionViewModel(authViewModel: authViewModel), tab: $tab)
+                SearchResultView(viewModel: QuestionViewModel(), tab: $tab)
                   .navigationDestination(for: PathType.self) { path in
                         switch path {
                         case .todayAnswer:

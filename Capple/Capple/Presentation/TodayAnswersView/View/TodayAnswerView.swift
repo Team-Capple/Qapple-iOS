@@ -12,12 +12,12 @@ struct TodayAnswerView: View {
     @ObservedObject var viewModel: TodayAnswersViewModel
     @Binding var tab: Tab
     @State var questionContent: String = "default Title" // 여기에 기본값을 제공합니다.
-    @State var questionId: Int = 2 // 여기에 기본값을 제공합니다.
+    @State var questionId: Int =  1// 여기에 기본값을 제공합니다.
      
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-  
+    
     init(questionId: Int?, tab: Binding<Tab>, questionContent: String?) {
-        self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1)
+    self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1)
         self._tab = tab
         self.questionContent = questionContent ?? "default Title"
         self.questionId = questionId ?? 2
@@ -25,7 +25,7 @@ struct TodayAnswerView: View {
 
      
     var body: some View {
-        @ObservedObject var sharedData = SharedData()
+   //     @ObservedObject var sharedData = SharedData()
         
         VStack(alignment: .leading) {
             CustomNavigationView()
@@ -55,7 +55,9 @@ private struct CustomNavigationView: View {
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main)
             },
-            trailingView: {},
+            trailingView: {
+                
+            },
             backgroundColor: .clear
         )
     }
@@ -89,20 +91,14 @@ private struct KeywordScrollView: View {
 // MARK: - 플로팅 질문 카드
 private struct FloatingQuestionCard: View {
   
-    @State   var questionContent: String // 질문 내용을 저장할 프로퍼티
+    @State var questionContent: String // 질문 내용을 저장할 프로퍼티
      @Binding var tab: Tab // 현재 탭을 저장할 프로퍼티
      @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
      @State private var isCardExpanded = true // 카드 확장 상태
 
     @State var questionId: Int?  // 추가됨
     
-  /*
-    init(questionId: Int?, tab: Binding<Tab>, questionContent: String) {
-           self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1, questionContent: questionContent)
-           self._tab = tab
-           self.questionContent = questionContent
-       }
-   */
+ 
     var body: some View {
         HStack {
             Text(viewModel.todayQuestionText)
