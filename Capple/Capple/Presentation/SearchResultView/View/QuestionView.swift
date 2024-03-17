@@ -9,7 +9,7 @@ struct QuestionView: View {
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
     @State var questions: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
     @State private var dateString: String = "" // 상태 변수 정의
-  
+  //  @ObservedObject var viewModel:TodayQuestionViewModel
     let seeMoreAction: () -> Void
     var questionStatus: String = ""
     
@@ -42,27 +42,27 @@ struct QuestionView: View {
     }
     
     func formattedDate(from dateString: String) -> String {
-        // Define the ISO8601 formatter for parsing the date string.
         let isoFormatter = ISO8601DateFormatter()
-        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds] // Handles strings with fractional seconds
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        isoFormatter.timeZone = TimeZone(secondsFromGMT: 0) // UTC로 설정
 
-        // Define a standard date formatter for the desired output format.
         let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "yyyy-MM-dd" // The desired output format
+        outputFormatter.dateFormat = "yyyy-MM-dd"
+        outputFormatter.timeZone = TimeZone.current // 현재 시스템 시간대 사용
 
-        // Try parsing with the ISO8601 formatter.
+      
         if let date = isoFormatter.date(from: dateString) {
             return outputFormatter.string(from: date) // Return the formatted date string
         } else {
-            // If the ISO8601 formatter fails, try parsing with the standard formatter.
+           
             let standardFormatter = DateFormatter()
             standardFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" // Handle strings without fractional seconds
             standardFormatter.timeZone = TimeZone(abbreviation: "UTC") // Match the time zone used in your original strings if necessary
 
             if let date = standardFormatter.date(from: dateString) {
-                return outputFormatter.string(from: date) // Return the formatted date string
+                return outputFormatter.string(from: date)
             } else {
-                return "날짜 변환 실패" // Return a failure message if both parsing attempts fail
+                return "날짜 변환 실패"
             }
         }
     }
@@ -91,6 +91,7 @@ struct QuestionView: View {
         
     //    NavigationLink(destination: TodayAnswerView(questionId: questions.questionId, tab: $tab, questionContent: questions.content)) {
             // QuestionView의 메인 콘텐츠를 여기에 배치합니다.
+        
             VStack(alignment: .leading) { // 세로 스택을 사용해 요소들을 정렬합니다.
                 HStack(alignment: .center) {
                     Text("\(questions.livedAt ?? "오전 질문" == QuestionTimeZone.am.rawValue || questions.livedAt ?? "오전 질문" == QuestionTimeZone.amCreate.rawValue ? "오전" : "오후")질문")
@@ -224,7 +225,7 @@ struct QuestionView: View {
     //                    }
                     }
                 }
-        
+         
         
             
                 .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.

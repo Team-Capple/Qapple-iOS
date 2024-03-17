@@ -64,6 +64,7 @@ struct SearchResultView: View {
                     
                 }
             }
+        
             /*
             .navigationDestination(for: PathType.self) {  pathType in
                 switch pathType {
@@ -150,11 +151,12 @@ struct SearchResultView: View {
                             VStack(spacing: 20) {
                                 QuestionView(tab: $tab, questions: question){
                                      isBottomSheetPresented.toggle()
-                                }.onTapGesture {
+                                }
+                                .onTapGesture {
                                     print(question.questionId, "onTapGesture ID입니다")
                                     guard let id = question.questionId else { return }
                                     pathModel.paths.append(.todayAnswer(questionId: id, questionContent: viewModel.contentForQuestion(withId: id) ?? "내용 없음"))
-                                    QuestionService.shared.updateQuestion(withId: id)
+                                    QuestionService.shared.questionId = id
                                     print(id, "가드렛 아이디")
                                     print(question.questionId, "onTapGesture ID입니다2222")
                                 }
@@ -247,6 +249,7 @@ struct SearchResultView: View {
                     }
                     
                 }
+            
                 .padding(.top, 24)
                 .scrollIndicators(.hidden)
                 .refreshable {
