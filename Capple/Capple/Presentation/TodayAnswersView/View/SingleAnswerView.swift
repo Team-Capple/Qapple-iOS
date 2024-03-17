@@ -20,12 +20,14 @@ struct SingleAnswerView: View {
     let seeMoreAction: () -> Void
     let seeMoreReport: () -> CGPoint
     
-    
+      @State private var showingReportSheet = false // NewReportButtonView 표시 여부
+      @State private var innerShowingReportSheet = false
+      @State private var reportButtonPosition: CGPoint? = nil // Report 버튼의 위치
+      
     var body: some View {
         ZStack{
             if !sharedData.innerShowingReportSheet  {
                 ZStack {
-                    
                     HStack (alignment: .top){
                         Image(answer.profileImage ?? "CappleDefaultProfile")
                             .foregroundStyle(TextLabel.bk)
@@ -69,6 +71,7 @@ struct SingleAnswerView: View {
                         
                         Button {
                             sharedData.showingReportSheet = true
+                            
                             print("showingReportSheet",sharedData.showingReportSheet)
                             print("innerShowingReportSheet", sharedData.innerShowingReportSheet)
                             print("reportButtonPosition", sharedData.reportButtonPosition!)
@@ -78,12 +81,18 @@ struct SingleAnswerView: View {
                                 .foregroundStyle(TextLabel.sub2)
                                 .frame(width: 20, height: 20)
                         }
+                        if showingReportSheet && !innerShowingReportSheet {
+                                       NewReportButtonView()
+                                           .offset(x: reportButtonPosition?.x ?? 0, y: reportButtonPosition?.y ?? 0)
+                                           // 필요한 위치 조정
+                                           .onTapGesture {
+                                               self.innerShowingReportSheet = true
+                                           }
+                                   }
                     }
                 }
-                
-                
-                
             }
+            /*
             else if sharedData.showingReportSheet && !sharedData.innerShowingReportSheet {
                 ZStack{
                     
@@ -127,12 +136,12 @@ struct SingleAnswerView: View {
                         .lineLimit(.max)
                         .lineSpacing(6)
                         .multilineTextAlignment(.leading)
-                        
                         Spacer()
-                        
                         Button {
-                            // self.reportButtonPosition = CGPoint(x: geometry.frame(in: .global).minX, y: geometry.frame(in: .global).minY)
-                            sharedData.showingReportSheet = true
+                               self.showingReportSheet = true
+                             
+                               self.reportButtonPosition = seeMoreReport()
+                          
                             print("showingReportSheet",sharedData.showingReportSheet)
                             print("innerShowingReportSheet", sharedData.innerShowingReportSheet)
                             print("reportButtonPosition", sharedData.reportButtonPosition ?? CGPoint(x: 0, y: 0))
@@ -143,38 +152,45 @@ struct SingleAnswerView: View {
                                 .frame(width: 20, height: 20)
                         }
                     }
+                    /*
                     .overlay(
+                        
                         sharedData.reportButtonPosition.map { position in
-                            NewReportView()
+                            NewReportButtonView()
                                 .position(position)
                         }
                     )
-
-                    
-                    
-                    
-                    //.offset(x: sharedData.offset + 40 , y: sharedData.offset )
-                    //    .offset(x: seeMoreReport().x , y: seeMoreReport().y )
                     .animation(.default, value: showReportButton)
                     .onTapGesture {
-                        sharedData.innerShowingReportSheet = true
+                        self.innerShowingReportSheet = true
+                        
                     }
+                    */
                 }.onTapGesture {
-                    sharedData.innerShowingReportSheet = false
+                    self.innerShowingReportSheet = false
                 }
                 
-            }
+                
+            }*/
         }
         
     }
 }
-        
-    
 
 /*
+        
+// SingleAnswerView 미리보기 정의
 struct SingleAnswerView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleAnswerView(answer: Answer(profileImage: "CappleDefaultProfile", nickname: "user", content: "This is a sample answer.", tags: "tag tag2222222 tag"), seeMoreAction: {}, seeMoreReport: {return CGPoint(10)})
+        // 가짜 PresentationMode 생성
+        let fakePresentationMode = Binding.constant(PresentationMode)
+        // SingleAnswerView에 가짜 PresentationMode 전달
+        SingleAnswerView(
+            answer: Answer(),
+            presentationMode: PresentationMode()
+            seeMoreAction: {},
+            seeMoreReport: { return CGPoint(x: 0, y: 0) }
+        )
     }
 }
 

@@ -5,7 +5,7 @@ struct SearchResultView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: QuestionViewModel
-    @Binding var topTab: Tab
+    @Binding var tab: Tab
     @State private var searchText = "" // 사용자 검색 텍스트를 저장합니다.
     @State private var isBottomSheetPresented = false
     
@@ -23,14 +23,14 @@ struct SearchResultView: View {
                         principalView: {
                             HStack(spacing: 20) {
                                 Button {
-                                    topTab = .answering
+                                    tab = .answering
                                 } label: {
                                     Text("답변하기")
                                         .font(.pretendard(.semiBold, size: 14))
                                         .foregroundStyle(TextLabel.sub4)
                                 }
                                 Button {
-                                    // TODO: - 모아보기 리프레시
+                                    tab = .collecting
                                 } label: {
                                     Text("모아보기")
                                         .font(.pretendard(.semiBold, size: 14))
@@ -56,18 +56,28 @@ struct SearchResultView: View {
                     HeaderView(viewModel: viewModel)
                     
                     QuestionListView(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
-                    
+                        .environmentObject(pathModel)
                     
                     Spacer()
                         .frame(height: 0)
                     
                     
                 }
-                
-                .navigationDestination(for: Int.self) { questionId in
-                    TodayAnswerView(questionId: questionId)
+                .navigationDestination(for: PathType.self) {  pathType in
+                    switch pathType {
+                      case .todayAnswer(let questionId):
+                          TodayAnswerView(questionId: questionId, tab: $tab)
+                      // 다른 경로에 대한 뷰를 여기 추가...
+                      default:
+                          EmptyView() 
+                      }
+                         
                 }
-                
+                /*
+                .navigationDestination(for: Int.self) { questionId in
+                    TodayAnswerView(questionId: questionId, tab: $tab)
+                }
+                */
             }
             .navigationBarBackButtonHidden()
         }
@@ -100,7 +110,7 @@ struct SearchResultView: View {
     // MARK: - QuestionListView
     private struct QuestionListView: View {
         @EnvironmentObject var authViewModel: AuthViewModel // AuthViewModel 주입
-        
+        @EnvironmentObject var pathModel: PathModel
         @ObservedObject private var viewModel: QuestionViewModel
         @Binding var isBottomSheetPresented: Bool
         
@@ -135,12 +145,18 @@ struct SearchResultView: View {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
                                 Button(action: {
-                                    viewModel.selectedQuestionId = question.questionId
+                                    pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
+                                    
                                 }){
                                     QuestionView(questions: question) {
-                                        viewModel.selectedQuestionId = question.questionId
+                                        pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
+                                    
                                         isBottomSheetPresented.toggle()
-                                    }}
+                                    } .onTapGesture {
+                                        pathModel.paths.append(.todayAnswer(question.questionId ?? 1))
+                                    }
+                                }
+                               
                                 .padding(.horizontal, 24)
                                 .sheet(isPresented: $isBottomSheetPresented) {
                                     SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)

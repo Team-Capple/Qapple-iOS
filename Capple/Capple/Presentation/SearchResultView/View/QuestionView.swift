@@ -157,6 +157,7 @@ struct QuestionView: View {
                 Spacer()
                 
                 Button {
+                    
                     pathModel.paths.append(.answer)
                 } label: {
                     Text("답변하기")
@@ -166,6 +167,8 @@ struct QuestionView: View {
                         .padding(.vertical, 8)
                         .background(BrandPink.button)
                         .cornerRadius(30, corners: .allCorners)
+                }.onTapGesture {
+                    pathModel.paths.append(.todayAnswer(questions.questionId ?? 1))
                 }
             }
                 
@@ -210,7 +213,8 @@ struct QuestionView: View {
             }
             .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
             .onTapGesture {
-                pathModel.paths.append(.todayAnswer)
+            
+                pathModel.paths.append(.todayAnswer(questions.questionId ?? 1))
             }
         }
     }

@@ -8,14 +8,15 @@
 import Foundation
 import SwiftUI
 struct TodayAnswerView: View {
-    
+    @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
-    
+    @Binding var tab: Tab
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     
-    init(questionId: Int?) {
+    init(questionId: Int?, tab: Binding<Tab>) {
         self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1)
+        self._tab = tab
     }
 
      
@@ -30,7 +31,7 @@ struct TodayAnswerView: View {
             FloatingQuestionCard(viewModel: viewModel)
             Spacer()
                 .frame(height: 32)
-            AnswerScrollView(viewModel: viewModel)
+            AnswerScrollView(viewModel: viewModel, tab: $tab)
         }
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
@@ -120,19 +121,23 @@ private struct FloatingQuestionCard: View {
 
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
-    @ObservedObject var sharedData = SharedData()
-     
+ //   @ObservedObject var sharedData = SharedData()
+    
+    @Binding var tab: Tab
+   
     let seeMoreAction: () -> Void
     
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isBottomSheetPresented = false
-   
-    init(viewModel: TodayAnswersViewModel) {
+  
+    init(viewModel: TodayAnswersViewModel, tab: Binding<Tab>) {
         self.viewModel = viewModel
-        sharedData = SharedData()
+        //sharedData = SharedData()
         self.seeMoreAction = {}
         self.isBottomSheetPresented = false
+        self._tab = tab
+       
     }
   
     var body: some View {
@@ -143,14 +148,12 @@ private struct AnswerScrollView: View {
                             print(index)
                             isBottomSheetPresented.toggle()
                         }, seeMoreReport: {
-                            return CGPoint(x: 10.0, y: 10.0)
-                            // print(CGFloat(geometry.size.height))
-                         //   sharedData.offset = CGFloat(index+1)
-                          //  return CGPoint(x: geometry.frame(in: .global).minX, y: geometry.frame(in: .global).minY)
-                            
+                            tab = .answering
+                            return CGPoint(x: 10.0, y: CGFloat(index * 100)) // 단순 예시
                         })
+                    /*
                         .onTapGesture {self.sharedData.reportButtonPosition = CGPoint(x: 270, y: -index * 100)            }
-                        
+                     */
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
@@ -167,14 +170,11 @@ private struct AnswerScrollView: View {
                 }
             }
         .padding(.horizontal,24)
-        
-
-            
-        
     }
 }
 
-#Preview {
-    TodayAnswerView(questionId: 1)
+struct TodayAnswerView_Previews: PreviewProvider {
+    static var previews: some View {
+        TodayAnswerView(questionId: 1, tab: .constant(.answering)) 
+    }
 }
-
