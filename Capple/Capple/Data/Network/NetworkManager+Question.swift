@@ -49,7 +49,7 @@ extension NetworkManager {
     }
     
     /// 오늘의 메인 질문을 조회합니다.
-    static func fetchMainQuestion(accessToken: String) async throws -> QuestionResponse.MainQuestion {
+    static func fetchMainQuestion() async throws -> QuestionResponse.MainQuestion {
         
         // URL 객체 생성
         let urlString = ApiEndpoints.basicURLString(path: .mainQuestion)
@@ -61,7 +61,7 @@ extension NetworkManager {
         // 토큰 추가
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.data(for: request)

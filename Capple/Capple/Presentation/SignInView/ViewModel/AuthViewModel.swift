@@ -23,8 +23,6 @@ class AuthViewModel: ObservableObject {
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
     @Published var isCertifyCodeFailed = false // 인증 코드 실패 여부
-    
-    var signInResponse: MemberResponse.SignIn = .init(accessToken: nil, refreshToken: nil, isMember: false)
 }
 
 // MARK: - Helper
@@ -74,21 +72,23 @@ extension AuthViewModel {
                 Task {
                     do {
                         let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
-                        self.signInResponse = signInResponse
-                        print("잘 받음!: \(self.signInResponse)")
+                        SignInInfo.shared.updateAccessToken(signInResponse.accessToken ?? "")
+                        SignInInfo.shared.updateRefreshToken(signInResponse.refreshToken ?? "")
+                        
+                        // 로그인 상태에 따른 화면 분기처리
+                        if signInResponse.isMember {
+                            print("뭐야 너 멤버잖아? 홈 화면으로 이동시켜주마")
+                            isSignIn = true
+                        } else {
+                            print("아직 멤버가 아니군! 회원가입 필요")
+                            isSignUp = true
+                        }
+                        
                     } catch {
-                        print("로그인 리스폰스 못받음 ㅡㅡ")
+                        print("로그인 요칭 실패,,,")
                     }
                     
-                    print("액세스 토큰!\n \(signInResponse.accessToken ?? "값 없음...")\n")
-                    
-                    if signInResponse.isMember {
-                        print("뭐야 너 멤버잖아? 홈 화면으로 이동시켜주마")
-                        isSignIn = true
-                    } else {
-                        print("아직 멤버가 아니군! 회원가입 필요")
-                        isSignUp = true
-                    }
+                    print("\n액세스 토큰 값!\n\(SignInInfo.shared.accessToken()))\n")
                 }
                 
             default:
@@ -106,7 +106,7 @@ extension AuthViewModel {
         Task {
             let signUpData = try await NetworkManager.requestSignUp(
                 request: .init(
-                    signUpToken: signInResponse.refreshToken ?? "",
+                    signUpToken: SignInInfo.shared.refreshToken(),
                     email: "\(email)@postech.ac.kr",
                     nickname: nickname,
                     profileImage: ""
@@ -114,11 +114,8 @@ extension AuthViewModel {
             )
             
             // 토큰 데이터 업데이트
-            self.signInResponse = .init(
-                accessToken: signUpData.accessToken,
-                refreshToken: signUpData.refreshToken,
-                isMember: true
-            )
+            SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
+            SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
         }
     }
 }
