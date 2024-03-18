@@ -10,13 +10,11 @@ import Foundation
 final class TodayQuestionViewModel: ObservableObject {
     
     let dateManager = QuestionTimeManager()
-    
-    @Published var timeZone: QuestionTimeZone
-    @Published var state: QuestionState
-    @Published var timerSeconds: String
-    
     var timer: Timer?
     
+    @Published var timeZone: QuestionTimeZone
+    @Published var state: QuestionState?
+    @Published var timerSeconds: String
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.AnswerInfos]
     
@@ -25,13 +23,6 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         self.timerSeconds = dateManager.fetchTimerSeconds(currentTimeZone)
         
-        if currentTimeZone == .am || currentTimeZone == .pm {
-            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
-            self.state = .ready
-        } else {
-            self.state = .creating
-        }
-        
         // 변수 초기화
         self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
         self.answerList = []
@@ -39,6 +30,22 @@ final class TodayQuestionViewModel: ObservableObject {
         Task {
             await requestMainQuestion()
             await requestAnswerPreview()
+            await updateQuestionState()
+        }
+    }
+}
+
+// MARK: - 현재 상태 업데이트
+extension TodayQuestionViewModel {
+    
+    /// 현재 시간 및 답변 상태에 따라 QuestionState를 업데이트합니다.
+    @MainActor
+    func updateQuestionState() {
+        let currentTimeZone = dateManager.fetchTimezone()
+        if currentTimeZone == .am || currentTimeZone == .pm {
+            self.state = mainQuestion.isAnswered ? .complete : .ready
+        } else {
+            self.state = .creating
         }
     }
 }
