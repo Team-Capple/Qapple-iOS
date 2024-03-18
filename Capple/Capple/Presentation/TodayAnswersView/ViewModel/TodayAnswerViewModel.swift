@@ -26,10 +26,11 @@ class TodayAnswersViewModel: ObservableObject {
    
     init(questionId: Int) {
    
-        self.questionId = 1
+        self.questionId = questionId
         self.isLoading = true
         
-             loadAnswersForQuestion()
+    
+        loadAnswersForQuestion()
            
        
     }
@@ -53,8 +54,7 @@ class TodayAnswersViewModel: ObservableObject {
                            return
                        }
                        do {
-                        
-                           let decodedData = try JSONDecoder().decode(BaseResponse<ServerResponse.Answers>.self, from: data)
+                        let decodedData = try JSONDecoder().decode(BaseResponse<ServerResponse.Answers>.self, from: data)
                                        DispatchQueue.main.async {
                                            self.answers = decodedData.result.answerInfos ?? []
                                            print("Decoded data: \(self.answers)")
