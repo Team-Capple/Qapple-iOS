@@ -20,22 +20,24 @@ class QuestionService {
         }
     }
     
-    func contentForQuestion(completion: @escaping (String?) -> Void) -> String {
+    // questions 가지고 있을때 , questionId랑 questions의 questionId 랑 같은 question의 content 를 반환
+       // 위에 로직 안될때 loadQuestions  함수를 실행해서 전체 목록ㅇ르 불러오고 거기서 위에 로직을 또 실행하고 찾은 content를 반환!
+      /*
+    func contentForQuestion(withId questionId: Int) async throws -> String {
         // 이미 로드된 질문 목록에서 해당 ID를 가진 질문을 찾습니다.
-       
         print(questionId, "contentForQuestion 아이디입니다")
-        if let content = questions.first(where: {$0.questionId == self.questionId })?.content {
-            completion(content)
-            return content
-        } else {
-            // 해당 ID를 가진 질문이 목록에 없다면, 서버에서 질문 목록을 새로 불러옵니다.
-            loadQuestions { [weak self] in
-                completion(self?.questions.first(where: {$0.questionId == self?.questionId})?.content)
-            }
-            return "loadmore"
-        }
+       
+     
+        guard let content = questions.first(where: {$0.questionId == self.questionId })?.content else {   loadQuestions { [weak self] in
+            guard let content = self?.questions.first(where: {$0.questionId == self?.questionId})?.content else { return }
+        return  }
+    
+        return
     }
-    func updateQuestion(withId id: Int) {
+        
+      */
+    
+      func updateQuestion(withId id: Int) {
         // questions 배열 내에서 해당 ID를 가진 질문을 찾습니다.
         self.questionId = id
     }

@@ -75,8 +75,8 @@ private struct HomeView: View {
                 SearchResultView(viewModel: QuestionViewModel(), tab: $tab)
                   .navigationDestination(for: PathType.self) { path in
                         switch path {
-                        case .todayAnswer:
-                            TodayAnswerView(questionId: 1, tab: $tab, questionContent: "default질문은 이것입니다")
+                        case let .todayAnswer(questionId, questionContent):
+                            TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
                             
                             // MARK: - 한톨 코멘트
                             // 답변하기 뷰 이동할 때 메인 질문만 넘겨주면 되서 요렇게 변경했슴다!

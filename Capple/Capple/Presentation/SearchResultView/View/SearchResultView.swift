@@ -11,8 +11,6 @@ struct SearchResultView: View {
     let accessToken = SignInInfo.shared.accessToken()
   
     var body: some View {
-        
-        
             ZStack {
                 Color(Background.first)
                     .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
@@ -127,6 +125,7 @@ struct SearchResultView: View {
         }
        
         
+       
         var body: some View {
             
             VStack(spacing: 0) {
@@ -153,12 +152,10 @@ struct SearchResultView: View {
                                      isBottomSheetPresented.toggle()
                                 }
                                 .onTapGesture {
-                                    print(question.questionId, "onTapGesture ID입니다")
-                                    guard let id = question.questionId else { return }
+                                   guard let id = question.questionId else { return }
                                     pathModel.paths.append(.todayAnswer(questionId: id, questionContent: viewModel.contentForQuestion(withId: id) ?? "내용 없음"))
                                     QuestionService.shared.questionId = id
-                                    print(id, "가드렛 아이디")
-                                    print(question.questionId, "onTapGesture ID입니다2222")
+                               
                                 }
                                 
                                 // MARK: - 확인용코드

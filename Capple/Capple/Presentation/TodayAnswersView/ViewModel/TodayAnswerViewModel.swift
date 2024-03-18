@@ -15,36 +15,32 @@ class TodayAnswersViewModel: ObservableObject {
      
     @Published var keywords: [String] = []
     @Published var todayQuestion: String = ""
-    @Published var answers: [Answer] = []
-    @Published var filteredAnswer: [Answer] = []
+    @Published var answers: [ServerResponse.Answers.AnswersInfos] = []
+    @Published var filteredAnswer: [ServerResponse.Answers.AnswersInfos] = []
     @Published var searchQuery = ""
-    @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
+    @Published var isLoading = false
     private var questionId: Int?
        
      
     private var cancellables: Set<AnyCancellable> = []
    
     init(questionId: Int) {
+    //    testFetchData()
         loadAnswersForQuestion()
         self.questionId = QuestionService.shared.questionId
         self.isLoading = true
-        fetchQuestionContent(questionId: QuestionService.shared.questionId)
+      //  fetchQuestionContent(questionId: QuestionService.shared.questionId)
      
          
     }
     
     
     private func fetchQuestionContent(questionId: Int) {
-           QuestionService.shared.contentForQuestion() { [weak self] content in
-               DispatchQueue.main.async {
-                   // 비동기적으로 가져온 질문 내용을 ViewModel의 todayQuestion 프로퍼티에 저장
-                   print(QuestionService.shared.questionId, "비동기ID")
-                   print(content)
-                   self?.todayQuestion = content ?? "질문 내용을 불러오는데 실패했습니다."
-                   self?.isLoading = false
-               }
-           }
-       }
+        Task {
+            self.todayQuestion =  await QuestionService.shared.getContent(withId: questionId)
+            self.isLoading = false
+        }
+    }
     
     func testFetchData() {
         guard let questionId = self.questionId else { return }
@@ -62,9 +58,7 @@ class TodayAnswersViewModel: ObservableObject {
     func loadAnswersForQuestion() {
         
         let questionId = QuestionService.shared.questionId
-        print("loadAnswersForQuestion: ", questionId)
-      
-           guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
+         guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
            do {
                URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                    DispatchQueue.main.async {
@@ -79,11 +73,13 @@ class TodayAnswersViewModel: ObservableObject {
                            return
                        }
                        do {
-                           let decodedData = try JSONDecoder().decode(ServerResponse.self, from: data)
-                              let newAnswers = decodedData.result.answerInfos
-                              self.answers.append(contentsOf: newAnswers)
-                         
-                           print(self.answers)
+                           let decodedData = try JSONDecoder().decode(BaseResponse<ServerResponse.Answers>.self, from: data)
+                          
+                           DispatchQueue.main.async {
+                               self.answers = decodedData.result.answerInfos ?? []
+                               
+                               print("Decoded data: \(self.answers)")
+                           }
                        } catch {
                            print("Error decoding response: \(error)")
                        }

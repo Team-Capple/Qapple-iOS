@@ -14,7 +14,7 @@ import FlexView
 struct SingleAnswerView: View {
    // @ObservedObject private var viewModel: TodayAnswersViewModel
     
-    var answer: Answer
+    var answer: ServerResponse.Answers.AnswersInfos
    
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
