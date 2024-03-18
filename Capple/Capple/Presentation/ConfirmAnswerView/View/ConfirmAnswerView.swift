@@ -15,7 +15,6 @@ struct ConfirmAnswerView: View {
     @State private var isButtonActive = false
     
     var body: some View {
-        
         VStack {
             CustomNavigationBar(
                 leadingView: {
@@ -66,8 +65,11 @@ struct ConfirmAnswerView: View {
                 Spacer()
                 
                 ActionButton("완료", isActive: $isButtonActive) {
-                    // TODO: 완료 후 답변 자세히 보기 화면으로 이동
-                    pathModel.paths.removeAll()
+                    Task {
+                        await viewModel.requestRegisterAnswer()
+                        pathModel.paths.removeAll()
+                        // TODO: TodayAnswerView로 이동해야 함!
+                    }
                 }
                     .padding(.horizontal, 24)
                     .animation(.bouncy(duration: 0.3), value: isButtonActive)
@@ -118,6 +120,12 @@ private struct KeywordView: View {
         }
         .alert("키워드를 입력하세요.", isPresented: $isKeywordInputAlertPresented) {
             TextField("ex) 애플, 아카데미", text: $keywordInputText)
+                .autocorrectionDisabled()
+                .onChange(of: keywordInputText) { _, newValue in
+                    if newValue.contains(" ") {
+                        keywordInputText = newValue.replacingOccurrences(of: " ", with: "")
+                    }
+                }
             
             Button("취소", role: .cancel, action: {
                 keywordInputText = ""

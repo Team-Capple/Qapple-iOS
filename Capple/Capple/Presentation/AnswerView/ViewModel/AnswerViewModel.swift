@@ -10,6 +10,9 @@ import Foundation
 final class AnswerViewModel: ObservableObject {
     
     var question: AttributedString
+    
+    @Published var mainQuestion: QuestionResponse.MainQuestion
+    
     @Published var answer: String
     @Published var search: String
     
@@ -36,6 +39,48 @@ final class AnswerViewModel: ObservableObject {
             .init(name: "디자이너"),
             .init(name: "맨유리버풀첼시토트넘아스날맨시티뉴캐슬울버햄튼브라이튼아스톤빌라"),
         ]
+        
+        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
+    }
+    
+    /// 답변을 위해 작성한 양식을 모두 초기화합니다.
+    func resetAnswerInfo() {
+        answer.removeAll()
+        search.removeAll()
+        keywords.removeAll()
+    }
+}
+
+// MARK: - 메인 질문 업데이트
+extension AnswerViewModel {
+    
+    /// 오늘의 메인 질문을 요청하고 업데이트합니다.
+    @MainActor
+    func requestMainQuestion() async {
+        do {
+            let mainQuestion = try await NetworkManager.fetchMainQuestion()
+            self.mainQuestion = mainQuestion
+        } catch {
+            print("메인 질문 업데이트 실패")
+        }
+    }
+}
+
+// MARK: - 답변 등록
+extension AnswerViewModel {
+    
+    @MainActor
+    func requestRegisterAnswer() async {
+        do {
+            let _ = try await NetworkManager.requestRegisterAnswer(
+                request: .init(answer: answer, tags: keywords.map { $0.name }),
+                questionID: mainQuestion.questionId
+            )
+            resetAnswerInfo()
+            print("답변 등록 성공!")
+        } catch {
+            print("답변 등록 실패,,,")
+        }
     }
 }
 
@@ -43,10 +88,10 @@ final class AnswerViewModel: ObservableObject {
 extension AnswerViewModel {
     
     /// 질문 텍스트를 반환합니다.
-    func questionText(_ text: String) -> AttributedString {
+    var questionText: AttributedString {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
-        let attributeText = AttributedString(stringLiteral: text)
+        let attributeText = AttributedString(stringLiteral: mainQuestion.content)
         return questionMark + attributeText
     }
     
