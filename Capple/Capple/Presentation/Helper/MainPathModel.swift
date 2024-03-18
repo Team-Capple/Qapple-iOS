@@ -18,7 +18,7 @@ enum PathType: Hashable {
     case signUpCompleted // 완료
     
     /// 답변하기
-    case answer // 답변하기
+    case answer(mainQuestion: String) // 답변하기
     case confirmAnswer // 답변확인(키워드선택)
     case searchKeyword // 키워드 검색
     

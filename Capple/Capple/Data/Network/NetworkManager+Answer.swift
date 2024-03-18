@@ -20,8 +20,13 @@ extension NetworkManager {
             throw NetworkError.cannotCreateURL
         }
         
+        // 토큰 추가
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        
         // URLSession 생성
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await URLSession.shared.data(for: request)
         // print(data)
         // print(response)
         

@@ -10,42 +10,47 @@ import FlexView
 
 struct AnswerCell: View {
     
-    var profileImageText = "튼"
     var profileName: String
     var answer: String
     var keywords: [String]
-    
-    var likeCount = 32
-    
-    @State var isLike = false
-    @State var likeColor = GrayScale.secondaryButton
-    
     let seeMoreAction: () -> Void
     
     var body: some View {
-        /// 프로필
         HStack(alignment: .top) {
-            Text(profileImageText)
-                .font(.pretendard(.semiBold, size: 18))
-                .foregroundStyle(TextLabel.bk)
+            
+            // 프로필 이미지
+            Image(.profileDummy)
+                .resizable()
                 .frame(width: 28, height: 28)
-                .background(BrandPink.profile)
-                .clipShape(Circle())
             
             Spacer()
                 .frame(width: 8)
             
-            /// 콘텐츠
+            // 콘텐츠
             VStack(alignment: .leading) {
-                Text(profileName)
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(TextLabel.sub2)
-                    .frame(height: 10)
-                    .padding(.top, 8)
+                HStack {
+                    Text(profileName)
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(TextLabel.sub2)
+                        .frame(height: 10)
+                        .padding(.top, 8)
+                    
+                    Spacer()
+                    
+                    // 더보기
+                    Button {
+                        seeMoreAction()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .foregroundStyle(TextLabel.sub2)
+                            .frame(width: 20, height: 20)
+                    }
+                }
                 
                 Spacer()
                     .frame(height: 12)
                 
+                // 답변
                 Text(answer)
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
@@ -56,43 +61,28 @@ struct AnswerCell: View {
                 Spacer()
                     .frame(height: 12)
                 
-                /// 라이브러리 사용해버렸습니다,, 나중에 공부하면서 수정해보기
+                // 키워드
+                // TODO: 라이브러리 사용해버렸습니다,, 나중에 공부하면서 수정해보기
                 FlexView(data: keywords, spacing: 8, alignment: .leading) { keyword in
                     Text("#\(keyword)")
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(BrandPink.text)
                 }
-                
-                //                Spacer()
-                //                    .frame(height: 16)
-                
-                //                Button {
-                //                    isLike.toggle()
-                //                    // TODO: - 좋아요 탭 기능 구현
-                //                } label: {
-                //                    HStack(spacing: 6) {
-                //                        Image(isLike ? .heartActive : .heart)
-                //                            .resizable()
-                //                            .frame(width: 24, height: 24)
-                //                            .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
-                //
-                //                        Text("\(likeCount)")
-                //                            .font(.pretendard(.medium, size: 15))
-                //                            .foregroundStyle(TextLabel.sub3)
-                //                    }
-                //                }
-                
-                
-                /// 아이콘
-                Button {
-                    seeMoreAction()
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(TextLabel.sub2)
-                        .frame(width: 20, height: 20)
-                }
-                
             }
         }
+    }
+}
+
+#Preview {
+    ZStack {
+        Color(Background.first)
+            .ignoresSafeArea()
+        
+        AnswerCell(
+            profileName: "와플대학",
+            answer: "답변입니다.",
+            keywords: ["첫번째키워드", "두번째키워드"],
+            seeMoreAction: {}
+        )
     }
 }

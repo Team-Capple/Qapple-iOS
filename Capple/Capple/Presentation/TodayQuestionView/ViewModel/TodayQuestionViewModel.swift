@@ -10,14 +10,11 @@ import Foundation
 final class TodayQuestionViewModel: ObservableObject {
     
     let dateManager = QuestionTimeManager()
-    
-    @Published var timeZone: QuestionTimeZone
-    @Published var state: QuestionState
-    @Published var timerSeconds: String
-    
     var timer: Timer?
     
-    // TODO: - 임시 답변 리스트
+    @Published var timeZone: QuestionTimeZone
+    @Published var state: QuestionState?
+    @Published var timerSeconds: String
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.AnswerInfos]
     
@@ -26,21 +23,29 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         self.timerSeconds = dateManager.fetchTimerSeconds(currentTimeZone)
         
-        self.state = .creating
-        
-//        if currentTimeZone == .am || currentTimeZone == .pm {
-//            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
-//            self.state = .ready
-//        } else {
-//            self.state = .creating
-//        }
-        
         // 변수 초기화
         self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
         self.answerList = []
         
         Task {
             await requestMainQuestion()
+            await requestAnswerPreview()
+            await updateQuestionState()
+        }
+    }
+}
+
+// MARK: - 현재 상태 업데이트
+extension TodayQuestionViewModel {
+    
+    /// 현재 시간 및 답변 상태에 따라 QuestionState를 업데이트합니다.
+    @MainActor
+    func updateQuestionState() {
+        let currentTimeZone = dateManager.fetchTimezone()
+        if currentTimeZone == .am || currentTimeZone == .pm {
+            self.state = mainQuestion.isAnswered ? .complete : .ready
+        } else {
+            self.state = .creating
         }
     }
 }
@@ -63,6 +68,21 @@ extension TodayQuestionViewModel {
 // MARK: - 답변 업데이트
 extension TodayQuestionViewModel {
     
+    /// 메인 질문의 답변 프리뷰(3개)를 요청하고 업데이트합니다.
+    @MainActor
+    func requestAnswerPreview() async {
+        do {
+            let answerPreview = try await NetworkManager.fetchAnswersOfQuestion(
+                request: .init(
+                    questionId: self.mainQuestion.questionId,
+                    keyword: nil,
+                    size: 3
+                ))
+            self.answerList = answerPreview.answerInfos
+        } catch {
+            print("답변 프리뷰 업데이트 실패")
+        }
+    }
 }
 
 // MARK: - 텍스트
@@ -94,20 +114,19 @@ extension TodayQuestionViewModel {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
         
-        let creatingText = AttributedString(mainQuestion.content)
-        let completeText: AttributedString = "최근에 먹었던 음식 중\n가장 인상깊었던 것은 무엇인가요?"
+        let mainQuestionText = AttributedString(mainQuestion.content)
         
         var text = AttributedString()
-        if state == .creating { text = questionMark + creatingText }
+        if state == .creating { text = questionMark + mainQuestionText }
         else if state == .ready { text = "어떤 질문이 나왔을까요?" }
-        else if state == .complete { text = questionMark + completeText }
+        else if state == .complete { text = questionMark + mainQuestionText }
         return text
     }
     
     /// 리스트 서브 타이틀 텍스트를 반환합니다.
     var listSubText: String {
         var text = "리스트 서브 타이틀"
-        if state == .creating { text = "이전 답변 좋아요 TOP 3" }
+        if state == .creating { text = "최근에 달린 답변" }
         else if state == .ready { text = "답변 미리보기" }
         else if state == .complete { text = "실시간 답변 현황" }
         return text

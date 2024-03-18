@@ -61,7 +61,7 @@ struct TodayQuestionView: View {
                         
                         HeaderView(viewModel: viewModel)
                         
-                        HeaderButtonView(viewModel: viewModel)
+                        HeaderButtonView(viewModel: viewModel, tab: $tab)
                         
                         AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                     }
@@ -137,7 +137,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 10)
             
-            Image(.timer)
+            Image(.questionCreate)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)
@@ -154,7 +154,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 10)
             
-            Image(.ready)
+            Image(.questionReady)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)
@@ -171,7 +171,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 10)
             
-            Image(.complete)
+            Image(.questionComplete)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)
@@ -184,9 +184,11 @@ private struct HeaderButtonView: View {
     
     @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: TodayQuestionViewModel
+    @Binding var tab: Tab
     
-    fileprivate init(viewModel: TodayQuestionViewModel) {
+    fileprivate init(viewModel: TodayQuestionViewModel, tab: Binding<Tab>) {
         self.viewModel = viewModel
+        self._tab = tab
     }
     
     var body: some View {
@@ -205,10 +207,10 @@ private struct HeaderButtonView: View {
                 priority: viewModel.state == .ready
                 ? .primary : .secondary
             ) {
-                // TODO: - 이전 답변, 답변하기, 다른 답변 Navigation 연결
-                
                 if viewModel.state == .ready {
-                    pathModel.paths.append(.answer)
+                    pathModel.paths.append(.answer(mainQuestion: viewModel.mainQuestion.content))
+                } else {
+                    tab = .collecting
                 }
             }
         }
@@ -235,25 +237,32 @@ private struct AnswerPreview: View {
             Color(Background.first)
                 .padding(.bottom, -720)
             
-            VStack(spacing: 14) {
-                VStack(alignment: .leading) {
+            // 답변 리스트 유무에 따른 화면 분기
+            if viewModel.answerList.isEmpty {
+                HStack {
                     Spacer()
-                        .frame(height: 44)
                     
-                    Text(viewModel.listTitleText)
-                        .font(.pretendard(.bold, size: 20))
-                        .foregroundStyle(TextLabel.main)
+                    Text("아직 답변이 없어요.\n첫번째 답변을 작성해주세요!")
+                        .font(.pretendard(.semiBold, size: 16))
+                        .foregroundStyle(TextLabel.sub3)
+                        .multilineTextAlignment(.center)
+                        .lineSpacing(6)
+                        .padding(.top, 140)
                     
                     Spacer()
-                        .frame(height: 32)
-                    
-                    HStack {
-                        Text(viewModel.listSubText)
-                            .font(.pretendard(.medium, size: 14))
-                            .foregroundStyle(TextLabel.sub3)
-                            .frame(height: 10)
+                }
+            } else {
+                VStack(spacing: 14) {
+                    VStack(alignment: .leading) {
+                        Spacer()
+                            .frame(height: 44)
+                        
+                        Text(viewModel.listTitleText)
+                            .font(.pretendard(.bold, size: 20))
+                            .foregroundStyle(TextLabel.main)
                         
                         Spacer()
+                            .frame(height: 32)
                         
                         // MARK: 확인요청 - 여기 어제 되어있던대로 (.answer)이 맞는것같아서 되돌려놓았어요 (report => answer) 한톨 확인필요!
                         if viewModel.state != .ready {
@@ -262,38 +271,38 @@ private struct AnswerPreview: View {
                             }
                         }
                     }
-                }
-                .padding(.horizontal, 24)
-                
-                Separator()
-                    .padding(.leading, 24)
-                
-                Spacer()
-                
-                ForEach(viewModel.answerList, id: \.self) { answer in
-                    VStack(spacing: 24) {
-                        
-                        AnswerCell(
-                            profileName: answer.nickname,
-                            answer: answer.content,
-                            keywords: [answer.tags]
-                        ) {
-                            isBottomSheetPresented.toggle()
+                    .padding(.horizontal, 24)
+                    
+                    Separator()
+                        .padding(.leading, 24)
+                    
+                    Spacer()
+                    
+                    // 답변 있는 케이스
+                    ForEach(viewModel.answerList, id: \.self) { answer in
+                        VStack(spacing: 24) {
+                            AnswerCell(
+                                profileName: answer.nickname,
+                                answer: answer.content,
+                                keywords: answer.tags.splitTag
+                            ) {
+                                isBottomSheetPresented.toggle()
+                            }
+                            .padding(.horizontal, 24)
+                            .sheet(isPresented: $isBottomSheetPresented) {
+                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
+                                    .presentationDetents([.height(84)])
+                            }
+                            
+                            Separator()
+                                .padding(.leading, 24)
                         }
-                        .padding(.horizontal, 24)
-                        .sheet(isPresented: $isBottomSheetPresented) {
-                            SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
-                                .presentationDetents([.height(84)])
-                        }
-                        
-                        Separator()
-                            .padding(.leading, 24)
+                        .padding(.bottom, 16)
                     }
-                    .padding(.bottom, 16)
+                    
+                    Spacer()
+                        .frame(height: 32)
                 }
-                
-                Spacer()
-                    .frame(height: 32)
             }
         }
     }

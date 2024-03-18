@@ -17,7 +17,7 @@ class AuthViewModel: ObservableObject {
     @Published var nickname: String = "" // 닉네임
     @Published var email: String = "" // 이메일
     @Published var certifyCode: String = "" // 이메일 인증 코드
-    
+
     @Published var isMailResend = false // 메일 재발송 여부
     
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
@@ -88,7 +88,7 @@ extension AuthViewModel {
                         print("로그인 요칭 실패,,,")
                     }
                     
-                    print("\n액세스 토큰 값!\n\(SignInInfo.shared.accessToken()))\n")
+                    print("\n액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
                 }
                 
             default:
@@ -107,7 +107,6 @@ extension AuthViewModel {
             let signUpData = try await NetworkManager.requestSignUp(
                 request: .init(
                     signUpToken: SignInInfo.shared.refreshToken(),
-                    email: "\(email)@postech.ac.kr",
                     nickname: nickname,
                     profileImage: ""
                 )

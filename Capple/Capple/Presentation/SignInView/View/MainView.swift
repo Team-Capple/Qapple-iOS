@@ -29,12 +29,10 @@ struct MainView: View {
 
 // MARK: - 홈 뷰
 private struct HomeView: View {
-    @StateObject var authViewModel: AuthViewModel = .init()
-   
-    @EnvironmentObject var pathModel: PathModel
     
+    @EnvironmentObject var pathModel: PathModel
+    @StateObject var authViewModel: AuthViewModel = .init()
     @StateObject var answerViewModel: AnswerViewModel = .init()
-//    @StateObject var questionViewModel: QuestionViewModel = .init()
     
     @State private var tab: Tab = .answering
     
@@ -45,8 +43,8 @@ private struct HomeView: View {
                 TodayQuestionView(tab: $tab)
                     .navigationDestination(for: PathType.self) { path in
                         switch path {
-                        case .answer:
-                            AnswerView(viewModel: answerViewModel)
+                        case let .answer(mainQuestion):
+                            AnswerView(viewModel: answerViewModel, mainQuestion: mainQuestion)
                             
                         case .confirmAnswer:
                             ConfirmAnswerView(viewModel: answerViewModel)
@@ -80,8 +78,10 @@ private struct HomeView: View {
                         case .todayAnswer:
                             TodayAnswerView(questionId: 1, tab: $tab, questionContent: "default질문은 이것입니다")
                             
-                        case .answer:
-                            AnswerView(viewModel: answerViewModel)
+                            // MARK: - 한톨 코멘트
+                            // 답변하기 뷰 이동할 때 메인 질문만 넘겨주면 되서 요렇게 변경했슴다!
+                        case let .answer(mainQuestion):
+                            AnswerView(viewModel: answerViewModel, mainQuestion: mainQuestion)
                             
                         case .confirmAnswer:
                             ConfirmAnswerView(viewModel: answerViewModel)
