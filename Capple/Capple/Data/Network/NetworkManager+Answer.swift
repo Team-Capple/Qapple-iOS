@@ -43,4 +43,49 @@ extension NetworkManager {
         print("AnswerResponse.AnswersOfQuestion: \(decodeData.result)")
         return decodeData.result
     }
+    
+    /// 답변을 등록합니다.
+    static func requestRegisterAnswer(request: AnswerRequest.RegisterAnswer, questionID: Int) async throws -> AnswerResponse.RegisterAnswer {
+        
+        // JSON Request
+        guard let requestData = try? JSONEncoder().encode(request) else {
+            print("JSON Request 데이터 생성 실패")
+            throw NetworkError.badRequest
+        }
+        
+        print("내가 보낼 요청 데이터!: \(requestData)")
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .answersOfQuestion) + "/\(questionID)"
+        guard let url = URL(string: urlString) else {
+            print("URL 객체 생성 실패")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // Request 객체 생성
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        
+        // URLSession 실행
+        let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
+        print(response)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            throw NetworkError.badRequest
+        }
+        
+        // 디코딩
+        let decoder = JSONDecoder()
+        do {
+            let decodeData = try decoder.decode(BaseResponse<AnswerResponse.RegisterAnswer>.self, from: data)
+            print("AnswerResponse.RegisterAnswer: \(decodeData.result)")
+            return decodeData.result
+        } catch {
+            throw NetworkError.decodeFailed
+        }
+    }
 }

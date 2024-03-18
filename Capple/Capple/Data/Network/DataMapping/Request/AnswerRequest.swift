@@ -15,4 +15,10 @@ class AnswerRequest {
         let keyword: String? // 검색할 키워드
         let size: Int? // 조회 할 질문의 개수
     }
+    
+    /// 답변 등록 요청 구조체
+    struct RegisterAnswer: Codable {
+        let answer: String // 답변
+        let tags: [String] // 태그
+    }
 }

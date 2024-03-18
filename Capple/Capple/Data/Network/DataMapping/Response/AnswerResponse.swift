@@ -20,4 +20,9 @@ struct AnswerResponse {
             let tags: String // 키워드
         }
     }
+    
+    // 답변 등록
+    struct RegisterAnswer: Codable {
+        let answerId: Int // 답변 ID
+    }
 }

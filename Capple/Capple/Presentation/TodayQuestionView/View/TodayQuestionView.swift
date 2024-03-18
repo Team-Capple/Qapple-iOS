@@ -70,6 +70,9 @@ struct TodayQuestionView: View {
             .background(Background.second)
             .navigationBarBackButtonHidden()
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                viewModel.updateTodayQuestionView()
+            }
         }
     }
 }
@@ -263,9 +266,17 @@ private struct AnswerPreview: View {
                         Spacer()
                             .frame(height: 32)
                         
-                        if viewModel.state != .ready {
-                            SeeAllButton {
-                                pathModel.paths.append(.answer)
+                        HStack {
+                            Text(viewModel.listSubText)
+                                .font(.pretendard(.medium, size: 14))
+                                .foregroundStyle(TextLabel.sub3)
+                            
+                            Spacer()
+                            
+                            if viewModel.state != .ready {
+                                SeeAllButton {
+                                    pathModel.paths.append(.answer)
+                                }
                             }
                         }
                     }

@@ -59,6 +59,23 @@ extension AnswerViewModel {
     }
 }
 
+// MARK: - 답변 등록
+extension AnswerViewModel {
+    
+    @MainActor
+    func requestRegisterAnswer() async {
+        do {
+            let registerAnswer = try await NetworkManager.requestRegisterAnswer(
+                request: .init(answer: answer, tags: keywords.map { $0.name }),
+                questionID: mainQuestion.questionId
+            )
+            print("답변 등록 성공!")
+        } catch {
+            print("답변 등록 실패,,,")
+        }
+    }
+}
+
 // MARK: - Text
 extension AnswerViewModel {
     

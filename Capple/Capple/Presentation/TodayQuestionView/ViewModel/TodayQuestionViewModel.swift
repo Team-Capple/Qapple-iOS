@@ -27,16 +27,21 @@ final class TodayQuestionViewModel: ObservableObject {
         self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
         self.answerList = []
         
+        updateTodayQuestionView()
+    }
+}
+
+// MARK: - 현재 상태 업데이트
+extension TodayQuestionViewModel {
+    
+    /// 리프레쉬를 위해 전체 뷰를 업데이트합니다.
+    func updateTodayQuestionView() {
         Task {
             await requestMainQuestion()
             await requestAnswerPreview()
             await updateQuestionState()
         }
     }
-}
-
-// MARK: - 현재 상태 업데이트
-extension TodayQuestionViewModel {
     
     /// 현재 시간 및 답변 상태에 따라 QuestionState를 업데이트합니다.
     @MainActor
