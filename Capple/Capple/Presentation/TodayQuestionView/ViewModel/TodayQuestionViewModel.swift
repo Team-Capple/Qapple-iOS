@@ -17,7 +17,6 @@ final class TodayQuestionViewModel: ObservableObject {
     
     var timer: Timer?
     
-    // TODO: - 임시 답변 리스트
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.AnswerInfos]
     
@@ -41,6 +40,7 @@ final class TodayQuestionViewModel: ObservableObject {
         
         Task {
             await requestMainQuestion()
+            await requestAnswerPreview()
         }
     }
 }
@@ -63,6 +63,21 @@ extension TodayQuestionViewModel {
 // MARK: - 답변 업데이트
 extension TodayQuestionViewModel {
     
+    /// 메인 질문의 답변 프리뷰(3개)를 요청하고 업데이트합니다.
+    @MainActor
+    func requestAnswerPreview() async {
+        do {
+            let answerPreview = try await NetworkManager.fetchAnswersOfQuestion(
+                request: .init(
+                    questionId: self.mainQuestion.questionId,
+                    keyword: nil,
+                    size: 3
+                ))
+            self.answerList = answerPreview.answerInfos
+        } catch {
+            print("답변 프리뷰 업데이트 실패")
+        }
+    }
 }
 
 // MARK: - 텍스트

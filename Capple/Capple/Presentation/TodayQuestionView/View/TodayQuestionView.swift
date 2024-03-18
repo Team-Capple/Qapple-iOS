@@ -274,7 +274,7 @@ private struct AnswerPreview: View {
                         AnswerCell(
                             profileName: answer.nickname,
                             answer: answer.content,
-                            keywords: [answer.tags]
+                            keywords: answer.tags.splitTag
                         ) {
                             isBottomSheetPresented.toggle()
                         }
