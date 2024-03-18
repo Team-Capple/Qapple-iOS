@@ -9,19 +9,20 @@
 import Foundation
 
 struct ServerResponse: Codable {
-    let timeStamp: String
-    let code: String
-    let message: String
-    let result: AnswerResult
-}
-
-struct AnswerResult: Codable {
-    var answerInfos: [Answer]
-}
-
-struct Answer: Codable {
-    var profileImage: String?
-    var nickname: String?
-    var content: String?
-    var tags: String?
+    // 답변 모아보기 조회 Response
+    struct Answers: Codable {
+        
+        var answerInfos: [AnswersInfos]?
+        
+        struct AnswersInfos: Codable {
+            
+            var profileImage: String?
+            var nickname: String?
+            var content: String?
+            var tags: String?
+            
+        }
+    }
+    
+    
 }

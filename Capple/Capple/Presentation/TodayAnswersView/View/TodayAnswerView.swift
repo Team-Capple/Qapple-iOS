@@ -10,7 +10,7 @@ import SwiftUI
 struct TodayAnswerView: View {
     @EnvironmentObject var pathModel: PathModel
     @Binding var tab: Tab
-    @State var questionContent: String = "default Title" // 여기에 기본값을 제공합니다.
+    var questionContent: String = "완전기본값제공" // 여기에 기본값을 제공합니다.
     @State var questionId: Int =  1// 여기에 기본값을 제공합니다.
     
     @ObservedObject var viewModel: TodayAnswersViewModel
@@ -18,11 +18,11 @@ struct TodayAnswerView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    init(questionId: Int?, tab: Binding<Tab>, questionContent: String?) {
-    self.viewModel = TodayAnswersViewModel(questionId: questionId ?? 1)
+    init(questionId: Int, tab: Binding<Tab>, questionContent: String) {
+        self.viewModel = TodayAnswersViewModel(questionId: QuestionService.shared.questionId )
         self._tab = tab
-        self.questionContent = questionContent ?? "default Title"
-        self.questionId = questionId ?? 2
+        self.questionContent = questionContent
+        self.questionId = questionId
     }
 
      
@@ -99,7 +99,7 @@ private struct KeywordScrollView: View {
 // MARK: - 플로팅 질문 카드
 private struct FloatingQuestionCard: View {
   
-    @State var questionContent: String // 질문 내용을 저장할 프로퍼티
+     var questionContent: String // 질문 내용을 저장할 프로퍼티
      @Binding var tab: Tab // 현재 탭을 저장할 프로퍼티
      @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
      @State private var isCardExpanded = true // 카드 확장 상태
@@ -109,7 +109,7 @@ private struct FloatingQuestionCard: View {
  
     var body: some View {
         HStack {
-            Text(viewModel.todayQuestionText)
+            Text(questionContent)
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.main)
                 .lineLimit(isCardExpanded ? 3 : 0)
@@ -194,7 +194,6 @@ private struct AnswerScrollView: View {
                         .padding(.vertical, 20)
                 }
             }
-        .padding(.horizontal,24)
     }
 }
 
