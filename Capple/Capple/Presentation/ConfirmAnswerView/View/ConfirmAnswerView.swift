@@ -68,6 +68,7 @@ struct ConfirmAnswerView: View {
                     Task {
                         await viewModel.requestRegisterAnswer()
                         pathModel.paths.removeAll()
+                        // TODO: TodayAnswerView로 이동해야 함!
                     }
                 }
                     .padding(.horizontal, 24)
@@ -119,6 +120,7 @@ private struct KeywordView: View {
         }
         .alert("키워드를 입력하세요.", isPresented: $isKeywordInputAlertPresented) {
             TextField("ex) 애플, 아카데미", text: $keywordInputText)
+                .autocorrectionDisabled()
             
             Button("취소", role: .cancel, action: {
                 keywordInputText = ""

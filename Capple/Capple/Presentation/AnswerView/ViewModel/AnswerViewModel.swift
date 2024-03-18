@@ -42,6 +42,13 @@ final class AnswerViewModel: ObservableObject {
         
         self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
     }
+    
+    /// 답변을 위해 작성한 양식을 모두 초기화합니다.
+    func resetAnswerInfo() {
+        answer.removeAll()
+        search.removeAll()
+        keywords.removeAll()
+    }
 }
 
 // MARK: - 메인 질문 업데이트

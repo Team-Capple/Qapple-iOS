@@ -112,6 +112,7 @@ struct AnswerView: View {
                 HStack {
                     Button("취소", role: .cancel, action: {})
                     Button("확인", role: .none, action: {
+                        viewModel.resetAnswerInfo()
                         pathModel.paths.removeLast()
                     })
                 }
