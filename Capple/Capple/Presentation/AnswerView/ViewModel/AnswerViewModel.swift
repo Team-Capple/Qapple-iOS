@@ -72,10 +72,11 @@ extension AnswerViewModel {
     @MainActor
     func requestRegisterAnswer() async {
         do {
-            let registerAnswer = try await NetworkManager.requestRegisterAnswer(
+            let _ = try await NetworkManager.requestRegisterAnswer(
                 request: .init(answer: answer, tags: keywords.map { $0.name }),
                 questionID: mainQuestion.questionId
             )
+            resetAnswerInfo()
             print("답변 등록 성공!")
         } catch {
             print("답변 등록 실패,,,")
