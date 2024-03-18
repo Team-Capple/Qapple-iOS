@@ -9,11 +9,14 @@ import SwiftUI
 
 struct AnswerView: View {
     
+    @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: AnswerViewModel
     @State private var fontSize: CGFloat = 48
+    @State private var isBackAlertPresented = false
     @FocusState private var isTextFieldFocused: Bool
     let mainQuestion: String
     
+    // TODO: 뒤로가기 제스처 기능 삭제해야댐
     var body: some View {
         
         ZStack {
@@ -24,7 +27,7 @@ struct AnswerView: View {
                 CustomNavigationBar(
                     leadingView: {
                         CustomNavigationBackButton(buttonType: .xmark) {
-                            // TODO: 지금까지 한 내용 다 삭제 될거다 협박 alert 출력
+                            isBackAlertPresented.toggle()
                         }
                     },
                     principalView: {},
@@ -106,6 +109,16 @@ struct AnswerView: View {
                 isTextFieldFocused = false
             }
             .navigationBarBackButtonHidden()
+            .alert("삭제해버린다??", isPresented: $isBackAlertPresented) {
+                HStack {
+                    Button("취소", role: .cancel, action: {})
+                    Button("확인", role: .none, action: {
+                        pathModel.paths.removeLast()
+                    })
+                }
+            } message: {
+                Text("지금까지 작성한 답변이 사라져요")
+            }
         }
     }
 }
