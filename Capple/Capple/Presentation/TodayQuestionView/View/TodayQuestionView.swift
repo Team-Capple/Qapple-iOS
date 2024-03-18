@@ -136,7 +136,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 10)
             
-            Image(.timer)
+            Image(.questionCreate)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)
@@ -153,7 +153,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 10)
             
-            Image(.ready)
+            Image(.questionReady)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)
@@ -170,7 +170,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 10)
             
-            Image(.complete)
+            Image(.questionComplete)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)

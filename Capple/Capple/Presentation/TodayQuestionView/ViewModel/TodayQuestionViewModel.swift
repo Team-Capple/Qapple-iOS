@@ -25,14 +25,12 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         self.timerSeconds = dateManager.fetchTimerSeconds(currentTimeZone)
         
-        self.state = .creating
-        
-//        if currentTimeZone == .am || currentTimeZone == .pm {
-//            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
-//            self.state = .ready
-//        } else {
-//            self.state = .creating
-//        }
+        if currentTimeZone == .am || currentTimeZone == .pm {
+            // TODO: - 답변 작성 전 = ready, 답변 작성 후 = complete
+            self.state = .ready
+        } else {
+            self.state = .creating
+        }
         
         // 변수 초기화
         self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
@@ -109,20 +107,19 @@ extension TodayQuestionViewModel {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
         
-        let creatingText = AttributedString(mainQuestion.content)
-        let completeText: AttributedString = "최근에 먹었던 음식 중\n가장 인상깊었던 것은 무엇인가요?"
+        let mainQuestionText = AttributedString(mainQuestion.content)
         
         var text = AttributedString()
-        if state == .creating { text = questionMark + creatingText }
+        if state == .creating { text = questionMark + mainQuestionText }
         else if state == .ready { text = "어떤 질문이 나왔을까요?" }
-        else if state == .complete { text = questionMark + completeText }
+        else if state == .complete { text = questionMark + mainQuestionText }
         return text
     }
     
     /// 리스트 서브 타이틀 텍스트를 반환합니다.
     var listSubText: String {
         var text = "리스트 서브 타이틀"
-        if state == .creating { text = "이전 답변 좋아요 TOP 3" }
+        if state == .creating { text = "최근에 달린 답변" }
         else if state == .ready { text = "답변 미리보기" }
         else if state == .complete { text = "실시간 답변 현황" }
         return text
