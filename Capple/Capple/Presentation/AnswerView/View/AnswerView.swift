@@ -23,7 +23,9 @@ struct AnswerView: View {
             VStack {
                 CustomNavigationBar(
                     leadingView: {
-                        CustomNavigationBackButton(buttonType: .xmark)
+                        CustomNavigationBackButton(buttonType: .xmark) {
+                            // TODO: 지금까지 한 내용 다 삭제 될거다 협박 alert 출력
+                        }
                     },
                     principalView: {},
                     trailingView: {

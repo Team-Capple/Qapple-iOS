@@ -17,7 +17,7 @@ struct CustomNavigationBackButton: View {
     }
     
     let buttonType: ButtonType
-    let action: () -> Void
+    let action: (() -> Void)?
     
     init(buttonType: ButtonType, action: @escaping () -> Void = {}) {
         self.buttonType = buttonType
@@ -26,7 +26,13 @@ struct CustomNavigationBackButton: View {
     
     var body: some View {
         Button {
-            pathModel.paths.removeLast()
+            
+            // 다른 액션이 없으면 기본 뒤로가기 로직 실행
+            guard let action = action else {
+                pathModel.paths.removeLast()
+                return
+            }
+            
             action()
         } label: {
             Image(buttonType.rawValue) // 아이콘 변경 가능
