@@ -43,8 +43,8 @@ private struct HomeView: View {
                 TodayQuestionView(tab: $tab)
                     .navigationDestination(for: PathType.self) { path in
                         switch path {
-                        case let .answer(mainQuestion):
-                            AnswerView(viewModel: answerViewModel, mainQuestion: mainQuestion)
+                        case .answer:
+                            AnswerView(viewModel: answerViewModel)
                             
                         case .confirmAnswer:
                             ConfirmAnswerView(viewModel: answerViewModel)
@@ -80,8 +80,8 @@ private struct HomeView: View {
                             
                             // MARK: - 한톨 코멘트
                             // 답변하기 뷰 이동할 때 메인 질문만 넘겨주면 되서 요렇게 변경했슴다!
-                        case let .answer(mainQuestion):
-                            AnswerView(viewModel: answerViewModel, mainQuestion: mainQuestion)
+                        case .answer:
+                            AnswerView(viewModel: answerViewModel)
                             
                         case .confirmAnswer:
                             ConfirmAnswerView(viewModel: answerViewModel)

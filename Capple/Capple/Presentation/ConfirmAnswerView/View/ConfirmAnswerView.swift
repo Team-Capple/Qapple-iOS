@@ -15,7 +15,6 @@ struct ConfirmAnswerView: View {
     @State private var isButtonActive = false
     
     var body: some View {
-        
         VStack {
             CustomNavigationBar(
                 leadingView: {
@@ -67,6 +66,7 @@ struct ConfirmAnswerView: View {
                 
                 ActionButton("완료", isActive: $isButtonActive) {
                     // TODO: 완료 후 답변 자세히 보기 화면으로 이동
+                    // TODO: 답변 등록 API 연결
                     pathModel.paths.removeAll()
                 }
                     .padding(.horizontal, 24)

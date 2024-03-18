@@ -207,7 +207,7 @@ private struct HeaderButtonView: View {
                 ? .primary : .secondary
             ) {
                 if viewModel.state == .ready {
-                    pathModel.paths.append(.answer(mainQuestion: viewModel.mainQuestion.content))
+                    pathModel.paths.append(.answer)
                 } else {
                     tab = .collecting
                 }
@@ -265,7 +265,7 @@ private struct AnswerPreview: View {
                         
                         if viewModel.state != .ready {
                             SeeAllButton {
-                                pathModel.paths.append(.answer(mainQuestion: viewModel.mainQuestion.content))
+                                pathModel.paths.append(.answer)
                             }
                         }
                     }

@@ -14,7 +14,6 @@ struct AnswerView: View {
     @State private var fontSize: CGFloat = 48
     @State private var isBackAlertPresented = false
     @FocusState private var isTextFieldFocused: Bool
-    let mainQuestion: String
     
     // TODO: 뒤로가기 제스처 기능 삭제해야댐
     var body: some View {
@@ -46,7 +45,7 @@ struct AnswerView: View {
                 Spacer()
                     .frame(height: 24)
                 
-                Text(viewModel.questionText(mainQuestion))
+                Text(viewModel.questionText)
                     .font(.pretendard(.bold, size: 23))
                     .foregroundStyle(BrandPink.subText)
                     .multilineTextAlignment(.center)
@@ -119,10 +118,15 @@ struct AnswerView: View {
             } message: {
                 Text("지금까지 작성한 답변이 사라져요")
             }
+            .onAppear {
+                Task {
+                    await viewModel.requestMainQuestion()
+                }
+            }
         }
     }
 }
 
 #Preview {
-    AnswerView(viewModel: .init(), mainQuestion: "테스트 질문!")
+    AnswerView(viewModel: .init())
 }
