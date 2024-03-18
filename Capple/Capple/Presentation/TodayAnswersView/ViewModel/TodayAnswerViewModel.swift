@@ -19,45 +19,25 @@ class TodayAnswersViewModel: ObservableObject {
     @Published var filteredAnswer: [ServerResponse.Answers.AnswersInfos] = []
     @Published var searchQuery = ""
     @Published var isLoading = false
-    private var questionId: Int?
+    @Published var questionId: Int?
        
      
     private var cancellables: Set<AnyCancellable> = []
    
     init(questionId: Int) {
-    //    testFetchData()
-        loadAnswersForQuestion()
-        self.questionId = QuestionService.shared.questionId
+   
+        self.questionId = 1
         self.isLoading = true
-      //  fetchQuestionContent(questionId: QuestionService.shared.questionId)
-     
-         
+        
+             loadAnswersForQuestion()
+           
+       
     }
     
-    
-    private func fetchQuestionContent(questionId: Int) {
-        Task {
-            self.todayQuestion =  await QuestionService.shared.getContent(withId: questionId)
-            self.isLoading = false
-        }
-    }
-    
-    func testFetchData() {
-        guard let questionId = self.questionId else { return }
-        guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
-                if let jsonString = String(data: data, encoding: .utf8) {
-                    print(jsonString) // 서버 응답 출력
-                }
-            }
-        }.resume()
-    }
-    
+  
     
     func loadAnswersForQuestion() {
-        
-        let questionId = QuestionService.shared.questionId
+        guard let questionId = self.questionId else { return }
          guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }
            do {
                URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -73,13 +53,12 @@ class TodayAnswersViewModel: ObservableObject {
                            return
                        }
                        do {
+                        
                            let decodedData = try JSONDecoder().decode(BaseResponse<ServerResponse.Answers>.self, from: data)
-                          
-                           DispatchQueue.main.async {
-                               self.answers = decodedData.result.answerInfos ?? []
-                               
-                               print("Decoded data: \(self.answers)")
-                           }
+                                       DispatchQueue.main.async {
+                                           self.answers = decodedData.result.answerInfos ?? []
+                                           print("Decoded data: \(self.answers)")
+                                       }
                        } catch {
                            print("Error decoding response: \(error)")
                        }
