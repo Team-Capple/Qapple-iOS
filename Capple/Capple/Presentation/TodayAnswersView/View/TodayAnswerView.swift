@@ -9,11 +9,13 @@ import Foundation
 import SwiftUI
 struct TodayAnswerView: View {
     @EnvironmentObject var pathModel: PathModel
-    @ObservedObject var viewModel: TodayAnswersViewModel
     @Binding var tab: Tab
     @State var questionContent: String = "default Title" // 여기에 기본값을 제공합니다.
     @State var questionId: Int =  1// 여기에 기본값을 제공합니다.
-     
+    
+    @ObservedObject var viewModel: TodayAnswersViewModel
+    @State private var isBottomSheetPresented = false
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     init(questionId: Int?, tab: Binding<Tab>, questionContent: String?) {
@@ -36,8 +38,9 @@ struct TodayAnswerView: View {
             FloatingQuestionCard(questionContent: questionContent ,tab:$tab, viewModel: viewModel, questionId: questionId)
             Spacer()
                 .frame(height: 32)
-            AnswerScrollView(viewModel: viewModel, tab: $tab)
+            AnswerScrollView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
         }
+        
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
     }
@@ -133,17 +136,18 @@ private struct AnswerScrollView: View {
     
     @Binding var tab: Tab
    
-    let seeMoreAction: () -> Void
+  //  let seeMoreAction: () -> Void
     
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
-    @State private var isBottomSheetPresented = false
-  
-    init(viewModel: TodayAnswersViewModel, tab: Binding<Tab>) {
+    @Binding private var isBottomSheetPresented: Bool
+    
+
+    fileprivate init(viewModel: TodayAnswersViewModel, tab: Binding<Tab>, isBottomSheetPresented: Binding<Bool>) {
         self.viewModel = viewModel
         //sharedData = SharedData()
-        self.seeMoreAction = {}
-        self.isBottomSheetPresented = false
+  //      self.seeMoreAction = {}
+        self._isBottomSheetPresented = isBottomSheetPresented
         self._tab = tab
        
     }
@@ -152,20 +156,28 @@ private struct AnswerScrollView: View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack{
                 ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                        SingleAnswerView(answer: answer, seeMoreAction: {
-                            print(index)
+                        SingleAnswerView(answer: answer){
+                            isBottomSheetPresented.toggle()
+                        }
+                /*
+                seeMoreAction: {
                             isBottomSheetPresented.toggle()
                         }, seeMoreReport: {
                             tab = .answering
                             return CGPoint(x: 10.0, y: CGFloat(index * 100)) // 단순 예시
                         })
+                 */
                     /*
                         .onTapGesture {self.sharedData.reportButtonPosition = CGPoint(x: 270, y: -index * 100)            }
                      */
+                       
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
+                    Separator()
+                        .padding(.leading, 24)
+                
                     }
                     
                 

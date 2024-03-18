@@ -127,28 +127,25 @@ struct QuestionView: View {
                     
                     Spacer()
                     
-                    // MARK: - 상단 날짜
                     HStack(alignment: .center) {
                         
                         Button {
                             seeMoreAction()
                             
-                            showingReportSheet = true
+                          //  showingReportSheet = true
                         } label: {
                             Image(systemName: "ellipsis")
                                 .foregroundStyle(TextLabel.sub2)
-                                .frame(width: 20, height: 20)
+                                .frame(width: 20, height:  20)
                         }
-                        .sheet(isPresented: $showingReportSheet) {
-                            ReportView()
-                        }
+                       
                        
                         
                     }
                     
-                }.sheet(isPresented: $showingReportSheet) {
-                    ReportView()
                 }
+                        
+                        
                     Spacer()
                         .frame(height: 16)
                     
@@ -239,7 +236,8 @@ struct QuestionView: View {
     QuestionView(tab: $tab, questions: .init(), seeMoreAction: {})
 }
  */
-extension Date {
+
+        extension Date {
     func formattedDate() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
