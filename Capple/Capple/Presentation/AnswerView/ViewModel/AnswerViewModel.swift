@@ -43,12 +43,11 @@ final class AnswerViewModel: ObservableObject {
 extension AnswerViewModel {
     
     /// 질문 텍스트를 반환합니다.
-    var questionText: AttributedString {
-        // Q. Mark
+    func questionText(_ text: String) -> AttributedString {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
-        let text: AttributedString = question // TODO: - 질문 받아오기
-        return questionMark + text
+        let attributeText = AttributedString(stringLiteral: text)
+        return questionMark + attributeText
     }
     
     /// 작성한 답변 텍스트를 반환합니다.
