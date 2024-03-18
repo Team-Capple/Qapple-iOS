@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReportView: View {
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var pathModel: PathModel
     
     var moreList = [
         "불법촬영물 등의 유통", "상업적 광고 및 판매",
@@ -25,7 +25,9 @@ struct ReportView: View {
             VStack {
                 CustomNavigationBar(
                     leadingView:{
-                        CustomNavigationBackButton(buttonType: .arrow)
+                        CustomNavigationBackButton(buttonType: .arrow)  {
+                            pathModel.paths.removeLast()
+                        }
                     },
                     principalView: {
                         Text("신고하기")

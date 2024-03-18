@@ -9,12 +9,16 @@ import SwiftUI
 
 struct SignUpPrivacyView: View {
     
+    @EnvironmentObject var pathModel: PathModel
+    
     var body: some View {
         
         VStack(spacing: 0) {
             
             CustomNavigationBar(
-                leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
+                leadingView: { CustomNavigationBackButton(buttonType: .arrow)   {
+                    pathModel.paths.removeLast()
+                }},
                 principalView: { Text("개인정보 처리방침")
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main) },

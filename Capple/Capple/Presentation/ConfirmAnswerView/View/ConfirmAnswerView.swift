@@ -19,7 +19,9 @@ struct ConfirmAnswerView: View {
         VStack {
             CustomNavigationBar(
                 leadingView: {
-                    CustomNavigationBackButton(buttonType: .arrow)
+                    CustomNavigationBackButton(buttonType: .arrow) {
+                        pathModel.paths.removeLast()
+                    }
                 },
                 principalView: {},
                 trailingView: {},
