@@ -121,6 +121,11 @@ private struct KeywordView: View {
         .alert("키워드를 입력하세요.", isPresented: $isKeywordInputAlertPresented) {
             TextField("ex) 애플, 아카데미", text: $keywordInputText)
                 .autocorrectionDisabled()
+                .onChange(of: keywordInputText) { _, newValue in
+                    if newValue.contains(" ") {
+                        keywordInputText = newValue.replacingOccurrences(of: " ", with: "")
+                    }
+                }
             
             Button("취소", role: .cancel, action: {
                 keywordInputText = ""
