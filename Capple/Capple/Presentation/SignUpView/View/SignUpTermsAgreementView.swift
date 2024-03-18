@@ -18,7 +18,9 @@ struct SignUpTermsAgreementView: View {
         VStack(spacing: 0) {
             
             CustomNavigationBar(
-                leadingView: { CustomNavigationBackButton(buttonType: .arrow) },
+                leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
+                    pathModel.paths.removeLast()
+                }},
                 principalView: { Text("약관 동의")
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main) },

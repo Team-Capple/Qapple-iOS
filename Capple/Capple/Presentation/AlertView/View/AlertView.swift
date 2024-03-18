@@ -20,7 +20,7 @@ struct AlertView: View {
             VStack {
                 CustomNavigationBar(
                     leadingView:{
-                        CustomNavigationBackButton(buttonType: .arrow)
+                        CustomNavigationBackButton(buttonType: .arrow) {}
                     },
                     principalView: {
                         Text("알림")

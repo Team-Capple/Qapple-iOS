@@ -15,7 +15,7 @@ struct SearchKeywordView: View {
         case result // 검색 결과 있음
     }
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: AnswerViewModel
     
     @State private var searchState: SearchState = .initial
@@ -32,7 +32,9 @@ struct SearchKeywordView: View {
                 
                 CustomNavigationBar(
                     leadingView: {
-                        CustomNavigationBackButton(buttonType: .arrow)
+                        CustomNavigationBackButton(buttonType: .arrow) {
+                            pathModel.paths.removeLast()
+                        }
                     },
                     principalView: {
                         TextField(text: $viewModel.search) {

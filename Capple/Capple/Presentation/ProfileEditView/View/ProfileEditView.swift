@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProfileEditView: View {
     
+    @EnvironmentObject var pathModel: PathModel
+    
     @State private var nickname: String = ""
     @State private var isKeyboardVisible = false
     @State private var keyboardBottomPadding: CGFloat = 0
@@ -26,7 +28,9 @@ struct ProfileEditView: View {
         VStack(spacing: 0) {
             CustomNavigationBar(
                 leadingView: {
-                    CustomNavigationBackButton(buttonType: .arrow)
+                    CustomNavigationBackButton(buttonType: .arrow) {
+                        pathModel.paths.removeLast()
+                    }
                 },
                 principalView: {
                     Text("프로필")

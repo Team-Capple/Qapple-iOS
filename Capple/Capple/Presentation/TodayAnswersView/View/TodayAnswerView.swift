@@ -48,10 +48,15 @@ struct TodayAnswerView: View {
 
 // MARK: - 커스텀 네비게이션
 private struct CustomNavigationView: View {
+    
+    @EnvironmentObject var pathModel: PathModel
+    
     var body: some View {
         CustomNavigationBar(
             leadingView:{
-                CustomNavigationBackButton(buttonType: .arrow)
+                CustomNavigationBackButton(buttonType: .arrow) {
+                    pathModel.paths.removeLast()
+                }
             },
             principalView: {
                 Text("오늘의 답변")
