@@ -12,7 +12,11 @@ import FlexView
 
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct SingleAnswerView: View {
+   // @ObservedObject private var viewModel: TodayAnswersViewModel
+    
     var answer: Answer
+   
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var showReportButton = false // Report 버튼 표시 여부
  //   @ObservedObject var sharedData = SharedData()
