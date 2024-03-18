@@ -46,7 +46,8 @@ struct TodayQuestionView: View {
                     },
                     trailingView: {
                         Button {
-                            pathModel.paths.append(.myPage)
+                            pathModel.paths.removeLast()
+                            
                         } label: {
                             Image(.capple)
                                 .resizable()
@@ -254,9 +255,10 @@ private struct AnswerPreview: View {
                         
                         Spacer()
                         
+                        // MARK: 확인요청 - 여기 어제 되어있던대로 (.answer)이 맞는것같아서 되돌려놓았어요 (report => answer) 한톨 확인필요!
                         if viewModel.state != .ready {
                             SeeAllButton {
-                                pathModel.paths.append(.todayAnswer(questionId: 1, questionContent: "this is today Question String"))
+                                pathModel.paths.append(.answer)
                             }
                         }
                     }

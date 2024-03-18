@@ -26,29 +26,19 @@ class TodayAnswersViewModel: ObservableObject {
    
     init(questionId: Int) {
         loadAnswersForQuestion()
-        self.questionId = questionId
+        self.questionId = QuestionService.shared.questionId
         self.isLoading = true
-        fetchQuestionContent(questionId: questionId)
-        
-        QuestionService.shared.contentForQuestion(withId: questionId) { [weak self] content in
-                  DispatchQueue.main.async {
-                      print(questionId, "비동기ID")
-                      
-                      self?.todayQuestion = content ?? "질문내용을 불러오는데 실패했습니다."
-                      print(content)
-                      self?.isLoading = false
-                  }
-              }
+        fetchQuestionContent(questionId: QuestionService.shared.questionId)
+     
          
-        loadAnswersForQuestion()
     }
     
     
     private func fetchQuestionContent(questionId: Int) {
-           QuestionService.shared.contentForQuestion(withId: questionId) { [weak self] content in
+           QuestionService.shared.contentForQuestion() { [weak self] content in
                DispatchQueue.main.async {
                    // 비동기적으로 가져온 질문 내용을 ViewModel의 todayQuestion 프로퍼티에 저장
-                   print(questionId, "비동기ID")
+                   print(QuestionService.shared.questionId, "비동기ID")
                    print(content)
                    self?.todayQuestion = content ?? "질문 내용을 불러오는데 실패했습니다."
                    self?.isLoading = false
@@ -71,7 +61,7 @@ class TodayAnswersViewModel: ObservableObject {
     
     func loadAnswersForQuestion() {
         
-        guard let questionId = self.questionId else { return }
+        let questionId = QuestionService.shared.questionId
         print("loadAnswersForQuestion: ", questionId)
       
            guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else { return }

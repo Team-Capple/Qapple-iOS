@@ -8,10 +8,11 @@ struct SearchResultView: View {
     @Binding var tab: Tab
     @State private var searchText = "" // 사용자 검색 텍스트를 저장합니다.
     @State private var isBottomSheetPresented = false
-    
+    let accessToken = SignInInfo.shared.accessToken()
+  
     var body: some View {
         
-        NavigationStack {
+        
             ZStack {
                 Color(Background.first)
                     .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
@@ -42,7 +43,8 @@ struct SearchResultView: View {
                         },
                         trailingView: {
                             Button {
-                            
+                                pathModel.paths.append(.myPage)
+
                             } label: {
                                 Image(.capple)
                                     .resizable()
@@ -62,7 +64,8 @@ struct SearchResultView: View {
                     
                 }
             }
-            
+        
+            /*
             .navigationDestination(for: PathType.self) {  pathType in
                 switch pathType {
                   case .todayAnswer(let questionId, let questionContent):
@@ -72,7 +75,10 @@ struct SearchResultView: View {
                   }
                      
             }
+             */
             .navigationBarBackButtonHidden()
+        .onAppear {
+            viewModel.getQuestions(accessToken: accessToken)
         }
        
     }
@@ -102,13 +108,14 @@ struct SearchResultView: View {
     
     // MARK: - QuestionListView
     private struct QuestionListView: View {
-        @EnvironmentObject var authViewModel: AuthViewModel // AuthViewModel 주입
+   
         @EnvironmentObject var pathModel: PathModel
         @ObservedObject private var viewModel: QuestionViewModel
         @Binding var isBottomSheetPresented: Bool
         @Binding var tab: Tab
         public var todayQuestionTitle: String = ""
-        
+        let accessToken = SignInInfo.shared.accessToken()
+      
         fileprivate init(
             viewModel: QuestionViewModel, tab: Binding<Tab>,
             isBottomSheetPresented: Binding<Bool>
@@ -142,6 +149,18 @@ struct SearchResultView: View {
                     LazyVStack {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
+                                QuestionView(tab: $tab, questions: question){
+                                     isBottomSheetPresented.toggle()
+                                }
+                                .onTapGesture {
+                                    print(question.questionId, "onTapGesture ID입니다")
+                                    guard let id = question.questionId else { return }
+                                    pathModel.paths.append(.todayAnswer(questionId: id, questionContent: viewModel.contentForQuestion(withId: id) ?? "내용 없음"))
+                                    QuestionService.shared.questionId = id
+                                    print(id, "가드렛 아이디")
+                                    print(question.questionId, "onTapGesture ID입니다2222")
+                                }
+                                
                                 // MARK: - 확인용코드
                                 /*
                                 Button (action: {
@@ -171,6 +190,13 @@ struct SearchResultView: View {
                                     }
                                 }
                                  */
+                                
+                                
+                                
+                                // pathModel.paths.append(.todayAnswer(questionId: question.questionId, questionContent: viewModel.contentForQuestion(withId: question.questionId) ?? "네비게이션링크에서 디폴트 스트링 입니다"))
+                                
+                                
+                               /*
                                 NavigationLink(destination: TodayAnswerView(
                                     questionId: question.questionId,
                                     tab: $tab,
@@ -179,9 +205,11 @@ struct SearchResultView: View {
                                    QuestionView(tab: $tab, questions: question){
                                         isBottomSheetPresented.toggle()
                                       
-                                    }
+                                   }.onAppear {
+                                       viewModel.getQuestions(accessToken: accessToken)
+                                   }
                                 }
-
+                                 */
                                
                                 /*
                                      NavigationLink(destination: TodayAnswerView(questionId: question.questionId ?? 1, tab: $tab)) {
@@ -221,11 +249,12 @@ struct SearchResultView: View {
                     }
                     
                 }
+            
                 .padding(.top, 24)
                 .scrollIndicators(.hidden)
                 .refreshable {
                     // searchText = "" // 검색 텍스트 초기화
-                    viewModel.updateQuestions(using: AuthViewModel() ) // ViewModel에서 원래 목록을 다시 로드하는 메서드를 호출합니다.
+                    viewModel.getQuestions(accessToken: accessToken ) // ViewModel에서 원래 목록을 다시 로드하는 메서드를 호출합니다.
                 }
             }
         }
