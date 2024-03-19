@@ -10,50 +10,10 @@ import SwiftUI
 struct MyPageView: View {
     
     @EnvironmentObject var pathModel: PathModel
-    
-    private let sectionInfos: [SectionInfo] = [
-//        SectionInfo(
-//            sectionTitle: "질문/답변",
-//            sectionContents: [
-//                "작성한 답변",
-//                "좋아요 한 질문",
-//                "좋아요 한 답변"
-//            ],
-//            sectionIcons: [
-//                "WriteAnswerIcon",
-//                "LikeQuestionIcon",
-//                "LikeAnswerIcon"]
-//        ),
-        SectionInfo(
-            sectionTitle: "문의 및 제보",
-            sectionContents: [
-                "문의하기",
-//                "캐플 디스코드",
-//                "캐플 인스타",
-//                "캐플 오픈채팅방"
-            ],
-            sectionIcons: [
-                "InquiryIcon",
-//                "DiscodeIcon",
-//                "InstagramIcon",
-//                "OpenChatIcon"
-            ]
-        ),
-        SectionInfo(
-            sectionTitle: "계정 관리",
-            sectionContents: [
-                "로그아웃",
-                "회원탈퇴"
-            ],
-            sectionIcons: [
-                "SignOutIcon",
-                "SignOutIcon"
-            ]
-        )
-    ]
+    @StateObject var viewModel: MyPageViewModel = .init()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             CustomNavigationBar(
                 leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
                     pathModel.paths.removeLast()
@@ -62,24 +22,19 @@ struct MyPageView: View {
                     Text("프로필")
                         .font(Font.pretendard(.semiBold, size: 15))
                         .foregroundStyle(TextLabel.main)
-                    
                 },
-                trailingView: {
-//                    Button {
-//                        pathModel.paths.append(.profileEdit)
-//                    } label: {
-//                        Text("수정")
-//                            .foregroundStyle(TextLabel.sub3)
-//                    }
-                },
+                trailingView: {},
                 backgroundColor: Background.second)
+            
             ScrollView {
-                
                 VStack(alignment: .leading, spacing: 0) {
-                    MyProfileSummary()
+                    MyProfileSummary(
+                        nickname: viewModel.myPageInfo.nickname,
+                        joinDate: viewModel.myPageInfo.joinDate
+                    )
                     
-                    ForEach(sectionInfos.indices, id: \.self) { index in
-                        MyPageSection(sectionInfo: sectionInfos[index])
+                    ForEach(viewModel.sectionInfos.indices, id: \.self) { index in
+                        MyPageSection(sectionInfo: viewModel.sectionInfos[index])
                     }
                 }
             }
@@ -87,13 +42,10 @@ struct MyPageView: View {
         .background(Background.second)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            viewModel.requestMyPageInfo()
+        }
     }
-}
-
-struct SectionInfo {
-    var sectionTitle: String
-    var sectionContents: [String]
-    var sectionIcons: [String]
 }
 
 #Preview {
