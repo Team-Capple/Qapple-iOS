@@ -212,7 +212,12 @@ private struct HeaderButtonView: View {
                 if viewModel.state == .ready {
                     pathModel.paths.append(.answer)
                 } else {
-                    tab = .collecting
+                    pathModel.paths.append(
+                        .todayAnswer(
+                            questionId: viewModel.mainQuestion.questionId,
+                            questionContent: viewModel.mainQuestion.content
+                        )
+                    )
                 }
             }
         }
