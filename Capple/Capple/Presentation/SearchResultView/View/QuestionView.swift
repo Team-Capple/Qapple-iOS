@@ -127,7 +127,7 @@ struct QuestionView: View {
                 Spacer()
                 
                 HStack(alignment: .center) {
-                    
+                    /*
                     Button {
                         seeMoreAction()
                         
@@ -137,6 +137,7 @@ struct QuestionView: View {
                             .foregroundStyle(TextLabel.sub2)
                             .frame(width: 20, height:  20)
                     }
+                     */
                 }
             } 
             Spacer()

@@ -31,58 +31,71 @@ struct SingleAnswerView: View {
     var body: some View {
         //   ZStack{
         //  if !sharedData.innerShowingReportSheet  {
-        ZStack {
+        
             HStack (alignment: .top){
-                Image(answer.profileImage ?? "CappleDefaultProfile")
-                    .foregroundStyle(TextLabel.bk)
+                
+                Image(answer.profileImage != nil && !answer.profileImage!.isEmpty ? answer.profileImage! : "profileDummyImage")
+                    .resizable()
                     .frame(width: 28, height: 28)
                     .clipShape(Circle())
+                
                 Spacer()
                     .frame(width: 8)
                 
                 VStack(alignment: .leading) {
-                    Text(answer.nickname ?? "nickname") // 유저 닉네임 표시합니다.
-                        .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(TextLabel.sub2)
-                        .frame(height: 10)
-                        .padding(.top, 8)
+                    HStack{
+                            Text(answer.nickname ?? "nickname") // 유저 닉네임 표시합니다.
+                                .font(.pretendard(.semiBold, size: 14))
+                                .foregroundStyle(TextLabel.sub2)
+                                .frame(height: 10)
+                                .padding(.top, 8)
+                         
+                            Spacer()
+                            
+                            Button {
+                                //showingReportSheet = true
+                                seeMoreAction()
+                                
+                                
+                            } label: {
+                                Image(systemName: "ellipsis")
+                                    .foregroundStyle(TextLabel.sub2)
+                                    .frame(width: 20, height: 20)
+                            }
+                        
+                    }
                     Spacer()
                         .frame(height: 12)
                     
                     Text(answer.content ?? "content")
                         .font(.pretendard(.medium, size: 16))
                         .foregroundStyle(TextLabel.main)
+                        .lineLimit(.max)
+                        .lineSpacing(6)
+                        .multilineTextAlignment(.leading)
+                        
                     
                     Spacer()
                         .frame(height: 12)
+                     
                     HStack {
                         ForEach(answer.tags?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in
                             Text("#\(tag)")
                                 .font(.pretendard(.semiBold, size: 14))
                                 .foregroundColor(BrandPink.text)
+                            
                             Spacer()
                                 .frame(width: 8)
                             
                         }
+                     
                     }
+                     
                 }
-                .lineLimit(.max)
-                .lineSpacing(6)
-                .multilineTextAlignment(.leading)
+               
+            
                 
-                Spacer()
-                
-                
-                Button {
-                    //showingReportSheet = true
-                    seeMoreAction()
-                    
-                    
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(TextLabel.sub2)
-                        .frame(width: 20, height: 20)
-                }
+              
                 /*
                 if showingReportSheet && !innerShowingReportSheet {
                     NewReportButtonView()
@@ -94,6 +107,7 @@ struct SingleAnswerView: View {
                 }
                  */
             }
+           
         }
         /*
             .onTapGesture {
@@ -102,7 +116,7 @@ struct SingleAnswerView: View {
             }
          */
     }
-}
+
             /*
             else if sharedData.showingReportSheet && !sharedData.innerShowingReportSheet {
                 ZStack{

@@ -51,6 +51,7 @@ struct SearchResultView: View {
                             }
                         },
                         backgroundColor: Background.first)
+                   
                     HeaderView(viewModel: viewModel)
                     
                     QuestionListView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
@@ -99,7 +100,7 @@ struct SearchResultView: View {
                     .foregroundStyle(TextLabel.main)
                     .padding(.horizontal, 24)
             }
-            .frame(height: 120)
+            .frame(height: 100)
         }
     }
     
@@ -128,24 +129,22 @@ struct SearchResultView: View {
        
         var body: some View {
             
-            VStack(spacing: 0) {
+            VStack(spacing: 20) {
                 
-                HStack(alignment: .center) {
+                HStack(alignment: .top) {
                     Text("\(viewModel.questions.count)개의 질문")
                         .font(.pretendard(.semiBold, size: 15))
                         .foregroundStyle(TextLabel.sub3)
-                    
                     Spacer()
+                  
                 }
+                
+            
                 .padding(.horizontal, 24)
                 
-                Spacer()
-                    .frame(height: 12)
-                
                 Separator()
-             
                 ScrollView {
-                    LazyVStack {
+                    LazyVStack(spacing: 24) {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
                                 QuestionView(tab: $tab, questions: question){
@@ -154,8 +153,8 @@ struct SearchResultView: View {
                                 .onTapGesture {
                                    guard let id = question.questionId else { return }
                                     pathModel.paths.append(.todayAnswer(questionId: id, questionContent: viewModel.contentForQuestion(withId: id) ?? "내용 없음"))
-                                    QuestionService.shared.questionId = id
-                               
+                               //     QuestionService.shared.questionId = id
+                              
                                 }
                                 
                                 // MARK: - 확인용코드
@@ -242,6 +241,8 @@ struct SearchResultView: View {
                                     .padding(.leading, 24)
                             }
                             .padding(.bottom, 20)
+                        Spacer()
+                            .frame(height: 32)
                         }
                     }
                     

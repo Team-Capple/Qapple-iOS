@@ -11,7 +11,7 @@ struct TodayAnswerView: View {
     @EnvironmentObject var pathModel: PathModel
     @Binding var tab: Tab
     var questionContent: String = "완전기본값제공" // 여기에 기본값을 제공합니다.
-    @State var questionId: Int =  1// 여기에 기본값을 제공합니다.
+    var questionId: Int =  1// 여기에 기본값을 제공합니다.
     
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isBottomSheetPresented = false
@@ -19,7 +19,7 @@ struct TodayAnswerView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     init(questionId: Int, tab: Binding<Tab>, questionContent: String) {
-        self.viewModel = TodayAnswersViewModel(questionId: QuestionService.shared.questionId )
+        self.viewModel = TodayAnswersViewModel(questionId: questionId )
         self._tab = tab
         self.questionContent = questionContent
         self.questionId = questionId
@@ -39,6 +39,7 @@ struct TodayAnswerView: View {
             Spacer()
                 .frame(height: 32)
             AnswerScrollView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
+                
         }
         
         .navigationBarBackButtonHidden()
@@ -104,7 +105,7 @@ private struct FloatingQuestionCard: View {
      @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
      @State private var isCardExpanded = true // 카드 확장 상태
 
-    @State var questionId: Int?  // 추가됨
+    var questionId: Int?  // 추가됨
     
  
     var body: some View {
@@ -159,8 +160,8 @@ private struct AnswerScrollView: View {
   
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack{
                 ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
+                    LazyVStack(spacing: 24){
                         SingleAnswerView(answer: answer){
                             isBottomSheetPresented.toggle()
                         }
@@ -175,17 +176,17 @@ private struct AnswerScrollView: View {
                     /*
                         .onTapGesture {self.sharedData.reportButtonPosition = CGPoint(x: 270, y: -index * 100)            }
                      */
-                       
+                        .padding(.horizontal, 24)
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
-                    Separator()
-                        .padding(.leading, 24)
-                
-                    }
-                    
-                
+                        Separator()
+                            .padding(.leading, 24)
+                   
+                    }.padding(.bottom, 16)
+                    Spacer()
+                        .frame(height: 32)
         }
                 if viewModel.isLoading {
                     ProgressView()
