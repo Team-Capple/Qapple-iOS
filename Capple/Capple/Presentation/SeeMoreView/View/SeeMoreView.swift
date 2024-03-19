@@ -25,7 +25,7 @@ struct SeeMoreView: View {
                 HStack {
                     Spacer()
                     RoundedRectangle(cornerRadius: 3)
-                        .frame(width: 36, height: 6)
+                        .frame(width: 56, height: 4)
                         .foregroundStyle(Background.first)
                     Spacer()
                 }
