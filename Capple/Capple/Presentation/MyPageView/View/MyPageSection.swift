@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct MyPageSection: View {
+    
     let sectionInfo: SectionInfo
+    let sectionActions: [() -> Void]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -21,7 +23,7 @@ struct MyPageSection: View {
                 
                 ForEach(sectionInfo.sectionContents.indices, id: \.self) { index in
                     Button {
-                        
+                        sectionActions[index]()
                     } label: {
                         HStack(spacing: 12) {
                             Image(sectionInfo.sectionIcons[index])
@@ -37,7 +39,6 @@ struct MyPageSection: View {
                     }
                     
                     Rectangle().frame(height: 1).foregroundStyle(GrayScale.stroke)
-                    
                 }
             }
         }
@@ -48,6 +49,7 @@ struct MyPageSection: View {
 
 #Preview {
     MyPageSection(sectionInfo: SectionInfo(
+        id: 0,
         sectionTitle: "질문/답변",
         sectionContents: [
             "작성한 답변",
@@ -58,5 +60,5 @@ struct MyPageSection: View {
             "WriteAnswerIcon",
             "LikeQuestionIcon",
             "LikeAnswerIcon"]
-    ))
+    ), sectionActions: [])
 }

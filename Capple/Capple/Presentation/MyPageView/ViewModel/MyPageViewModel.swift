@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct SectionInfo {
+struct SectionInfo: Identifiable {
+    let id: Int
     var sectionTitle: String
     var sectionContents: [String]
     var sectionIcons: [String]
@@ -18,6 +19,7 @@ final class MyPageViewModel: ObservableObject {
     // 섹션 정보
     let sectionInfos: [SectionInfo] = [
         SectionInfo(
+            id: 0,
             sectionTitle: "문의 및 제보",
             sectionContents: [
                 "문의하기",
@@ -27,6 +29,7 @@ final class MyPageViewModel: ObservableObject {
             ]
         ),
         SectionInfo(
+            id: 1,
             sectionTitle: "계정 관리",
             sectionContents: [
                 "로그아웃",

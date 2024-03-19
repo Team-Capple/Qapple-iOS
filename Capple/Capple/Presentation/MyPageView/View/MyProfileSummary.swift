@@ -15,7 +15,8 @@ struct MyProfileSummary: View {
     
     var body: some View {
         HStack(spacing: 16) {
-            // 임시
+            
+            // MARK: - 프로필 이미지 없을 시 기본값 생성
             Image(profileImage ?? "Capple")
                 .resizable()
                 .frame(width: 72, height: 72)

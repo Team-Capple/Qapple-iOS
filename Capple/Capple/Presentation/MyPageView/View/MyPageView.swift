@@ -33,8 +33,34 @@ struct MyPageView: View {
                         joinDate: viewModel.myPageInfo.joinDate
                     )
                     
-                    ForEach(viewModel.sectionInfos.indices, id: \.self) { index in
-                        MyPageSection(sectionInfo: viewModel.sectionInfos[index])
+                    ForEach(viewModel.sectionInfos, id: \.id) { index in
+                        
+                        // 문의 및 제보
+                        if index.id == 0 {
+                            MyPageSection(sectionInfo: index, sectionActions: [
+                                
+                                // 문의하기
+                                {
+                                    print("문의하기")
+                                }
+                            ])
+                        }
+                        
+                        // 계정 관리
+                        else if index.id == 1 {
+                            MyPageSection(sectionInfo: index, sectionActions: [
+                                
+                                // 문의하기
+                                {
+                                    print("로그아웃")
+                                },
+                                
+                                // 회원탈퇴
+                                {
+                                    print("회원 탈퇴")
+                                }
+                            ])
+                        }
                     }
                 }
             }
