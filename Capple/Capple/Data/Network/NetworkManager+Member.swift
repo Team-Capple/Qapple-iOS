@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - 멤버 관련 API
+// MARK: - 로그인 및 회원가입 Member
 extension NetworkManager {
     
     /// 로그인 요청을 합니다.
@@ -87,5 +87,42 @@ extension NetworkManager {
         } catch {
             throw NetworkError.decodeFailed
         }
+    }
+}
+
+// MARK: - 마이페이지 조회
+extension NetworkManager {
+    
+    /// 마이페이지 정보를 요청합니다.
+    static func requestMyPage() async throws -> MemberResponse.MyPage {
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .myPage)
+        guard let url = URL(string: urlString) else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // 토큰 추가
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        
+        // URLSession 생성
+        let (data, response) = try await URLSession.shared.data(for: request)
+        // print(response)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            print("Error: badRequest")
+            throw NetworkError.badRequest
+        }
+        
+        // 디코딩
+        let decoder = JSONDecoder()
+        let decodeData = try decoder.decode(BaseResponse<MemberResponse.MyPage>.self, from: data)
+        print("MemberResponse.MyPage: \(decodeData.result)")
+        return decodeData.result
     }
 }

@@ -19,4 +19,10 @@ struct MemberResponse {
         let accessToken: String?
         let refreshToken: String?
     }
+    
+    struct MyPage: Codable {
+        let nickname: String
+        let profileImage: String?
+        let joinDate: String
+    }
 }
