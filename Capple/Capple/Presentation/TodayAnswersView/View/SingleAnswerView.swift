@@ -33,7 +33,6 @@ struct SingleAnswerView: View {
         //  if !sharedData.innerShowingReportSheet  {
         
             HStack (alignment: .top){
-                
                 Image(answer.profileImage != nil && !answer.profileImage!.isEmpty ? answer.profileImage! : "profileDummyImage")
                     .resizable()
                     .frame(width: 28, height: 28)
@@ -44,7 +43,7 @@ struct SingleAnswerView: View {
                 
                 VStack(alignment: .leading) {
                     HStack{
-                            Text(answer.nickname ?? "nickname") // 유저 닉네임 표시합니다.
+                            Text(answer.nickname ?? "nickname")
                                 .font(.pretendard(.semiBold, size: 14))
                                 .foregroundStyle(TextLabel.sub2)
                                 .frame(height: 10)
