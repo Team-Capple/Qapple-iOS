@@ -32,7 +32,15 @@ struct MyPageView: View {
                         .font(Font.pretendard(.semiBold, size: 15))
                         .foregroundStyle(TextLabel.main)
                 },
-                trailingView: {},
+                trailingView: {
+                    Button {
+                        pathModel.paths.append(.profileEdit(nickname: viewModel.myPageInfo.nickname))
+                    } label: {
+                        Text("수정")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(TextLabel.sub2)
+                    }
+                },
                 backgroundColor: Background.second)
             
             ScrollView {

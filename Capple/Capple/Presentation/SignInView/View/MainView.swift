@@ -58,8 +58,8 @@ private struct HomeView: View {
                         case .myPage:
                             MyPageView()
                             
-                        case .profileEdit:
-                            ProfileEditView()
+                        case let .profileEdit(nickname):
+                            ProfileEditView(nickName: nickname)
                             
                         case .alert:
                             AlertView()
@@ -92,8 +92,8 @@ private struct HomeView: View {
                         case .myPage:
                             MyPageView()
                             
-                        case .profileEdit:
-                            ProfileEditView()
+                        case let .profileEdit(nickname):
+                            ProfileEditView(nickName: nickname)
                             
                         case .alert:
                             AlertView()

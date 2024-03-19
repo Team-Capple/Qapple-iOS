@@ -11,7 +11,7 @@ struct ProfileEditView: View {
     
     @EnvironmentObject var pathModel: PathModel
     
-    @State private var nickname: String = ""
+    @State private var nickName: String
     @State private var isKeyboardVisible = false
     @State private var keyboardBottomPadding: CGFloat = 0
     
@@ -22,6 +22,10 @@ struct ProfileEditView: View {
     private let nicknameLimit: Int = 15
     private var description: String = "* 캐플주스는 익명 닉네임을 권장하고 있어요"
     private var validationFailedDescription: String = "이미 사용 중인 닉네임이에요"
+    
+    init(nickName: String) {
+        self.nickName = nickName
+    }
     
     var body: some View {
         
@@ -39,24 +43,28 @@ struct ProfileEditView: View {
                     
                 },
                 trailingView: {
-                    CustomNavigationTextButton(
-                        title: "완료",
-                        color: BrandPink.text,
-                        buttonType: .dismiss // 추후 수정 필요
-                    )
+                    Button {
+                        // TODO: 닉네임 업데이트 API
+                    } label: {
+                        Text("완료")
+                            .font(.pretendard(.semiBold, size: 16))
+                            .foregroundStyle(isEnableButton ? BrandPink.text : TextLabel.sub4)
+                    }
+                    .disabled(!isEnableButton)
                 },
                 backgroundColor: Background.second)
             
             Button {
-                
+                // TODO: 이미지 변경
             } label: {
-                Image("Capple")
+                Image(.capple)
                     .resizable()
                     .frame(width: 72, height: 72)
                     .background(Color.white)
                     .clipShape(Circle())
                     .padding(EdgeInsets(top: 24, leading: 0, bottom: 32, trailing: 0))
             }
+            .disabled(true)
             
             VStack(alignment: .leading ,spacing: 0) {
                 Text("닉네임")
@@ -67,8 +75,7 @@ struct ProfileEditView: View {
                 Spacer().frame(height: 21)
                 
                 ZStack(alignment: .leading) {
-                    // PlaceHolder(색상 변경때문에 사용)
-                    if nickname.isEmpty {
+                    if nickName.isEmpty {
                         Text("닉네임을 입력해주세요.")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 20))
@@ -76,23 +83,21 @@ struct ProfileEditView: View {
                     }
                     
                     HStack(spacing: 0) {
-                        TextField("", text: $nickname)
-                            .foregroundStyle(isEnableButton ? TextLabel.main: Context.warning)
+                        TextField("", text: $nickName)
+                            .foregroundStyle(TextLabel.main)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
-                            .onChange(of: nickname) { newNickname in
-                                // 20글자 제한
-                                print(newNickname)
+                            .onChange(of: nickName) { _, newNickname in
                                 if newNickname.isEmpty {
                                     isEnableButton = false
                                 } else {
                                     isEnableButton = true
                                 }
                                 if newNickname.count > nicknameLimit {
-                                    nickname = String(newNickname.prefix(nicknameLimit))
+                                    nickName = String(newNickname.prefix(nicknameLimit))
                                 }
                             }
-                        Text("\(nickname.count)/\(nicknameLimit)")
+                        Text("\(nickName.count)/\(nicknameLimit)")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 14))
                             .frame(height: 8)
@@ -105,14 +110,14 @@ struct ProfileEditView: View {
                 
                 Rectangle()
                     .frame(height: 2)
-                    .foregroundStyle(isEnableButton ? GrayScale.wh : (nickname.isEmpty ? GrayScale.wh : BrandPink.button))
+                    .foregroundStyle(nickName.isEmpty ? GrayScale.wh : BrandPink.button)
                 
                 Spacer().frame(height: 18)
                 
                 
-                Text("\(isEnableButton ? description : (nickname.isEmpty ? description : validationFailedDescription))")
+                Text(description)
                     .font(Font.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(isEnableButton ? TextLabel.sub1 : (nickname.isEmpty ? TextLabel.sub1 : Context.warning))
+                    .foregroundStyle(TextLabel.sub1)
                     .frame(height: 10)
                 
                 Spacer()
@@ -127,5 +132,5 @@ struct ProfileEditView: View {
 }
 
 #Preview {
-    ProfileEditView()
+    ProfileEditView(nickName: "튼튼한 민톨")
 }
