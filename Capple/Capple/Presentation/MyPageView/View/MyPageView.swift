@@ -10,7 +10,10 @@ import SwiftUI
 struct MyPageView: View {
     
     @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject var viewModel: MyPageViewModel = .init()
+    
+    @State private var isLogOutAlertPresented = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -50,14 +53,14 @@ struct MyPageView: View {
                         else if index.id == 1 {
                             MyPageSection(sectionInfo: index, sectionActions: [
                                 
-                                // 문의하기
+                                // 로그아웃
                                 {
-                                    print("로그아웃")
+                                    isLogOutAlertPresented = true
                                 },
                                 
                                 // 회원탈퇴
                                 {
-                                    print("회원 탈퇴")
+                                    print("회원탈퇴")
                                 }
                             ])
                         }
@@ -71,6 +74,18 @@ struct MyPageView: View {
         .onAppear {
             viewModel.requestMyPageInfo()
         }
+        .alert("로그아웃 할까요?", isPresented: $isLogOutAlertPresented) {
+            HStack {
+                Button("취소", role: .cancel, action: {})
+                Button("확인", role: .none, action: {
+                    pathModel.paths.removeAll()
+                    authViewModel.isSignIn = false
+                })
+            }
+        } message: {
+            Text("로그아웃 됩니당")
+        }
+        
     }
 }
 
