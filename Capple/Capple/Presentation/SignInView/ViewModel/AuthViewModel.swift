@@ -119,7 +119,7 @@ extension AuthViewModel {
     }
 }
 
-// MARK: - 이메일 인증
+// MARK: - 대학 이메일 인증
 extension AuthViewModel {
     
     /// 대학 이메일 인증을 요청합니다.

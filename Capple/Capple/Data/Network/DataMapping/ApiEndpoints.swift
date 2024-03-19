@@ -28,6 +28,7 @@ enum ApiEndpoints {
         // MARK: - 멤버
         case signIn = "/members/sign-in"
         case signUp = "/members/sign-up"
+        case myPage = "/members/mypage"
     }
 }
 

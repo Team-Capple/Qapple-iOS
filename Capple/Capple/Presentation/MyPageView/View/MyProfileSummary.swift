@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct MyProfileSummary: View {
-    var nickname: String = "튼튼한 당근"
-    var joinDate: String = "2024.02.09"
+    
+    var nickname: String
+    var joinDate: String
+    var profileImage: String?
     
     var body: some View {
         HStack(spacing: 16) {
-            // 임시
-            Image("Capple")
+            
+            // MARK: - 프로필 이미지 없을 시 기본값 생성
+            Image(profileImage ?? "Capple")
                 .resizable()
                 .frame(width: 72, height: 72)
                 .background(Color.white)
@@ -26,7 +29,7 @@ struct MyProfileSummary: View {
                     .font(Font.pretendard(.bold, size: 20))
                     .frame(height: 14)
                 
-                Text("\(joinDate) 가입")
+                Text("\(joinDate)")
                     .foregroundStyle(TextLabel.sub3)
                     .font(Font.pretendard(.semiBold, size: 14))
                     .frame(height: 10)
@@ -40,5 +43,8 @@ struct MyProfileSummary: View {
 }
 
 #Preview {
-    MyProfileSummary()
+    MyProfileSummary(
+        nickname: "튼튼한 당근",
+        joinDate: "2024.02.09"
+    )
 }

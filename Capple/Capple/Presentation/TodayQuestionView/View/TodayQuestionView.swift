@@ -212,7 +212,12 @@ private struct HeaderButtonView: View {
                 if viewModel.state == .ready {
                     pathModel.paths.append(.answer)
                 } else {
-                    tab = .collecting
+                    pathModel.paths.append(
+                        .todayAnswer(
+                            questionId: viewModel.mainQuestion.questionId,
+                            questionContent: viewModel.mainQuestion.content
+                        )
+                    )
                 }
             }
         }
@@ -275,7 +280,12 @@ private struct AnswerPreview: View {
                             
                             if viewModel.state != .ready {
                                 SeeAllButton {
-                                    pathModel.paths.append(.answer)
+                                    pathModel.paths.append(
+                                        .todayAnswer(
+                                            questionId: viewModel.mainQuestion.questionId,
+                                            questionContent: viewModel.mainQuestion.content
+                                        )
+                                    )
                                 }
                             }
                         }

@@ -11,6 +11,7 @@ import FlexView
 struct AnswerCell: View {
     
     var profileName: String
+    var profileImage: String?
     var answer: String
     var keywords: [String]
     let seeMoreAction: () -> Void
@@ -19,7 +20,9 @@ struct AnswerCell: View {
         HStack(alignment: .top) {
             
             // 프로필 이미지
-            Image(.profileDummy)
+            Image(
+                profileImage != nil && !profileImage!.isEmpty ?profileImage! : "profileDummyImage"
+            )
                 .resizable()
                 .frame(width: 28, height: 28)
             
