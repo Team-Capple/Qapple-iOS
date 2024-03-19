@@ -181,7 +181,7 @@ private struct AnswerScrollView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
                 ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                    LazyVStack(spacing: 24){
+                    LazyVStack{
                         SingleAnswerView(answer: answer){
                             isBottomSheetPresented.toggle()
                         }
@@ -196,7 +196,7 @@ private struct AnswerScrollView: View {
                     /*
                         .onTapGesture {self.sharedData.reportButtonPosition = CGPoint(x: 270, y: -index * 100)            }
                      */
-                        .padding(.horizontal, 24)
+                     //   .padding(.horizontal, 24)
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
@@ -205,16 +205,11 @@ private struct AnswerScrollView: View {
                    
                     }
                     //.padding(.bottom, 16)
-                    Spacer()
-                        .frame(height: 32)
+              //      Spacer()
+                //        .frame(height: 32)
         }
-                if viewModel.isLoading {
-                    ProgressView()
-                        .scaleEffect(1.5)
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .padding(.vertical, 20)
-                }
-            }
+ 
+        }
     }
 }
 

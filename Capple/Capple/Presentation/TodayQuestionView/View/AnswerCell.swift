@@ -37,6 +37,7 @@ struct AnswerCell: View {
                         .foregroundStyle(TextLabel.sub2)
                         .frame(height: 10)
                         .padding(.top, 8)
+                        
                     
                     Spacer()
                     
@@ -51,7 +52,7 @@ struct AnswerCell: View {
                 }
                 
                 Spacer()
-                    .frame(height: 12)
+                    .frame(height: 8)
                 
                 // 답변
                 Text(answer)
