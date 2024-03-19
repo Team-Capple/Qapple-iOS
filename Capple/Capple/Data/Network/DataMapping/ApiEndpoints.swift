@@ -29,6 +29,7 @@ enum ApiEndpoints {
         case signIn = "/members/sign-in"
         case signUp = "/members/sign-up"
         case myPage = "/members/mypage"
+        case deleteMember = "/members/deleteMember"
     }
 }
 

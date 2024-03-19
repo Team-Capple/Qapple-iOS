@@ -16,6 +16,8 @@ struct SectionInfo: Identifiable {
 
 final class MyPageViewModel: ObservableObject {
     
+    @Published var isDeletedMember: Bool
+    
     // 섹션 정보
     let sectionInfos: [SectionInfo] = [
         SectionInfo(
@@ -47,6 +49,7 @@ final class MyPageViewModel: ObservableObject {
     
     init() {
         self.myPageInfo = .init(nickname: "튼튼한 민톨", profileImage: nil, joinDate: "2024.03.19 가입")
+        self.isDeletedMember = false
     }
 }
 
@@ -63,6 +66,14 @@ extension MyPageViewModel {
             } catch {
                 print("마이페이지 정보 로드 실패")
             }
+        }
+    }
+    
+    /// 회원 탈퇴를 요청합니다.
+    @MainActor
+    func requestDeleteMember() {
+        Task {
+            self.isDeletedMember = try await NetworkManager.requestDeleteMember()
         }
     }
 }

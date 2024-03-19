@@ -37,7 +37,7 @@ struct ProfileEditView: View {
                     }
                 },
                 principalView: {
-                    Text("프로필")
+                    Text("프로필 수정")
                         .font(Font.pretendard(.semiBold, size: 15))
                         .foregroundStyle(TextLabel.main)
                     

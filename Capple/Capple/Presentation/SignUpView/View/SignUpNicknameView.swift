@@ -74,9 +74,8 @@ struct SignUpNicknameView: View, KeyboardReadable {
                             .foregroundStyle(isEnableButton ? TextLabel.main: Context.warning)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
-                            .onChange(of: authViewModel.nickname) { newNickname in
-                                // 20글자 제한
-                                // print(newNickname)
+                            .autocorrectionDisabled()
+                            .onChange(of: authViewModel.nickname) { _, newNickname in
                                 if newNickname.isEmpty {
                                     isEnableButton = false
                                 } else {
@@ -86,6 +85,8 @@ struct SignUpNicknameView: View, KeyboardReadable {
                                     authViewModel.nickname = String(newNickname.prefix(nicknameLimit))
                                 }
                             }
+                        
+                        
                         Text("\(authViewModel.nickname.count)/\(nicknameLimit)")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 14))
