@@ -88,6 +88,35 @@ extension NetworkManager {
             throw NetworkError.decodeFailed
         }
     }
+    
+    /// 회원 탈퇴를 요청합니다.
+    static func requestDeleteMember() async throws -> Bool {
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .deleteMember)
+        guard let url = URL(string: urlString) else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // 토큰 추가
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        
+        // URLSession 생성
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            print("회원 가입 중 오류 발생")
+            return false
+        } else {
+            print("회원 탈퇴 완료")
+            return true
+        }
+    }
 }
 
 // MARK: - 마이페이지 조회

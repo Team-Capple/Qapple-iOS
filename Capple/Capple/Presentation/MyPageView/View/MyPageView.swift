@@ -14,12 +14,16 @@ struct MyPageView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject var viewModel: MyPageViewModel = .init()
     
-    @State private var isLogOutAlertPresented = false
-    
     // 이메일 관련 변수
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     @State private var isShowingMailView = false
     @State private var isEmailDisabledAlert = false
+    
+    // 로그아웃 관련 변수
+    @State private var isLogOutAlertPresented = false
+    
+    // 회원탈퇴 관련 변수
+    @State private var isDeleteMemeberAlertPresented = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -32,7 +36,15 @@ struct MyPageView: View {
                         .font(Font.pretendard(.semiBold, size: 15))
                         .foregroundStyle(TextLabel.main)
                 },
-                trailingView: {},
+                trailingView: {
+                    Button {
+                        pathModel.paths.append(.profileEdit(nickname: viewModel.myPageInfo.nickname))
+                    } label: {
+                        Text("수정")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(TextLabel.sub2)
+                    }
+                },
                 backgroundColor: Background.second)
             
             ScrollView {
@@ -65,14 +77,10 @@ struct MyPageView: View {
                             MyPageSection(sectionInfo: index, sectionActions: [
                                 
                                 // 로그아웃
-                                {
-                                    isLogOutAlertPresented.toggle()
-                                },
+                                { isLogOutAlertPresented.toggle() },
                                 
                                 // 회원탈퇴
-                                {
-                                    print("회원탈퇴")
-                                }
+                                { isDeleteMemeberAlertPresented.toggle() }
                             ])
                         }
                     }
@@ -85,6 +93,11 @@ struct MyPageView: View {
         .onAppear {
             viewModel.requestMyPageInfo()
         }
+        .alert("메일 APP을 사용할 수 없어요", isPresented: $isEmailDisabledAlert) {
+            Button("확인", role: .none, action: {})
+        } message: {
+            Text("메일 APP 설치 후 로그인 해주세요.\n혹은 공식 문의 메일 - 0.team.capple@gmail.com")
+        }
         .alert("로그아웃 할까요?", isPresented: $isLogOutAlertPresented) {
             HStack {
                 Button("취소", role: .cancel, action: {})
@@ -96,10 +109,18 @@ struct MyPageView: View {
         } message: {
             Text("로그아웃 됩니당")
         }
-        .alert("메일 APP을 사용할 수 없어요", isPresented: $isEmailDisabledAlert) {
-            Button("확인", role: .none, action: {})
+        .alert("회원 탈퇴 할까요?", isPresented: $isDeleteMemeberAlertPresented) {
+            HStack {
+                Button("취소", role: .cancel, action: {})
+                Button("확인", role: .destructive, action: {
+                    viewModel.requestDeleteMember()
+                    pathModel.paths.removeAll()
+                    authViewModel.isSignIn = false
+                    authViewModel.isSignUp = false
+                })
+            }
         } message: {
-            Text("메일 APP 설치 후 로그인 해주세요.\n혹은 공식 문의 메일 - 0.team.capple@gmail.com")
+            Text("로그아웃 됩니당")
         }
         .sheet(isPresented: $isShowingMailView) {
             MailView(result: $mailResult)
