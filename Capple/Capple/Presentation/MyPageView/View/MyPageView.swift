@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MessageUI
 
 struct MyPageView: View {
     
@@ -14,6 +15,11 @@ struct MyPageView: View {
     @StateObject var viewModel: MyPageViewModel = .init()
     
     @State private var isLogOutAlertPresented = false
+    
+    // 이메일 관련 변수
+    @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
+    @State private var isShowingMailView = false
+    @State private var isEmailDisabledAlert = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -44,7 +50,12 @@ struct MyPageView: View {
                                 
                                 // 문의하기
                                 {
-                                    print("문의하기")
+                                    // 메일 앱을 사용할 수 없는 경우
+                                    if !MFMailComposeViewController.canSendMail() {
+                                        isEmailDisabledAlert.toggle()
+                                    } else {
+                                        isShowingMailView.toggle()
+                                    }
                                 }
                             ])
                         }
@@ -55,7 +66,7 @@ struct MyPageView: View {
                                 
                                 // 로그아웃
                                 {
-                                    isLogOutAlertPresented = true
+                                    isLogOutAlertPresented.toggle()
                                 },
                                 
                                 // 회원탈퇴
@@ -85,7 +96,14 @@ struct MyPageView: View {
         } message: {
             Text("로그아웃 됩니당")
         }
-        
+        .alert("메일 APP을 사용할 수 없어요", isPresented: $isEmailDisabledAlert) {
+            Button("확인", role: .none, action: {})
+        } message: {
+            Text("메일 APP 설치 후 로그인 해주세요.\n혹은 공식 문의 메일 - 0.team.capple@gmail.com")
+        }
+        .sheet(isPresented: $isShowingMailView) {
+            MailView(result: $mailResult)
+        }
     }
 }
 
