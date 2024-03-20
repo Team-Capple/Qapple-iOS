@@ -120,7 +120,7 @@ struct MyPageView: View {
                 })
             }
         } message: {
-            Text("로그아웃 됩니당")
+            Text("회원탈퇴 됩니당 전 분명 경고했어요")
         }
         .sheet(isPresented: $isShowingMailView) {
             MailView(result: $mailResult)

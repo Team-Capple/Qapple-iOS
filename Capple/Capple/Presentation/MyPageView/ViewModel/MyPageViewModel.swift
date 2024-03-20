@@ -48,7 +48,7 @@ final class MyPageViewModel: ObservableObject {
     @Published var myPageInfo: MemberResponse.MyPage
     
     init() {
-        self.myPageInfo = .init(nickname: "튼튼한 민톨", profileImage: nil, joinDate: "2024.03.19 가입")
+        self.myPageInfo = .init(nickname: "", profileImage: nil, joinDate: "")
         self.isDeletedMember = false
     }
 }

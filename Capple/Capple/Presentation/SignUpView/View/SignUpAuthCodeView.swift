@@ -8,13 +8,12 @@
 import SwiftUI
 import Combine
 
-struct SignUpAuthCodeView: View, KeyboardReadable {
+struct SignUpAuthCodeView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
     
-    @State private var isKeyboardVisible = false
-    @State private var keyboardBottomPadding: CGFloat = 0
+    @State private var isMailResendAlertPresented = false
     
     private let codeLimit = 6
     
@@ -22,6 +21,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
         VStack(alignment: .leading) {
             CustomNavigationBar(
                 leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
+                    authViewModel.resetAuthCodeInfo()
                     pathModel.paths.removeLast()
                 }},
                 principalView: { Text("회원가입")
@@ -73,7 +73,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                             .frame(height: 14)
                             .keyboardType(.numberPad)
                             .disabled(authViewModel.isCertifyCodeVerified)
-                            .onChange(of: authViewModel.certifyCode) { newCode in
+                            .onChange(of: authViewModel.certifyCode) { _, newCode in
                                 if newCode.count > codeLimit {
                                     authViewModel.certifyCode = String(newCode.prefix(codeLimit))
                                 }
@@ -129,6 +129,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                         Spacer()
                         
                         Button {
+                            isMailResendAlertPresented.toggle()
                             authViewModel.requestEmailCertification()
                         } label: {
                             Text("메일 재발송")
@@ -139,7 +140,7 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                         .padding(.vertical, 8)
                         .background(GrayScale.secondaryButton)
                         .cornerRadius(20, corners: .allCorners)
-                        .alert("메일이 재발송 되었어요.", isPresented: $authViewModel.isMailResend) {
+                        .alert("메일이 재발송 되었어요.", isPresented: $isMailResendAlertPresented) {
                             Button("확인", role: .cancel) {}
                         }
                     }
@@ -150,20 +151,12 @@ struct SignUpAuthCodeView: View, KeyboardReadable {
                 ActionButton("확인", isActive: $authViewModel.isCertifyCodeVerified, action: {
                     pathModel.paths.append(.inputNickName)
                 })
-                .padding(.bottom, keyboardBottomPadding)
-                .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: authViewModel.isCertifyCodeVerified)
+                .padding(.bottom, 16)
+                .animation(.easeIn, value: authViewModel.isCertifyCodeVerified)
             }
             .padding(.horizontal, 24)
         }
         .background(Background.first)
-        .onReceive(keyboardPublisher) { newIsKeyboardVisible in
-            if isKeyboardVisible {
-                keyboardBottomPadding = 16
-            } else {
-                keyboardBottomPadding = 0
-            }
-            isKeyboardVisible = newIsKeyboardVisible
-        }
         .navigationBarBackButtonHidden()
         .onDisappear {
             authViewModel.isCertifyCodeFailed = false

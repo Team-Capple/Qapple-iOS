@@ -25,4 +25,10 @@ struct MemberResponse {
         let profileImage: String?
         let joinDate: String
     }
+    
+    struct EditProfile: Codable {
+        let nickname: String
+        let profileImage: String?
+        let memberId: Int
+    }
 }

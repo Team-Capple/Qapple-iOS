@@ -39,4 +39,41 @@ struct QuestionTimeManager {
         guard let targetDate = calendar.nextDate(after: date, matching: targetTime, matchingPolicy: .strict) else { return "00:00:00" }
         return targetDate.timeIntervalSince(date).timerFormat
     }
+    
+    /// 질문 업데이트 시간에 맞춰 질문을 업데이트합니다.
+    /// 오전 7시
+    /// 오후 6시
+    func updateForQuestionTime() {
+        
+        // 현재 날짜 가져오기
+        let currentDate = Date()
+        let calendar = Calendar.current
+        
+        // 오전 질문 DateComponents 만들기
+        var triggerComponentAM = DateComponents()
+        triggerComponentAM.hour = 7
+        triggerComponentAM.minute = 0
+        
+        // 오후 질문 DateComponents 만들기
+        var triggerComponentPM = DateComponents()
+        triggerComponentPM.hour = 18
+        triggerComponentPM.minute = 0
+        
+        // 현재 날짜의 DateComponents 불러오기
+        let amDate = calendar.nextDate(after: currentDate, matching: triggerComponentAM, matchingPolicy: .nextTime)!
+        let pmDate = calendar.nextDate(after: currentDate, matching: triggerComponentPM, matchingPolicy: .nextTime)!
+        
+        // 메서드 실행 예약
+        DispatchQueue.global().async {
+            executeSpecifiedTime(at: amDate)
+            executeSpecifiedTime(at: pmDate)
+        }
+    }
+    
+    /// 지정된 시간에 메서드 실행
+    private func executeSpecifiedTime(at date: Date) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + date.timeIntervalSinceNow) {
+            print("지정된 시간에 질문 업데이트 해보자!!!!")
+        }
+    }
 }
