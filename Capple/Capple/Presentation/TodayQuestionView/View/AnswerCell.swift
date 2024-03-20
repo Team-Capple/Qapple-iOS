@@ -76,8 +76,9 @@ struct AnswerCell: View {
                         .foregroundStyle(BrandPink.text)
                         .frame(height: 10)
                 }
-            }.padding(.horizontal, 36)
+            }.padding(.leading, 36)
         }
+        .padding(24)
         }
     }
 

@@ -205,6 +205,8 @@ private struct AnswerScrollView: View {
                                 .presentationDetents([.height(84)])
                         }
                         Separator()
+                            .padding(.leading, 24)
+                       
                    
                     }
                     //.padding(.bottom, 16)

@@ -295,11 +295,11 @@ private struct AnswerPreview: View {
                     Separator()
                         .padding(.leading, 24)
                     
-                    Spacer()
+                 //   Spacer()
                     
                     // 답변 있는 케이스
                     ForEach(viewModel.answerList, id: \.self) { answer in
-                        VStack(spacing: 24) {
+                        VStack {
                             AnswerCell(
                                 profileName: answer.nickname,
                                 answer: answer.content,
@@ -307,7 +307,6 @@ private struct AnswerPreview: View {
                             ) {
                                 isBottomSheetPresented.toggle()
                             }
-                            .padding(.horizontal, 24)
                             .sheet(isPresented: $isBottomSheetPresented) {
                                 SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                     .presentationDetents([.height(84)])
@@ -316,11 +315,11 @@ private struct AnswerPreview: View {
                             Separator()
                                 .padding(.leading, 24)
                         }
-                        .padding(.bottom, 16)
+                       // .padding(.bottom, 16)
                     }
                     
-                    Spacer()
-                        .frame(height: 32)
+                //    Spacer()
+                     //   .frame(height: 32)
                 }
             }
         }
