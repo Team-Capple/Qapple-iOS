@@ -18,4 +18,9 @@ class MemberRequest {
         let nickname: String
         let profileImage: String?
     }
+    
+    struct EditProfile: Codable {
+        let nickname: String
+        let profileImage: String?
+    }
 }
