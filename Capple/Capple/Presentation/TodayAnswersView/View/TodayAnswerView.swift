@@ -114,8 +114,9 @@ private struct FloatingQuestionCard: View {
         questionMark.foregroundColor = BrandPink.text
         return questionMark
     }
+    
     var creatingText: AttributedString {
-        let creatingText = AttributedString("\(questionContent)입니다릿다릿두줄입니다릿다릿")
+        let creatingText = AttributedString("\(questionContent)")
         return creatingText
     }
  

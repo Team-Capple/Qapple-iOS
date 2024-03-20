@@ -106,6 +106,10 @@ private struct HomeView: View {
                     }
             }
         }
+        .onAppear {
+            NotificationManager.shared.requestNotificationPermission()
+            NotificationManager.shared.schedule()
+        }
     }
 }
 

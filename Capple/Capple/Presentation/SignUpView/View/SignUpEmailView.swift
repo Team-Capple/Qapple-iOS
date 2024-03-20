@@ -22,6 +22,7 @@ struct SignUpEmailView: View, KeyboardReadable {
             CustomNavigationBar(
                 leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
                     authViewModel.resetAllInfo()
+                    pathModel.paths.removeLast()
                 }},
                 principalView: { Text("회원가입")
                     .font(Font.pretendard(.semiBold, size: 15))

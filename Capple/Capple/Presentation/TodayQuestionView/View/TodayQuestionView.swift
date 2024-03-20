@@ -72,9 +72,6 @@ struct TodayQuestionView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.updateTodayQuestionView()
-                
-                // TODO: 오전 7시, 오후 6시 업데이트 코드 작성 -> 테스트 필요
-                viewModel.dateManager.updateForQuestionTime()
             }
         }
     }
@@ -132,7 +129,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 16)
             
-            Text(viewModel.timerSeconds)
+            Text("\(viewModel.timeString())")
                 .font(.pretendard(.bold, size: 38))
                 .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
                 .frame(height: 27)

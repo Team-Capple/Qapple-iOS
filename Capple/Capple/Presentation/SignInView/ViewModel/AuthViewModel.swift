@@ -113,6 +113,7 @@ extension AuthViewModel {
             let signUpData = try await NetworkManager.requestSignUp(
                 request: .init(
                     signUpToken: SignInInfo.shared.refreshToken(),
+                    email: "\(email)@postech.ac.kr",
                     nickname: nickname,
                     profileImage: ""
                 )

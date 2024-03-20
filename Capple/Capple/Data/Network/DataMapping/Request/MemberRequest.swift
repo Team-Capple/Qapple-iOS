@@ -15,6 +15,7 @@ class MemberRequest {
     
     struct SignUp: Codable {
         let signUpToken: String
+        let email: String
         let nickname: String
         let profileImage: String?
     }

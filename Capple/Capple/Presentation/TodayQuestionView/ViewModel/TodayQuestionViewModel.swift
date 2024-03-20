@@ -10,7 +10,8 @@ import Foundation
 final class TodayQuestionViewModel: ObservableObject {
     
     let dateManager = QuestionTimeManager()
-    var timer: Timer?
+    
+    @Published var remainingTime = TimeInterval()
     
     @Published var timeZone: QuestionTimeZone
     @Published var state: QuestionState?
@@ -95,7 +96,7 @@ extension TodayQuestionViewModel {
     
     /// 질문 타이틀 텍스트를 반환합니다.
     var titleText: String {
-        var text = "질문 타이틀"
+        var text = ""
         if timeZone == .amCreate { text = "오전 질문을 만들고 있어요" }
         else if timeZone == .pmCreate { text = "오후 질문을 만들고 있어요" }
         else if state == .ready { text = "\(timeZone.rawValue) 질문이\n준비되었어요!" }
@@ -105,7 +106,7 @@ extension TodayQuestionViewModel {
     
     /// 버튼 텍스트를 반환합니다.
     var buttonText: String {
-        var text = "버튼 타이틀"
+        var text = ""
         if state == .creating { text = "이전 질문 보러가기" }
         else if state == .ready { text = "질문에 답변하기" }
         else if state == .complete { text = "다른 답변 둘러보기" }
@@ -130,7 +131,7 @@ extension TodayQuestionViewModel {
     
     /// 리스트 서브 타이틀 텍스트를 반환합니다.
     var listSubText: String {
-        var text = "리스트 서브 타이틀"
+        var text = ""
         if state == .creating { text = "최근에 달린 답변" }
         else if state == .ready { text = "답변 미리보기" }
         else if state == .complete { text = "실시간 답변 현황" }
@@ -138,7 +139,7 @@ extension TodayQuestionViewModel {
     }
 }
 
-// MARK: - Method
+// MARK: - 시간 관련
 extension TodayQuestionViewModel {
     
     /// 현재 시간에 맞춰 질문 시간을 업데이트합니다.
@@ -148,14 +149,37 @@ extension TodayQuestionViewModel {
     
     /// 타이머를 실행합니다.
     func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        let currentDate = Date()
+        let calendar = Calendar.current
+        let todayMorning = calendar.date(bySettingHour: 6, minute: 0, second: 0, of: currentDate)!
+        let tomorrowMorning = calendar.date(byAdding: .day, value: 1, to: todayMorning)!
+        
+        let targetDate: Date
+        if currentDate < todayMorning {
+            targetDate = todayMorning
+        } else {
+            targetDate = tomorrowMorning
+        }
+        
+        // 남은 시간 계산
+        remainingTime = targetDate.timeIntervalSince(currentDate)
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
             guard let self else { return }
-            timerSeconds = dateManager.fetchTimerSeconds(timeZone)
+            remainingTime -= 1
+            
+            // 시간이 음수가 되면 타이머 중지
+            if remainingTime <= 0 {
+                timer.invalidate()
+            }
         }
     }
     
-    /// 타이머를 초기화합니다.
-    func stopTimer() {
-        timer = nil
+    /// TimeInterval 타입을 스트링 타이머 포맷으로 반환합니다.
+    func timeString() -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .full
+        formatter.allowedUnits = [.hour, .minute, .second]
+        return formatter.string(from: remainingTime) ?? ""
     }
 }
