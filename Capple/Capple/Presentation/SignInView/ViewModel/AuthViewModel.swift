@@ -17,8 +17,6 @@ class AuthViewModel: ObservableObject {
     @Published var nickname: String = "" // 닉네임
     @Published var email: String = "" // 이메일
     @Published var certifyCode: String = "" // 이메일 인증 코드
-
-    @Published var isMailResend = false // 메일 재발송 여부
     
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
@@ -33,7 +31,15 @@ extension AuthViewModel {
         authorizationCode.removeAll()
         nickname.removeAll()
         email.removeAll()
+        resetAuthCodeInfo()
+    }
+    
+    /// 인증코드 정보를 초기화합니다.
+    func resetAuthCodeInfo() {
         certifyCode.removeAll()
+        isCertifyCodeVerified = false
+        isCertifyCodeInvalid = false
+        isCertifyCodeFailed = false
     }
 }
 
@@ -135,10 +141,6 @@ extension AuthViewModel {
             
             // 인증 코드 초기화
             certifyCode.removeAll()
-            
-            if isCertifyCodeFailed {
-                isMailResend = true
-            }
         }
     }
     
