@@ -41,8 +41,10 @@ struct ProfileEditView: View {
                 },
                 trailingView: {
                     Button {
-                        viewModel.requestEditProfile()
-                        pathModel.paths.removeLast()
+                        Task {
+                            viewModel.requestEditProfile()
+                            pathModel.paths.removeLast()
+                        }
                     } label: {
                         Text("완료")
                             .font(.pretendard(.semiBold, size: 16))
