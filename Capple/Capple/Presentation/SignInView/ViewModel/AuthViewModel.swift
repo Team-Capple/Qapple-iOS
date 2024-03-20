@@ -21,6 +21,8 @@ class AuthViewModel: ObservableObject {
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
     @Published var isCertifyCodeFailed = false // 인증 코드 실패 여부
+    
+    @Published var isSignUpFailedAlertPresented = false // 회원가입 실패 알림
 }
 
 // MARK: - Helper
@@ -110,18 +112,21 @@ extension AuthViewModel {
     @MainActor
     func requestSignUp() {
         Task {
-            let signUpData = try await NetworkManager.requestSignUp(
-                request: .init(
-                    signUpToken: SignInInfo.shared.refreshToken(),
-                    email: "\(email)@postech.ac.kr",
-                    nickname: nickname,
-                    profileImage: ""
-                )
-            )
-            
-            // 토큰 데이터 업데이트
-            SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
-            SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
+            do {
+                // 회원가입 API
+                let signUpData = try await NetworkManager.requestSignUp(
+                    request: .init(
+                        signUpToken: SignInInfo.shared.refreshToken(),
+                        email: "\(email)@postech.ac.kr",
+                        nickname: nickname,
+                        profileImage: ""))
+                
+                // 토큰 데이터 업데이트
+                SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
+                SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
+            } catch {
+                isSignUpFailedAlertPresented.toggle()
+            }
         }
     }
 }
