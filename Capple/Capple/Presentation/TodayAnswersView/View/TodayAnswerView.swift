@@ -109,23 +109,28 @@ private struct FloatingQuestionCard: View {
     var questionId: Int?  // 추가됨
     
     
-    var todayQuestionText: AttributedString {
+    var questionMark: AttributedString {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
+        return questionMark
+    }
+    var creatingText: AttributedString {
         let creatingText = AttributedString("\(questionContent)입니다릿다릿두줄입니다릿다릿")
-        print(questionContent, "TodayAnswersViewModel에서 todayQuestion 스트링")
-        return questionMark + creatingText
+        return creatingText
     }
  
     var body: some View {
         HStack {
-            Text(todayQuestionText)
-                .font(.pretendard(.semiBold, size: 15))
-                .foregroundStyle(TextLabel.main)
-            
-            
-                .lineSpacing(6)
-                .lineLimit(isCardExpanded ? 3 : 0)
+            HStack(alignment: .top){
+                Text(questionMark)
+                    .font(.pretendard(.semiBold, size: 15))
+                    .foregroundStyle(TextLabel.main)
+                Text(creatingText)
+                    .font(.pretendard(.semiBold, size: 15))
+                    .foregroundStyle(TextLabel.main)
+                    .lineSpacing(6)
+                    .lineLimit(isCardExpanded ? 3 : 0)
+            }
             Spacer()
             Image(isCardExpanded ? .arrowUp : .arrowDown)
                        .resizable()
