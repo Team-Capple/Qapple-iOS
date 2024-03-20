@@ -15,8 +15,10 @@ struct TodayAnswerView: View {
     
     @ObservedObject var viewModel: TodayAnswersViewModel
     @State private var isBottomSheetPresented = false
-    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+  
+    
     
     init(questionId: Int, tab: Binding<Tab>, questionContent: String) {
         self.viewModel = TodayAnswersViewModel(questionId: questionId )
@@ -104,21 +106,38 @@ private struct FloatingQuestionCard: View {
      @Binding var tab: Tab // 현재 탭을 저장할 프로퍼티
      @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
      @State private var isCardExpanded = true // 카드 확장 상태
-
     var questionId: Int?  // 추가됨
     
+    
+    var todayQuestionText: AttributedString {
+        var questionMark = AttributedString("Q. ")
+        questionMark.foregroundColor = BrandPink.text
+        let creatingText = AttributedString("\(questionContent)")
+        print(questionContent, "TodayAnswersViewModel에서 todayQuestion 스트링")
+        return questionMark + creatingText
+    }
  
     var body: some View {
         HStack {
-            Text(questionContent)
+            Text(todayQuestionText)
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.main)
                 .lineLimit(isCardExpanded ? 3 : 0)
-            Spacer() // 화살표를 오른쪽으로 밀어내기 위해 Spacer 추가
-            
+            Spacer()
+            Image(isCardExpanded ? .arrowUp : .arrowDown)
+                       .resizable()
+                       .frame(width: 28, height: 28)
+                       .foregroundColor(.white)
+               }
+               .onTapGesture {
+                   withAnimation {
+                       isCardExpanded.toggle() // 확장/축소 상태 토글
+                   }
+               }
+        /*
             Button {
                 withAnimation {
-                    isCardExpanded.toggle() // 버튼 클릭 시 카드 확장/축소 상태 토글
+                    isCardExpanded.toggle()
                 }
             } label: {
                 Image(isCardExpanded ? .arrowUp : .arrowDown)
@@ -126,7 +145,8 @@ private struct FloatingQuestionCard: View {
                     .frame(width: 28, height: 28)
                     .foregroundColor(.white)
             }
-        }
+         */
+        
         .padding(14)
         .frame(maxWidth: .infinity)
         .background(GrayScale.secondaryButton)
@@ -161,7 +181,7 @@ private struct AnswerScrollView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
                 ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                    LazyVStack(spacing: 24){
+                    LazyVStack{
                         SingleAnswerView(answer: answer){
                             isBottomSheetPresented.toggle()
                         }
@@ -176,25 +196,20 @@ private struct AnswerScrollView: View {
                     /*
                         .onTapGesture {self.sharedData.reportButtonPosition = CGPoint(x: 270, y: -index * 100)            }
                      */
-                        .padding(.horizontal, 24)
+                     //   .padding(.horizontal, 24)
                         .sheet(isPresented: $isBottomSheetPresented) {
                             SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
                                 .presentationDetents([.height(84)])
                         }
                         Separator()
-                            .padding(.leading, 24)
                    
-                    }.padding(.bottom, 16)
-                    Spacer()
-                        .frame(height: 32)
+                    }
+                    //.padding(.bottom, 16)
+              //      Spacer()
+                //        .frame(height: 32)
         }
-                if viewModel.isLoading {
-                    ProgressView()
-                        .scaleEffect(1.5)
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .padding(.vertical, 20)
-                }
-            }
+ 
+        }
     }
 }
 
@@ -203,3 +218,6 @@ struct TodayAnswerView_Previews: PreviewProvider {
         TodayAnswerView(questionId: 1, tab: .constant(.answering), questionContent: "디폴트")
     }
 }
+
+
+

@@ -73,14 +73,16 @@ struct QuestionView: View {
         switch questions.questionStatus {
         case .live:
             return QuestionStatus.live.rawValue
+        /*
         case .old:
             return QuestionStatus.old.rawValue
         case .hold:
             return QuestionStatus.hold.rawValue
         case .pending:
             return QuestionStatus.pending.rawValue
+         */
         default:
-            return "UNKNOWN"
+            return ""
         }
     }
     
@@ -115,15 +117,16 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 8)
                 
-                Text(questionStatusRawValue)
-                    .font(.pretendard(.bold, size: 9))
-                    .foregroundStyle(.wh)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 3)
-                    .background(Context.onAir)
-                    .cornerRadius(18, corners: .allCorners)
-                
-                
+                if !questionStatusRawValue.isEmpty{
+                    Text(questionStatusRawValue)
+                        .font(.pretendard(.bold, size: 9))
+                        .foregroundStyle(.wh)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .background(Context.onAir)
+                        .cornerRadius(18, corners: .allCorners)
+                    
+                }
                 Spacer()
                 
                 HStack(alignment: .center) {

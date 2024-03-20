@@ -29,70 +29,73 @@ struct SingleAnswerView: View {
   //  @State private var reportButtonPosition: CGPoint? = nil // Report 버튼의 위치
     
     var body: some View {
-        //   ZStack{
-        //  if !sharedData.innerShowingReportSheet  {
         
-            HStack (alignment: .top){
-                
-                Image(answer.profileImage != nil && !answer.profileImage!.isEmpty ? answer.profileImage! : "profileDummyImage")
-                    .resizable()
-                    .frame(width: 28, height: 28)
-                    .clipShape(Circle())
-                
-                Spacer()
-                    .frame(width: 8)
-                
-                VStack(alignment: .leading) {
-                    HStack{
-                            Text(answer.nickname ?? "nickname") // 유저 닉네임 표시합니다.
-                                .font(.pretendard(.semiBold, size: 14))
-                                .foregroundStyle(TextLabel.sub2)
-                                .frame(height: 10)
-                                .padding(.top, 8)
-                         
-                            Spacer()
-                            
-                            Button {
-                                //showingReportSheet = true
-                                seeMoreAction()
-                                
-                                
-                            } label: {
-                                Image(systemName: "ellipsis")
-                                    .foregroundStyle(TextLabel.sub2)
-                                    .frame(width: 20, height: 20)
+        HStack(alignment: .top, spacing: 8) {
+                    VStack{
+                        Image(answer.profileImage != nil && !answer.profileImage!.isEmpty ? answer.profileImage! : "profileDummyImage")
+                            .resizable()
+                            .frame(width: 28, height: 28)
+                            .clipShape(Circle())
+                    }
+                    VStack{
+                        VStack(alignment: .leading){
+                            HStack (alignment: .center){
+                                HStack{
+                                    Text(answer.nickname ?? "nickname")
+                                        .font(.pretendard(.semiBold, size: 14))
+                                        .foregroundStyle(TextLabel.sub2)
+                                        .frame(height: 10)
+                                    
+                                    
+                                    Spacer()
+                                    
+                                    Button {
+                                        //showingReportSheet = true
+                                        seeMoreAction()
+                                        
+                                        
+                                    } label: {
+                                        Image(systemName: "ellipsis")
+                                            .foregroundStyle(TextLabel.sub2)
+                                            .frame(width: 20, height: 20)
+                                    }
+                                }
                             }
-                        
-                    }
-                    Spacer()
-                        .frame(height: 12)
-                    
-                    Text(answer.content ?? "content")
-                        .font(.pretendard(.medium, size: 16))
-                        .foregroundStyle(TextLabel.main)
-                        .lineLimit(.max)
-                        .lineSpacing(6)
-                        .multilineTextAlignment(.leading)
-                        
-                    
-                    Spacer()
-                        .frame(height: 12)
-                     
-                    HStack {
-                        ForEach(answer.tags?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in
-                            Text("#\(tag)")
-                                .font(.pretendard(.semiBold, size: 14))
-                                .foregroundColor(BrandPink.text)
-                            
-                            Spacer()
-                                .frame(width: 8)
-                            
                         }
-                     
+                        
+                        Spacer().frame(height: 8)
+                        
+                        VStack(alignment: .leading) {
+                               Text(answer.content ?? "content")
+                                   .font(.pretendard(.medium, size: 16))
+                                   .foregroundStyle(TextLabel.main)
+                                   .lineLimit(nil)
+                                   .lineSpacing(6)
+                                   .multilineTextAlignment(.leading)
+                                   .frame(maxWidth: .infinity, alignment: .leading) // 왼쪽 정렬
+
+                            Spacer()
+                                .frame(height: 12)
+
+                               HStack(alignment: .top, spacing: 8) {
+                                   ForEach(answer.tags?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in
+                                       Text("#\(tag)")
+                                           .font(.pretendard(.semiBold, size: 14))
+                                           .foregroundColor(BrandPink.text)
+                                   }
+                               }
+                               .frame( alignment: .leading)
+                           }
+                      //  Spacer()
+                           
                     }
-                     
-                }
+                 //   .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                .padding(24)
+                
                
+     //           }
+     
             
                 
               
@@ -108,14 +111,14 @@ struct SingleAnswerView: View {
                  */
             }
            
-        }
+    }
         /*
             .onTapGesture {
                 self.innerShowingReportSheet = true
                 
             }
          */
-    }
+  //  }
 
             /*
             else if sharedData.showingReportSheet && !sharedData.innerShowingReportSheet {
