@@ -27,8 +27,6 @@ final class TodayQuestionViewModel: ObservableObject {
         // 변수 초기화
         self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
         self.answerList = []
-        
-        updateTodayQuestionView()
     }
 }
 
@@ -48,6 +46,12 @@ extension TodayQuestionViewModel {
     @MainActor
     func updateQuestionState() {
         let currentTimeZone = dateManager.fetchTimezone()
+        self.timeZone = currentTimeZone
+        
+        if timeZone == .amCreate || timeZone == .pmCreate {
+            startTimer()
+        }
+        
         if currentTimeZone == .am || currentTimeZone == .pm {
             self.state = mainQuestion.isAnswered ? .complete : .ready
         } else {
@@ -142,44 +146,53 @@ extension TodayQuestionViewModel {
 // MARK: - 시간 관련
 extension TodayQuestionViewModel {
     
-    /// 현재 시간에 맞춰 질문 시간을 업데이트합니다.
-    func updateTimeZone() {
-        timeZone = dateManager.fetchTimezone()
-    }
-    
     /// 타이머를 실행합니다.
+    @MainActor
     func startTimer() {
-        let currentDate = Date()
-        let calendar = Calendar.current
-        let todayMorning = calendar.date(bySettingHour: 6, minute: 0, second: 0, of: currentDate)!
-        let tomorrowMorning = calendar.date(byAdding: .day, value: 1, to: todayMorning)!
         
-        let targetDate: Date
-        if currentDate < todayMorning {
-            targetDate = todayMorning
-        } else {
-            targetDate = tomorrowMorning
+        if timeZone == .amCreate {
+            let calendar = Calendar.current
+            let now = Date()
+            
+            var components = DateComponents()
+            components.hour = 7
+            components.minute = 0
+            components.second = 0
+            
+            let am = calendar.nextDate(after: now, matching: components, matchingPolicy: .nextTime)!
+            self.remainingTime = am.timeIntervalSinceNow
+        } 
+        
+        else if timeZone == .pmCreate {
+            let calendar = Calendar.current
+            let now = Date()
+            
+            var components = DateComponents()
+            components.hour = 18
+            components.minute = 0
+            components.second = 0
+            
+            let pm = calendar.nextDate(after: now, matching: components, matchingPolicy: .nextTime)!
+            self.remainingTime = pm.timeIntervalSinceNow
         }
-        
-        // 남은 시간 계산
-        remainingTime = targetDate.timeIntervalSince(currentDate)
         
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
             guard let self else { return }
             remainingTime -= 1
             
-            // 시간이 음수가 되면 타이머 중지
+            // 시간이 음수가 되면 타이머 중지 후 QuestionTimeZone 업데이트
             if remainingTime <= 0 {
                 timer.invalidate()
+                updateTodayQuestionView()
             }
         }
     }
     
     /// TimeInterval 타입을 스트링 타이머 포맷으로 반환합니다.
     func timeString() -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .full
-        formatter.allowedUnits = [.hour, .minute, .second]
-        return formatter.string(from: remainingTime) ?? ""
+        let hours = Int(remainingTime) / 3600
+        let minutes = Int(remainingTime) / 60 % 60
+        let seconds = Int(remainingTime) % 60
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }

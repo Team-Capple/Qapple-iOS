@@ -102,9 +102,6 @@ private struct HeaderView: View {
             }
             .frame(height: 260)
         }
-        .onAppear {
-            viewModel.startTimer()
-        }
     }
 }
 
