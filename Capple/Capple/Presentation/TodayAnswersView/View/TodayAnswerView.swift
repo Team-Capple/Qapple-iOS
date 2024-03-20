@@ -112,7 +112,7 @@ private struct FloatingQuestionCard: View {
     var todayQuestionText: AttributedString {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
-        let creatingText = AttributedString("\(questionContent)")
+        let creatingText = AttributedString("\(questionContent)입니다릿다릿두줄입니다릿다릿")
         print(questionContent, "TodayAnswersViewModel에서 todayQuestion 스트링")
         return questionMark + creatingText
     }
@@ -129,11 +129,7 @@ private struct FloatingQuestionCard: View {
                        .frame(width: 28, height: 28)
                        .foregroundColor(.white)
                }
-               .onTapGesture {
-                   withAnimation {
-                       isCardExpanded.toggle() // 확장/축소 상태 토글
-                   }
-               }
+               
         /*
             Button {
                 withAnimation {
@@ -152,6 +148,11 @@ private struct FloatingQuestionCard: View {
         .background(GrayScale.secondaryButton)
         .cornerRadius(15)
         .padding(.horizontal, 20)
+        .onTapGesture {
+            withAnimation {
+                isCardExpanded.toggle() // 확장/축소 상태 토글
+            }
+        }
     }
     
 }
@@ -172,10 +173,9 @@ private struct AnswerScrollView: View {
     fileprivate init(viewModel: TodayAnswersViewModel, tab: Binding<Tab>, isBottomSheetPresented: Binding<Bool>) {
         self.viewModel = viewModel
         //sharedData = SharedData()
-  //      self.seeMoreAction = {}
+        //self.seeMoreAction = {}
         self._isBottomSheetPresented = isBottomSheetPresented
         self._tab = tab
-       
     }
   
     var body: some View {
