@@ -132,12 +132,14 @@ extension AuthViewModel {
     @MainActor
     func requestEmailCertification() {
         Task {
-            let _ = try await NetworkManager.requestUniversityMailAuth(
-                request: .init(
-                    key: APIKey.univcertKey,
-                    email: "\(email)@postech.ac.kr"
-                )
-            )
+            do {
+                let _ = try await NetworkManager.requestUniversityMailAuth(
+                    request: .init(
+                        key: APIKey.univcertKey,
+                        email: "\(email)@postech.ac.kr"))
+            } catch {
+                requestClearEmail()
+            }
             
             // 인증 코드 초기화
             certifyCode.removeAll()
@@ -166,6 +168,21 @@ extension AuthViewModel {
                 // 인증 실패 케이스
                 isCertifyCodeInvalid = true
                 isCertifyCodeFailed = true
+            }
+        }
+    }
+    
+    /// 대학 이메일 인증을 초기화합니다.
+    @MainActor
+    func requestClearEmail() {
+        Task {
+            do {
+                let _ = try await NetworkManager.requestClearEmailUniversity(
+                    request: .init(key: APIKey.univcertKey),
+                    email: email)
+                requestEmailCertification()
+            } catch {
+                print("대학 메일 인증 초기화에 실패했습니다.")
             }
         }
     }
