@@ -72,6 +72,9 @@ struct TodayQuestionView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.updateTodayQuestionView()
+                
+                // TODO: 오전 7시, 오후 6시 업데이트 코드 작성 -> 테스트 필요
+                viewModel.dateManager.updateForQuestionTime()
             }
         }
     }
