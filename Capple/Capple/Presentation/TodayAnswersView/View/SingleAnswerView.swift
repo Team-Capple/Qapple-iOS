@@ -37,7 +37,7 @@ struct SingleAnswerView: View {
                 // MARK: - 프로필이미지
                
                 Image(answer.profileImage != nil && !answer.profileImage!.isEmpty ? answer.profileImage! : "profileDummyImage")
-                    //.resizable()
+                     .resizable()
                     .frame(width: 28, height: 28)
                     .clipShape(Circle())
               

@@ -17,42 +17,44 @@ struct AnswerCell: View {
     let seeMoreAction: () -> Void
     
     var body: some View {
-        HStack(alignment: .top) {
-            
-            // 프로필 이미지
-            Image(
-                profileImage != nil && !profileImage!.isEmpty ?profileImage! : "profileDummyImage"
-            )
+        VStack {
+            HStack {
+                // 프로필 이미지
+                Image(
+                    profileImage != nil && !profileImage!.isEmpty ?profileImage! : "profileDummyImage"
+                )
                 .resizable()
                 .frame(width: 28, height: 28)
-            
-            Spacer()
-                .frame(width: 8)
-            
-            // 콘텐츠
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(profileName)
-                        .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(TextLabel.sub2)
-                        .frame(height: 10)
-                        .padding(.top, 8)
-                        
-                    
-                    Spacer()
-                    
-                    // 더보기
-                    Button {
-                        seeMoreAction()
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundStyle(TextLabel.sub2)
-                            .frame(width: 20, height: 20)
-                    }
-                }
                 
                 Spacer()
-                    .frame(height: 8)
+                    .frame(width: 8)
+                
+                // 콘텐츠
+                //      VStack(alignment: .leading) {
+                //        HStack {
+                Text(profileName)
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(TextLabel.sub2)
+                    .frame(height: 10)
+                // .padding(.top, 8)
+                
+                
+                Spacer()
+                
+                // 더보기
+                Button {
+                    seeMoreAction()
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .foregroundStyle(TextLabel.sub2)
+                        .frame(width: 20, height: 20)
+                    //              }
+                    //        }
+                }
+            }
+            Spacer()
+                .frame(height: 8)
+            VStack(alignment: .leading){
                 
                 // 답변
                 Text(answer)
@@ -61,6 +63,7 @@ struct AnswerCell: View {
                     .lineLimit(.max)
                     .lineSpacing(6)
                     .multilineTextAlignment(.leading)
+                    .frame(height: 11)
                 
                 Spacer()
                     .frame(height: 12)
@@ -71,11 +74,13 @@ struct AnswerCell: View {
                     Text("#\(keyword)")
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(BrandPink.text)
+                        .frame(height: 10)
                 }
-            }
+            }.padding(.horizontal, 36)
+        }
         }
     }
-}
+
 
 #Preview {
     ZStack {
