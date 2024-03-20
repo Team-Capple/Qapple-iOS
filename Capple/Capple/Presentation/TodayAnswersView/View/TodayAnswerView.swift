@@ -85,7 +85,7 @@ private struct KeywordScrollView: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack {
                 ForEach(viewModel.keywords, id: \.self) { keyword in
                     KeywordSelector(
                         keywordText: keyword,
@@ -94,7 +94,7 @@ private struct KeywordScrollView: View {
                         }
                 }
             }
-            .padding(.horizontal, 20)
+            //.padding(.horizontal, 20)
         }
     }
 }
@@ -122,6 +122,9 @@ private struct FloatingQuestionCard: View {
             Text(todayQuestionText)
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.main)
+            
+            
+                .lineSpacing(6)
                 .lineLimit(isCardExpanded ? 3 : 0)
             Spacer()
             Image(isCardExpanded ? .arrowUp : .arrowDown)
