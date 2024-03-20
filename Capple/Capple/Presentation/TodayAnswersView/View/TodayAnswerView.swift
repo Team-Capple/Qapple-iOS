@@ -85,7 +85,7 @@ private struct KeywordScrollView: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack {
                 ForEach(viewModel.keywords, id: \.self) { keyword in
                     KeywordSelector(
                         keywordText: keyword,
@@ -94,7 +94,7 @@ private struct KeywordScrollView: View {
                         }
                 }
             }
-            .padding(.horizontal, 20)
+            //.padding(.horizontal, 20)
         }
     }
 }
@@ -112,7 +112,7 @@ private struct FloatingQuestionCard: View {
     var todayQuestionText: AttributedString {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
-        let creatingText = AttributedString("\(questionContent)")
+        let creatingText = AttributedString("\(questionContent)입니다릿다릿두줄입니다릿다릿")
         print(questionContent, "TodayAnswersViewModel에서 todayQuestion 스트링")
         return questionMark + creatingText
     }
@@ -122,6 +122,9 @@ private struct FloatingQuestionCard: View {
             Text(todayQuestionText)
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.main)
+            
+            
+                .lineSpacing(6)
                 .lineLimit(isCardExpanded ? 3 : 0)
             Spacer()
             Image(isCardExpanded ? .arrowUp : .arrowDown)
@@ -129,11 +132,7 @@ private struct FloatingQuestionCard: View {
                        .frame(width: 28, height: 28)
                        .foregroundColor(.white)
                }
-               .onTapGesture {
-                   withAnimation {
-                       isCardExpanded.toggle() // 확장/축소 상태 토글
-                   }
-               }
+               
         /*
             Button {
                 withAnimation {
@@ -152,6 +151,11 @@ private struct FloatingQuestionCard: View {
         .background(GrayScale.secondaryButton)
         .cornerRadius(15)
         .padding(.horizontal, 20)
+        .onTapGesture {
+            withAnimation {
+                isCardExpanded.toggle() // 확장/축소 상태 토글
+            }
+        }
     }
     
 }
@@ -172,10 +176,9 @@ private struct AnswerScrollView: View {
     fileprivate init(viewModel: TodayAnswersViewModel, tab: Binding<Tab>, isBottomSheetPresented: Binding<Bool>) {
         self.viewModel = viewModel
         //sharedData = SharedData()
-  //      self.seeMoreAction = {}
+        //self.seeMoreAction = {}
         self._isBottomSheetPresented = isBottomSheetPresented
         self._tab = tab
-       
     }
   
     var body: some View {
@@ -202,6 +205,8 @@ private struct AnswerScrollView: View {
                                 .presentationDetents([.height(84)])
                         }
                         Separator()
+                            .padding(.leading, 24)
+                       
                    
                     }
                     //.padding(.bottom, 16)

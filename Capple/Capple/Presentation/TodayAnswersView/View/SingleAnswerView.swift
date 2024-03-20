@@ -30,68 +30,88 @@ struct SingleAnswerView: View {
     
     var body: some View {
         
-        HStack(alignment: .top, spacing: 8) {
-                    VStack{
-                        Image(answer.profileImage != nil && !answer.profileImage!.isEmpty ? answer.profileImage! : "profileDummyImage")
-                            .resizable()
-                            .frame(width: 28, height: 28)
-                            .clipShape(Circle())
-                    }
-                    VStack{
-                        VStack(alignment: .leading){
-                            HStack (alignment: .center){
-                                HStack{
-                                    Text(answer.nickname ?? "nickname")
-                                        .font(.pretendard(.semiBold, size: 14))
-                                        .foregroundStyle(TextLabel.sub2)
-                                        .frame(height: 10)
-                                    
-                                    
-                                    Spacer()
-                                    
-                                    Button {
-                                        //showingReportSheet = true
-                                        seeMoreAction()
-                                        
-                                        
-                                    } label: {
-                                        Image(systemName: "ellipsis")
-                                            .foregroundStyle(TextLabel.sub2)
-                                            .frame(width: 20, height: 20)
-                                    }
-                                }
-                            }
+        VStack {// MARK: - 전체 vstack
+            
+            // MARK: - 프로필이미지 + 닉네임+버튼 hstack
+          HStack {
+                // MARK: - 프로필이미지
+               
+                Image(answer.profileImage != nil && !answer.profileImage!.isEmpty ? answer.profileImage! : "profileDummyImage")
+                     .resizable()
+                    .frame(width: 28, height: 28)
+                    .clipShape(Circle())
+              
+                // MARK: - 닉네임 + 버튼 hstack
+                        Text(answer.nickname ?? "nickname")
+                            .font(.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(TextLabel.sub2)
+                            .frame(height: 10)
+                        
+                        
+                        Spacer()
+             
+                        Button {
+                            //showingReportSheet = true
+                            seeMoreAction()
+                            
+                            
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundStyle(TextLabel.sub2)
+                                .frame(width: 20, height: 20)
                         }
-                        
-                        Spacer().frame(height: 8)
-                        
-                        VStack(alignment: .leading) {
-                               Text(answer.content ?? "content")
-                                   .font(.pretendard(.medium, size: 16))
-                                   .foregroundStyle(TextLabel.main)
-                                   .lineLimit(nil)
-                                   .lineSpacing(6)
-                                   .multilineTextAlignment(.leading)
-                                   .frame(maxWidth: .infinity, alignment: .leading) // 왼쪽 정렬
-
-                            Spacer()
-                                .frame(height: 12)
-
-                               HStack(alignment: .top, spacing: 8) {
-                                   ForEach(answer.tags?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in
-                                       Text("#\(tag)")
-                                           .font(.pretendard(.semiBold, size: 14))
-                                           .foregroundColor(BrandPink.text)
-                                   }
-                               }
-                               .frame( alignment: .leading)
-                           }
-                      //  Spacer()
-                           
                     }
-                 //   .frame(maxWidth: .infinity, alignment: .leading)
+            
+            
+            Spacer().frame(height: 8)
+            // MARK: - 내용+태그  vstack
+            VStack{
+                
+                // MARK: - 내용 hstack
+                HStack(alignment: .top) {
+                    
+                    Text(answer.content ?? "content")
+                        .font(.pretendard(.medium, size: 16))
+                        .foregroundStyle(TextLabel.main)
+                        .lineLimit(nil)
+                        .lineSpacing(6)
+                        .multilineTextAlignment(.leading)
+                       .frame(height: 11)
+                        .frame(maxWidth: .infinity, alignment: .leading) // 왼쪽 정렬
+                    
+                }
+                
+                
+                // MARK: - 내용 - 태그 스페이싱 12 높이
+                
+                Spacer().frame(height: 12)
+                
+                // MARK: - 태그 hstack
+                HStack {
+                    HStack(alignment: .top, spacing: 8) {
+                        ForEach(answer.tags?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in
+                            Text("#\(tag)")
+                                .font(.pretendard(.semiBold, size: 14))
+                                .foregroundColor(BrandPink.text)
+                                .frame(height: 10)
+                        }
                     }
-                .padding(24)
+                    // 뒤의 간격을 채우기 위함
+                    Spacer()
+                }
+                
+                
+            }.padding(.leading, 36)
+            
+            
+            //  Spacer()
+            
+            // }
+        } .padding(24)
+        
+    }            //   .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                
                 
                
      //           }
@@ -109,9 +129,9 @@ struct SingleAnswerView: View {
                         }
                 }
                  */
-            }
+            
            
-    }
+
         /*
             .onTapGesture {
                 self.innerShowingReportSheet = true
