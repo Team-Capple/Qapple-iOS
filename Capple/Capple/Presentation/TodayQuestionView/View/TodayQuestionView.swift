@@ -27,7 +27,7 @@ struct TodayQuestionView: View {
                     principalView: {
                         HStack(spacing: 20) {
                             Button {
-                                // TODO: - 답변하기 리프레시
+                                viewModel.updateTodayQuestionView()
                             } label: {
                                 Text("답변하기")
                                     .font(.pretendard(.semiBold, size: 14))
@@ -66,6 +66,9 @@ struct TodayQuestionView: View {
                     }
                 }
                 .scrollIndicators(.hidden)
+                .refreshable {
+                    viewModel.updateTodayQuestionView()
+                }
             }
             .background(Background.second)
             .navigationBarBackButtonHidden()
@@ -292,8 +295,6 @@ private struct AnswerPreview: View {
                     Separator()
                         .padding(.leading, 24)
                     
-                 //   Spacer()
-                    
                     // 답변 있는 케이스
                     ForEach(viewModel.answerList, id: \.self) { answer in
                         VStack {
@@ -312,11 +313,7 @@ private struct AnswerPreview: View {
                             Separator()
                                 .padding(.leading, 24)
                         }
-                       // .padding(.bottom, 16)
                     }
-                    
-                //    Spacer()
-                     //   .frame(height: 32)
                 }
             }
         }
