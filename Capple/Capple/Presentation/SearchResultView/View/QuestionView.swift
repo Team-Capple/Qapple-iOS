@@ -13,10 +13,7 @@ struct QuestionView: View {
     let seeMoreAction: () -> Void
     var questionStatus: String = ""
     
-    
-    
     // MARK: - 타임존, 데이트
-    
     func getAmPmFromDateString(_ dateString: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // 입력 문자열 형식
@@ -112,7 +109,6 @@ struct QuestionView: View {
                 Text(formattedDate(from: questions.livedAt ?? "default"))
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
-                
                 
                 Spacer()
                     .frame(width: 8)

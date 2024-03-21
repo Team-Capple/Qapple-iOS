@@ -16,7 +16,6 @@ struct SearchResultView: View {
                 .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
             
             VStack(spacing: 0) {
-                
                 CustomNavigationBar(
                     leadingView: { },
                     principalView: {
@@ -55,19 +54,12 @@ struct SearchResultView: View {
                 HeaderView(viewModel: viewModel)
                 
                 QuestionListView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
-                    .environmentObject(pathModel)
                 
                 Spacer()
                     .frame(height: 0)
-                
-                
             }
         }
         .navigationBarBackButtonHidden()
-        .onAppear {
-            viewModel.getQuestions(accessToken: accessToken)
-        }
-        
     }
     
     // MARK: - HeaderView
@@ -92,7 +84,6 @@ struct SearchResultView: View {
         }
     }
     
-    
     // MARK: - QuestionListView
     private struct QuestionListView: View {
         
@@ -113,8 +104,6 @@ struct SearchResultView: View {
             
         }
         
-        
-        
         var body: some View {
             
             VStack(spacing: 20) {
@@ -126,11 +115,10 @@ struct SearchResultView: View {
                     Spacer()
                     
                 }
-                
-                
                 .padding(.horizontal, 24)
                 
                 Separator()
+                
                 ScrollView {
                     LazyVStack(spacing: 24) {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
@@ -158,20 +146,20 @@ struct SearchResultView: View {
                             .frame(height: 32)
                     }
                 }
-                
             }
             
             .padding(.top, 24)
             .scrollIndicators(.hidden)
             .refreshable {
-                viewModel.getQuestions(accessToken: accessToken ) // ViewModel에서 원래 목록을 다시 로드하는 메서드를 호출합니다.
+                // ViewModel에서 원래 목록을 다시 로드하는 메서드를 호출합니다.
+                viewModel.getQuestions(accessToken: accessToken )
             }
         }
     }
 }
 
- #Preview {
-     SearchResultView(viewModel: .init(), tab: .constant(.collecting))
-         .environmentObject(PathModel())
-         .environmentObject(AuthViewModel())
- }
+#Preview {
+    SearchResultView(viewModel: .init(), tab: .constant(.collecting))
+        .environmentObject(PathModel())
+        .environmentObject(AuthViewModel())
+}

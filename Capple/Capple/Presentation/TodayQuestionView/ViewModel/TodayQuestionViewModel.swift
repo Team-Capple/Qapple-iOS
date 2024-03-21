@@ -16,14 +16,12 @@ final class TodayQuestionViewModel: ObservableObject {
     
     @Published var timeZone: QuestionTimeZone
     @Published var state: QuestionState?
-    @Published var timerSeconds: String
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.AnswerInfos]
     
     init() {
         let currentTimeZone = dateManager.fetchTimezone()
         self.timeZone = currentTimeZone
-        self.timerSeconds = dateManager.fetchTimerSeconds(currentTimeZone)
         
         // 변수 초기화
         self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)

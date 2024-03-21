@@ -25,18 +25,4 @@ struct QuestionTimeManager {
         
         return timeZone
     }
-    
-    /// 다음 질문 생성까지 남은 시간을 문자열 형태로 반환합니다.
-    /// ex) 03:35:56
-    func fetchTimerSeconds(_ timeZone: QuestionTimeZone) -> String {
-        let calendar = Calendar.current
-        let date = Date()
-        var targetTime = DateComponents()
-        
-        if timeZone == .amCreate { targetTime = DateComponents(hour: 1) }
-        else if timeZone == .pmCreate { targetTime = DateComponents(hour: 18) }
-        
-        guard let targetDate = calendar.nextDate(after: date, matching: targetTime, matchingPolicy: .strict) else { return "00:00:00" }
-        return targetDate.timeIntervalSince(date).timerFormat
-    }
 }
