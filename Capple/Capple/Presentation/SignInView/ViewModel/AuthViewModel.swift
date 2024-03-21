@@ -13,6 +13,8 @@ class AuthViewModel: ObservableObject {
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var isSignUp = false // 회원가입 로직 실행용
     
+    @Published var isSignInLoading = false // 로그인 로딩 용도
+    
     @Published var authorizationCode: String = "" // 로그인 인증 코드
     @Published var nickname: String = "" // 닉네임
     @Published var email: String = "" // 이메일
@@ -63,17 +65,9 @@ extension AuthViewModel {
             print("Apple Login Successful")
             switch authResults.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                // let userIdentifier = appleIDCredential.user
-                // let fullName = appleIDCredential.fullName
-                // let name = (fullName?.familyName ?? "") + (fullName?.givenName ?? "")
-                // let email = appleIDCredential.email
-                // let identityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
                 let authorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? "인증 코드 생성 실패"
                 
-                DispatchQueue.main.async { /*[weak self] in*/
-                    // print("Name: \(name)")
-                    // print("Email: \(email)")
-                    // print("IdentityToken: \(identityToken)")
+                DispatchQueue.main.async {
                     print("AuthorizationCode: \(authorizationCode)")
                 }
                 
@@ -91,9 +85,11 @@ extension AuthViewModel {
                             print("아직 멤버가 아니군! 회원가입 필요")
                             isSignUp = true
                         }
-                        
+                        isSignInLoading = false
                     } catch {
                         print("로그인 요칭 실패,,,")
+                        isSignInLoading = false
+                        // TODO: 로그인 실패 Alert
                     }
                     
                     print("\n액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
