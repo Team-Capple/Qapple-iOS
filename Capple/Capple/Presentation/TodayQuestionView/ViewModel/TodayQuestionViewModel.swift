@@ -10,6 +10,7 @@ import Foundation
 final class TodayQuestionViewModel: ObservableObject {
     
     let dateManager = QuestionTimeManager()
+    var timer: Timer?
     
     @Published var remainingTime = TimeInterval()
     
@@ -150,6 +151,8 @@ extension TodayQuestionViewModel {
     @MainActor
     func startTimer() {
         
+        timer?.invalidate()
+        
         if timeZone == .amCreate {
             let calendar = Calendar.current
             let now = Date()
@@ -176,7 +179,7 @@ extension TodayQuestionViewModel {
             self.remainingTime = pm.timeIntervalSinceNow
         }
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
             guard let self else { return }
             remainingTime -= 1
             
