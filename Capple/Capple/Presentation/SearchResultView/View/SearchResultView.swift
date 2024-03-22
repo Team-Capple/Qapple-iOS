@@ -121,11 +121,9 @@ struct SearchResultView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 24) {
-                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) {
-                            index,
-                            question in
+                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
-                                QuestionView(tab: $tab, questions: question){
+                                QuestionView(questions: question, tab: $tab, questionNumber: viewModel.questions.count - index) {
                                     isBottomSheetPresented.toggle()
                                 }
                                 .onTapGesture {

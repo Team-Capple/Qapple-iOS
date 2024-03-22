@@ -23,9 +23,6 @@ enum PathType: Hashable {
     case searchKeyword // 키워드 검색
     
     /// 모아보기
-    ///
-    /// 모아보기
- //   case todayAnswer
     case todayAnswer(questionId: Int, questionContent: String)
     
     /// 마이페이지

@@ -52,7 +52,7 @@ struct ConfirmAnswerView: View {
                 
                 KeywordView(viewModel: viewModel,
                             isButtonActive: $isButtonActive)
-                    .padding(.horizontal, 20)
+                .padding(.horizontal, 20)
                 
                 Spacer()
                     .frame(height: 24)
@@ -71,8 +71,9 @@ struct ConfirmAnswerView: View {
                         // TODO: TodayAnswerView로 이동해야 함!
                     }
                 }
-                    .padding(.horizontal, 24)
-                    .animation(.bouncy(duration: 0.3), value: isButtonActive)
+                .padding(.horizontal, 24)
+                .padding(.bottom, 16)
+                .animation(.bouncy(duration: 0.3), value: isButtonActive)
             }
         }
         .background(Background.second)

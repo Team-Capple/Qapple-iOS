@@ -90,7 +90,7 @@ extension AuthViewModel {
                         // TODO: 로그인 실패 Alert
                     }
                     
-                    // print("액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
+                    print("액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
                 }
                 
             default:

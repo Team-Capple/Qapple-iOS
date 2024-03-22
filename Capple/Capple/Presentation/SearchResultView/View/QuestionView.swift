@@ -4,15 +4,21 @@ import Foundation
 
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionView: View {
+    
     @EnvironmentObject var pathModel: PathModel
-    @Binding var tab: Tab
+    
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
     @State var questions: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
     @State private var dateString: String = "" // 상태 변수 정의
-    //@ObservedObject var viewModel:TodayQuestionViewModel
+    
+    @Binding var tab: Tab
+    
+    let questionNumber: Int
     let seeMoreAction: () -> Void
+    
     var questionStatus: String = ""
     
+    // MARK: - 메서드
     func formattedDate(from dateString: String) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -26,7 +32,6 @@ struct QuestionView: View {
         }
     }
     // MARK: - 오전/오후 시간표현
-    
     func getTimePeriod(from dateString: String) -> String? {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -35,12 +40,20 @@ struct QuestionView: View {
         if let date = inputFormatter.date(from: dateString) {
             let calendar = Calendar.current
             let hour = calendar.component(.hour, from: date)
+            let minute = calendar.component(.minute, from: date)
             
-            // TODO: 로직 추가하기 (시간대에 맞추기)
-            if hour < 12 {
+            // 오전 7시 ~ 오후 6시 : AM
+            // 오후 6시 ~ 오전 1시 : PM
+            if (7...13).contains(hour) {
                 return "오전"
-            } else {
+            } else if (14...15).contains(hour) && (0...5).contains(minute) {
+                return "오전"
+            } else if (18...24).contains(hour) ||  0 == hour {
                 return "오후"
+            } else if (1...2).contains(hour) && (0...5).contains(minute) {
+                return "오후"
+            } else {
+                return "바르지않은 시간대의 질문"
             }
         } else {
             return "잘못됨" // 잘못된 입력 형식일 경우 처리
@@ -88,7 +101,7 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 4)
                 
-                Text("#\(questions.questionId ?? 0)")
+                Text("#\(questionNumber)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
@@ -168,6 +181,7 @@ extension Date {
 }
 
 #Preview {
-    QuestionView(tab: .constant(.collecting), questions: DummyData.questionsInfo, seeMoreAction: {})
+    QuestionView(questions: DummyData.questionsInfo, tab: .constant(.collecting),
+                 questionNumber: 0) {}
         .environmentObject(PathModel())
 }
