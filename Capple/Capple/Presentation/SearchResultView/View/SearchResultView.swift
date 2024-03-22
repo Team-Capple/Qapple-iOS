@@ -148,7 +148,8 @@ struct SearchResultView: View {
                             Separator()
                                 .padding(.leading, 24)
                         }
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 0)
+                        
                         Spacer()
                             .frame(height: 32)
                     }
@@ -158,7 +159,6 @@ struct SearchResultView: View {
             .padding(.top, 24)
             .scrollIndicators(.hidden)
             .refreshable {
-                // ViewModel에서 원래 목록을 다시 로드하는 메서드를 호출합니다.
                 viewModel.getQuestions()
             }
         }

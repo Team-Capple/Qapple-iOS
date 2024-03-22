@@ -47,8 +47,6 @@ struct QuestionView: View {
         }
     }
     
-    
-    
     var questionStatusRawValue: String {
         switch questions.questionStatus {
         case .live:
@@ -59,7 +57,6 @@ struct QuestionView: View {
     }
     
     var body: some View {
-        
         
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -100,6 +97,7 @@ struct QuestionView: View {
                     
                 }
             }
+            
             Spacer()
                 .frame(height: 16)
             
@@ -119,8 +117,8 @@ struct QuestionView: View {
                     .joined(separator: " ") ?? "#tag")
                 .font(.pretendard(.semiBold, size: 14))
                 .foregroundStyle(BrandPink.text)
-                Spacer()
                 
+                Spacer()
                 
                 if questions.isAnswered == false { // isAnswered가 true일 때만 표시
                     Button {
@@ -137,11 +135,6 @@ struct QuestionView: View {
                     }
                 }
             }
-            
-            // MARK: - 좋아요, 댓글
-            HStack {
-                
-            }
         }
         .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
     }
@@ -151,19 +144,15 @@ struct DummyData {
     static let questionsInfo = QuestionResponse.Questions.QuestionsInfos(questionStatus: .live, livedAt: "2021-01-01T00:00:00Z", content: "This is a sample question", isAnswered: true)
 }
 
-// SwiftUI 프리뷰 구성
-struct QuestionView_Previews: PreviewProvider {
-    static var previews: some View {
-        // 여기서 필요한 모든 데이터를 전달합니다.
-        // 예시용으로 임시 데이터를 생성하거나 기본값을 설정합니다.
-        QuestionView(tab: .constant(.collecting), questions: DummyData.questionsInfo, seeMoreAction: {}).environmentObject(PathModel())
-    }
-}
-
 extension Date {
     func formattedDate() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: self)
     }
+}
+
+#Preview {
+    QuestionView(tab: .constant(.collecting), questions: DummyData.questionsInfo, seeMoreAction: {})
+        .environmentObject(PathModel())
 }
