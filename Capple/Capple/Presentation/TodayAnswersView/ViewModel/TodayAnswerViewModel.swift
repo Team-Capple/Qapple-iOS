@@ -17,20 +17,9 @@ class TodayAnswersViewModel: ObservableObject {
     @Published var filteredAnswer: [ServerResponse.Answers.AnswersInfos] = []
     @Published var searchQuery = ""
     @Published var isLoading = false
-    @Published var questionId: Int?
-   
-    init(questionId: Int) {
-        self.questionId = questionId
-        loadAnswersForQuestion()
-    }
     
-    func loadAnswersForQuestion() {
-        
-        // 질문 ID 검사
-        guard let questionId = self.questionId else {
-            print("유효하지 않은 질문 ID")
-            return
-        }
+    /// 답변 호출 API입니다.
+    func loadAnswersForQuestion(questionId: Int) {
         
         // URL 생성
         guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else {
@@ -74,17 +63,6 @@ class TodayAnswersViewModel: ObservableObject {
                 }
             }
             .resume()
-        }
-    }
-
-    func loadMoreContentIfNeeded(currentIndex index: Int) {
-        // 배열의 마지막에서 5번째 인덱스를 계산합니다.
-        // 이 값은 더 많은 내용을 로드해야 하는 "임계 인덱스"가 됩니다.
-        let thresholdIndex = answers.count
-        // 현재 인덱스가 임계 인덱스보다 크거나 같으면 추가 데이터를 로드합니다.
-        if index >= thresholdIndex {
-            loadAnswersForQuestion()
-            print("reload 됩니다")
         }
     }
 }
