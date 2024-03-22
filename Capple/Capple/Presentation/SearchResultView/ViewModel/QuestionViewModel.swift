@@ -8,9 +8,7 @@ class QuestionViewModel: ObservableObject {
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     
     
-    init() {
-        getQuestions()
-    }
+    
     
     /// 질문 목록을 받아옵니다.
     func getQuestions() {
