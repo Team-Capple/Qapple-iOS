@@ -79,8 +79,23 @@ struct QuestionView: View {
                     .foregroundStyle(GrayScale.icon)
                 
                 Spacer()
+                    .frame(width: 4)
+                
+                Rectangle()
+                    .frame(width: 1, height: 10)
+                    .foregroundStyle(GrayScale.icon)
+                
+                Spacer()
+                    .frame(width: 4)
+                
+                Text("#\(questions.questionId ?? 0)")
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(GrayScale.icon)
+                
+                Spacer()
                     .frame(width: 8)
                 
+                // LIVE
                 if !questionStatusRawValue.isEmpty{
                     Text(questionStatusRawValue)
                         .font(.pretendard(.bold, size: 9))

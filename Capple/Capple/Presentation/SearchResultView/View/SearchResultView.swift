@@ -58,6 +58,9 @@ struct SearchResultView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            viewModel.getQuestions()
+        }
     }
     
     // MARK: - HeaderView
