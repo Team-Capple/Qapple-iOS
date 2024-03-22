@@ -53,7 +53,7 @@ struct QuestionView: View {
             } else if (1...2).contains(hour) && (0...5).contains(minute) {
                 return "오후"
             } else {
-                return "바르지않은 시간대의 질문"
+                return "특별"
             }
         } else {
             return "잘못됨" // 잘못된 입력 형식일 경우 처리
