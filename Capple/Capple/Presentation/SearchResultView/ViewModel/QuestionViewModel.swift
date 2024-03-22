@@ -7,6 +7,7 @@ class QuestionViewModel: ObservableObject {
     @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
     
+    
     init() {
         getQuestions()
     }
@@ -24,7 +25,7 @@ class QuestionViewModel: ObservableObject {
         
         // 네트워크 통신
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            DispatchQueue.main.async {
+          //  DispatchQueue.main.async {
                 guard let self = self else { return }
                 
                 // 에러 확인
@@ -59,11 +60,12 @@ class QuestionViewModel: ObservableObject {
                     let decodedData = try JSONDecoder().decode(BaseResponse<QuestionResponse.Questions>.self, from: data)
                     DispatchQueue.main.async {
                         self.questions = decodedData.result.questionInfos ?? []
+                        print(self.questions, "데이터가 정말 잘 업데이트 ! 되고 있습니다!! ")
                     }
                 } catch {
                     print("Error decoding question response: \(error)")
                 }
-            }
+          //  }
         }.resume()
     }
 }
