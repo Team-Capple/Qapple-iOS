@@ -31,8 +31,10 @@ struct TodayAnswerView: View {
                 .frame(height: 16)
             
             FloatingQuestionCard(questionContent: questionContent ,tab:$tab, viewModel: viewModel, questionId: questionId)
+            
             Spacer()
-                .frame(height: 32)
+                .frame(height: 24)
+            
             AnswerScrollView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
             
         }

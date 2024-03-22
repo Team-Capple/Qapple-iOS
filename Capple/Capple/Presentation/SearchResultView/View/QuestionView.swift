@@ -69,6 +69,14 @@ struct QuestionView: View {
         }
     }
     
+    /// 리스트 타이틀 텍스트를 반환합니다.
+    var listTitleText: AttributedString {
+        var questionMark = AttributedString("Q. ")
+        questionMark.foregroundColor = BrandPink.text
+        var text = AttributedString("\(questions.content)")
+        return questionMark + text
+    }
+    
     var body: some View {
         
         VStack(alignment: .leading) {
@@ -90,6 +98,7 @@ struct QuestionView: View {
                 Text(formattedDate(from: questions.livedAt ?? "default"))
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
+                    .opacity(questions.questionStatus == .live ? 1 : 0.6)
                 
                 Spacer()
                     .frame(width: 4)
@@ -104,6 +113,7 @@ struct QuestionView: View {
                 Text("#\(questionNumber)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
+                    .opacity(questions.questionStatus == .live ? 1 : 0.6)
                 
                 Spacer()
                     .frame(width: 8)
@@ -130,9 +140,10 @@ struct QuestionView: View {
                 .frame(height: 16)
             
             // MARK: - 본문
-            Text(questions.content ?? "Default Content") // 질문의 내용을 표시합니다.
+            Text(questions.isAnswered ? listTitleText : "질문에 답변 후\n모든 내용을 확인해보세요!") // 질문의 내용을 표시합니다.
                 .font(.pretendard(.bold, size: 17))
                 .foregroundStyle(TextLabel.main)
+                .lineSpacing(4.0)
             
             Spacer()
                 .frame(height: 20)
