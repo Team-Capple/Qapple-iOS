@@ -78,8 +78,6 @@ private struct HomeView: View {
                         case let .todayAnswer(questionId, questionContent):
                             TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
                             
-                            // MARK: - 한톨 코멘트
-                            // 답변하기 뷰 이동할 때 메인 질문만 넘겨주면 되서 요렇게 변경했슴다!
                         case .answer:
                             AnswerView(viewModel: answerViewModel)
                             
