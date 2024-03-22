@@ -118,7 +118,9 @@ struct SearchResultView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 24) {
-                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
+                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) {
+                            index,
+                            question in
                             VStack(spacing: 20) {
                                 QuestionView(tab: $tab, questions: question){
                                     isBottomSheetPresented.toggle()
@@ -132,7 +134,14 @@ struct SearchResultView: View {
                                         return
                                     }
                                     
-                                    pathModel.paths.append(.todayAnswer(questionId: id, questionContent: viewModel.contentForQuestion(withId: id) ?? "내용 없음"))
+                                    pathModel.paths.append(
+                                        .todayAnswer(
+                                            questionId: id,
+                                            questionContent: viewModel.contentForQuestion(
+                                                withId: id
+                                            ) ?? "내용 없음"
+                                        )
+                                    )
                                 }
                                 .alert("답변을 먼저 해야 볼 수 있어요", isPresented: $isAnsweredAlert) {
                                     Button("확인", role: .none, action: {})
