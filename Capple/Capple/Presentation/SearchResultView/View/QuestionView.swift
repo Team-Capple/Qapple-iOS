@@ -164,8 +164,12 @@ struct QuestionView: View {
                 
                 if !questions.isAnswered { // isAnswered가 true일 때만 표시
                     Button {
-                        // TODO: 답변하기 뷰에서 id 까지 전달 => 제목 보여주기(정보는 있음)
-                        pathModel.paths.append(.answer)
+                        pathModel.paths.append(
+                            .answer(
+                                questionId: questions.questionId ?? 0,
+                                questionContent: questions.content
+                            )
+                        )
                     } label: {
                         Text("답변하기")
                             .font(.pretendard(.medium, size: 14))

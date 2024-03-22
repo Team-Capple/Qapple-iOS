@@ -43,8 +43,12 @@ private struct HomeView: View {
                 TodayQuestionView(tab: $tab)
                     .navigationDestination(for: PathType.self) { path in
                         switch path {
-                        case .answer:
-                            AnswerView(viewModel: answerViewModel)
+                        case .answer(let questionId, let questionContent):
+                            AnswerView(
+                                viewModel: answerViewModel,
+                                questionId: questionId,
+                                questionContent: questionContent
+                            )
                             
                         case .confirmAnswer:
                             ConfirmAnswerView(viewModel: answerViewModel)
@@ -86,8 +90,12 @@ private struct HomeView: View {
                                 questionContent: questionContent
                             )
                             
-                        case .answer:
-                            AnswerView(viewModel: answerViewModel)
+                        case .answer(let questionId, let questionContent):
+                            AnswerView(
+                                viewModel: answerViewModel,
+                                questionId: questionId,
+                                questionContent: questionContent
+                            )
                             
                         case .confirmAnswer:
                             ConfirmAnswerView(viewModel: answerViewModel)

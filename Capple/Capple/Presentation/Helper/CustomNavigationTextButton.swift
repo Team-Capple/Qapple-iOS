@@ -20,6 +20,7 @@ struct CustomNavigationTextButton: View {
     let title: String // 버튼 타이틀
     let color: Color // 버튼 컬러
     let buttonType: ButtonType // 버튼 타입
+    let action: () -> Void
     
     var body: some View {
         Button {
@@ -29,6 +30,7 @@ struct CustomNavigationTextButton: View {
             case let .next(pathType):
                 pathModel.paths.append(pathType)
             }
+            action()
         } label: {
             Text(title)
             .foregroundStyle(color)
@@ -41,5 +43,5 @@ struct CustomNavigationTextButton: View {
         title: "String",
         color: TextLabel.main,
         buttonType: .dismiss
-    )
+    ) {}
 }

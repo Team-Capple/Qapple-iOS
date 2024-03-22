@@ -210,7 +210,12 @@ private struct HeaderButtonView: View {
                 ? .primary : .secondary
             ) {
                 if viewModel.state == .ready {
-                    pathModel.paths.append(.answer)
+                    pathModel.paths.append(
+                        .answer(
+                            questionId: viewModel.mainQuestion.questionId,
+                            questionContent: viewModel.mainQuestion.content
+                        )
+                    )
                 } else {
                     pathModel.paths.append(
                         .todayAnswer(

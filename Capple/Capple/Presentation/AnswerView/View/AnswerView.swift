@@ -15,6 +15,9 @@ struct AnswerView: View {
     @State private var isBackAlertPresented = false
     @FocusState private var isTextFieldFocused: Bool
     
+    let questionId: Int
+    let questionContent: String
+    
     // TODO: 뒤로가기 제스처 기능 삭제해야댐
     var body: some View {
         
@@ -36,8 +39,11 @@ struct AnswerView: View {
                             color: viewModel.answer.isEmpty ?
                             TextLabel.disable : BrandPink.text,
                             buttonType: .next(pathType: .confirmAnswer)
-                        )
-                            .disabled(viewModel.answer.isEmpty ? true : false)
+                        ) {
+                            viewModel.questionId = questionId
+                            viewModel.questionContent = questionContent
+                        }
+                        .disabled(viewModel.answer.isEmpty ? true : false)
                     },
                     backgroundColor: .clear
                 )
@@ -45,7 +51,7 @@ struct AnswerView: View {
                 Spacer()
                     .frame(height: 24)
                 
-                Text(viewModel.questionText)
+                Text(viewModel.questionText(questionContent))
                     .font(.pretendard(.bold, size: 23))
                     .foregroundStyle(BrandPink.subText)
                     .multilineTextAlignment(.center)
@@ -104,30 +110,25 @@ struct AnswerView: View {
                 }
                 .padding(.bottom, 12)
             }
+            .navigationBarBackButtonHidden()
             .onTapGesture {
                 isTextFieldFocused = false
             }
-            .navigationBarBackButtonHidden()
             .alert("삭제해버린다??", isPresented: $isBackAlertPresented) {
                 HStack {
-                    Button("취소", role: .cancel, action: {})
-                    Button("확인", role: .none, action: {
+                    Button("취소", role: .cancel) {}
+                    Button("확인", role: .none) {
                         viewModel.resetAnswerInfo()
                         pathModel.paths.removeLast()
-                    })
+                    }
                 }
             } message: {
                 Text("지금까지 작성한 답변이 사라져요")
-            }
-            .onAppear {
-                Task {
-                    await viewModel.requestMainQuestion()
-                }
             }
         }
     }
 }
 
 #Preview {
-    AnswerView(viewModel: .init())
+    AnswerView(viewModel: .init(), questionId: 1, questionContent: "메인 질문 입니당!")
 }

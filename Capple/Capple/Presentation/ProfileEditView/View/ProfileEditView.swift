@@ -12,11 +12,11 @@ struct ProfileEditView: View {
     @EnvironmentObject var pathModel: PathModel
     @StateObject private var viewModel: ProfileEditViewModel = .init()
     
-    // 추후 중복 검사 변수 나오면 삭제 예정
+    @State var defaultNickName: String
     @State private var isEnableButton: Bool = false
     @State private var isClicked: Bool = false
+    @State private var isEditFailed = false
     
-    @State var defaultNickName: String
     private let nicknameLimit: Int = 15
     private var description: String = "* 캐플주스는 익명 닉네임을 권장하고 있어요"
     private var validationFailedDescription: String = "이미 사용 중인 닉네임이에요"
@@ -42,8 +42,12 @@ struct ProfileEditView: View {
                 trailingView: {
                     Button {
                         Task {
-                            viewModel.requestEditProfile()
-                            pathModel.paths.removeLast()
+                            do {
+                                try await viewModel.requestEditProfile()
+                                pathModel.paths.removeLast()
+                            } catch {
+                                isEditFailed.toggle()
+                            }
                         }
                     } label: {
                         Text("완료")
@@ -51,6 +55,11 @@ struct ProfileEditView: View {
                             .foregroundStyle(isEnableButton ? BrandPink.text : TextLabel.sub4)
                     }
                     .disabled(!isEnableButton)
+                    .alert("회원 정보 수정에 실패했습니다", isPresented: $isEditFailed) {
+                        Button("확인", role: .none, action: {})
+                    } message: {
+                        Text("다시 요청해주세요")
+                    }
                 },
                 backgroundColor: Background.second)
             
