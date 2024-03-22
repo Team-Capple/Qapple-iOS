@@ -66,9 +66,6 @@ struct SingleAnswerView: View {
                         .frame(maxWidth: .infinity, alignment: .leading) // 왼쪽 정렬
                 }
                 
-                
-                // MARK: - 내용 - 태그 스페이싱 12 높이
-                
                 Spacer().frame(height: 12)
                 
                 // MARK: - 태그 hstack
