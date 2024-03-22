@@ -52,8 +52,8 @@ final class NotificationManager {
         content.sound = .default
         
         var dateComponents = DateComponents()
-        dateComponents.hour = 2
-        dateComponents.minute = 9
+        dateComponents.hour = 7
+        dateComponents.minute = 0
         dateComponents.second = 0
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)

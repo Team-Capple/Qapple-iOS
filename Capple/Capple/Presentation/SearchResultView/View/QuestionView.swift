@@ -164,7 +164,6 @@ struct QuestionView: View {
     }
 }
  
-
 struct DummyData {
     static let questionsInfo = QuestionResponse.Questions.QuestionsInfos(questionStatus: .live, livedAt: "2021-01-01T00:00:00Z", content: "This is a sample question", isAnswered: true)
 }
@@ -177,8 +176,6 @@ struct QuestionView_Previews: PreviewProvider {
         QuestionView(tab: .constant(.collecting), questions: DummyData.questionsInfo, seeMoreAction: {}).environmentObject(PathModel())
     }
 }
-
-
 
 extension Date {
     func formattedDate() -> String {
