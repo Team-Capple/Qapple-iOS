@@ -23,14 +23,18 @@ extension ProfileEditViewModel {
     
     /// 회원 정보 수정을 요청합니다.
     @MainActor
-    func requestEditProfile() {
+    func requestEditProfile() async throws {
         Task {
-            try await NetworkManager.requestEditProfile(
-                request: .init(
-                    nickname: nickName,
-                    profileImage: nil
+            do {
+                let _ = try await NetworkManager.requestEditProfile(
+                    request: .init(
+                        nickname: nickName,
+                        profileImage: nil
+                    )
                 )
-            )
+            } catch {
+                print("회원 정보 수정 실패")
+            }
         }
     }
 }
