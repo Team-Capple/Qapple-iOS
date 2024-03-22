@@ -89,8 +89,8 @@ struct SearchResultView: View {
         @ObservedObject private var viewModel: QuestionViewModel
         @Binding var isBottomSheetPresented: Bool
         @Binding var tab: Tab
-        public var todayQuestionTitle: String = ""
-        let accessToken = SignInInfo.shared.accessToken()
+        
+        @State private var isAnsweredAlert = false
         
         fileprivate init(
             viewModel: QuestionViewModel, tab: Binding<Tab>,
@@ -99,7 +99,6 @@ struct SearchResultView: View {
             self.viewModel = viewModel
             self._isBottomSheetPresented = isBottomSheetPresented
             self._tab = tab
-            
         }
         
         var body: some View {
@@ -126,9 +125,18 @@ struct SearchResultView: View {
                                 }
                                 .onTapGesture {
                                     guard let id = question.questionId else { return }
+                                    
+                                    // 만약 답변 안했다면 경고 창 띄우기
+                                    if !question.isAnswered {
+                                        isAnsweredAlert.toggle()
+                                        return
+                                    }
+                                    
                                     pathModel.paths.append(.todayAnswer(questionId: id, questionContent: viewModel.contentForQuestion(withId: id) ?? "내용 없음"))
                                 }
-                                // TODO: alert 붙이기 / 답변안했을 경우
+                                .alert("답변을 먼저 해야 볼 수 있어요", isPresented: $isAnsweredAlert) {
+                                    Button("확인", role: .none, action: {})
+                                }
                             }
                             
                             .padding(.horizontal, 24)

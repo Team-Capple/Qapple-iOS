@@ -76,6 +76,5 @@ extension QuestionViewModel {
         guard let content = questions.first { $0.questionId == id }?.content else { return "Question ViewModel 에서의 디폴트 스트링" }
         print(content)
         return content
-        
     }
 }
