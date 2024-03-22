@@ -32,7 +32,6 @@ extension AuthViewModel {
     
     /// 모든 로그인/회원가입 정보를 초기화합니다.
     func resetAllInfo() {
-        authorizationCode.removeAll()
         nickname.removeAll()
         email.removeAll()
         resetAuthCodeInfo()
@@ -62,13 +61,13 @@ extension AuthViewModel {
         // Apple 로그인 완료 후 처리하는 코드
         switch result {
         case .success(let authResults):
-            print("Apple Login Successful")
+            // print("Apple Login Successful")
             switch authResults.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
                 let authorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? "인증 코드 생성 실패"
                 
                 DispatchQueue.main.async {
-                    print("AuthorizationCode: \(authorizationCode)")
+                    // print("AuthorizationCode: \(authorizationCode)")
                 }
                 
                 Task {
@@ -79,11 +78,11 @@ extension AuthViewModel {
                         
                         // 로그인 상태에 따른 화면 분기처리
                         if signInResponse.isMember {
-                            print("뭐야 너 멤버잖아? 홈 화면으로 이동시켜주마")
                             isSignIn = true
                         } else {
-                            print("아직 멤버가 아니군! 회원가입 필요")
                             isSignUp = true
+                            // TODO: 회원가입 관련 변수 초기화
+                            resetAllInfo()
                         }
                         isSignInLoading = false
                     } catch {
@@ -92,7 +91,7 @@ extension AuthViewModel {
                         // TODO: 로그인 실패 Alert
                     }
                     
-                    print("\n액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
+                    print("액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
                 }
                 
             default:
@@ -101,6 +100,7 @@ extension AuthViewModel {
         case .failure(let error):
             print(error.localizedDescription)
             print("error")
+            isSignInLoading = false
         }
     }
     

@@ -40,7 +40,14 @@ struct SignUpCompletedView: View {
             
             Spacer()
             
+            
+            
+            // MARK: - 회원가입 로직 넣어놓기
             Button {
+                
+                authViewModel.requestSignUp()
+                
+                
                 // 중복 체크가 성공했으면
                 pathModel.paths.removeAll()
                 authViewModel.isSignIn = true
@@ -52,8 +59,6 @@ struct SignUpCompletedView: View {
         .background(Background.first)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
-        // TODO: 뒤로가기 제스처 비활성화 필요!!
-        // 회원가입 다됐는데 뒤로가기 되면 곤란해요
     }
 }
 

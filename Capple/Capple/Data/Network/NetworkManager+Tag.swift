@@ -35,7 +35,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(BaseResponse<TagResponse.Search>.self, from: data)
-        print("TagResponse.Search: \(decodeData.result)")
+        // print("TagResponse.Search: \(decodeData.result)")
         return decodeData.result
     }
     
@@ -64,7 +64,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(BaseResponse<TagResponse.PopularTagsInQuestion>.self, from: data)
-        print("TagResponse.PopularTagsInQuestion: \(decodeData.result)")
+        // print("TagResponse.PopularTagsInQuestion: \(decodeData.result)")
         return decodeData.result
     }
 }

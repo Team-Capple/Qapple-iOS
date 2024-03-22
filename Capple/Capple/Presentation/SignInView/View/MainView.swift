@@ -53,7 +53,11 @@ private struct HomeView: View {
                             SearchKeywordView(viewModel: answerViewModel)
                 
                        case .todayAnswer(let questionId, let questionContent):
-                            TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
+                            TodayAnswerView(
+                                questionId: questionId,
+                                tab: $tab,
+                                questionContent: questionContent
+                            )
 
                         case .myPage:
                             MyPageView()
@@ -72,14 +76,16 @@ private struct HomeView: View {
                     }
                 
             case .collecting:
-                SearchResultView(viewModel: QuestionViewModel(), tab: $tab)
+                SearchResultView(tab: $tab)
                   .navigationDestination(for: PathType.self) { path in
                         switch path {
-                        case let .todayAnswer(questionId, questionContent):
-                            TodayAnswerView(questionId: questionId, tab: $tab, questionContent: questionContent)
+                        case .todayAnswer(let questionId, let questionContent):
+                            TodayAnswerView(
+                                questionId: questionId,
+                                tab: $tab,
+                                questionContent: questionContent
+                            )
                             
-                            // MARK: - 한톨 코멘트
-                            // 답변하기 뷰 이동할 때 메인 질문만 넘겨주면 되서 요렇게 변경했슴다!
                         case .answer:
                             AnswerView(viewModel: answerViewModel)
                             

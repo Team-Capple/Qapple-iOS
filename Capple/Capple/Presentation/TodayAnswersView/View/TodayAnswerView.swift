@@ -8,17 +8,17 @@
 import Foundation
 import SwiftUI
 struct TodayAnswerView: View {
+    
     @EnvironmentObject var pathModel: PathModel
+    @StateObject var viewModel: TodayAnswersViewModel = .init()
+    
     @Binding var tab: Tab
+    @State private var isBottomSheetPresented = false
+    
     var questionContent: String = "완전기본값제공" // 여기에 기본값을 제공합니다.
     var questionId: Int =  1// 여기에 기본값을 제공합니다.
     
-    @ObservedObject var viewModel: TodayAnswersViewModel
-    @State private var isBottomSheetPresented = false
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     init(questionId: Int, tab: Binding<Tab>, questionContent: String) {
-        self.viewModel = TodayAnswersViewModel(questionId: questionId )
         self._tab = tab
         self.questionContent = questionContent
         self.questionId = questionId
@@ -31,13 +31,18 @@ struct TodayAnswerView: View {
                 .frame(height: 16)
             
             FloatingQuestionCard(questionContent: questionContent ,tab:$tab, viewModel: viewModel, questionId: questionId)
+            
             Spacer()
-                .frame(height: 32)
+                .frame(height: 24)
+            
             AnswerScrollView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
             
         }
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
+        .onAppear {
+            viewModel.loadAnswersForQuestion(questionId: questionId)
+        }
     }
 }
 

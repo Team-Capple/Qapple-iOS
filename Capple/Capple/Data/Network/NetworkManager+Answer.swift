@@ -40,7 +40,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(BaseResponse<AnswerResponse.AnswersOfQuestion>.self, from: data)
-        print("AnswerResponse.AnswersOfQuestion: \(decodeData.result)")
+        // print("AnswerResponse.AnswersOfQuestion: \(decodeData.result)")
         return decodeData.result
     }
     
@@ -52,8 +52,6 @@ extension NetworkManager {
             print("JSON Request 데이터 생성 실패")
             throw NetworkError.badRequest
         }
-        
-        print("내가 보낼 요청 데이터!: \(requestData)")
         
         // URL 객체 생성
         let urlString = ApiEndpoints.basicURLString(path: .answersOfQuestion) + "/\(questionID)"
@@ -70,7 +68,7 @@ extension NetworkManager {
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
-        print(response)
+        // print(response)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,
@@ -82,7 +80,7 @@ extension NetworkManager {
         let decoder = JSONDecoder()
         do {
             let decodeData = try decoder.decode(BaseResponse<AnswerResponse.RegisterAnswer>.self, from: data)
-            print("AnswerResponse.RegisterAnswer: \(decodeData.result)")
+            // print("AnswerResponse.RegisterAnswer: \(decodeData.result)")
             return decodeData.result
         } catch {
             throw NetworkError.decodeFailed
