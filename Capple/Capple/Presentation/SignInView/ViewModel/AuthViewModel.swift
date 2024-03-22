@@ -32,7 +32,6 @@ extension AuthViewModel {
     
     /// 모든 로그인/회원가입 정보를 초기화합니다.
     func resetAllInfo() {
-        authorizationCode.removeAll()
         nickname.removeAll()
         email.removeAll()
         resetAuthCodeInfo()
@@ -82,6 +81,8 @@ extension AuthViewModel {
                             isSignIn = true
                         } else {
                             isSignUp = true
+                            // TODO: 회원가입 관련 변수 초기화
+                            resetAllInfo()
                         }
                         isSignInLoading = false
                     } catch {

@@ -81,7 +81,6 @@ struct SignUpTermsAgreementView: View {
                 Spacer()
                 
                 ActionButton("확인", isActive: $isChecked, action: {
-                    authViewModel.requestSignUp()
                     pathModel.paths.append(.signUpCompleted)
                 })
                 .animation(.easeIn, value: isChecked)

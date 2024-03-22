@@ -146,20 +146,23 @@ struct QuestionView: View {
                 .lineSpacing(4.0)
             
             Spacer()
-                .frame(height: 20)
+                .frame(height: 16)
+            
+            // MARK: - 태그
+            Text(questions.tag?
+                .split(separator: " ")
+                .map { "#\($0)" }
+                .joined(separator: " ") ?? "#tag")
+            .font(.pretendard(.semiBold, size: 14))
+            .foregroundStyle(BrandPink.text)
+            
+            Spacer()
+                .frame(height: 8)
             
             HStack {
-                
-                Text(questions.tag?
-                    .split(separator: " ")
-                    .map { "#\($0)" }
-                    .joined(separator: " ") ?? "#tag")
-                .font(.pretendard(.semiBold, size: 14))
-                .foregroundStyle(BrandPink.text)
-                
                 Spacer()
                 
-                if questions.isAnswered == false { // isAnswered가 true일 때만 표시
+                if !questions.isAnswered { // isAnswered가 true일 때만 표시
                     Button {
                         // TODO: 답변하기 뷰에서 id 까지 전달 => 제목 보여주기(정보는 있음)
                         pathModel.paths.append(.answer)
