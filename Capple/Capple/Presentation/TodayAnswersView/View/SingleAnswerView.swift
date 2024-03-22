@@ -68,7 +68,7 @@ struct SingleAnswerView: View {
                 
                 Spacer().frame(height: 12)
                 
-                // MARK: - 태그 hstack
+                // MARK: - 태그 hstack  TODO 리스트
                 HStack {
                     HStack(alignment: .top, spacing: 8) {
                         ForEach(answer.tags?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in

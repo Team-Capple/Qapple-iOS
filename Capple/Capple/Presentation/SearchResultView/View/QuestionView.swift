@@ -148,13 +148,17 @@ struct QuestionView: View {
             Spacer()
                 .frame(height: 16)
             
-            // MARK: - 태그
-            Text(questions.tag?
-                .split(separator: " ")
-                .map { "#\($0)" }
-                .joined(separator: " ") ?? "#tag")
-            .font(.pretendard(.semiBold, size: 14))
-            .foregroundStyle(BrandPink.text)
+            // MARK: - 태그 , TODO 리스트
+            
+            HStack(alignment: .top, spacing: 8) {
+                ForEach(questions.tag?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in
+                    Text("#\(tag)")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundColor(BrandPink.text)
+                        .frame(height: 10)
+                }
+            }
+          
             
             Spacer()
                 .frame(height: 8)

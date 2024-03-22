@@ -58,9 +58,7 @@ struct SearchResultView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        .onAppear {
-            viewModel.getQuestions()
-        }
+        
     }
     
     // MARK: - HeaderView
@@ -76,7 +74,7 @@ struct SearchResultView: View {
             ZStack(alignment: .leading) {
                 Color(Background.first)
                 
-                Text("여러분이 작성한\n답변을 모아뒀어요")
+                Text("여러분이 작성한\n질문을 모아뒀어요")
                     .font(.pretendard(.bold, size: 24))
                     .foregroundStyle(TextLabel.main)
                     .padding(.horizontal, 24)
@@ -171,6 +169,10 @@ struct SearchResultView: View {
             .refreshable {
                 viewModel.getQuestions()
             }
+            .onAppear {
+                viewModel.getQuestions()
+            }
+            
         }
     }
 }
