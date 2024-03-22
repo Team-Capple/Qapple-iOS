@@ -130,6 +130,7 @@ struct SearchResultView: View {
                                     guard let id = question.questionId else { return }
                                     pathModel.paths.append(.todayAnswer(questionId: id, questionContent: viewModel.contentForQuestion(withId: id) ?? "내용 없음"))
                                 }
+                                // TODO: alert 붙이기 / 답변안했을 경우
                             }
                             
                             .padding(.horizontal, 24)
