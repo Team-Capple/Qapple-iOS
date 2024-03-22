@@ -22,9 +22,9 @@ final class NotificationManager {
     func requestNotificationPermission(){
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge], completionHandler: {didAllow,Error in
             if didAllow {
-                print("Push: 권한 허용")
+                // print("Push: 권한 허용")
             } else {
-                print("Push: 권한 거부")
+                // print("Push: 권한 거부")
             }
         })
     }

@@ -14,8 +14,6 @@ struct QuestionView: View {
     var questionStatus: String = ""
     
     func formattedDate(from dateString: String) -> String {
-        print(dateString, "비동기인가요?")
-        
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         

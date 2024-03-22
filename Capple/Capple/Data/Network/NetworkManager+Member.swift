@@ -151,7 +151,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(BaseResponse<MemberResponse.MyPage>.self, from: data)
-        print("MemberResponse.MyPage: \(decodeData.result)")
+        // print("MemberResponse.MyPage: \(decodeData.result)")
         return decodeData.result
     }
     
@@ -181,7 +181,7 @@ extension NetworkManager {
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
-        print(response)
+        // print(response)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,
@@ -193,7 +193,7 @@ extension NetworkManager {
         let decoder = JSONDecoder()
         do {
             let decodeData = try decoder.decode(BaseResponse<MemberResponse.EditProfile>.self, from: data)
-            print("MemberResponse.EditProfile: \(decodeData.result)")
+            // print("MemberResponse.EditProfile: \(decodeData.result)")
             return decodeData.result
         } catch {
             throw NetworkError.decodeFailed

@@ -72,7 +72,7 @@ private struct HomeView: View {
                     }
                 
             case .collecting:
-                SearchResultView(viewModel: QuestionViewModel(), tab: $tab)
+                SearchResultView(tab: $tab)
                   .navigationDestination(for: PathType.self) { path in
                         switch path {
                         case let .todayAnswer(questionId, questionContent):

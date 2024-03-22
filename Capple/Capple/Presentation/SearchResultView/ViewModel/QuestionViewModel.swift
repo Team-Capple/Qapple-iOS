@@ -6,23 +6,28 @@ class QuestionViewModel: ObservableObject {
     @Published var selectedQuestionId: Int? = nil
     @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = false // 데이터 로딩 중인지 여부를 나타냅니다.
-    @Published var searchQuery = ""
-    let accessToken = SignInInfo.shared.accessToken()
     
     init() {
-        print("뷰모델 생성")
-        getQuestions(accessToken: accessToken)
+        getQuestions()
     }
     
     /// 질문 목록을 받아옵니다.
-    func getQuestions(accessToken: String) {
+    func getQuestions() {
+        
+        // URL 생성
         guard let url = URL(string: "http://43.203.126.187:8080/questions") else { return }
+        
+        // Request 생성
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        
+        // 네트워크 통신
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
+                
+                // 에러 확인
                 if let error = error {
                     print("Error submitting questions: \(error)")
                     return
@@ -30,7 +35,6 @@ class QuestionViewModel: ObservableObject {
                 
                 // MARK: - 상태코드확인 처리
                 if let httpResponse = response as? HTTPURLResponse {
-                    print("HTTP Status Code: \(httpResponse.statusCode)")
                     
                     // 상태 코드를 검사하여 다음 단계를 결정합니다.
                     switch httpResponse.statusCode {
@@ -55,7 +59,6 @@ class QuestionViewModel: ObservableObject {
                     let decodedData = try JSONDecoder().decode(BaseResponse<QuestionResponse.Questions>.self, from: data)
                     DispatchQueue.main.async {
                         self.questions = decodedData.result.questionInfos ?? []
-                        // print("Decoded data: \(self.questions)")
                     }
                 } catch {
                     print("Error decoding question response: \(error)")

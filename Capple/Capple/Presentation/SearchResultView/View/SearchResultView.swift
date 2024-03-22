@@ -4,11 +4,9 @@ import SwiftUI
 struct SearchResultView: View {
     
     @EnvironmentObject var pathModel: PathModel
-    @ObservedObject var viewModel: QuestionViewModel
+    @StateObject var viewModel: QuestionViewModel = .init()
     @Binding var tab: Tab
-    @State private var searchText = "" // 사용자 검색 텍스트를 저장합니다.
     @State private var isBottomSheetPresented = false
-    let accessToken = SignInInfo.shared.accessToken()
     
     var body: some View {
         ZStack {
@@ -153,7 +151,7 @@ struct SearchResultView: View {
             .scrollIndicators(.hidden)
             .refreshable {
                 // ViewModel에서 원래 목록을 다시 로드하는 메서드를 호출합니다.
-                viewModel.getQuestions(accessToken: accessToken )
+                viewModel.getQuestions()
             }
         }
     }

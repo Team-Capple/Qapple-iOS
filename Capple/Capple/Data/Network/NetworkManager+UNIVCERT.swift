@@ -33,8 +33,6 @@ extension NetworkManager {
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
-        print(data)
-        print(response)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,
@@ -45,7 +43,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(UNIVCERTResponse.UserMailAuthentication.self, from: data)
-        print("UNIVCERTResponse.UserMailAuthentication: \(decodeData)")
+        // print("UNIVCERTResponse.UserMailAuthentication: \(decodeData)")
         return decodeData
     }
     
@@ -73,8 +71,6 @@ extension NetworkManager {
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
-        print(data)
-        print(response)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,
@@ -86,7 +82,7 @@ extension NetworkManager {
         let decoder = JSONDecoder()
         do {
             let decodeData = try decoder.decode(UNIVCERTResponse.CertifyCode.self, from: data)
-            print("UNIVCERTResponse.CertifyCode: \(decodeData)")
+            // print("UNIVCERTResponse.CertifyCode: \(decodeData)")
             return decodeData
         } catch {
             throw NetworkError.decodeFailed
@@ -102,8 +98,6 @@ extension NetworkManager {
             throw NetworkError.badRequest
         }
         
-        print("요청 데이터: \(request)")
-        
         // URL 객체 생성
         guard let url = URL(string: "https://univcert.com/api/v1/clear/\(email)@postech.ac.kr") else {
             print("URL 객체 생성 실패")
@@ -117,7 +111,6 @@ extension NetworkManager {
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
-        print(response)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,
