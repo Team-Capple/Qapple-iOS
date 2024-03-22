@@ -73,7 +73,7 @@ struct SignUpAuthCodeView: View {
                             .frame(height: 14)
                             .keyboardType(.numberPad)
                             .disabled(authViewModel.isCertifyCodeVerified)
-                            .onChange(of: authViewModel.certifyCode) { _, newCode in
+                            .onChange(of: authViewModel.certifyCode) { _ , newCode in
                                 if newCode.count > codeLimit {
                                     authViewModel.certifyCode = String(newCode.prefix(codeLimit))
                                 }

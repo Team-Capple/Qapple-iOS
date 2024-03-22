@@ -106,6 +106,10 @@ private struct HomeView: View {
                     }
             }
         }
+        .onAppear {
+            NotificationManager.shared.requestNotificationPermission()
+            NotificationManager.shared.schedule()
+        }
     }
 }
 
@@ -118,31 +122,40 @@ private struct SignInView: View {
     
     var body: some View {
         NavigationStack(path: $pathModel.paths) {
-            signInView
-                .navigationDestination(for: PathType.self) { path in
-                    switch path {
-                    case .email:
-                        SignUpEmailView()
-                        
-                    case .authCode:
-                        SignUpAuthCodeView()
-                        
-                    case .inputNickName:
-                        SignUpNicknameView()
-                        
-                    case .agreement:
-                        SignUpTermsAgreementView()
-                        
-                    case .privacy:
-                        SignUpPrivacyView()
-                        
-                    case .signUpCompleted:
-                        SignUpCompletedView()
-                        
-                    default:
-                        EmptyView()
+            ZStack {
+                signInView
+                    .navigationDestination(for: PathType.self) { path in
+                        switch path {
+                        case .email:
+                            SignUpEmailView()
+                            
+                        case .authCode:
+                            SignUpAuthCodeView()
+                            
+                        case .inputNickName:
+                            SignUpNicknameView()
+                            
+                        case .agreement:
+                            SignUpTermsAgreementView()
+                            
+                        case .privacy:
+                            SignUpPrivacyView()
+                            
+                        case .signUpCompleted:
+                            SignUpCompletedView()
+                            
+                        default:
+                            EmptyView()
+                        }
                     }
-                }
+                
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle()) // 로딩 바 스타일 설정
+                    .scaleEffect(2) // 크기 조절
+                    .padding(.top, 60)
+                    .opacity(authViewModel.isSignInLoading ? 1 : 0) // 로딩 중에만 보이도록 설정
+                    .tint(.wh)
+            }
         }
         .onChange(of: authViewModel.isSignUp) { _, isSignUp in
             if isSignUp {
@@ -168,6 +181,7 @@ private struct SignInView: View {
             Spacer()
             
             AppleLoginButton()
+                .disabled(authViewModel.isSignInLoading)
         }
         .background(Background.first)
     }

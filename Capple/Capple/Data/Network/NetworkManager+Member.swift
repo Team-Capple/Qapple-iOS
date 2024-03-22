@@ -93,7 +93,7 @@ extension NetworkManager {
     static func requestDeleteMember() async throws -> Bool {
         
         // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .deleteMember)
+        let urlString = ApiEndpoints.basicURLString(path: .resignMember)
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL

@@ -27,7 +27,7 @@ struct TodayQuestionView: View {
                     principalView: {
                         HStack(spacing: 20) {
                             Button {
-                                // TODO: - 답변하기 리프레시
+                                viewModel.updateTodayQuestionView()
                             } label: {
                                 Text("답변하기")
                                     .font(.pretendard(.semiBold, size: 14))
@@ -66,15 +66,15 @@ struct TodayQuestionView: View {
                     }
                 }
                 .scrollIndicators(.hidden)
+                .refreshable {
+                    viewModel.updateTodayQuestionView()
+                }
             }
             .background(Background.second)
             .navigationBarBackButtonHidden()
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.updateTodayQuestionView()
-                
-                // TODO: 오전 7시, 오후 6시 업데이트 코드 작성 -> 테스트 필요
-                viewModel.dateManager.updateForQuestionTime()
             }
         }
     }
@@ -105,9 +105,6 @@ private struct HeaderView: View {
             }
             .frame(height: 260)
         }
-        .onAppear {
-            viewModel.startTimer()
-        }
     }
 }
 
@@ -132,7 +129,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 16)
             
-            Text(viewModel.timerSeconds)
+            Text("\(viewModel.timeString())")
                 .font(.pretendard(.bold, size: 38))
                 .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
                 .frame(height: 27)
@@ -298,8 +295,6 @@ private struct AnswerPreview: View {
                     Separator()
                         .padding(.leading, 24)
                     
-                 //   Spacer()
-                    
                     // 답변 있는 케이스
                     ForEach(viewModel.answerList, id: \.self) { answer in
                         VStack {
@@ -318,11 +313,7 @@ private struct AnswerPreview: View {
                             Separator()
                                 .padding(.leading, 24)
                         }
-                       // .padding(.bottom, 16)
                     }
-                    
-                //    Spacer()
-                     //   .frame(height: 32)
                 }
             }
         }

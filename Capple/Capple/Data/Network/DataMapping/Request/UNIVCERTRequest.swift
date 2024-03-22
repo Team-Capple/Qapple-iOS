@@ -22,4 +22,8 @@ class UNIVCERTRequest {
         var univName: String = "POSTECH"
         let code: Int
     }
+    
+    struct ClearEmail: Codable {
+        let key: String
+    }
 }

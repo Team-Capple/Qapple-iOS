@@ -21,6 +21,7 @@ struct AppleLoginButton: View {
             SignInWithAppleButton(
                 onRequest: { request in
                     Task {
+                        authViewModel.isSignInLoading = true
                         await authViewModel.appleLogin(request: request)
                     }
                 },

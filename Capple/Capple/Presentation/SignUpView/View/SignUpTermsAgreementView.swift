@@ -91,6 +91,11 @@ struct SignUpTermsAgreementView: View {
         .background(Background.first)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .alert("회원가입 실패", isPresented: $authViewModel.isSignUpFailedAlertPresented) {
+            Button("확인", role: .none, action: {})
+        } message: {
+            Text("네트워크 또는 서버 문제로 회원가입에 실패했습니다. 다시 시도 또는 관리자에게 문의 해주세요.")
+        }
     }
 }
 

@@ -13,10 +13,7 @@ struct QuestionView: View {
     let seeMoreAction: () -> Void
     var questionStatus: String = ""
     
-    
-    
     // MARK: - 타임존, 데이트
-    
     func getAmPmFromDateString(_ dateString: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // 입력 문자열 형식
@@ -73,22 +70,10 @@ struct QuestionView: View {
         switch questions.questionStatus {
         case .live:
             return QuestionStatus.live.rawValue
-        /*
-        case .old:
-            return QuestionStatus.old.rawValue
-        case .hold:
-            return QuestionStatus.hold.rawValue
-        case .pending:
-            return QuestionStatus.pending.rawValue
-         */
         default:
             return ""
         }
     }
-    
-    
-    //@State private var isLike = false
-    //@State private var isComment = false
     
     var body: some View {
         
@@ -113,7 +98,6 @@ struct QuestionView: View {
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
-                
                 Spacer()
                     .frame(width: 8)
                 
@@ -130,17 +114,7 @@ struct QuestionView: View {
                 Spacer()
                 
                 HStack(alignment: .center) {
-                    /*
-                    Button {
-                        seeMoreAction()
-                        
-                        //  showingReportSheet = true
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundStyle(TextLabel.sub2)
-                            .frame(width: 20, height:  20)
-                    }
-                     */
+                    
                 }
             } 
             Spacer()
@@ -183,48 +157,13 @@ struct QuestionView: View {
             
             // MARK: - 좋아요, 댓글
             HStack {
-                //                    Button {
-                //                        isLike.toggle()
-                //                        viewModel.likeButtonTapped(for: questions)
-                //                        // TODO: - 좋아요 탭 기능 구현
-                //                    } label: {
-                //                        HStack(spacing: 6) {
-                //                            Image(isLike ? .heartActive : .heart)
-                //                                .resizable()
-                //                                .frame(width: 24, height: 24)
-                //                                .foregroundStyle(isLike ? BrandPink.button : GrayScale.secondaryButton)
-                //                            Text(String(questions.likeCount ?? 0)) // 질문의 내용을 표시합니다.
-                //                                .font(.pretendard(.medium, size: 15))
-                //                                .foregroundStyle(TextLabel.sub3)
-                //
-                //                        }
-                //                    }
-                //
-                //                    Spacer()
-                //                        .frame(width: 12)
-                //
-                //                    Button {
-                //                        isComment.toggle()
-                //                        // TODO: - 댓글 창 이동
-                //                    } label: {
-                //                        HStack(spacing: 6) {
-                //                            Image(isComment ? .commentActive : .comment)
-                //                                .resizable()
-                //                                .frame(width: 24, height: 24)
-                //                                .foregroundStyle(isComment ? BrandPink.button : GrayScale.secondaryButton)
-                //
-                //                            Text(String(questions.commentCount ?? 0))
-                //                                .font(.pretendard(.medium, size: 15))
-                //                                .foregroundStyle(TextLabel.sub3)
-                //                        }
-                //                    }
+                
             }
         }
         .background(Background.first) // 배경색을 설정하고 투명도를 조절합니다.
     }
 }
  
-
 struct DummyData {
     static let questionsInfo = QuestionResponse.Questions.QuestionsInfos(questionStatus: .live, livedAt: "2021-01-01T00:00:00Z", content: "This is a sample question", isAnswered: true)
 }
@@ -237,8 +176,6 @@ struct QuestionView_Previews: PreviewProvider {
         QuestionView(tab: .constant(.collecting), questions: DummyData.questionsInfo, seeMoreAction: {}).environmentObject(PathModel())
     }
 }
-
-
 
 extension Date {
     func formattedDate() -> String {

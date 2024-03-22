@@ -13,6 +13,8 @@ class AuthViewModel: ObservableObject {
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var isSignUp = false // 회원가입 로직 실행용
     
+    @Published var isSignInLoading = false // 로그인 로딩 용도
+    
     @Published var authorizationCode: String = "" // 로그인 인증 코드
     @Published var nickname: String = "" // 닉네임
     @Published var email: String = "" // 이메일
@@ -21,6 +23,8 @@ class AuthViewModel: ObservableObject {
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
     @Published var isCertifyCodeFailed = false // 인증 코드 실패 여부
+    
+    @Published var isSignUpFailedAlertPresented = false // 회원가입 실패 알림
 }
 
 // MARK: - Helper
@@ -61,17 +65,9 @@ extension AuthViewModel {
             print("Apple Login Successful")
             switch authResults.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                // let userIdentifier = appleIDCredential.user
-                // let fullName = appleIDCredential.fullName
-                // let name = (fullName?.familyName ?? "") + (fullName?.givenName ?? "")
-                // let email = appleIDCredential.email
-                // let identityToken = String(data: appleIDCredential.identityToken!, encoding: .utf8)
                 let authorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? "인증 코드 생성 실패"
                 
-                DispatchQueue.main.async { /*[weak self] in*/
-                    // print("Name: \(name)")
-                    // print("Email: \(email)")
-                    // print("IdentityToken: \(identityToken)")
+                DispatchQueue.main.async {
                     print("AuthorizationCode: \(authorizationCode)")
                 }
                 
@@ -89,9 +85,11 @@ extension AuthViewModel {
                             print("아직 멤버가 아니군! 회원가입 필요")
                             isSignUp = true
                         }
-                        
+                        isSignInLoading = false
                     } catch {
                         print("로그인 요칭 실패,,,")
+                        isSignInLoading = false
+                        // TODO: 로그인 실패 Alert
                     }
                     
                     print("\n액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
@@ -110,17 +108,21 @@ extension AuthViewModel {
     @MainActor
     func requestSignUp() {
         Task {
-            let signUpData = try await NetworkManager.requestSignUp(
-                request: .init(
-                    signUpToken: SignInInfo.shared.refreshToken(),
-                    nickname: nickname,
-                    profileImage: ""
-                )
-            )
-            
-            // 토큰 데이터 업데이트
-            SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
-            SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
+            do {
+                // 회원가입 API
+                let signUpData = try await NetworkManager.requestSignUp(
+                    request: .init(
+                        signUpToken: SignInInfo.shared.refreshToken(),
+                        email: "\(email)@postech.ac.kr",
+                        nickname: nickname,
+                        profileImage: ""))
+                
+                // 토큰 데이터 업데이트
+                SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
+                SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
+            } catch {
+                isSignUpFailedAlertPresented.toggle()
+            }
         }
     }
 }
@@ -132,12 +134,14 @@ extension AuthViewModel {
     @MainActor
     func requestEmailCertification() {
         Task {
-            let _ = try await NetworkManager.requestUniversityMailAuth(
-                request: .init(
-                    key: APIKey.univcertKey,
-                    email: "\(email)@postech.ac.kr"
-                )
-            )
+            do {
+                let _ = try await NetworkManager.requestUniversityMailAuth(
+                    request: .init(
+                        key: APIKey.univcertKey,
+                        email: "\(email)@postech.ac.kr"))
+            } catch {
+                requestClearEmail()
+            }
             
             // 인증 코드 초기화
             certifyCode.removeAll()
@@ -166,6 +170,21 @@ extension AuthViewModel {
                 // 인증 실패 케이스
                 isCertifyCodeInvalid = true
                 isCertifyCodeFailed = true
+            }
+        }
+    }
+    
+    /// 대학 이메일 인증을 초기화합니다.
+    @MainActor
+    func requestClearEmail() {
+        Task {
+            do {
+                let _ = try await NetworkManager.requestClearEmailUniversity(
+                    request: .init(key: APIKey.univcertKey),
+                    email: email)
+                requestEmailCertification()
+            } catch {
+                print("대학 메일 인증 초기화에 실패했습니다.")
             }
         }
     }
