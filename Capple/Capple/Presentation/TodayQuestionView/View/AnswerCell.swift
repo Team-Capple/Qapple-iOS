@@ -60,10 +60,8 @@ struct AnswerCell: View {
                 Text(answer)
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
-                    .lineLimit(.max)
                     .lineSpacing(6)
                     .multilineTextAlignment(.leading)
-                    .frame(height: 11)
                 
                 Spacer()
                     .frame(height: 12)
