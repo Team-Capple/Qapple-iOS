@@ -107,6 +107,7 @@ private struct KeywordView: View {
     @ObservedObject private var viewModel: AnswerViewModel
     @Binding var isButtonActive: Bool
     @State private var isKeywordInputAlertPresented = false
+    @State private var isKeywordCountAlertPresented = false
     @State private var keywordInputText = ""
     
     fileprivate init(viewModel: AnswerViewModel, isButtonActive: Binding<Bool>) {
@@ -125,6 +126,13 @@ private struct KeywordView: View {
                     
                     keyword == viewModel.flexKeywords.last ?
                     KeywordChoiceChip(buttonType: .addKeyword) {
+                        
+                        // 만약 3개 이상 생성 시 키워드 생성 제한
+                        if viewModel.keywords.count >= 3 {
+                            isKeywordCountAlertPresented.toggle()
+                            return
+                        }
+                        
                         isKeywordInputAlertPresented.toggle()
                     }
                     :
@@ -144,17 +152,18 @@ private struct KeywordView: View {
                     }
                 }
             
-            Button("취소", role: .cancel, action: {
+            Button("취소", role: .cancel) {
                 keywordInputText = ""
-            })
+            }
             
-            Button("확인", action: {
+            Button("확인") {
                 viewModel.createNewKeyword(keywordInputText)
                 isButtonActive = viewModel.keywords.isEmpty ? false : true
                 keywordInputText = ""
-            })
-        } message: {
-            
+            }
+        }
+        .alert("키워드는 최대 3개 까지 생성이 가능해요", isPresented: $isKeywordCountAlertPresented) {
+            Button("확인", role: .none) {}
         }
     }
 }
