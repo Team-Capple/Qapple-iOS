@@ -59,7 +59,7 @@ private struct CustomNavigationView: View {
                 }
             },
             principalView: {
-                Text("오늘의 답변")
+                Text("답변 리스트")
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main)
             },

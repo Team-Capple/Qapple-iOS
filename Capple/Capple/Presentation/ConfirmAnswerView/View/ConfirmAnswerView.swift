@@ -44,12 +44,12 @@ struct ConfirmAnswerView: View {
             
             VStack(alignment: .leading) {
                 Text("키워드")
-                    .font(.pretendard(.semiBold, size: 14))
+                    .font(.pretendard(.semiBold, size: 18))
                     .foregroundStyle(TextLabel.sub3)
                     .padding(.horizontal, 24)
                 
                 Spacer()
-                    .frame(height: 24)
+                    .frame(height: 20)
                 
                 KeywordView(viewModel: viewModel,
                             isButtonActive: $isButtonActive)
@@ -61,6 +61,16 @@ struct ConfirmAnswerView: View {
                 Text("* 내 답변을 표현할 수 있는 키워드를 추가해보세요")
                     .font(.pretendard(.medium, size: 14))
                     .foregroundStyle(TextLabel.sub3)
+                    .frame(height: 10)
+                    .padding(.horizontal, 24)
+                
+                Spacer()
+                    .frame(height: 12)
+                
+                Text("** 키워드는 최대 3개까지 추가 가능해요")
+                    .font(.pretendard(.medium, size: 14))
+                    .foregroundStyle(TextLabel.sub3)
+                    .frame(height: 10)
                     .padding(.horizontal, 24)
                 
                 Spacer()
@@ -143,8 +153,8 @@ private struct KeywordView: View {
                 }
             }
         }
-        .alert("키워드를 입력하세요.", isPresented: $isKeywordInputAlertPresented) {
-            TextField("ex) 애플, 아카데미", text: $keywordInputText)
+        .alert("키워드를 입력해주세요", isPresented: $isKeywordInputAlertPresented) {
+            TextField("ex) 캐플", text: $keywordInputText)
                 .autocorrectionDisabled()
                 .onChange(of: keywordInputText) { _, newValue in
                     if newValue.contains(" ") {
@@ -162,7 +172,7 @@ private struct KeywordView: View {
                 keywordInputText = ""
             }
         }
-        .alert("키워드는 최대 3개 까지 생성이 가능해요", isPresented: $isKeywordCountAlertPresented) {
+        .alert("키워드는 최대 3개까지 추가 가능해요", isPresented: $isKeywordCountAlertPresented) {
             Button("확인", role: .none) {}
         }
     }

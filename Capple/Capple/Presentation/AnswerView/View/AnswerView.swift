@@ -83,11 +83,11 @@ struct AnswerView: View {
                         
                         // 폰트 크기 변경 로직
                         switch newText.count {
-                        case 0..<30: fontSize = 48
-                        case 30..<40: fontSize = 40
-                        case 40..<60: fontSize = 32
-                        case 60...130: fontSize = 24
-                        case 130...: fontSize = 17
+                        case 0..<20: fontSize = 48
+                        case 20..<32: fontSize = 40
+                        case 32..<60: fontSize = 32
+                        case 60...100: fontSize = 24
+                        case 100...: fontSize = 17
                         default: break
                         }
                     }

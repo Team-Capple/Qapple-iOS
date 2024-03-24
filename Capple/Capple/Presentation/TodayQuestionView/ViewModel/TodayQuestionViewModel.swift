@@ -110,7 +110,7 @@ extension TodayQuestionViewModel {
     /// 버튼 텍스트를 반환합니다.
     var buttonText: String {
         var text = ""
-        if state == .creating { text = "이전 질문 보러가기" }
+        if state == .creating { text = "이전 질문 답변하기" }
         else if state == .ready { text = "질문에 답변하기" }
         else if state == .complete { text = "다른 답변 둘러보기" }
         return text
@@ -135,9 +135,9 @@ extension TodayQuestionViewModel {
     /// 리스트 서브 타이틀 텍스트를 반환합니다.
     var listSubText: String {
         var text = ""
-        if state == .creating { text = "최근에 달린 답변" }
+        if state == .creating { text = "답변 미리보기" }
         else if state == .ready { text = "답변 미리보기" }
-        else if state == .complete { text = "실시간 답변 현황" }
+        else if state == .complete { text = "답변 미리보기" }
         return text
     }
 }

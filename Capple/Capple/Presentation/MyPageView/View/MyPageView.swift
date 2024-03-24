@@ -93,26 +93,26 @@ struct MyPageView: View {
         .onAppear {
             viewModel.requestMyPageInfo()
         }
-        .alert("메일 APP을 사용할 수 없어요", isPresented: $isEmailDisabledAlert) {
+        .alert("메일 앱에 로그인할 수 없어요", isPresented: $isEmailDisabledAlert) {
             Button("확인", role: .none, action: {})
         } message: {
-            Text("메일 APP 설치 후 로그인 해주세요.\n혹은 공식 문의 메일 - 0.team.capple@gmail.com")
+            Text("메일 앱에 로그인하거나\n공식 메일 주소로 문의주세요\n(0.team.capple@gmail.com)")
         }
         .alert("로그아웃 할까요?", isPresented: $isLogOutAlertPresented) {
             HStack {
                 Button("취소", role: .cancel, action: {})
-                Button("확인", role: .none, action: {
+                Button("로그아웃", role: .none, action: {
                     pathModel.paths.removeAll()
                     authViewModel.isSignIn = false
                 })
             }
         } message: {
-            Text("로그아웃 됩니당")
+            Text("언제든 다시 돌아올 수 있습니다!")
         }
-        .alert("회원 탈퇴 할까요?", isPresented: $isDeleteMemeberAlertPresented) {
+        .alert("정말 탈퇴하시겠어요?", isPresented: $isDeleteMemeberAlertPresented) {
             HStack {
                 Button("취소", role: .cancel, action: {})
-                Button("확인", role: .destructive, action: {
+                Button("회원 탈퇴", role: .destructive, action: {
                     viewModel.requestDeleteMember()
                     pathModel.paths.removeAll()
                     authViewModel.isSignIn = false
@@ -120,7 +120,7 @@ struct MyPageView: View {
                 })
             }
         } message: {
-            Text("회원탈퇴 됩니당 전 분명 경고했어요")
+            Text("탈퇴하면 계정은 복구되지 않아요\n단, 이미 작성한 답변은 남이있어요")
         }
         .sheet(isPresented: $isShowingMailView) {
             MailView(result: $mailResult)

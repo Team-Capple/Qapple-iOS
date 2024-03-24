@@ -73,7 +73,7 @@ struct QuestionView: View {
     var listTitleText: AttributedString {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
-        var text = AttributedString("\(questions.content)")
+        let text = AttributedString("\(questions.content)")
         return questionMark + text
     }
     
@@ -140,7 +140,7 @@ struct QuestionView: View {
                 .frame(height: 16)
             
             // MARK: - 본문
-            Text(questions.isAnswered ? listTitleText : "질문에 답변 후\n모든 내용을 확인해보세요!") // 질문의 내용을 표시합니다.
+            Text(questions.isAnswered ? listTitleText : "답변 후 다른 러너의\n생각을 확인해보세요!")
                 .font(.pretendard(.bold, size: 17))
                 .foregroundStyle(TextLabel.main)
                 .lineSpacing(4.0)

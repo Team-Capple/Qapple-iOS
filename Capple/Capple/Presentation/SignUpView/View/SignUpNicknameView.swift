@@ -20,7 +20,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
     @State private var isEnableButton: Bool = false
     
     private let nicknameLimit: Int = 15
-    private var description: String = "* 캐플주스는 익명 닉네임을 권장하고 있어요"
+    private var description: String = "* 캐플은 익명 닉네임을 권장해요"
     private var validationFailedDescription: String = "이미 사용 중인 닉네임이에요"
     
     var body: some View {
@@ -49,7 +49,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
                 
                 Text("닉네임은 이후에도 변경이 가능해요")
                     .foregroundStyle(TextLabel.sub3)
-                    .font(Font.pretendard(.medium, size: 14))
+                    .font(Font.pretendard(.medium, size: 16))
                     .frame(height: 11)
                 
                 
@@ -65,7 +65,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
                 ZStack(alignment: .leading) {
                     // PlaceHolder(색상 변경때문에 사용)
                     if authViewModel.nickname.isEmpty {
-                        Text("닉네임을 입력해주세요.")
+                        Text("닉네임을 입력해주세요")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)

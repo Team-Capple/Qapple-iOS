@@ -52,7 +52,7 @@ struct SignUpEmailView: View, KeyboardReadable {
                 
                 ZStack(alignment: .leading) {
                     if authViewModel.email.isEmpty {
-                        Text("이메일을 입력해주세요")
+                        Text("아이디를 입력해주세요")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)

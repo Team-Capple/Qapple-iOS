@@ -25,18 +25,18 @@ struct TodayQuestionView: View {
                 CustomNavigationBar(
                     leadingView: {},
                     principalView: {
-                        HStack(spacing: 20) {
+                        HStack(spacing: 28) {
                             Button {
                                 viewModel.updateTodayQuestionView()
                             } label: {
-                                Text("답변하기")
+                                Text("오늘의 질문")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.main)
                             }
                             Button {
                                 tab = .collecting
                             } label: {
-                                Text("모아보기")
+                                Text("질문 리스트")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.sub4)
                             }
@@ -254,7 +254,7 @@ private struct AnswerPreview: View {
                 HStack {
                     Spacer()
                     
-                    Text("아직 답변이 없어요.\n첫번째 답변을 작성해주세요!")
+                    Text("오늘 질문에 대한 답변이 아직 없어요\n답변하러 가볼까요?")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub3)
                         .multilineTextAlignment(.center)
@@ -272,9 +272,10 @@ private struct AnswerPreview: View {
                         Text(viewModel.listTitleText)
                             .font(.pretendard(.bold, size: 20))
                             .foregroundStyle(TextLabel.main)
+                            .lineSpacing(4)
                         
                         Spacer()
-                            .frame(height: 32)
+                            .frame(height: 24)
                         
                         HStack {
                             Text(viewModel.listSubText)

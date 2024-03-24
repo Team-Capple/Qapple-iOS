@@ -18,7 +18,7 @@ struct ProfileEditView: View {
     @State private var isEditFailed = false
     
     private let nicknameLimit: Int = 15
-    private var description: String = "* 캐플주스는 익명 닉네임을 권장하고 있어요"
+    private var description: String = "* 캐플은 익명 닉네임을 권장해요"
     private var validationFailedDescription: String = "이미 사용 중인 닉네임이에요"
     
     init(nickName: String) {

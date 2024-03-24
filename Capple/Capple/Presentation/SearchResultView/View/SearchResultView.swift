@@ -17,18 +17,18 @@ struct SearchResultView: View {
                 CustomNavigationBar(
                     leadingView: { },
                     principalView: {
-                        HStack(spacing: 20) {
+                        HStack(spacing: 28) {
                             Button {
                                 tab = .answering
                             } label: {
-                                Text("답변하기")
+                                Text("오늘의 질문")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.sub4)
                             }
                             Button {
                                 tab = .collecting
                             } label: {
-                                Text("모아보기")
+                                Text("질문 리스트")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.main)
                             }
@@ -74,10 +74,11 @@ struct SearchResultView: View {
             ZStack(alignment: .leading) {
                 Color(Background.first)
                 
-                Text("여러분이 작성한\n질문을 모아뒀어요")
+                Text("지금까지의 질문을\n모아뒀어요")
                     .font(.pretendard(.bold, size: 24))
                     .foregroundStyle(TextLabel.main)
                     .padding(.horizontal, 24)
+                    .lineSpacing(6)
             }
             .frame(height: 100)
         }
@@ -142,11 +143,12 @@ struct SearchResultView: View {
                                         )
                                     )
                                 }
-                                .alert("답변을 먼저 해야 볼 수 있어요", isPresented: $isAnsweredAlert) {
-                                    Button("확인", role: .none, action: {})
+                                .alert("답변하면 확인이 가능해요", isPresented: $isAnsweredAlert) {
+                                    Button("확인", role: .none) {}
+                                } message: {
+                                    Text("즐거운 커뮤니티 운영을 위해\n여러분의 답변을 들려주세요")
                                 }
                             }
-                            
                             .padding(.horizontal, 24)
                             .sheet(isPresented: $isBottomSheetPresented) {
                                 SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)

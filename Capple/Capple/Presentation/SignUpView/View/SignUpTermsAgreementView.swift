@@ -31,7 +31,7 @@ struct SignUpTermsAgreementView: View {
                 .frame(height: 32)
             
             VStack(alignment: .leading, spacing: 0) {
-                Text("캐플에 오신것을 환영합니다!")
+                Text("한 단계 남았어요")
                     .foregroundStyle(TextLabel.main)
                     .font(Font.pretendard(.bold, size: 24))
                     .frame(height: 17)
@@ -41,7 +41,7 @@ struct SignUpTermsAgreementView: View {
                 
                 Text("회원가입을 위해서는 약관 동의가 필요해요")
                     .foregroundStyle(TextLabel.sub3)
-                    .font(Font.pretendard(.medium, size: 14))
+                    .font(Font.pretendard(.medium, size: 16))
                     .frame(height: 11)
                 
                 Spacer()
@@ -74,6 +74,7 @@ struct SignUpTermsAgreementView: View {
                     Button {
                         pathModel.paths.append(.privacy)
                     } label: {
+                        // TODO: 화살표 이미지가 좀 작은 듯
                         Image(.arrowRight)
                     }
                 }

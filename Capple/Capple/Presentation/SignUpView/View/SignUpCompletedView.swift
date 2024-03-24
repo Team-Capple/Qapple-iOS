@@ -40,8 +40,6 @@ struct SignUpCompletedView: View {
             
             Spacer()
             
-            
-            
             // MARK: - 회원가입 로직 넣어놓기
             Button {
                 
