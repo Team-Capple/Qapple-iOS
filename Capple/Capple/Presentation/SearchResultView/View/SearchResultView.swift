@@ -118,63 +118,74 @@ struct SearchResultView: View {
                 
                 Separator()
                 
-                ScrollView {
-                    LazyVStack(spacing: 24) {
-                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
-                            VStack(spacing: 20) {
-                                QuestionView(questions: question, tab: $tab, questionNumber: viewModel.questions.count - index) {
-                                    isBottomSheetPresented.toggle()
-                                }
-                                .onTapGesture {
-                                    guard let id = question.questionId else { return }
-                                    
-                                    // 만약 답변 안했다면 경고 창 띄우기
-                                    if !question.isAnswered {
-                                        isAnsweredAlert.toggle()
-                                        return
+                if viewModel.isLoading {
+                    // 로딩 중임을 나타내는 UI
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 24) {
+                            ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
+                                VStack(spacing: 20) {
+                                    QuestionView(questions: question, tab: $tab, questionNumber: viewModel.questions.count - index) {
+                                        isBottomSheetPresented.toggle()
                                     }
-                                    
-                                    pathModel.paths.append(
-                                        .todayAnswer(
-                                            questionId: id,
-                                            questionContent: viewModel.contentForQuestion(
-                                                withId: id
-                                            ) ?? "내용 없음"
+                                    .onTapGesture {
+                                        guard let id = question.questionId else { return }
+                                        
+                                        // 만약 답변 안했다면 경고 창 띄우기
+                                        if !question.isAnswered {
+                                            isAnsweredAlert.toggle()
+                                            return
+                                        }
+                                        
+                                        pathModel.paths.append(
+                                            .todayAnswer(
+                                                questionId: id,
+                                                questionContent: viewModel.contentForQuestion(
+                                                    withId: id
+                                                ) ?? "내용 없음"
+                                            )
                                         )
-                                    )
+                                    }
+                                    .alert("답변하면 확인이 가능해요", isPresented: $isAnsweredAlert) {
+                                        Button("확인", role: .none) {}
+                                    } message: {
+                                        Text("즐거운 커뮤니티 운영을 위해\n여러분의 답변을 들려주세요")
+                                    }
+                                    .padding(.horizontal, 24)
+                                    .sheet(isPresented: $isBottomSheetPresented) {
+                                        SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
+                                            .presentationDetents([.height(84)])
+                                        
+                                    }
+                                    Separator()
+                                        .padding(.leading, 24)
                                 }
-                                .alert("답변하면 확인이 가능해요", isPresented: $isAnsweredAlert) {
-                                    Button("확인", role: .none) {}
-                                } message: {
-                                    Text("즐거운 커뮤니티 운영을 위해\n여러분의 답변을 들려주세요")
-                                }
+                                
+                                .padding(.bottom, 0)
+                                
+                                Spacer()
+                                    .frame(height: 32)
+                                
                             }
-                            .padding(.horizontal, 24)
-                            .sheet(isPresented: $isBottomSheetPresented) {
-                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
-                                    .presentationDetents([.height(84)])
-                            }
-                            
-                            Separator()
-                                .padding(.leading, 24)
                         }
-                        .padding(.bottom, 0)
-                        
-                        Spacer()
-                            .frame(height: 32)
+                    }
+                    .scrollIndicators(.hidden)
+                    .refreshable {
+                        Task {
+                            await viewModel.fetchGetQuestions()
+                        }
                     }
                 }
             }
-            
             .padding(.top, 24)
-            .scrollIndicators(.hidden)
-            .refreshable {
-                viewModel.getQuestions()
-            }
             .onAppear {
-                viewModel.getQuestions()
+                Task {
+                    await viewModel.fetchGetQuestions()
+                }
             }
-            
         }
     }
 }
