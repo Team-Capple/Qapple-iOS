@@ -162,12 +162,6 @@ struct SearchResultView: View {
                                     Separator()
                                         .padding(.leading, 24)
                                 }
-                                
-                                .padding(.bottom, 0)
-                                
-                                Spacer()
-                                    .frame(height: 32)
-                                
                             }
                         }
                     }
