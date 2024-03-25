@@ -47,6 +47,7 @@ extension TodayQuestionViewModel {
         let currentTimeZone = dateManager.fetchTimezone()
         self.timeZone = currentTimeZone
         
+        // 타이머 시작 로직
         if timeZone == .amCreate || timeZone == .pmCreate {
             startTimer()
         }
@@ -110,12 +111,18 @@ extension TodayQuestionViewModel {
     /// 버튼 텍스트를 반환합니다.
     var buttonText: String {
         var text = ""
-        if state == .creating { text = "이전 질문 답변하기" }
+        if state == .creating {
+            if mainQuestion.isAnswered {
+                text = "다른 답변 둘러보기"
+            } else {
+                text = "이전 질문 답변하기"
+            }
+        }
         else if state == .ready { text = "질문에 답변하기" }
         else if state == .complete { text = "다른 답변 둘러보기" }
         return text
     }
-    
+
     /// 리스트 타이틀 텍스트를 반환합니다.
     var listTitleText: AttributedString {
         

@@ -209,7 +209,9 @@ private struct HeaderButtonView: View {
                 priority: viewModel.state == .ready
                 ? .primary : .secondary
             ) {
-                if viewModel.state == .ready {
+                if !viewModel.mainQuestion.isAnswered {
+                    
+                    // 답변 안했으면 답변하기 뷰로 이동
                     pathModel.paths.append(
                         .answer(
                             questionId: viewModel.mainQuestion.questionId,
@@ -217,6 +219,8 @@ private struct HeaderButtonView: View {
                         )
                     )
                 } else {
+                    
+                    // 답변 했으면 답변 보기 뷰로 이동
                     pathModel.paths.append(
                         .todayAnswer(
                             questionId: viewModel.mainQuestion.questionId,
