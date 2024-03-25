@@ -58,7 +58,6 @@ struct SearchResultView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        
     }
     
     // MARK: - HeaderView
@@ -191,7 +190,7 @@ struct SearchResultView: View {
 }
 
 #Preview {
-    SearchResultView(viewModel: .init(), tab: .constant(.collecting))
+    SearchResultView(tab: .constant(.collecting))
         .environmentObject(PathModel())
         .environmentObject(AuthViewModel())
 }

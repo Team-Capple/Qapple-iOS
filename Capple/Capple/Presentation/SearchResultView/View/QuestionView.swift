@@ -77,6 +77,23 @@ struct QuestionView: View {
         return questionMark + text
     }
     
+    /// 키워드 문자열 배열을 반환합니다.
+    var tags: [String] {
+        
+        guard var tagArray = questions.tag?
+            .split(separator: " ")
+            .map(String.init) else {
+            return []
+        }
+        
+        // 태그가 3개가 될때까지 모두 삭제
+        while tagArray.count > 3 {
+            tagArray.removeLast()
+        }
+        
+        return tagArray
+    }
+    
     var body: some View {
         
         VStack(alignment: .leading) {
@@ -148,17 +165,15 @@ struct QuestionView: View {
             Spacer()
                 .frame(height: 16)
             
-            // MARK: - 태그 , TODO 리스트
-            
+            // MARK: - 태그
             HStack(alignment: .top, spacing: 8) {
-                ForEach(questions.tag?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in
+                ForEach(tags, id: \.self) { tag in
                     Text("#\(tag)")
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundColor(BrandPink.text)
                         .frame(height: 10)
                 }
             }
-          
             
             Spacer()
                 .frame(height: 8)
