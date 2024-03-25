@@ -21,6 +21,7 @@ enum PathType: Hashable {
     case answer(questionId: Int, questionContent: String) // 답변하기
     case confirmAnswer // 답변확인(키워드선택)
     case searchKeyword // 키워드 검색
+    case completeAnswer // 답변 완료
     
     /// 모아보기
     case todayAnswer(questionId: Int, questionContent: String)
