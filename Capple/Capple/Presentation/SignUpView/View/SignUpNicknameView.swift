@@ -8,13 +8,10 @@
 import SwiftUI
 import Combine
 
-struct SignUpNicknameView: View, KeyboardReadable {
+struct SignUpNicknameView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
-    
-    @State private var isKeyboardVisible = false
-    @State private var keyboardBottomPadding: CGFloat = 0
     
     // 추후 중복 검사 변수 나오면 삭제 예정
     @State private var isEnableButton: Bool = false
@@ -116,22 +113,12 @@ struct SignUpNicknameView: View, KeyboardReadable {
                 ActionButton("확인", isActive: $isEnableButton, action: {
                     pathModel.paths.append(.agreement)
                 })
-                .padding(.bottom, keyboardBottomPadding)
+                .padding(.bottom, 16)
                 .animation(.easeIn, value: isEnableButton)
             }
             .padding(.horizontal, 24)
-            
-            Spacer()
         }
         .background(Background.first)
-        .onReceive(keyboardPublisher) { newIsKeyboardVisible in
-            if isKeyboardVisible {
-                keyboardBottomPadding = 16
-            } else {
-                keyboardBottomPadding = 0
-            }
-            isKeyboardVisible = newIsKeyboardVisible
-        }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
     }

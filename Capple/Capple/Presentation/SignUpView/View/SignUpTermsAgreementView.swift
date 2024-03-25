@@ -74,7 +74,6 @@ struct SignUpTermsAgreementView: View {
                     Button {
                         pathModel.paths.append(.privacy)
                     } label: {
-                        // TODO: 화살표 이미지가 좀 작은 듯
                         Image(.arrowRight)
                     }
                 }
@@ -85,6 +84,7 @@ struct SignUpTermsAgreementView: View {
                     pathModel.paths.append(.signUpCompleted)
                 })
                 .animation(.easeIn, value: isChecked)
+                .padding(.bottom, 16)
             }
             .padding(.horizontal, 24)
         }
