@@ -16,9 +16,10 @@ struct CappleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            // HomeView()
-            MainView()
-            // SearchResultView()
+            // MainView()
+            SignUpNicknameView()
+                .environmentObject(PathModel())
+                .environmentObject(AuthViewModel())
         }
     }
     

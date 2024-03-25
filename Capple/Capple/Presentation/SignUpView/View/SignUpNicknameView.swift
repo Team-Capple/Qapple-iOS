@@ -13,8 +13,7 @@ struct SignUpNicknameView: View {
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
     
-    // 추후 중복 검사 변수 나오면 삭제 예정
-    @State private var isEnableButton: Bool = false
+    @State private var isNicknameDuplicateCheck = false
     
     private let nicknameLimit: Int = 15
     private var description: String = "* 캐플은 익명 닉네임을 권장해요"
@@ -60,7 +59,6 @@ struct SignUpNicknameView: View {
                 Spacer().frame(height: 21)
                 
                 ZStack(alignment: .leading) {
-                    // PlaceHolder(색상 변경때문에 사용)
                     if authViewModel.nickname.isEmpty {
                         Text("닉네임을 입력해주세요")
                             .foregroundStyle(TextLabel.placeholder)
@@ -70,19 +68,22 @@ struct SignUpNicknameView: View {
                     
                     HStack(spacing: 0) {
                         TextField("", text: $authViewModel.nickname)
-                            .foregroundStyle(isEnableButton ? TextLabel.main: Context.warning)
+                            .foregroundStyle(TextLabel.main)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
                             .autocorrectionDisabled()
-                            .onChange(of: authViewModel.nickname) { _, newNickname in
-                                if newNickname.isEmpty {
-                                    isEnableButton = false
-                                } else {
-                                    isEnableButton = true
+                            .onChange(of: authViewModel.nickname) { _ , nickName in
+                                
+                                // 글자 수 제한 로직
+                                if nickName.count > nicknameLimit {
+                                    authViewModel.nickname = String(nickName.prefix(nicknameLimit))
                                 }
-                                if newNickname.count > nicknameLimit {
-                                    authViewModel.nickname = String(newNickname.prefix(nicknameLimit))
-                                }
+                                
+                                // 띄어쓰기 방지 로직
+                                authViewModel.nickname = nickName.trimmingCharacters(in: .whitespacesAndNewlines)
+                                
+                                // 특수문자 방지 로직
+                                authViewModel.koreaLangCheck(nickName)
                             }
                         
                         Text("\(authViewModel.nickname.count)/\(nicknameLimit)")
@@ -98,23 +99,43 @@ struct SignUpNicknameView: View {
                 
                 Rectangle()
                     .frame(height: 2)
-                    .foregroundStyle(isEnableButton ? GrayScale.wh : (authViewModel.nickname.isEmpty ? GrayScale.wh : BrandPink.button))
+                    .foregroundStyle(isNicknameDuplicateCheck ? GrayScale.wh : (authViewModel.nickname.isEmpty ? GrayScale.wh : BrandPink.button))
                 
-                Spacer().frame(height: 18)
+                Spacer().frame(height: 8)
                 
-                
-                Text("\(isEnableButton ? description : (authViewModel.nickname.isEmpty ? description : validationFailedDescription))")
-                    .font(Font.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(isEnableButton ? TextLabel.sub1 : (authViewModel.nickname.isEmpty ? TextLabel.sub1 : Context.warning))
-                    .frame(height: 10)
+                HStack {
+                    Text(
+                        authViewModel.isNicknameFieldAvailable ?
+                        description : "초성, 숫자, 특수문자는 사용할 수 없어요"
+                    )
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(authViewModel.isNicknameFieldAvailable ? TextLabel.sub1 : Context.warning)
+                    
+                    Spacer()
+                    
+                    Button {
+                        isNicknameDuplicateCheck.toggle()
+                    } label: {
+                        Text("중복 검사")
+                            .font(.pretendard(.medium, size: 14))
+                            .foregroundStyle((authViewModel.nickname.isEmpty || !authViewModel.isNicknameFieldAvailable) ? TextLabel.sub4 : TextLabel.main)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        (authViewModel.nickname.isEmpty || !authViewModel.isNicknameFieldAvailable) ? GrayScale.secondaryButton : BrandPink.button)
+                    .cornerRadius(20, corners: .allCorners)
+                    .disabled(authViewModel.nickname.isEmpty ||
+                              !authViewModel.isNicknameFieldAvailable)
+                }
                 
                 Spacer()
                 
-                ActionButton("다음", isActive: $isEnableButton, action: {
+                ActionButton("다음", isActive: $isNicknameDuplicateCheck, action: {
                     pathModel.paths.append(.agreement)
                 })
                 .padding(.bottom, 16)
-                .animation(.easeIn, value: isEnableButton)
+                .animation(.easeIn, value: isNicknameDuplicateCheck)
             }
             .padding(.horizontal, 24)
         }

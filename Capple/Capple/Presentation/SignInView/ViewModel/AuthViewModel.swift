@@ -24,6 +24,8 @@ class AuthViewModel: ObservableObject {
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
     @Published var isCertifyCodeFailed = false // 인증 코드 실패 여부
     
+    @Published var isNicknameFieldAvailable = true // 닉네임 유효성 검사
+    
     @Published var isSignUpFailedAlertPresented = false // 회원가입 실패 알림
 }
 
@@ -43,6 +45,20 @@ extension AuthViewModel {
         isCertifyCodeVerified = false
         isCertifyCodeInvalid = false
         isCertifyCodeFailed = false
+    }
+    
+    /// 특수 기호 체크 메서드
+    /// 출처 : https://arc.net/l/quote/ojvfrfrb
+    func koreaLangCheck(_ input: String) {
+        let pattern = "^[가-힣a-zA-Z\\s]*$"
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+            let range = NSRange(location: 0, length: input.utf16.count)
+            if regex.firstMatch(in: input, options: [], range: range) != nil {
+                isNicknameFieldAvailable = true
+                return
+            }
+        }
+        isNicknameFieldAvailable = false
     }
 }
 
