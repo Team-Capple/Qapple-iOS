@@ -14,7 +14,7 @@ struct SignUpCompletedView: View {
     
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(spacing: 0) {
             CustomNavigationBar(
                 leadingView: {},
                 principalView: {
@@ -28,10 +28,20 @@ struct SignUpCompletedView: View {
             Spacer()
                 .frame(height: 32)
             
-            Text("캐플에 오신걸 환영합니다\n당신의 이야기를 들려주세요")
-                .foregroundStyle(TextLabel.main)
-                .font(Font.pretendard(.bold, size: 24))
-                .lineSpacing(6)
+            HStack {
+                Text("캐플에 오신걸 환영합니다\n당신의 이야기를 들려주세요")
+                    .foregroundStyle(TextLabel.main)
+                    .font(Font.pretendard(.bold, size: 24))
+                    .lineSpacing(6)
+                
+                Spacer()
+            }
+            
+            Spacer()
+            
+            Image(.appLogo)
+                .resizable()
+                .frame(width: 320, height: 320)
             
             Spacer()
             
