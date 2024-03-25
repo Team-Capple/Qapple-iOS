@@ -110,7 +110,7 @@ struct SignUpNicknameView: View {
                 
                 Spacer()
                 
-                ActionButton("확인", isActive: $isEnableButton, action: {
+                ActionButton("다음", isActive: $isEnableButton, action: {
                     pathModel.paths.append(.agreement)
                 })
                 .padding(.bottom, 16)

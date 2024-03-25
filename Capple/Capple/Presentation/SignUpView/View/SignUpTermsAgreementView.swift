@@ -80,7 +80,7 @@ struct SignUpTermsAgreementView: View {
                 
                 Spacer()
                 
-                ActionButton("확인", isActive: $isChecked, action: {
+                ActionButton("다음", isActive: $isChecked, action: {
                     pathModel.paths.append(.signUpCompleted)
                 })
                 .animation(.easeIn, value: isChecked)
