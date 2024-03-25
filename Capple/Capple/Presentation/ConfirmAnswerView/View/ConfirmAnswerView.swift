@@ -156,9 +156,18 @@ private struct KeywordView: View {
         .alert("키워드를 입력해주세요", isPresented: $isKeywordInputAlertPresented) {
             TextField("ex) 캐플", text: $keywordInputText)
                 .autocorrectionDisabled()
+            
+            // 띄어쓰기 방지 로직
                 .onChange(of: keywordInputText) { _, newValue in
                     if newValue.contains(" ") {
                         keywordInputText = newValue.replacingOccurrences(of: " ", with: "")
+                    }
+                }
+            
+            // 최대 8글자 제한 로직
+                .onChange(of: keywordInputText) { _, keyword in
+                    if keyword.count > 8 {
+                        keywordInputText = String(keyword.prefix(8))
                     }
                 }
             
@@ -172,9 +181,12 @@ private struct KeywordView: View {
                 keywordInputText = ""
             }
         }
-        .alert("키워드는 최대 3개까지 추가 가능해요", isPresented: $isKeywordCountAlertPresented) {
-            Button("확인", role: .none) {}
-        }
+    message: {
+        Text("최대 8글자까지 입력 가능해요")
+    }
+    .alert("키워드는 최대 3개까지 추가 가능해요", isPresented: $isKeywordCountAlertPresented) {
+        Button("확인", role: .none) {}
+    }
     }
 }
 

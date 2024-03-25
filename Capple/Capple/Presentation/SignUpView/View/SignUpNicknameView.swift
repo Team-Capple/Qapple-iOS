@@ -88,7 +88,6 @@ struct SignUpNicknameView: View, KeyboardReadable {
                                 }
                             }
                         
-                        
                         Text("\(authViewModel.nickname.count)/\(nicknameLimit)")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 14))
