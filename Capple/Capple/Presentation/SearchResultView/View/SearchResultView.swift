@@ -148,7 +148,7 @@ struct SearchResultView: View {
                                             )
                                         )
                                     }
-                                    .alert("답변하면 확인이 가능해요", isPresented: $isAnsweredAlert) {
+                                    .alert("답변하면 확인이 가능해요 😀", isPresented: $isAnsweredAlert) {
                                         Button("확인", role: .none) {}
                                     } message: {
                                         Text("즐거운 커뮤니티 운영을 위해\n여러분의 답변을 들려주세요")

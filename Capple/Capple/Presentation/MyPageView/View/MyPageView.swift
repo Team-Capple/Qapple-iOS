@@ -91,7 +91,9 @@ struct MyPageView: View {
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.requestMyPageInfo()
+            Task {
+                await viewModel.requestMyPageInfo()
+            }
         }
         .alert("메일 앱에 로그인할 수 없어요", isPresented: $isEmailDisabledAlert) {
             Button("확인", role: .none, action: {})
