@@ -119,6 +119,38 @@ extension NetworkManager {
     }
 }
 
+// MARK: - 닉네임 검사
+extension NetworkManager {
+    
+    /// 닉네임 중복 검사를 요청합니다.
+    static func requestNicknameCheck(_ nickName: String) async throws -> Bool {
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .nickNameCheck) + "?nickname=\(nickName.removingPercentEncoding ?? "")"
+        print("URL: \(urlString)")
+        guard let url = URL(string: urlString) else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // URLSession 생성
+        let (data, response) = try await URLSession.shared.data(from: url)
+        print(response)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            print("닉네임 중복 검사 실패")
+            throw NetworkError.badRequest
+        }
+        
+        // 디코딩
+        let decoder = JSONDecoder()
+        let decodeData = try decoder.decode(MemberResponse.NicknameCheck.self, from: data)
+        return decodeData.result
+    }
+}
+
 // MARK: - 마이페이지 조회 및 수정
 extension NetworkManager {
     

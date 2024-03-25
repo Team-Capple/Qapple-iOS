@@ -25,6 +25,7 @@ class AuthViewModel: ObservableObject {
     @Published var isCertifyCodeFailed = false // 인증 코드 실패 여부
     
     @Published var isNicknameFieldAvailable = true // 닉네임 유효성 검사
+    @Published var isNicknameCanUse = true // 닉네임 중복 검사
     
     @Published var isSignUpFailedAlertPresented = false // 회원가입 실패 알림
 }
@@ -59,6 +60,20 @@ extension AuthViewModel {
             }
         }
         isNicknameFieldAvailable = false
+    }
+}
+
+// MARK: - 닉네임
+extension AuthViewModel {
+    
+    @MainActor
+    func requestNicknameCheck() async {
+        do {
+            let check = try await NetworkManager.requestNicknameCheck(nickname)
+            self.isNicknameCanUse = check
+        } catch {
+            print("닉네임 중복 검사에 실패했습니다. 다시 시도해주세요")
+        }
     }
 }
 
