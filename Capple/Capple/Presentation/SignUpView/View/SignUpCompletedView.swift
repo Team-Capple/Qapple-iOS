@@ -42,13 +42,11 @@ struct SignUpCompletedView: View {
             
             // MARK: - 회원가입 로직 넣어놓기
             Button {
-                
-                authViewModel.requestSignUp()
-                
-                
-                // 중복 체크가 성공했으면
-                pathModel.paths.removeAll()
-                authViewModel.isSignIn = true
+                Task {
+                    await authViewModel.requestSignUp()
+                    pathModel.paths.removeAll()
+                    authViewModel.isSignIn = true
+                }
             } label: {
                 Image("NextDefaultButton")
             }

@@ -140,7 +140,7 @@ struct SignUpAuthCodeView: View {
                         .padding(.vertical, 8)
                         .background(GrayScale.secondaryButton)
                         .cornerRadius(20, corners: .allCorners)
-                        .alert("메일이 재발송 되었어요.", isPresented: $isMailResendAlertPresented) {
+                        .alert("메일이 재발송 되었어요", isPresented: $isMailResendAlertPresented) {
                             Button("확인", role: .cancel) {}
                         }
                     }

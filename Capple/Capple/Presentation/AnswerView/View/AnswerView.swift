@@ -74,6 +74,7 @@ struct AnswerView: View {
                     .foregroundStyle(.wh)
                     .focused($isTextFieldFocused)
                     .padding(.horizontal, 24)
+                    .autocorrectionDisabled()
                     .onChange(of: viewModel.answer) { oldText, newText in
                         
                         // 글자 수 제한 로직

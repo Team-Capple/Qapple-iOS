@@ -106,23 +106,21 @@ extension AuthViewModel {
     
     /// 회원가입을 요청합니다.
     @MainActor
-    func requestSignUp() {
-        Task {
-            do {
-                // 회원가입 API
-                let signUpData = try await NetworkManager.requestSignUp(
-                    request: .init(
-                        signUpToken: SignInInfo.shared.refreshToken(),
-                        email: "\(email)@postech.ac.kr",
-                        nickname: nickname,
-                        profileImage: ""))
-                
-                // 토큰 데이터 업데이트
-                SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
-                SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
-            } catch {
-                isSignUpFailedAlertPresented.toggle()
-            }
+    func requestSignUp() async {
+        do {
+            // 회원가입 API
+            let signUpData = try await NetworkManager.requestSignUp(
+                request: .init(
+                    signUpToken: SignInInfo.shared.refreshToken(),
+                    email: "\(email)@postech.ac.kr",
+                    nickname: nickname,
+                    profileImage: ""))
+            
+            // 토큰 데이터 업데이트
+            SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
+            SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
+        } catch {
+            isSignUpFailedAlertPresented.toggle()
         }
     }
 }
