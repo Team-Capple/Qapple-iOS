@@ -115,10 +115,10 @@ struct AnswerView: View {
             .onTapGesture {
                 isTextFieldFocused = false
             }
-            .alert("삭제해버린다??", isPresented: $isBackAlertPresented) {
+            .alert("정말 그만두시겠어요?", isPresented: $isBackAlertPresented) {
                 HStack {
                     Button("취소", role: .cancel) {}
-                    Button("확인", role: .none) {
+                    Button("그만두기", role: .none) {
                         viewModel.resetAnswerInfo()
                         pathModel.paths.removeLast()
                     }

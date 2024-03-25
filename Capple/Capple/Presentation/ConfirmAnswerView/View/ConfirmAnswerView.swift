@@ -13,7 +13,6 @@ struct ConfirmAnswerView: View {
     @EnvironmentObject private var pathModel: PathModel
     @ObservedObject var viewModel: AnswerViewModel
     @State private var isButtonActive = false
-    @State private var isRegisterAnswerFailed = false
     
     var body: some View {
         VStack {
@@ -76,30 +75,11 @@ struct ConfirmAnswerView: View {
                 Spacer()
                 
                 ActionButton("완료", isActive: $isButtonActive) {
-                    Task {
-                        do {
-                            try await viewModel.requestRegisterAnswer()
-                            pathModel.paths.removeAll()
-                            pathModel.paths.append(
-                                .todayAnswer(
-                                    questionId: viewModel.questionId,
-                                    questionContent: viewModel.questionContent
-                                )
-                            )
-                            viewModel.resetAnswerInfo()
-                        } catch {
-                            isRegisterAnswerFailed.toggle()
-                        }
-                    }
+                    pathModel.paths.append(.completeAnswer)
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 16)
                 .animation(.bouncy(duration: 0.3), value: isButtonActive)
-                .alert("답변 등록에 실패했습니다.", isPresented: $isRegisterAnswerFailed) {
-                    Button("확인", role: .none) {}
-                } message: {
-                    Text("다시 한번 시도해주세요.")
-                }
             }
         }
         .background(Background.second)

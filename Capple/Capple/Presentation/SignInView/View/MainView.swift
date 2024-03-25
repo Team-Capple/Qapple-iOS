@@ -57,7 +57,7 @@ private struct HomeView: View {
                             SearchKeywordView(viewModel: answerViewModel)
                             
                         case .completeAnswer:
-                            CompleteAnswerView()
+                            CompleteAnswerView(viewModel: answerViewModel)
                 
                        case .todayAnswer(let questionId, let questionContent):
                             TodayAnswerView(
@@ -107,7 +107,7 @@ private struct HomeView: View {
                             SearchKeywordView(viewModel: answerViewModel)
                             
                         case .completeAnswer:
-                            CompleteAnswerView()
+                            CompleteAnswerView(viewModel: answerViewModel)
                             
                         case .myPage:
                             MyPageView()
