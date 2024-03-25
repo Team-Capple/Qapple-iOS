@@ -288,7 +288,7 @@ private struct AnswerPreview: View {
                             
                             Spacer()
                             
-                            if viewModel.state != .ready {
+                            if viewModel.mainQuestion.isAnswered {
                                 SeeAllButton {
                                     pathModel.paths.append(
                                         .todayAnswer(

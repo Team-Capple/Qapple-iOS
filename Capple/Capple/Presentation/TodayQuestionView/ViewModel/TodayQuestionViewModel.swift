@@ -113,7 +113,7 @@ extension TodayQuestionViewModel {
         var text = ""
         if state == .creating {
             if mainQuestion.isAnswered {
-                text = "다른 답변 둘러보기"
+                text = "이전 답변 둘러보기"
             } else {
                 text = "이전 질문 답변하기"
             }
@@ -133,7 +133,13 @@ extension TodayQuestionViewModel {
         let mainQuestionText = AttributedString(mainQuestion.content)
         
         var text = AttributedString()
-        if state == .creating { text = questionMark + mainQuestionText }
+        if state == .creating {
+            if mainQuestion.isAnswered {
+                text = questionMark + mainQuestionText
+            } else {
+                text = "답변 후 다른 러너의\n생각을 확인해보세요!"
+            }
+        }
         else if state == .ready { text = "어떤 질문이 나왔을까요?" }
         else if state == .complete { text = questionMark + mainQuestionText }
         return text
