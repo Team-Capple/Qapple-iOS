@@ -31,7 +31,7 @@ struct SignUpPrivacyView: View {
                 ScrollView {
                     Text(privacyText)
                         .font(.pretendard(.medium, size: 16))
-                        .foregroundStyle(TextLabel.main)
+                        .foregroundStyle(TextLabel.sub2)
                 }
             }
             .padding(.horizontal, 24)

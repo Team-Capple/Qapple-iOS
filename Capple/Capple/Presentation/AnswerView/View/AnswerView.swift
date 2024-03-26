@@ -14,6 +14,7 @@ struct AnswerView: View {
     @State private var fontSize: CGFloat = 48
     @State private var isBackAlertPresented = false
     @FocusState private var isTextFieldFocused: Bool
+    @State private var isAnonymityAlertPresented = false
     
     let questionId: Int
     let questionContent: String
@@ -102,12 +103,21 @@ struct AnswerView: View {
                     .foregroundStyle(Color.clear)
                 
                 HStack {
+                    Button {
+                        isAnonymityAlertPresented.toggle()
+                    } label: {
+                        Text("익명이 보장되나요?")
+                            .font(.pretendard(.semiBold, size: 12))
+                            .foregroundStyle(BrandPink.text)
+                    }
+                    
                     Spacer()
+                    
                     Text("\(viewModel.answer.count)/\(viewModel.textLimited)")
                         .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(TextLabel.sub3)
-                        .padding(.horizontal, 24)
                 }
+                .padding(.horizontal, 24)
                 .padding(.bottom, 12)
             }
             .navigationBarBackButtonHidden()
@@ -125,6 +135,12 @@ struct AnswerView: View {
             } message: {
                 Text("지금까지 작성한 답변이 사라져요")
             }
+            .alert("익명이 보장되나요?", isPresented: $isAnonymityAlertPresented) {
+                Button("확인", role: .none) {}
+            } message: {
+                Text("100% 익명입니다.")
+            }
+
         }
         .popGestureDisabled()
     }
