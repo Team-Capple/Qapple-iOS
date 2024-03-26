@@ -76,6 +76,7 @@ struct ConfirmAnswerView: View {
                 
                 ActionButton("완료", isActive: $isButtonActive) {
                     pathModel.paths.append(.completeAnswer)
+                    HapticManager.shared.notification(type: .success)
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 16)

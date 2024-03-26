@@ -27,16 +27,18 @@ struct TodayQuestionView: View {
                     principalView: {
                         HStack(spacing: 28) {
                             Button {
+                                HapticManager.shared.impact(style: .medium)
                                 viewModel.updateTodayQuestionView()
                             } label: {
-                                Text("오늘의 질문")
+                                Text("오늘의질문")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.main)
                             }
                             Button {
+                                HapticManager.shared.impact(style: .medium)
                                 tab = .collecting
                             } label: {
-                                Text("질문 리스트")
+                                Text("질문리스트")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.sub4)
                             }
