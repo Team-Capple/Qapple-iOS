@@ -8,14 +8,13 @@
 import SwiftUI
 import Combine
 
-struct SignUpEmailView: View, KeyboardReadable {
+struct SignUpEmailView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
     
     @State private var isEnableButton = false
     @State private var isKeyboardVisible = false
-    @State private var keyboardBottomPadding: CGFloat = 0
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -52,7 +51,7 @@ struct SignUpEmailView: View, KeyboardReadable {
                 
                 ZStack(alignment: .leading) {
                     if authViewModel.email.isEmpty {
-                        Text("이메일을 입력해주세요")
+                        Text("아이디를 입력해주세요")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
@@ -112,14 +111,6 @@ struct SignUpEmailView: View, KeyboardReadable {
             .padding(.horizontal, 24)
         }
         .background(Background.first)
-        .onReceive(keyboardPublisher) { newIsKeyboardVisible in
-            if isKeyboardVisible {
-                keyboardBottomPadding = 16
-            } else {
-                keyboardBottomPadding = 0
-            }
-            isKeyboardVisible = newIsKeyboardVisible
-        }
         .navigationBarBackButtonHidden()
     }
 }

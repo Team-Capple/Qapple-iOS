@@ -14,11 +14,11 @@ struct AnswerView: View {
     @State private var fontSize: CGFloat = 48
     @State private var isBackAlertPresented = false
     @FocusState private var isTextFieldFocused: Bool
+    @State private var isAnonymitySheetPresented = false
     
     let questionId: Int
     let questionContent: String
     
-    // TODO: 뒤로가기 제스처 기능 삭제해야댐
     var body: some View {
         
         ZStack {
@@ -36,14 +36,14 @@ struct AnswerView: View {
                     trailingView: {
                         CustomNavigationTextButton(
                             title: "다음",
-                            color: viewModel.answer.isEmpty ?
+                            color: viewModel.answer.count < 10 ?
                             TextLabel.disable : BrandPink.text,
                             buttonType: .next(pathType: .confirmAnswer)
                         ) {
                             viewModel.questionId = questionId
                             viewModel.questionContent = questionContent
                         }
-                        .disabled(viewModel.answer.isEmpty ? true : false)
+                        .disabled(viewModel.answer.count < 10)
                     },
                     backgroundColor: .clear
                 )
@@ -74,6 +74,7 @@ struct AnswerView: View {
                     .foregroundStyle(.wh)
                     .focused($isTextFieldFocused)
                     .padding(.horizontal, 24)
+                    .autocorrectionDisabled()
                     .onChange(of: viewModel.answer) { oldText, newText in
                         
                         // 글자 수 제한 로직
@@ -83,11 +84,11 @@ struct AnswerView: View {
                         
                         // 폰트 크기 변경 로직
                         switch newText.count {
-                        case 0..<30: fontSize = 48
-                        case 30..<40: fontSize = 40
-                        case 40..<60: fontSize = 32
-                        case 60...130: fontSize = 24
-                        case 130...: fontSize = 17
+                        case 0..<20: fontSize = 48
+                        case 20..<32: fontSize = 40
+                        case 32..<60: fontSize = 32
+                        case 60...100: fontSize = 24
+                        case 100...: fontSize = 17
                         default: break
                         }
                     }
@@ -102,22 +103,35 @@ struct AnswerView: View {
                     .foregroundStyle(Color.clear)
                 
                 HStack {
+                    Button {
+                        isAnonymitySheetPresented.toggle()
+                    } label: {
+                        Text("익명이 보장되나요?")
+                            .font(.pretendard(.semiBold, size: 12))
+                            .foregroundStyle(BrandPink.text)
+                    }
+                    .sheet(isPresented: $isAnonymitySheetPresented) {
+                        AnonymityNoticeView(isAnonymitySheetPresented: $isAnonymitySheetPresented)
+                            .presentationDetents([.height(560)])
+                    }
+                    
                     Spacer()
+                    
                     Text("\(viewModel.answer.count)/\(viewModel.textLimited)")
                         .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(TextLabel.sub3)
-                        .padding(.horizontal, 24)
                 }
+                .padding(.horizontal, 24)
                 .padding(.bottom, 12)
             }
             .navigationBarBackButtonHidden()
             .onTapGesture {
                 isTextFieldFocused = false
             }
-            .alert("삭제해버린다??", isPresented: $isBackAlertPresented) {
+            .alert("정말 그만두시겠어요?", isPresented: $isBackAlertPresented) {
                 HStack {
                     Button("취소", role: .cancel) {}
-                    Button("확인", role: .none) {
+                    Button("그만두기", role: .none) {
                         viewModel.resetAnswerInfo()
                         pathModel.paths.removeLast()
                     }
@@ -126,6 +140,7 @@ struct AnswerView: View {
                 Text("지금까지 작성한 답변이 사라져요")
             }
         }
+        .popGestureDisabled()
     }
 }
 

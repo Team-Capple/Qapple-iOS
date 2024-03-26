@@ -47,6 +47,7 @@ extension TodayQuestionViewModel {
         let currentTimeZone = dateManager.fetchTimezone()
         self.timeZone = currentTimeZone
         
+        // 타이머 시작 로직
         if timeZone == .amCreate || timeZone == .pmCreate {
             startTimer()
         }
@@ -110,12 +111,18 @@ extension TodayQuestionViewModel {
     /// 버튼 텍스트를 반환합니다.
     var buttonText: String {
         var text = ""
-        if state == .creating { text = "이전 질문 보러가기" }
+        if state == .creating {
+            if mainQuestion.isAnswered {
+                text = "이전 답변 둘러보기"
+            } else {
+                text = "이전 질문 답변하기"
+            }
+        }
         else if state == .ready { text = "질문에 답변하기" }
         else if state == .complete { text = "다른 답변 둘러보기" }
         return text
     }
-    
+
     /// 리스트 타이틀 텍스트를 반환합니다.
     var listTitleText: AttributedString {
         
@@ -126,7 +133,13 @@ extension TodayQuestionViewModel {
         let mainQuestionText = AttributedString(mainQuestion.content)
         
         var text = AttributedString()
-        if state == .creating { text = questionMark + mainQuestionText }
+        if state == .creating {
+            if mainQuestion.isAnswered {
+                text = questionMark + mainQuestionText
+            } else {
+                text = "답변 후 다른 러너의\n생각을 확인해보세요!"
+            }
+        }
         else if state == .ready { text = "어떤 질문이 나왔을까요?" }
         else if state == .complete { text = questionMark + mainQuestionText }
         return text
@@ -135,9 +148,9 @@ extension TodayQuestionViewModel {
     /// 리스트 서브 타이틀 텍스트를 반환합니다.
     var listSubText: String {
         var text = ""
-        if state == .creating { text = "최근에 달린 답변" }
+        if state == .creating { text = "답변 미리보기" }
         else if state == .ready { text = "답변 미리보기" }
-        else if state == .complete { text = "실시간 답변 현황" }
+        else if state == .complete { text = "답변 미리보기" }
         return text
     }
 }

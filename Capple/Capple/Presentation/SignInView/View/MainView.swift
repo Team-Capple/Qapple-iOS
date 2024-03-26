@@ -55,14 +55,17 @@ private struct HomeView: View {
                             
                         case .searchKeyword:
                             SearchKeywordView(viewModel: answerViewModel)
-                
-                       case .todayAnswer(let questionId, let questionContent):
+                            
+                        case .completeAnswer:
+                            CompleteAnswerView(viewModel: answerViewModel)
+                            
+                        case .todayAnswer(let questionId, let questionContent):
                             TodayAnswerView(
                                 questionId: questionId,
                                 tab: $tab,
                                 questionContent: questionContent
                             )
-
+                            
                         case .myPage:
                             MyPageView()
                             
@@ -81,7 +84,7 @@ private struct HomeView: View {
                 
             case .collecting:
                 SearchResultView(tab: $tab)
-                  .navigationDestination(for: PathType.self) { path in
+                    .navigationDestination(for: PathType.self) { path in
                         switch path {
                         case .todayAnswer(let questionId, let questionContent):
                             TodayAnswerView(
@@ -102,6 +105,9 @@ private struct HomeView: View {
                             
                         case .searchKeyword:
                             SearchKeywordView(viewModel: answerViewModel)
+                            
+                        case .completeAnswer:
+                            CompleteAnswerView(viewModel: answerViewModel)
                             
                         case .myPage:
                             MyPageView()
@@ -137,6 +143,20 @@ private struct SignInView: View {
     var body: some View {
         NavigationStack(path: $pathModel.paths) {
             ZStack {
+                Color(.clear)
+                    .ignoresSafeArea()
+                    .background(
+                        LinearGradient(
+                            stops: [
+                                Gradient.Stop(color: Color(red: 0.12, green: 0.12, blue: 0.13).opacity(0), location: 0.00),
+                                Gradient.Stop(color: Color(red: 0.93, green: 0.26, blue: 0.38).opacity(0.56), location: 1.00),
+                            ],
+                            startPoint: UnitPoint(x: 0.5, y: 0.55),
+                            endPoint: UnitPoint(x: 0.5, y: 2)
+                        )
+                    )
+                    .background(Color(red: 0.08, green: 0.08, blue: 0.08))
+                
                 signInView
                     .navigationDestination(for: PathType.self) { path in
                         switch path {
@@ -179,25 +199,27 @@ private struct SignInView: View {
     }
     
     var signInView: some View {
-        VStack(spacing: 0) {
-            Spacer()
+        VStack(alignment: .leading, spacing: 0) {
+            Spacer().frame(height: 120)
             
-            Image(.capple)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 400)
+            Text("우리끼리\n익명으로\n답변하기")
+                .font(.pretendard(.extraBold, size: 32))
+                .foregroundStyle(TextLabel.main)
+                .lineSpacing(12)
             
-            Text("CAPPLE")
-                .foregroundStyle(Color.main)
-                .font(Font.pretendard(.extraBold, size: 56))
-                .padding(.top, -40)
+            Spacer().frame(height: 24)
+            
+            Text("캐플.")
+                .font(.pretendard(.extraBold, size: 48))
+                .foregroundStyle(BrandPink.subText)
             
             Spacer()
             
             AppleLoginButton()
                 .disabled(authViewModel.isSignInLoading)
+                .padding(.bottom, 16)
         }
-        .background(Background.first)
+        .padding(.horizontal, 24)
     }
 }
 

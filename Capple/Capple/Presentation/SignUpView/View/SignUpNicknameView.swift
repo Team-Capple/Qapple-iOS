@@ -8,20 +8,32 @@
 import SwiftUI
 import Combine
 
-struct SignUpNicknameView: View, KeyboardReadable {
+struct SignUpNicknameView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
     
-    @State private var isKeyboardVisible = false
-    @State private var keyboardBottomPadding: CGFloat = 0
+    @State private var isNicknameCheckButtonTapped = false
     
-    // 추후 중복 검사 변수 나오면 삭제 예정
-    @State private var isEnableButton: Bool = false
+    private let nicknameLimit = 15
     
-    private let nicknameLimit: Int = 15
-    private var description: String = "* 캐플주스는 익명 닉네임을 권장하고 있어요"
-    private var validationFailedDescription: String = "이미 사용 중인 닉네임이에요"
+    /// 중복 검사 전 설명 문자입니다.
+    private var beforeDescription: String {
+        if authViewModel.isNicknameFieldAvailable {
+            return "* 캐플은 익명 닉네임을 권장해요"
+        } else {
+            return "초성, 숫자, 특수문자는 사용할 수 없어요"
+        }
+    }
+    
+    /// 중복 검사 후 설명 문자입니다.
+    private var afterDescription: String {
+        if authViewModel.isNicknameCanUse {
+            return "사용 가능한 닉네임이에요"
+        } else {
+            return "이미 사용 중인 닉네임이에요"
+        }
+    }
     
     var body: some View {
         
@@ -49,7 +61,7 @@ struct SignUpNicknameView: View, KeyboardReadable {
                 
                 Text("닉네임은 이후에도 변경이 가능해요")
                     .foregroundStyle(TextLabel.sub3)
-                    .font(Font.pretendard(.medium, size: 14))
+                    .font(Font.pretendard(.medium, size: 16))
                     .frame(height: 11)
                 
                 
@@ -63,9 +75,8 @@ struct SignUpNicknameView: View, KeyboardReadable {
                 Spacer().frame(height: 21)
                 
                 ZStack(alignment: .leading) {
-                    // PlaceHolder(색상 변경때문에 사용)
                     if authViewModel.nickname.isEmpty {
-                        Text("닉네임을 입력해주세요.")
+                        Text("닉네임을 입력해주세요")
                             .foregroundStyle(TextLabel.placeholder)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
@@ -73,21 +84,28 @@ struct SignUpNicknameView: View, KeyboardReadable {
                     
                     HStack(spacing: 0) {
                         TextField("", text: $authViewModel.nickname)
-                            .foregroundStyle(isEnableButton ? TextLabel.main: Context.warning)
+                            .foregroundStyle(TextLabel.main)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
                             .autocorrectionDisabled()
-                            .onChange(of: authViewModel.nickname) { _, newNickname in
-                                if newNickname.isEmpty {
-                                    isEnableButton = false
-                                } else {
-                                    isEnableButton = true
+                            .onChange(of: authViewModel.nickname) { _ , nickName in
+                                
+                                // 닉네임 중복 검사 값  및 사용 가능 초기화
+                                isNicknameCheckButtonTapped = false
+                                authViewModel.isNicknameCanUse = false
+                                
+                                // 글자 수 제한 로직
+                                if nickName.count > nicknameLimit {
+                                    authViewModel.nickname = String(nickName.prefix(nicknameLimit))
+                                    return
                                 }
-                                if newNickname.count > nicknameLimit {
-                                    authViewModel.nickname = String(newNickname.prefix(nicknameLimit))
-                                }
+                                
+                                // 띄어쓰기 방지 로직
+                                authViewModel.nickname = nickName.trimmingCharacters(in: .whitespacesAndNewlines)
+                                
+                                // 특수문자 방지 로직
+                                authViewModel.koreaLangCheck(nickName)
                             }
-                        
                         
                         Text("\(authViewModel.nickname.count)/\(nicknameLimit)")
                             .foregroundStyle(TextLabel.placeholder)
@@ -95,44 +113,53 @@ struct SignUpNicknameView: View, KeyboardReadable {
                             .frame(height: 8)
                     }
                     .frame(height: 14)
-                    
                 }
                 
                 Spacer().frame(height: 16)
                 
                 Rectangle()
                     .frame(height: 2)
-                    .foregroundStyle(isEnableButton ? GrayScale.wh : (authViewModel.nickname.isEmpty ? GrayScale.wh : BrandPink.button))
+                    .foregroundStyle(authViewModel.isNicknameCanUse ? GrayScale.wh : (authViewModel.nickname.isEmpty ? GrayScale.wh : BrandPink.button))
                 
-                Spacer().frame(height: 18)
+                Spacer().frame(height: 8)
                 
-                
-                Text("\(isEnableButton ? description : (authViewModel.nickname.isEmpty ? description : validationFailedDescription))")
-                    .font(Font.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(isEnableButton ? TextLabel.sub1 : (authViewModel.nickname.isEmpty ? TextLabel.sub1 : Context.warning))
-                    .frame(height: 10)
+                HStack {
+                    Text(!isNicknameCheckButtonTapped ? beforeDescription : afterDescription)
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(authViewModel.isNicknameFieldAvailable ? TextLabel.sub1 : Context.warning)
+                    
+                    Spacer()
+                    
+                    Button {
+                        Task {
+                            await authViewModel.requestNicknameCheck()
+                            isNicknameCheckButtonTapped = true
+                        }
+                    } label: {
+                        Text("중복 검사")
+                            .font(.pretendard(.medium, size: 14))
+                            .foregroundStyle((authViewModel.nickname.isEmpty || !authViewModel.isNicknameFieldAvailable) ? TextLabel.sub4 : TextLabel.main)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        (authViewModel.nickname.isEmpty || !authViewModel.isNicknameFieldAvailable) ? GrayScale.secondaryButton : BrandPink.button)
+                    .cornerRadius(20, corners: .allCorners)
+                    .disabled(authViewModel.nickname.isEmpty ||
+                              !authViewModel.isNicknameFieldAvailable)
+                }
                 
                 Spacer()
                 
-                ActionButton("확인", isActive: $isEnableButton, action: {
+                ActionButton("다음", isActive: $authViewModel.isNicknameCanUse, action: {
                     pathModel.paths.append(.agreement)
                 })
-                .padding(.bottom, keyboardBottomPadding)
-                .animation(.easeIn, value: isEnableButton)
+                .padding(.bottom, 16)
+                .animation(.easeIn, value: authViewModel.isNicknameCanUse)
             }
             .padding(.horizontal, 24)
-            
-            Spacer()
         }
         .background(Background.first)
-        .onReceive(keyboardPublisher) { newIsKeyboardVisible in
-            if isKeyboardVisible {
-                keyboardBottomPadding = 16
-            } else {
-                keyboardBottomPadding = 0
-            }
-            isKeyboardVisible = newIsKeyboardVisible
-        }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
     }

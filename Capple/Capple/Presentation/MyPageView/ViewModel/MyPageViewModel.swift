@@ -58,14 +58,12 @@ extension MyPageViewModel {
     
     /// 마이페이지 정보를 업데이트합니다.
     @MainActor
-    func requestMyPageInfo() {
-        Task {
-            do {
-                self.myPageInfo = try await NetworkManager.requestMyPage()
-                print("마이페이지 정보 로드 성공")
-            } catch {
-                print("마이페이지 정보 로드 실패")
-            }
+    func requestMyPageInfo() async {
+        do {
+            self.myPageInfo = try await NetworkManager.requestMyPage()
+            print("마이페이지 정보 로드 성공")
+        } catch {
+            print("마이페이지 정보 로드 실패")
         }
     }
     

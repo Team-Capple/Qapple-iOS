@@ -31,4 +31,11 @@ struct MemberResponse {
         let profileImage: String?
         let memberId: Int
     }
+    
+    struct NicknameCheck: Codable {
+        let timeStamp: String
+        let code: String
+        let message: String
+        let result: Bool
+    }
 }

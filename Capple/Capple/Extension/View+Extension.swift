@@ -13,6 +13,10 @@ extension View {
     public func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
+    
+    func popGestureDisabled() -> some View {
+        modifier(PopGestureDisabledViewModifier())
+    }
 }
 
 /// 특정 부분 CornerRadius 적용을 위한 Shape

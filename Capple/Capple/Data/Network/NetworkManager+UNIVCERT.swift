@@ -110,7 +110,7 @@ extension NetworkManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // URLSession 실행
-        let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
+        let (_, response) = try await URLSession.shared.upload(for: request, from: requestData)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,

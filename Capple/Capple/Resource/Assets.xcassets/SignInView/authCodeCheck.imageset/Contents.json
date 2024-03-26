@@ -1,12 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "tick-dynamic-gradient.png",
+      "filename" : "authCodeCheck.svg",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

@@ -25,18 +25,20 @@ struct TodayQuestionView: View {
                 CustomNavigationBar(
                     leadingView: {},
                     principalView: {
-                        HStack(spacing: 20) {
+                        HStack(spacing: 28) {
                             Button {
+                                HapticManager.shared.impact(style: .soft)
                                 viewModel.updateTodayQuestionView()
                             } label: {
-                                Text("답변하기")
+                                Text("오늘의질문")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.main)
                             }
                             Button {
+                                HapticManager.shared.impact(style: .soft)
                                 tab = .collecting
                             } label: {
-                                Text("모아보기")
+                                Text("질문리스트")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.sub4)
                             }
@@ -51,7 +53,7 @@ struct TodayQuestionView: View {
                             Image(.capple)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 24 , height: 24)
+                                .frame(width: 32 , height: 32)
                         }
                     },
                     backgroundColor: Background.second)
@@ -68,6 +70,7 @@ struct TodayQuestionView: View {
                 .scrollIndicators(.hidden)
                 .refreshable {
                     viewModel.updateTodayQuestionView()
+                    HapticManager.shared.impact(style: .light)
                 }
             }
             .background(Background.second)
@@ -209,7 +212,9 @@ private struct HeaderButtonView: View {
                 priority: viewModel.state == .ready
                 ? .primary : .secondary
             ) {
-                if viewModel.state == .ready {
+                if !viewModel.mainQuestion.isAnswered {
+                    
+                    // 답변 안했으면 답변하기 뷰로 이동
                     pathModel.paths.append(
                         .answer(
                             questionId: viewModel.mainQuestion.questionId,
@@ -217,6 +222,8 @@ private struct HeaderButtonView: View {
                         )
                     )
                 } else {
+                    
+                    // 답변 했으면 답변 보기 뷰로 이동
                     pathModel.paths.append(
                         .todayAnswer(
                             questionId: viewModel.mainQuestion.questionId,
@@ -254,7 +261,7 @@ private struct AnswerPreview: View {
                 HStack {
                     Spacer()
                     
-                    Text("아직 답변이 없어요.\n첫번째 답변을 작성해주세요!")
+                    Text("오늘 질문에 대한 답변이 아직 없어요\n답변하러 가볼까요?")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub3)
                         .multilineTextAlignment(.center)
@@ -269,12 +276,18 @@ private struct AnswerPreview: View {
                         Spacer()
                             .frame(height: 44)
                         
-                        Text(viewModel.listTitleText)
-                            .font(.pretendard(.bold, size: 20))
-                            .foregroundStyle(TextLabel.main)
+                        HStack(alignment: .top, spacing: 2) {
+                            Text("Q.")
+                                .foregroundStyle(BrandPink.text)
+                            
+                            Text(viewModel.mainQuestion.content)
+                                .foregroundStyle(TextLabel.main)
+                        }
+                        .font(.pretendard(.bold, size: 20))
+                        .lineSpacing(4)
                         
                         Spacer()
-                            .frame(height: 32)
+                            .frame(height: 24)
                         
                         HStack {
                             Text(viewModel.listSubText)
@@ -283,7 +296,7 @@ private struct AnswerPreview: View {
                             
                             Spacer()
                             
-                            if viewModel.state != .ready {
+                            if viewModel.mainQuestion.isAnswered {
                                 SeeAllButton {
                                     pathModel.paths.append(
                                         .todayAnswer(

@@ -25,7 +25,7 @@ struct SignUpAuthCodeView: View {
                     pathModel.paths.removeLast()
                 }},
                 principalView: { Text("회원가입")
-                    .font(Font.pretendard(.semiBold, size: 15))
+                        .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main) },
                 trailingView: { },
                 backgroundColor: Background.first
@@ -82,9 +82,7 @@ struct SignUpAuthCodeView: View {
                         Spacer()
                         
                         if authViewModel.isCertifyCodeVerified {
-                            Text("인증 완료")
-                                .font(.pretendard(.medium, size: 16))
-                                .foregroundStyle(BrandPink.text)
+                            Image(.authCodeCheck)
                         } else {
                             Button {
                                 authViewModel.requestCertifyCode()
@@ -101,7 +99,7 @@ struct SignUpAuthCodeView: View {
                             .alert("인증 코드가 일치하지 않아요", isPresented: $authViewModel.isCertifyCodeInvalid) {
                                 Button("확인", role: .cancel) {}
                             } message: {
-                              Text("메일함의 인증코드를 다시 확인해주세요.")
+                                Text("메일함의 인증코드를 다시 확인해주세요.")
                             }
                         }
                     }
@@ -120,7 +118,7 @@ struct SignUpAuthCodeView: View {
                 
                 HStack {
                     if !authViewModel.isCertifyCodeVerified {
-                        Text("메일이 오지 않았나요? 스팸 메일함 혹은\n이메일 주소를 다시 한번 확인해주세요.")
+                        Text("메일이 오지 않았나요? 정크 메일함 혹은\n이메일 주소를 다시 한번 확인해주세요.")
                             .font(Font.pretendard(.semiBold, size: 14))
                             .foregroundStyle(TextLabel.sub3)
                             .lineLimit(2)
@@ -140,7 +138,7 @@ struct SignUpAuthCodeView: View {
                         .padding(.vertical, 8)
                         .background(GrayScale.secondaryButton)
                         .cornerRadius(20, corners: .allCorners)
-                        .alert("메일이 재발송 되었어요.", isPresented: $isMailResendAlertPresented) {
+                        .alert("메일이 재발송 되었어요", isPresented: $isMailResendAlertPresented) {
                             Button("확인", role: .cancel) {}
                         }
                     }
@@ -148,7 +146,7 @@ struct SignUpAuthCodeView: View {
                 
                 Spacer()
                 
-                ActionButton("확인", isActive: $authViewModel.isCertifyCodeVerified, action: {
+                ActionButton("다음", isActive: $authViewModel.isCertifyCodeVerified, action: {
                     pathModel.paths.append(.inputNickName)
                 })
                 .padding(.bottom, 16)

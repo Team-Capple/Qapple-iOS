@@ -24,6 +24,9 @@ class AuthViewModel: ObservableObject {
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
     @Published var isCertifyCodeFailed = false // 인증 코드 실패 여부
     
+    @Published var isNicknameFieldAvailable = true // 닉네임 유효성 검사
+    @Published var isNicknameCanUse = false // 닉네임 중복 검사
+    
     @Published var isSignUpFailedAlertPresented = false // 회원가입 실패 알림
 }
 
@@ -43,6 +46,36 @@ extension AuthViewModel {
         isCertifyCodeVerified = false
         isCertifyCodeInvalid = false
         isCertifyCodeFailed = false
+        isNicknameFieldAvailable = true
+        isNicknameCanUse = false
+    }
+    
+    /// 특수 기호 체크 메서드
+    /// 출처 : https://arc.net/l/quote/ojvfrfrb
+    func koreaLangCheck(_ input: String) {
+        let pattern = "^[가-힣a-zA-Z\\s]*$"
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+            let range = NSRange(location: 0, length: input.utf16.count)
+            if regex.firstMatch(in: input, options: [], range: range) != nil {
+                isNicknameFieldAvailable = true
+                return
+            }
+        }
+        isNicknameFieldAvailable = false
+    }
+}
+
+// MARK: - 닉네임
+extension AuthViewModel {
+    
+    @MainActor
+    func requestNicknameCheck() async {
+        do {
+            let check = try await NetworkManager.requestNicknameCheck(nickname)
+            self.isNicknameCanUse = !check
+        } catch {
+            print("닉네임 중복 검사에 실패했습니다. 다시 시도해주세요")
+        }
     }
 }
 
@@ -106,23 +139,21 @@ extension AuthViewModel {
     
     /// 회원가입을 요청합니다.
     @MainActor
-    func requestSignUp() {
-        Task {
-            do {
-                // 회원가입 API
-                let signUpData = try await NetworkManager.requestSignUp(
-                    request: .init(
-                        signUpToken: SignInInfo.shared.refreshToken(),
-                        email: "\(email)@postech.ac.kr",
-                        nickname: nickname,
-                        profileImage: ""))
-                
-                // 토큰 데이터 업데이트
-                SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
-                SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
-            } catch {
-                isSignUpFailedAlertPresented.toggle()
-            }
+    func requestSignUp() async {
+        do {
+            // 회원가입 API
+            let signUpData = try await NetworkManager.requestSignUp(
+                request: .init(
+                    signUpToken: SignInInfo.shared.refreshToken(),
+                    email: "\(email)@postech.ac.kr",
+                    nickname: nickname,
+                    profileImage: ""))
+            
+            // 토큰 데이터 업데이트
+            SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
+            SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
+        } catch {
+            isSignUpFailedAlertPresented.toggle()
         }
     }
 }

@@ -14,27 +14,29 @@ struct AppleLoginButton: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
-        HStack {
-            Image(.appleIDLoginButton)
-        }
-        .overlay {
-            SignInWithAppleButton(
-                onRequest: { request in
-                    Task {
-                        authViewModel.isSignInLoading = true
-                        await authViewModel.appleLogin(request: request)
-                    }
-                },
-                onCompletion: { result in
-                    Task {
-                        await authViewModel.appleLoginCompletion(result: result)
-                    }
+        SignInWithAppleButton(
+            onRequest: { request in
+                Task {
+                    authViewModel.isSignInLoading = true
+                    await authViewModel.appleLogin(request: request)
                 }
-            )
-        }
+            },
+            onCompletion: { result in
+                Task {
+                    await authViewModel.appleLoginCompletion(result: result)
+                }
+            }
+        )
+        .frame(height: 56)
+        .signInWithAppleButtonStyle(.black)
     }
 }
 
 #Preview {
-    AppleLoginButton()
+    ZStack {
+        Color(Background.first)
+            .ignoresSafeArea()
+        
+        AppleLoginButton()
+    }
 }

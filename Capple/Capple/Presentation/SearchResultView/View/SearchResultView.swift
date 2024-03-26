@@ -17,18 +17,20 @@ struct SearchResultView: View {
                 CustomNavigationBar(
                     leadingView: { },
                     principalView: {
-                        HStack(spacing: 20) {
+                        HStack(spacing: 28) {
                             Button {
+                                HapticManager.shared.impact(style: .soft)
                                 tab = .answering
                             } label: {
-                                Text("답변하기")
+                                Text("오늘의질문")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.sub4)
                             }
                             Button {
+                                HapticManager.shared.impact(style: .soft)
                                 tab = .collecting
                             } label: {
-                                Text("모아보기")
+                                Text("질문리스트")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundStyle(TextLabel.main)
                             }
@@ -44,7 +46,7 @@ struct SearchResultView: View {
                             Image(.capple)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 24 , height: 24)
+                                .frame(width: 32 , height: 32)
                         }
                     },
                     backgroundColor: Background.first)
@@ -58,7 +60,11 @@ struct SearchResultView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        
+        .onAppear {
+            Task {
+                await viewModel.fetchGetQuestions()
+            }
+        }
     }
     
     // MARK: - HeaderView
@@ -74,10 +80,11 @@ struct SearchResultView: View {
             ZStack(alignment: .leading) {
                 Color(Background.first)
                 
-                Text("여러분이 작성한\n질문을 모아뒀어요")
+                Text("지금까지의 질문을\n모아뒀어요")
                     .font(.pretendard(.bold, size: 24))
                     .foregroundStyle(TextLabel.main)
                     .padding(.horizontal, 24)
+                    .lineSpacing(6)
             }
             .frame(height: 100)
         }
@@ -121,7 +128,7 @@ struct SearchResultView: View {
                     LazyVStack(spacing: 24) {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
-                                QuestionView(questions: question, tab: $tab, questionNumber: viewModel.questions.count - index) {
+                                QuestionView(question: question, tab: $tab, questionNumber: viewModel.questions.count - index) {
                                     isBottomSheetPresented.toggle()
                                 }
                                 .onTapGesture {
@@ -142,43 +149,38 @@ struct SearchResultView: View {
                                         )
                                     )
                                 }
-                                .alert("답변을 먼저 해야 볼 수 있어요", isPresented: $isAnsweredAlert) {
-                                    Button("확인", role: .none, action: {})
+                                .alert("답변하면 확인이 가능해요 😀", isPresented: $isAnsweredAlert) {
+                                    Button("확인", role: .none) {}
+                                } message: {
+                                    Text("즐거운 커뮤니티 운영을 위해\n여러분의 답변을 들려주세요")
                                 }
+                                .padding(.horizontal, 24)
+                                .sheet(isPresented: $isBottomSheetPresented) {
+                                    SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
+                                        .presentationDetents([.height(84)])
+                                    
+                                }
+                                Separator()
+                                    .padding(.leading, 24)
                             }
-                            
-                            .padding(.horizontal, 24)
-                            .sheet(isPresented: $isBottomSheetPresented) {
-                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
-                                    .presentationDetents([.height(84)])
-                            }
-                            
-                            Separator()
-                                .padding(.leading, 24)
                         }
-                        .padding(.bottom, 0)
-                        
-                        Spacer()
-                            .frame(height: 32)
+                    }
+                }
+                .scrollIndicators(.hidden)
+                .refreshable {
+                    Task {
+                        await viewModel.fetchGetQuestions()
+                        HapticManager.shared.impact(style: .light)
                     }
                 }
             }
-            
             .padding(.top, 24)
-            .scrollIndicators(.hidden)
-            .refreshable {
-                viewModel.getQuestions()
-            }
-            .onAppear {
-                viewModel.getQuestions()
-            }
-            
         }
     }
 }
 
 #Preview {
-    SearchResultView(viewModel: .init(), tab: .constant(.collecting))
+    SearchResultView(tab: .constant(.collecting))
         .environmentObject(PathModel())
         .environmentObject(AuthViewModel())
 }

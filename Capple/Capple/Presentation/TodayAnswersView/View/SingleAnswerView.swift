@@ -59,10 +59,8 @@ struct SingleAnswerView: View {
                     Text(answer.content ?? "content")
                         .font(.pretendard(.medium, size: 16))
                         .foregroundStyle(TextLabel.main)
-                        .lineLimit(nil)
                         .lineSpacing(6)
                         .multilineTextAlignment(.leading)
-                        .frame(height: 11)
                         .frame(maxWidth: .infinity, alignment: .leading) // 왼쪽 정렬
                 }
                 

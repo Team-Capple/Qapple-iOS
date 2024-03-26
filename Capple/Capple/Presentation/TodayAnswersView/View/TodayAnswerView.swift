@@ -30,18 +30,35 @@ struct TodayAnswerView: View {
             Spacer()
                 .frame(height: 16)
             
-            FloatingQuestionCard(questionContent: questionContent ,tab:$tab, viewModel: viewModel, questionId: questionId)
+            FloatingQuestionCard(
+                questionContent: questionContent,
+                tab:$tab,
+                viewModel: viewModel,
+                questionId: questionId
+            )
             
             Spacer()
                 .frame(height: 24)
             
-            AnswerScrollView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
+            AnswerScrollView(
+                viewModel: viewModel,
+                tab: $tab,
+                isBottomSheetPresented: $isBottomSheetPresented
+            )
+            .refreshable {
+                Task {
+                    viewModel.loadAnswersForQuestion(questionId: questionId)
+                    HapticManager.shared.impact(style: .light)
+                }
+            }
             
         }
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
         .onAppear {
-            viewModel.loadAnswersForQuestion(questionId: questionId)
+            Task {
+                viewModel.loadAnswersForQuestion(questionId: questionId)
+            }
         }
     }
 }
@@ -59,7 +76,7 @@ private struct CustomNavigationView: View {
                 }
             },
             principalView: {
-                Text("오늘의 답변")
+                Text("답변 리스트")
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main)
             },
