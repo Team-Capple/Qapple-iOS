@@ -30,12 +30,26 @@ struct TodayAnswerView: View {
             Spacer()
                 .frame(height: 16)
             
-            FloatingQuestionCard(questionContent: questionContent ,tab:$tab, viewModel: viewModel, questionId: questionId)
+            FloatingQuestionCard(
+                questionContent: questionContent,
+                tab:$tab,
+                viewModel: viewModel,
+                questionId: questionId
+            )
             
             Spacer()
                 .frame(height: 24)
             
-            AnswerScrollView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
+            AnswerScrollView(
+                viewModel: viewModel,
+                tab: $tab,
+                isBottomSheetPresented: $isBottomSheetPresented
+            )
+            .refreshable {
+                Task {
+                    viewModel.loadAnswersForQuestion(questionId: questionId)
+                }
+            }
             
         }
         .navigationBarBackButtonHidden()
