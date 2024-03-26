@@ -71,6 +71,7 @@ struct CompleteAnswerView: View {
         .background(Background.first)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .popGestureDisabled()
     }
 }
 

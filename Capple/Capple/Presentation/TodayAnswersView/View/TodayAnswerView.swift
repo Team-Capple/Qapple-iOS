@@ -42,7 +42,6 @@ struct TodayAnswerView: View {
         .background(Color.Background.first)
         .onAppear {
             Task {
-                await PopGestureManager.shared.updateAllowPopGesture(true)
                 viewModel.loadAnswersForQuestion(questionId: questionId)
             }
         }

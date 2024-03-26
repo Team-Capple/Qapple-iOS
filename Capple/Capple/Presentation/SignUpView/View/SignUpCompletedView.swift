@@ -58,6 +58,7 @@ struct SignUpCompletedView: View {
         .background(Background.first)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .popGestureDisabled()
     }
 }
 
