@@ -27,7 +27,7 @@ struct TodayQuestionView: View {
                     principalView: {
                         HStack(spacing: 28) {
                             Button {
-                                HapticManager.shared.impact(style: .medium)
+                                HapticManager.shared.impact(style: .soft)
                                 viewModel.updateTodayQuestionView()
                             } label: {
                                 Text("오늘의질문")
@@ -35,7 +35,7 @@ struct TodayQuestionView: View {
                                     .foregroundStyle(TextLabel.main)
                             }
                             Button {
-                                HapticManager.shared.impact(style: .medium)
+                                HapticManager.shared.impact(style: .soft)
                                 tab = .collecting
                             } label: {
                                 Text("질문리스트")

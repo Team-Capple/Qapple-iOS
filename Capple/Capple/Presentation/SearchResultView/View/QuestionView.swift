@@ -207,7 +207,7 @@ struct QuestionView: View {
 }
 
 struct DummyData {
-    static let questionsInfo = QuestionResponse.Questions.QuestionsInfos(questionStatus: .live, livedAt: "2021-01-01T00:00:00Z", content: "This is a sample question", isAnswered: true)
+    static let questionsInfo = QuestionResponse.Questions.QuestionsInfos(questionStatus: .live, livedAt: "2021-01-01T00:00:00Z", content: "This is a sample question", tag: "첫번째 두번째 세번째", isAnswered: true)
 }
 
 extension Date {

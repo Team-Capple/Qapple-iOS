@@ -19,7 +19,7 @@ struct SearchResultView: View {
                     principalView: {
                         HStack(spacing: 28) {
                             Button {
-                                HapticManager.shared.impact(style: .medium)
+                                HapticManager.shared.impact(style: .soft)
                                 tab = .answering
                             } label: {
                                 Text("오늘의질문")
@@ -27,7 +27,7 @@ struct SearchResultView: View {
                                     .foregroundStyle(TextLabel.sub4)
                             }
                             Button {
-                                HapticManager.shared.impact(style: .medium)
+                                HapticManager.shared.impact(style: .soft)
                                 tab = .collecting
                             } label: {
                                 Text("질문리스트")
