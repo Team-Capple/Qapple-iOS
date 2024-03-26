@@ -17,11 +17,7 @@ struct SignUpCompletedView: View {
         VStack(spacing: 0) {
             CustomNavigationBar(
                 leadingView: {},
-                principalView: {
-                    Text("회원가입 완료")
-                        .font(Font.pretendard(.semiBold, size: 15))
-                        .foregroundStyle(TextLabel.main)
-                },
+                principalView: {},
                 trailingView: {},
                 backgroundColor: Background.first)
             
