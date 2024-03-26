@@ -202,7 +202,7 @@ private struct SignInView: View {
         VStack(alignment: .leading, spacing: 0) {
             Spacer().frame(height: 120)
             
-            Text("하루 두번\n질문으로\n가볍게")
+            Text("우리끼리\n익명으로\n답변하기")
                 .font(.pretendard(.extraBold, size: 32))
                 .foregroundStyle(TextLabel.main)
                 .lineSpacing(12)
