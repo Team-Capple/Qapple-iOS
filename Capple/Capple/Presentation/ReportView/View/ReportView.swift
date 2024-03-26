@@ -10,6 +10,7 @@ import SwiftUI
 struct ReportView: View {
     
     @EnvironmentObject var pathModel: PathModel
+    @State private var isReportAlertPresented = false
     
     var moreList = [
         "불법촬영물 등의 유통", "상업적 광고 및 판매",
@@ -38,16 +39,29 @@ struct ReportView: View {
                     backgroundColor: .clear
                 )
                 
-                List(moreList, id: \.self) { more in
-                    Button {
-                        // TODO: 신고하기 이동
-                    } label: {
-                        ReportListRow(title: more)
+                VStack {
+                    ForEach(moreList, id: \.self) { more in
+                        Button {
+                            isReportAlertPresented.toggle()
+                        } label: {
+                            Text(more)
+                                .font(.pretendard(.medium, size: 16))
+                                .foregroundStyle(.wh)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .frame(height: 48)
+                                .padding(.leading, 24)
+                                .background(Background.first)
+                        }
                     }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
-                .listStyle(.plain)
-                .navigationBarBackButtonHidden()
+                Spacer()
+            }
+        }
+        .navigationBarBackButtonHidden()
+        .alert("답변을 신고하시겠어요?", isPresented: $isReportAlertPresented) {
+            Button("취소", role: .cancel) {}
+            Button("신고하기", role: .destructive) {
+                pathModel.paths.removeLast()
             }
         }
     }
