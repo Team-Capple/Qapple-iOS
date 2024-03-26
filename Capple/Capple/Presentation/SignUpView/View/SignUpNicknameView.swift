@@ -16,7 +16,6 @@ struct SignUpNicknameView: View {
     @State private var isNicknameCheckButtonTapped = false
     
     private let nicknameLimit: Int = 15
-    private var validationFailedDescription: String = "이미 사용 중인 닉네임이에요"
     
     /// 중복 검사 전 설명 문자입니다.
     private var beforeDescription: String {
@@ -91,8 +90,9 @@ struct SignUpNicknameView: View {
                             .autocorrectionDisabled()
                             .onChange(of: authViewModel.nickname) { _ , nickName in
                                 
-                                // 닉네임 중복 검사 값 초기화
+                                // 닉네임 중복 검사 값  및 사용 가능 초기화
                                 isNicknameCheckButtonTapped = false
+                                authViewModel.isNicknameCanUse = false
                                 
                                 // 글자 수 제한 로직
                                 if nickName.count > nicknameLimit {
@@ -133,6 +133,7 @@ struct SignUpNicknameView: View {
                     Button {
                         Task {
                             await authViewModel.requestNicknameCheck()
+                            isNicknameCheckButtonTapped = true
                         }
                     } label: {
                         Text("중복 검사")

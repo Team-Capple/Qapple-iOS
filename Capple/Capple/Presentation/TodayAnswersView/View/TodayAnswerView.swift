@@ -41,7 +41,10 @@ struct TodayAnswerView: View {
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
         .onAppear {
-            viewModel.loadAnswersForQuestion(questionId: questionId)
+            Task {
+                await PopGestureManager.shared.updateAllowPopGesture(true)
+                viewModel.loadAnswersForQuestion(questionId: questionId)
+            }
         }
     }
 }

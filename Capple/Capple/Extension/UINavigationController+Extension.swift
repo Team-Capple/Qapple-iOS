@@ -8,13 +8,12 @@
 import UIKit
 
 extension UINavigationController: ObservableObject, UIGestureRecognizerDelegate {
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationBar.isHidden = true // 모든 네비게이션 뷰에서 bar를 없애는 코드
         interactivePopGestureRecognizer?.delegate = self
     }
 
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return viewControllers.count > 1
+        return PopGestureManager.shared.isAllowPopGesture() && viewControllers.count > 1
     }
 }

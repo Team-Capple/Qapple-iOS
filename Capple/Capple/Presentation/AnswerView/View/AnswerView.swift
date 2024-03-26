@@ -18,7 +18,6 @@ struct AnswerView: View {
     let questionId: Int
     let questionContent: String
     
-    // TODO: 뒤로가기 제스처 기능 삭제해야댐
     var body: some View {
         
         ZStack {
@@ -127,6 +126,7 @@ struct AnswerView: View {
                 Text("지금까지 작성한 답변이 사라져요")
             }
         }
+        .popGestureDisabled()
     }
 }
 
