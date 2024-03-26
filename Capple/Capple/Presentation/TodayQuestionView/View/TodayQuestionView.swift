@@ -70,6 +70,7 @@ struct TodayQuestionView: View {
                 .scrollIndicators(.hidden)
                 .refreshable {
                     viewModel.updateTodayQuestionView()
+                    HapticManager.shared.impact(style: .light)
                 }
             }
             .background(Background.second)

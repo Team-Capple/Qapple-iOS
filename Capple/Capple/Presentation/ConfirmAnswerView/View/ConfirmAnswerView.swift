@@ -74,7 +74,7 @@ struct ConfirmAnswerView: View {
                 
                 Spacer()
                 
-                ActionButton("완료", isActive: $isButtonActive) {
+                ActionButton("답변 등록하기", isActive: $isButtonActive) {
                     pathModel.paths.append(.completeAnswer)
                     HapticManager.shared.notification(type: .success)
                 }

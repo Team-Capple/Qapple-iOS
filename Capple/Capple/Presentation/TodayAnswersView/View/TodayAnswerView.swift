@@ -48,6 +48,7 @@ struct TodayAnswerView: View {
             .refreshable {
                 Task {
                     viewModel.loadAnswersForQuestion(questionId: questionId)
+                    HapticManager.shared.impact(style: .light)
                 }
             }
             

@@ -170,6 +170,7 @@ struct SearchResultView: View {
                 .refreshable {
                     Task {
                         await viewModel.fetchGetQuestions()
+                        HapticManager.shared.impact(style: .light)
                     }
                 }
             }

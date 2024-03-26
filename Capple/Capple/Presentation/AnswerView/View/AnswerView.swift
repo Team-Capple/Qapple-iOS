@@ -14,7 +14,7 @@ struct AnswerView: View {
     @State private var fontSize: CGFloat = 48
     @State private var isBackAlertPresented = false
     @FocusState private var isTextFieldFocused: Bool
-    @State private var isAnonymityAlertPresented = false
+    @State private var isAnonymitySheetPresented = false
     
     let questionId: Int
     let questionContent: String
@@ -104,11 +104,15 @@ struct AnswerView: View {
                 
                 HStack {
                     Button {
-                        isAnonymityAlertPresented.toggle()
+                        isAnonymitySheetPresented.toggle()
                     } label: {
                         Text("익명이 보장되나요?")
                             .font(.pretendard(.semiBold, size: 12))
                             .foregroundStyle(BrandPink.text)
+                    }
+                    .sheet(isPresented: $isAnonymitySheetPresented) {
+                        AnonymityNoticeView(isAnonymitySheetPresented: $isAnonymitySheetPresented)
+                            .presentationDetents([.height(560)])
                     }
                     
                     Spacer()
@@ -135,12 +139,6 @@ struct AnswerView: View {
             } message: {
                 Text("지금까지 작성한 답변이 사라져요")
             }
-            .alert("익명이 보장되나요?", isPresented: $isAnonymityAlertPresented) {
-                Button("확인", role: .none) {}
-            } message: {
-                Text("100% 익명입니다.")
-            }
-
         }
         .popGestureDisabled()
     }

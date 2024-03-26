@@ -15,18 +15,17 @@ struct SeeMoreView: View {
     var body: some View {
         ZStack {
             
-            Color(GrayScale.secondaryButton)
+            Color(Background.first)
                 .ignoresSafeArea()
             
             VStack(alignment: .leading) {
-                Spacer()
-                    .frame(height: 24)
+                Spacer().frame(height: 12)
                 
                 HStack {
                     Spacer()
                     RoundedRectangle(cornerRadius: 3)
                         .frame(width: 56, height: 4)
-                        .foregroundStyle(Background.first)
+                        .foregroundStyle(GrayScale.secondaryButton)
                     Spacer()
                 }
                 
