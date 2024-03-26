@@ -273,10 +273,15 @@ private struct AnswerPreview: View {
                         Spacer()
                             .frame(height: 44)
                         
-                        Text(viewModel.listTitleText)
-                            .font(.pretendard(.bold, size: 20))
-                            .foregroundStyle(TextLabel.main)
-                            .lineSpacing(4)
+                        HStack(alignment: .top, spacing: 2) {
+                            Text("Q.")
+                                .foregroundStyle(BrandPink.text)
+                            
+                            Text(viewModel.mainQuestion.content)
+                                .foregroundStyle(TextLabel.main)
+                        }
+                        .font(.pretendard(.bold, size: 20))
+                        .lineSpacing(4)
                         
                         Spacer()
                             .frame(height: 24)

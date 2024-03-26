@@ -30,13 +30,18 @@ struct ConfirmAnswerView: View {
             Spacer()
                 .frame(height: 24)
             
-            Text(viewModel.answerText)
-                .font(.pretendard(.bold, size: 23))
-                .foregroundStyle(BrandPink.subText)
-                .multilineTextAlignment(.center)
-                .lineSpacing(4)
-                .padding(.bottom, 32)
-                .padding(.horizontal, 24)
+            HStack(alignment: .top, spacing: 2) {
+                Text("A.")
+                    .foregroundStyle(BrandPink.text)
+                
+                Text(viewModel.answer)
+                    .foregroundStyle(BrandPink.subText)
+            }
+            .font(.pretendard(.bold, size: 23))
+            .multilineTextAlignment(.leading)
+            .lineSpacing(4)
+            .padding(.bottom, 32)
+            .padding(.horizontal, 24)
             
             Spacer()
                 .frame(height: 24)

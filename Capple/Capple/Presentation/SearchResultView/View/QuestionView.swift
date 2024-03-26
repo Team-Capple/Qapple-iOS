@@ -98,6 +98,13 @@ struct QuestionView: View {
         
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
+                Text("Q.")
+                    .font(.pretendard(.bold, size: 16))
+                    .foregroundStyle(BrandPink.text)
+                
+                Spacer()
+                    .frame(width: 2)
+                
                 Text("\(getTimePeriod(from: questions.livedAt ?? "default") ?? "오전")질문")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
@@ -157,9 +164,9 @@ struct QuestionView: View {
                 .frame(height: 16)
             
             // MARK: - 본문
-            Text(questions.isAnswered ? listTitleText : "답변 후 다른 러너의\n생각을 확인해보세요!")
-                .font(.pretendard(.bold, size: 17))
+            Text(questions.isAnswered ? questions.content : "답변 후 다른 러너의\n생각을 확인해보세요!")
                 .foregroundStyle(TextLabel.main)
+                .font(.pretendard(.bold, size: 17))
                 .lineSpacing(4.0)
             
             Spacer()
@@ -173,12 +180,7 @@ struct QuestionView: View {
                         .foregroundColor(BrandPink.text)
                         .frame(height: 10)
                 }
-            }
-            
-            Spacer()
-                .frame(height: 8)
-            
-            HStack {
+                
                 Spacer()
                 
                 if !questions.isAnswered { // isAnswered가 true일 때만 표시

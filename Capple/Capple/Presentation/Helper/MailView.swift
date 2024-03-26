@@ -53,6 +53,7 @@ struct MailView: UIViewControllerRepresentable {
         let bodyString = """
         아래의 양식을 작성하여 문의 혹은 의견을 보내주시면 감사하겠습니다. 캡처 화면을 함께 보내주시면 보다 정확한 답변이 가능합니다!
         
+        
         1. 문의 내용:
         
         2. 추가 사항(선택사항):
