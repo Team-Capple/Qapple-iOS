@@ -691,9 +691,9 @@
 			isa = PBXGroup;
 			children = (
 				F36F37C12B9B78F3002EC36B /* Capple.entitlements */,
+				07D96ECE2B77973E00754819 /* Info.plist */,
 				07D96EE72B7A6D4000754819 /* Extension */,
 				F36B0EF82B86742C009EBE1D /* Protocol */,
-				07D96ECE2B77973E00754819 /* Info.plist */,
 				F3EA67092B764550002417CE /* Resource */,
 				F3EA67082B76453F002417CE /* Presentation */,
 				F3EA67072B764530002417CE /* App */,
@@ -812,6 +812,7 @@
 		F3EA67082B76453F002417CE /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				F3EA67102B7645FC002417CE /* Helper */,
 				67B185082B9435EF0057E6BB /* TodayAnswersView */,
 				82C379112B9347AB00CC7708 /* AlertView */,
 				82C379082B93290700CC7708 /* ReportView */,
@@ -820,7 +821,6 @@
 				F37C17872B873419005E5072 /* MyPageView */,
 				F36B0EF02B865676009EBE1D /* SignUpView */,
 				F36B0EE82B865590009EBE1D /* SignInView */,
-				F3EA67102B7645FC002417CE /* Helper */,
 				07D96ED22B79E79600754819 /* TodayQuestionView */,
 				07BF36322B8B36A30047F3F7 /* AnswerView */,
 				07BF36392B8B827C0047F3F7 /* ConfirmAnswerView */,

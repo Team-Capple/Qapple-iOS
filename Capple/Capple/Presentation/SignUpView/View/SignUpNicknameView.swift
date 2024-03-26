@@ -15,7 +15,7 @@ struct SignUpNicknameView: View {
     
     @State private var isNicknameCheckButtonTapped = false
     
-    private let nicknameLimit: Int = 15
+    private let nicknameLimit = 15
     
     /// 중복 검사 전 설명 문자입니다.
     private var beforeDescription: String {
@@ -97,6 +97,7 @@ struct SignUpNicknameView: View {
                                 // 글자 수 제한 로직
                                 if nickName.count > nicknameLimit {
                                     authViewModel.nickname = String(nickName.prefix(nicknameLimit))
+                                    return
                                 }
                                 
                                 // 띄어쓰기 방지 로직
@@ -112,7 +113,6 @@ struct SignUpNicknameView: View {
                             .frame(height: 8)
                     }
                     .frame(height: 14)
-                    
                 }
                 
                 Spacer().frame(height: 16)

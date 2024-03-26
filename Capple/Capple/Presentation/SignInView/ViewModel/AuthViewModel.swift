@@ -46,6 +46,8 @@ extension AuthViewModel {
         isCertifyCodeVerified = false
         isCertifyCodeInvalid = false
         isCertifyCodeFailed = false
+        isNicknameFieldAvailable = true
+        isNicknameCanUse = false
     }
     
     /// 특수 기호 체크 메서드
