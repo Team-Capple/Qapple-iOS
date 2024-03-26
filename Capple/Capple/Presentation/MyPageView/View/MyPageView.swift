@@ -51,47 +51,45 @@ struct MyPageView: View {
                     },
                     backgroundColor: Background.second)
                 
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        MyProfileSummary(
-                            nickname: viewModel.myPageInfo.nickname,
-                            joinDate: viewModel.myPageInfo.joinDate
-                        )
+                VStack(alignment: .leading, spacing: 0) {
+                    MyProfileSummary(
+                        nickname: viewModel.myPageInfo.nickname,
+                        joinDate: viewModel.myPageInfo.joinDate
+                    )
+                    
+                    ForEach(viewModel.sectionInfos, id: \.id) { index in
                         
-                        ForEach(viewModel.sectionInfos, id: \.id) { index in
-                            
-                            // 문의 및 제보
-                            if index.id == 0 {
-                                MyPageSection(sectionInfo: index, sectionActions: [
-                                    
-                                    // 문의하기
-                                    {
-                                        // 메일 앱을 사용할 수 없는 경우
-                                        if !MFMailComposeViewController.canSendMail() {
-                                            isEmailDisabledAlert.toggle()
-                                        } else {
-                                            isShowingMailView.toggle()
-                                        }
+                        // 문의 및 제보
+                        if index.id == 0 {
+                            MyPageSection(sectionInfo: index, sectionActions: [
+                                
+                                // 문의하기
+                                {
+                                    // 메일 앱을 사용할 수 없는 경우
+                                    if !MFMailComposeViewController.canSendMail() {
+                                        isEmailDisabledAlert.toggle()
+                                    } else {
+                                        isShowingMailView.toggle()
                                     }
-                                ])
-                            }
-                            
-                            // 계정 관리
-                            else if index.id == 1 {
-                                MyPageSection(sectionInfo: index, sectionActions: [
-                                    
-                                    // 로그아웃
-                                    { isLogOutAlertPresented.toggle() },
-                                    
-                                    // 회원탈퇴
-                                    { isDeleteMemeberAlertPresented.toggle() }
-                                ])
-                            }
+                                }
+                            ])
+                        }
+                        
+                        // 계정 관리
+                        else if index.id == 1 {
+                            MyPageSection(sectionInfo: index, sectionActions: [
+                                
+                                // 로그아웃
+                                { isLogOutAlertPresented.toggle() },
+                                
+                                // 회원탈퇴
+                                { isDeleteMemeberAlertPresented.toggle() }
+                            ])
                         }
                     }
+                    Spacer()
                 }
             }
-            .background(Background.second)
             .navigationBarBackButtonHidden()
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
@@ -126,7 +124,7 @@ struct MyPageView: View {
                     })
                 }
             } message: {
-                Text("탈퇴하면 계정은 복구되지 않아요\n단, 이미 작성한 답변은 남이있어요")
+                Text("탈퇴하면 계정은 복구되지 않아요\n단, 이미 작성한 답변은 남아있어요")
             }
             .sheet(isPresented: $isShowingMailView) {
                 MailView(result: $mailResult)
