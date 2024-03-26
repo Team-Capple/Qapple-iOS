@@ -8,9 +8,8 @@ struct QuestionView: View {
     @EnvironmentObject var pathModel: PathModel
     
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
-    @State var questions: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
+    let question: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
     @State private var dateString: String = "" // 상태 변수 정의
-    
     @Binding var tab: Tab
     
     let questionNumber: Int
@@ -61,7 +60,7 @@ struct QuestionView: View {
     }
     
     var questionStatusRawValue: String {
-        switch questions.questionStatus {
+        switch question.questionStatus {
         case .live:
             return QuestionStatus.live.rawValue
         default:
@@ -73,14 +72,14 @@ struct QuestionView: View {
     var listTitleText: AttributedString {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
-        let text = AttributedString("\(questions.content)")
+        let text = AttributedString("\(question.content)")
         return questionMark + text
     }
     
     /// 키워드 문자열 배열을 반환합니다.
     var tags: [String] {
         
-        guard var tagArray = questions.tag?
+        guard var tagArray = question.tag?
             .split(separator: " ")
             .map(String.init) else {
             return []
@@ -105,7 +104,7 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 2)
                 
-                Text("\(getTimePeriod(from: questions.livedAt ?? "default") ?? "오전")질문")
+                Text("\(getTimePeriod(from: question.livedAt ?? "default") ?? "오전")질문")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
                 
@@ -119,10 +118,10 @@ struct QuestionView: View {
                 Spacer()
                     .frame(width: 4)
                 
-                Text(formattedDate(from: questions.livedAt ?? "default"))
+                Text(formattedDate(from: question.livedAt ?? "default"))
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
-                    .opacity(questions.questionStatus == .live ? 1 : 0.6)
+                    .opacity(question.questionStatus == .live ? 1 : 0.6)
                 
                 Spacer()
                     .frame(width: 4)
@@ -137,7 +136,7 @@ struct QuestionView: View {
                 Text("#\(questionNumber)")
                     .font(.pretendard(.semiBold, size: 14))
                     .foregroundStyle(GrayScale.icon)
-                    .opacity(questions.questionStatus == .live ? 1 : 0.6)
+                    .opacity(question.questionStatus == .live ? 1 : 0.6)
                 
                 Spacer()
                     .frame(width: 8)
@@ -164,7 +163,7 @@ struct QuestionView: View {
                 .frame(height: 16)
             
             // MARK: - 본문
-            Text(questions.isAnswered ? questions.content : "답변 후 다른 러너의\n생각을 확인해보세요!")
+            Text(question.isAnswered ? question.content : "답변 후 다른 러너의\n생각을 확인해보세요!")
                 .foregroundStyle(TextLabel.main)
                 .font(.pretendard(.bold, size: 17))
                 .lineSpacing(4.0)
@@ -183,12 +182,12 @@ struct QuestionView: View {
                 
                 Spacer()
                 
-                if !questions.isAnswered { // isAnswered가 true일 때만 표시
+                if !question.isAnswered { // isAnswered가 true일 때만 표시
                     Button {
                         pathModel.paths.append(
                             .answer(
-                                questionId: questions.questionId ?? 0,
-                                questionContent: questions.content
+                                questionId: question.questionId ?? 0,
+                                questionContent: question.content
                             )
                         )
                     } label: {
@@ -220,7 +219,7 @@ extension Date {
 }
 
 #Preview {
-    QuestionView(questions: DummyData.questionsInfo, tab: .constant(.collecting),
+    QuestionView(question: DummyData.questionsInfo, tab: .constant(.collecting),
                  questionNumber: 0) {}
         .environmentObject(PathModel())
 }

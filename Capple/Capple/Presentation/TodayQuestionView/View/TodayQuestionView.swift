@@ -51,7 +51,7 @@ struct TodayQuestionView: View {
                             Image(.capple)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 24 , height: 24)
+                                .frame(width: 32 , height: 32)
                         }
                     },
                     backgroundColor: Background.second)
