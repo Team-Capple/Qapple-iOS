@@ -126,6 +126,7 @@ extension AuthViewModel {
                     }
                     
                     print("액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
+                    print("리프레쉬 토큰 값!\n\(SignInInfo.shared.refreshToken())\n")
                 }
                 
             default:
@@ -167,10 +168,13 @@ extension AuthViewModel {
     func requestEmailCertification() {
         Task {
             do {
-                let _ = try await NetworkManager.requestUniversityMailAuth(
+                let _ = try await NetworkManager.requestEmailCertificationCode(
                     request: .init(
-                        key: APIKey.univcertKey,
-                        email: "\(email)@postech.ac.kr"))
+                        signUpToken: SignInInfo.shared.refreshToken(),
+                        email: "\(email)@postech.ac.kr"
+                    )
+                )
+                print("네트워킹 성공!")
             } catch {
                 requestClearEmail()
             }
