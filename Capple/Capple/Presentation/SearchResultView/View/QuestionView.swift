@@ -10,7 +10,6 @@ struct QuestionView: View {
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
     let question: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
     @State private var dateString: String = "" // 상태 변수 정의
-    @Binding var tab: Tab
     
     let questionNumber: Int
     let seeMoreAction: () -> Void
@@ -219,7 +218,7 @@ extension Date {
 }
 
 #Preview {
-    QuestionView(question: DummyData.questionsInfo, tab: .constant(.collecting),
+    QuestionView(question: DummyData.questionsInfo,
                  questionNumber: 0) {}
         .environmentObject(PathModel())
 }

@@ -80,10 +80,16 @@ struct MyPageView: View {
                             MyPageSection(sectionInfo: index, sectionActions: [
                                 
                                 // 로그아웃
-                                { isLogOutAlertPresented.toggle() },
+                                {
+                                    isLogOutAlertPresented.toggle()
+                                    HapticManager.shared.notification(type: .warning)
+                                },
                                 
                                 // 회원탈퇴
-                                { isDeleteMemeberAlertPresented.toggle() }
+                                {
+                                    isDeleteMemeberAlertPresented.toggle()
+                                    HapticManager.shared.notification(type: .warning)
+                                }
                             ])
                         }
                     }

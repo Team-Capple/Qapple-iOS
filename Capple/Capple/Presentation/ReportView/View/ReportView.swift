@@ -11,6 +11,7 @@ struct ReportView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @State private var isReportAlertPresented = false
+    @State private var isReportCompleteAlertPresented = false
     
     var moreList = [
         "불법촬영물 등의 유통", "상업적 광고 및 판매",
@@ -43,6 +44,7 @@ struct ReportView: View {
                     ForEach(moreList, id: \.self) { more in
                         Button {
                             isReportAlertPresented.toggle()
+                            HapticManager.shared.notification(type: .warning)
                         } label: {
                             Text(more)
                                 .font(.pretendard(.medium, size: 16))
@@ -61,8 +63,15 @@ struct ReportView: View {
         .alert("답변을 신고하시겠어요?", isPresented: $isReportAlertPresented) {
             Button("취소", role: .cancel) {}
             Button("신고하기", role: .destructive) {
+                isReportCompleteAlertPresented.toggle()
+            }
+        }
+        .alert("신고가 완료됐어요", isPresented: $isReportCompleteAlertPresented) {
+            Button("확인", role: .none) {
                 pathModel.paths.removeLast()
             }
+        } message: {
+            Text("신고하신 내용을 빠르게 검토 후 조치할게요")
         }
     }
 }

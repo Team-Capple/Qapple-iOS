@@ -13,6 +13,7 @@ struct ConfirmAnswerView: View {
     @EnvironmentObject private var pathModel: PathModel
     @ObservedObject var viewModel: AnswerViewModel
     @State private var isButtonActive = false
+    @State private var isRequestRegisterAnswer = false
     
     var body: some View {
         VStack {
@@ -75,12 +76,14 @@ struct ConfirmAnswerView: View {
                 Spacer()
                 
                 ActionButton("답변 등록하기", isActive: $isButtonActive) {
+                    isRequestRegisterAnswer.toggle()
                     pathModel.paths.append(.completeAnswer)
                     HapticManager.shared.notification(type: .success)
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 16)
                 .animation(.bouncy(duration: 0.3), value: isButtonActive)
+                .disabled(isRequestRegisterAnswer)
             }
         }
         .background(Background.second)
@@ -98,7 +101,6 @@ private struct KeywordView: View {
     @ObservedObject private var viewModel: AnswerViewModel
     @Binding var isButtonActive: Bool
     @State private var isKeywordInputAlertPresented = false
-    @State private var isKeywordCountAlertPresented = false
     @State private var keywordInputText = ""
     
     fileprivate init(viewModel: AnswerViewModel, isButtonActive: Binding<Bool>) {
@@ -112,21 +114,20 @@ private struct KeywordView: View {
                 KeywordChoiceChip(buttonType: .addKeyword) {
                     isKeywordInputAlertPresented.toggle()
                 }
-            } else {
+            } else if viewModel.keywords.count < 3 {
                 FlexView(data: viewModel.flexKeywords, spacing: 8, alignment: .leading) { keyword in
-                    
                     keyword == viewModel.flexKeywords.last ?
                     KeywordChoiceChip(buttonType: .addKeyword) {
-                        
-                        // 만약 3개 이상 생성 시 키워드 생성 제한
-                        if viewModel.keywords.count >= 3 {
-                            isKeywordCountAlertPresented.toggle()
-                            return
-                        }
-                        
                         isKeywordInputAlertPresented.toggle()
                     }
                     :
+                    KeywordChoiceChip(keyword.name, buttonType: .label) {
+                        viewModel.removeKeyword(keyword)
+                        isButtonActive = viewModel.keywords.isEmpty ? false : true
+                    }
+                }
+            } else {
+                FlexView(data: viewModel.keywords, spacing: 8, alignment: .leading) { keyword in
                     KeywordChoiceChip(keyword.name, buttonType: .label) {
                         viewModel.removeKeyword(keyword)
                         isButtonActive = viewModel.keywords.isEmpty ? false : true
@@ -161,13 +162,9 @@ private struct KeywordView: View {
                 isButtonActive = viewModel.keywords.isEmpty ? false : true
                 keywordInputText = ""
             }
+        } message: {
+            Text("최대 8글자까지 입력 가능해요")
         }
-    message: {
-        Text("최대 8글자까지 입력 가능해요")
-    }
-    .alert("키워드는 최대 3개까지 추가 가능해요", isPresented: $isKeywordCountAlertPresented) {
-        Button("확인", role: .none) {}
-    }
     }
 }
 
