@@ -43,7 +43,7 @@ struct AnswerView: View {
                             viewModel.questionId = questionId
                             viewModel.questionContent = questionContent
                         }
-                        .disabled(viewModel.answer.count < 10)
+                        .disabled(viewModel.answer.count < 3)
                     },
                     backgroundColor: .clear
                 )

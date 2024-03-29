@@ -33,6 +33,7 @@ struct CustomNavigationTextButton: View {
             action()
         } label: {
             Text(title)
+                .font(.pretendard(.semiBold, size: 17))
             .foregroundStyle(color)
         }
     }
