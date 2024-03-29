@@ -34,12 +34,12 @@ private struct HomeView: View {
     @StateObject var authViewModel: AuthViewModel = .init()
     @StateObject var answerViewModel: AnswerViewModel = .init()
     
-    @State private var tab: Tab = .answering
+    @State private var tab: Tab = .todayQuestion
     
     var body: some View {
         NavigationStack(path: $pathModel.paths) {
             switch tab {
-            case .answering:
+            case .todayQuestion:
                 TodayQuestionView(tab: $tab)
                     .navigationDestination(for: PathType.self) { path in
                         switch path {
@@ -62,7 +62,6 @@ private struct HomeView: View {
                         case .todayAnswer(let questionId, let questionContent):
                             TodayAnswerView(
                                 questionId: questionId,
-                                tab: $tab,
                                 questionContent: questionContent
                             )
                             
@@ -82,14 +81,15 @@ private struct HomeView: View {
                         }
                     }
                 
-            case .collecting:
+            case .questionList:
                 SearchResultView(tab: $tab)
+                    .tabItem { Text("질문리스트") }
+                    .tag(1)
                     .navigationDestination(for: PathType.self) { path in
                         switch path {
                         case .todayAnswer(let questionId, let questionContent):
                             TodayAnswerView(
                                 questionId: questionId,
-                                tab: $tab,
                                 questionContent: questionContent
                             )
                             
@@ -124,6 +124,8 @@ private struct HomeView: View {
                         default: EmptyView()
                         }
                     }
+            default:
+                EmptyView()
             }
         }
         .onAppear {

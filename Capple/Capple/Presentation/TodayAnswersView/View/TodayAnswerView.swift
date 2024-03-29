@@ -12,14 +12,12 @@ struct TodayAnswerView: View {
     @EnvironmentObject var pathModel: PathModel
     @StateObject var viewModel: TodayAnswersViewModel = .init()
     
-    @Binding var tab: Tab
     @State private var isBottomSheetPresented = false
     
     var questionContent: String = "완전기본값제공" // 여기에 기본값을 제공합니다.
     var questionId: Int =  1// 여기에 기본값을 제공합니다.
     
-    init(questionId: Int, tab: Binding<Tab>, questionContent: String) {
-        self._tab = tab
+    init(questionId: Int, questionContent: String) {
         self.questionContent = questionContent
         self.questionId = questionId
     }
@@ -32,7 +30,6 @@ struct TodayAnswerView: View {
             
             FloatingQuestionCard(
                 questionContent: questionContent,
-                tab:$tab,
                 viewModel: viewModel,
                 questionId: questionId
             )
@@ -42,7 +39,6 @@ struct TodayAnswerView: View {
             
             AnswerScrollView(
                 viewModel: viewModel,
-                tab: $tab,
                 isBottomSheetPresented: $isBottomSheetPresented
             )
             .refreshable {
@@ -116,7 +112,6 @@ private struct KeywordScrollView: View {
 private struct FloatingQuestionCard: View {
     
     var questionContent: String // 질문 내용을 저장할 프로퍼티
-    @Binding var tab: Tab // 현재 탭을 저장할 프로퍼티
     @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
     @State private var isCardExpanded = true // 카드 확장 상태
     var questionId: Int?  // 추가됨
@@ -166,15 +161,13 @@ private struct FloatingQuestionCard: View {
 
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
-    @Binding var tab: Tab
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @Binding private var isBottomSheetPresented: Bool
     
-    fileprivate init(viewModel: TodayAnswersViewModel, tab: Binding<Tab>, isBottomSheetPresented: Binding<Bool>) {
+    fileprivate init(viewModel: TodayAnswersViewModel, isBottomSheetPresented: Binding<Bool>) {
         self.viewModel = viewModel
         self._isBottomSheetPresented = isBottomSheetPresented
-        self._tab = tab
     }
     
     var body: some View {
@@ -199,7 +192,6 @@ private struct AnswerScrollView: View {
 #Preview {
     TodayAnswerView(
         questionId: 1,
-        tab: .constant(.answering),
         questionContent: "디폴트"
     )
     .environmentObject(PathModel())

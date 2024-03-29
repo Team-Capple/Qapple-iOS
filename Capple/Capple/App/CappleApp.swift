@@ -21,9 +21,9 @@ struct CappleApp: App {
     }
     
     private func setNavigationTitleAttributes() {
-        // Large Navigation Title
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        // Inline Navigation Title
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
+//        // Large Navigation Title
+//        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+//        // Inline Navigation Title
+//        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
     }
 }

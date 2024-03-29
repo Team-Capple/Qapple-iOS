@@ -8,6 +8,6 @@
 import Foundation
 
 enum Tab {
-    case answering // 답변하기
-    case collecting // 모아보기
+    case todayQuestion // 오늘의질문
+    case questionList // 질문리스트
 }

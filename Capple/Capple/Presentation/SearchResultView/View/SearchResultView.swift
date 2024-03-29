@@ -20,7 +20,7 @@ struct SearchResultView: View {
                         HStack(spacing: 28) {
                             Button {
                                 HapticManager.shared.impact(style: .soft)
-                                tab = .answering
+                                tab = .todayQuestion
                             } label: {
                                 Text("오늘의질문")
                                     .font(.pretendard(.semiBold, size: 14))
@@ -28,7 +28,7 @@ struct SearchResultView: View {
                             }
                             Button {
                                 HapticManager.shared.impact(style: .soft)
-                                tab = .collecting
+                                tab = .questionList
                             } label: {
                                 Text("질문리스트")
                                     .font(.pretendard(.semiBold, size: 14))
@@ -53,7 +53,7 @@ struct SearchResultView: View {
                 
                 HeaderView(viewModel: viewModel)
                 
-                QuestionListView(viewModel: viewModel, tab: $tab, isBottomSheetPresented: $isBottomSheetPresented)
+                QuestionListView(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                 
                 Spacer()
                     .frame(height: 0)
@@ -96,17 +96,15 @@ struct SearchResultView: View {
         @EnvironmentObject var pathModel: PathModel
         @ObservedObject private var viewModel: QuestionViewModel
         @Binding var isBottomSheetPresented: Bool
-        @Binding var tab: Tab
         
         @State private var isAnsweredAlert = false
         
         fileprivate init(
-            viewModel: QuestionViewModel, tab: Binding<Tab>,
+            viewModel: QuestionViewModel,
             isBottomSheetPresented: Binding<Bool>
         ) {
             self.viewModel = viewModel
             self._isBottomSheetPresented = isBottomSheetPresented
-            self._tab = tab
         }
         
         var body: some View {
@@ -128,7 +126,7 @@ struct SearchResultView: View {
                     LazyVStack(spacing: 24) {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
-                                QuestionView(question: question, tab: $tab, questionNumber: viewModel.questions.count - index) {
+                                QuestionView(question: question, questionNumber: viewModel.questions.count - index) {
                                     isBottomSheetPresented.toggle()
                                 }
                                 .onTapGesture {
@@ -180,7 +178,7 @@ struct SearchResultView: View {
 }
 
 #Preview {
-    SearchResultView(tab: .constant(.collecting))
+    SearchResultView(tab: .constant(.questionList))
         .environmentObject(PathModel())
         .environmentObject(AuthViewModel())
 }

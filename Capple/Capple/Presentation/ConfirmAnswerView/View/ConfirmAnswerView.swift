@@ -112,21 +112,20 @@ private struct KeywordView: View {
                 KeywordChoiceChip(buttonType: .addKeyword) {
                     isKeywordInputAlertPresented.toggle()
                 }
-            } else {
+            } else if viewModel.keywords.count < 3 {
                 FlexView(data: viewModel.flexKeywords, spacing: 8, alignment: .leading) { keyword in
-                    
                     keyword == viewModel.flexKeywords.last ?
                     KeywordChoiceChip(buttonType: .addKeyword) {
-                        
-                        // 만약 3개 이상 생성 시 키워드 생성 제한
-                        if viewModel.keywords.count >= 3 {
-                            isKeywordCountAlertPresented.toggle()
-                            return
-                        }
-                        
                         isKeywordInputAlertPresented.toggle()
                     }
                     :
+                    KeywordChoiceChip(keyword.name, buttonType: .label) {
+                        viewModel.removeKeyword(keyword)
+                        isButtonActive = viewModel.keywords.isEmpty ? false : true
+                    }
+                }
+            } else {
+                FlexView(data: viewModel.keywords, spacing: 8, alignment: .leading) { keyword in
                     KeywordChoiceChip(keyword.name, buttonType: .label) {
                         viewModel.removeKeyword(keyword)
                         isButtonActive = viewModel.keywords.isEmpty ? false : true

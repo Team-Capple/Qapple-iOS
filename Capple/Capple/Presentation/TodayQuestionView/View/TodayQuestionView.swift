@@ -36,7 +36,7 @@ struct TodayQuestionView: View {
                             }
                             Button {
                                 HapticManager.shared.impact(style: .soft)
-                                tab = .collecting
+                                tab = .questionList
                             } label: {
                                 Text("질문리스트")
                                     .font(.pretendard(.semiBold, size: 14))
@@ -62,7 +62,7 @@ struct TodayQuestionView: View {
                         
                         HeaderView(viewModel: viewModel)
                         
-                        HeaderButtonView(viewModel: viewModel, tab: $tab)
+                        HeaderButtonView(viewModel: viewModel)
                         
                         AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                     }
@@ -74,8 +74,8 @@ struct TodayQuestionView: View {
                 }
             }
             .background(Background.second)
-            .navigationBarBackButtonHidden()
-            .navigationBarTitleDisplayMode(.inline)
+            // .navigationBarBackButtonHidden()
+            // .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.updateTodayQuestionView()
             }
@@ -189,11 +189,9 @@ private struct HeaderButtonView: View {
     
     @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: TodayQuestionViewModel
-    @Binding var tab: Tab
     
-    fileprivate init(viewModel: TodayQuestionViewModel, tab: Binding<Tab>) {
+    fileprivate init(viewModel: TodayQuestionViewModel) {
         self.viewModel = viewModel
-        self._tab = tab
     }
     
     var body: some View {
@@ -339,5 +337,10 @@ private struct AnswerPreview: View {
 }
 
 #Preview {
-    TodayQuestionView(viewModel: TodayQuestionViewModel(), tab: .constant(.answering))
+    TodayQuestionView(
+        viewModel: TodayQuestionViewModel(),
+        tab: .constant(
+            .todayQuestion
+        )
+    )
 }
