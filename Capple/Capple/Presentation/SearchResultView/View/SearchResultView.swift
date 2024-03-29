@@ -9,9 +9,12 @@ struct SearchResultView: View {
     @State private var isBottomSheetPresented = false
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color(Background.first)
                 .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
+            
+            Color(Background.second)
+                .frame(height: 152)
             
             VStack(spacing: 0) {
                 CustomNavigationBar(
@@ -49,7 +52,7 @@ struct SearchResultView: View {
                                 .frame(width: 32 , height: 32)
                         }
                     },
-                    backgroundColor: Background.first)
+                    backgroundColor: Background.second)
                 
                 HeaderView(viewModel: viewModel)
                 
@@ -77,16 +80,16 @@ struct SearchResultView: View {
         }
         
         var body: some View {
-            ZStack(alignment: .leading) {
-                Color(Background.first)
-                
+            HStack {
                 Text("지금까지의 질문을\n모아뒀어요")
                     .font(.pretendard(.bold, size: 24))
                     .foregroundStyle(TextLabel.main)
                     .padding(.horizontal, 24)
                     .lineSpacing(6)
+                    .frame(height: 100)
+                
+                Spacer()
             }
-            .frame(height: 100)
         }
     }
     
@@ -120,7 +123,7 @@ struct SearchResultView: View {
                 }
                 .padding(.horizontal, 24)
                 
-                Separator()
+                // Separator()
                 
                 ScrollView {
                     LazyVStack(spacing: 24) {
