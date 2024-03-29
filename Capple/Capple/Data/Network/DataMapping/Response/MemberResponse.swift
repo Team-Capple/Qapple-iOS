@@ -45,4 +45,11 @@ struct MemberResponse {
         let message: String
         let result: Bool
     }
+    
+    struct CodeCertification: Codable {
+        let timeStamp: String
+        let code: String
+        let message: String
+        let result: Bool
+    }
 }

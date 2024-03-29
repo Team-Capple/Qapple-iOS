@@ -33,4 +33,11 @@ class MemberRequest {
         let signUpToken: String
         let email: String
     }
+    
+    // 인증코드 확인
+    struct CodeCertification: Codable {
+        let signUpToken: String
+        let email: String
+        let certCode: String
+    }
 }

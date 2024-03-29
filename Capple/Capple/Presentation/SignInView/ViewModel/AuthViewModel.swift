@@ -174,9 +174,9 @@ extension AuthViewModel {
                         email: "\(email)@postech.ac.kr"
                     )
                 )
-                print("네트워킹 성공!")
+                print("인증코드 전송 완료")
             } catch {
-                requestClearEmail()
+                print("인증코드 요청 실패")
             }
             
             // 인증 코드 초기화
@@ -189,39 +189,43 @@ extension AuthViewModel {
     func requestCertifyCode() {
         Task {
             do {
-                let response = try await NetworkManager.requestUniversityCertifyCode(
+                let response = try await NetworkManager.requestCodeCertificationCode(
                     request: .init(
-                        key: APIKey.univcertKey,
+                        signUpToken: SignInInfo.shared.refreshToken(),
                         email: "\(email)@postech.ac.kr",
-                        code: Int(certifyCode) ?? 0
+                        certCode: certifyCode
                     )
                 )
                 
+                print("인증 코드 발송 완료")
+                
                 // 인증 성공 케이스
-                if response.success {
+                if response {
+                    print("인증 성공")
                     isCertifyCodeVerified = true
                 }
                 
             } catch {
                 // 인증 실패 케이스
+                print("인증 실패")
                 isCertifyCodeInvalid = true
                 isCertifyCodeFailed = true
             }
         }
     }
     
-    /// 대학 이메일 인증을 초기화합니다.
-    @MainActor
-    func requestClearEmail() {
-        Task {
-            do {
-                let _ = try await NetworkManager.requestClearEmailUniversity(
-                    request: .init(key: APIKey.univcertKey),
-                    email: email)
-                requestEmailCertification()
-            } catch {
-                print("대학 메일 인증 초기화에 실패했습니다.")
-            }
-        }
-    }
+//    /// 대학 이메일 인증을 초기화합니다.
+//    @MainActor
+//    func requestClearEmail() {
+//        Task {
+//            do {
+//                let _ = try await NetworkManager.requestClearEmailUniversity(
+//                    request: .init(key: APIKey.univcertKey),
+//                    email: email)
+//                requestEmailCertification()
+//            } catch {
+//                print("대학 메일 인증 초기화에 실패했습니다.")
+//            }
+//        }
+//    }
 }
