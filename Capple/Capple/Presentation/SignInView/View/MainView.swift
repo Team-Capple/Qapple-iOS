@@ -134,6 +134,9 @@ private struct HomeView: View {
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .onChange(of: tab) { _, _ in
+            HapticManager.shared.impact(style: .light)
+        }
     }
 }
 
