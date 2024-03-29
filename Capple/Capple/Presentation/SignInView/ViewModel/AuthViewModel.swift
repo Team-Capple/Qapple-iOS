@@ -213,19 +213,4 @@ extension AuthViewModel {
             }
         }
     }
-    
-//    /// 대학 이메일 인증을 초기화합니다.
-//    @MainActor
-//    func requestClearEmail() {
-//        Task {
-//            do {
-//                let _ = try await NetworkManager.requestClearEmailUniversity(
-//                    request: .init(key: APIKey.univcertKey),
-//                    email: email)
-//                requestEmailCertification()
-//            } catch {
-//                print("대학 메일 인증 초기화에 실패했습니다.")
-//            }
-//        }
-//    }
 }
