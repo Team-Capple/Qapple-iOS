@@ -13,7 +13,6 @@ struct TodayQuestionView: View {
     @EnvironmentObject private var authViewModel: AuthViewModel
     @StateObject var viewModel: TodayQuestionViewModel = .init()
     
-    @Binding var tab: Tab
     @State private var isBottomSheetPresented = false
     
     var body: some View {
@@ -21,61 +20,22 @@ struct TodayQuestionView: View {
             Color(Background.first)
                 .ignoresSafeArea()
             
-            VStack(spacing: 0) {
-                CustomNavigationBar(
-                    leadingView: {},
-                    principalView: {
-                        HStack(spacing: 28) {
-                            Button {
-                                HapticManager.shared.impact(style: .soft)
-                                viewModel.updateTodayQuestionView()
-                            } label: {
-                                Text("오늘의질문")
-                                    .font(.pretendard(.semiBold, size: 14))
-                                    .foregroundStyle(TextLabel.main)
-                            }
-                            Button {
-                                HapticManager.shared.impact(style: .soft)
-                                tab = .questionList
-                            } label: {
-                                Text("질문리스트")
-                                    .font(.pretendard(.semiBold, size: 14))
-                                    .foregroundStyle(TextLabel.sub4)
-                            }
-                        }
-                        .font(Font.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(TextLabel.sub4)
-                    },
-                    trailingView: {
-                        Button {
-                            pathModel.paths.append(.myPage)
-                        } label: {
-                            Image(.capple)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 32 , height: 32)
-                        }
-                    },
-                    backgroundColor: Background.second)
-                ScrollView {
-                    VStack(spacing: 0) {
-                        
-                        HeaderView(viewModel: viewModel)
-                        
-                        HeaderButtonView(viewModel: viewModel)
-                        
-                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
-                    }
-                }
-                .scrollIndicators(.hidden)
-                .refreshable {
-                    viewModel.updateTodayQuestionView()
-                    HapticManager.shared.impact(style: .light)
+            ScrollView {
+                VStack(spacing: 0) {
+                    
+                    HeaderView(viewModel: viewModel)
+                    
+                    HeaderButtonView(viewModel: viewModel)
+                    
+                    AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                 }
             }
+            .scrollIndicators(.hidden)
+            .refreshable {
+                viewModel.updateTodayQuestionView()
+                HapticManager.shared.impact(style: .light)
+            }
             .background(Background.second)
-            // .navigationBarBackButtonHidden()
-            // .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.updateTodayQuestionView()
             }
@@ -337,10 +297,5 @@ private struct AnswerPreview: View {
 }
 
 #Preview {
-    TodayQuestionView(
-        viewModel: TodayQuestionViewModel(),
-        tab: .constant(
-            .todayQuestion
-        )
-    )
+    TodayQuestionView(viewModel: TodayQuestionViewModel())
 }

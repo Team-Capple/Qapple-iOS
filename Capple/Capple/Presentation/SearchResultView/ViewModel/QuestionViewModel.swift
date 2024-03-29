@@ -13,7 +13,6 @@ class QuestionViewModel: ObservableObject {
         do {
             let response = try await getQuestions()
             self.questions = response.questionInfos ?? []
-            print("리프레쉬 성공")
         } catch {
             print("Error: \(error)")
         }
