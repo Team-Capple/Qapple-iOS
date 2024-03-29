@@ -116,7 +116,6 @@ private struct FloatingQuestionCard: View {
     @State private var isCardExpanded = true // 카드 확장 상태
     var questionId: Int?  // 추가됨
     
-    
     var questionMark: AttributedString {
         var questionMark = AttributedString("Q. ")
         questionMark.foregroundColor = BrandPink.text
@@ -140,9 +139,12 @@ private struct FloatingQuestionCard: View {
                     .lineSpacing(6)
                     .lineLimit(isCardExpanded ? 3 : 0)
             }
+            
             Spacer()
+            
             Image(isCardExpanded ? .arrowUp : .arrowDown)
                 .resizable()
+                .scaledToFill()
                 .frame(width: 28, height: 28)
                 .foregroundColor(.white)
         }
