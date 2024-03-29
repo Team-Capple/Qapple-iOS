@@ -230,27 +230,48 @@ private struct SignInView: View {
 // MARK: - 커스텀 탭바
 private struct CustomTabBar: View {
     
+    @EnvironmentObject var pathModel: PathModel
     @Binding var tab: Tab
     
     var body: some View {
-        HStack(spacing: 28) {
-            Spacer()
-            Button {
-                tab = .todayQuestion
-            } label: {
-                Text("오늘의질문")
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(tab == .todayQuestion ? TextLabel.main : TextLabel.sub4)
+        ZStack {
+            HStack(spacing: 28) {
+                Spacer()
+                
+                // 오늘의질문
+                Button {
+                    tab = .todayQuestion
+                } label: {
+                    Text("오늘의질문")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(tab == .todayQuestion ? TextLabel.main : TextLabel.sub4)
+                }
+                
+                // 질문리스트
+                Button {
+                    tab = .questionList
+                } label: {
+                    Text("질문리스트")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(tab == .questionList ? TextLabel.main : TextLabel.sub4)
+                }
+                
+                Spacer()
             }
-
-            Button {
-                tab = .questionList
-            } label: {
-                Text("질문리스트")
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(tab == .questionList ? TextLabel.main : TextLabel.sub4)
+            
+            HStack {
+                Spacer()
+                
+                Button {
+                    pathModel.paths.append(.myPage)
+                } label: {
+                    Image(.capple)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32 , height: 32)
+                }
             }
-            Spacer()
+            .padding(.trailing, 16)
         }
         .frame(height: 32)
         .background(Background.second)
