@@ -100,7 +100,7 @@ extension AuthViewModel {
                 let authorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? "인증 코드 생성 실패"
                 
                 DispatchQueue.main.async {
-                    // print("AuthorizationCode: \(authorizationCode)")
+                    print("AuthorizationCode: \(authorizationCode)")
                 }
                 
                 Task {
@@ -112,9 +112,10 @@ extension AuthViewModel {
                         // 로그인 상태에 따른 화면 분기처리
                         if signInResponse.isMember {
                             isSignIn = true
+                            print("로그인 고고")
                         } else {
                             isSignUp = true
-                            // TODO: 회원가입 관련 변수 초기화
+                            print("회원가입 고고")
                             resetAllInfo()
                         }
                         isSignInLoading = false

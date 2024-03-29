@@ -21,6 +21,8 @@ struct SignUpEmailView: View {
             CustomNavigationBar(
                 leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
                     authViewModel.resetAllInfo()
+                    authViewModel.isSignIn = false
+                    authViewModel.isSignUp = false
                     pathModel.paths.removeLast()
                 }},
                 principalView: { Text("회원가입")
