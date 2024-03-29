@@ -135,6 +135,7 @@ struct SearchResultView: View {
                                     // 만약 답변 안했다면 경고 창 띄우기
                                     if !question.isAnswered {
                                         isAnsweredAlert.toggle()
+                                        HapticManager.shared.notification(type: .warning)
                                         return
                                     }
                                     
