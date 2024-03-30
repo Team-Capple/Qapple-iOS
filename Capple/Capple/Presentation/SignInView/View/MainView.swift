@@ -38,99 +38,104 @@ private struct HomeView: View {
     
     var body: some View {
         NavigationStack(path: $pathModel.paths) {
-            switch tab {
-            case .todayQuestion:
-                TodayQuestionView(tab: $tab)
-                    .navigationDestination(for: PathType.self) { path in
-                        switch path {
-                        case .answer(let questionId, let questionContent):
-                            AnswerView(
-                                viewModel: answerViewModel,
-                                questionId: questionId,
-                                questionContent: questionContent
-                            )
-                            
-                        case .confirmAnswer:
-                            ConfirmAnswerView(viewModel: answerViewModel)
-                            
-                        case .searchKeyword:
-                            SearchKeywordView(viewModel: answerViewModel)
-                            
-                        case .completeAnswer:
-                            CompleteAnswerView(viewModel: answerViewModel)
-                            
-                        case .todayAnswer(let questionId, let questionContent):
-                            TodayAnswerView(
-                                questionId: questionId,
-                                questionContent: questionContent
-                            )
-                            
-                        case .myPage:
-                            MyPageView()
-                            
-                        case let .profileEdit(nickname):
-                            ProfileEditView(nickName: nickname)
-                            
-                        case .alert:
-                            AlertView()
-                            
-                        case .report:
-                            ReportView()
-                            
-                        default: EmptyView()
-                        }
-                    }
+            VStack(spacing: 0) {
+                CustomTabBar(tab: $tab)
                 
-            case .questionList:
-                SearchResultView(tab: $tab)
-                    .tabItem { Text("질문리스트") }
-                    .tag(1)
-                    .navigationDestination(for: PathType.self) { path in
-                        switch path {
-                        case .todayAnswer(let questionId, let questionContent):
-                            TodayAnswerView(
-                                questionId: questionId,
-                                questionContent: questionContent
-                            )
-                            
-                        case .answer(let questionId, let questionContent):
-                            AnswerView(
-                                viewModel: answerViewModel,
-                                questionId: questionId,
-                                questionContent: questionContent
-                            )
-                            
-                        case .confirmAnswer:
-                            ConfirmAnswerView(viewModel: answerViewModel)
-                            
-                        case .searchKeyword:
-                            SearchKeywordView(viewModel: answerViewModel)
-                            
-                        case .completeAnswer:
-                            CompleteAnswerView(viewModel: answerViewModel)
-                            
-                        case .myPage:
-                            MyPageView()
-                            
-                        case let .profileEdit(nickname):
-                            ProfileEditView(nickName: nickname)
-                            
-                        case .alert:
-                            AlertView()
-                            
-                        case .report:
-                            ReportView()
-                            
-                        default: EmptyView()
+                TabView(selection: $tab) {
+                    TodayQuestionView()
+                        .navigationDestination(for: PathType.self) { path in
+                            switch path {
+                            case .answer(let questionId, let questionContent):
+                                AnswerView(
+                                    viewModel: answerViewModel,
+                                    questionId: questionId,
+                                    questionContent: questionContent
+                                )
+                                
+                            case .confirmAnswer:
+                                ConfirmAnswerView(viewModel: answerViewModel)
+                                
+                            case .searchKeyword:
+                                SearchKeywordView(viewModel: answerViewModel)
+                                
+                            case .completeAnswer:
+                                CompleteAnswerView(viewModel: answerViewModel)
+                                
+                            case .todayAnswer(let questionId, let questionContent):
+                                TodayAnswerView(
+                                    questionId: questionId,
+                                    questionContent: questionContent
+                                )
+                                
+                            case .myPage:
+                                MyPageView()
+                                
+                            case let .profileEdit(nickname):
+                                ProfileEditView(nickName: nickname)
+                                
+                            case .alert:
+                                AlertView()
+                                
+                            case .report:
+                                ReportView()
+                                
+                            default: EmptyView()
+                            }
                         }
-                    }
-            default:
-                EmptyView()
+                        .tag(Tab.todayQuestion)
+                    
+                    SearchResultView()
+                        .navigationDestination(for: PathType.self) { path in
+                            switch path {
+                            case .todayAnswer(let questionId, let questionContent):
+                                TodayAnswerView(
+                                    questionId: questionId,
+                                    questionContent: questionContent
+                                )
+                                
+                            case .answer(let questionId, let questionContent):
+                                AnswerView(
+                                    viewModel: answerViewModel,
+                                    questionId: questionId,
+                                    questionContent: questionContent
+                                )
+                                
+                            case .confirmAnswer:
+                                ConfirmAnswerView(viewModel: answerViewModel)
+                                
+                            case .searchKeyword:
+                                SearchKeywordView(viewModel: answerViewModel)
+                                
+                            case .completeAnswer:
+                                CompleteAnswerView(viewModel: answerViewModel)
+                                
+                            case .myPage:
+                                MyPageView()
+                                
+                            case let .profileEdit(nickname):
+                                ProfileEditView(nickName: nickname)
+                                
+                            case .alert:
+                                AlertView()
+                                
+                            case .report:
+                                ReportView()
+                                
+                            default: EmptyView()
+                            }
+                        }
+                        .tag(Tab.questionList)
+                }
+                .edgesIgnoringSafeArea(.all)
+            }
+            .onAppear {
+                NotificationManager.shared.requestNotificationPermission()
+                NotificationManager.shared.schedule()
             }
         }
-        .onAppear {
-            NotificationManager.shared.requestNotificationPermission()
-            NotificationManager.shared.schedule()
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .onChange(of: tab) { _, _ in
+            HapticManager.shared.impact(style: .light)
         }
     }
 }
@@ -222,6 +227,57 @@ private struct SignInView: View {
                 .padding(.bottom, 16)
         }
         .padding(.horizontal, 24)
+    }
+}
+
+// MARK: - 커스텀 탭바
+private struct CustomTabBar: View {
+    
+    @EnvironmentObject var pathModel: PathModel
+    @Binding var tab: Tab
+    
+    var body: some View {
+        ZStack {
+            HStack(spacing: 28) {
+                Spacer()
+                
+                // 오늘의질문
+                Button {
+                    tab = .todayQuestion
+                } label: {
+                    Text("오늘의질문")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(tab == .todayQuestion ? TextLabel.main : TextLabel.sub4)
+                }
+                
+                // 질문리스트
+                Button {
+                    tab = .questionList
+                } label: {
+                    Text("질문리스트")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(tab == .questionList ? TextLabel.main : TextLabel.sub4)
+                }
+                
+                Spacer()
+            }
+            
+            HStack {
+                Spacer()
+                
+                Button {
+                    pathModel.paths.append(.myPage)
+                } label: {
+                    Image(.capple)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32 , height: 32)
+                }
+            }
+            .padding(.trailing, 16)
+        }
+        .frame(height: 32)
+        .background(Background.second)
     }
 }
 

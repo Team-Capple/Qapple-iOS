@@ -14,9 +14,13 @@ struct ReportView: View {
     @State private var isReportCompleteAlertPresented = false
     
     var moreList = [
-        "불법촬영물 등의 유통", "상업적 광고 및 판매",
-        "게시판 성격에 부적절함", "욕설/비하", "정당/정치인 비하 및 선거운동",
-        "유출/사칭/사기", "낚시/놀림/도배"
+        "불법촬영물 등의 유통",
+        "상업적 광고 및 판매",
+        "게시판 성격에 부적절함",
+        "욕설/비하",
+        "정당/정치인 비하 및 선거운동",
+        "유출/사칭/사기",
+        "낚시/놀림/도배"
     ]
     
     var body: some View {

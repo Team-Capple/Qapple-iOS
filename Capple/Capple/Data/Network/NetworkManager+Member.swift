@@ -127,7 +127,7 @@ extension NetworkManager {
         
         // URL 객체 생성
         let urlString = ApiEndpoints.basicURLString(path: .nickNameCheck) + "?nickname=\(nickName.removingPercentEncoding ?? "")"
-        print("URL: \(urlString)")
+        
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
@@ -135,7 +135,7 @@ extension NetworkManager {
         
         // URLSession 생성
         let (data, response) = try await URLSession.shared.data(from: url)
-        print(response)
+        // print(response)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,
@@ -230,5 +230,64 @@ extension NetworkManager {
         } catch {
             throw NetworkError.decodeFailed
         }
+    }
+}
+
+// MARK: - 이메일 인증
+extension NetworkManager {
+    
+    /// 회원가입 인증 코드를 이메일로 요청합니다.
+    static func requestEmailCertificationCode(request: MemberRequest.EmailCertification) async throws -> Bool {
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .emailCertification) + "?signUpToken=\(request.signUpToken)" + "&email=\(request.email)"
+        guard let url = URL(string: urlString) else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // URLSession 생성
+        let (data, response) = try await URLSession.shared.data(from: url)
+        // print(response)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            print("Error: badRequest")
+            throw NetworkError.badRequest
+        }
+        
+        // 디코딩
+        let decoder = JSONDecoder()
+        let decodeData = try decoder.decode(MemberResponse.EmailCertification.self, from: data)
+        return decodeData.result
+    }
+    
+    /// 인증 코드 확인을 요청합니다.
+    static func requestCodeCertificationCode(request: MemberRequest.CodeCertification) async throws -> Bool {
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .codeCertification) + "?signUpToken=\(request.signUpToken)" + "&email=\(request.email)" + "&certCode=\(request.certCode)"
+        
+        guard let url = URL(string: urlString) else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // URLSession 생성
+        let (data, response) = try await URLSession.shared.data(from: url)
+        // print(response)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            print("Error: badRequest")
+            throw NetworkError.badRequest
+        }
+        
+        // 디코딩
+        let decoder = JSONDecoder()
+        let decodeData = try decoder.decode(MemberResponse.CodeCertification.self, from: data)
+        return decodeData.result
     }
 }

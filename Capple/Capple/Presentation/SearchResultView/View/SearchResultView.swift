@@ -5,7 +5,6 @@ struct SearchResultView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @StateObject var viewModel: QuestionViewModel = .init()
-    @Binding var tab: Tab
     @State private var isBottomSheetPresented = false
     
     var body: some View {
@@ -13,47 +12,7 @@ struct SearchResultView: View {
             Color(Background.first)
                 .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
             
-            Color(Background.second)
-                .frame(height: 152)
-            
             VStack(spacing: 0) {
-                CustomNavigationBar(
-                    leadingView: { },
-                    principalView: {
-                        HStack(spacing: 28) {
-                            Button {
-                                HapticManager.shared.impact(style: .soft)
-                                tab = .todayQuestion
-                            } label: {
-                                Text("오늘의질문")
-                                    .font(.pretendard(.semiBold, size: 14))
-                                    .foregroundStyle(TextLabel.sub4)
-                            }
-                            Button {
-                                HapticManager.shared.impact(style: .soft)
-                                tab = .questionList
-                            } label: {
-                                Text("질문리스트")
-                                    .font(.pretendard(.semiBold, size: 14))
-                                    .foregroundStyle(TextLabel.main)
-                            }
-                        }
-                        .font(Font.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(TextLabel.sub4)
-                    },
-                    trailingView: {
-                        Button {
-                            pathModel.paths.append(.myPage)
-                            
-                        } label: {
-                            Image(.capple)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 32 , height: 32)
-                        }
-                    },
-                    backgroundColor: Background.second)
-                
                 HeaderView(viewModel: viewModel)
                 
                 QuestionListView(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
@@ -86,10 +45,11 @@ struct SearchResultView: View {
                     .foregroundStyle(TextLabel.main)
                     .padding(.horizontal, 24)
                     .lineSpacing(6)
-                    .frame(height: 100)
+                    .frame(height: 120)
                 
                 Spacer()
             }
+            .background(Background.second)
         }
     }
     
@@ -182,7 +142,7 @@ struct SearchResultView: View {
 }
 
 #Preview {
-    SearchResultView(tab: .constant(.questionList))
+    SearchResultView()
         .environmentObject(PathModel())
         .environmentObject(AuthViewModel())
 }

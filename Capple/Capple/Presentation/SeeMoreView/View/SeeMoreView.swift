@@ -33,7 +33,7 @@ struct SeeMoreView: View {
                     isBottomSheetPresented = false
                     pathModel.paths.append(.report)
                 } label: {
-                    Text("신고하기")
+                    Text("🚨 신고하기")
                         .font(.pretendard(.medium, size: 16))
                         .foregroundStyle(Context.warning)
                 }

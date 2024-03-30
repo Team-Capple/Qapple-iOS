@@ -114,6 +114,7 @@ private struct FloatingQuestionCard: View {
     var questionContent: String // 질문 내용을 저장할 프로퍼티
     @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
     @State private var isCardExpanded = true // 카드 확장 상태
+    @State private var isArrowActive = true
     var questionId: Int?  // 추가됨
     
     var questionMark: AttributedString {
@@ -142,7 +143,7 @@ private struct FloatingQuestionCard: View {
             
             Spacer()
             
-            Image(isCardExpanded ? .arrowUp : .arrowDown)
+            Image(isArrowActive ? .arrowUp : .arrowDown)
                 .resizable()
                 .scaledToFill()
                 .frame(width: 28, height: 28)
@@ -154,6 +155,7 @@ private struct FloatingQuestionCard: View {
         .cornerRadius(15)
         .padding(.horizontal, 20)
         .onTapGesture {
+            isArrowActive.toggle()
             withAnimation {
                 isCardExpanded.toggle() // 확장/축소 상태 토글
             }

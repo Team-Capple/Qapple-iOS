@@ -15,7 +15,7 @@ struct SignUpAuthCodeView: View {
     
     @State private var isMailResendAlertPresented = false
     
-    private let codeLimit = 6
+    private let codeLimit = 5
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -71,12 +71,18 @@ struct SignUpAuthCodeView: View {
                             .foregroundStyle(authViewModel.isCertifyCodeVerified ? TextLabel.main : BrandPink.text)
                             .font(Font.pretendard(.semiBold, size: 20))
                             .frame(height: 14)
-                            .keyboardType(.numberPad)
+                            .keyboardType(.alphabet)
                             .disabled(authViewModel.isCertifyCodeVerified)
                             .onChange(of: authViewModel.certifyCode) { _ , newCode in
+                                
+                                // 글자 수 제한 로직
                                 if newCode.count > codeLimit {
                                     authViewModel.certifyCode = String(newCode.prefix(codeLimit))
+                                    return
                                 }
+                                
+                                // 대문자 고정
+                                authViewModel.certifyCode = newCode.uppercased()
                             }
                         
                         Spacer()
@@ -89,12 +95,12 @@ struct SignUpAuthCodeView: View {
                             } label: {
                                 Text("인증 코드 확인")
                                     .font(.pretendard(.medium, size: 14))
-                                    .foregroundStyle(authViewModel.certifyCode.count < 4 ? TextLabel.sub4 : TextLabel.main)
+                                    .foregroundStyle(authViewModel.certifyCode.count < codeLimit ? TextLabel.sub4 : TextLabel.main)
                             }
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)
-                            .background(authViewModel.certifyCode.count < 4 ? GrayScale.secondaryButton : BrandPink.button)
-                            .disabled(authViewModel.certifyCode.count < 4 ? true : false)
+                            .background(authViewModel.certifyCode.count < codeLimit ? GrayScale.secondaryButton : BrandPink.button)
+                            .disabled(authViewModel.certifyCode.count < codeLimit ? true : false)
                             .cornerRadius(20, corners: .allCorners)
                             .alert("인증 코드가 일치하지 않아요", isPresented: $authViewModel.isCertifyCodeInvalid) {
                                 Button("확인", role: .cancel) {}

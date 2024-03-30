@@ -31,6 +31,10 @@ enum ApiEndpoints {
         case myPage = "/members/mypage"
         case resignMember = "/members/resign"
         case nickNameCheck = "/members/nickname/check"
+        
+        // 이메일
+        case emailCertification = "/members/email/certification"
+        case codeCertification = "/members/email/certification/check"
     }
 }
 

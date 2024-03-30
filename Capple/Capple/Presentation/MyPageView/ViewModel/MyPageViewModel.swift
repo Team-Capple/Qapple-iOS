@@ -39,7 +39,7 @@ final class MyPageViewModel: ObservableObject {
             ],
             sectionIcons: [
                 "SignOutIcon",
-                "SignOutIcon"
+                "resign"
             ]
         )
     ]
