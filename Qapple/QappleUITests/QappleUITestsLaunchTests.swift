@@ -1,13 +1,13 @@
 //
-//  CappleUITestsLaunchTests.swift
-//  CappleUITests
+//  QappleUITestsLaunchTests.swift
+//  QappleUITests
 //
 //  Created by Kyungsoo Lee on 2/9/24.
 //
 
 import XCTest
 
-final class CappleUITestsLaunchTests: XCTestCase {
+final class QappleUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
