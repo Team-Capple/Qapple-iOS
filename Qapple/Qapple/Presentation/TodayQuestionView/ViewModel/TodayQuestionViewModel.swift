@@ -161,7 +161,6 @@ extension TodayQuestionViewModel {
     /// 타이머를 실행합니다.
     @MainActor
     func startTimer() {
-        
         timer?.invalidate()
         
         if timeZone == .amCreate {
