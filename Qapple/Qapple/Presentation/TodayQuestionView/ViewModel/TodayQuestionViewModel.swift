@@ -171,7 +171,7 @@ extension TodayQuestionViewModel {
             var components = DateComponents()
             components.hour = 7
             components.minute = 0
-            components.second = 0
+            components.second = 5
             
             let am = calendar.nextDate(after: now, matching: components, matchingPolicy: .nextTime)!
             self.remainingTime = am.timeIntervalSinceNow
@@ -184,7 +184,7 @@ extension TodayQuestionViewModel {
             var components = DateComponents()
             components.hour = 18
             components.minute = 0
-            components.second = 0
+            components.second = 5
             
             let pm = calendar.nextDate(after: now, matching: components, matchingPolicy: .nextTime)!
             self.remainingTime = pm.timeIntervalSinceNow
