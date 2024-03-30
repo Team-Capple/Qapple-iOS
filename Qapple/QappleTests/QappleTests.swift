@@ -1,14 +1,14 @@
 //
-//  CappleTests.swift
-//  CappleTests
+//  QappleTests.swift
+//  QappleTests
 //
 //  Created by Kyungsoo Lee on 2/9/24.
 //
 
 import XCTest
-@testable import Capple
+@testable import Qapple
 
-final class CappleTests: XCTestCase {
+final class QappleTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
