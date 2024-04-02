@@ -15,62 +15,78 @@ struct AnswerCell: View {
     var answer: String
     var keywords: [String]
     let seeMoreAction: () -> Void
+    var isReported: Bool = false
     
     var body: some View {
-        VStack {
+        
+        // TODO: 답변에서 내려주는 isReported 변수로 교체
+        if isReported {
             HStack {
-                Image(
-                    profileImage != nil && !profileImage!.isEmpty ?
-                    profileImage! : "profileDummyImage"
-                )
-                .resizable()
-                .frame(width: 28, height: 28)
-                
-                Spacer()
-                    .frame(width: 8)
-                
-                Text(profileName)
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(TextLabel.sub2)
-                    .frame(height: 10)
-                
-                Spacer()
-                
-                Button {
-                    seeMoreAction()
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(TextLabel.sub2)
-                        .frame(width: 20, height: 20)
+                VStack {
+                    Text("신고되어 내용을 검토 중인 답변 입니다.")
+                        .font(.pretendard(.medium, size: 16))
+                        .foregroundStyle(TextLabel.sub3)
                 }
-            }
-            
-            Spacer()
-                .frame(height: 8)
-            
-            VStack(alignment: .leading) {
-                
-                Text(answer)
-                    .font(.pretendard(.medium, size: 16))
-                    .foregroundStyle(TextLabel.main)
-                    .lineSpacing(6)
-                    .multilineTextAlignment(.leading)
                 
                 Spacer()
-                    .frame(height: 12)
-                
-                // TODO: 라이브러리 사용해버렸습니다,, 나중에 공부하면서 수정해보기
-                FlexView(data: keywords, spacing: 8, alignment: .leading) { keyword in
-                    Text("#\(keyword)")
+            }
+            .padding(24)
+        } else {
+            VStack {
+                HStack {
+                    Image(
+                        profileImage != nil && !profileImage!.isEmpty ?
+                        profileImage! : "profileDummyImage"
+                    )
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                    
+                    Spacer()
+                        .frame(width: 8)
+                    
+                    Text(profileName)
                         .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(BrandPink.text)
+                        .foregroundStyle(TextLabel.sub2)
                         .frame(height: 10)
-                        .frame(maxWidth: 240)
+                    
+                    Spacer()
+                    
+                    Button {
+                        seeMoreAction()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .foregroundStyle(TextLabel.sub2)
+                            .frame(width: 20, height: 20)
+                    }
                 }
+                
+                Spacer()
+                    .frame(height: 8)
+                
+                VStack(alignment: .leading) {
+                    
+                    Text(answer)
+                        .font(.pretendard(.medium, size: 16))
+                        .foregroundStyle(TextLabel.main)
+                        .lineSpacing(6)
+                        .multilineTextAlignment(.leading)
+                    
+                    Spacer()
+                        .frame(height: 12)
+                    
+                    // TODO: 라이브러리 사용해버렸습니다,, 나중에 공부하면서 수정해보기
+                    FlexView(data: keywords, spacing: 8, alignment: .leading) { keyword in
+                        Text("#\(keyword)")
+                            .font(.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(BrandPink.text)
+                            .frame(height: 10)
+                            .frame(maxWidth: 240)
+                    }
+                }
+                .padding(.leading, 36)
             }
-            .padding(.leading, 36)
+            .padding(24)
         }
-        .padding(24)
     }
 }
 
