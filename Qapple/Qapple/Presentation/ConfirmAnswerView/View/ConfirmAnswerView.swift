@@ -158,11 +158,11 @@ private struct KeywordView: View {
             }
             
             Button("추가하기") {
+                if keywordInputText.isEmpty { return }
                 viewModel.createNewKeyword(keywordInputText)
                 isButtonActive = viewModel.keywords.isEmpty ? false : true
                 keywordInputText = ""
             }
-            .disabled(keywordInputText.isEmpty)
         } message: {
             Text("최대 8글자까지 입력 가능해요")
         }
