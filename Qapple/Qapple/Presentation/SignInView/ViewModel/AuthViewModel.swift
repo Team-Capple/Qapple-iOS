@@ -10,6 +10,8 @@ import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
     
+    let academyEmailAddress = "@pos.idserve.net"
+    
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var isSignUp = false // 회원가입 로직 실행용
     
@@ -147,7 +149,7 @@ extension AuthViewModel {
             let signUpData = try await NetworkManager.requestSignUp(
                 request: .init(
                     signUpToken: SignInInfo.shared.refreshToken(),
-                    email: "\(email)@postech.ac.kr",
+                    email: "\(email)\(academyEmailAddress)",
                     nickname: nickname,
                     profileImage: ""))
             
@@ -171,7 +173,7 @@ extension AuthViewModel {
                 let _ = try await NetworkManager.requestEmailCertificationCode(
                     request: .init(
                         signUpToken: SignInInfo.shared.refreshToken(),
-                        email: "\(email)@postech.ac.kr"
+                        email: "\(email)\(academyEmailAddress)"
                     )
                 )
                 print("인증코드 전송 완료")
@@ -192,7 +194,7 @@ extension AuthViewModel {
                 let response = try await NetworkManager.requestCodeCertificationCode(
                     request: .init(
                         signUpToken: SignInInfo.shared.refreshToken(),
-                        email: "\(email)@postech.ac.kr",
+                        email: "\(email)\(academyEmailAddress)",
                         certCode: certifyCode
                     )
                 )

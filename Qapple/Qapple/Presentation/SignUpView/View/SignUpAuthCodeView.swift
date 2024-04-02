@@ -42,7 +42,7 @@ struct SignUpAuthCodeView: View {
                 Spacer()
                     .frame(height: 22)
                 
-                Text("\(authViewModel.email)@postech.ac.kr 메일함을 확인해주세요")
+                Text("\(authViewModel.email)\(authViewModel.academyEmailAddress) 메일함을 확인해주세요")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.sub3)
                     .lineLimit(2)

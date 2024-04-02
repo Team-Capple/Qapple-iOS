@@ -67,7 +67,7 @@ struct SignUpEmailView: View {
                         
                         Spacer()
                         
-                        Text("@postech.ac.kr")
+                        Text(authViewModel.academyEmailAddress)
                             .foregroundStyle(authViewModel.email.isEmpty ? TextLabel.placeholder : BrandPink.text)
                             .font(Font.pretendard(.semiBold, size: 14))
                             .frame(height: 8)
@@ -86,7 +86,7 @@ struct SignUpEmailView: View {
                     .frame(height: 18)
                 
                 HStack {
-                    Text("* POSTECH 계정 아이디를 입력해주세요")
+                    Text("* 아카데미 계정 아이디를 입력해주세요")
                         .font(Font.pretendard(.semiBold, size: 14))
                         .foregroundStyle(TextLabel.sub3)
                         .frame(height: 10)
