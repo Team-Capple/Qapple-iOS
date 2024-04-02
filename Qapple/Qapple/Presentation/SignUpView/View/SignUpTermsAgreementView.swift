@@ -48,7 +48,7 @@ struct SignUpTermsAgreementView: View {
                     .frame(height: 44)
                 
                 HStack {
-                    Text("약관 동의")
+                    Text("전체 약관 동의")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.main)
                     
@@ -58,6 +58,23 @@ struct SignUpTermsAgreementView: View {
                         isChecked.toggle()
                     } label: {
                         Image(isChecked ? .checkboxActive : .checkboxInActive)
+                    }
+                }
+                
+                Spacer()
+                    .frame(height: 24)
+                
+                HStack {
+                    Text("(필수)개인정보 처리방침")
+                        .font(.pretendard(.semiBold, size: 16))
+                        .foregroundStyle(TextLabel.sub2)
+                    
+                    Spacer()
+                    
+                    Button {
+                        pathModel.paths.append(.privacy)
+                    } label: {
+                        Image(.arrowRight)
                     }
                 }
                 

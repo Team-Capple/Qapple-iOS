@@ -162,6 +162,7 @@ private struct KeywordView: View {
                 isButtonActive = viewModel.keywords.isEmpty ? false : true
                 keywordInputText = ""
             }
+            .disabled(keywordInputText.isEmpty)
         } message: {
             Text("최대 8글자까지 입력 가능해요")
         }
