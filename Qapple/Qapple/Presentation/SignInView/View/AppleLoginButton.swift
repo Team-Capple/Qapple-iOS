@@ -28,7 +28,7 @@ struct AppleLoginButton: View {
             }
         )
         .frame(height: 56)
-        .signInWithAppleButtonStyle(.black)
+        .signInWithAppleButtonStyle(.white)
     }
 }
 
