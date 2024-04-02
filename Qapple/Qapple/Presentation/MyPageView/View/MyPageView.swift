@@ -63,7 +63,7 @@ struct MyPageView: View {
                         if index.id == 0 {
                             MyPageSection(sectionInfo: index, sectionActions: [
                                 {
-                                    // TODO: 작성한 답변 page 이동
+                                    pathModel.paths.append(.writtenAnswer)
                                 }
                             ])
                         }

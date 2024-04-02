@@ -73,6 +73,9 @@ private struct HomeView: View {
                             case let .profileEdit(nickname):
                                 ProfileEditView(nickName: nickname)
                                 
+                            case .writtenAnswer:
+                                WrittenAnswerView()
+                                
                             case .alert:
                                 AlertView()
                                 
@@ -114,6 +117,9 @@ private struct HomeView: View {
                                 
                             case let .profileEdit(nickname):
                                 ProfileEditView(nickName: nickname)
+                                
+                            case .writtenAnswer:
+                                WrittenAnswerView()
                                 
                             case .alert:
                                 AlertView()

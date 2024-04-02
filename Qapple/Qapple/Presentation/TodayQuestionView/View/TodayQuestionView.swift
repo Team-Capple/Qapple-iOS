@@ -282,7 +282,9 @@ private struct AnswerPreview: View {
                                 isBottomSheetPresented.toggle()
                             }
                             .sheet(isPresented: $isBottomSheetPresented) {
-                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
+                                
+                                // TODO: 내 답변이라면 mine으로 변경
+                                SeeMoreView(answerType: .others, isBottomSheetPresented: $isBottomSheetPresented)
                                     .presentationDetents([.height(84)])
                             }
                             

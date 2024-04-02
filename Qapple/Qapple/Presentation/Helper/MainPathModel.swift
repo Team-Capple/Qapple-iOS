@@ -29,6 +29,7 @@ enum PathType: Hashable {
     /// 마이페이지
     case myPage
     case profileEdit(nickname: String)
+    case writtenAnswer
     
     // 알림 및 신고
     case alert

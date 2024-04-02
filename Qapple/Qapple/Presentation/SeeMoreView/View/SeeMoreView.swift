@@ -9,12 +9,26 @@ import SwiftUI
 
 struct SeeMoreView: View {
     
+    enum AnswerType {
+        case mine // 내가 작성한 답변
+        case others // 다른 사람이 작성한 답변
+    }
+    
     @EnvironmentObject var pathModel: PathModel
     @Binding var isBottomSheetPresented: Bool
     
+    @State private var isAnswerDeleteAlertPresented = false
+    @State private var isAnswerDeleteCompleteAlertPresented = false
+    
+    let answerType: AnswerType
+    
+    init(answerType: AnswerType, isBottomSheetPresented: Binding<Bool>) {
+        self.answerType = answerType
+        self._isBottomSheetPresented = isBottomSheetPresented
+    }
+    
     var body: some View {
         ZStack {
-            
             Color(Background.first)
                 .ignoresSafeArea()
             
@@ -29,23 +43,58 @@ struct SeeMoreView: View {
                     Spacer()
                 }
                 
-                Button {
-                    isBottomSheetPresented = false
-                    pathModel.paths.append(.report)
-                } label: {
-                    Text("🚨 신고하기")
-                        .font(.pretendard(.medium, size: 16))
-                        .foregroundStyle(Context.warning)
+                switch answerType {
+                case .mine:
+                    SeeMoreCell(title: "삭제하기") {
+                        isAnswerDeleteAlertPresented.toggle()
+                    }
+                    
+                case .others:
+                    SeeMoreCell(title: "신고하기") {
+                        isBottomSheetPresented = false
+                        pathModel.paths.append(.report)
+                    }
                 }
-                .frame(height: 40)
-                .padding(.horizontal, 24)
-                
+
                 Spacer()
+            }
+            .alert("답변을 삭제하시겠어요?", isPresented: $isAnswerDeleteAlertPresented) {
+                Button("취소", role: .cancel) {}
+                Button("삭제하기", role: .destructive) {
+                    isAnswerDeleteCompleteAlertPresented.toggle()
+                }
+            } message: {
+                Text("삭제한 답변은 복구할 수 없어요")
+            }
+            .alert("답변이 삭제되었어요", isPresented: $isAnswerDeleteCompleteAlertPresented) {
+                Button("확인", role: .none) {
+                    isBottomSheetPresented = false
+                    // TODO: 기존 리스트 리프레쉬
+                }
             }
         }
     }
 }
 
+// MARK: - SeeMoreCell
+private struct SeeMoreCell: View {
+    
+    let title: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Text(title)
+                .font(.pretendard(.medium, size: 16))
+                .foregroundStyle(Context.warning)
+        }
+        .frame(height: 40)
+        .padding(.horizontal, 24)
+    }
+}
+
 #Preview {
-    SeeMoreView(isBottomSheetPresented: .constant(false))
+    SeeMoreView(answerType: .mine, isBottomSheetPresented: .constant(true))
 }
