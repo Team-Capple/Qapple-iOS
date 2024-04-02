@@ -75,7 +75,7 @@ struct ReportView: View {
                 pathModel.paths.removeLast()
             }
         } message: {
-            Text("신고하신 내용을 빠르게 검토 후 조치할게요")
+            Text("신고한 답변은 블라인드 처리 되며, 관리자 검토 후 조치 될 예정이에요.")
         }
     }
 }
