@@ -188,6 +188,9 @@ private struct SignInView: View {
                         case .privacy:
                             SignUpPrivacyView()
                             
+                        case .eula:
+                            SignUpEULAView()
+                            
                         case .signUpCompleted:
                             SignUpCompletedView()
                             

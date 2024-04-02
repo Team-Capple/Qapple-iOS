@@ -82,14 +82,14 @@ struct SignUpTermsAgreementView: View {
                     .frame(height: 24)
                 
                 HStack {
-                    Text("(필수)개인정보 처리방침")
+                    Text("(필수)최종 사용자 라이센스 계약(EULA)")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                     
                     Spacer()
                     
                     Button {
-                        pathModel.paths.append(.privacy)
+                        pathModel.paths.append(.eula)
                     } label: {
                         Image(.arrowRight)
                     }
