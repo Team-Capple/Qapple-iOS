@@ -157,7 +157,7 @@ private struct KeywordView: View {
                 keywordInputText = ""
             }
             
-            Button("확인") {
+            Button("추가하기") {
                 viewModel.createNewKeyword(keywordInputText)
                 isButtonActive = viewModel.keywords.isEmpty ? false : true
                 keywordInputText = ""

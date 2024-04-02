@@ -235,10 +235,13 @@ private struct AnswerPreview: View {
                             .frame(height: 44)
                         
                         HStack(alignment: .top, spacing: 2) {
-                            Text("Q.")
-                                .foregroundStyle(BrandPink.text)
                             
-                            Text(viewModel.mainQuestion.content)
+                            if viewModel.state != .ready {
+                                Text("Q.")
+                                    .foregroundStyle(BrandPink.text)
+                            }
+                            
+                            Text(viewModel.listTitleText)
                                 .foregroundStyle(TextLabel.main)
                         }
                         .font(.pretendard(.bold, size: 20))
