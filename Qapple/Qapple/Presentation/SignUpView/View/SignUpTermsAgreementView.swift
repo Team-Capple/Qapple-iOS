@@ -48,7 +48,7 @@ struct SignUpTermsAgreementView: View {
                     .frame(height: 44)
                 
                 HStack {
-                    Text("전체 약관 동의")
+                    Text("약관 동의")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.main)
                     
@@ -65,14 +65,14 @@ struct SignUpTermsAgreementView: View {
                     .frame(height: 24)
                 
                 HStack {
-                    Text("(필수)개인정보 처리방침")
+                    Text("(필수)서비스 이용 약관")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                     
                     Spacer()
                     
                     Button {
-                        pathModel.paths.append(.privacy)
+                        pathModel.paths.append(.terms)
                     } label: {
                         Image(.arrowRight)
                     }
@@ -82,14 +82,14 @@ struct SignUpTermsAgreementView: View {
                     .frame(height: 24)
                 
                 HStack {
-                    Text("(필수)최종 사용자 라이센스 계약(EULA)")
+                    Text("(필수)개인정보 처리방침")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                     
                     Spacer()
                     
                     Button {
-                        pathModel.paths.append(.eula)
+                        pathModel.paths.append(.privacy)
                     } label: {
                         Image(.arrowRight)
                     }

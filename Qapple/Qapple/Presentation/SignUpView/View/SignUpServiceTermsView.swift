@@ -1,5 +1,5 @@
 //
-//  SignUpEULAView.swift
+//  SignUpServiceTermsView.swift
 //  Qapple
 //
 //  Created by 김민준 on 4/2/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SignUpEULAView: View {
+struct SignUpServiceTermsView: View {
     @EnvironmentObject var pathModel: PathModel
     
     var body: some View {
@@ -18,7 +18,7 @@ struct SignUpEULAView: View {
                 leadingView: { CustomNavigationBackButton(buttonType: .arrow)   {
                     pathModel.paths.removeLast()
                 }},
-                principalView: { Text("최종 사용자 라이센스 계약(EULA)")
+                principalView: { Text("서비스 이용 약관")
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main) },
                 trailingView: { },
@@ -28,7 +28,7 @@ struct SignUpEULAView: View {
             
             VStack(alignment: .leading, spacing: 0) {
                 ScrollView {
-                    Text("")
+                    Text(serviceTermsText)
                         .font(.pretendard(.medium, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                 }
@@ -42,5 +42,5 @@ struct SignUpEULAView: View {
 }
 
 #Preview {
-    SignUpEULAView()
+    SignUpServiceTermsView()
 }

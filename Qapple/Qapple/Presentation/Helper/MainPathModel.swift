@@ -15,7 +15,7 @@ enum PathType: Hashable {
     case inputNickName // 닉네임 입력
     case agreement // 약관 동의
     case privacy // 개인정보 처리방침
-    case eula // 개인정보 처리방침
+    case terms // 서비스 이용 약관
     case signUpCompleted // 완료
     
     /// 답변하기
