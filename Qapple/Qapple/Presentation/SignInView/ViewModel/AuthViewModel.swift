@@ -108,7 +108,7 @@ extension AuthViewModel {
                 Task {
                     do {
                         let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
-                        SignInInfo.shared.updateAccessToken(signInResponse.accessToken ?? "")
+                        try SignInInfo.shared.createAccessToken(signInResponse.accessToken ?? "")
                         SignInInfo.shared.updateRefreshToken(signInResponse.refreshToken ?? "")
                         
                         // 로그인 상태에 따른 화면 분기처리
@@ -127,7 +127,7 @@ extension AuthViewModel {
                         // TODO: 로그인 실패 Alert
                     }
                     
-                    print("액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
+                    print("액세스 토큰 값!\n\(try SignInInfo.shared.accessToken())\n")
                     print("리프레쉬 토큰 값!\n\(SignInInfo.shared.refreshToken())\n")
                 }
                 
@@ -154,7 +154,7 @@ extension AuthViewModel {
                     profileImage: ""))
             
             // 토큰 데이터 업데이트
-            SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
+            try SignInInfo.shared.createAccessToken(signUpData.accessToken ?? "")
             SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
         } catch {
             isSignUpFailedAlertPresented.toggle()

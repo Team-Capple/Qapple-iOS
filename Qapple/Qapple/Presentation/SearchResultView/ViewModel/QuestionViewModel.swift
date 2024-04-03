@@ -24,10 +24,18 @@ class QuestionViewModel: ObservableObject {
         // URL 생성
         guard let url = URL(string: "http://43.203.126.187:8080/questions") else { fatalError("에러") }
         
+        var accessToken = ""
+        
+        do {
+            accessToken = try SignInInfo.shared.accessToken()
+        } catch {
+            print("액세스 토큰 반환 실패")
+        }
+        
         // Request 생성
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
         // 네트워크 통신
         

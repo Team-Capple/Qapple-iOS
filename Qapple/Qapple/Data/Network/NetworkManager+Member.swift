@@ -99,10 +99,18 @@ extension NetworkManager {
             throw NetworkError.cannotCreateURL
         }
         
+        var accessToken = ""
+        
+        do {
+            accessToken = try SignInInfo.shared.accessToken()
+        } catch {
+            print("액세스 토큰 반환 실패")
+        }
+        
         // 토큰 추가
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
         // URLSession 생성
         let (_, response) = try await URLSession.shared.data(for: request)
@@ -164,10 +172,18 @@ extension NetworkManager {
             throw NetworkError.cannotCreateURL
         }
         
+        var accessToken = ""
+        
+        do {
+            accessToken = try SignInInfo.shared.accessToken()
+        } catch {
+            print("액세스 토큰 반환 실패")
+        }
+        
         // 토큰 추가
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
         // URLSession 생성
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -205,11 +221,19 @@ extension NetworkManager {
             throw NetworkError.cannotCreateURL
         }
         
+        var accessToken = ""
+        
+        do {
+            accessToken = try SignInInfo.shared.accessToken()
+        } catch {
+            print("액세스 토큰 반환 실패")
+        }
+        
         // Request 객체 생성
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
