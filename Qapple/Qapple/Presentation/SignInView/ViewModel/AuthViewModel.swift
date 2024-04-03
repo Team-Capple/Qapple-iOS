@@ -108,8 +108,8 @@ extension AuthViewModel {
                 Task {
                     do {
                         let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
-                        try SignInInfo.shared.createAccessToken(signInResponse.accessToken ?? "")
-                        SignInInfo.shared.updateRefreshToken(signInResponse.refreshToken ?? "")
+                        try SignInInfo.shared.createToken(.access, token: signInResponse.accessToken ?? "")
+                        try SignInInfo.shared.createToken(.refresh, token: signInResponse.refreshToken ?? "")
                         
                         // 로그인 상태에 따른 화면 분기처리
                         if signInResponse.isMember {
@@ -127,8 +127,8 @@ extension AuthViewModel {
                         // TODO: 로그인 실패 Alert
                     }
                     
-                    print("액세스 토큰 값!\n\(try SignInInfo.shared.accessToken())\n")
-                    print("리프레쉬 토큰 값!\n\(SignInInfo.shared.refreshToken())\n")
+                    print("액세스 토큰 값!\n\(try SignInInfo.shared.token(.access))\n")
+                    print("리프레쉬 토큰 값!\n\(try SignInInfo.shared.token(.refresh))\n")
                 }
                 
             default:
@@ -148,14 +148,14 @@ extension AuthViewModel {
             // 회원가입 API
             let signUpData = try await NetworkManager.requestSignUp(
                 request: .init(
-                    signUpToken: SignInInfo.shared.refreshToken(),
+                    signUpToken: try SignInInfo.shared.token(.refresh),
                     email: "\(email)\(academyEmailAddress)",
                     nickname: nickname,
                     profileImage: ""))
             
             // 토큰 데이터 업데이트
-            try SignInInfo.shared.createAccessToken(signUpData.accessToken ?? "")
-            SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
+            try SignInInfo.shared.createToken(.access, token: signUpData.accessToken ?? "")
+            try SignInInfo.shared.createToken(.refresh, token: signUpData.refreshToken ?? "")
         } catch {
             isSignUpFailedAlertPresented.toggle()
         }
@@ -172,7 +172,7 @@ extension AuthViewModel {
             do {
                 let _ = try await NetworkManager.requestEmailCertificationCode(
                     request: .init(
-                        signUpToken: SignInInfo.shared.refreshToken(),
+                        signUpToken: try SignInInfo.shared.token(.refresh),
                         email: "\(email)\(academyEmailAddress)"
                     )
                 )
@@ -193,7 +193,7 @@ extension AuthViewModel {
             do {
                 let response = try await NetworkManager.requestCodeCertificationCode(
                     request: .init(
-                        signUpToken: SignInInfo.shared.refreshToken(),
+                        signUpToken: try SignInInfo.shared.token(.refresh),
                         email: "\(email)\(academyEmailAddress)",
                         certCode: certifyCode
                     )

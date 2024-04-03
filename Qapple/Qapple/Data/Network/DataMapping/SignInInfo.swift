@@ -15,20 +15,23 @@ final class SignInInfo {
         case unHandledError(status: OSStatus) // 예외 처리에 실패한 에러
     }
     
+    enum TokenType: String {
+        case access = "accessToken"
+        case refresh = "refreshToken"
+    }
+    
     static let shared = SignInInfo()
     private init() {}
     
     private var refreshTokenValue: String = ""
     
-    private let accessTokenLabel = "accessTokenLabel"
-    
     /// 키체인에서 액세스 토큰을 반환합니다.
-    func accessToken() throws -> String {
+    func token(_ type: TokenType) throws -> String {
         
         // 1. 키체인에서 검색할 query
         let searchQuery: [CFString: Any] = [
             kSecClass: kSecClassKey,
-            kSecAttrLabel: accessTokenLabel,
+            kSecAttrType: type.rawValue,
             kSecReturnAttributes: true,
             kSecReturnData: true
         ]
@@ -63,10 +66,8 @@ final class SignInInfo {
         return token
     }
     
-    // MARK: - Access Token
-    
-    /// 키체인에 액세스 토큰을  생성합니다.
-    func createAccessToken(_ token: String) throws {
+    /// 키체인에 토큰을  생성합니다.
+    func createToken(_ type: TokenType, token: String) throws {
         
         // 1. 토큰 문자열을 Data로 변환
         let tokenData = token.data(using: .utf8)!
@@ -74,7 +75,7 @@ final class SignInInfo {
         // 2. 키체인 생성용 쿼리
         let createQuery: [CFString: Any] = [
             kSecClass: kSecClassKey, // 키체인 item 클래스: kSecClassKey
-            kSecAttrLabel: accessTokenLabel, // 키체인 검색용 attribute: 토큰 라벨
+            kSecAttrType: type.rawValue, // 키체인 검색용 attribute: 토큰 라벨
             kSecValueData: tokenData // 암호화가 필요한 키체인 item(토큰)
         ]
         
@@ -87,7 +88,7 @@ final class SignInInfo {
         } else if status == errSecDuplicateItem {
             // 4-1. 만약 이미 존재한다면, 기존 키체인 item 업데이트
             print("키체인 업데이트 예정")
-            try updateAccessToken(value: tokenData)
+            try updateToken(type, value: tokenData)
             
         } else {
             print("키체인 생성 실패")
@@ -95,13 +96,13 @@ final class SignInInfo {
         }
     }
     
-    /// 키체인 내 액세스 토큰을 업데이트합니다.
-    private func updateAccessToken(value: Any) throws {
+    /// 키체인 내 토큰을 업데이트합니다.
+    private func updateToken(_ type: TokenType, value: Any) throws {
         
         // 1. 기존 키체인을 찾기 위한 쿼리
         let originalQuery: [CFString: Any] = [
             kSecClass: kSecClassKey,
-            kSecAttrLabel: accessTokenLabel
+            kSecAttrType: type.rawValue
         ]
         
         // 2. 업데이트할 데이터를 담고 있는 쿼리
@@ -124,12 +125,12 @@ final class SignInInfo {
     // MARK: - Refresh Token
     
     /// 리프레쉬 토큰을 반환합니다.
-    func refreshToken() -> String {
-        return refreshTokenValue
-    }
+//    func refreshToken() -> String {
+//        return refreshTokenValue
+//    }
     
-    /// 리프레쉬 토큰을 업데이트합니다.
-    func updateRefreshToken(_ token: String) {
-        refreshTokenValue = token
-    }
+//    /// 리프레쉬 토큰을 업데이트합니다.
+//    func updateRefreshToken(_ token: String) {
+//        refreshTokenValue = token
+//    }
 }

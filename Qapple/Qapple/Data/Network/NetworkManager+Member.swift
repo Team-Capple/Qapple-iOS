@@ -102,7 +102,7 @@ extension NetworkManager {
         var accessToken = ""
         
         do {
-            accessToken = try SignInInfo.shared.accessToken()
+            accessToken = try SignInInfo.shared.token(.access)
         } catch {
             print("액세스 토큰 반환 실패")
         }
@@ -175,7 +175,7 @@ extension NetworkManager {
         var accessToken = ""
         
         do {
-            accessToken = try SignInInfo.shared.accessToken()
+            accessToken = try SignInInfo.shared.token(.access)
         } catch {
             print("액세스 토큰 반환 실패")
         }
@@ -224,7 +224,7 @@ extension NetworkManager {
         var accessToken = ""
         
         do {
-            accessToken = try SignInInfo.shared.accessToken()
+            accessToken = try SignInInfo.shared.token(.access)
         } catch {
             print("액세스 토큰 반환 실패")
         }
