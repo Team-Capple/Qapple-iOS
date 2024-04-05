@@ -43,96 +43,54 @@ private struct HomeView: View {
                 
                 TabView(selection: $tab) {
                     TodayQuestionView()
-                        .navigationDestination(for: PathType.self) { path in
-                            switch path {
-                            case .answer(let questionId, let questionContent):
-                                AnswerView(
-                                    viewModel: answerViewModel,
-                                    questionId: questionId,
-                                    questionContent: questionContent
-                                )
-                                
-                            case .confirmAnswer:
-                                ConfirmAnswerView(viewModel: answerViewModel)
-                                
-                            case .searchKeyword:
-                                SearchKeywordView(viewModel: answerViewModel)
-                                
-                            case .completeAnswer:
-                                CompleteAnswerView(viewModel: answerViewModel)
-                                
-                            case .todayAnswer(let questionId, let questionContent):
-                                TodayAnswerView(
-                                    questionId: questionId,
-                                    questionContent: questionContent
-                                )
-                                
-                            case .myPage:
-                                MyPageView()
-                                
-                            case let .profileEdit(nickname):
-                                ProfileEditView(nickName: nickname)
-                                
-                            case .writtenAnswer:
-                                WrittenAnswerView()
-                                
-                            case .alert:
-                                AlertView()
-                                
-                            case .report:
-                                ReportView()
-                                
-                            default: EmptyView()
-                            }
-                        }
                         .tag(Tab.todayQuestion)
                     
                     SearchResultView()
-                        .navigationDestination(for: PathType.self) { path in
-                            switch path {
-                            case .todayAnswer(let questionId, let questionContent):
-                                TodayAnswerView(
-                                    questionId: questionId,
-                                    questionContent: questionContent
-                                )
-                                
-                            case .answer(let questionId, let questionContent):
-                                AnswerView(
-                                    viewModel: answerViewModel,
-                                    questionId: questionId,
-                                    questionContent: questionContent
-                                )
-                                
-                            case .confirmAnswer:
-                                ConfirmAnswerView(viewModel: answerViewModel)
-                                
-                            case .searchKeyword:
-                                SearchKeywordView(viewModel: answerViewModel)
-                                
-                            case .completeAnswer:
-                                CompleteAnswerView(viewModel: answerViewModel)
-                                
-                            case .myPage:
-                                MyPageView()
-                                
-                            case let .profileEdit(nickname):
-                                ProfileEditView(nickName: nickname)
-                                
-                            case .writtenAnswer:
-                                WrittenAnswerView()
-                                
-                            case .alert:
-                                AlertView()
-                                
-                            case .report:
-                                ReportView()
-                                
-                            default: EmptyView()
-                            }
-                        }
                         .tag(Tab.questionList)
                 }
                 .edgesIgnoringSafeArea(.all)
+                .navigationDestination(for: PathType.self) { path in
+                    switch path {
+                    case .answer(let questionId, let questionContent):
+                        AnswerView(
+                            viewModel: answerViewModel,
+                            questionId: questionId,
+                            questionContent: questionContent
+                        )
+                        
+                    case .confirmAnswer:
+                        ConfirmAnswerView(viewModel: answerViewModel)
+                        
+                    case .searchKeyword:
+                        SearchKeywordView(viewModel: answerViewModel)
+                        
+                    case .completeAnswer:
+                        CompleteAnswerView(viewModel: answerViewModel)
+                        
+                    case .todayAnswer(let questionId, let questionContent):
+                        TodayAnswerView(
+                            questionId: questionId,
+                            questionContent: questionContent
+                        )
+                        
+                    case .myPage:
+                        MyPageView()
+                        
+                    case let .profileEdit(nickname):
+                        ProfileEditView(nickName: nickname)
+                        
+                    case .writtenAnswer:
+                        WrittenAnswerView()
+                        
+                    case .alert:
+                        AlertView()
+                        
+                    case .report:
+                        ReportView()
+                        
+                    default: EmptyView()
+                    }
+                }
             }
             .onAppear {
                 NotificationManager.shared.requestNotificationPermission()
