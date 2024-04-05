@@ -22,7 +22,8 @@ class TodayAnswersViewModel: ObservableObject {
     func loadAnswersForQuestion(questionId: Int) {
         
         // URL 생성
-        guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else {
+        let urlString = ApiEndpoints.basicURLString(path: .answersOfQuestion)
+        guard let url = URL(string: "\(urlString)/\(questionId)") else {
             print("유효하지 않은 URL")
             return
         }
@@ -63,7 +64,6 @@ class TodayAnswersViewModel: ObservableObject {
                         let decodedData = try JSONDecoder().decode(BaseResponse<ServerResponse.Answers>.self, from: data)
                         DispatchQueue.main.async {
                             self.answers = decodedData.result.answerInfos
-                            print(self.answers)
                         }
                     } catch {
                         print("ServerResponse.Answers - Error decoding response: \(error)")

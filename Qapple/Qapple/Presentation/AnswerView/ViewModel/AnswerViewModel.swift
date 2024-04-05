@@ -52,6 +52,9 @@ extension AnswerViewModel {
     
     @MainActor
     func requestRegisterAnswer() async throws {
+        
+        print("\(#function) 실행")
+        
         do {
             print("답변 등록을 시도할 질문 ID: \(questionId)")
             let _ = try await NetworkManager.requestRegisterAnswer(

@@ -22,7 +22,8 @@ class QuestionViewModel: ObservableObject {
     func getQuestions() async throws -> QuestionResponse.Questions {
         
         // URL 생성
-        guard let url = URL(string: "http://43.203.126.187:8080/questions") else { fatalError("에러") }
+        let urlString = ApiEndpoints.basicURLString(path: .questions)
+        guard let url = URL(string: urlString) else { fatalError("에러") }
         
         var accessToken = ""
         
