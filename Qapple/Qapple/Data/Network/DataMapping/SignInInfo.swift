@@ -9,12 +9,14 @@ import Foundation
 
 final class SignInInfo {
     
+    /// 키체인 에러 열거형
     enum KeyChainError: Error {
         case notFound // 키체인 찾을 수 없음
         case undexpectedData // 예상치 못한 데이터
         case unHandledError(status: OSStatus) // 예외 처리에 실패한 에러
     }
     
+    /// 토큰 타입 열거형
     enum TokenType: String {
         case access = "accessToken"
         case refresh = "refreshToken"
@@ -44,12 +46,12 @@ final class SignInInfo {
         
         // 4. 검색 결과가 잘 들어왔는지 확인
         guard status != errSecItemNotFound else {
-            print("키체인 검색 결과 없음")
+            // print("키체인 검색 결과 없음")
             throw KeyChainError.notFound
         }
         
         guard status == errSecSuccess else {
-            print("키체인 검색 실패")
+            // print("키체인 검색 실패")
             throw KeyChainError.unHandledError(status: status)
         }
         
@@ -58,7 +60,7 @@ final class SignInInfo {
               let tokenData = existingItem[kSecValueData as String] as? Data,
               let token = String(data: tokenData, encoding: .utf8)
         else {
-            print("예상치 못한 데이터 반환")
+            // print("예상치 못한 데이터 반환")
             throw KeyChainError.undexpectedData
         }
         
@@ -84,14 +86,14 @@ final class SignInInfo {
         
         // 4. 키체인 추가가 잘 되었는지 확인
         if status == errSecSuccess {
-            print("키체인 생성 성공")
+            // print("키체인 생성 성공")
         } else if status == errSecDuplicateItem {
             // 4-1. 만약 이미 존재한다면, 기존 키체인 item 업데이트
-            print("키체인 업데이트 예정")
+            // print("키체인 업데이트 예정")
             try updateToken(type, value: tokenData)
             
         } else {
-            print("키체인 생성 실패")
+            // print("키체인 생성 실패")
             throw KeyChainError.unHandledError(status: status)
         }
     }
@@ -115,22 +117,10 @@ final class SignInInfo {
         
         // 4. 키체인 업데이트가 잘 되었는지 확인
         if status == errSecSuccess {
-            print("키체인 업데이트 성공")
+            // print("키체인 업데이트 성공")
         } else {
-            print("키체인 업데이트 실패")
+            // print("키체인 업데이트 실패")
             throw KeyChainError.unHandledError(status: status)
         }
     }
-    
-    // MARK: - Refresh Token
-    
-    /// 리프레쉬 토큰을 반환합니다.
-//    func refreshToken() -> String {
-//        return refreshTokenValue
-//    }
-    
-//    /// 리프레쉬 토큰을 업데이트합니다.
-//    func updateRefreshToken(_ token: String) {
-//        refreshTokenValue = token
-//    }
 }

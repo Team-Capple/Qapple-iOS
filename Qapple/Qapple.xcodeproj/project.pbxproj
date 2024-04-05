@@ -188,6 +188,7 @@
 		8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Answer.swift"; sourceTree = "<group>"; };
 		8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Tag.swift"; sourceTree = "<group>"; };
 		8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Member.swift"; sourceTree = "<group>"; };
+		82BBA09A2BBF80410092D37E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		82C3790B2B93291C00CC7708 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		82C3790D2B93292200CC7708 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		82C3790F2B9330BA00CC7708 /* ReportListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportListRow.swift; sourceTree = "<group>"; };
@@ -677,6 +678,7 @@
 		F3EA66BF2B7643EE002417CE = {
 			isa = PBXGroup;
 			children = (
+				82BBA09A2BBF80410092D37E /* Secrets.xcconfig */,
 				F3EA66CA2B7643EE002417CE /* Qapple */,
 				F3EA66DB2B7643F0002417CE /* QappleTests */,
 				F3EA66E52B7643F0002417CE /* QappleUITests */,
@@ -1260,6 +1262,7 @@
 		};
 		F3EA66ED2B7643F0002417CE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82BBA09A2BBF80410092D37E /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1299,6 +1302,7 @@
 		};
 		F3EA66EE2B7643F0002417CE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82BBA09A2BBF80410092D37E /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1338,6 +1342,7 @@
 		};
 		F3EA66F02B7643F0002417CE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82BBA09A2BBF80410092D37E /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1357,6 +1362,7 @@
 		};
 		F3EA66F12B7643F0002417CE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82BBA09A2BBF80410092D37E /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
