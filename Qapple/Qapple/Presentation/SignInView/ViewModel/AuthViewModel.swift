@@ -127,8 +127,8 @@ extension AuthViewModel {
                         // TODO: 로그인 실패 Alert
                     }
                     
-                    print("액세스 토큰 값!\n\(try SignInInfo.shared.token(.access))\n")
-                    print("리프레쉬 토큰 값!\n\(try SignInInfo.shared.token(.refresh))\n")
+                    // print("액세스 토큰 값!\n\(try SignInInfo.shared.token(.access))\n")
+                    // print("리프레쉬 토큰 값!\n\(try SignInInfo.shared.token(.refresh))\n")
                 }
                 
             default:

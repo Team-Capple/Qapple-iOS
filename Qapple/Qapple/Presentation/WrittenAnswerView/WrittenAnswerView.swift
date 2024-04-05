@@ -41,23 +41,36 @@ struct WrittenAnswerView: View {
                 backgroundColor: .clear
             )
             
-            ScrollView(.vertical, showsIndicators: false) {
-                
-                // TODO: API를 통해 내가 작성한 답변 불러오기
-                ForEach(Array(dummyAnswers.enumerated()), id: \.offset) { index, answer in
-                    LazyVStack{
-                        SingleAnswerView(answer: answer){
-                            isBottomSheetPresented.toggle()
-                        }
-                        .sheet(isPresented: $isBottomSheetPresented) {
-                            SeeMoreView(answerType: .mine, isBottomSheetPresented: $isBottomSheetPresented)
-                                .presentationDetents([.height(84)])
-                        }
-                        Separator()
-                            .padding(.leading, 24)
-                    }
-                }
+            Spacer()
+            
+            HStack {
+                Spacer()
+                Text("이후에 업데이트 될 기능이에요")
+                    .font(Font.pretendard(.semiBold, size: 15))
+                    .foregroundStyle(TextLabel.sub3)
+                Spacer()
             }
+            
+            Spacer()
+            
+            // TODO: 추후 내가 작성한 답변 기능 생기면 업데이트
+//            ScrollView(.vertical, showsIndicators: false) {
+//                
+//                // TODO: API를 통해 내가 작성한 답변 불러오기
+//                ForEach(Array(dummyAnswers.enumerated()), id: \.offset) { index, answer in
+//                    LazyVStack{
+//                        SingleAnswerView(answer: answer){
+//                            isBottomSheetPresented.toggle()
+//                        }
+//                        .sheet(isPresented: $isBottomSheetPresented) {
+//                            SeeMoreView(answerType: .mine, isBottomSheetPresented: $isBottomSheetPresented)
+//                                .presentationDetents([.height(84)])
+//                        }
+//                        Separator()
+//                            .padding(.leading, 24)
+//                    }
+//                }
+//            }
         }
         .background(Background.first)
         .navigationBarBackButtonHidden()
