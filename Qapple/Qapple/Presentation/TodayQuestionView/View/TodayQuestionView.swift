@@ -236,7 +236,7 @@ private struct AnswerPreview: View {
                         
                         HStack(alignment: .top, spacing: 2) {
                             
-                            if viewModel.state != .ready {
+                            if viewModel.mainQuestion.isAnswered {
                                 Text("Q.")
                                     .foregroundStyle(BrandPink.text)
                             }

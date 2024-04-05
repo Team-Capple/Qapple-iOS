@@ -6,7 +6,6 @@ class QuestionViewModel: ObservableObject {
     @Published var filteredQuestions: [QuestionResponse.Questions.QuestionsInfos] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     @Published var selectedQuestionId: Int? = nil
     @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
-
     
     @MainActor
     func fetchGetQuestions() async {
