@@ -99,7 +99,7 @@ final class SignInInfo {
     }
     
     /// 키체인 내 토큰을 업데이트합니다.
-    private func updateToken(_ type: TokenType, value: Any) throws {
+    private func updateToken(_ type: TokenType, value: Data) throws {
         
         // 1. 기존 키체인을 찾기 위한 쿼리
         let originalQuery: [CFString: Any] = [

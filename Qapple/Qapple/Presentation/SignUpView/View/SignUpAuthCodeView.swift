@@ -134,7 +134,10 @@ struct SignUpAuthCodeView: View {
                         
                         Button {
                             isMailResendAlertPresented.toggle()
-                            authViewModel.requestEmailCertification()
+                            Task {
+                                await authViewModel.requestEmailCertification()
+                            }
+                            
                         } label: {
                             Text("메일 재발송")
                                 .font(.pretendard(.medium, size: 14))

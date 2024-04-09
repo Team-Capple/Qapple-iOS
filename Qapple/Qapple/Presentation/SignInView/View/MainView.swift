@@ -10,19 +10,17 @@ import SwiftUI
 struct MainView: View {
     
     @StateObject var authViewModel: AuthViewModel = .init()
-    @StateObject private var pathModel = PathModel()
+    @StateObject private var pathModel: PathModel = .init()
     
     var body: some View {
-        Group {
-            if authViewModel.isSignIn {
-                HomeView()
-                    .environmentObject(pathModel)
-                    .environmentObject(authViewModel)
-            } else {
-                SignInView()
-                    .environmentObject(pathModel)
-                    .environmentObject(authViewModel)
-            }
+        if authViewModel.isSignIn {
+            HomeView()
+                .environmentObject(pathModel)
+                .environmentObject(authViewModel)
+        } else {
+            SignInView()
+                .environmentObject(pathModel)
+                .environmentObject(authViewModel)
         }
     }
 }
@@ -109,7 +107,7 @@ private struct SignInView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var clickedLoginButton: Bool = false
+    @State private var clickedLoginButton = false
     
     var body: some View {
         NavigationStack(path: $pathModel.paths) {

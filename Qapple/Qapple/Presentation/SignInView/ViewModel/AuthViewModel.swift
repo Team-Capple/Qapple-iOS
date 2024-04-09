@@ -11,6 +11,7 @@ import AuthenticationServices
 class AuthViewModel: ObservableObject {
     
     let academyEmailAddress = "@pos.idserve.net"
+    let testEmail = "testQapple"
     
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var isSignUp = false // 회원가입 로직 실행용
@@ -21,6 +22,7 @@ class AuthViewModel: ObservableObject {
     @Published var nickname: String = "" // 닉네임
     @Published var email: String = "" // 이메일
     @Published var certifyCode: String = "" // 이메일 인증 코드
+    @Published var certifyMailLoading = false // 이메일 발송 로딩
     
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
@@ -127,8 +129,8 @@ extension AuthViewModel {
                         // TODO: 로그인 실패 Alert
                     }
                     
-                    // print("액세스 토큰 값!\n\(try SignInInfo.shared.token(.access))\n")
-                    // print("리프레쉬 토큰 값!\n\(try SignInInfo.shared.token(.refresh))\n")
+                    print("액세스 토큰 값!\n\(try SignInInfo.shared.token(.access))\n")
+                    print("리프레쉬 토큰 값!\n\(try SignInInfo.shared.token(.refresh))\n")
                 }
                 
             default:
@@ -167,23 +169,22 @@ extension AuthViewModel {
     
     /// 대학 이메일 인증을 요청합니다.
     @MainActor
-    func requestEmailCertification() {
-        Task {
-            do {
-                let _ = try await NetworkManager.requestEmailCertificationCode(
-                    request: .init(
-                        signUpToken: try SignInInfo.shared.token(.refresh),
-                        email: "\(email)\(academyEmailAddress)"
-                    )
+    func requestEmailCertification() async {
+        do {
+            let _ = try await NetworkManager.requestEmailCertificationCode(
+                request: .init(
+                    signUpToken: try SignInInfo.shared.token(.refresh),
+                    email: "\(email)\(academyEmailAddress)"
                 )
-                print("인증코드 전송 완료")
-            } catch {
-                print("인증코드 요청 실패")
-            }
-            
-            // 인증 코드 초기화
-            certifyCode.removeAll()
+            )
+            print("인증코드 전송 완료")
+        } catch {
+            print("인증코드 요청 실패")
+            certifyMailLoading = false
         }
+        
+        // 인증 코드 초기화
+        certifyCode.removeAll()
     }
     
     /// 대학 이메일 인증 코드를 확인합니다.
