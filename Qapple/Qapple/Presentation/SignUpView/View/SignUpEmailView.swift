@@ -105,8 +105,9 @@ struct SignUpEmailView: View {
                             authViewModel.certifyMailLoading = true
                             
                             Task {
-                                await authViewModel.requestEmailCertification()
-                                pathModel.paths.append(.authCode)
+                                if await authViewModel.requestEmailCertification() {
+                                    pathModel.paths.append(.authCode)
+                                }
                                 authViewModel.certifyMailLoading = false
                             }
                         } label: {
@@ -134,6 +135,11 @@ struct SignUpEmailView: View {
                 .padding(.top, 60)
                 .opacity(authViewModel.certifyMailLoading ? 1 : 0)
                 .tint(.wh)
+        }
+        .alert("이미 가입된 이메일이에요", isPresented: $authViewModel.isExistEmailAlertPresented) {
+            Button("확인", role: .none) {}
+        } message: {
+            Text("다른 이메일을 입력해주세요.")
         }
     }
 }

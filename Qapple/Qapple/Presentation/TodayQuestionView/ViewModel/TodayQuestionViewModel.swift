@@ -57,8 +57,6 @@ extension TodayQuestionViewModel {
         } else {
             self.state = .creating
         }
-        
-        print("현재 상태: \(self.state)")
     }
 }
 

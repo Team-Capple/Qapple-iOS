@@ -23,6 +23,7 @@ class AuthViewModel: ObservableObject {
     @Published var email: String = "" // 이메일
     @Published var certifyCode: String = "" // 이메일 인증 코드
     @Published var certifyMailLoading = false // 이메일 발송 로딩
+    @Published var isExistEmailAlertPresented = false // 이미 존재하는 이메일(가입된 이메일) 여부
     
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
@@ -169,7 +170,11 @@ extension AuthViewModel {
     
     /// 대학 이메일 인증을 요청합니다.
     @MainActor
-    func requestEmailCertification() async {
+    func requestEmailCertification() async -> Bool {
+        
+        // 인증 코드 초기화
+        certifyCode.removeAll()
+        
         do {
             let _ = try await NetworkManager.requestEmailCertificationCode(
                 request: .init(
@@ -178,13 +183,13 @@ extension AuthViewModel {
                 )
             )
             print("인증코드 전송 완료")
+            return true
         } catch {
             print("인증코드 요청 실패")
             certifyMailLoading = false
+            isExistEmailAlertPresented = true
+            return false
         }
-        
-        // 인증 코드 초기화
-        certifyCode.removeAll()
     }
     
     /// 대학 이메일 인증 코드를 확인합니다.
