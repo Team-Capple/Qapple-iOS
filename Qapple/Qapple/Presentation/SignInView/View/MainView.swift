@@ -83,8 +83,8 @@ private struct HomeView: View {
                     case .alert:
                         AlertView()
                         
-                    case .report:
-                        ReportView()
+                    case .report(let answerId):
+                        ReportView(answerId: answerId)
                         
                     default: EmptyView()
                     }

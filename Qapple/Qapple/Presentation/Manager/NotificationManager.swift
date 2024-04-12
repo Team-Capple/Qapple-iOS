@@ -8,7 +8,7 @@
 import Foundation
 import UserNotifications
 
-struct Notification {
+struct NotificationAlert {
     var id: String
     var title: String
 }

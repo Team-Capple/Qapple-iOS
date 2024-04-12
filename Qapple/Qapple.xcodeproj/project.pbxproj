@@ -43,6 +43,11 @@
 		82398F092B98ABB4006269E0 /* DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82398F082B98ABB4006269E0 /* DTO.swift */; };
 		8247172C2BC8C9B5005E9631 /* WrittenAnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8247172B2BC8C9B5005E9631 /* WrittenAnswerViewModel.swift */; };
 		8247172E2BC8D865005E9631 /* IsMyAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8247172D2BC8D865005E9631 /* IsMyAnswer.swift */; };
+		824717302BC913B9005E9631 /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8247172F2BC913B9005E9631 /* ReportRequest.swift */; };
+		824717322BC9140A005E9631 /* ReportResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824717312BC9140A005E9631 /* ReportResponse.swift */; };
+		824717342BC9144F005E9631 /* ReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824717332BC9144F005E9631 /* ReportType.swift */; };
+		824717362BC9163C005E9631 /* NetworkManager+Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824717352BC9163C005E9631 /* NetworkManager+Report.swift */; };
+		824717382BC922F3005E9631 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824717372BC922F3005E9631 /* NotificationName+Extension.swift */; };
 		825226E82BA6E529006998E8 /* SignInInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825226E72BA6E529006998E8 /* SignInInfo.swift */; };
 		825226EA2BA857FF006998E8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825226E92BA857FF006998E8 /* String+Extension.swift */; };
 		825226ED2BA96CEF006998E8 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825226EC2BA96CEF006998E8 /* MyPageViewModel.swift */; };
@@ -169,6 +174,11 @@
 		82398F082B98ABB4006269E0 /* DTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTO.swift; sourceTree = "<group>"; };
 		8247172B2BC8C9B5005E9631 /* WrittenAnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrittenAnswerViewModel.swift; sourceTree = "<group>"; };
 		8247172D2BC8D865005E9631 /* IsMyAnswer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsMyAnswer.swift; sourceTree = "<group>"; };
+		8247172F2BC913B9005E9631 /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
+		824717312BC9140A005E9631 /* ReportResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportResponse.swift; sourceTree = "<group>"; };
+		824717332BC9144F005E9631 /* ReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportType.swift; sourceTree = "<group>"; };
+		824717352BC9163C005E9631 /* NetworkManager+Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Report.swift"; sourceTree = "<group>"; };
+		824717372BC922F3005E9631 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 		825226E72BA6E529006998E8 /* SignInInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInfo.swift; sourceTree = "<group>"; };
 		825226E92BA857FF006998E8 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		825226EC2BA96CEF006998E8 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
@@ -414,6 +424,7 @@
 				F3D452D42B8A647F000BA51C /* UINavigationController+Extension.swift */,
 				82C3791C2B943CDB00CC7708 /* Date+Extension.swift */,
 				825226E92BA857FF006998E8 /* String+Extension.swift */,
+				824717372BC922F3005E9631 /* NotificationName+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -461,6 +472,7 @@
 				8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */,
 				8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */,
 				8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */,
+				824717352BC9163C005E9631 /* NetworkManager+Report.swift */,
 			);
 			name = NetworklManager;
 			sourceTree = "<group>";
@@ -797,6 +809,7 @@
 				828715BD2B99FC54001627DB /* TagResponse.swift */,
 				828715C12B9AC91A001627DB /* AnswerResponse.swift */,
 				8295BDB32BA3222200115FA8 /* MemberResponse.swift */,
+				824717312BC9140A005E9631 /* ReportResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -808,6 +821,7 @@
 				828715BB2B99F6EA001627DB /* TagRequest.swift */,
 				828715BF2B9AC866001627DB /* AnswerRequest.swift */,
 				8295BDB12BA3209000115FA8 /* MemberRequest.swift */,
+				8247172F2BC913B9005E9631 /* ReportRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -873,6 +887,7 @@
 				82CDA7732BB270690031AEB4 /* PopGestureDisabledViewModifier.swift */,
 				82CDA77A2BB2F3A30031AEB4 /* AnonymityNoticeView.swift */,
 				8247172D2BC8D865005E9631 /* IsMyAnswer.swift */,
+				824717332BC9144F005E9631 /* ReportType.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1038,6 +1053,7 @@
 				07BF36482B8B9C290047F3F7 /* SearchKeywordViewModel.swift in Sources */,
 				07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */,
 				825226EF2BA9A7D8006998E8 /* MailView.swift in Sources */,
+				824717302BC913B9005E9631 /* ReportRequest.swift in Sources */,
 				F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */,
 				8295BDB82BA322E600115FA8 /* NetworkManager+Tag.swift in Sources */,
 				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
@@ -1064,9 +1080,11 @@
 				07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */,
 				07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */,
 				8295BDB22BA3209000115FA8 /* MemberRequest.swift in Sources */,
+				824717362BC9163C005E9631 /* NetworkManager+Report.swift in Sources */,
 				82D583BD2B9859D7003CC424 /* NetworkError.swift in Sources */,
 				F3D452CC2B8A4468000BA51C /* MyPageSection.swift in Sources */,
 				F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */,
+				824717382BC922F3005E9631 /* NotificationName+Extension.swift in Sources */,
 				825226E82BA6E529006998E8 /* SignInInfo.swift in Sources */,
 				82C3791F2B94A50000CC7708 /* Tab.swift in Sources */,
 				8295BDB42BA3222200115FA8 /* MemberResponse.swift in Sources */,
@@ -1105,9 +1123,11 @@
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
 				074819002B8F3DDE00380F14 /* SeeMoreView.swift in Sources */,
 				073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */,
+				824717342BC9144F005E9631 /* ReportType.swift in Sources */,
 				F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */,
 				828715C02B9AC866001627DB /* AnswerRequest.swift in Sources */,
 				8295BDAA2BA04D1300115FA8 /* SignUpEmailView.swift in Sources */,
+				824717322BC9140A005E9631 /* ReportResponse.swift in Sources */,
 				F3D452D92B8A7019000BA51C /* CustonNavigationBar.swift in Sources */,
 				825226EA2BA857FF006998E8 /* String+Extension.swift in Sources */,
 				828A03DF2BAC09EF0038CF91 /* LoadingView.swift in Sources */,

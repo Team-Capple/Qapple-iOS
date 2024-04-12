@@ -34,7 +34,7 @@ enum PathType: Hashable {
     
     // 알림 및 신고
     case alert
-    case report
+    case report(answerId: Int)
 }
 
 class PathModel: ObservableObject {

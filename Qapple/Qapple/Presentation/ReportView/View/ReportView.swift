@@ -12,8 +12,11 @@ struct ReportView: View {
     @EnvironmentObject var pathModel: PathModel
     @State private var isReportAlertPresented = false
     @State private var isReportCompleteAlertPresented = false
+    @State private var reportType: ReportType = .DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS
     
-    var moreList = [
+    let answerId: Int
+    
+    var reportList = [
         "불법촬영물 등의 유통",
         "상업적 광고 및 판매",
         "게시판 성격에 부적절함",
@@ -45,12 +48,14 @@ struct ReportView: View {
                 )
                 
                 VStack {
-                    ForEach(moreList, id: \.self) { more in
+                    ForEach(Array(reportList.enumerated()), id: \.offset) { index, report in
                         Button {
+                            reportType = ReportType.allCases[index]
                             isReportAlertPresented.toggle()
                             HapticManager.shared.notification(type: .warning)
+                            print("신고타입: \(reportType)")
                         } label: {
-                            Text(more)
+                            Text(report)
                                 .font(.pretendard(.medium, size: 16))
                                 .foregroundStyle(.wh)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -67,7 +72,11 @@ struct ReportView: View {
         .alert("답변을 신고하시겠어요?", isPresented: $isReportAlertPresented) {
             Button("취소", role: .cancel) {}
             Button("신고하기", role: .destructive) {
-                isReportCompleteAlertPresented.toggle()
+                Task {
+                    await requestReportAnswer()
+                    isReportCompleteAlertPresented.toggle()
+                    sendUpdateViewNotification()
+                }
             }
         }
         .alert("신고가 완료됐어요", isPresented: $isReportCompleteAlertPresented) {
@@ -80,6 +89,33 @@ struct ReportView: View {
     }
 }
 
+extension ReportView {
+    
+    /// 해당 답변을 신고합니다.
+    @MainActor
+    func requestReportAnswer() async {
+        do {
+            print("답변ID: \(answerId)\n신고타입: \(reportType)")
+            let _ = try await NetworkManager.requestReport(
+                request: .init(
+                    answerId: answerId,
+                    reportType: reportType.rawValue
+                )
+            )
+        } catch {
+            print("신고하기 실패")
+        }
+    }
+    
+    /// View 업데이트 Notification을 전송합니다.
+    func sendUpdateViewNotification() {
+        NotificationCenter.default.post(
+            name: .updateViewNotification,
+            object: nil
+        )
+    }
+}
+
 #Preview {
-    ReportView()
+    ReportView(answerId: 1)
 }

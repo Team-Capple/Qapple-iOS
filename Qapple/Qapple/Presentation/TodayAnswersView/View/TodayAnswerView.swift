@@ -53,6 +53,10 @@ struct TodayAnswerView: View {
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
         .onAppear {
+            
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
+            print("뷰 업데이트")
             Task {
                 viewModel.loadAnswersForQuestion(questionId: questionId)
             }

@@ -39,6 +39,10 @@ struct TodayQuestionView: View {
             .onAppear {
                 viewModel.updateTodayQuestionView()
             }
+            .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
+                print("뷰 업데이트")
+                viewModel.updateTodayQuestionView()
+            }
         }
     }
 }
@@ -279,12 +283,10 @@ private struct AnswerPreview: View {
                             AnswerCell(
                                 profileName: answer.nickname,
                                 answer: answer.content,
-                                keywords: answer.tags.splitTag
+                                keywords: answer.tags.splitTag,
+                                isReported: answer.isReported
                             ) {
                                 isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
-                            }
-                            .onTapGesture {
-                                print("답변 ID: \(answer)")
                             }
                             
                             Separator()

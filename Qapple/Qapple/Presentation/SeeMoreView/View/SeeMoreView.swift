@@ -49,7 +49,7 @@ struct SeeMoreView: View {
                 case .others:
                     SeeMoreCell(title: "신고하기") {
                         presentationMode.wrappedValue.dismiss()
-                        pathModel.paths.append(.report)
+                        pathModel.paths.append(.report(answerId: answerId))
                     }
                 }
 
@@ -73,9 +73,6 @@ struct SeeMoreView: View {
                 }
             }
         }
-//        .onDisappear {
-//            completion()
-//        }
     }
     
     /// 오늘의 메인 질문을 요청하고 업데이트합니다.

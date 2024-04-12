@@ -14,8 +14,8 @@ struct AnswerCell: View {
     var profileImage: String?
     var answer: String
     var keywords: [String]
+    let isReported: Bool
     let seeMoreAction: () -> Void
-    var isReported = false
     
     var body: some View {
         
@@ -100,6 +100,7 @@ struct AnswerCell: View {
             profileName: "와플대학",
             answer: "답변입니다.",
             keywords: ["첫번째키워드", "두번째키워드", "asdadasdasdasdasdasdasdasdadasdasasddaasdasd"],
+            isReported: false,
             seeMoreAction: {}
         )
     }

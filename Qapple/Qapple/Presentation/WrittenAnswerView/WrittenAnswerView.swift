@@ -50,7 +50,8 @@ struct WrittenAnswerView: View {
                             AnswerCell(
                                 profileName: answer.nickname,
                                 answer: answer.content,
-                                keywords: answer.tags.splitTag
+                                keywords: answer.tags.splitTag,
+                                isReported: false
                             ) {
                                 
                                 isMyAnswer = .init(answerId: answer.answerId, isMine: true)
