@@ -292,7 +292,12 @@ private struct AnswerPreview: View {
                         }
                     }
                     .sheet(item: $isMine) {
-                        SeeMoreView(answerType: $0.isMine ? .mine : .others, answerId: isMine?.answerId ?? 1)
+                        SeeMoreView(
+                            answerType: $0.isMine ? .mine : .others,
+                            answerId: $0.answerId
+                        ) {
+                            viewModel.updateTodayQuestionView()
+                        }
                         .presentationDetents([.height(84)])
                     }
                 }

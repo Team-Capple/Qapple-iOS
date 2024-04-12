@@ -27,9 +27,7 @@ struct WrittenAnswerView: View {
                         .font(Font.pretendard(.semiBold, size: 15))
                         .foregroundStyle(TextLabel.main)
                 },
-                trailingView: {
-                    
-                },
+                trailingView: {},
                 backgroundColor: .clear
             )
             
@@ -43,16 +41,18 @@ struct WrittenAnswerView: View {
                         .foregroundStyle(TextLabel.sub3)
                     Spacer()
                 }
+                
                 Spacer()
             } else {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) { index, answer in
-                        LazyVStack {
+                        VStack {
                             AnswerCell(
                                 profileName: answer.nickname,
                                 answer: answer.content,
                                 keywords: answer.tags.splitTag
                             ) {
+                                
                                 isMyAnswer = .init(answerId: answer.answerId, isMine: true)
                             }
                             
@@ -60,10 +60,17 @@ struct WrittenAnswerView: View {
                                 .padding(.leading, 24)
                         }
                     }
-                    .sheet(item: $isMyAnswer) { _ in
-                        SeeMoreView(answerType: .mine, answerId: isMyAnswer?.answerId ?? 1)
-                            .presentationDetents([.height(84)])
+                }
+                .sheet(item: $isMyAnswer) {
+                    SeeMoreView(
+                        answerType: .mine,
+                        answerId: $0.answerId
+                    ) {
+                        Task {
+                            await viewModel.requestAnswers()
+                        }
                     }
+                    .presentationDetents([.height(84)])
                 }
             }
         }

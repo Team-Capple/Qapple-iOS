@@ -44,4 +44,9 @@ struct AnswerResponse {
     struct RegisterAnswer: Codable {
         let answerId: Int // 답변 ID
     }
+    
+    // 답변 삭제
+    struct DeleteAnswer: Codable {
+        let answerId: Int // 답변 ID
+    }
 }

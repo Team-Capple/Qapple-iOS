@@ -22,6 +22,7 @@ struct SeeMoreView: View {
     
     let answerType: AnswerType
     let answerId: Int
+    let completion: () -> Void
     
     var body: some View {
         ZStack {
@@ -57,7 +58,9 @@ struct SeeMoreView: View {
             .alert("답변을 삭제하시겠어요?", isPresented: $isAnswerDeleteAlertPresented) {
                 Button("취소", role: .cancel) {}
                 Button("삭제하기", role: .destructive) {
-                    
+                    Task {
+                        await requestDeleteAnswer()
+                    }
                     isAnswerDeleteCompleteAlertPresented.toggle()
                 }
             } message: {
@@ -65,12 +68,23 @@ struct SeeMoreView: View {
             }
             .alert("답변이 삭제되었어요", isPresented: $isAnswerDeleteCompleteAlertPresented) {
                 Button("확인", role: .none) {
+                    completion()
                     presentationMode.wrappedValue.dismiss()
                 }
             }
         }
-        .onAppear {
-            print("답변 ID: \(answerId)")
+//        .onDisappear {
+//            completion()
+//        }
+    }
+    
+    /// 오늘의 메인 질문을 요청하고 업데이트합니다.
+    @MainActor
+    func requestDeleteAnswer() async {
+        do {
+            let _ = try await NetworkManager.requestDeleteAnswer(.init(answerId: answerId))
+        } catch {
+            print("답변 삭제 실패")
         }
     }
 }
@@ -95,5 +109,5 @@ private struct SeeMoreCell: View {
 }
 
 #Preview {
-    SeeMoreView(answerType: .mine, answerId: 1)
+    SeeMoreView(answerType: .mine, answerId: 1) {}
 }
