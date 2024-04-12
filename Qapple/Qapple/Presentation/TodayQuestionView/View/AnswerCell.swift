@@ -15,7 +15,7 @@ struct AnswerCell: View {
     var answer: String
     var keywords: [String]
     let seeMoreAction: () -> Void
-    var isReported: Bool = false
+    var isReported = false
     
     var body: some View {
         

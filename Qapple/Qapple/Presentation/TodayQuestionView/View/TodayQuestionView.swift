@@ -92,7 +92,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 16)
             
-            Text("\(viewModel.timeString())")
+            Text(viewModel.timeString())
                 .font(.pretendard(.bold, size: 38))
                 .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
                 .frame(height: 27)
@@ -289,6 +289,9 @@ private struct AnswerPreview: View {
                                 // TODO: 내 답변이라면 mine으로 변경
                                 SeeMoreView(answerType: .others, isBottomSheetPresented: $isBottomSheetPresented)
                                     .presentationDetents([.height(84)])
+                            }
+                            .onTapGesture {
+                                print("답변 ID: \(answer)")
                             }
                             
                             Separator()
