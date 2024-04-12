@@ -117,13 +117,7 @@ struct SearchResultView: View {
                                     Text("즐거운 커뮤니티 운영을 위해\n여러분의 답변을 들려주세요")
                                 }
                                 .padding(.horizontal, 24)
-                                .sheet(isPresented: $isBottomSheetPresented) {
-                                    
-                                    // TODO: 내 답변이라면 mine으로 변경
-                                    SeeMoreView(answerType: .others, isBottomSheetPresented: $isBottomSheetPresented)
-                                        .presentationDetents([.height(84)])
-                                    
-                                }
+                                
                                 Separator()
                                     .padding(.leading, 24)
                             }

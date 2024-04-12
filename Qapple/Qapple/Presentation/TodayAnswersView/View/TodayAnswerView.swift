@@ -168,6 +168,7 @@ private struct AnswerScrollView: View {
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @Binding private var isBottomSheetPresented: Bool
+    @State private var isMyAnswer: IsMyAnswer?
     
     fileprivate init(viewModel: TodayAnswersViewModel, isBottomSheetPresented: Binding<Bool>) {
         self.viewModel = viewModel
@@ -176,20 +177,23 @@ private struct AnswerScrollView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                LazyVStack{
-                    SingleAnswerView(answer: answer){
-                        isBottomSheetPresented.toggle()
-                    }
-                    .sheet(isPresented: $isBottomSheetPresented) {
-                        
-                        // TODO: 내 답변이라면 mine으로 변경
-                        SeeMoreView(answerType: .others, isBottomSheetPresented: $isBottomSheetPresented)
-                            .presentationDetents([.height(84)])
+            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
+                index,
+                answer in
+                VStack{
+                    SingleAnswerView(answer: answer, isReported: answer.isReported) {
+                        isMyAnswer = .init(isMine: answer.isMyAnswer)
                     }
                     Separator()
                         .padding(.leading, 24)
                 }
+            }
+            .sheet(item: $isMyAnswer) {
+                SeeMoreView(
+                    answerType: $0.isMine ? .mine : .others,
+                    isBottomSheetPresented: $isBottomSheetPresented
+                )
+                .presentationDetents([.height(84)])
             }
         }
     }

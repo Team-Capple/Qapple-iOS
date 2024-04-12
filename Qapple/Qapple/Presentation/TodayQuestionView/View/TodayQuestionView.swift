@@ -200,6 +200,7 @@ private struct AnswerPreview: View {
     @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: TodayQuestionViewModel
     @Binding private var isBottomSheetPresented: Bool
+    @State private var isMine: IsMyAnswer?
     
     fileprivate init(
         viewModel: TodayQuestionViewModel,
@@ -282,13 +283,7 @@ private struct AnswerPreview: View {
                                 answer: answer.content,
                                 keywords: answer.tags.splitTag
                             ) {
-                                isBottomSheetPresented.toggle()
-                            }
-                            .sheet(isPresented: $isBottomSheetPresented) {
-                                
-                                // TODO: 내 답변이라면 mine으로 변경
-                                SeeMoreView(answerType: .others, isBottomSheetPresented: $isBottomSheetPresented)
-                                    .presentationDetents([.height(84)])
+                                isMine = .init(isMine: answer.isMyAnswer)
                             }
                             .onTapGesture {
                                 print("답변 ID: \(answer)")
@@ -297,6 +292,13 @@ private struct AnswerPreview: View {
                             Separator()
                                 .padding(.leading, 24)
                         }
+                    }
+                    .sheet(item: $isMine) {
+                        SeeMoreView(
+                            answerType: $0.isMine ? .mine : .others,
+                            isBottomSheetPresented: $isBottomSheetPresented
+                        )
+                        .presentationDetents([.height(84)])
                     }
                 }
             }

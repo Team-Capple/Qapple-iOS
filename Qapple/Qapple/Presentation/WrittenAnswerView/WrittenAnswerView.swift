@@ -45,7 +45,6 @@ struct WrittenAnswerView: View {
                 Spacer()
             } else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    
                     ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) { index, answer in
                         LazyVStack {
                             AnswerCell(
@@ -55,13 +54,13 @@ struct WrittenAnswerView: View {
                             ) {
                                 isBottomSheetPresented.toggle()
                             }
-                            .sheet(isPresented: $isBottomSheetPresented) {
-                                SeeMoreView(answerType: .mine, isBottomSheetPresented: $isBottomSheetPresented)
-                                    .presentationDetents([.height(84)])
-                            }
                             Separator()
                                 .padding(.leading, 24)
                         }
+                    }
+                    .sheet(isPresented: $isBottomSheetPresented) {
+                        SeeMoreView(answerType: .mine, isBottomSheetPresented: $isBottomSheetPresented)
+                            .presentationDetents([.height(84)])
                     }
                 }
             }

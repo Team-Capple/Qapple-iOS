@@ -16,8 +16,8 @@ struct SingleAnswerView: View {
     @State private var showReportButton = false // Report 버튼 표시 여부
     
     var answer: ServerResponse.Answers.AnswersInfos
+    let isReported: Bool
     let seeMoreAction: () -> Void
-    var isReported = false
     
     var body: some View {
         
@@ -106,8 +106,11 @@ struct SingleAnswerView: View {
             profileImage: nil,
             nickname: "한톨테스트",
             content: "답변입니다.",
-            tags: "태그1 태그2 태그3 태그4"
+            tags: "태그1 태그2 태그3 태그4",
+            isMyAnswer: true,
+            isReported: false
         ),
+        isReported: false,
         seeMoreAction: {}
     )
 }

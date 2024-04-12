@@ -25,6 +25,8 @@ struct SeeMoreView: View {
     init(answerType: AnswerType, isBottomSheetPresented: Binding<Bool>) {
         self.answerType = answerType
         self._isBottomSheetPresented = isBottomSheetPresented
+        
+        print("답변타입: \(answerType)")
     }
     
     var body: some View {

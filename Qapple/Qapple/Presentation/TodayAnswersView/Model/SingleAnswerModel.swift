@@ -20,6 +20,8 @@ struct ServerResponse: Codable {
             var nickname: String?
             var content: String?
             var tags: String?
+            var isMyAnswer: Bool
+            var isReported: Bool
         }
     }
 }
