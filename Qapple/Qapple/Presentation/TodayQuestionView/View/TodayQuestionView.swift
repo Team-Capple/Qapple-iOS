@@ -284,10 +284,11 @@ private struct AnswerPreview: View {
                                 profileName: answer.nickname,
                                 answer: answer.content,
                                 keywords: answer.tags.splitTag,
-                                isReported: answer.isReported
-                            ) {
-                                isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
-                            }
+                                isReported: answer.isReported,
+                                seeMoreAction: {
+                                    isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
+                                }
+                            )
                             
                             Separator()
                                 .padding(.leading, 24)

@@ -18,9 +18,9 @@ struct ServerResponse: Codable {
         struct AnswersInfos: Codable {
             let answerId: Int
             var profileImage: String?
-            var nickname: String?
-            var content: String?
-            var tags: String?
+            var nickname: String
+            var content: String
+            var tags: String
             var isMyAnswer: Bool
             var isReported: Bool
         }

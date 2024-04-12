@@ -13,8 +13,6 @@ import FlexView
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct SingleAnswerView: View {
     
-    @State private var showReportButton = false // Report 버튼 표시 여부
-    
     var answer: ServerResponse.Answers.AnswersInfos
     let isReported: Bool
     let seeMoreAction: () -> Void
@@ -45,7 +43,7 @@ struct SingleAnswerView: View {
                         .clipShape(Circle())
                     
                     // MARK: - 닉네임 + 버튼 hstack
-                    Text(answer.nickname ?? "nickname")
+                    Text(answer.nickname)
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(TextLabel.sub2)
                         .frame(height: 10)
@@ -69,7 +67,7 @@ struct SingleAnswerView: View {
                     // MARK: - 내용 hstack
                     HStack(alignment: .top) {
                         
-                        Text(answer.content ?? "content")
+                        Text(answer.content)
                             .font(.pretendard(.medium, size: 16))
                             .foregroundStyle(TextLabel.main)
                             .lineSpacing(6)
@@ -82,7 +80,7 @@ struct SingleAnswerView: View {
                     // MARK: - 태그 hstack  TODO 리스트
                     HStack {
                         HStack(alignment: .top, spacing: 8) {
-                            ForEach(answer.tags?.split(separator: " ").map(String.init) ?? [], id: \.self) { tag in
+                            ForEach(answer.tags.split(separator: " ").map(String.init), id: \.self) { tag in
                                 Text("#\(tag)")
                                     .font(.pretendard(.semiBold, size: 14))
                                     .foregroundColor(BrandPink.text)

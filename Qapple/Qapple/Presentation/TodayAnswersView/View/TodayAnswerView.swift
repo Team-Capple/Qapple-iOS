@@ -191,12 +191,18 @@ private struct AnswerScrollView: View {
                 index,
                 answer in
                 VStack{
-                    SingleAnswerView(answer: answer, isReported: answer.isReported) {
-                        isMyAnswer = .init(
-                            answerId: answer.answerId,
-                            isMine: answer.isMyAnswer
-                        )
-                    }
+                    AnswerCell(
+                        profileName: answer.nickname,
+                        answer: answer.content,
+                        keywords: answer.tags.splitTag,
+                        isReported: answer.isReported,
+                        seeMoreAction: {
+                            isMyAnswer = .init(
+                                answerId: answer.answerId,
+                                isMine: answer.isMyAnswer
+                            )
+                        }
+                    )
                     
                     Separator()
                         .padding(.leading, 24)

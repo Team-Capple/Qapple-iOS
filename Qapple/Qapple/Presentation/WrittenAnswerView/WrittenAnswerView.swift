@@ -53,7 +53,6 @@ struct WrittenAnswerView: View {
                                 keywords: answer.tags.splitTag,
                                 isReported: false
                             ) {
-                                
                                 isMyAnswer = .init(answerId: answer.answerId, isMine: true)
                             }
                             
