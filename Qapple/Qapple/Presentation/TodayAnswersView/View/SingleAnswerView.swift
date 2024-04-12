@@ -103,6 +103,7 @@ struct SingleAnswerView: View {
 #Preview {
     SingleAnswerView(
         answer: .init(
+            answerId: 1,
             profileImage: nil,
             nickname: "한톨테스트",
             content: "답변입니다.",

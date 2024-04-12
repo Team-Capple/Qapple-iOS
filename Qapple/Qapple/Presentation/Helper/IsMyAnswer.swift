@@ -9,5 +9,6 @@ import Foundation
 
 struct IsMyAnswer: Identifiable {
     let id = UUID()
+    let answerId: Int
     let isMine: Bool
 }

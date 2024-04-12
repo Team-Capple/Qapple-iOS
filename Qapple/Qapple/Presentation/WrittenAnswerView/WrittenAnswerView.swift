@@ -53,14 +53,15 @@ struct WrittenAnswerView: View {
                                 answer: answer.content,
                                 keywords: answer.tags.splitTag
                             ) {
-                                isMyAnswer = .init(isMine: true)
+                                isMyAnswer = .init(answerId: answer.answerId, isMine: true)
                             }
+                            
                             Separator()
                                 .padding(.leading, 24)
                         }
                     }
                     .sheet(item: $isMyAnswer) { _ in
-                        SeeMoreView(answerType: .mine)
+                        SeeMoreView(answerType: .mine, answerId: isMyAnswer?.answerId ?? 1)
                             .presentationDetents([.height(84)])
                     }
                 }

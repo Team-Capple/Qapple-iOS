@@ -16,6 +16,7 @@ struct ServerResponse: Codable {
         var answerInfos: [AnswersInfos]
         
         struct AnswersInfos: Codable {
+            let answerId: Int
             var profileImage: String?
             var nickname: String?
             var content: String?

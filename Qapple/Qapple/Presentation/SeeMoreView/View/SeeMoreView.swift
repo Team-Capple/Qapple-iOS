@@ -21,10 +21,7 @@ struct SeeMoreView: View {
     @State private var isAnswerDeleteCompleteAlertPresented = false
     
     let answerType: AnswerType
-    
-    init(answerType: AnswerType) {
-        self.answerType = answerType
-    }
+    let answerId: Int
     
     var body: some View {
         ZStack {
@@ -60,6 +57,7 @@ struct SeeMoreView: View {
             .alert("답변을 삭제하시겠어요?", isPresented: $isAnswerDeleteAlertPresented) {
                 Button("취소", role: .cancel) {}
                 Button("삭제하기", role: .destructive) {
+                    
                     isAnswerDeleteCompleteAlertPresented.toggle()
                 }
             } message: {
@@ -70,6 +68,9 @@ struct SeeMoreView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+        }
+        .onAppear {
+            print("답변 ID: \(answerId)")
         }
     }
 }
@@ -94,5 +95,5 @@ private struct SeeMoreCell: View {
 }
 
 #Preview {
-    SeeMoreView(answerType: .mine)
+    SeeMoreView(answerType: .mine, answerId: 1)
 }

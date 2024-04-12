@@ -281,7 +281,7 @@ private struct AnswerPreview: View {
                                 answer: answer.content,
                                 keywords: answer.tags.splitTag
                             ) {
-                                isMine = .init(isMine: answer.isMyAnswer)
+                                isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
                             }
                             .onTapGesture {
                                 print("답변 ID: \(answer)")
@@ -292,7 +292,7 @@ private struct AnswerPreview: View {
                         }
                     }
                     .sheet(item: $isMine) {
-                        SeeMoreView(answerType: $0.isMine ? .mine : .others)
+                        SeeMoreView(answerType: $0.isMine ? .mine : .others, answerId: isMine?.answerId ?? 1)
                         .presentationDetents([.height(84)])
                     }
                 }

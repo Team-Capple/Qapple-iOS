@@ -182,14 +182,14 @@ private struct AnswerScrollView: View {
                 answer in
                 VStack{
                     SingleAnswerView(answer: answer, isReported: answer.isReported) {
-                        isMyAnswer = .init(isMine: answer.isMyAnswer)
+                        isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
                     }
                     Separator()
                         .padding(.leading, 24)
                 }
             }
             .sheet(item: $isMyAnswer) {
-                SeeMoreView(answerType: $0.isMine ? .mine : .others)
+                SeeMoreView(answerType: $0.isMine ? .mine : .others, answerId: isMyAnswer?.answerId ?? 1)
                 .presentationDetents([.height(84)])
             }
         }
