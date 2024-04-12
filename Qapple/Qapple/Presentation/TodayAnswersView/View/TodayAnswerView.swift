@@ -189,10 +189,7 @@ private struct AnswerScrollView: View {
                 }
             }
             .sheet(item: $isMyAnswer) {
-                SeeMoreView(
-                    answerType: $0.isMine ? .mine : .others,
-                    isBottomSheetPresented: $isBottomSheetPresented
-                )
+                SeeMoreView(answerType: $0.isMine ? .mine : .others)
                 .presentationDetents([.height(84)])
             }
         }

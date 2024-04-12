@@ -199,7 +199,6 @@ private struct AnswerPreview: View {
     
     @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: TodayQuestionViewModel
-    @Binding private var isBottomSheetPresented: Bool
     @State private var isMine: IsMyAnswer?
     
     fileprivate init(
@@ -207,7 +206,6 @@ private struct AnswerPreview: View {
         isBottomSheetPresented: Binding<Bool>
     ) {
         self.viewModel = viewModel
-        self._isBottomSheetPresented = isBottomSheetPresented
     }
     
     fileprivate var body: some View {
@@ -294,10 +292,7 @@ private struct AnswerPreview: View {
                         }
                     }
                     .sheet(item: $isMine) {
-                        SeeMoreView(
-                            answerType: $0.isMine ? .mine : .others,
-                            isBottomSheetPresented: $isBottomSheetPresented
-                        )
+                        SeeMoreView(answerType: $0.isMine ? .mine : .others)
                         .presentationDetents([.height(84)])
                     }
                 }

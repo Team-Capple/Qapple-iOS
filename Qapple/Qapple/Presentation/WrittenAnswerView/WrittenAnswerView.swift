@@ -12,6 +12,7 @@ struct WrittenAnswerView: View {
     @EnvironmentObject var pathModel: PathModel
     @StateObject private var viewModel: WrittenAnswerViewModel = .init()
     @State private var isBottomSheetPresented = false
+    @State private var isMyAnswer: IsMyAnswer?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -52,14 +53,14 @@ struct WrittenAnswerView: View {
                                 answer: answer.content,
                                 keywords: answer.tags.splitTag
                             ) {
-                                isBottomSheetPresented.toggle()
+                                isMyAnswer = .init(isMine: true)
                             }
                             Separator()
                                 .padding(.leading, 24)
                         }
                     }
-                    .sheet(isPresented: $isBottomSheetPresented) {
-                        SeeMoreView(answerType: .mine, isBottomSheetPresented: $isBottomSheetPresented)
+                    .sheet(item: $isMyAnswer) { _ in
+                        SeeMoreView(answerType: .mine)
                             .presentationDetents([.height(84)])
                     }
                 }

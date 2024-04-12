@@ -14,19 +14,16 @@ struct SeeMoreView: View {
         case others // 다른 사람이 작성한 답변
     }
     
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var pathModel: PathModel
-    @Binding var isBottomSheetPresented: Bool
     
     @State private var isAnswerDeleteAlertPresented = false
     @State private var isAnswerDeleteCompleteAlertPresented = false
     
     let answerType: AnswerType
     
-    init(answerType: AnswerType, isBottomSheetPresented: Binding<Bool>) {
+    init(answerType: AnswerType) {
         self.answerType = answerType
-        self._isBottomSheetPresented = isBottomSheetPresented
-        
-        print("답변타입: \(answerType)")
     }
     
     var body: some View {
@@ -53,7 +50,7 @@ struct SeeMoreView: View {
                     
                 case .others:
                     SeeMoreCell(title: "신고하기") {
-                        isBottomSheetPresented = false
+                        presentationMode.wrappedValue.dismiss()
                         pathModel.paths.append(.report)
                     }
                 }
@@ -70,8 +67,7 @@ struct SeeMoreView: View {
             }
             .alert("답변이 삭제되었어요", isPresented: $isAnswerDeleteCompleteAlertPresented) {
                 Button("확인", role: .none) {
-                    isBottomSheetPresented = false
-                    // TODO: 기존 리스트 리프레쉬
+                    presentationMode.wrappedValue.dismiss()
                 }
             }
         }
@@ -98,5 +94,5 @@ private struct SeeMoreCell: View {
 }
 
 #Preview {
-    SeeMoreView(answerType: .mine, isBottomSheetPresented: .constant(true))
+    SeeMoreView(answerType: .mine)
 }
