@@ -22,6 +22,7 @@ enum ApiEndpoints {
         case popularTagsInQuestion = "/tags"
         
         // MARK: - 답변
+        case answers = "/answers"
         case answersOfQuestion = "/answers/question"
         
         // MARK: - 멤버

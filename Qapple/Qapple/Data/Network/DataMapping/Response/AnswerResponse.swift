@@ -9,6 +9,21 @@ import Foundation
 
 struct AnswerResponse {
     
+    /// 내가 작성한 답변 리스트 Response
+    struct Answers: Codable {
+        let memberAnswerInfos: [MemberAnswerInfos]
+        
+        struct MemberAnswerInfos: Codable {
+            let questionId: Int
+            let nickname: String
+            let profileImage: String
+            let content: String
+            let tags: String
+            let heartCount: Int
+            let writeAt: String
+        }
+    }
+    
     /// 특정 질문에 대한 답변 리스트 Response
     struct AnswersOfQuestion: Codable {
         let answerInfos: [AnswerInfos] // 답변 리스트
