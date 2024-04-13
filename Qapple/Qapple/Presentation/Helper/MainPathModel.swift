@@ -15,6 +15,7 @@ enum PathType: Hashable {
     case inputNickName // 닉네임 입력
     case agreement // 약관 동의
     case privacy // 개인정보 처리방침
+    case terms // 서비스 이용 약관
     case signUpCompleted // 완료
     
     /// 답변하기
@@ -29,10 +30,11 @@ enum PathType: Hashable {
     /// 마이페이지
     case myPage
     case profileEdit(nickname: String)
+    case writtenAnswer
     
     // 알림 및 신고
     case alert
-    case report
+    case report(answerId: Int)
 }
 
 class PathModel: ObservableObject {

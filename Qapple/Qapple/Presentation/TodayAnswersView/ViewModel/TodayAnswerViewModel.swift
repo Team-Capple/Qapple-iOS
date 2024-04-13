@@ -14,23 +14,29 @@ class TodayAnswersViewModel: ObservableObject {
     @Published var keywords: [String] = []
     @Published var todayQuestion: String = ""
     @Published var answers: [ServerResponse.Answers.AnswersInfos] = []
-    @Published var filteredAnswer: [ServerResponse.Answers.AnswersInfos] = []
-    @Published var searchQuery = ""
-    @Published var isLoading = false
     
     /// 답변 호출 API입니다.
     func loadAnswersForQuestion(questionId: Int) {
         
         // URL 생성
-        guard let url = URL(string: "http://43.203.126.187:8080/answers/question/\(questionId)") else {
+        let urlString = ApiEndpoints.basicURLString(path: .answersOfQuestion)
+        guard let url = URL(string: "\(urlString)/\(questionId)") else {
             print("유효하지 않은 URL")
             return
+        }
+        
+        var accessToken = ""
+        
+        do {
+            accessToken = try SignInInfo.shared.token(.access)
+        } catch {
+            print("액세스 토큰 반환 실패")
         }
         
         // Request 생성
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
         // URLSession 실행
         do {
@@ -55,7 +61,6 @@ class TodayAnswersViewModel: ObservableObject {
                         let decodedData = try JSONDecoder().decode(BaseResponse<ServerResponse.Answers>.self, from: data)
                         DispatchQueue.main.async {
                             self.answers = decodedData.result.answerInfos
-                            print(self.answers)
                         }
                     } catch {
                         print("ServerResponse.Answers - Error decoding response: \(error)")

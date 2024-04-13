@@ -39,6 +39,10 @@ struct TodayQuestionView: View {
             .onAppear {
                 viewModel.updateTodayQuestionView()
             }
+            .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
+                print("뷰 업데이트")
+                viewModel.updateTodayQuestionView()
+            }
         }
     }
 }
@@ -92,7 +96,7 @@ private struct HeaderContentView: View {
             Spacer()
                 .frame(height: 16)
             
-            Text("\(viewModel.timeString())")
+            Text(viewModel.timeString())
                 .font(.pretendard(.bold, size: 38))
                 .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
                 .frame(height: 27)
@@ -199,14 +203,13 @@ private struct AnswerPreview: View {
     
     @EnvironmentObject private var pathModel: PathModel
     @ObservedObject private var viewModel: TodayQuestionViewModel
-    @Binding private var isBottomSheetPresented: Bool
+    @State private var isMine: IsMyAnswer?
     
     fileprivate init(
         viewModel: TodayQuestionViewModel,
         isBottomSheetPresented: Binding<Bool>
     ) {
         self.viewModel = viewModel
-        self._isBottomSheetPresented = isBottomSheetPresented
     }
     
     fileprivate var body: some View {
@@ -235,10 +238,13 @@ private struct AnswerPreview: View {
                             .frame(height: 44)
                         
                         HStack(alignment: .top, spacing: 2) {
-                            Text("Q.")
-                                .foregroundStyle(BrandPink.text)
                             
-                            Text(viewModel.mainQuestion.content)
+                            if viewModel.mainQuestion.isAnswered {
+                                Text("Q.")
+                                    .foregroundStyle(BrandPink.text)
+                            }
+                            
+                            Text(viewModel.listTitleText)
                                 .foregroundStyle(TextLabel.main)
                         }
                         .font(.pretendard(.bold, size: 20))
@@ -277,18 +283,25 @@ private struct AnswerPreview: View {
                             AnswerCell(
                                 profileName: answer.nickname,
                                 answer: answer.content,
-                                keywords: answer.tags.splitTag
-                            ) {
-                                isBottomSheetPresented.toggle()
-                            }
-                            .sheet(isPresented: $isBottomSheetPresented) {
-                                SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
-                                    .presentationDetents([.height(84)])
-                            }
+                                keywords: answer.tags.splitTag,
+                                isReported: answer.isReported,
+                                seeMoreAction: {
+                                    isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
+                                }
+                            )
                             
                             Separator()
                                 .padding(.leading, 24)
                         }
+                    }
+                    .sheet(item: $isMine) {
+                        SeeMoreView(
+                            answerType: $0.isMine ? .mine : .others,
+                            answerId: $0.answerId
+                        ) {
+                            viewModel.updateTodayQuestionView()
+                        }
+                        .presentationDetents([.height(84)])
                     }
                 }
             }

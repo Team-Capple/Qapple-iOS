@@ -10,19 +10,17 @@ import SwiftUI
 struct MainView: View {
     
     @StateObject var authViewModel: AuthViewModel = .init()
-    @StateObject private var pathModel = PathModel()
+    @StateObject private var pathModel: PathModel = .init()
     
     var body: some View {
-        Group {
-            if authViewModel.isSignIn {
-                HomeView()
-                    .environmentObject(pathModel)
-                    .environmentObject(authViewModel)
-            } else {
-                SignInView()
-                    .environmentObject(pathModel)
-                    .environmentObject(authViewModel)
-            }
+        if authViewModel.isSignIn {
+            HomeView()
+                .environmentObject(pathModel)
+                .environmentObject(authViewModel)
+        } else {
+            SignInView()
+                .environmentObject(pathModel)
+                .environmentObject(authViewModel)
         }
     }
 }
@@ -43,90 +41,54 @@ private struct HomeView: View {
                 
                 TabView(selection: $tab) {
                     TodayQuestionView()
-                        .navigationDestination(for: PathType.self) { path in
-                            switch path {
-                            case .answer(let questionId, let questionContent):
-                                AnswerView(
-                                    viewModel: answerViewModel,
-                                    questionId: questionId,
-                                    questionContent: questionContent
-                                )
-                                
-                            case .confirmAnswer:
-                                ConfirmAnswerView(viewModel: answerViewModel)
-                                
-                            case .searchKeyword:
-                                SearchKeywordView(viewModel: answerViewModel)
-                                
-                            case .completeAnswer:
-                                CompleteAnswerView(viewModel: answerViewModel)
-                                
-                            case .todayAnswer(let questionId, let questionContent):
-                                TodayAnswerView(
-                                    questionId: questionId,
-                                    questionContent: questionContent
-                                )
-                                
-                            case .myPage:
-                                MyPageView()
-                                
-                            case let .profileEdit(nickname):
-                                ProfileEditView(nickName: nickname)
-                                
-                            case .alert:
-                                AlertView()
-                                
-                            case .report:
-                                ReportView()
-                                
-                            default: EmptyView()
-                            }
-                        }
                         .tag(Tab.todayQuestion)
                     
                     SearchResultView()
-                        .navigationDestination(for: PathType.self) { path in
-                            switch path {
-                            case .todayAnswer(let questionId, let questionContent):
-                                TodayAnswerView(
-                                    questionId: questionId,
-                                    questionContent: questionContent
-                                )
-                                
-                            case .answer(let questionId, let questionContent):
-                                AnswerView(
-                                    viewModel: answerViewModel,
-                                    questionId: questionId,
-                                    questionContent: questionContent
-                                )
-                                
-                            case .confirmAnswer:
-                                ConfirmAnswerView(viewModel: answerViewModel)
-                                
-                            case .searchKeyword:
-                                SearchKeywordView(viewModel: answerViewModel)
-                                
-                            case .completeAnswer:
-                                CompleteAnswerView(viewModel: answerViewModel)
-                                
-                            case .myPage:
-                                MyPageView()
-                                
-                            case let .profileEdit(nickname):
-                                ProfileEditView(nickName: nickname)
-                                
-                            case .alert:
-                                AlertView()
-                                
-                            case .report:
-                                ReportView()
-                                
-                            default: EmptyView()
-                            }
-                        }
                         .tag(Tab.questionList)
                 }
                 .edgesIgnoringSafeArea(.all)
+                .navigationDestination(for: PathType.self) { path in
+                    switch path {
+                    case .answer(let questionId, let questionContent):
+                        AnswerView(
+                            viewModel: answerViewModel,
+                            questionId: questionId,
+                            questionContent: questionContent
+                        )
+                        
+                    case .confirmAnswer:
+                        ConfirmAnswerView(viewModel: answerViewModel)
+                        
+                    case .searchKeyword:
+                        SearchKeywordView(viewModel: answerViewModel)
+                        
+                    case .completeAnswer:
+                        CompleteAnswerView(viewModel: answerViewModel)
+                        
+                    case .todayAnswer(let questionId, let questionContent):
+                        TodayAnswerView(
+                            questionId: questionId,
+                            questionContent: questionContent
+                        )
+                        
+                    case .myPage:
+                        MyPageView()
+                        
+                    case let .profileEdit(nickname):
+                        ProfileEditView(nickName: nickname)
+                        
+                    case .writtenAnswer:
+                        WrittenAnswerView()
+                        
+                    case .alert:
+                        AlertView()
+                        
+                    case .report(let answerId):
+                        ReportView(answerId: answerId)
+                        
+                    default: EmptyView()
+                    }
+                }
             }
             .onAppear {
                 NotificationManager.shared.requestNotificationPermission()
@@ -145,7 +107,7 @@ private struct SignInView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var clickedLoginButton: Bool = false
+    @State private var clickedLoginButton = false
     
     var body: some View {
         NavigationStack(path: $pathModel.paths) {
@@ -181,6 +143,9 @@ private struct SignInView: View {
                             
                         case .privacy:
                             SignUpPrivacyView()
+                            
+                        case .terms:
+                            SignUpServiceTermsView()
                             
                         case .signUpCompleted:
                             SignUpCompletedView()

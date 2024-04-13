@@ -10,6 +10,9 @@ import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
     
+    let academyEmailAddress = "@pos.idserve.net"
+    let testEmail = "testQapple"
+    
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var isSignUp = false // 회원가입 로직 실행용
     
@@ -19,6 +22,8 @@ class AuthViewModel: ObservableObject {
     @Published var nickname: String = "" // 닉네임
     @Published var email: String = "" // 이메일
     @Published var certifyCode: String = "" // 이메일 인증 코드
+    @Published var certifyMailLoading = false // 이메일 발송 로딩
+    @Published var isExistEmailAlertPresented = false // 이미 존재하는 이메일(가입된 이메일) 여부
     
     @Published var isCertifyCodeVerified = false // 인증 코드 인증 완료 여부
     @Published var isCertifyCodeInvalid = false // 인증 코드 유효성 여부
@@ -106,8 +111,8 @@ extension AuthViewModel {
                 Task {
                     do {
                         let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
-                        SignInInfo.shared.updateAccessToken(signInResponse.accessToken ?? "")
-                        SignInInfo.shared.updateRefreshToken(signInResponse.refreshToken ?? "")
+                        try SignInInfo.shared.createToken(.access, token: signInResponse.accessToken ?? "")
+                        try SignInInfo.shared.createToken(.refresh, token: signInResponse.refreshToken ?? "")
                         
                         // 로그인 상태에 따른 화면 분기처리
                         if signInResponse.isMember {
@@ -125,8 +130,8 @@ extension AuthViewModel {
                         // TODO: 로그인 실패 Alert
                     }
                     
-                    print("액세스 토큰 값!\n\(SignInInfo.shared.accessToken())\n")
-                    print("리프레쉬 토큰 값!\n\(SignInInfo.shared.refreshToken())\n")
+                    print("액세스 토큰 값!\n\(try SignInInfo.shared.token(.access))\n")
+                    print("리프레쉬 토큰 값!\n\(try SignInInfo.shared.token(.refresh))\n")
                 }
                 
             default:
@@ -146,14 +151,14 @@ extension AuthViewModel {
             // 회원가입 API
             let signUpData = try await NetworkManager.requestSignUp(
                 request: .init(
-                    signUpToken: SignInInfo.shared.refreshToken(),
-                    email: "\(email)@postech.ac.kr",
+                    signUpToken: try SignInInfo.shared.token(.refresh),
+                    email: "\(email)\(academyEmailAddress)",
                     nickname: nickname,
                     profileImage: ""))
             
             // 토큰 데이터 업데이트
-            SignInInfo.shared.updateAccessToken(signUpData.accessToken ?? "")
-            SignInInfo.shared.updateRefreshToken(signUpData.refreshToken ?? "")
+            try SignInInfo.shared.createToken(.access, token: signUpData.accessToken ?? "")
+            try SignInInfo.shared.createToken(.refresh, token: signUpData.refreshToken ?? "")
         } catch {
             isSignUpFailedAlertPresented.toggle()
         }
@@ -165,22 +170,25 @@ extension AuthViewModel {
     
     /// 대학 이메일 인증을 요청합니다.
     @MainActor
-    func requestEmailCertification() {
-        Task {
-            do {
-                let _ = try await NetworkManager.requestEmailCertificationCode(
-                    request: .init(
-                        signUpToken: SignInInfo.shared.refreshToken(),
-                        email: "\(email)@postech.ac.kr"
-                    )
+    func requestEmailCertification() async -> Bool {
+        
+        // 인증 코드 초기화
+        certifyCode.removeAll()
+        
+        do {
+            let _ = try await NetworkManager.requestEmailCertificationCode(
+                request: .init(
+                    signUpToken: try SignInInfo.shared.token(.refresh),
+                    email: "\(email)\(academyEmailAddress)"
                 )
-                print("인증코드 전송 완료")
-            } catch {
-                print("인증코드 요청 실패")
-            }
-            
-            // 인증 코드 초기화
-            certifyCode.removeAll()
+            )
+            print("인증코드 전송 완료")
+            return true
+        } catch {
+            print("인증코드 요청 실패")
+            certifyMailLoading = false
+            isExistEmailAlertPresented = true
+            return false
         }
     }
     
@@ -191,8 +199,8 @@ extension AuthViewModel {
             do {
                 let response = try await NetworkManager.requestCodeCertificationCode(
                     request: .init(
-                        signUpToken: SignInInfo.shared.refreshToken(),
-                        email: "\(email)@postech.ac.kr",
+                        signUpToken: try SignInInfo.shared.token(.refresh),
+                        email: "\(email)\(academyEmailAddress)",
                         certCode: certifyCode
                     )
                 )

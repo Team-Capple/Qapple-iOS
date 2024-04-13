@@ -59,8 +59,17 @@ struct MyPageView: View {
                     
                     ForEach(viewModel.sectionInfos, id: \.id) { index in
                         
-                        // 문의 및 제보
+                        // 질문/답변
                         if index.id == 0 {
+                            MyPageSection(sectionInfo: index, sectionActions: [
+                                {
+                                    pathModel.paths.append(.writtenAnswer)
+                                }
+                            ])
+                        }
+                        
+                        // 문의 및 제보
+                        if index.id == 1 {
                             MyPageSection(sectionInfo: index, sectionActions: [
                                 
                                 // 문의하기
@@ -76,7 +85,7 @@ struct MyPageView: View {
                         }
                         
                         // 계정 관리
-                        else if index.id == 1 {
+                        else if index.id == 2 {
                             MyPageSection(sectionInfo: index, sectionActions: [
                                 
                                 // 로그아웃

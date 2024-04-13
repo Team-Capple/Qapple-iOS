@@ -6,7 +6,6 @@ class QuestionViewModel: ObservableObject {
     @Published var filteredQuestions: [QuestionResponse.Questions.QuestionsInfos] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     @Published var selectedQuestionId: Int? = nil
     @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
-
     
     @MainActor
     func fetchGetQuestions() async {
@@ -22,12 +21,21 @@ class QuestionViewModel: ObservableObject {
     func getQuestions() async throws -> QuestionResponse.Questions {
         
         // URL 생성
-        guard let url = URL(string: "http://43.203.126.187:8080/questions") else { fatalError("에러") }
+        let urlString = ApiEndpoints.basicURLString(path: .questions)
+        guard let url = URL(string: urlString) else { fatalError("에러") }
+        
+        var accessToken = ""
+        
+        do {
+            accessToken = try SignInInfo.shared.token(.access)
+        } catch {
+            print("액세스 토큰 반환 실패")
+        }
         
         // Request 생성
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(SignInInfo.shared.accessToken())", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
         // 네트워크 통신
         

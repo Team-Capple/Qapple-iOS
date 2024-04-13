@@ -39,7 +39,8 @@ struct TodayAnswerView: View {
             
             AnswerScrollView(
                 viewModel: viewModel,
-                isBottomSheetPresented: $isBottomSheetPresented
+                isBottomSheetPresented: $isBottomSheetPresented,
+                questionId: questionId
             )
             .refreshable {
                 Task {
@@ -52,6 +53,12 @@ struct TodayAnswerView: View {
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
         .onAppear {
+            Task {
+                viewModel.loadAnswersForQuestion(questionId: questionId)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
+            print("뷰 업데이트")
             Task {
                 viewModel.loadAnswersForQuestion(questionId: questionId)
             }
@@ -168,26 +175,49 @@ private struct AnswerScrollView: View {
     @EnvironmentObject var pathModel: PathModel
     @ObservedObject var viewModel: TodayAnswersViewModel
     @Binding private var isBottomSheetPresented: Bool
+    @State private var isMyAnswer: IsMyAnswer?
     
-    fileprivate init(viewModel: TodayAnswersViewModel, isBottomSheetPresented: Binding<Bool>) {
+    let questionId: Int
+    
+    fileprivate init(viewModel: TodayAnswersViewModel, isBottomSheetPresented: Binding<Bool>, questionId: Int) {
         self.viewModel = viewModel
         self._isBottomSheetPresented = isBottomSheetPresented
+        self.questionId = questionId
     }
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
-                LazyVStack{
-                    SingleAnswerView(answer: answer){
-                        isBottomSheetPresented.toggle()
-                    }
-                    .sheet(isPresented: $isBottomSheetPresented) {
-                        SeeMoreView(isBottomSheetPresented: $isBottomSheetPresented)
-                            .presentationDetents([.height(84)])
-                    }
+            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
+                index,
+                answer in
+                VStack{
+                    AnswerCell(
+                        profileName: answer.nickname,
+                        answer: answer.content,
+                        keywords: answer.tags.splitTag,
+                        isReported: answer.isReported,
+                        seeMoreAction: {
+                            isMyAnswer = .init(
+                                answerId: answer.answerId,
+                                isMine: answer.isMyAnswer
+                            )
+                        }
+                    )
+                    
                     Separator()
                         .padding(.leading, 24)
                 }
+            }
+            .sheet(item: $isMyAnswer) {
+                SeeMoreView(
+                    answerType: $0.isMine ? .mine : .others,
+                    answerId: $0.answerId
+                ) {
+                    Task {
+                        viewModel.loadAnswersForQuestion(questionId: questionId)
+                    }
+                }
+                .presentationDetents([.height(84)])
             }
         }
     }

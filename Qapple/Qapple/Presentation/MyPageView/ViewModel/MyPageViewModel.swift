@@ -22,6 +22,17 @@ final class MyPageViewModel: ObservableObject {
     let sectionInfos: [SectionInfo] = [
         SectionInfo(
             id: 0,
+            sectionTitle: "질문/답변",
+            sectionContents: [
+                "작성한 답변",
+            ],
+            sectionIcons: [
+                "WriteAnswerIcon",
+            ]
+        ),
+        
+        SectionInfo(
+            id: 1,
             sectionTitle: "문의 및 제보",
             sectionContents: [
                 "문의하기",
@@ -30,8 +41,9 @@ final class MyPageViewModel: ObservableObject {
                 "InquiryIcon",
             ]
         ),
+        
         SectionInfo(
-            id: 1,
+            id: 2,
             sectionTitle: "계정 관리",
             sectionContents: [
                 "로그아웃",
@@ -61,7 +73,6 @@ extension MyPageViewModel {
     func requestMyPageInfo() async {
         do {
             self.myPageInfo = try await NetworkManager.requestMyPage()
-            print("마이페이지 정보 로드 성공")
         } catch {
             print("마이페이지 정보 로드 실패")
         }

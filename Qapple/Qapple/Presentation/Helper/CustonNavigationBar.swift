@@ -44,13 +44,11 @@ struct CustomNavigationBar<Leading: View, Principal: View, Trailing: View>: View
     }
 }
 
-struct CustomNavigationBar_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomNavigationBar(
-            leadingView: { Text("Leading").foregroundColor(.white) },
-            principalView: { Text("Principal").foregroundColor(.white) },
-            trailingView: { Text("Trailing").foregroundColor(BrandPink.text) },
-            backgroundColor: Background.first
-        )
-    }
+#Preview {
+    CustomNavigationBar(
+        leadingView: { Text("Leading").foregroundColor(.white) },
+        principalView: { Text("Principal").foregroundColor(.white) },
+        trailingView: { Text("Trailing").foregroundColor(BrandPink.text) },
+        backgroundColor: Background.first
+    )
 }

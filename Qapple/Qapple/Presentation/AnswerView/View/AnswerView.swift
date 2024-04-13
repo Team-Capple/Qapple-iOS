@@ -63,9 +63,18 @@ struct AnswerView: View {
                 
                 ZStack {
                     if viewModel.answer.isEmpty {
-                        Text("자유롭게 생각을\n작성해주세요")
-                            .foregroundStyle(TextLabel.placeholder)
-                            .padding(.horizontal, 24)
+                        VStack(spacing: 16) {
+                            Text("자유롭게 생각을\n작성해주세요")
+                                .font(.pretendard(.semiBold, size: 48))
+                                .foregroundStyle(TextLabel.placeholder)
+                                .padding(.horizontal, 24)
+                            
+                            Text("* 부적절하거나 불쾌감을 줄 수 있는\n컨텐츠는 제재를 받을 수 있어요")
+                                .font(.pretendard(.medium, size: 16))
+                                .foregroundStyle(TextLabel.placeholder)
+                                .padding(.horizontal, 24)
+                                .lineSpacing(6)
+                        }
                     }
                     
                     TextField(text: $viewModel.answer, axis: .vertical) {

@@ -27,7 +27,6 @@ struct MyPageSection: View {
                     } label: {
                         HStack(spacing: 12) {
                             Image(sectionInfo.sectionIcons[index])
-                                .foregroundStyle(TextLabel.main)
                             
                             Text(sectionInfo.sectionContents[index])
                                 .foregroundStyle(TextLabel.sub2)

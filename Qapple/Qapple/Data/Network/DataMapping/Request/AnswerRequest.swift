@@ -21,4 +21,9 @@ class AnswerRequest {
         let answer: String // 답변
         let tags: [String] // 태그
     }
+    
+    /// 답변 삭제 구조체
+    struct DeleteAnswer: Codable {
+        let answerId: Int
+    }
 }

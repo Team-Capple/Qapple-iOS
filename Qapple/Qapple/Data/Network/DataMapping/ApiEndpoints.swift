@@ -8,9 +8,8 @@
 import Foundation
 
 enum ApiEndpoints {
+    
     static let scheme = "http"
-    static let host = "43.203.126.187"
-    static let port = 8080
     
     enum Path: String {
         
@@ -23,6 +22,7 @@ enum ApiEndpoints {
         case popularTagsInQuestion = "/tags"
         
         // MARK: - 답변
+        case answers = "/answers"
         case answersOfQuestion = "/answers/question"
         
         // MARK: - 멤버
@@ -35,6 +35,9 @@ enum ApiEndpoints {
         // 이메일
         case emailCertification = "/members/email/certification"
         case codeCertification = "/members/email/certification/check"
+        
+        // MARK: - 신고
+        case report = "/reports"
     }
 }
 
@@ -42,6 +45,12 @@ extension ApiEndpoints {
     
     /// 기본 URL 주소 문자열을 반환합니다.
     static func basicURLString(path: ApiEndpoints.Path) -> String {
+        guard let host = Bundle.main
+            .object(forInfoDictionaryKey: "HOST_URL") as? String,
+              let port = Bundle.main
+            .object(forInfoDictionaryKey: "PORT_NUM") as? String
+        else { return "" }
+        
         return "\(scheme)://\(host):\(port)\(path.rawValue)"
     }
 }

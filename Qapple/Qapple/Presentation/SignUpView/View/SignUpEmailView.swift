@@ -17,103 +17,130 @@ struct SignUpEmailView: View {
     @State private var isKeyboardVisible = false
     
     var body: some View {
-        VStack(alignment: .leading) {
-            CustomNavigationBar(
-                leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
-                    authViewModel.resetAllInfo()
-                    authViewModel.isSignIn = false
-                    authViewModel.isSignUp = false
-                    pathModel.paths.removeLast()
-                }},
-                principalView: { Text("회원가입")
-                    .font(Font.pretendard(.semiBold, size: 15))
-                    .foregroundStyle(TextLabel.main) },
-                trailingView: { },
-                backgroundColor: Background.first
-            )
-            
-            Spacer()
-                .frame(height: 32)
-            
+        ZStack {
             VStack(alignment: .leading) {
-                Text("이메일을 입력해주세요")
-                    .font(.pretendard(.bold, size: 24))
-                    .foregroundStyle(TextLabel.main)
+                CustomNavigationBar(
+                    leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
+                        authViewModel.resetAllInfo()
+                        authViewModel.isSignIn = false
+                        authViewModel.isSignUp = false
+                        pathModel.paths.removeLast()
+                    }},
+                    principalView: { Text("회원가입")
+                            .font(Font.pretendard(.semiBold, size: 15))
+                        .foregroundStyle(TextLabel.main) },
+                    trailingView: { },
+                    backgroundColor: Background.first
+                )
                 
                 Spacer()
-                    .frame(height: 72)
+                    .frame(height: 32)
                 
-                Text("이메일")
-                    .foregroundStyle(TextLabel.sub3)
-                    .font(Font.pretendard(.medium, size: 14))
-                    .frame(height: 10)
-                
-                Spacer()
-                    .frame(height: 21)
-                
-                ZStack(alignment: .leading) {
-                    if authViewModel.email.isEmpty {
-                        Text("아이디를 입력해주세요")
-                            .foregroundStyle(TextLabel.placeholder)
-                            .font(Font.pretendard(.semiBold, size: 20))
-                            .frame(height: 14)
-                    }
+                VStack(alignment: .leading) {
+                    Text("이메일을 입력해주세요")
+                        .font(.pretendard(.bold, size: 24))
+                        .foregroundStyle(TextLabel.main)
                     
-                    HStack(spacing: 0) {
-                        TextField("", text: $authViewModel.email)
-                            .foregroundStyle(isEnableButton ? TextLabel.main : BrandPink.text)
-                            .font(Font.pretendard(.semiBold, size: 20))
-                            .frame(height: 14)
-                        
-                        Spacer()
-                        
-                        Text("@postech.ac.kr")
-                            .foregroundStyle(authViewModel.email.isEmpty ? TextLabel.placeholder : BrandPink.text)
-                            .font(Font.pretendard(.semiBold, size: 14))
-                            .frame(height: 8)
-                    }
-                    .frame(height: 14)
-                }
-                
-                Spacer()
-                    .frame(height: 16)
-                
-                Rectangle()
-                    .frame(height: 2)
-                    .foregroundStyle(isEnableButton ? GrayScale.wh : (authViewModel.email.isEmpty ? GrayScale.wh : BrandPink.button))
-                
-                Spacer()
-                    .frame(height: 18)
-                
-                HStack {
-                    Text("* POSTECH 계정 아이디를 입력해주세요")
-                        .font(Font.pretendard(.semiBold, size: 14))
+                    Spacer()
+                        .frame(height: 72)
+                    
+                    Text("이메일")
                         .foregroundStyle(TextLabel.sub3)
+                        .font(Font.pretendard(.medium, size: 14))
                         .frame(height: 10)
                     
                     Spacer()
+                        .frame(height: 21)
                     
-                    Button {
-                        authViewModel.requestEmailCertification()
-                        pathModel.paths.append(.authCode)
-                    } label: {
-                        Text("메일 발송")
-                            .font(.pretendard(.medium, size: 14))
-                            .foregroundStyle(authViewModel.email.isEmpty ? TextLabel.sub4 : TextLabel.main)
+                    ZStack(alignment: .leading) {
+                        if authViewModel.email.isEmpty {
+                            Text("아이디를 입력해주세요")
+                                .foregroundStyle(TextLabel.placeholder)
+                                .font(Font.pretendard(.semiBold, size: 20))
+                                .frame(height: 14)
+                        }
+                        
+                        HStack(spacing: 0) {
+                            TextField("", text: $authViewModel.email)
+                                .foregroundStyle(isEnableButton ? TextLabel.main : BrandPink.text)
+                                .font(Font.pretendard(.semiBold, size: 20))
+                                .frame(height: 14)
+                            
+                            Spacer()
+                            
+                            Text(authViewModel.academyEmailAddress)
+                                .foregroundStyle(authViewModel.email.isEmpty ? TextLabel.placeholder : BrandPink.text)
+                                .font(Font.pretendard(.semiBold, size: 14))
+                                .frame(height: 8)
+                        }
+                        .frame(height: 14)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(authViewModel.email.isEmpty ? GrayScale.secondaryButton : BrandPink.button)
-                    .cornerRadius(20, corners: .allCorners)
-                    .disabled(authViewModel.email.isEmpty)
+                    
+                    Spacer()
+                        .frame(height: 16)
+                    
+                    Rectangle()
+                        .frame(height: 2)
+                        .foregroundStyle(isEnableButton ? GrayScale.wh : (authViewModel.email.isEmpty ? GrayScale.wh : BrandPink.button))
+                    
+                    Spacer()
+                        .frame(height: 18)
+                    
+                    HStack {
+                        Text("* 아카데미 계정 아이디를 입력해주세요")
+                            .font(Font.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(TextLabel.sub3)
+                            .frame(height: 10)
+                        
+                        Spacer()
+                        
+                        Button {
+                            if authViewModel.email == authViewModel.testEmail {
+                                pathModel.paths.removeAll()
+                                authViewModel.isSignIn = true
+                                return
+                            }
+                            
+                            // 로딩 화면 시작
+                            authViewModel.certifyMailLoading = true
+                            
+                            Task {
+                                if await authViewModel.requestEmailCertification() {
+                                    pathModel.paths.append(.authCode)
+                                }
+                                authViewModel.certifyMailLoading = false
+                            }
+                        } label: {
+                            Text("메일 발송")
+                                .font(.pretendard(.medium, size: 14))
+                                .foregroundStyle(authViewModel.email.isEmpty ? TextLabel.sub4 : TextLabel.main)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(authViewModel.email.isEmpty ? GrayScale.secondaryButton : BrandPink.button)
+                        .cornerRadius(20, corners: .allCorners)
+                        .disabled(authViewModel.email.isEmpty)
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .padding(.horizontal, 24)
             }
-            .padding(.horizontal, 24)
+            .background(Background.first)
+            .navigationBarBackButtonHidden()
+            
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle()) // 로딩 바 스타일 설정
+                .scaleEffect(2)
+                .padding(.top, 60)
+                .opacity(authViewModel.certifyMailLoading ? 1 : 0)
+                .tint(.wh)
         }
-        .background(Background.first)
-        .navigationBarBackButtonHidden()
+        .alert("이미 가입된 이메일이에요", isPresented: $authViewModel.isExistEmailAlertPresented) {
+            Button("확인", role: .none) {}
+        } message: {
+            Text("다른 이메일을 입력해주세요.")
+        }
     }
 }
 
