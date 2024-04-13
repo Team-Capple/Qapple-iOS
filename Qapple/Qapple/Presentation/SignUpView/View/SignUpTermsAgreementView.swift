@@ -11,7 +11,10 @@ struct SignUpTermsAgreementView: View {
     
     @EnvironmentObject var pathModel: PathModel
     @EnvironmentObject var authViewModel: AuthViewModel
-    @State private var isChecked: Bool = false // 추후 중복 검사 변수 나오면 삭제 예정
+    @State private var isAllChecked = false
+    @State private var isServiceTermsChecked = false
+    @State private var isPrivacyTermsChecked = false
+    @State private var isEULAChecked = false
     
     var body: some View {
         
@@ -39,7 +42,7 @@ struct SignUpTermsAgreementView: View {
                 Spacer()
                     .frame(height: 22)
                 
-                Text("회원가입을 위해서는 약관 동의가 필요해요")
+                Text("회원가입을 위해서는 모든 약관에 동의가 필요해요")
                     .foregroundStyle(TextLabel.sub3)
                     .font(Font.pretendard(.medium, size: 16))
                     .frame(height: 11)
@@ -55,17 +58,27 @@ struct SignUpTermsAgreementView: View {
                     Spacer()
                     
                     Button {
-                        isChecked.toggle()
+                        isAllChecked.toggle()
+                        
+                        if isAllChecked {
+                            isServiceTermsChecked = true
+                            isPrivacyTermsChecked = true
+                            isEULAChecked = true
+                        } else {
+                            isServiceTermsChecked = false
+                            isPrivacyTermsChecked = false
+                            isEULAChecked = false
+                        }
                     } label: {
-                        Image(isChecked ? .checkboxActive : .checkboxInActive)
+                        Image(isAllChecked ? .checkboxActive : .checkboxInActive)
                     }
                 }
                 
                 Spacer()
                     .frame(height: 24)
                 
-                HStack {
-                    Text("(필수)서비스 이용 약관")
+                HStack(spacing: 16) {
+                    Text("필수) 서비스 이용 약관")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                     
@@ -76,13 +89,20 @@ struct SignUpTermsAgreementView: View {
                     } label: {
                         Image(.arrowRight)
                     }
+                    
+                    Button {
+                        isServiceTermsChecked.toggle()
+                        toggleCheckButton()
+                    } label: {
+                        Image(isServiceTermsChecked ? .checkboxActive : .checkboxInActive)
+                    }
                 }
                 
                 Spacer()
                     .frame(height: 24)
                 
-                HStack {
-                    Text("(필수)개인정보 처리방침")
+                HStack(spacing: 16) {
+                    Text("필수) 개인정보 처리방침")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                     
@@ -93,10 +113,35 @@ struct SignUpTermsAgreementView: View {
                     } label: {
                         Image(.arrowRight)
                     }
+                    
+                    Button {
+                        isPrivacyTermsChecked.toggle()
+                        toggleCheckButton()
+                    } label: {
+                        Image(isPrivacyTermsChecked ? .checkboxActive : .checkboxInActive)
+                    }
                 }
                 
                 Spacer()
-                    .frame(height: 48)
+                    .frame(height: 24)
+                
+                HStack(spacing: 16) {
+                    Text("EULA) 최종 사용자 사용권 계약")
+                        .font(.pretendard(.semiBold, size: 16))
+                        .foregroundStyle(TextLabel.sub2)
+                    
+                    Spacer()
+                    
+                    Button {
+                        isEULAChecked.toggle()
+                        toggleCheckButton()
+                    } label: {
+                        Image(isEULAChecked ? .checkboxActive : .checkboxInActive)
+                    }
+                }
+                
+                Spacer()
+                    .frame(height: 16)
                 
                 ScrollView {
                     Text("""
@@ -116,8 +161,8 @@ struct SignUpTermsAgreementView: View {
 
                         이 약관을 위반할 경우 계정이 일시적으로 정지되거나 영구적으로 삭제될 수 있습니다. 저희는 모든 사용자가 안전하게 서비스를 이용할 수 있도록 최선을 다할 것을 약속드립니다.
                         """)
-                    .font(.pretendard(.semiBold, size: 16))
-                    .foregroundStyle(TextLabel.sub3)
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(TextLabel.sub4)
                     .lineSpacing(6)
                 }
                 
@@ -126,10 +171,10 @@ struct SignUpTermsAgreementView: View {
                 
                 Spacer()
                 
-                ActionButton("다음", isActive: $isChecked, action: {
+                ActionButton("다음", isActive: $isAllChecked, action: {
                     pathModel.paths.append(.signUpCompleted)
                 })
-                .animation(.easeIn, value: isChecked)
+                .animation(.easeIn, value: isAllChecked)
                 .padding(.bottom, 16)
             }
             .padding(.horizontal, 24)
@@ -141,6 +186,15 @@ struct SignUpTermsAgreementView: View {
             Button("확인", role: .none, action: {})
         } message: {
             Text("네트워크 또는 서버 문제로 회원가입에 실패했습니다. 다시 시도 또는 관리자에게 문의 해주세요.")
+        }
+    }
+    
+    /// 약관동의 체크버튼을 Toggle 합니다.
+    func toggleCheckButton() {
+        if (isServiceTermsChecked && isPrivacyTermsChecked) && isEULAChecked {
+            isAllChecked = true
+        } else {
+            isAllChecked = false
         }
     }
 }

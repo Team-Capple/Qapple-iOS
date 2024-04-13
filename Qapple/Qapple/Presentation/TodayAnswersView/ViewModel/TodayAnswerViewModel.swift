@@ -61,7 +61,6 @@ class TodayAnswersViewModel: ObservableObject {
                         let decodedData = try JSONDecoder().decode(BaseResponse<ServerResponse.Answers>.self, from: data)
                         DispatchQueue.main.async {
                             self.answers = decodedData.result.answerInfos
-                            print(self.answers)
                         }
                     } catch {
                         print("ServerResponse.Answers - Error decoding response: \(error)")
