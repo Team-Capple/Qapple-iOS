@@ -134,9 +134,6 @@ struct AnswerView: View {
                 .padding(.bottom, 12)
             }
             .navigationBarBackButtonHidden()
-            .onTapGesture {
-                isTextFieldFocused = false
-            }
             .alert("정말 그만두시겠어요?", isPresented: $isBackAlertPresented) {
                 HStack {
                     Button("취소", role: .cancel) {}
@@ -148,6 +145,9 @@ struct AnswerView: View {
             } message: {
                 Text("지금까지 작성한 답변이 사라져요")
             }
+        }
+        .onTapGesture {
+            isTextFieldFocused.toggle()
         }
         .popGestureDisabled()
     }
