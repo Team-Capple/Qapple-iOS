@@ -84,6 +84,9 @@ struct AnswerView: View {
                     .focused($isTextFieldFocused)
                     .padding(.horizontal, 24)
                     .autocorrectionDisabled()
+                    .onTapGesture {
+                        isTextFieldFocused = true
+                    }
                     .onChange(of: viewModel.answer) { oldText, newText in
                         
                         // 글자 수 제한 로직
