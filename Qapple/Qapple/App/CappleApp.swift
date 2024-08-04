@@ -12,13 +12,19 @@ struct CappleApp: App {
     
     @Environment(\.scenePhase) private var scenePhase
     
+    @StateObject private var authViewModel: AuthViewModel = .init()
+    
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainView(authViewModel: authViewModel)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
-                AppleLoginService.autoLogin()
+                AppleLoginService.autoLogin { isSingIn in
+                    DispatchQueue.main.async {
+                        authViewModel.isSignIn = isSingIn
+                    }
+                }
             }
         }
     }
