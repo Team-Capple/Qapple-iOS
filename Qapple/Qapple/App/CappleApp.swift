@@ -10,20 +10,16 @@ import SwiftUI
 @main
 struct CappleApp: App {
     
-    init() {
-        setNavigationTitleAttributes()
-    }
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some Scene {
         WindowGroup {
             MainView()
         }
-    }
-    
-    private func setNavigationTitleAttributes() {
-//        // Large Navigation Title
-//        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-//        // Inline Navigation Title
-//        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                AppleLoginService.autoLogin()
+            }
+        }
     }
 }

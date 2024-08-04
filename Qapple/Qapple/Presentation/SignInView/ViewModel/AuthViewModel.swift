@@ -99,7 +99,6 @@ extension AuthViewModel {
         // Apple 로그인 완료 후 처리하는 코드
         switch result {
         case .success(let authResults):
-            // print("Apple Login Successful")
             switch authResults.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
                 let authorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? "인증 코드 생성 실패"
@@ -113,6 +112,7 @@ extension AuthViewModel {
                         let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
                         try SignInInfo.shared.createToken(.access, token: signInResponse.accessToken ?? "")
                         try SignInInfo.shared.createToken(.refresh, token: signInResponse.refreshToken ?? "")
+                        try SignInInfo.shared.createUserID(appleIDCredential.user)
                         
                         // 로그인 상태에 따른 화면 분기처리
                         if signInResponse.isMember {
@@ -132,6 +132,7 @@ extension AuthViewModel {
                     
                     print("액세스 토큰 값!\n\(try SignInInfo.shared.token(.access))\n")
                     print("리프레쉬 토큰 값!\n\(try SignInInfo.shared.token(.refresh))\n")
+                    print("UserID!\n\(try SignInInfo.shared.userID())\n")
                 }
                 
             default:
