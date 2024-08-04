@@ -16,6 +16,7 @@ struct AnswerView: View {
     @FocusState private var isTextFieldFocused: Bool
     @State private var isAnonymitySheetPresented = false
     
+    private let textCount: Int = 1
     let questionId: Int
     let questionContent: String
     
@@ -36,14 +37,14 @@ struct AnswerView: View {
                     trailingView: {
                         CustomNavigationTextButton(
                             title: "다음",
-                            color: viewModel.answer.count < 1 ?
+                            color: viewModel.answer.count < self.textCount ?
                             TextLabel.disable : BrandPink.text,
                             buttonType: .next(pathType: .confirmAnswer)
                         ) {
                             viewModel.questionId = questionId
                             viewModel.questionContent = questionContent
                         }
-                        .disabled(viewModel.answer.count < 1)
+                        .disabled(viewModel.answer.count < self.textCount)
                     },
                     backgroundColor: .clear
                 )
