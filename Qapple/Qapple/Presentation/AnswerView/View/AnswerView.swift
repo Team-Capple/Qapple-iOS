@@ -36,14 +36,14 @@ struct AnswerView: View {
                     trailingView: {
                         CustomNavigationTextButton(
                             title: "다음",
-                            color: viewModel.answer.count < 3 ?
+                            color: viewModel.answer.count < 1 ?
                             TextLabel.disable : BrandPink.text,
                             buttonType: .next(pathType: .confirmAnswer)
                         ) {
                             viewModel.questionId = questionId
                             viewModel.questionContent = questionContent
                         }
-                        .disabled(viewModel.answer.count < 3)
+                        .disabled(viewModel.answer.count < 1)
                     },
                     backgroundColor: .clear
                 )
