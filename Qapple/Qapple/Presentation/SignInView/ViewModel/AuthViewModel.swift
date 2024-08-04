@@ -13,6 +13,8 @@ class AuthViewModel: ObservableObject {
     let academyEmailAddress = "@pos.idserve.net"
     let testEmail = "testQapple"
     
+    private var userID = ""
+    
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var isSignUp = false // 회원가입 로직 실행용
     
@@ -112,11 +114,12 @@ extension AuthViewModel {
                         let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
                         try SignInInfo.shared.createToken(.access, token: signInResponse.accessToken ?? "")
                         try SignInInfo.shared.createToken(.refresh, token: signInResponse.refreshToken ?? "")
-                        try SignInInfo.shared.createUserID(appleIDCredential.user)
+                        userID = appleIDCredential.user
                         
                         // 로그인 상태에 따른 화면 분기처리
                         if signInResponse.isMember {
                             isSignIn = true
+                            try SignInInfo.shared.createUserID(userID)
                             print("로그인 고고")
                         } else {
                             isSignUp = true
@@ -132,7 +135,6 @@ extension AuthViewModel {
                     
                     print("액세스 토큰 값!\n\(try SignInInfo.shared.token(.access))\n")
                     print("리프레쉬 토큰 값!\n\(try SignInInfo.shared.token(.refresh))\n")
-                    print("UserID!\n\(try SignInInfo.shared.userID())\n")
                 }
                 
             default:
@@ -160,6 +162,8 @@ extension AuthViewModel {
             // 토큰 데이터 업데이트
             try SignInInfo.shared.createToken(.access, token: signUpData.accessToken ?? "")
             try SignInInfo.shared.createToken(.refresh, token: signUpData.refreshToken ?? "")
+            try SignInInfo.shared.createUserID(userID)
+            print("UserID!\n\(try SignInInfo.shared.userID())\n")
         } catch {
             isSignUpFailedAlertPresented.toggle()
         }
