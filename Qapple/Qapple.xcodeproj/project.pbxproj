@@ -98,7 +98,7 @@
 		F37C178C2B873658005E5072 /* MyProfileSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C178B2B873658005E5072 /* MyProfileSummary.swift */; };
 		F37C17A42B889956005E5072 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A32B889956005E5072 /* SearchResultView.swift */; };
 		F37C17A72B889999005E5072 /* QuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A62B889999005E5072 /* QuestionViewModel.swift */; };
-		F37C17A92B8899BC005E5072 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A82B8899BC005E5072 /* QuestionView.swift */; };
+		F37C17A92B8899BC005E5072 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A82B8899BC005E5072 /* QuestionCell.swift */; };
 		F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F392AC422B8B2E370069AD7B /* SignUpNicknameView.swift */; };
 		F392AC462B8B2E370069AD7B /* SignUpTermsAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F392AC432B8B2E370069AD7B /* SignUpTermsAgreementView.swift */; };
 		F392AC472B8B2E370069AD7B /* SignUpCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F392AC442B8B2E370069AD7B /* SignUpCompletedView.swift */; };
@@ -231,7 +231,7 @@
 		F37C178B2B873658005E5072 /* MyProfileSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileSummary.swift; sourceTree = "<group>"; };
 		F37C17A32B889956005E5072 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		F37C17A62B889999005E5072 /* QuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewModel.swift; sourceTree = "<group>"; };
-		F37C17A82B8899BC005E5072 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		F37C17A82B8899BC005E5072 /* QuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		F392AC422B8B2E370069AD7B /* SignUpNicknameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpNicknameView.swift; sourceTree = "<group>"; };
 		F392AC432B8B2E370069AD7B /* SignUpTermsAgreementView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTermsAgreementView.swift; sourceTree = "<group>"; };
 		F392AC442B8B2E370069AD7B /* SignUpCompletedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpCompletedView.swift; sourceTree = "<group>"; };
@@ -662,7 +662,7 @@
 			isa = PBXGroup;
 			children = (
 				F37C17A32B889956005E5072 /* SearchResultView.swift */,
-				F37C17A82B8899BC005E5072 /* QuestionView.swift */,
+				F37C17A82B8899BC005E5072 /* QuestionCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1057,7 +1057,7 @@
 				F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */,
 				8295BDB82BA322E600115FA8 /* NetworkManager+Tag.swift in Sources */,
 				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
-				F37C17A92B8899BC005E5072 /* QuestionView.swift in Sources */,
+				F37C17A92B8899BC005E5072 /* QuestionCell.swift in Sources */,
 				F3D452D32B8A6015000BA51C /* CustomNavigationBackButton.swift in Sources */,
 				F37C178C2B873658005E5072 /* MyProfileSummary.swift in Sources */,
 				F392AC472B8B2E370069AD7B /* SignUpCompletedView.swift in Sources */,
