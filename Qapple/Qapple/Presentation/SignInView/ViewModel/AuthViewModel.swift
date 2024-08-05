@@ -13,6 +13,8 @@ class AuthViewModel: ObservableObject {
     let academyEmailAddress = "@pos.idserve.net"
     let testEmail = "testQapple"
     
+    private var userID = ""
+    
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var isSignUp = false // 회원가입 로직 실행용
     
@@ -99,7 +101,6 @@ extension AuthViewModel {
         // Apple 로그인 완료 후 처리하는 코드
         switch result {
         case .success(let authResults):
-            // print("Apple Login Successful")
             switch authResults.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
                 let authorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? "인증 코드 생성 실패"
@@ -113,10 +114,12 @@ extension AuthViewModel {
                         let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
                         try SignInInfo.shared.createToken(.access, token: signInResponse.accessToken ?? "")
                         try SignInInfo.shared.createToken(.refresh, token: signInResponse.refreshToken ?? "")
+                        userID = appleIDCredential.user
                         
                         // 로그인 상태에 따른 화면 분기처리
                         if signInResponse.isMember {
                             isSignIn = true
+                            try SignInInfo.shared.createUserID(userID)
                             print("로그인 고고")
                         } else {
                             isSignUp = true
@@ -159,6 +162,8 @@ extension AuthViewModel {
             // 토큰 데이터 업데이트
             try SignInInfo.shared.createToken(.access, token: signUpData.accessToken ?? "")
             try SignInInfo.shared.createToken(.refresh, token: signUpData.refreshToken ?? "")
+            try SignInInfo.shared.createUserID(userID)
+            print("UserID!\n\(try SignInInfo.shared.userID())\n")
         } catch {
             isSignUpFailedAlertPresented.toggle()
         }

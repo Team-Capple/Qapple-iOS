@@ -123,6 +123,7 @@ struct MyPageView: View {
                     Button("로그아웃", role: .none, action: {
                         pathModel.paths.removeAll()
                         authViewModel.isSignIn = false
+                        viewModel.signOut()
                     })
                 }
             } message: {

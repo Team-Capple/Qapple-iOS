@@ -89,7 +89,7 @@ struct SearchResultView: View {
                     LazyVStack(spacing: 24) {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack(spacing: 20) {
-                                QuestionView(question: question, questionNumber: viewModel.questions.count - index) {
+                                QuestionCell(question: question, questionNumber: viewModel.questions.count - index) {
                                     isBottomSheetPresented.toggle()
                                 }
                                 .onTapGesture {

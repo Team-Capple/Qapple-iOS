@@ -3,7 +3,7 @@ import FlexView
 import Foundation
 
 // 하나의 질문을 보여주는 뷰를 정의합니다.
-struct QuestionView: View {
+struct QuestionCell: View {
     
     @EnvironmentObject var pathModel: PathModel
     
@@ -162,7 +162,7 @@ struct QuestionView: View {
                 .frame(height: 16)
             
             // MARK: - 본문
-            Text(question.isAnswered ? question.content : "답변 후 다른 러너의\n생각을 확인해보세요!")
+            Text(question.content)
                 .foregroundStyle(TextLabel.main)
                 .font(.pretendard(.bold, size: 17))
                 .lineSpacing(4.0)
@@ -218,7 +218,7 @@ extension Date {
 }
 
 #Preview {
-    QuestionView(question: DummyData.questionsInfo,
+    QuestionCell(question: DummyData.questionsInfo,
                  questionNumber: 0) {}
         .environmentObject(PathModel())
 }

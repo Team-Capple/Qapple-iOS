@@ -78,7 +78,7 @@ struct SignUpTermsAgreementView: View {
                     .frame(height: 24)
                 
                 HStack(spacing: 16) {
-                    Text("필수) 서비스 이용 약관")
+                    Text("* 필수) 서비스 이용 약관")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                     
@@ -102,7 +102,7 @@ struct SignUpTermsAgreementView: View {
                     .frame(height: 24)
                 
                 HStack(spacing: 16) {
-                    Text("필수) 개인정보 처리방침")
+                    Text("* 필수) 개인정보 처리방침")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                     
@@ -126,7 +126,7 @@ struct SignUpTermsAgreementView: View {
                     .frame(height: 24)
                 
                 HStack(spacing: 16) {
-                    Text("EULA) 최종 사용자 사용권 계약")
+                    Text("* 필수) 최종 사용자 사용권 계약")
                         .font(.pretendard(.semiBold, size: 16))
                         .foregroundStyle(TextLabel.sub2)
                     
