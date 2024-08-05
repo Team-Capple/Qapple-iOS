@@ -29,7 +29,12 @@ struct AnswerView: View {
                 CustomNavigationBar(
                     leadingView: {
                         CustomNavigationBackButton(buttonType: .xmark) {
-                            isBackAlertPresented.toggle()
+                            if self.viewModel.answer.isEmpty {
+                                viewModel.resetAnswerInfo()
+                                pathModel.paths.removeLast()
+                            } else {
+                                isBackAlertPresented.toggle()
+                            }
                         }
                     },
                     principalView: {},

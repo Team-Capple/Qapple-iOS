@@ -181,7 +181,7 @@ struct QuestionCell: View {
                 
                 Spacer()
                 
-                if !question.isAnswered { // isAnswered가 true일 때만 표시
+                if !question.isAnswered { // isAnswered가 false일 때만 표시
                     Button {
                         pathModel.paths.append(
                             .answer(
