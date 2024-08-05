@@ -213,9 +213,7 @@ private struct AnswerScrollView: View {
                     answerType: $0.isMine ? .mine : .others,
                     answerId: $0.answerId
                 ) {
-                    Task {
-                        viewModel.loadAnswersForQuestion(questionId: questionId)
-                    }
+                    self.pathModel.paths.removeLast()
                 }
                 .presentationDetents([.height(84)])
             }
