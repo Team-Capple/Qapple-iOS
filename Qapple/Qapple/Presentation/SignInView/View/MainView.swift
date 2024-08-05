@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     
-    @StateObject var authViewModel: AuthViewModel = .init()
+    @ObservedObject private(set) var authViewModel: AuthViewModel
     @StateObject private var pathModel: PathModel = .init()
     
     var body: some View {
@@ -247,5 +247,5 @@ private struct CustomTabBar: View {
 }
 
 #Preview {
-    MainView()
+    MainView(authViewModel: .init())
 }

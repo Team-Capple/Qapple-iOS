@@ -54,6 +54,7 @@
 		825226EF2BA9A7D8006998E8 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825226EE2BA9A7D8006998E8 /* MailView.swift */; };
 		827897B52BBC41A800B3D6F0 /* WrittenAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827897B42BBC41A800B3D6F0 /* WrittenAnswerView.swift */; };
 		827897B72BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827897B62BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift */; };
+		8280CA7A2C5F1F2C00AC07B9 /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */; };
 		828715BC2B99F6EA001627DB /* TagRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715BB2B99F6EA001627DB /* TagRequest.swift */; };
 		828715BE2B99FC54001627DB /* TagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715BD2B99FC54001627DB /* TagResponse.swift */; };
 		828715C02B9AC866001627DB /* AnswerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715BF2B9AC866001627DB /* AnswerRequest.swift */; };
@@ -185,6 +186,7 @@
 		825226EE2BA9A7D8006998E8 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		827897B42BBC41A800B3D6F0 /* WrittenAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrittenAnswerView.swift; sourceTree = "<group>"; };
 		827897B62BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpServiceTermsView.swift; sourceTree = "<group>"; };
+		8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
 		828715BB2B99F6EA001627DB /* TagRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRequest.swift; sourceTree = "<group>"; };
 		828715BD2B99FC54001627DB /* TagResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagResponse.swift; sourceTree = "<group>"; };
 		828715BF2B9AC866001627DB /* AnswerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerRequest.swift; sourceTree = "<group>"; };
@@ -494,6 +496,14 @@
 			path = WrittenAnswerView;
 			sourceTree = "<group>";
 		};
+		8280CA782C5F1F2100AC07B9 /* AppleLogin */ = {
+			isa = PBXGroup;
+			children = (
+				8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */,
+			);
+			path = AppleLogin;
+			sourceTree = "<group>";
+		};
 		828A03D72BAAC7930038CF91 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -775,6 +785,7 @@
 		F3EA66F92B764479002417CE /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				8280CA782C5F1F2100AC07B9 /* AppleLogin */,
 				F3EA66FA2B76447C002417CE /* Network */,
 			);
 			path = Data;
@@ -1092,6 +1103,7 @@
 				07BF36362B8B36D10047F3F7 /* AnswerViewModel.swift in Sources */,
 				67B185112B9436C10057E6BB /* SingleAnswerModel.swift in Sources */,
 				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
+				8280CA7A2C5F1F2C00AC07B9 /* AppleLoginService.swift in Sources */,
 				82CDA77B2BB2F3A30031AEB4 /* AnonymityNoticeView.swift in Sources */,
 				82CDA7722BB169EA0031AEB4 /* CompleteAnswerView.swift in Sources */,
 				82C3791B2B93499300CC7708 /* Alert.swift in Sources */,

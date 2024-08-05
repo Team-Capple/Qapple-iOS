@@ -78,11 +78,18 @@ extension MyPageViewModel {
         }
     }
     
+    /// 로그아웃을 진행합니다.
+    @MainActor
+    func signOut() {
+        try? SignInInfo.shared.createUserID("")
+    }
+    
     /// 회원 탈퇴를 요청합니다.
     @MainActor
     func requestDeleteMember() {
         Task {
             self.isDeletedMember = try await NetworkManager.requestDeleteMember()
+            try? SignInInfo.shared.createUserID("")
         }
     }
 }
