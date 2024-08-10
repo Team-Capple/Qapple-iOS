@@ -86,6 +86,8 @@
 		82CDA7772BB2EBC00031AEB4 /* PopGestureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA7762BB2EBC00031AEB4 /* PopGestureManager.swift */; };
 		82CDA7792BB2EBCF0031AEB4 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA7782BB2EBCF0031AEB4 /* HapticManager.swift */; };
 		82CDA77B2BB2F3A30031AEB4 /* AnonymityNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA77A2BB2F3A30031AEB4 /* AnonymityNoticeView.swift */; };
+		82D2BD4B2C67305000082A58 /* BulletinBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D2BD4A2C67305000082A58 /* BulletinBoardView.swift */; };
+		82D2BD4E2C6731E400082A58 /* CustomToolBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D2BD4D2C6731E400082A58 /* CustomToolBarItem.swift */; };
 		82D583B72B9844E6003CC424 /* KeywordSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583B62B9844E6003CC424 /* KeywordSelector.swift */; };
 		82D583B92B9852C4003CC424 /* QuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583B82B9852C4003CC424 /* QuestionResponse.swift */; };
 		82D583BB2B985462003CC424 /* NetworkManager+Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583BA2B985462003CC424 /* NetworkManager+Question.swift */; };
@@ -219,6 +221,8 @@
 		82CDA7762BB2EBC00031AEB4 /* PopGestureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopGestureManager.swift; sourceTree = "<group>"; };
 		82CDA7782BB2EBCF0031AEB4 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		82CDA77A2BB2F3A30031AEB4 /* AnonymityNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymityNoticeView.swift; sourceTree = "<group>"; };
+		82D2BD4A2C67305000082A58 /* BulletinBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardView.swift; sourceTree = "<group>"; };
+		82D2BD4D2C6731E400082A58 /* CustomToolBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolBarItem.swift; sourceTree = "<group>"; };
 		82D583B62B9844E6003CC424 /* KeywordSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordSelector.swift; sourceTree = "<group>"; };
 		82D583B82B9852C4003CC424 /* QuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionResponse.swift; sourceTree = "<group>"; };
 		82D583BA2B985462003CC424 /* NetworkManager+Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Question.swift"; sourceTree = "<group>"; };
@@ -584,6 +588,22 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		82D2BD492C67302700082A58 /* BulletinBoardView */ = {
+			isa = PBXGroup;
+			children = (
+				82D2BD4A2C67305000082A58 /* BulletinBoardView.swift */,
+			);
+			path = BulletinBoardView;
+			sourceTree = "<group>";
+		};
+		82D2BD4C2C6731B700082A58 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				82D2BD4D2C6731E400082A58 /* CustomToolBarItem.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		F36B0EE82B865590009EBE1D /* SignInView */ = {
 			isa = PBXGroup;
 			children = (
@@ -731,6 +751,7 @@
 				07D96EE72B7A6D4000754819 /* Extension */,
 				F36B0EF82B86742C009EBE1D /* Protocol */,
 				F3EA67092B764550002417CE /* Resource */,
+				82D2BD4C2C6731B700082A58 /* Component */,
 				F3EA67082B76453F002417CE /* Presentation */,
 				F3EA67072B764530002417CE /* App */,
 				F3EA66F92B764479002417CE /* Data */,
@@ -865,6 +886,7 @@
 				82CDA7702BB169D10031AEB4 /* CompleteAnswerView */,
 				07BF36442B8B9BC30047F3F7 /* SearchKeywordView */,
 				074818FD2B8F3DB900380F14 /* SeeMoreView */,
+				82D2BD492C67302700082A58 /* BulletinBoardView */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -1090,6 +1112,7 @@
 				F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */,
 				07BF36382B8B36FB0047F3F7 /* AnswerView.swift in Sources */,
 				07D96EDA2B79F03C00754819 /* TodayQuestionActionButton.swift in Sources */,
+				82D2BD4E2C6731E400082A58 /* CustomToolBarItem.swift in Sources */,
 				8295BDB22BA3209000115FA8 /* MemberRequest.swift in Sources */,
 				824717362BC9163C005E9631 /* NetworkManager+Report.swift in Sources */,
 				82D583BD2B9859D7003CC424 /* NetworkError.swift in Sources */,
@@ -1143,6 +1166,7 @@
 				F3D452D92B8A7019000BA51C /* CustonNavigationBar.swift in Sources */,
 				825226EA2BA857FF006998E8 /* String+Extension.swift in Sources */,
 				828A03DF2BAC09EF0038CF91 /* LoadingView.swift in Sources */,
+				82D2BD4B2C67305000082A58 /* BulletinBoardView.swift in Sources */,
 				82C379142B9347E500CC7708 /* AlertView.swift in Sources */,
 				82CDA7742BB270690031AEB4 /* PopGestureDisabledViewModifier.swift in Sources */,
 			);
