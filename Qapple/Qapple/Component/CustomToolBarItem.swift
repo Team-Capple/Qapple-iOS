@@ -34,10 +34,19 @@ struct CustomToolBarItem: View {
 // MARK: - Preview
 
 #Preview {
-    CustomToolBarItem(
-        buttonType: .plus,
-        tapAction: {
-            print("추가")
-        }
-    )
+    HStack(spacing: 24) {
+        CustomToolBarItem(
+            buttonType: .search,
+            tapAction: {
+                print("검색")
+            }
+        )
+        
+        CustomToolBarItem(
+            buttonType: .plus,
+            tapAction: {
+                print("추가")
+            }
+        )
+    }
 }

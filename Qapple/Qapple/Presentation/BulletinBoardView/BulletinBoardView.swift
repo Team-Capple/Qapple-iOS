@@ -15,8 +15,16 @@ struct BulletinBoardView: View {
             NavigationBar()
                 .padding(.horizontal, 16)
             
+            AcademyPlanDayCounter(
+                currentEvent: "Prologue",
+                progress: 0.47
+            )
+            .padding(.top, 20)
+            .padding(.horizontal, 22)
+            
             Spacer()
         }
+        .background(Background.first)
     }
 }
 
