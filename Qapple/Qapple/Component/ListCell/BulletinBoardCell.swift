@@ -20,10 +20,15 @@ struct BulletinBoardCell: View {
                 post: post,
                 seeMoreAction: seeMoreAction
             )
+            .padding(.horizontal, 16)
             
             ContentView(post: post)
+                .padding(.horizontal, 16)
+            
+            Divider()
+                .padding(.top, 16)
         }
-        .padding(16)
+        .padding(.top, 16)
         .background(Background.first)
     }
 }
