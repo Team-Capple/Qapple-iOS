@@ -7,27 +7,45 @@
 
 import SwiftUI
 
+// MARK: - BulletinBoardView
+
 struct BulletinBoardView: View {
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+            NavigationBar()
+                .padding(.horizontal, 16)
             
+            Spacer()
         }
-        .toolbar {
-            ToolbarItem {
-                Text("asd")
-            }
+    }
+}
+
+// MARK: - NavigationBar
+
+private struct NavigationBar: View {
+    var body: some View {
+        HStack(spacing: 24) {
+            Text("자유게시판")
+                .pretendard(.bold, 25)
+                .foregroundStyle(.white)
             
-            ToolbarItem {
-                Button {
-                    // TODO: 게시글 작성 View 이동
-                } label: {
-                    Image(systemName: "plus")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundStyle(BrandPink.button)
+            Spacer()
+            
+            CustomToolBarItem(
+                buttonType: .search,
+                tapAction: {
+                    // TODO: 게시글 검색하기 View 이동
                 }
-            }
+            )
+            
+            CustomToolBarItem(
+                buttonType: .plus,
+                tapAction: {
+                    // TODO: 게시글 작성하기 View 이동
+                }
+            )
         }
+        .frame(height: 32)
     }
 }
 
