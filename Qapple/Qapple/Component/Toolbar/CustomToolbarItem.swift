@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - CustomToolBarItem
 
-struct CustomToolBarItem: View {
+struct CustomToolbarItem: View {
     
     enum ButtonType: String {
         case plus = "plus"
@@ -35,14 +35,14 @@ struct CustomToolBarItem: View {
 
 #Preview {
     HStack(spacing: 24) {
-        CustomToolBarItem(
+        CustomToolbarItem(
             buttonType: .search,
             tapAction: {
                 print("검색")
             }
         )
         
-        CustomToolBarItem(
+        CustomToolbarItem(
             buttonType: .plus,
             tapAction: {
                 print("추가")

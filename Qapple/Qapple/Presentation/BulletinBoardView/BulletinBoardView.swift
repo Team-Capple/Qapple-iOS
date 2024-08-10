@@ -16,8 +16,8 @@ struct BulletinBoardView: View {
                 .padding(.horizontal, 16)
             
             AcademyPlanDayCounter(
-                currentEvent: "Prologue",
-                progress: 0.47
+                currentEvent: "Prologue", // TODO: 실제 값
+                progress: 0.47 // TODO: 실제 값
             )
             .padding(.top, 20)
             .padding(.horizontal, 22)
@@ -39,14 +39,14 @@ private struct NavigationBar: View {
             
             Spacer()
             
-            CustomToolBarItem(
+            CustomToolbarItem(
                 buttonType: .search,
                 tapAction: {
                     // TODO: 게시글 검색하기 View 이동
                 }
             )
             
-            CustomToolBarItem(
+            CustomToolbarItem(
                 buttonType: .plus,
                 tapAction: {
                     // TODO: 게시글 작성하기 View 이동
