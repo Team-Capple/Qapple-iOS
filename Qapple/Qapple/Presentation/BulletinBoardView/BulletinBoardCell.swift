@@ -169,4 +169,5 @@ private struct RemoteView: View {
             writingDate: .now
         )
     ) {}
+        .environmentObject(BulletinBoardUseCase())
 }

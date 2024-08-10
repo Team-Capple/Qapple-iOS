@@ -600,6 +600,7 @@
 			isa = PBXGroup;
 			children = (
 				82D2BD4A2C67305000082A58 /* BulletinBoardView.swift */,
+				82FD93682C673E96007977D0 /* BulletinBoardCell.swift */,
 				823736AD2C6752E50057B9CF /* BulletinBoardSeeMoreSheetView.swift */,
 				823736A82C674A370057B9CF /* BulletinBoardUseCase.swift */,
 			);
@@ -609,7 +610,6 @@
 		82D2BD4C2C6731B700082A58 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				82FD93672C673E82007977D0 /* ListCell */,
 				82FD93662C673E76007977D0 /* Info */,
 				82FD93652C673E63007977D0 /* Toolbar */,
 			);
@@ -630,14 +630,6 @@
 				82D2BD4F2C6736EC00082A58 /* AcademyPlanDayCounter.swift */,
 			);
 			path = Info;
-			sourceTree = "<group>";
-		};
-		82FD93672C673E82007977D0 /* ListCell */ = {
-			isa = PBXGroup;
-			children = (
-				82FD93682C673E96007977D0 /* BulletinBoardCell.swift */,
-			);
-			path = ListCell;
 			sourceTree = "<group>";
 		};
 		F36B0EE82B865590009EBE1D /* SignInView */ = {
@@ -1374,7 +1366,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Qapple/Preview Content\"";
-				DEVELOPMENT_TEAM = 7YZM4XMXXU;
+				DEVELOPMENT_TEAM = 9XG4S4XZWN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Qapple/Info.plist;
@@ -1414,7 +1406,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Qapple/Preview Content\"";
-				DEVELOPMENT_TEAM = 7YZM4XMXXU;
+				DEVELOPMENT_TEAM = 9XG4S4XZWN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Qapple/Info.plist;
