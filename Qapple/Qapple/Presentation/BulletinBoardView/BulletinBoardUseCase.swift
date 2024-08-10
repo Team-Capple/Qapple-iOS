@@ -36,6 +36,8 @@ extension BulletinBoardUseCase {
     
     enum Effect {
         case likePost(postIndex: Int)
+        case removePost(postIndex: Int)
+        case reportPost(postIndex: Int)
     }
     
     func effect(_ effect: Effect) {
@@ -43,6 +45,12 @@ extension BulletinBoardUseCase {
         case .likePost(let postIndex):
             print("\(postIndex)번째 게시글 좋아요 업데이트")
             // TODO: 네트워킹 좋아요 업데이트
+            
+        case .removePost(postIndex: let postIndex):
+            print("\(postIndex)번째 게시글 삭제")
+            
+        case .reportPost(postIndex: let postIndex):
+            print("\(postIndex)번째 게시글 신고")
         }
     }
 }
@@ -51,37 +59,42 @@ extension BulletinBoardUseCase {
 
 private let dummyPosts: [Post] = [
     Post(anonymityIndex: 1,
-         content: "오늘 날씨가 정말 좋네요!",
+         isMine: true,
+         content: "오늘은 새로운 Swift 기능을 배웠어요!",
          isLike: true,
-         likeCount: 10,
-         commentCount: 2,
+         likeCount: 12,
+         commentCount: 3,
          writingDate: Date()),
     
     Post(anonymityIndex: 2,
-         content: "Swift 공부하는 중인데, 어렵지만 재밌어요.",
+         isMine: false,
+         content: "좋아하는 밴드의 콘서트가 곧 열려요. 기대됩니다!",
          isLike: false,
-         likeCount: 3,
-         commentCount: 0,
+         likeCount: 5,
+         commentCount: 1,
          writingDate: Date().addingTimeInterval(-86400)),
     
     Post(anonymityIndex: 3,
-         content: "좋아하는 책이 영화로 나온다니 기대되네요!",
+         isMine: false,
+         content: "오늘은 조용히 책을 읽으며 시간을 보냈어요.",
          isLike: true,
-         likeCount: 15,
-         commentCount: 5,
+         likeCount: 8,
+         commentCount: 0,
          writingDate: Date().addingTimeInterval(-172800)),
     
     Post(anonymityIndex: 4,
-         content: "오늘 만든 요리가 정말 맛있었어요. 다음에 또 만들어야겠어요.",
+         isMine: true,
+         content: "친구들과 함께하는 저녁 식사, 정말 즐거웠어요!",
          isLike: false,
-         likeCount: 7,
-         commentCount: 1,
+         likeCount: 20,
+         commentCount: 4,
          writingDate: Date().addingTimeInterval(-259200)),
     
     Post(anonymityIndex: 5,
-         content: "친구들과 오랜만에 만나서 즐거운 시간을 보냈습니다.",
+         isMine: false,
+         content: "새로운 프로젝트를 시작했어요. 앞으로 기대가 됩니다.",
          isLike: true,
-         likeCount: 20,
-         commentCount: 8,
+         likeCount: 7,
+         commentCount: 2,
          writingDate: Date().addingTimeInterval(-345600))
 ]

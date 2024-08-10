@@ -12,10 +12,15 @@ import SwiftUI
 struct BulletinBoardCell: View {
     
     let post: Post
+    let seeMoreAction: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HeaderView(post: post)
+            HeaderView(
+                post: post,
+                seeMoreAction: seeMoreAction
+            )
+            
             ContentView(post: post)
         }
         .padding(16)
@@ -28,6 +33,7 @@ struct BulletinBoardCell: View {
 private struct HeaderView: View {
     
     let post: Post
+    let seeMoreAction: () -> Void
     
     var body: some View {
         HStack(spacing: 8) {
@@ -42,7 +48,7 @@ private struct HeaderView: View {
             Spacer()
             
             Button {
-                // TODO: 더보기 액션
+                seeMoreAction()
             } label: {
                 Image(systemName: "ellipsis")
                     .resizable()
@@ -101,6 +107,7 @@ private struct RemoteView: View {
                     bulletinBoardUseCase.effect(.likePost(postIndex: post.anonymityIndex))
                 }
             )
+            
             CommentButton(post: post)
         }
     }
@@ -149,11 +156,12 @@ private struct RemoteView: View {
     BulletinBoardCell(
         post: Post(
             anonymityIndex: 0,
+            isMine: true,
             content: "다들 매크로 팀원 조합 어떠신가요?",
             isLike: true,
             likeCount: 4,
             commentCount: 1,
             writingDate: .now
         )
-    )
+    ) {}
 }

@@ -10,6 +10,7 @@ import Foundation
 struct Post: Identifiable {
     let id = UUID()
     let anonymityIndex: Int
+    let isMine: Bool
     let content: String
     let isLike: Bool
     let likeCount: Int

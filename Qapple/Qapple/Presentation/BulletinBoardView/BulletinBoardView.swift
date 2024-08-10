@@ -68,13 +68,28 @@ private struct PostListView: View {
     
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
+    @State private var selectedPost: Post?
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
                 ForEach(bulletinBoardUseCase._state.posts) { post in
-                    BulletinBoardCell(post: post)
+                    BulletinBoardCell(
+                        post: post,
+                        seeMoreAction: {
+                            selectedPost = post
+                        }
+                    )
                 }
             }
+        }
+        .sheet(item: $selectedPost) { post in
+            BulletinBoardSeeMoreSheetView(
+                sheetType: post.isMine ? .mine : .others,
+                post: post
+            )
+            .presentationDetents([.height(84)])
+            .presentationDragIndicator(.visible)
         }
     }
 }
