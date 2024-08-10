@@ -25,9 +25,11 @@ struct BulletinBoardView: View {
             .padding(.top, 20)
             .padding(.horizontal, 22)
             
-            Spacer()
+            PostListView()
+                .padding(.top, 20)
         }
         .background(Background.first)
+        .environmentObject(bulletinBoardUseCase)
     }
 }
 
@@ -57,6 +59,23 @@ private struct NavigationBar: View {
             )
         }
         .frame(height: 32)
+    }
+}
+
+// MARK: - PostListView
+
+private struct PostListView: View {
+    
+    @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
+    
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                ForEach(bulletinBoardUseCase._state.posts) { post in
+                    BulletinBoardCell(post: post)
+                }
+            }
+        }
     }
 }
 

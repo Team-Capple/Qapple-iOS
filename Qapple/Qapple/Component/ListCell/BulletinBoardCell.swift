@@ -12,15 +12,10 @@ import SwiftUI
 struct BulletinBoardCell: View {
     
     let post: Post
-    let seeMoreAction: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HeaderView(
-                post: post,
-                seeMoreAction: seeMoreAction
-            )
-            
+            HeaderView(post: post)
             ContentView(post: post)
         }
         .padding(16)
@@ -33,7 +28,6 @@ struct BulletinBoardCell: View {
 private struct HeaderView: View {
     
     let post: Post
-    let seeMoreAction: () -> Void
     
     var body: some View {
         HStack(spacing: 8) {
@@ -48,7 +42,7 @@ private struct HeaderView: View {
             Spacer()
             
             Button {
-                seeMoreAction()
+                // TODO: 더보기 액션
             } label: {
                 Image(systemName: "ellipsis")
                     .resizable()
@@ -95,31 +89,34 @@ private struct ContentView: View {
 
 private struct RemoteView: View {
     
+    @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
+    
     let post: Post
     
     var body: some View {
         HStack {
             LikeButton(
-                isLike: post.isLike,
-                likeCount: post.likeCount
+                post: post,
+                tapAction: {
+                    bulletinBoardUseCase.effect(.likePost(postIndex: post.anonymityIndex))
+                }
             )
-            
-            CommentButton(commentCount: post.commentCount)
+            CommentButton(post: post)
         }
     }
     
     struct LikeButton: View {
-        let isLike: Bool
-        let likeCount: Int
+        let post: Post
+        let tapAction: () -> Void
         
         var body: some View {
             Button {
-                // TODO: 좋아요 탭
+                tapAction()
             } label: {
                 HStack(spacing: 4) {
-                    Image(isLike ? .heartActive : .heart)
+                    Image(post.isLike ? .heartActive : .heart)
                     
-                    Text("\(likeCount)")
+                    Text("\(post.likeCount)")
                         .pretendard(.regular, 13)
                         .foregroundStyle(TextLabel.sub3)
                 }
@@ -128,7 +125,7 @@ private struct RemoteView: View {
     }
     
     struct CommentButton: View {
-        let commentCount: Int
+        let post: Post
         
         var body: some View {
             Button {
@@ -137,7 +134,7 @@ private struct RemoteView: View {
                 HStack(spacing: 4) {
                     Image(.comment)
                     
-                    Text("\(commentCount)")
+                    Text("\(post.commentCount)")
                         .pretendard(.regular, 13)
                         .foregroundStyle(TextLabel.sub3)
                 }
@@ -158,5 +155,5 @@ private struct RemoteView: View {
             commentCount: 1,
             writingDate: .now
         )
-    ) {}
+    )
 }

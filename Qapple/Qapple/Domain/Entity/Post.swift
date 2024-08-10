@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Post {
+struct Post: Identifiable {
+    let id = UUID()
     let anonymityIndex: Int
     let content: String
     let isLike: Bool
