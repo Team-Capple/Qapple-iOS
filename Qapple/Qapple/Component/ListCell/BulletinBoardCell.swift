@@ -11,28 +11,17 @@ import SwiftUI
 
 struct BulletinBoardCell: View {
     
-    let anonymity: String
-    let content: String
-    let isLike: Bool
-    let likeCount: Int
-    let commentCount: Int
-    let writingDate: Date
+    let post: Post
     let seeMoreAction: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HeaderView(
-                anonymity: anonymity,
+                post: post,
                 seeMoreAction: seeMoreAction
             )
             
-            ContentView(
-                content: content,
-                isLike: isLike,
-                likeCount: likeCount,
-                commentCount: commentCount,
-                writingDate: writingDate
-            )
+            ContentView(post: post)
         }
         .padding(16)
         .background(Background.first)
@@ -43,7 +32,7 @@ struct BulletinBoardCell: View {
 
 private struct HeaderView: View {
     
-    let anonymity: String
+    let post: Post
     let seeMoreAction: () -> Void
     
     var body: some View {
@@ -52,7 +41,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text(anonymity)
+            Text("아무개 \(post.anonymityIndex + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
             
@@ -75,11 +64,7 @@ private struct HeaderView: View {
 
 private struct ContentView: View {
     
-    let content: String
-    let isLike: Bool
-    let likeCount: Int
-    let commentCount: Int
-    let writingDate: Date
+    let post: Post
     
     var body: some View {
         HStack(spacing: 8) {
@@ -88,20 +73,16 @@ private struct ContentView: View {
                 .frame(width: 28, height: 28)
             
             VStack(alignment: .leading, spacing: 0) {
-                Text(content)
+                Text(post.content)
                     .pretendard(.medium, 16)
                     .foregroundStyle(TextLabel.main)
                     .padding(.top, 2)
                 
-                RemoteView(
-                    isLike: isLike,
-                    likeCount: likeCount,
-                    commentCount: commentCount
-                )
-                .padding(.top, 12)
+                RemoteView(post: post)
+                    .padding(.top, 12)
                 
                 // TODO: 댓글 작성일 포맷 변경
-                Text("\(writingDate.fullDate)")
+                Text("\(post.writingDate.fullDate)")
                     .pretendard(.regular, 14)
                     .foregroundStyle(TextLabel.sub4)
                     .padding(.top, 8)
@@ -114,18 +95,16 @@ private struct ContentView: View {
 
 private struct RemoteView: View {
     
-    let isLike: Bool
-    let likeCount: Int
-    let commentCount: Int
+    let post: Post
     
     var body: some View {
         HStack {
             LikeButton(
-                isLike: isLike,
-                likeCount: likeCount
+                isLike: post.isLike,
+                likeCount: post.likeCount
             )
             
-            CommentButton(commentCount: commentCount)
+            CommentButton(commentCount: post.commentCount)
         }
     }
     
@@ -171,14 +150,13 @@ private struct RemoteView: View {
 
 #Preview {
     BulletinBoardCell(
-        anonymity: "아무개 2",
-        content: "다들 매크로 팀원 조합 어떠신가요?",
-        isLike: true,
-        likeCount: 4,
-        commentCount: 1,
-        writingDate: .now,
-        seeMoreAction: {
-            
-        }
-    )
+        post: Post(
+            anonymityIndex: 0,
+            content: "다들 매크로 팀원 조합 어떠신가요?",
+            isLike: true,
+            likeCount: 4,
+            commentCount: 1,
+            writingDate: .now
+        )
+    ) {}
 }

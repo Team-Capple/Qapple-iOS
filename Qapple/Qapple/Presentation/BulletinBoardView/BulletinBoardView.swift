@@ -10,14 +10,17 @@ import SwiftUI
 // MARK: - BulletinBoardView
 
 struct BulletinBoardView: View {
+    
+    @StateObject private var bulletinBoardUseCase = BulletinBoardUseCase()
+    
     var body: some View {
         VStack(spacing: 0) {
             NavigationBar()
                 .padding(.horizontal, 16)
             
             AcademyPlanDayCounter(
-                currentEvent: "Prologue", // TODO: 실제 값
-                progress: 0.47 // TODO: 실제 값
+                currentEvent: bulletinBoardUseCase._state.currentEvent,
+                progress: bulletinBoardUseCase._state.progress
             )
             .padding(.top, 20)
             .padding(.horizontal, 22)
