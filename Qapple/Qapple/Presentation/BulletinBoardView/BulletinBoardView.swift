@@ -30,6 +30,9 @@ struct BulletinBoardView: View {
         }
         .background(Background.first)
         .environmentObject(bulletinBoardUseCase)
+        .refreshable {
+            // TODO: 데이터 새로 불러오기
+        }
     }
 }
 
