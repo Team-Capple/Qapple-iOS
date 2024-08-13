@@ -23,6 +23,11 @@ struct ServerResponse: Codable {
             var tags: String
             var isMyAnswer: Bool
             var isReported: Bool
+            
+            let isLike: Bool
+            let likeCount: Int
+            let commentCount: Int
+            let writingDate: Date
         }
     }
 }

@@ -6,34 +6,34 @@
 //
 
 import SwiftUI
-import FlexView
 
 struct AnswerCell: View {
     
-    var profileName: String
-    var profileImage: String?
-    var answer: String
-    var keywords: [String]
+    let anonymity: String
+    let content: String
+    let isLike: Bool
+    let likeCount: Int
+    let commentCount: Int
+    let writingDate: Date
     let isReported: Bool
     let seeMoreAction: () -> Void
     
     var body: some View {
         if isReported {
             ReportAnswerCell(
-                profileName: profileName,
-                profileImage: profileImage,
-                answer: answer,
-                keywords: keywords,
+                anonymity: anonymity,
+                content: content,
                 isReported: isReported,
                 seeMoreAction: seeMoreAction
             )
         } else {
             NormalAnswerCell(
-                profileName: profileName,
-                profileImage: profileImage,
-                answer: answer,
-                keywords: keywords,
-                isReported: isReported,
+                anonymity: anonymity,
+                content: content,
+                isLike: isLike,
+                likeCount: likeCount,
+                commentCount: commentCount,
+                writingDate: writingDate,
                 seeMoreAction: seeMoreAction
             )
         }
@@ -41,82 +41,44 @@ struct AnswerCell: View {
 }
 
 // MARK: - NormalAnswerCell
+
 private struct NormalAnswerCell: View {
     
-    var profileName: String
-    var profileImage: String?
-    var answer: String
-    var keywords: [String]
-    let isReported: Bool
+    let anonymity: String
+    let content: String
+    let isLike: Bool
+    let likeCount: Int
+    let commentCount: Int
+    let writingDate: Date
     let seeMoreAction: () -> Void
     
     var body: some View {
-        VStack {
-            HStack {
-                Image(
-                    profileImage != nil && !profileImage!.isEmpty ?
-                    profileImage! : "profileDummyImage"
-                )
-                .resizable()
-                .frame(width: 28, height: 28)
-                
-                Spacer()
-                    .frame(width: 8)
-                
-                Text(profileName)
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(TextLabel.sub2)
-                    .frame(height: 10)
-                
-                Spacer()
-                
-                Button {
-                    seeMoreAction()
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(TextLabel.sub2)
-                        .frame(width: 20, height: 20)
-                }
-            }
+        VStack(alignment: .leading, spacing: 0) {
+            HeaderView(
+                anonymity: anonymity,
+                seeMoreAction: seeMoreAction
+            )
             
-            Spacer()
-                .frame(height: 8)
-            
-            VStack(alignment: .leading) {
-                
-                Text(answer)
-                    .font(.pretendard(.medium, size: 16))
-                    .foregroundStyle(TextLabel.main)
-                    .lineSpacing(6)
-                    .multilineTextAlignment(.leading)
-                
-                Spacer()
-                    .frame(height: 12)
-                
-                // TODO: 라이브러리 사용해버렸습니다,, 나중에 공부하면서 수정해보기
-                FlexView(data: keywords, spacing: 8, alignment: .leading) { keyword in
-                    Text("#\(keyword)")
-                        .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(BrandPink.text)
-                        .frame(height: 10)
-                        .frame(maxWidth: 240)
-                }
-            }
-            .padding(.leading, 36)
+            ContentView(
+                content: content,
+                isLike: isLike,
+                likeCount: likeCount,
+                commentCount: commentCount,
+                writingDate: writingDate
+            )
         }
         .padding(24)
     }
 }
 
 // MARK: - ReportAnswerCell
+
 private struct ReportAnswerCell: View {
     
     @State private var isReportContentShow = false
     
-    var profileName: String
-    var profileImage: String?
-    var answer: String
-    var keywords: [String]
+    var anonymity: String
+    var content: String
     let isReported: Bool
     let seeMoreAction: () -> Void
     
@@ -149,17 +111,14 @@ private struct ReportAnswerCell: View {
         } else {
             VStack {
                 HStack {
-                    Image(
-                        profileImage != nil && !profileImage!.isEmpty ?
-                        profileImage! : "profileDummyImage"
-                    )
+                    Image("profileDummyImage")
                     .resizable()
                     .frame(width: 28, height: 28)
                     
                     Spacer()
                         .frame(width: 8)
                     
-                    Text(profileName)
+                    Text(anonymity)
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(TextLabel.sub2)
                         .frame(height: 10)
@@ -180,7 +139,7 @@ private struct ReportAnswerCell: View {
                 
                 VStack(alignment: .leading) {
                     
-                    Text(answer)
+                    Text(content)
                         .font(.pretendard(.medium, size: 16))
                         .foregroundStyle(TextLabel.main)
                         .lineSpacing(6)
@@ -188,18 +147,132 @@ private struct ReportAnswerCell: View {
                     
                     Spacer()
                         .frame(height: 12)
-                    
-                    FlexView(data: keywords, spacing: 8, alignment: .leading) { keyword in
-                        Text("#\(keyword)")
-                            .font(.pretendard(.semiBold, size: 14))
-                            .foregroundStyle(BrandPink.text)
-                            .frame(height: 10)
-                            .frame(maxWidth: 240)
-                    }
                 }
                 .padding(.leading, 36)
             }
             .padding(24)
+        }
+    }
+}
+// MARK: - HeaderView
+
+private struct HeaderView: View {
+    let anonymity: String
+    let seeMoreAction: () -> Void
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            Image("profileDummyImage") // 기존 이미지 설정은 프사가 있었던 것 같은데 익명제로 동일 이미지를 사용할 것 같음
+                .resizable()
+                .frame(width: 28, height: 28)
+            
+            Text(anonymity)
+                .font(.pretendard(.semiBold, size: 14))
+                .foregroundStyle(TextLabel.sub2)
+                .frame(height: 10)
+            
+            Spacer()
+            
+            Button {
+                seeMoreAction()
+            } label: {
+                Image(systemName: "ellipsis")
+                    .foregroundStyle(TextLabel.sub2)
+                    .frame(width: 20, height: 20)
+            }
+        }
+    }
+}
+// MARK: - ContentView
+
+private struct ContentView: View {
+    
+    let content: String
+    let isLike: Bool
+    let likeCount: Int
+    let commentCount: Int
+    let writingDate: Date
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            Circle()
+                .foregroundStyle(.clear)
+                .frame(width: 28, height: 28)
+            
+            VStack(alignment: .leading, spacing: 0) { // spacing 0 의문?
+                Text(content)
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.main)
+                    .lineSpacing(6)
+                    .multilineTextAlignment(.leading)
+                
+                RemoteView(
+                    isLike: isLike,
+                    likeCount: likeCount,
+                    commentCount: commentCount
+                )
+                
+                Text("\(writingDate.fullDate)")
+                    .font(.pretendard(.regular, size: 14))
+                    .foregroundStyle(TextLabel.sub4)
+                    .padding(.top, 8)
+            }
+        }
+    }
+}
+// MARK: - RemoteView
+
+private struct RemoteView: View {
+    
+    let isLike: Bool
+    let likeCount: Int
+    let commentCount: Int
+    
+    var body: some View {
+        HStack {
+            LikeButton(
+                isLike: isLike,
+                likeCount: likeCount
+            )
+            
+            CommentButton(commentCount: commentCount)
+        }
+    }
+    
+    struct LikeButton: View {
+        let isLike: Bool
+        let likeCount: Int
+        
+        var body: some View {
+            Button {
+                // TODO: 좋아요 탭
+            } label: {
+                HStack(spacing: 4) {
+                    Image(isLike ? .heartActive : .heart)
+                    
+                    Text("\(likeCount)")
+                        .font(.pretendard(.regular, size: 13))
+                        .foregroundStyle(TextLabel.sub3)
+                }
+            }
+        }
+    }
+    
+    struct CommentButton: View {
+        let commentCount: Int
+        
+        var body: some View {
+            Button {
+                // TODO: 댓글 화면 present
+            } label: {
+                HStack(spacing: 4) {
+                    Image(.comment) // 이미지 변경!
+                    
+                    Text("\(commentCount)")
+                        .font(.pretendard(.regular, size: 13))
+                        .foregroundStyle(TextLabel.sub3)
+                }
+            }
         }
     }
 }
@@ -210,10 +283,13 @@ private struct ReportAnswerCell: View {
             .ignoresSafeArea()
         
         AnswerCell(
-            profileName: "와플대학",
-            answer: "답변입니다.",
-            keywords: ["첫번째키워드", "두번째키워드", "asdadasdasdasdasdasdasdasdadasdasasddaasdasd"],
-            isReported: true,
+            anonymity: "아무개",
+            content: "지금 누가 팀이 있고 없는지 궁금해요",
+            isLike: true,
+            likeCount: 32,
+            commentCount: 32,
+            writingDate: Date(),
+            isReported: false,
             seeMoreAction: {}
         )
     }

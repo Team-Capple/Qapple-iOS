@@ -218,7 +218,7 @@ private struct AnswerPreview: View {
                 .padding(.bottom, -720)
             
             // 답변 리스트 유무에 따른 화면 분기
-            if viewModel.answerList.isEmpty {
+            if !viewModel.answerList.isEmpty {
                 HStack {
                     Spacer()
                     
@@ -281,14 +281,27 @@ private struct AnswerPreview: View {
                     ForEach(viewModel.answerList, id: \.self) { answer in
                         VStack {
                             AnswerCell(
-                                profileName: answer.nickname,
-                                answer: answer.content,
-                                keywords: answer.tags.splitTag,
+                                anonymity: answer.nickname,
+                                content: answer.content,
+                                isLike: answer.isLike,
+                                likeCount: answer.likeCount,
+                                commentCount: answer.commentCount,
+                                writingDate: answer.writingDate,
                                 isReported: answer.isReported,
                                 seeMoreAction: {
                                     isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
                                 }
                             )
+                            
+//                            AnswerCell(
+//                                profileName: answer.nickname,
+//                                answer: answer.content,
+//                                keywords: answer.tags.splitTag,
+//                                isReported: answer.isReported,
+//                                seeMoreAction: {
+//                                    isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
+//                                }
+//                            )
                             
                             Separator()
                                 .padding(.leading, 24)
