@@ -40,7 +40,7 @@ struct SearchResultView: View {
         
         var body: some View {
             HStack {
-                Text("지금까지의 질문을\n모아뒀어요")
+                Text("지금까지의 질문과\n답변을 모아뒀어요")
                     .font(.pretendard(.bold, size: 24))
                     .foregroundStyle(TextLabel.main)
                     .padding(.horizontal, 24)
@@ -49,7 +49,7 @@ struct SearchResultView: View {
                 
                 Spacer()
             }
-            .background(Background.second)
+            .background(Background.first)
         }
     }
     
@@ -72,7 +72,7 @@ struct SearchResultView: View {
         
         var body: some View {
             
-            VStack(spacing: 20) {
+            VStack(spacing: 11) {
                 
                 HStack(alignment: .top) {
                     Text("\(viewModel.questions.count)개의 질문")
@@ -87,9 +87,14 @@ struct SearchResultView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 24) {
-                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
-                            VStack(spacing: 20) {
-                                QuestionCell(question: question, questionNumber: viewModel.questions.count - index) {
+                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) {
+                            index,
+                            question in
+                            VStack {
+                                QuestionCell(
+                                    question: question,
+                                    questionNumber: viewModel.questions.count - index
+                                ) {
                                     isBottomSheetPresented.toggle()
                                 }
                                 .onTapGesture {
@@ -116,10 +121,15 @@ struct SearchResultView: View {
                                 } message: {
                                     Text("즐거운 커뮤니티 운영을 위해\n여러분의 답변을 들려주세요")
                                 }
-                                .padding(.horizontal, 24)
+                                .padding(.leading, 24)
+                                .padding(.trailing, question.questionStatus == .live ? 0 : 24)
                                 
-                                Separator()
-                                    .padding(.leading, 24)
+                                if question.questionStatus != .live {
+                                    Separator()
+                                        .padding(.leading, 24)
+                                        .padding(.top, 20)
+                                }
+                                
                             }
                         }
                     }
