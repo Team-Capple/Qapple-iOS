@@ -212,7 +212,7 @@ private struct ContentView: View {
                     commentCount: commentCount
                 )
                 
-                Text("\(writingDate.fullDate)")
+                Text("\(writingDate.fullDate)") // TODO: 시간 수정 필요!
                     .font(.pretendard(.regular, size: 14))
                     .foregroundStyle(TextLabel.sub4)
                     .padding(.top, 8)
@@ -266,7 +266,7 @@ private struct RemoteView: View {
                 // TODO: 댓글 화면 present
             } label: {
                 HStack(spacing: 4) {
-                    Image(.comment) // 이미지 변경!
+                    Image(.comment) // TODO: 이미지 변경
                     
                     Text("\(commentCount)")
                         .font(.pretendard(.regular, size: 13))
