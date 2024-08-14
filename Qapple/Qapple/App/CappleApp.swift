@@ -16,7 +16,8 @@ struct CappleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView(authViewModel: authViewModel)
+            BulletinBoardView()
+            // MainView(authViewModel: authViewModel)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
