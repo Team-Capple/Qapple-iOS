@@ -107,7 +107,12 @@ struct SingleAnswerView: View {
             content: "답변입니다.",
             tags: "태그1 태그2 태그3 태그4",
             isMyAnswer: true,
-            isReported: false
+            isReported: false,
+            
+            isLike: true,
+            likeCount: 32,
+            commentCount: 32,
+            writingDate: Date()
         ),
         isReported: false,
         seeMoreAction: {}

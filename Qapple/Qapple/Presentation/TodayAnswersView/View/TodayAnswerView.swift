@@ -192,17 +192,27 @@ private struct AnswerScrollView: View {
                 answer in
                 VStack{
                     AnswerCell(
-                        profileName: answer.nickname,
-                        answer: answer.content,
-                        keywords: answer.tags.splitTag,
+                        anonymity: answer.nickname,
+                        content: answer.content,
+                        isLike: answer.isLike,
+                        likeCount: answer.likeCount,
+                        commentCount: answer.commentCount,
+                        writingDate: answer.writingDate,
                         isReported: answer.isReported,
                         seeMoreAction: {
-                            isMyAnswer = .init(
-                                answerId: answer.answerId,
-                                isMine: answer.isMyAnswer
-                            )
+                            isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
                         }
                     )
+                    
+//                    AnswerCell(
+//                        profileName: answer.nickname,
+//                        answer: answer.content,
+//                        keywords: answer.tags.splitTag,
+//                        isReported: answer.isReported,
+//                        seeMoreAction: {
+//                            isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
+//                        }
+//                    )
                     
                     Separator()
                         .padding(.leading, 24)

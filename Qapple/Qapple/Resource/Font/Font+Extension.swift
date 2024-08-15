@@ -24,30 +24,3 @@ extension Font {
     }
 }
 
-struct PretendardModifier: ViewModifier {
-    
-    /// Pretendard 폰트명 열거형
-    enum FontWeight: String {
-        case extraBold = "Pretendard-ExtraBold"
-        case bold = "Pretendard-Bold"
-        case semiBold = "Pretendard-SemiBold"
-        case medium = "Pretendard-Medium"
-        case regular = "Pretendard-Regular"
-    }
-    
-    var weight: FontWeight
-    var size: CGFloat
-    
-    func body(content: Content) -> some View {
-        content
-            .font(.custom(weight.rawValue, size: size))
-    }
-}
-
-extension View {
-    
-    /// 프리텐다드 커스텀 폰트를 적용 후 반환합니다.
-    func pretendard(_ weight: PretendardModifier.FontWeight, _ size: CGFloat) -> some View {
-        modifier(PretendardModifier(weight: weight, size: size))
-    }
-}
