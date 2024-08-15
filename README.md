@@ -1,4 +1,4 @@
-# 🥕 Capple-iOS
+# 🥕 Qapple-iOS
 
 ### 👏 Git Conventions
 > 동료를 위해, 나를 위해 같이 열심히 지켜봐요!
