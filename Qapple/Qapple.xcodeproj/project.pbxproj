@@ -67,6 +67,8 @@
 		828715C02B9AC866001627DB /* AnswerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715BF2B9AC866001627DB /* AnswerRequest.swift */; };
 		828715C22B9AC91A001627DB /* AnswerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715C12B9AC91A001627DB /* AnswerResponse.swift */; };
 		828715C82B9BFB9E001627DB /* MainPathModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828715C72B9BFB9E001627DB /* MainPathModel.swift */; };
+		828908F92C6DCD3500C7F6CD /* BulletinPostingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828908F82C6DCD3500C7F6CD /* BulletinPostingUseCase.swift */; };
+		828908FB2C6DCD4E00C7F6CD /* BulletinPostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828908FA2C6DCD4E00C7F6CD /* BulletinPostingView.swift */; };
 		828A03D92BAAC79A0038CF91 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A03D82BAAC79A0038CF91 /* ProfileEditViewModel.swift */; };
 		828A03DB2BAB36F80038CF91 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A03DA2BAB36F80038CF91 /* NotificationManager.swift */; };
 		828A03DF2BAC09EF0038CF91 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A03DE2BAC09EF0038CF91 /* LoadingView.swift */; };
@@ -209,6 +211,8 @@
 		828715BF2B9AC866001627DB /* AnswerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerRequest.swift; sourceTree = "<group>"; };
 		828715C12B9AC91A001627DB /* AnswerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerResponse.swift; sourceTree = "<group>"; };
 		828715C72B9BFB9E001627DB /* MainPathModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPathModel.swift; sourceTree = "<group>"; };
+		828908F82C6DCD3500C7F6CD /* BulletinPostingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinPostingUseCase.swift; sourceTree = "<group>"; };
+		828908FA2C6DCD4E00C7F6CD /* BulletinPostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinPostingView.swift; sourceTree = "<group>"; };
 		828A03D82BAAC79A0038CF91 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		828A03DA2BAB36F80038CF91 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		828A03DE2BAC09EF0038CF91 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -547,6 +551,15 @@
 				8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */,
 			);
 			path = AppleLogin;
+			sourceTree = "<group>";
+		};
+		828908F72C6DCD1700C7F6CD /* BulletinPostingView */ = {
+			isa = PBXGroup;
+			children = (
+				828908FA2C6DCD4E00C7F6CD /* BulletinPostingView.swift */,
+				828908F82C6DCD3500C7F6CD /* BulletinPostingUseCase.swift */,
+			);
+			path = BulletinPostingView;
 			sourceTree = "<group>";
 		};
 		828A03D72BAAC7930038CF91 /* ViewModel */ = {
@@ -951,6 +964,7 @@
 				074818FD2B8F3DB900380F14 /* SeeMoreView */,
 				82D2BD492C67302700082A58 /* BulletinBoardView */,
 				823736AF2C6771C40057B9CF /* BulletinSearchView */,
+				828908F72C6DCD1700C7F6CD /* BulletinPostingView */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -1133,6 +1147,7 @@
 			files = (
 				F3D452D12B8A55BD000BA51C /* ProfileEditView.swift in Sources */,
 				8247172E2BC8D865005E9631 /* IsMyAnswer.swift in Sources */,
+				828908FB2C6DCD4E00C7F6CD /* BulletinPostingView.swift in Sources */,
 				8295BDAE2BA1CD8F00115FA8 /* SignUpPrivacyView.swift in Sources */,
 				F36B0EEB2B8655AE009EBE1D /* MainView.swift in Sources */,
 				82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */,
@@ -1198,6 +1213,7 @@
 				8280CA7A2C5F1F2C00AC07B9 /* AppleLoginService.swift in Sources */,
 				82CDA77B2BB2F3A30031AEB4 /* AnonymityNoticeView.swift in Sources */,
 				82CDA7722BB169EA0031AEB4 /* CompleteAnswerView.swift in Sources */,
+				828908F92C6DCD3500C7F6CD /* BulletinPostingUseCase.swift in Sources */,
 				82C3791B2B93499300CC7708 /* Alert.swift in Sources */,
 				828A03DB2BAB36F80038CF91 /* NotificationManager.swift in Sources */,
 				F36F37C32B9B7A29002EC36B /* AppleLoginButton.swift in Sources */,
