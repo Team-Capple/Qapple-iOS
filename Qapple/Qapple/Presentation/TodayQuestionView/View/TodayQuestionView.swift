@@ -281,9 +281,12 @@ private struct AnswerPreview: View {
                     ForEach(viewModel.answerList, id: \.self) { answer in
                         VStack {
                             AnswerCell(
-                                profileName: answer.nickname,
-                                answer: answer.content,
-                                keywords: answer.tags.splitTag,
+                                anonymity: answer.nickname,
+                                content: answer.content,
+                                isLike: answer.isLike,
+                                likeCount: answer.likeCount,
+                                commentCount: answer.commentCount,
+                                writingDate: answer.writingDate,
                                 isReported: answer.isReported,
                                 seeMoreAction: {
                                     isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)

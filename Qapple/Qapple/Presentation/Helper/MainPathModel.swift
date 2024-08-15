@@ -33,6 +33,7 @@ enum PathType: Hashable {
     case writtenAnswer
     
     // 알림 및 신고
+    case notifications
     case alert
     case report(answerId: Int)
 }
