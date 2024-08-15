@@ -102,6 +102,8 @@
 		82D583B92B9852C4003CC424 /* QuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583B82B9852C4003CC424 /* QuestionResponse.swift */; };
 		82D583BB2B985462003CC424 /* NetworkManager+Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583BA2B985462003CC424 /* NetworkManager+Question.swift */; };
 		82D583BD2B9859D7003CC424 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583BC2B9859D7003CC424 /* NetworkError.swift */; };
+		82F7041D2C6DD15000479206 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F7041C2C6DD15000479206 /* TabBar.swift */; };
+		82F7041F2C6DD29D00479206 /* TabType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F7041E2C6DD29D00479206 /* TabType.swift */; };
 		82FD93692C673E96007977D0 /* BulletinBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD93682C673E96007977D0 /* BulletinBoardCell.swift */; };
 		F36B0EEB2B8655AE009EBE1D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EEA2B8655AE009EBE1D /* MainView.swift */; };
 		F36B0EFA2B86746D009EBE1D /* KeyboardReadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */; };
@@ -247,6 +249,8 @@
 		82D583B82B9852C4003CC424 /* QuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionResponse.swift; sourceTree = "<group>"; };
 		82D583BA2B985462003CC424 /* NetworkManager+Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Question.swift"; sourceTree = "<group>"; };
 		82D583BC2B9859D7003CC424 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		82F7041C2C6DD15000479206 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		82F7041E2C6DD29D00479206 /* TabType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabType.swift; sourceTree = "<group>"; };
 		82FD93682C673E96007977D0 /* BulletinBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardCell.swift; sourceTree = "<group>"; };
 		F36B0EEA2B8655AE009EBE1D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F36B0EF92B86746D009EBE1D /* KeyboardReadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardReadable.swift; sourceTree = "<group>"; };
@@ -656,11 +660,21 @@
 		82D2BD4C2C6731B700082A58 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				82F7041B2C6DD14700479206 /* TabBar */,
 				823736B22C6773790057B9CF /* Input */,
 				82FD93662C673E76007977D0 /* Info */,
 				82FD93652C673E63007977D0 /* Toolbar */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		82F7041B2C6DD14700479206 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				82F7041E2C6DD29D00479206 /* TabType.swift */,
+				82F7041C2C6DD15000479206 /* TabBar.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		82FD93652C673E63007977D0 /* Toolbar */ = {
@@ -1168,6 +1182,7 @@
 				825226EF2BA9A7D8006998E8 /* MailView.swift in Sources */,
 				824717302BC913B9005E9631 /* ReportRequest.swift in Sources */,
 				F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */,
+				82F7041D2C6DD15000479206 /* TabBar.swift in Sources */,
 				8295BDB82BA322E600115FA8 /* NetworkManager+Tag.swift in Sources */,
 				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
 				F37C17A92B8899BC005E5072 /* QuestionCell.swift in Sources */,
@@ -1245,6 +1260,7 @@
 				074819002B8F3DDE00380F14 /* SeeMoreView.swift in Sources */,
 				073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */,
 				824717342BC9144F005E9631 /* ReportType.swift in Sources */,
+				82F7041F2C6DD29D00479206 /* TabType.swift in Sources */,
 				F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */,
 				828715C02B9AC866001627DB /* AnswerRequest.swift in Sources */,
 				8295BDAA2BA04D1300115FA8 /* SignUpEmailView.swift in Sources */,
