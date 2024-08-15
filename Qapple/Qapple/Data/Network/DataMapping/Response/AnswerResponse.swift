@@ -22,6 +22,11 @@ struct AnswerResponse {
             let tags: String
             let heartCount: Int
             let writeAt: String
+            
+            let isLike: Bool
+            let likeCount: Int
+            let commentCount: Int
+            let writingDate: Date
         }
     }
     
@@ -37,6 +42,11 @@ struct AnswerResponse {
             let tags: String // 키워드
             let isMyAnswer: Bool // 내가 작성한 답변인지 여부
             let isReported: Bool // 신고된 답변인지 여부
+            
+            let isLike: Bool
+            let likeCount: Int
+            let commentCount: Int
+            let writingDate: Date
         }
     }
     
