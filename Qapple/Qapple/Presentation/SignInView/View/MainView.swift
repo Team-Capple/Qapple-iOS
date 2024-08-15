@@ -74,6 +74,9 @@ private struct HomeView: View {
                     case .myPage:
                         MyPageView()
                         
+                    case .notifications:
+                        NotificationListView()
+                        
                     case let .profileEdit(nickname):
                         ProfileEditView(nickName: nickname)
                         
@@ -231,12 +234,13 @@ private struct CustomTabBar: View {
                 Spacer()
                 
                 Button {
-                    pathModel.paths.append(.myPage)
+                    pathModel.paths.append(.notifications)
                 } label: {
-                    Image(.capple)
+                    Image(systemName: "bell")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 32 , height: 32)
+                        .foregroundColor(.white)
+                        .frame(width: 20 , height: 26)
                 }
             }
             .padding(.trailing, 16)
