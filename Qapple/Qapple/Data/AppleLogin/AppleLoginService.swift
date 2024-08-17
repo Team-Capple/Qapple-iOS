@@ -17,13 +17,13 @@ struct AppleLoginService {
         appleIDProvider.getCredentialState(forUserID: userID ?? "") { (credentialState, error) in
             switch credentialState {
             case .authorized:
-                print("authorized")
-                print("액세스 토큰 값!\n\(try? SignInInfo.shared.token(.access))\n")
-                print("리프레쉬 토큰 값!\n\(try? SignInInfo.shared.token(.refresh))\n")
+                print("✅ [Auto Login Successed]\n")
+                print("✅ [AccessToken Successed]\n\(String(describing: try? SignInInfo.shared.token(.access)))\n")
+                print("✅ [RefreshToken Successed]\n\(String(describing: try? SignInInfo.shared.token(.refresh)))\n")
                 return completion(true)
                 
             case .revoked, .notFound:
-                print("자동 로그인 실패, 직접 로그인이 필요합니다.")
+                print("❌ [Auto Login Failed]\n")
                 return completion(false)
                 
             default: return completion(false)
