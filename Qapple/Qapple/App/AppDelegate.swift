@@ -35,6 +35,7 @@ class AppDelegate: NSObject, UIApplicationDelegate{
             application.registerUserNotificationSettings(settings)
         }
         
+        // APNs에 기기 등록을 요청
         application.registerForRemoteNotifications()
         
         
@@ -48,6 +49,8 @@ class AppDelegate: NSObject, UIApplicationDelegate{
     
     // fcm 토큰이 등록 되었을 때
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        // deviceToken을 Firebase 메세징에 전달해 APNs 토큰을 설정
         Messaging.messaging().apnsToken = deviceToken
     }
     
