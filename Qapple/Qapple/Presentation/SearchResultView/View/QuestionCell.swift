@@ -5,7 +5,7 @@ import Foundation
 // 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionCell: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
     let question: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
@@ -200,7 +200,7 @@ private struct ContentView: View {
 
 private struct AnswerButtonView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     
     let question: QuestionResponse.Questions.QuestionsInfos
     
@@ -210,8 +210,8 @@ private struct AnswerButtonView: View {
             
             if !question.isAnswered { // isAnswered가 false일 때만 표시
                 Button {
-                    pathModel.paths.append(
-                        .answer(
+                    pathModel.pushView(
+                        screen: QuestionListPathType.answer(
                             questionId: question.questionId ?? 0,
                             questionContent: question.content
                         )
@@ -245,5 +245,5 @@ extension Date {
 #Preview {
     QuestionCell(question: DummyData.questionsInfo,
                  questionNumber: 0) {}
-        .environmentObject(PathModel())
+        .environmentObject(Router(pathType: .questionList))
 }

@@ -11,34 +11,42 @@ import SwiftUI
 
 struct BulletinBoardView: View {
     
+    @EnvironmentObject private var pathModel: Router
     @StateObject private var bulletinBoardUseCase = BulletinBoardUseCase()
     
     var body: some View {
-        VStack(spacing: 0) {
-            NavigationBar()
-                .padding(.horizontal, 16)
-            
-            AcademyPlanDayCounter(
-                currentEvent: bulletinBoardUseCase._state.currentEvent,
-                progress: bulletinBoardUseCase._state.progress
-            )
-            .padding(.top, 20)
-            .padding(.horizontal, 22)
-            
-            PostListView()
+        NavigationStack(path: $pathModel.route) {
+            VStack(spacing: 0) {
+                NavigationBar()
+                    .padding(.horizontal, 16)
+                
+                AcademyPlanDayCounter(
+                    currentEvent: bulletinBoardUseCase._state.currentEvent,
+                    progress: bulletinBoardUseCase._state.progress
+                )
                 .padding(.top, 20)
+                .padding(.horizontal, 22)
+                
+                PostListView()
+                    .padding(.top, 20)
+            }
+            .background(Background.first)
+            .refreshable {
+                // TODO: 데이터 새로 불러오기
+            }
+            .navigationDestination(for: BulletinBoardPathType.self) { path in
+                pathModel.getNavigationDestination(view: path)
+            }
         }
-        .background(Background.first)
         .environmentObject(bulletinBoardUseCase)
-        .refreshable {
-            // TODO: 데이터 새로 불러오기
-        }
     }
 }
 
 // MARK: - NavigationBar
 
 private struct NavigationBar: View {
+    @EnvironmentObject private var pathModel: Router
+    
     var body: some View {
         HStack(spacing: 24) {
             Text("자유게시판")
@@ -51,6 +59,9 @@ private struct NavigationBar: View {
                 buttonType: .search,
                 tapAction: {
                     // TODO: 게시글 검색하기 View 이동
+                    pathModel.pushView(
+                        screen: BulletinBoardPathType.bulletinSearch
+                    )
                 }
             )
             
@@ -58,6 +69,9 @@ private struct NavigationBar: View {
                 buttonType: .plus,
                 tapAction: {
                     // TODO: 게시글 작성하기 View 이동
+                    pathModel.pushView(
+                        screen: BulletinBoardPathType.bulletinPosting
+                    )
                 }
             )
         }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AnswerView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @ObservedObject var viewModel: AnswerViewModel
     @State private var fontSize: CGFloat = 48
     @State private var isBackAlertPresented = false
@@ -32,7 +32,7 @@ struct AnswerView: View {
                         CustomNavigationBackButton(buttonType: .xmark) {
                             if self.viewModel.answer.isEmpty {
                                 viewModel.resetAnswerInfo()
-                                pathModel.paths.removeLast()
+                                pathModel.pop()
                             } else {
                                 isBackAlertPresented.toggle()
                             }
@@ -148,7 +148,7 @@ struct AnswerView: View {
                     Button("취소", role: .cancel) {}
                     Button("그만두기", role: .none) {
                         viewModel.resetAnswerInfo()
-                        pathModel.paths.removeLast()
+                        pathModel.pop()
                     }
                 }
             } message: {

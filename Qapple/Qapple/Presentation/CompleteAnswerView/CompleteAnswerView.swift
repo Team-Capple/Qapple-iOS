@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CompleteAnswerView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @ObservedObject var viewModel: AnswerViewModel
     
     @State private var isRegisterAnswerFailed = false
@@ -47,12 +47,11 @@ struct CompleteAnswerView: View {
                 Task {
                     do {
                         try await viewModel.requestRegisterAnswer()
-                        pathModel.paths.removeAll()
-                        pathModel.paths.append(
-                            .todayAnswer(
+                        pathModel.popToRoot()
+                        pathModel.pushView(
+                            screen: QuestionListPathType.todayAnswer(
                                 questionId: viewModel.questionId,
-                                questionContent: viewModel.questionContent
-                            )
+                                questionContent: viewModel.questionContent)
                         )
                         viewModel.resetAnswerInfo()
                     } catch {
@@ -77,5 +76,5 @@ struct CompleteAnswerView: View {
 
 #Preview {
     CompleteAnswerView(viewModel: .init())
-        .environmentObject(PathModel())
+        .environmentObject(Router(pathType: .questionList))
 }

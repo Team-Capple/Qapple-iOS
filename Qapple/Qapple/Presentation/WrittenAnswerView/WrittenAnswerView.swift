@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WrittenAnswerView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @StateObject private var viewModel: WrittenAnswerViewModel = .init()
     @State private var isBottomSheetPresented = false
     @State private var isMyAnswer: IsMyAnswer?
@@ -19,7 +19,7 @@ struct WrittenAnswerView: View {
             CustomNavigationBar(
                 leadingView:{
                     CustomNavigationBackButton(buttonType: .arrow) {
-                        pathModel.paths.removeLast()
+                        pathModel.pop()
                     }
                 },
                 principalView: {

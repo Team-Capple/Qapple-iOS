@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MainView: View {
-//    @State private var tabType: TabType = .questionList
     
     @ObservedObject private(set) var authViewModel: AuthViewModel
     @StateObject private var pathModel: PathModel = .init()
@@ -30,8 +29,8 @@ private struct MainTabView: View {
     @State private var tabType: TabType = .questionList
     
     @StateObject private var homePathModel: Router = .init(pathType: .questionList)
-//    @StateObject private var bulletinPathModel: Router = .init(type: .bulletinBoard)
-//    @StateObject private var myPagePathModel: Router = .init(type: .myProfile)
+    @StateObject private var bulletinPathModel: Router = .init(pathType: .bulletinBoard)
+    @StateObject private var myPagePathModel: Router = .init(pathType: .myProfile)
     
     var body: some View {
             VStack(spacing: 0) {
@@ -42,11 +41,14 @@ private struct MainTabView: View {
                     
                 case .bulletinBoard:
                     BulletinBoardView()
+                        .environmentObject(bulletinPathModel)
                     
                 case .myProfile:
                     MyPageView()
+                        .environmentObject(myPagePathModel)
                 }
                 
+                // TODO: 특정 뷰에서 Tab 숨기기
                 TabBar(tabType: $tabType)
             }
     }
@@ -55,16 +57,15 @@ private struct MainTabView: View {
 // MARK: - 홈 뷰
 private struct HomeView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @StateObject var authViewModel: AuthViewModel = .init()
     @StateObject var answerViewModel: AnswerViewModel = .init()
     
-    @EnvironmentObject var homePathModel: Router
     
     @State private var tab: Tab = .todayQuestion
     
     var body: some View {
-        NavigationStack(path: /*$pathModel.paths*/ $homePathModel.route) {
+        NavigationStack(path: $pathModel.route) {
             VStack(spacing: 0) {
                 CustomTabBar(tab: $tab)
                 
@@ -122,7 +123,7 @@ private struct HomeView: View {
                     }
                 }
                 .navigationDestination(for: QuestionListPathType.self) { path in
-                    homePathModel.getNavigationDestination(answerViewModel: answerViewModel, view: path)
+                    pathModel.getNavigationDestination(answerViewModel: answerViewModel, view: path)
                 }
             }
             .onAppear {
@@ -233,10 +234,9 @@ private struct SignInView: View {
 // MARK: - 커스텀 탭바
 private struct CustomTabBar: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @Binding var tab: Tab
     
-    @EnvironmentObject var testPathModel: Router
     
     var body: some View {
         ZStack {
@@ -268,8 +268,7 @@ private struct CustomTabBar: View {
                 Spacer()
                 
                 Button {
-//                    pathModel.paths.append(.notifications)
-                    testPathModel.pushView(screen: QuestionListPathType.notifications)
+                    pathModel.pushView(screen: QuestionListPathType.notifications)
                 } label: {
                     Image(systemName: "bell")
                         .resizable()

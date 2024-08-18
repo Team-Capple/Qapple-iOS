@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 struct TodayAnswerView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @StateObject var viewModel: TodayAnswersViewModel = .init()
     
     @State private var isBottomSheetPresented = false
@@ -69,13 +69,13 @@ struct TodayAnswerView: View {
 // MARK: - 커스텀 네비게이션
 private struct CustomNavigationView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     
     var body: some View {
         CustomNavigationBar(
             leadingView:{
                 CustomNavigationBackButton(buttonType: .arrow) {
-                    pathModel.paths.removeLast()
+                    pathModel.pop()
                 }
             },
             principalView: {
@@ -172,7 +172,7 @@ private struct FloatingQuestionCard: View {
 
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @ObservedObject var viewModel: TodayAnswersViewModel
     @Binding private var isBottomSheetPresented: Bool
     @State private var isMyAnswer: IsMyAnswer?
@@ -223,7 +223,7 @@ private struct AnswerScrollView: View {
                     answerType: $0.isMine ? .mine : .others,
                     answerId: $0.answerId
                 ) {
-                    self.pathModel.paths.removeLast()
+                    pathModel.pop()
                 }
                 .presentationDetents([.height(84)])
             }
@@ -236,5 +236,5 @@ private struct AnswerScrollView: View {
         questionId: 1,
         questionContent: "디폴트"
     )
-    .environmentObject(PathModel())
+    .environmentObject(Router(pathType: .questionList))
 }

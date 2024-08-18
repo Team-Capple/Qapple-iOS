@@ -7,25 +7,31 @@
 
 import SwiftUI
 
-
+/**
+ Navigation path를 관리하는 클래스
+ */
 final class Router: ObservableObject, NavigationRouter {
     @Published public var route: NavigationPath = .init()
     
-    private var pathType: TestPathType
+    /// Tab 구분을 위한 타입 지정
+    private var pathType: TabPathType
     
+    /// path 추가
     func pushView<T: Hashable>(screen: T) {
         self.route.append(screen)
     }
     
+    /// path 제거
     func pop() {
         self.route.removeLast()
     }
     
+    /// 최상위 뷰로 이동
     func popToRoot() {
         self.route = .init()
     }
     
-    init(pathType: TestPathType) {
+    init(pathType: TabPathType) {
         self.pathType = pathType
     }
     
@@ -48,6 +54,12 @@ final class Router: ObservableObject, NavigationRouter {
                 CompleteAnswerView(viewModel: answerViewModel!)
             case .notifications:
                 NotificationListView()
+            case .todayAnswer(questionId: let questionId, questionContent: let questionContent):
+                TodayAnswerView(questionId: questionId, questionContent: questionContent)
+            case .alert:
+                AlertView()
+            case .report(answerId: let answerId):
+                ReportView(answerId: answerId)
             }
         } else if pathType == .bulletinBoard {
             let view = view as! BulletinBoardPathType
@@ -73,11 +85,18 @@ final class Router: ObservableObject, NavigationRouter {
             EmptyView()
         }
     }
+    
+    // Tab 구분을 위한 열거형
+    enum TabPathType: Hashable {
+        case questionList
+        case bulletinBoard
+        case myProfile
+
+    }
 }
 
 
 protocol NavigationRouter {
-    
     @MainActor
     func pushView<T: Hashable>(screen: T)
     
@@ -88,3 +107,35 @@ protocol NavigationRouter {
     func popToRoot()
 }
 
+
+/// 질문리스트 Tab
+enum QuestionListPathType: Hashable {
+    /// 답변하기
+    case answer(questionId: Int, questionContent: String) // 답변하기
+    case confirmAnswer // 답변확인(키워드선택)
+    case searchKeyword // 키워드 검색
+    case completeAnswer // 답변 완료
+    
+    /// 모아보기
+    case todayAnswer(questionId: Int, questionContent: String)
+    
+    /// 알림 및 신고
+    case notifications
+    case alert
+    case report(answerId: Int)
+}
+
+/// 게시판 Tab
+enum BulletinBoardPathType: Hashable {
+    /// 게시판
+    case bulletinSearch
+    case bulletinPosting
+}
+
+/// 내 정보 Tab
+enum MyProfilePathType: Hashable {
+    /// 마이페이지
+    case myPage
+    case profileEdit(nickname: String)
+    case writtenAnswer
+}

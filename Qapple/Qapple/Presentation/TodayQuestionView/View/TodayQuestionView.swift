@@ -9,13 +9,12 @@ import SwiftUI
 
 struct TodayQuestionView: View {
     
-    @EnvironmentObject private var pathModel: PathModel
+    @EnvironmentObject private var homePathModel: Router
     @EnvironmentObject private var authViewModel: AuthViewModel
     @StateObject var viewModel: TodayQuestionViewModel = .init()
     
     @State private var isBottomSheetPresented = false
     
-    @EnvironmentObject private var homePathModel: Router
     
     var body: some View {
         ZStack {
@@ -153,7 +152,7 @@ private struct HeaderContentView: View {
 // MARK: - HeaderButtonView
 private struct HeaderButtonView: View {
     
-    @EnvironmentObject private var pathModel: PathModel
+    @EnvironmentObject private var pathModel: Router
     @ObservedObject private var viewModel: TodayQuestionViewModel
     
     fileprivate init(viewModel: TodayQuestionViewModel) {
@@ -179,8 +178,8 @@ private struct HeaderButtonView: View {
                 if !viewModel.mainQuestion.isAnswered {
                     
                     // 답변 안했으면 답변하기 뷰로 이동
-                    pathModel.paths.append(
-                        .answer(
+                    pathModel.pushView(
+                        screen: QuestionListPathType.answer(
                             questionId: viewModel.mainQuestion.questionId,
                             questionContent: viewModel.mainQuestion.content
                         )
@@ -188,8 +187,8 @@ private struct HeaderButtonView: View {
                 } else {
                     
                     // 답변 했으면 답변 보기 뷰로 이동
-                    pathModel.paths.append(
-                        .todayAnswer(
+                    pathModel.pushView(
+                        screen: QuestionListPathType.todayAnswer(
                             questionId: viewModel.mainQuestion.questionId,
                             questionContent: viewModel.mainQuestion.content
                         )
@@ -203,7 +202,7 @@ private struct HeaderButtonView: View {
 // MARK: - AnswerPreview
 private struct AnswerPreview: View {
     
-    @EnvironmentObject private var pathModel: PathModel
+    @EnvironmentObject private var pathModel: Router
     @ObservedObject private var viewModel: TodayQuestionViewModel
     @State private var isMine: IsMyAnswer?
     
@@ -264,8 +263,8 @@ private struct AnswerPreview: View {
                             
                             if viewModel.mainQuestion.isAnswered {
                                 SeeAllButton {
-                                    pathModel.paths.append(
-                                        .todayAnswer(
+                                    pathModel.pushView(
+                                        screen: QuestionListPathType.todayAnswer(
                                             questionId: viewModel.mainQuestion.questionId,
                                             questionContent: viewModel.mainQuestion.content
                                         )

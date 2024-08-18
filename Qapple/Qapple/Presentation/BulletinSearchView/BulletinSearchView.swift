@@ -28,6 +28,7 @@ struct BulletinSearchView: View {
         .refreshable {
             // TODO: 데이터 새로 불러오기
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
@@ -35,6 +36,7 @@ struct BulletinSearchView: View {
 
 private struct NavigationBar: View {
     
+    @EnvironmentObject private var pathModel: Router
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -54,6 +56,9 @@ private struct NavigationBar: View {
                     buttonType: .plus,
                     tapAction: {
                         // TODO: 게시글 작성 View 이동
+                        pathModel.pushView(
+                            screen: BulletinBoardPathType.bulletinPosting
+                        )
                     }
                 )
             },
