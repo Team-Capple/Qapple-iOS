@@ -6,16 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseCore
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        FirebaseApp.configure()
-        
-        return true
-    }
-}
 
 @main
 struct CappleApp: App {
@@ -31,8 +21,8 @@ struct CappleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            TabBar(tabType: $tabType)
-            // MainView(authViewModel: authViewModel)
+//            TabBar(tabType: $tabType)
+             MainView(authViewModel: authViewModel)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
