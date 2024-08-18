@@ -15,6 +15,8 @@ struct TodayQuestionView: View {
     
     @State private var isBottomSheetPresented = false
     
+    @EnvironmentObject private var homePathModel: Router
+    
     var body: some View {
         ZStack {
             Color(Background.first)

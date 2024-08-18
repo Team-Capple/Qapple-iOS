@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var tabType: TabType = .questionList
+//    @State private var tabType: TabType = .questionList
     
     @ObservedObject private(set) var authViewModel: AuthViewModel
     @StateObject private var pathModel: PathModel = .init()
@@ -29,11 +29,16 @@ struct MainView: View {
 private struct MainTabView: View {
     @State private var tabType: TabType = .questionList
     
+    @StateObject private var homePathModel: Router = .init(pathType: .questionList)
+//    @StateObject private var bulletinPathModel: Router = .init(type: .bulletinBoard)
+//    @StateObject private var myPagePathModel: Router = .init(type: .myProfile)
+    
     var body: some View {
             VStack(spacing: 0) {
                 switch tabType {
                 case .questionList:
                     HomeView()
+                        .environmentObject(homePathModel)
                     
                 case .bulletinBoard:
                     BulletinBoardView()
@@ -54,10 +59,12 @@ private struct HomeView: View {
     @StateObject var authViewModel: AuthViewModel = .init()
     @StateObject var answerViewModel: AnswerViewModel = .init()
     
+    @EnvironmentObject var homePathModel: Router
+    
     @State private var tab: Tab = .todayQuestion
     
     var body: some View {
-        NavigationStack(path: $pathModel.paths) {
+        NavigationStack(path: /*$pathModel.paths*/ $homePathModel.route) {
             VStack(spacing: 0) {
                 CustomTabBar(tab: $tab)
                 
@@ -113,6 +120,9 @@ private struct HomeView: View {
                         
                     default: EmptyView()
                     }
+                }
+                .navigationDestination(for: QuestionListPathType.self) { path in
+                    homePathModel.getNavigationDestination(answerViewModel: answerViewModel, view: path)
                 }
             }
             .onAppear {
@@ -226,6 +236,8 @@ private struct CustomTabBar: View {
     @EnvironmentObject var pathModel: PathModel
     @Binding var tab: Tab
     
+    @EnvironmentObject var testPathModel: Router
+    
     var body: some View {
         ZStack {
             HStack(spacing: 28) {
@@ -256,7 +268,8 @@ private struct CustomTabBar: View {
                 Spacer()
                 
                 Button {
-                    pathModel.paths.append(.notifications)
+//                    pathModel.paths.append(.notifications)
+                    testPathModel.pushView(screen: QuestionListPathType.notifications)
                 } label: {
                     Image(systemName: "bell")
                         .resizable()
