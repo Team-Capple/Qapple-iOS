@@ -14,12 +14,9 @@ struct CappleApp: App {
     
     @StateObject private var authViewModel: AuthViewModel = .init()
     
-    @State var tabType: TabType = .questionList
-    
     var body: some Scene {
         WindowGroup {
-            TabBar(tabType: $tabType)
-            // MainView(authViewModel: authViewModel)
+             MainView(authViewModel: authViewModel)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {

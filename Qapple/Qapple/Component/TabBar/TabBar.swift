@@ -14,7 +14,7 @@ struct TabBar: View {
     @Binding private(set) var tabType: TabType
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             ForEach(TabType.allCases) { tab in
                 TabCell(
                     tabType: tab,

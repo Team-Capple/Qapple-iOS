@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct MainView: View {
+    @State private var tabType: TabType = .questionList
     
     @ObservedObject private(set) var authViewModel: AuthViewModel
     @StateObject private var pathModel: PathModel = .init()
     
     var body: some View {
         if authViewModel.isSignIn {
-            HomeView()
+            MainTabView()
                 .environmentObject(pathModel)
                 .environmentObject(authViewModel)
         } else {
@@ -22,6 +23,27 @@ struct MainView: View {
                 .environmentObject(pathModel)
                 .environmentObject(authViewModel)
         }
+    }
+}
+
+private struct MainTabView: View {
+    @State private var tabType: TabType = .questionList
+    
+    var body: some View {
+            VStack(spacing: 0) {
+                switch tabType {
+                case .questionList:
+                    HomeView()
+                    
+                case .bulletinBoard:
+                    BulletinBoardView()
+                    
+                case .myProfile:
+                    MyPageView()
+                }
+                
+                TabBar(tabType: $tabType)
+            }
     }
 }
 
