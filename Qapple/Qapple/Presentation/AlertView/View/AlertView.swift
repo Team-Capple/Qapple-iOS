@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AlertView: View {
     
+    @EnvironmentObject private var pathModel: Router
+    
     @StateObject var viewModel: AlertViewModel = .init()
     
     var body: some View {
@@ -20,7 +22,9 @@ struct AlertView: View {
             VStack {
                 CustomNavigationBar(
                     leadingView:{
-                        CustomNavigationBackButton(buttonType: .arrow) {}
+                        CustomNavigationBackButton(buttonType: .arrow) {
+                            pathModel.pop()
+                        }
                     },
                     principalView: {
                         Text("알림")

@@ -64,7 +64,7 @@ private struct HeaderView: View {
                 Image(systemName: "ellipsis")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
+                    .frame(width: 18, height: 18)
                     .foregroundStyle(GrayScale.icon)
             }
         }
