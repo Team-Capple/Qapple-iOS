@@ -13,7 +13,7 @@ struct MainView: View {
     @StateObject private var pathModel: PathModel = .init()
     
     var body: some View {
-        if authViewModel.isSignIn {
+        if !authViewModel.isSignIn { // TODO: 원래대로 되돌리기
             MainTabView()
                 .environmentObject(pathModel)
                 .environmentObject(authViewModel)
@@ -33,24 +33,57 @@ private struct MainTabView: View {
     @StateObject private var myPagePathModel: Router = .init(pathType: .myProfile)
     
     var body: some View {
-            VStack(spacing: 0) {
-                switch tabType {
-                case .questionList:
-                    HomeView()
-                        .environmentObject(homePathModel)
-                    
-                case .bulletinBoard:
-                    BulletinBoardView()
-                        .environmentObject(bulletinPathModel)
-                    
-                case .myProfile:
-                    MyPageView()
-                        .environmentObject(myPagePathModel)
+        TabView(selection: $tabType) {
+            HomeView()
+                .environmentObject(homePathModel)
+                .tag(TabType.questionList)
+                .tabItem {
+                    TabItem(
+                        systemImage: TabType.questionList.icon,
+                        title: TabType.questionList.title
+                    )
                 }
-                
-                // TODO: 특정 뷰에서 Tab 숨기기
-                TabBar(tabType: $tabType)
-            }
+            
+            BulletinBoardView()
+                .environmentObject(bulletinPathModel)
+                .tag(TabType.bulletinBoard)
+                .tabItem {
+                    TabItem(
+                        systemImage: TabType.bulletinBoard.icon,
+                        title: TabType.bulletinBoard.title
+                    )
+                }
+            
+            MyPageView()
+                .environmentObject(myPagePathModel)
+                .tag(TabType.myProfile)
+                .tabItem {
+                    TabItem(
+                        systemImage: TabType.myProfile.icon,
+                        title: TabType.myProfile.title
+                    )
+                }
+        }
+        .tint(BrandPink.button)
+    }
+}
+
+// MARK: - TabItem
+
+private struct TabItem: View {
+    
+    let systemImage: String
+    let title: String
+    
+    var body: some View {
+        VStack(spacing: 6) {
+            Image(systemName: systemImage)
+                .resizable()
+                .frame(width: 32, height: 32)
+            
+            Text(title)
+                .pretendard(.medium, 12)
+        }
     }
 }
 
