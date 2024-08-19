@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct NotificationCell: View {
+    let targetContentId: String
     let userName: String
     let actionDescription: String
+    let commentContent: String?
     let timeStamp: Date
     let seeMoreAction: () -> Void
     
@@ -17,17 +19,20 @@ struct NotificationCell: View {
         Button {
             seeMoreAction()
         } label: {
-            VStack(alignment: .leading, spacing: 0) {
-                ContentView(userName: userName, actionDescription: actionDescription, timeStamp: timeStamp)
+            VStack(alignment: .leading, spacing: 12) {
+                
+                TitleView(userName: userName, actionDescription: actionDescription, timeStamp: timeStamp)
+                
+                ContentView(targetContentId: targetContentId, commentContent: commentContent)
             }
         }
         .buttonStyle(PlainButtonStyle())
     }
 }
 
-// MARK: - ContentView
+// MARK: - TitleView
 
-private struct ContentView: View {
+private struct TitleView: View {
     let userName: String
     let actionDescription: String
     let timeStamp: Date
@@ -38,31 +43,48 @@ private struct ContentView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("\(userName)님이 회원님의 답변에 \(actionDescription)")
+            Text("\(userName)님이 \(actionDescription)")
                 .font(.pretendard(.medium, size: 16))
                 .foregroundStyle(TextLabel.main)
                 .lineSpacing(6)
                 .multilineTextAlignment(.leading)
             
-            Spacer()
-        }
-        
-        HStack {
-            Circle()
-                .foregroundStyle(.clear)
-                .frame(width: 28, height: 28)
-            
             Text(timeStamp.fullDate) // TODO: 날짜 수정 필요
                 .font(.pretendard(.regular, size: 14))
                 .foregroundStyle(TextLabel.sub4)
+            
+            Spacer()
+        }
+    }
+}
+
+// MARK: - ContentView
+
+private struct ContentView: View {
+    let targetContentId: String
+    let commentContent: String?
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if let comment = commentContent {
+                Text(comment)
+                    .pretendard(.medium, 14)
+                    .foregroundColor(.sub2) // TODO: 색 한번 검토 필요!
+            }
+            
+            Text(targetContentId)
+                .pretendard(.medium, 14)
+                .foregroundColor(.sub4)
         }
     }
 }
 
 #Preview {
     NotificationCell(
+        targetContentId: "'어떤 게시글인지가 들어갑니다.'",
         userName: "아무개",
-        actionDescription: "좋아요를 눌렀습니다",
+        actionDescription: "댓글을 달았어요",
+        commentContent: "내용이 들어갑니다.",
         timeStamp: Date()
     ) {
         print("해당 답변")
