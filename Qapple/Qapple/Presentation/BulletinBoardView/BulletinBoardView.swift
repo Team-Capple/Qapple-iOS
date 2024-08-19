@@ -23,7 +23,7 @@ struct BulletinBoardView: View {
                     NewPostButton(
                         title: "게시글 작성",
                         tapAction: {
-                            
+                            pathModel.pushView(screen: BulletinBoardPathType.bulletinPosting)
                         }
                     )
                     .position(

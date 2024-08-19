@@ -26,7 +26,7 @@ struct AnswerView: View {
             Color(Background.first)
                 .ignoresSafeArea()
             
-            VStack {
+            VStack {	
                 CustomNavigationBar(
                     leadingView: {
                         CustomNavigationBackButton(buttonType: .xmark) {

@@ -49,6 +49,7 @@ struct BulletinPostingView: View {
 
 private struct NavigationBar: View {
 
+    @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var postingUseCase: BulletinPostingUseCase
 
     @Binding private(set) var isBackAlertPresented: Bool
@@ -57,11 +58,19 @@ private struct NavigationBar: View {
         CustomNavigationBar(
             leadingView: {
                 Button("취소") {
-                    isBackAlertPresented.toggle()
+                    if postingUseCase._state.content.isEmpty {
+                        pathModel.pop()
+                    } else {
+                        isBackAlertPresented.toggle()
+                    }
                 }
-                .foregroundStyle(BrandPink.button)
+                .foregroundStyle(GrayScale.icon)
             },
-            principalView: {},
+            principalView: {
+                Text("게시판")
+                    .pretendard(.semiBold, 17)
+                    .foregroundStyle(TextLabel.main)
+            },
             trailingView: {
                 Button("올리기") {
                     postingUseCase.effect(.uploadPost)
