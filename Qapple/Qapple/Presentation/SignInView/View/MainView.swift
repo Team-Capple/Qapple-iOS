@@ -13,7 +13,7 @@ struct MainView: View {
     @StateObject private var pathModel: PathModel = .init()
     
     var body: some View {
-        if !authViewModel.isSignIn { // TODO: 원래대로 되돌리기
+        if authViewModel.isSignIn {
             MainTabView()
                 .environmentObject(pathModel)
                 .environmentObject(authViewModel)
