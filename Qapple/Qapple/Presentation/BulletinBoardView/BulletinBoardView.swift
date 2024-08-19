@@ -39,6 +39,7 @@ struct BulletinBoardView: View {
                 }
                 .navigationDestination(for: BulletinBoardPathType.self) { path in
                     pathModel.getNavigationDestination(view: path)
+                        .environmentObject(bulletinBoardUseCase)
                 }
             }
         }
@@ -91,23 +92,23 @@ private struct CustomTabBar: View {
                 .pretendard(.medium, 16)
                 .foregroundStyle(.white)
             
-            HStack(spacing: 16) {
+            HStack(spacing: 8) {
                 Spacer()
                 
                 Button {
                     pathModel.pushView(screen: BulletinBoardPathType.alert)
                 } label: {
-                    Image(systemName: "bell.fill")
+                    Image(.noticeIcon)
                         .resizable()
                         .scaledToFill()
                         .foregroundColor(GrayScale.icon)
-                        .frame(width: 20 , height: 20)
+                        .frame(width: 26 , height: 26)
                 }
                 
                 Button {
-                    // TODO: 마이페이지 이동
+                    pathModel.pushView(screen: BulletinBoardPathType.search)
                 } label: {
-                    Image(.profileDummy)
+                    Image(.search)
                         .resizable()
                         .scaledToFill()
                         .foregroundColor(GrayScale.icon)

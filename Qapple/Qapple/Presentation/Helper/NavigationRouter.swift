@@ -71,8 +71,8 @@ final class Router: ObservableObject, NavigationRouter {
                 BulletinPostingView()
             case .alert:
                 AlertView()
-            case .myPage:
-                MyPageView()
+            case .search:
+                BulletinSearchView()
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
@@ -135,7 +135,7 @@ enum BulletinBoardPathType: Hashable {
     case bulletinSearch
     case bulletinPosting
     case alert
-    case myPage
+    case search
 }
 
 /// 내 정보 Tab
