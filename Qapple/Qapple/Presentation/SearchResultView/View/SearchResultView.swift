@@ -13,7 +13,6 @@ struct SearchResultView: View {
                 .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
             
             VStack(spacing: 0) {
-                HeaderView(viewModel: viewModel)
                 
                 QuestionListView(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                 
@@ -26,30 +25,6 @@ struct SearchResultView: View {
             Task {
                 await viewModel.fetchGetQuestions()
             }
-        }
-    }
-    
-    // MARK: - HeaderView
-    private struct HeaderView: View {
-        
-        @ObservedObject private var viewModel: QuestionViewModel
-        
-        fileprivate init(viewModel: QuestionViewModel) {
-            self.viewModel = viewModel
-        }
-        
-        var body: some View {
-            HStack {
-                Text("지금까지의 질문과\n답변을 모아뒀어요")
-                    .font(.pretendard(.bold, size: 24))
-                    .foregroundStyle(TextLabel.main)
-                    .padding(.horizontal, 24)
-                    .lineSpacing(6)
-                    .frame(height: 120)
-                
-                Spacer()
-            }
-            .background(Background.first)
         }
     }
     
@@ -76,17 +51,15 @@ struct SearchResultView: View {
                 
                 HStack(alignment: .top) {
                     Text("\(viewModel.questions.count)개의 질문")
-                        .font(.pretendard(.semiBold, size: 15))
+                        .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(TextLabel.sub3)
                     Spacer()
                     
                 }
                 .padding(.horizontal, 24)
                 
-                // Separator()
-                
                 ScrollView {
-                    LazyVStack(spacing: 24) {
+                    LazyVStack(spacing: 0) {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) {
                             index,
                             question in
@@ -120,15 +93,7 @@ struct SearchResultView: View {
                                 } message: {
                                     Text("즐거운 커뮤니티 운영을 위해\n여러분의 답변을 들려주세요")
                                 }
-                                .padding(.leading, 24)
-                                .padding(.trailing, question.questionStatus == .live ? 0 : 24)
-                                
-                                if question.questionStatus != .live {
-                                    Separator()
-                                        .padding(.leading, 24)
-                                        .padding(.top, 20)
-                                }
-                                
+                                .padding(.init(top: 0, leading: 12, bottom: 6, trailing: 10))
                             }
                         }
                     }
