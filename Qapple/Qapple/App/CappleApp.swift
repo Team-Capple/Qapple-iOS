@@ -16,8 +16,6 @@ struct CappleApp: App {
     
     @StateObject private var authViewModel: AuthViewModel = .init()
     
-    @State var tabType: TabType = .questionList
-    
     var body: some Scene {
         WindowGroup {
             MainView(authViewModel: authViewModel)

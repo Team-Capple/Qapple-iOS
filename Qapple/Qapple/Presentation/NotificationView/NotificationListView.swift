@@ -25,7 +25,7 @@ struct NotificationListView: View {
 
 private struct NotificationContentView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject private var pathModel: Router
     @StateObject private var notificationUseCase = NotificationUseCase()
     
     var body: some View {
@@ -33,7 +33,7 @@ private struct NotificationContentView: View {
             VStack(spacing: 12) {
                 CustomNavigationBar(
                     leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
-                        pathModel.paths.removeLast()
+                        pathModel.pop()
                     }},
                     principalView: {
                         Text("알림")

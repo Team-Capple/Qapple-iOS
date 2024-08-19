@@ -36,6 +36,10 @@ enum PathType: Hashable {
     case notifications
     case alert
     case report(answerId: Int)
+    
+    // 게시판
+    case bulletinSearch
+    case bulletinPosting
 }
 
 class PathModel: ObservableObject {
@@ -46,3 +50,9 @@ class PathModel: ObservableObject {
         self.paths = paths
     }
 }
+
+
+
+
+
+

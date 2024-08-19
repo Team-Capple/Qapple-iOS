@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReportView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @State private var isReportAlertPresented = false
     @State private var isReportCompleteAlertPresented = false
     @State private var reportType: ReportType = .DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS
@@ -35,7 +35,7 @@ struct ReportView: View {
                 CustomNavigationBar(
                     leadingView:{
                         CustomNavigationBackButton(buttonType: .arrow)  {
-                            pathModel.paths.removeLast()
+                            pathModel.pop()
                         }
                     },
                     principalView: {
@@ -90,7 +90,7 @@ struct ReportView: View {
         }
         .alert("신고가 완료됐어요", isPresented: $isReportCompleteAlertPresented) {
             Button("확인", role: .none) {
-                pathModel.paths.removeLast()
+                pathModel.pop()
             }
         } message: {
             Text("신고한 답변은 블라인드 처리 되며, 관리자 검토 후 최대 24시간 이내에 조치 될 예정이에요")

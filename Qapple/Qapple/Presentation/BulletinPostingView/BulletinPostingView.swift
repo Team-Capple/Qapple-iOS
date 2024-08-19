@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BulletinPostingView: View {
 
+    @EnvironmentObject private var pathModel: Router
     @StateObject private var postingUseCase = BulletinPostingUseCase()
 
     @State private var isBackAlertPresented = false
@@ -35,6 +36,7 @@ struct BulletinPostingView: View {
                 Button("취소", role: .cancel) {}
                 Button("그만두기", role: .none) {
                     // TODO: 뒤로가기
+                    pathModel.pop()
                 }
             }
         } message: {

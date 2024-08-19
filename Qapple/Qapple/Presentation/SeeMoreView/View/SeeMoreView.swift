@@ -15,7 +15,7 @@ struct SeeMoreView: View {
     }
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     
     @State private var isAnswerDeleteAlertPresented = false
     @State private var isAnswerDeleteCompleteAlertPresented = false
@@ -49,7 +49,8 @@ struct SeeMoreView: View {
                 case .others:
                     SeeMoreCell(title: "신고하기") {
                         presentationMode.wrappedValue.dismiss()
-                        pathModel.paths.append(.report(answerId: answerId))
+//                        pathModel.paths.append(.report(answerId: answerId))
+                        pathModel.pushView(screen: QuestionListPathType.report(answerId: answerId))
                     }
                 }
 

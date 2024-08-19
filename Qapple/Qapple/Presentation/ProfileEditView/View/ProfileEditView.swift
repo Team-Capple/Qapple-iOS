@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileEditView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @StateObject private var viewModel: ProfileEditViewModel = .init()
     
     @State var defaultNickName: String
@@ -46,7 +46,7 @@ struct ProfileEditView: View {
             CustomNavigationBar(
                 leadingView: {
                     CustomNavigationBackButton(buttonType: .arrow) {
-                        pathModel.paths.removeLast()
+                        pathModel.pop()
                     }
                 },
                 principalView: {
@@ -59,7 +59,7 @@ struct ProfileEditView: View {
                         Task {
                             do {
                                 try await viewModel.requestEditProfile()
-                                pathModel.paths.removeLast()
+                                pathModel.pop()
                             } catch {
                                 isEditFailed.toggle()
                             }

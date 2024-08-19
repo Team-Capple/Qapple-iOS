@@ -3,7 +3,7 @@ import SwiftUI
 // 질문 목록을 보여주는 뷰를 정의합니다.
 struct SearchResultView: View {
     
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: Router
     @StateObject var viewModel: QuestionViewModel = .init()
     @State private var isBottomSheetPresented = false
     
@@ -56,7 +56,7 @@ struct SearchResultView: View {
     // MARK: - QuestionListView
     private struct QuestionListView: View {
         
-        @EnvironmentObject var pathModel: PathModel
+        @EnvironmentObject var pathModel: Router
         @ObservedObject private var viewModel: QuestionViewModel
         @Binding var isBottomSheetPresented: Bool
         
@@ -107,10 +107,9 @@ struct SearchResultView: View {
                                         return
                                     }
                                     
-                                    pathModel.paths.append(
-                                        .todayAnswer(
-                                            questionId: id,
-                                            questionContent: viewModel.contentForQuestion(
+                                    pathModel.pushView(
+                                        screen: QuestionListPathType.todayAnswer(
+                                            questionId: id, questionContent: viewModel.contentForQuestion(
                                                 withId: id
                                             ) ?? "내용 없음"
                                         )
@@ -149,6 +148,6 @@ struct SearchResultView: View {
 
 #Preview {
     SearchResultView()
-        .environmentObject(PathModel())
+        .environmentObject(Router(pathType: .questionList))
         .environmentObject(AuthViewModel())
 }
