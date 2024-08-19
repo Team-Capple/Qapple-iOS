@@ -47,18 +47,19 @@ private struct NotificationContentView: View {
                     let notification = notificationUseCase._state[index]
                     
                     NotificationCell(
-                        targetContentId: notification.targetContentId,
+                        isQuestion: notification.isQuestion,
+                        targetContent: notification.targetContent,
                         userName: notification.userName,
                         actionDescription: notification.actionType.description,
                         commentContent: notification.commentContent,
                         timeStamp: notification.timeStamp
-                    ) {
+                    ){
                         print("해당 답변") // TODO: 네비게이션 지정 or 버튼 제거
                     }
-                    .padding(.horizontal)
                     
                     Separator()
                 }
+                .padding(.horizontal)
             }
         }
     }

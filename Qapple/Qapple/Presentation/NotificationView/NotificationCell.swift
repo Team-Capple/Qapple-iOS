@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct NotificationCell: View {
-    let targetContentId: String
+    let isQuestion: Bool
+    let targetContent: String
     let userName: String
     let actionDescription: String
     let commentContent: String?
@@ -20,10 +21,9 @@ struct NotificationCell: View {
             seeMoreAction()
         } label: {
             VStack(alignment: .leading, spacing: 12) {
+                TitleView(isQuestion: isQuestion, userName: userName, actionDescription: actionDescription, timeStamp: timeStamp)
                 
-                TitleView(userName: userName, actionDescription: actionDescription, timeStamp: timeStamp)
-                
-                ContentView(targetContentId: targetContentId, commentContent: commentContent)
+                ContentView(targetContent: targetContent, commentContent: commentContent)
             }
         }
         .buttonStyle(PlainButtonStyle())
@@ -33,21 +33,30 @@ struct NotificationCell: View {
 // MARK: - TitleView
 
 private struct TitleView: View {
+    let isQuestion: Bool
     let userName: String
     let actionDescription: String
     let timeStamp: Date
     
     var body: some View {
         HStack(spacing: 8) {
-            Image("profileDummyImage")
-                .resizable()
-                .frame(width: 28, height: 28)
-            
-            Text("\(userName)님이 \(actionDescription)")
-                .font(.pretendard(.medium, size: 16))
-                .foregroundStyle(TextLabel.main)
-                .lineSpacing(6)
-                .multilineTextAlignment(.leading)
+            if !isQuestion {
+                Image("profileDummyImage")
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                
+                Text("\(userName)님이 \(actionDescription)")
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.main)
+                    .lineSpacing(6)
+                    .multilineTextAlignment(.leading)
+            } else {
+                Text(actionDescription)
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.main)
+                    .lineSpacing(6)
+                    .multilineTextAlignment(.leading)
+            }
             
             Text(timeStamp.fullDate) // TODO: 날짜 수정 필요
                 .font(.pretendard(.regular, size: 14))
@@ -61,7 +70,7 @@ private struct TitleView: View {
 // MARK: - ContentView
 
 private struct ContentView: View {
-    let targetContentId: String
+    let targetContent: String
     let commentContent: String?
     
     var body: some View {
@@ -72,7 +81,7 @@ private struct ContentView: View {
                     .foregroundColor(.sub2) // TODO: 색 한번 검토 필요!
             }
             
-            Text(targetContentId)
+            Text(targetContent)
                 .pretendard(.medium, 14)
                 .foregroundColor(.sub4)
         }
@@ -81,7 +90,8 @@ private struct ContentView: View {
 
 #Preview {
     NotificationCell(
-        targetContentId: "'어떤 게시글인지가 들어갑니다.'",
+        isQuestion: true,
+        targetContent: "'어떤 게시글인지가 들어갑니다.'",
         userName: "아무개",
         actionDescription: "댓글을 달았어요",
         commentContent: "내용이 들어갑니다.",
