@@ -41,7 +41,7 @@ private struct HeaderView: View {
     let seeMoreAction: () -> Void
     
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 0) {
             Image(.profileDummy)
                 .resizable()
                 .frame(width: 28, height: 28)
@@ -49,6 +49,12 @@ private struct HeaderView: View {
             Text("아무개 \(post.anonymityIndex + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
+                .padding(.leading, 8)
+            
+            Text("\(post.writingDate.timeAgo)")
+                .pretendard(.regular, 14)
+                .foregroundStyle(TextLabel.sub4)
+                .padding(.leading, 6)
             
             Spacer()
             
@@ -85,12 +91,6 @@ private struct ContentView: View {
                 
                 RemoteView(post: post)
                     .padding(.top, 12)
-                
-                // TODO: 댓글 작성일 포맷 변경
-                Text("\(post.writingDate.fullDate)")
-                    .pretendard(.regular, 14)
-                    .foregroundStyle(TextLabel.sub4)
-                    .padding(.top, 8)
             }
         }
     }
