@@ -90,6 +90,7 @@ extension TodayQuestionViewModel {
                 ))
             self.answerList = answerPreview.answerInfos
         } catch {
+            // 요기 오류나는 이유 -> Request 타입 임시 수정했음.
             print("답변 프리뷰 업데이트 실패")
         }
     }
@@ -122,7 +123,7 @@ extension TodayQuestionViewModel {
         else if state == .complete { text = "다른 답변 둘러보기" }
         return text
     }
-
+    
     /// 리스트 타이틀 텍스트를 반환합니다.
     var listTitleText: AttributedString {
         let mainQuestionText = AttributedString(mainQuestion.content)
@@ -169,7 +170,7 @@ extension TodayQuestionViewModel {
             
             let am = calendar.nextDate(after: now, matching: components, matchingPolicy: .nextTime)!
             self.remainingTime = am.timeIntervalSinceNow
-        } 
+        }
         
         else if timeZone == .pmCreate {
             let calendar = Calendar.current
