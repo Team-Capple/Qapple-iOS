@@ -10,6 +10,8 @@ import SwiftUI
 @main
 struct CappleApp: App {
     
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    
     @Environment(\.scenePhase) private var scenePhase
     
     @StateObject private var authViewModel: AuthViewModel = .init()
@@ -18,8 +20,7 @@ struct CappleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            TabBar(tabType: $tabType)
-            // MainView(authViewModel: authViewModel)
+            MainView(authViewModel: authViewModel)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {

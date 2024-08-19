@@ -83,6 +83,7 @@
 		8295BDB62BA322A300115FA8 /* NetworkManager+Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */; };
 		8295BDB82BA322E600115FA8 /* NetworkManager+Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */; };
 		8295BDBA2BA3231000115FA8 /* NetworkManager+Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */; };
+		82A8251A2C70BAFF0084D7E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A825192C70BAFF0084D7E8 /* AppDelegate.swift */; };
 		82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790B2B93291C00CC7708 /* ReportView.swift */; };
 		82C3790E2B93292200CC7708 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790D2B93292200CC7708 /* ReportViewModel.swift */; };
 		82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790F2B9330BA00CC7708 /* ReportListRow.swift */; };
@@ -231,6 +232,7 @@
 		8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Answer.swift"; sourceTree = "<group>"; };
 		8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Tag.swift"; sourceTree = "<group>"; };
 		8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Member.swift"; sourceTree = "<group>"; };
+		82A825192C70BAFF0084D7E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82BBA09A2BBF80410092D37E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		82C3790B2B93291C00CC7708 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		82C3790D2B93292200CC7708 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -964,6 +966,7 @@
 			isa = PBXGroup;
 			children = (
 				F3EA66CB2B7643EE002417CE /* CappleApp.swift */,
+				82A825192C70BAFF0084D7E8 /* AppDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1194,6 +1197,7 @@
 				07BF36482B8B9C290047F3F7 /* SearchKeywordViewModel.swift in Sources */,
 				07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */,
 				2C2E0ED72C646EC9003928C1 /* CommentView.swift in Sources */,
+				82A8251A2C70BAFF0084D7E8 /* AppDelegate.swift in Sources */,
 				825226EF2BA9A7D8006998E8 /* MailView.swift in Sources */,
 				824717302BC913B9005E9631 /* ReportRequest.swift in Sources */,
 				F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */,
@@ -1454,7 +1458,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Qapple/Preview Content\"";
-				DEVELOPMENT_TEAM = 9XG4S4XZWN;
+				DEVELOPMENT_TEAM = 7YZM4XMXXU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Qapple/Info.plist;
@@ -1494,7 +1498,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Qapple/Preview Content\"";
-				DEVELOPMENT_TEAM = 9XG4S4XZWN;
+				DEVELOPMENT_TEAM = 7YZM4XMXXU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Qapple/Info.plist;
