@@ -9,26 +9,37 @@ import SwiftUI
 
 struct CommentView: View {
     @State private var text: String = ""
+    
+    let post: Post
+    
     var body: some View {
         ZStack {
             Color.bk
                 .ignoresSafeArea()
             
-            VStack {
+            VStack(spacing: 0) {
+                BulletinBoardCell(post: post, seeMoreAction: {})
+                
                 ScrollView {
                     VStack(spacing: 0) {
                         // 데이터 연결
-                        ForEach(0..<5, id: \.self) { _ in
+                        ForEach(0..<10, id: \.self) { _ in
                             CommentCell()
                             
                             seperator
                         }
+                        
+                        Spacer(minLength: 50)
                     }
                     .padding(.top, 10)
                 }
-                
-                addComment
             }
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .overlay(alignment: .bottom) {
+            addComment
         }
     }
     
@@ -43,52 +54,44 @@ struct CommentView: View {
             TextField("댓글 추가", text: $text, axis: .vertical)
                 .font(.pretendard(.regular, size: 17))
                 .lineLimit(...3)
-                .padding()
+                .padding(.horizontal)
+                .padding(.vertical, 12)
             
             Button {
                 
             } label: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 7)
-                        .frame(width: 49, height: 40)
-                        .foregroundStyle(.button)
-                    
-                    Image(systemName: "arrowshape.up.fill")
-                        .foregroundStyle(.wh)
-                }
+                Image(systemName: "paperplane")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20)
+                    .foregroundStyle(Color.wh)
             }
-            .padding(5)
+            .padding(.trailing, 12)
+            .padding(.bottom, 12)
         }
         .background {
             RoundedRectangle(cornerRadius: 11)
-                .stroke(lineWidth: 1)
-                .foregroundStyle(Color.disable)
+                .foregroundStyle(Color.placeholder)
         }
         
         .frame(minHeight: 50)
         .padding(.horizontal, 16)
 
     }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
 
 #Preview {
-//    CommentView()
-    TestView()
-}
-
-
-struct TestView: View {
-    @State private var toggle: Bool = false
-    
-    var body: some View {
-        VStack {
-            Button("토글") {
-                self.toggle.toggle()
-            }
-        }
-        .sheet(isPresented: $toggle) {
-            CommentView()
-                .presentationDetents([.height(500), .large])
-        }
-    }
+    CommentView(post: Post(
+        anonymityIndex: 0,
+        isMine: true,
+        content: "다들 매크로 팀원 조합 어떠신가요?",
+        isLike: true,
+        likeCount: 4,
+        commentCount: 1,
+        writingDate: .now
+    ))
 }
