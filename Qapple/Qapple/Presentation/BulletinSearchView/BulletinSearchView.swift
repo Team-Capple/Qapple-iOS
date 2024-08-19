@@ -19,7 +19,7 @@ struct BulletinSearchView: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                VStack {
+                VStack(spacing: 0) {
                     NavigationBar()
                     
                     SearchBar(searchText: $searchText)
