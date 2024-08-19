@@ -95,7 +95,7 @@ private struct HomeView: View {
     @StateObject var answerViewModel: AnswerViewModel = .init()
     
     
-    @State private var tab: Tab = .todayQuestion
+    @State private var tab: TodayQuestionTab = .todayQuestion
     
     var body: some View {
         NavigationStack(path: $pathModel.route) {
@@ -104,10 +104,10 @@ private struct HomeView: View {
                 
                 TabView(selection: $tab) {
                     TodayQuestionView()
-                        .tag(Tab.todayQuestion)
+                        .tag(TodayQuestionTab.todayQuestion)
                     
                     SearchResultView()
-                        .tag(Tab.questionList)
+                        .tag(TodayQuestionTab.questionList)
                 }
                 .edgesIgnoringSafeArea(.all)
                 .navigationDestination(for: PathType.self) { path in
@@ -268,8 +268,14 @@ private struct SignInView: View {
 private struct CustomTabBar: View {
     
     @EnvironmentObject var pathModel: Router
-    @Binding var tab: Tab
+    @Binding var tab: TodayQuestionTab
     
+    private var backgroundColor: Color {
+        switch tab {
+        case .todayQuestion: return Background.second
+        case .questionList: return Background.first
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -313,7 +319,7 @@ private struct CustomTabBar: View {
             .padding(.trailing, 16)
         }
         .frame(height: 32)
-        .background(Background.second)
+        .background(backgroundColor)
     }
 }
 
