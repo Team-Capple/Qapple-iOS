@@ -10,8 +10,7 @@ import SwiftUI
 @main
 struct CappleApp: App {
     
-    // register app delegate for Firebase setup
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     
     @Environment(\.scenePhase) private var scenePhase
     
@@ -21,8 +20,7 @@ struct CappleApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            TabBar(tabType: $tabType)
-             MainView(authViewModel: authViewModel)
+            MainView(authViewModel: authViewModel)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {

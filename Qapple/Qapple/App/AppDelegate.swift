@@ -16,6 +16,8 @@ class AppDelegate: NSObject, UIApplicationDelegate{
     // 앱이 켜졌을 때
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
+        UIApplication.shared.registerForRemoteNotifications()
+      
         // 파이어베이스 설정
         FirebaseApp.configure()
         
@@ -50,10 +52,16 @@ class AppDelegate: NSObject, UIApplicationDelegate{
     // fcm 토큰이 등록 되었을 때
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
+        let deviceTokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
+        print("✅ [Device Token Successed]\n\(deviceTokenString)\n")
+      
         // deviceToken을 Firebase 메세징에 전달해 APNs 토큰을 설정
         Messaging.messaging().apnsToken = deviceToken
     }
     
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("❌ [Device Token Failed]\n" + error.localizedDescription + "\n")
+    }
 }
 
 // Cloud Messaging...
