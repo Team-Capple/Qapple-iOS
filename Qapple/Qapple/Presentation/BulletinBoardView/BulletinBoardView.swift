@@ -117,4 +117,5 @@ private struct PostListView: View {
     NavigationStack {
         BulletinBoardView()
     }
+    .environmentObject(Router(pathType: .bulletinBoard))
 }
