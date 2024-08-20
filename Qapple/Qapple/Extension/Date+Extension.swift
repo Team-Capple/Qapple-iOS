@@ -10,10 +10,10 @@ import Foundation
 extension Date {
     
     /// 전체 날짜 포맷 문자열을 반환합니다.
-    /// ex) 2024.03.03
-    var fullDate: String {
+    /// ex) 03.03
+    var MonthDayDate: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
+        dateFormatter.dateFormat = "MM.dd"
         return dateFormatter.string(from: self)
     }
     

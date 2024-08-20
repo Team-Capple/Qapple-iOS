@@ -39,23 +39,18 @@ private struct TitleView: View {
     var body: some View {
         HStack(spacing: 8) {
             if actionType == .question {
-                Text(actionType.description) // TODO: 오전 오후 구분
+                Text(actionType.description) // TODO: 오전 오후 구분 (현재는 오전으로 표시)
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
                     .multilineTextAlignment(.leading)
             } else if actionType == .like {
-                
                 Text("\(likeCount)개의 \(actionType.description)")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
                     .multilineTextAlignment(.leading)
             } else {
-//                Image("profileDummyImage")
-//                    .resizable()
-//                    .frame(width: 28, height: 28)
-            
                 Text("누군가가 내 답변에 \(actionType.description)")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
@@ -63,7 +58,7 @@ private struct TitleView: View {
                     .multilineTextAlignment(.leading)
             }
             
-            Text(timeStamp.fullDate) // TODO: 날짜 수정 필요
+            Text(timeStamp.timeAgo)
                 .font(.pretendard(.regular, size: 14))
                 .foregroundStyle(TextLabel.sub4)
             
