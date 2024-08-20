@@ -12,6 +12,7 @@ struct CommentView: View {
     
     let post: Post
     
+    private let screenWidth: CGFloat = UIScreen.main.bounds.width
     var body: some View {
         ZStack {
             Color.bk
@@ -19,6 +20,7 @@ struct CommentView: View {
             
             VStack(spacing: 0) {
                 BulletinBoardCell(post: post, seeMoreAction: {})
+                    .frame(width: UIScreen.main.bounds.width)
                 
                 ScrollView {
                     VStack(spacing: 0) {
@@ -31,7 +33,6 @@ struct CommentView: View {
                         
                         Spacer(minLength: 50)
                     }
-                    .padding(.top, 10)
                 }
             }
         }
@@ -40,6 +41,7 @@ struct CommentView: View {
         }
         .overlay(alignment: .bottom) {
             addComment
+                .frame(width: screenWidth)
         }
     }
     
