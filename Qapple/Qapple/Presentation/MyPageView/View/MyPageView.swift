@@ -156,4 +156,6 @@ struct MyPageView: View {
 
 #Preview {
     MyPageView()
+        .environmentObject(Router(pathType: .myProfile))
+        .environmentObject(AuthViewModel())
 }
