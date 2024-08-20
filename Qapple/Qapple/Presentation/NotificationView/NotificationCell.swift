@@ -42,7 +42,7 @@ private struct TitleView: View {
     var body: some View {
         HStack(spacing: 8) {
             if actionType == .question {
-                Text(targetType.description + actionType.description) // TODO: 오전 오후 구분 (현재는 오전으로 표시)
+                Text(targetType.description + actionType.description)
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
