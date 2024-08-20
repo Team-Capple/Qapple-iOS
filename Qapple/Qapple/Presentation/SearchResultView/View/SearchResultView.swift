@@ -59,7 +59,7 @@ struct SearchResultView: View {
                 .padding(.horizontal, 24)
                 
                 ScrollView {
-                    LazyVStack(spacing: 0) {
+                    LazyVStack(spacing: 4) {
                         ForEach(Array(viewModel.questions.enumerated()), id: \.offset) {
                             index,
                             question in

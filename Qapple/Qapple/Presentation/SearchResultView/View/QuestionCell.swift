@@ -84,13 +84,13 @@ private struct HeaderView: View {
             }
             Spacer()
             
-            Button {
-                seeMoreAction() // TODO: SearchResultView에서 삭제 및 신고 설정
-            } label: {
-                Image(systemName: "ellipsis")
-                    .foregroundStyle(TextLabel.sub2)
-                    .frame(width: 20, height: 20)
-            }
+//            Button {
+//                seeMoreAction() // TODO: SearchResultView에서 삭제 및 신고 설정
+//            } label: {
+//                Image(systemName: "ellipsis")
+//                    .foregroundStyle(TextLabel.sub2)
+//                    .frame(width: 20, height: 20)
+//            }
         }
     }
     
@@ -120,7 +120,7 @@ private struct ContentView: View {
             .foregroundStyle(TextLabel.main)
             .font(.pretendard(.bold, size: 17))
             .lineSpacing(4.0)
-            .lineLimit(3)
+            .lineLimit(2)
     }
 }
 

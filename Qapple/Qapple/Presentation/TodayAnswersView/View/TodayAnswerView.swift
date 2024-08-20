@@ -204,9 +204,6 @@ private struct AnswerScrollView: View {
                             isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
                         }
                     )
-                    
-                    Separator()
-                        .padding(.leading, 24)
                 }
             }
             .sheet(item: $isMyAnswer) {
