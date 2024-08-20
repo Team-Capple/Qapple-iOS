@@ -16,29 +16,58 @@ struct BulletinBoardView: View {
     
     var body: some View {
         NavigationStack(path: $pathModel.route) {
-            VStack(spacing: 0) {
-                NavigationBar()
-                    .padding(.horizontal, 16)
-                
-                AcademyPlanDayCounter(
-                    currentEvent: bulletinBoardUseCase._state.currentEvent,
-                    progress: bulletinBoardUseCase._state.progress
-                )
-                .padding(.top, 20)
-                .padding(.horizontal, 22)
-                
-                PostListView()
-                    .padding(.top, 20)
-            }
-            .background(Background.first)
-            .refreshable {
-                // TODO: 데이터 새로 불러오기
-            }
-            .navigationDestination(for: BulletinBoardPathType.self) { path in
-                pathModel.getNavigationDestination(view: path)
+            GeometryReader { proxy in
+                ZStack {
+                    BoardView()
+                    
+                    NewPostButton(
+                        title: "게시글 작성",
+                        tapAction: {
+                            pathModel.pushView(screen: BulletinBoardPathType.bulletinPosting)
+                        }
+                    )
+                    .position(
+                        CGPoint(
+                            x: proxy.size.width / 2,
+                            y: proxy.size.height - 72
+                        )
+                    )
+                }
+                .background(Background.first)
+                .refreshable {
+                    // TODO: 데이터 새로 불러오기
+                }
+                .navigationDestination(for: BulletinBoardPathType.self) { path in
+                    pathModel.getNavigationDestination(view: path)
+                        .environmentObject(bulletinBoardUseCase)
+                }
             }
         }
         .environmentObject(bulletinBoardUseCase)
+    }
+}
+
+// MARK: - BoardView
+
+private struct BoardView: View {
+    
+    @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            NavigationBar()
+                .padding(.horizontal, 16)
+            
+            AcademyPlanDayCounter(
+                currentEvent: bulletinBoardUseCase._state.currentEvent,
+                progress: bulletinBoardUseCase._state.progress
+            )
+            .padding(.top, 20)
+            .padding(.horizontal, 16)
+            
+            PostListView()
+                .padding(.top, 20)
+        }
     }
 }
 
@@ -48,32 +77,45 @@ private struct NavigationBar: View {
     @EnvironmentObject private var pathModel: Router
     
     var body: some View {
-        HStack(spacing: 24) {
+        CustomTabBar()
+    }
+}
+
+// MARK: - 커스텀 탭바
+private struct CustomTabBar: View {
+    
+    @EnvironmentObject var pathModel: Router
+    
+    var body: some View {
+        ZStack {
             Text("자유게시판")
-                .pretendard(.bold, 25)
+                .pretendard(.medium, 16)
                 .foregroundStyle(.white)
             
-            Spacer()
-            
-            CustomToolbarItem(
-                buttonType: .search,
-                tapAction: {
-                    // TODO: 게시글 검색하기 View 이동
-                    pathModel.pushView(
-                        screen: BulletinBoardPathType.bulletinSearch
-                    )
+            HStack(spacing: 8) {
+                Spacer()
+                
+                Button {
+                    pathModel.pushView(screen: BulletinBoardPathType.alert)
+                } label: {
+                    Image(.noticeIcon)
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundColor(GrayScale.icon)
+                        .frame(width: 26 , height: 26)
                 }
-            )
-            
-            CustomToolbarItem(
-                buttonType: .plus,
-                tapAction: {
-                    // TODO: 게시글 작성하기 View 이동
-                    pathModel.pushView(
-                        screen: BulletinBoardPathType.bulletinPosting
-                    )
+                
+                Button {
+                    pathModel.pushView(screen: BulletinBoardPathType.search)
+                } label: {
+                    Image(.search)
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundColor(GrayScale.icon)
+                        .frame(width: 26 , height: 26)
                 }
-            )
+            }
+            .padding(.trailing, 8)
         }
         .frame(height: 32)
     }

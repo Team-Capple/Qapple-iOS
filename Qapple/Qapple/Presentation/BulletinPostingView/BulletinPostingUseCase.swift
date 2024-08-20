@@ -11,7 +11,7 @@ final class BulletinPostingUseCase: ObservableObject {
 
     @Published var _state: State
 
-    let textCountLimit = 250
+    let textCountLimit = 150
 
     init() {
         self._state = State(

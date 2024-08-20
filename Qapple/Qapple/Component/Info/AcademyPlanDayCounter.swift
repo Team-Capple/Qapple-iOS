@@ -24,13 +24,14 @@ struct AcademyPlanDayCounter: View {
                 Image(.calendar)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 64, height: 64)
+                    .frame(width: 54, height: 54)
             }
             
             ProgressBar(progress: progress)
         }
-        .padding(20)
-        .background(TextLabel.bk)
+        .padding(.vertical, 16)
+        .padding(.horizontal, 20)
+        .background(Background.second)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
@@ -43,19 +44,21 @@ private struct CurrentEventTitle: View {
     let dayLeftUntilNextEvent = 23
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Text(currentEvent)
                     .foregroundStyle(BrandPink.text)
+                    .pretendard(.bold, 23)
                 
                 Text("까지")
                     .foregroundStyle(TextLabel.main)
+                    .pretendard(.semiBold, 15)
             }
             
             Text("D-\(dayLeftUntilNextEvent)")
                 .foregroundStyle(TextLabel.main)
+                .pretendard(.bold, 24)
         }
-        .pretendard(.bold, 23)
     }
 }
 
@@ -77,7 +80,7 @@ private struct ProgressBar: View {
                     .frame(width: proxy.size.width * progress)
             }
         }
-        .frame(height: 20)
+        .frame(height: 16)
     }
 }
 
