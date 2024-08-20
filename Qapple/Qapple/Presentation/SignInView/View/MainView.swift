@@ -128,7 +128,7 @@ private struct HomeView: View {
                         CompleteAnswerView(viewModel: answerViewModel)
                         
                     case .todayAnswer(let questionId, let questionContent):
-                        TodayAnswerView(
+                        AnswerListView(
                             questionId: questionId,
                             questionContent: questionContent
                         )
@@ -308,11 +308,11 @@ private struct CustomTabBar: View {
                 Button {
                     pathModel.pushView(screen: QuestionListPathType.notifications)
                 } label: {
-                    Image(systemName: "bell")
+                    Image(.noticeIcon)
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
                         .foregroundColor(.white)
-                        .frame(width: 20 , height: 26)
+                        .frame(width: 24 , height: 24)
                 }
             }
             .padding(.trailing, 16)

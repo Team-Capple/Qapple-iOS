@@ -48,13 +48,16 @@ struct WrittenAnswerView: View {
                     ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) { index, answer in
                         VStack {
                             AnswerCell(
-                                anonymity: answer.nickname,
-                                content: answer.content,
-                                isLike: answer.isLike,
-                                likeCount: answer.likeCount,
-                                commentCount: answer.commentCount,
-                                writingDate: answer.writingDate,
-                                isReported: false,
+                                answer: Answer(
+                                    id: answer.answerId,
+                                    anonymityId: 0, // TODO: 더미데이터 바꾸기
+                                    content: answer.content,
+                                    isLike: true, // TODO: 더미데이터 바꾸기,
+                                    likeCount: 13, // TODO: 더미데이터 바꾸기,
+                                    commentCount: 8, // TODO: 더미데이터 바꾸기,
+                                    writingDate: .now, // TODO: 더미데이터 바꾸기,
+                                    isReported: false
+                                ),
                                 seeMoreAction: {
                                     isMyAnswer = .init(answerId: answer.answerId, isMine: true)
                                 }
