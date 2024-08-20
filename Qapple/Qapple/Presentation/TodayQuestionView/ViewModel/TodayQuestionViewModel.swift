@@ -89,7 +89,8 @@ extension TodayQuestionViewModel {
                     keyword: nil,
                     size: nil
                 ))
-            self.answerList = answerPreview.answerInfos
+            let answerList = Array(answerPreview.answerInfos.prefix(3))
+            self.answerList = answerList
         } catch {
             print("답변 프리뷰 업데이트 실패")
         }

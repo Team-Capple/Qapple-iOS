@@ -23,7 +23,6 @@ struct TodayQuestionView: View {
             
             ScrollView {
                 VStack(spacing: 0) {
-                    
                     HeaderView(viewModel: viewModel)
                     
                     HeaderButtonView(viewModel: viewModel)
