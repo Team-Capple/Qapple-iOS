@@ -33,24 +33,57 @@ private struct MainTabView: View {
     @StateObject private var myPagePathModel: Router = .init(pathType: .myProfile)
     
     var body: some View {
-            VStack(spacing: 0) {
-                switch tabType {
-                case .questionList:
-                    HomeView()
-                        .environmentObject(homePathModel)
-                    
-                case .bulletinBoard:
-                    BulletinBoardView()
-                        .environmentObject(bulletinPathModel)
-                    
-                case .myProfile:
-                    MyPageView()
-                        .environmentObject(myPagePathModel)
+        TabView(selection: $tabType) {
+            HomeView()
+                .environmentObject(homePathModel)
+                .tag(TabType.questionList)
+                .tabItem {
+                    TabItem(
+                        systemImage: TabType.questionList.icon,
+                        title: TabType.questionList.title
+                    )
                 }
-                
-                // TODO: 특정 뷰에서 Tab 숨기기
-                TabBar(tabType: $tabType)
-            }
+            
+            BulletinBoardView()
+                .environmentObject(bulletinPathModel)
+                .tag(TabType.bulletinBoard)
+                .tabItem {
+                    TabItem(
+                        systemImage: TabType.bulletinBoard.icon,
+                        title: TabType.bulletinBoard.title
+                    )
+                }
+            
+            MyPageView()
+                .environmentObject(myPagePathModel)
+                .tag(TabType.myProfile)
+                .tabItem {
+                    TabItem(
+                        systemImage: TabType.myProfile.icon,
+                        title: TabType.myProfile.title
+                    )
+                }
+        }
+        .tint(BrandPink.button)
+    }
+}
+
+// MARK: - TabItem
+
+private struct TabItem: View {
+    
+    let systemImage: String
+    let title: String
+    
+    var body: some View {
+        VStack(spacing: 6) {
+            Image(systemName: systemImage)
+                .resizable()
+                .frame(width: 32, height: 32)
+            
+            Text(title)
+                .pretendard(.medium, 12)
+        }
     }
 }
 
@@ -62,7 +95,7 @@ private struct HomeView: View {
     @StateObject var answerViewModel: AnswerViewModel = .init()
     
     
-    @State private var tab: Tab = .todayQuestion
+    @State private var tab: TodayQuestionTab = .todayQuestion
     
     var body: some View {
         NavigationStack(path: $pathModel.route) {
@@ -71,10 +104,10 @@ private struct HomeView: View {
                 
                 TabView(selection: $tab) {
                     TodayQuestionView()
-                        .tag(Tab.todayQuestion)
+                        .tag(TodayQuestionTab.todayQuestion)
                     
                     SearchResultView()
-                        .tag(Tab.questionList)
+                        .tag(TodayQuestionTab.questionList)
                 }
                 .edgesIgnoringSafeArea(.all)
                 .navigationDestination(for: PathType.self) { path in
@@ -235,8 +268,14 @@ private struct SignInView: View {
 private struct CustomTabBar: View {
     
     @EnvironmentObject var pathModel: Router
-    @Binding var tab: Tab
+    @Binding var tab: TodayQuestionTab
     
+    private var backgroundColor: Color {
+        switch tab {
+        case .todayQuestion: return Background.second
+        case .questionList: return Background.first
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -280,7 +319,7 @@ private struct CustomTabBar: View {
             .padding(.trailing, 16)
         }
         .frame(height: 32)
-        .background(Background.second)
+        .background(backgroundColor)
     }
 }
 

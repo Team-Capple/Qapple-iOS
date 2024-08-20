@@ -89,7 +89,6 @@
 		8295BDB62BA322A300115FA8 /* NetworkManager+Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */; };
 		8295BDB82BA322E600115FA8 /* NetworkManager+Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */; };
 		8295BDBA2BA3231000115FA8 /* NetworkManager+Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */; };
-		82A8251A2C70BAFF0084D7E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A825192C70BAFF0084D7E8 /* AppDelegate.swift */; };
 		82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790B2B93291C00CC7708 /* ReportView.swift */; };
 		82C3790E2B93292200CC7708 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790D2B93292200CC7708 /* ReportViewModel.swift */; };
 		82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790F2B9330BA00CC7708 /* ReportListRow.swift */; };
@@ -98,7 +97,7 @@
 		82C379192B93483B00CC7708 /* AlertListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C379182B93483B00CC7708 /* AlertListRow.swift */; };
 		82C3791B2B93499300CC7708 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3791A2B93499300CC7708 /* Alert.swift */; };
 		82C3791D2B943CDB00CC7708 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3791C2B943CDB00CC7708 /* Date+Extension.swift */; };
-		82C3791F2B94A50000CC7708 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3791E2B94A50000CC7708 /* Tab.swift */; };
+		82C3791F2B94A50000CC7708 /* TodayQuestionTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3791E2B94A50000CC7708 /* TodayQuestionTab.swift */; };
 		82CDA7722BB169EA0031AEB4 /* CompleteAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA7712BB169EA0031AEB4 /* CompleteAnswerView.swift */; };
 		82CDA7742BB270690031AEB4 /* PopGestureDisabledViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA7732BB270690031AEB4 /* PopGestureDisabledViewModifier.swift */; };
 		82CDA7772BB2EBC00031AEB4 /* PopGestureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA7762BB2EBC00031AEB4 /* PopGestureManager.swift */; };
@@ -241,7 +240,6 @@
 		8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Answer.swift"; sourceTree = "<group>"; };
 		8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Tag.swift"; sourceTree = "<group>"; };
 		8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Member.swift"; sourceTree = "<group>"; };
-		82A825192C70BAFF0084D7E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82BBA09A2BBF80410092D37E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		82C3790B2B93291C00CC7708 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		82C3790D2B93292200CC7708 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -251,7 +249,7 @@
 		82C379182B93483B00CC7708 /* AlertListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertListRow.swift; sourceTree = "<group>"; };
 		82C3791A2B93499300CC7708 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		82C3791C2B943CDB00CC7708 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		82C3791E2B94A50000CC7708 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		82C3791E2B94A50000CC7708 /* TodayQuestionTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayQuestionTab.swift; sourceTree = "<group>"; };
 		82CDA7712BB169EA0031AEB4 /* CompleteAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteAnswerView.swift; sourceTree = "<group>"; };
 		82CDA7732BB270690031AEB4 /* PopGestureDisabledViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopGestureDisabledViewModifier.swift; sourceTree = "<group>"; };
 		82CDA7762BB2EBC00031AEB4 /* PopGestureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopGestureManager.swift; sourceTree = "<group>"; };
@@ -1042,7 +1040,7 @@
 				F3D452D62B8A663E000BA51C /* CustomNavigationTextButton.swift */,
 				F3D452D82B8A7019000BA51C /* CustonNavigationBar.swift */,
 				82C3791A2B93499300CC7708 /* Alert.swift */,
-				82C3791E2B94A50000CC7708 /* Tab.swift */,
+				82C3791E2B94A50000CC7708 /* TodayQuestionTab.swift */,
 				828715C72B9BFB9E001627DB /* MainPathModel.swift */,
 				8295BDAF2BA31C5C00115FA8 /* PrivacyDocument.swift */,
 				825226EE2BA9A7D8006998E8 /* MailView.swift */,
@@ -1265,7 +1263,7 @@
 				825226E82BA6E529006998E8 /* SignInInfo.swift in Sources */,
 				823736AB2C674B560057B9CF /* Post.swift in Sources */,
 				823736B12C6771DA0057B9CF /* BulletinSearchView.swift in Sources */,
-				82C3791F2B94A50000CC7708 /* Tab.swift in Sources */,
+				82C3791F2B94A50000CC7708 /* TodayQuestionTab.swift in Sources */,
 				2C1E27232C71AC0C000B9D86 /* NavigationRouter.swift in Sources */,
 				8295BDB42BA3222200115FA8 /* MemberResponse.swift in Sources */,
 				07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */,
