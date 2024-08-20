@@ -186,6 +186,15 @@ private struct AnswerScrollView: View {
     }
     
     var body: some View {
+        
+        HStack(alignment: .top) {
+            Text("\(viewModel.answers.count)개의 질문")
+                .font(.pretendard(.semiBold, size: 15))
+                .foregroundStyle(TextLabel.sub3)
+            Spacer()
+        }
+        .padding(.leading, 20)
+        
         ScrollView(.vertical, showsIndicators: false) {
             ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
                 index,
