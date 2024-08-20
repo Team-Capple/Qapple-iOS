@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct NotificationCell: View {
-    let isQuestion: Bool
     let targetContent: String
-    let userName: String
-    let actionDescription: String
+    let actionType: NotificationUseCase.NotificationActionType
     let commentContent: String?
     let timeStamp: Date
     let seeMoreAction: () -> Void
@@ -21,7 +19,7 @@ struct NotificationCell: View {
             seeMoreAction()
         } label: {
             VStack(alignment: .leading, spacing: 12) {
-                TitleView(isQuestion: isQuestion, userName: userName, actionDescription: actionDescription, timeStamp: timeStamp)
+                TitleView(actionType: actionType, timeStamp: timeStamp)
                 
                 ContentView(targetContent: targetContent, commentContent: commentContent)
             }
@@ -33,25 +31,23 @@ struct NotificationCell: View {
 // MARK: - TitleView
 
 private struct TitleView: View {
-    let isQuestion: Bool
-    let userName: String
-    let actionDescription: String
+    let actionType: NotificationUseCase.NotificationActionType
     let timeStamp: Date
     
     var body: some View {
         HStack(spacing: 8) {
-            if !isQuestion {
-                Image("profileDummyImage")
-                    .resizable()
-                    .frame(width: 28, height: 28)
-                
-                Text("\(userName)님이 \(actionDescription)")
+            if actionType == .question {
+                Text(actionType.description) // TODO: 오전 오후 구분
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
                     .multilineTextAlignment(.leading)
             } else {
-                Text(actionDescription)
+//                Image("profileDummyImage")
+//                    .resizable()
+//                    .frame(width: 28, height: 28)
+                
+                Text("누군가가 내 답변에 \(actionType.description)")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
@@ -90,10 +86,8 @@ private struct ContentView: View {
 
 #Preview {
     NotificationCell(
-        isQuestion: true,
         targetContent: "'어떤 게시글인지가 들어갑니다.'",
-        userName: "아무개",
-        actionDescription: "댓글을 달았어요",
+        actionType: .question,
         commentContent: "내용이 들어갑니다.",
         timeStamp: Date()
     ) {

@@ -47,10 +47,8 @@ private struct NotificationContentView: View {
                     let notification = notificationUseCase._state[index]
                     
                     NotificationCell(
-                        isQuestion: notification.isQuestion,
                         targetContent: notification.targetContent,
-                        userName: notification.userName,
-                        actionDescription: notification.actionType.description,
+                        actionType: notification.actionType,
                         commentContent: notification.commentContent,
                         timeStamp: notification.timeStamp
                     ){
