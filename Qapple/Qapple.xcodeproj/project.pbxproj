@@ -47,7 +47,7 @@
 		4213DF782C6E1F8E007F433C /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213DF772C6E1F8E007F433C /* NotificationListView.swift */; };
 		4213DF7A2C6E1F97007F433C /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213DF792C6E1F97007F433C /* NotificationCell.swift */; };
 		6709800B2BA0A1FF00EE494D /* ReportClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6709800A2BA0A1FF00EE494D /* ReportClass.swift */; };
-		67B1850C2B9436270057E6BB /* TodayAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1850B2B9436270057E6BB /* TodayAnswerView.swift */; };
+		67B1850C2B9436270057E6BB /* AnswerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1850B2B9436270057E6BB /* AnswerListView.swift */; };
 		67B1850E2B9436450057E6BB /* TodayAnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1850D2B9436450057E6BB /* TodayAnswerViewModel.swift */; };
 		823736A92C674A370057B9CF /* BulletinBoardUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823736A82C674A370057B9CF /* BulletinBoardUseCase.swift */; };
 		823736AB2C674B560057B9CF /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823736AA2C674B560057B9CF /* Post.swift */; };
@@ -199,7 +199,7 @@
 		4213DF772C6E1F8E007F433C /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		4213DF792C6E1F97007F433C /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		6709800A2BA0A1FF00EE494D /* ReportClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportClass.swift; sourceTree = "<group>"; };
-		67B1850B2B9436270057E6BB /* TodayAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAnswerView.swift; sourceTree = "<group>"; };
+		67B1850B2B9436270057E6BB /* AnswerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerListView.swift; sourceTree = "<group>"; };
 		67B1850D2B9436450057E6BB /* TodayAnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAnswerViewModel.swift; sourceTree = "<group>"; };
 		823736A82C674A370057B9CF /* BulletinBoardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardUseCase.swift; sourceTree = "<group>"; };
 		823736AA2C674B560057B9CF /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -503,13 +503,13 @@
 			path = NotificationView;
 			sourceTree = "<group>";
 		};
-		67B185082B9435EF0057E6BB /* TodayAnswersView */ = {
+		67B185082B9435EF0057E6BB /* AnswerListView */ = {
 			isa = PBXGroup;
 			children = (
 				67B1850A2B9436190057E6BB /* View */,
 				67B185092B9436120057E6BB /* ViewModel */,
 			);
-			path = TodayAnswersView;
+			path = AnswerListView;
 			sourceTree = "<group>";
 		};
 		67B185092B9436120057E6BB /* ViewModel */ = {
@@ -523,7 +523,7 @@
 		67B1850A2B9436190057E6BB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				67B1850B2B9436270057E6BB /* TodayAnswerView.swift */,
+				67B1850B2B9436270057E6BB /* AnswerListView.swift */,
 				82D583B62B9844E6003CC424 /* KeywordSelector.swift */,
 			);
 			path = View;
@@ -999,7 +999,7 @@
 				2C2E0ED32C63D15F003928C1 /* CommentView */,
 				82CDA7752BB2EB9F0031AEB4 /* Manager */,
 				F3EA67102B7645FC002417CE /* Helper */,
-				67B185082B9435EF0057E6BB /* TodayAnswersView */,
+				67B185082B9435EF0057E6BB /* AnswerListView */,
 				82C379112B9347AB00CC7708 /* AlertView */,
 				82C379082B93290700CC7708 /* ReportView */,
 				F3D452CE2B8A55A5000BA51C /* ProfileEditView */,
@@ -1245,7 +1245,7 @@
 				F37C17A72B889999005E5072 /* QuestionViewModel.swift in Sources */,
 				07D96ED82B79E7EB00754819 /* TodayQuestionView.swift in Sources */,
 				07D96EB32B77737500754819 /* Color+Extension.swift in Sources */,
-				67B1850C2B9436270057E6BB /* TodayAnswerView.swift in Sources */,
+				67B1850C2B9436270057E6BB /* AnswerListView.swift in Sources */,
 				8247172C2BC8C9B5005E9631 /* WrittenAnswerViewModel.swift in Sources */,
 				828715BE2B99FC54001627DB /* TagResponse.swift in Sources */,
 				6709800B2BA0A1FF00EE494D /* ReportClass.swift in Sources */,

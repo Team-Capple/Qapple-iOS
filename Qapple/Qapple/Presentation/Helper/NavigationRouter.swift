@@ -55,7 +55,7 @@ final class Router: ObservableObject, NavigationRouter {
             case .notifications:
                 NotificationListView()
             case .todayAnswer(questionId: let questionId, questionContent: let questionContent):
-                TodayAnswerView(questionId: questionId, questionContent: questionContent)
+                AnswerListView(questionId: questionId, questionContent: questionContent)
             case .alert:
                 AlertView()
             case .report(answerId: let answerId):

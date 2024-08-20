@@ -128,7 +128,7 @@ private struct HomeView: View {
                         CompleteAnswerView(viewModel: answerViewModel)
                         
                     case .todayAnswer(let questionId, let questionContent):
-                        TodayAnswerView(
+                        AnswerListView(
                             questionId: questionId,
                             questionContent: questionContent
                         )

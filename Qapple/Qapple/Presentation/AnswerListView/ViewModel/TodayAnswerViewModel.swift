@@ -9,7 +9,7 @@
 
 import Foundation
 
-class TodayAnswersViewModel: ObservableObject {
+class AnswerListViewModel: ObservableObject {
     
     @Published var keywords: [String] = []
     @Published var todayQuestion: String = ""
