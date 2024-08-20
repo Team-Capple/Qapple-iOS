@@ -18,34 +18,23 @@ struct QuestionCell: View {
     
     var body: some View {
         
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             
             HeaderView(
                 question: question,
                 seeMoreAction: seeMoreAction
             )
             
-            Spacer()
-                .frame(height: 16)
-            
             ContentView(question: question)
-            
-            Spacer()
-                .frame(height: 16)
+                .padding(.top, 8)
+                .padding(.trailing, 90 + 16)
             
             AnswerButtonView(question: question)
+                .padding(.top, 8)
         }
-        .padding(question.questionStatus == .live ? 20 : 0)
-        .background(
-            Group {
-                if question.questionStatus == .live {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.white.opacity(0.04))
-                } else {
-                    Background.first
-                }
-            }
-        ) // 배경색을 설정하고 투명도를 조절합니다.
+        .padding(20)
+        .background(RoundedRectangle(cornerRadius: 20)
+            .fill(Color.white.opacity(0.04))) // 배경색을 설정하고 투명도를 조절합니다.
     }
 }
 
@@ -71,26 +60,9 @@ private struct HeaderView: View {
             Spacer()
                 .frame(width: 2)
             
-            if question.questionStatus != .live {
-                Text("\(getTimePeriod(from: question.livedAt ?? "default") ?? "오전")질문")
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(GrayScale.icon)
-                
-                Spacer()
-                    .frame(width: 4)
-                
-                Rectangle()
-                    .frame(width: 1, height: 10)
-                    .foregroundStyle(GrayScale.icon)
-                
-                Spacer()
-                    .frame(width: 4)
-            }
-            
             Text(formattedDate(from: question.livedAt ?? "default"))
-                .font(.pretendard(.semiBold, size: 14))
+                .font(.pretendard(.regular, size: 13))
                 .foregroundStyle(GrayScale.icon)
-                .opacity(question.questionStatus == .live ? 1 : 0.6)
             
             Spacer()
                 .frame(width: 8)
@@ -112,17 +84,13 @@ private struct HeaderView: View {
             }
             Spacer()
             
-            Button {
-                seeMoreAction() // TODO: SearchResultView에서 삭제 및 신고 설정
-            } label: {
-                Image(systemName: "ellipsis")
-                    .foregroundStyle(TextLabel.sub2)
-                    .frame(width: 20, height: 20)
-            }
-            
-            HStack(alignment: .center) {
-                // 이거 뭔가요.......?
-            }
+//            Button {
+//                seeMoreAction() // TODO: SearchResultView에서 삭제 및 신고 설정
+//            } label: {
+//                Image(systemName: "ellipsis")
+//                    .foregroundStyle(TextLabel.sub2)
+//                    .frame(width: 20, height: 20)
+//            }
         }
     }
     
@@ -139,35 +107,6 @@ private struct HeaderView: View {
             return "실패!" // 잘못된 입력 형식일 경우 처리
         }
     }
-    
-    /// 오전/오후 시간을 표현합니다.
-    private func getTimePeriod(from dateString: String) -> String? {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        inputFormatter.locale = Locale(identifier: "ko_KR") // 한국 시간으로 설정
-        
-        if let date = inputFormatter.date(from: dateString) {
-            let calendar = Calendar.current
-            let hour = calendar.component(.hour, from: date)
-            let minute = calendar.component(.minute, from: date)
-            
-            // 오전 7시 ~ 오후 6시 : AM
-            // 오후 6시 ~ 오전 1시 : PM
-            if (7...13).contains(hour) {
-                return "오전"
-            } else if (14...15).contains(hour) && (0...5).contains(minute) {
-                return "오전"
-            } else if (18...24).contains(hour) ||  0 == hour {
-                return "오후"
-            } else if (1...2).contains(hour) && (0...5).contains(minute) {
-                return "오후"
-            } else {
-                return "특별"
-            }
-        } else {
-            return "잘못됨" // 잘못된 입력 형식일 경우 처리
-        }
-    }
 }
 
 // MARK: - ContentView
@@ -176,23 +115,12 @@ private struct ContentView: View {
     
     let question: QuestionResponse.Questions.QuestionsInfos
     
-    /// 리스트 타이틀 텍스트를 반환합니다.
-    var listTitleText: AttributedString {
-        var questionMark = AttributedString("Q. ")
-        questionMark.foregroundColor = BrandPink.text
-        let text = AttributedString("\(question.content)")
-        return questionMark + text
-    }
-    
     var body: some View{
-        HStack(alignment: .top) {
-            
-            Text(question.questionStatus == .live ? AttributedString(question.content) : listTitleText)
-                .foregroundStyle(TextLabel.main)
-                .font(.pretendard(.bold, size: 17))
-                .lineSpacing(4.0)
-                .frame(maxWidth: 291, alignment: .leading)
-        }
+        Text(question.content)
+            .foregroundStyle(TextLabel.main)
+            .font(.pretendard(.bold, size: 17))
+            .lineSpacing(4.0)
+            .lineLimit(2)
     }
 }
 
@@ -220,8 +148,7 @@ private struct AnswerButtonView: View {
                     Text("답변하기")
                         .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(TextLabel.main)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
+                        .frame(width: 70, height: 36)
                         .background(BrandPink.button)
                         .cornerRadius(30, corners: .allCorners)
                 }
@@ -243,7 +170,11 @@ extension Date {
 }
 
 #Preview {
-    QuestionCell(question: DummyData.questionsInfo,
-                 questionNumber: 0) {}
-        .environmentObject(Router(pathType: .questionList))
+    ZStack {
+        Color.Background.first.ignoresSafeArea()
+        
+        QuestionCell(question: DummyData.questionsInfo,
+                     questionNumber: 0) {}
+            .environmentObject(Router(pathType: .questionList))
+    }
 }

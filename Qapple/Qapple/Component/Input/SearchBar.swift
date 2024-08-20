@@ -15,15 +15,15 @@ struct SearchBar: View {
     
     var body: some View {
         HStack(spacing: 6) {
-            Image(systemName: "magnifyingglass")
-                .resizable()
-                .frame(width: 16, height: 16)
-                .foregroundStyle(GrayScale.icon)
+            TextField("검색어를 입력해주세요", text: $searchText)
+                .pretendard(.semiBold, 15)
             
-            TextField("내용으로 검색이 가능해요", text: $searchText)
-                .pretendard(.bold, 14)
+            Image(.search)
+                .resizable()
+                .frame(width: 24, height: 24)
+                .foregroundStyle(GrayScale.icon)
         }
-        .padding(8)
+        .padding(14)
         .background(GrayScale.secondaryButton)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }

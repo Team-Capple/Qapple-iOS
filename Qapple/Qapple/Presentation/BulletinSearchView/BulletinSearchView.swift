@@ -11,24 +11,42 @@ import SwiftUI
 
 struct BulletinSearchView: View {
     
+    @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
     @State private var searchText = ""
     
     var body: some View {
-        VStack {
-            NavigationBar()
-            
-            SearchBar(searchText: $searchText)
-                .padding(.horizontal, 16)
-            
-            SearchListView(searchText: searchText)
+        GeometryReader { proxy in
+            ZStack {
+                VStack(spacing: 0) {
+                    NavigationBar()
+                    
+                    SearchBar(searchText: $searchText)
+                        .padding(.horizontal, 16)
+                    
+                    SearchListView(searchText: searchText)
+                }
+                
+                NewPostButton(
+                    title: "게시글 작성",
+                    tapAction: {
+                        pathModel.pushView(screen: BulletinBoardPathType.bulletinPosting)
+                    }
+                )
+                .position(
+                    CGPoint(
+                        x: proxy.size.width / 2,
+                        y: proxy.size.height - 72
+                    )
+                )
+            }
+            .background(Background.first)
+            .refreshable {
+                // TODO: 데이터 새로 불러오기
+            }
+            .navigationBarBackButtonHidden()
         }
-        .background(Background.first)
-        .refreshable {
-            // TODO: 데이터 새로 불러오기
-        }
-        .navigationBarBackButtonHidden()
     }
 }
 
@@ -51,17 +69,7 @@ private struct NavigationBar: View {
                     .font(Font.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main)
             },
-            trailingView: {
-                CustomToolbarItem(
-                    buttonType: .plus,
-                    tapAction: {
-                        // TODO: 게시글 작성 View 이동
-                        pathModel.pushView(
-                            screen: BulletinBoardPathType.bulletinPosting
-                        )
-                    }
-                )
-            },
+            trailingView: {},
             backgroundColor: Background.first)
     }
 }

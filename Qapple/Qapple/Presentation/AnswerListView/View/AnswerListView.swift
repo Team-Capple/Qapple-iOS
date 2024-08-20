@@ -1,5 +1,5 @@
 //
-//  TodayAnswer.swift
+//  AnswerListView.swift
 //  Capple
 //
 //  Created by ShimHyeonhee on 3/3/24.
@@ -7,10 +7,10 @@
 
 import Foundation
 import SwiftUI
-struct TodayAnswerView: View {
+struct AnswerListView: View {
     
     @EnvironmentObject var pathModel: Router
-    @StateObject var viewModel: TodayAnswersViewModel = .init()
+    @StateObject var viewModel: AnswerListViewModel = .init()
     
     @State private var isBottomSheetPresented = false
     
@@ -94,9 +94,9 @@ private struct CustomNavigationView: View {
 // MARK: - 키워드 스크롤 뷰
 private struct KeywordScrollView: View {
     
-    @ObservedObject var viewModel: TodayAnswersViewModel
+    @ObservedObject var viewModel: AnswerListViewModel
     
-    fileprivate init(viewModel: TodayAnswersViewModel) {
+    fileprivate init(viewModel: AnswerListViewModel) {
         self.viewModel = viewModel
     }
     
@@ -119,7 +119,7 @@ private struct KeywordScrollView: View {
 private struct FloatingQuestionCard: View {
     
     var questionContent: String // 질문 내용을 저장할 프로퍼티
-    @ObservedObject var viewModel: TodayAnswersViewModel // 뷰 모델
+    @ObservedObject var viewModel: AnswerListViewModel // 뷰 모델
     @State private var isCardExpanded = true // 카드 확장 상태
     @State private var isArrowActive = true
     var questionId: Int?  // 추가됨
@@ -173,13 +173,13 @@ private struct FloatingQuestionCard: View {
 // MARK: - 답변 스크롤 뷰
 private struct AnswerScrollView: View {
     @EnvironmentObject var pathModel: Router
-    @ObservedObject var viewModel: TodayAnswersViewModel
+    @ObservedObject var viewModel: AnswerListViewModel
     @Binding private var isBottomSheetPresented: Bool
     @State private var isMyAnswer: IsMyAnswer?
     
     let questionId: Int
     
-    fileprivate init(viewModel: TodayAnswersViewModel, isBottomSheetPresented: Binding<Bool>, questionId: Int) {
+    fileprivate init(viewModel: AnswerListViewModel, isBottomSheetPresented: Binding<Bool>, questionId: Int) {
         self.viewModel = viewModel
         self._isBottomSheetPresented = isBottomSheetPresented
         self.questionId = questionId
@@ -196,35 +196,23 @@ private struct AnswerScrollView: View {
         .padding(.leading, 20)
         
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
-                index,
-                answer in
-                VStack{
+            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
+                VStack {
                     AnswerCell(
-                        anonymity: answer.nickname,
-                        content: answer.content,
-                        isLike: answer.isLike,
-                        likeCount: answer.likeCount,
-                        commentCount: answer.commentCount,
-                        writingDate: answer.writingDate,
-                        isReported: answer.isReported,
+                        answer: Answer(
+                            id: answer.answerId,
+                            anonymityId: 0, // TODO: 더미데이터 바꾸기,
+                            content: answer.content,
+                            isLike: true, // TODO: 더미데이터 바꾸기,
+                            likeCount: 13, // TODO: 더미데이터 바꾸기,
+                            commentCount: 8, // TODO: 더미데이터 바꾸기,
+                            writingDate: .now, // TODO: 더미데이터 바꾸기,
+                            isReported: answer.isReported
+                        ),
                         seeMoreAction: {
                             isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
                         }
                     )
-                    
-//                    AnswerCell(
-//                        profileName: answer.nickname,
-//                        answer: answer.content,
-//                        keywords: answer.tags.splitTag,
-//                        isReported: answer.isReported,
-//                        seeMoreAction: {
-//                            isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
-//                        }
-//                    )
-                    
-                    Separator()
-                        .padding(.leading, 24)
                 }
             }
             .sheet(item: $isMyAnswer) {
@@ -241,7 +229,7 @@ private struct AnswerScrollView: View {
 }
 
 #Preview {
-    TodayAnswerView(
+    AnswerListView(
         questionId: 1,
         questionContent: "디폴트"
     )

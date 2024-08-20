@@ -7,169 +7,54 @@
 
 import SwiftUI
 
+// MARK: - BulletinBoardCell
+
 struct AnswerCell: View {
     
-    let anonymity: String
-    let content: String
-    let isLike: Bool
-    let likeCount: Int
-    let commentCount: Int
-    let writingDate: Date
-    let isReported: Bool
-    let seeMoreAction: () -> Void
-    
-    var body: some View {
-        if isReported {
-            ReportAnswerCell(
-                anonymity: anonymity,
-                content: content,
-                isReported: isReported,
-                seeMoreAction: seeMoreAction
-            )
-        } else {
-            NormalAnswerCell(
-                anonymity: anonymity,
-                content: content,
-                isLike: isLike,
-                likeCount: likeCount,
-                commentCount: commentCount,
-                writingDate: writingDate,
-                seeMoreAction: seeMoreAction
-            )
-        }
-    }
-}
-
-// MARK: - NormalAnswerCell
-
-private struct NormalAnswerCell: View {
-    
-    let anonymity: String
-    let content: String
-    let isLike: Bool
-    let likeCount: Int
-    let commentCount: Int
-    let writingDate: Date
+    let answer: Answer
     let seeMoreAction: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HeaderView(
-                anonymity: anonymity,
+                answer: answer,
                 seeMoreAction: seeMoreAction
             )
+            .padding(.horizontal, 16)
             
-            ContentView(
-                content: content,
-                isLike: isLike,
-                likeCount: likeCount,
-                commentCount: commentCount,
-                writingDate: writingDate
-            )
+            ContentView(answer: answer)
+                .padding(.horizontal, 16)
+            
+            Divider()
+                .padding(.top, 16)
         }
-        .padding(24)
+        .padding(.top, 16)
+        .background(Background.first)
     }
 }
 
-// MARK: - ReportAnswerCell
-
-private struct ReportAnswerCell: View {
-    
-    @State private var isReportContentShow = false
-    
-    var anonymity: String
-    var content: String
-    let isReported: Bool
-    let seeMoreAction: () -> Void
-    
-    var body: some View {
-        if !isReportContentShow {
-            HStack {
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("신고 되어 내용을 검토 중인 답변이에요")
-                        .font(.pretendard(.medium, size: 16))
-                        .foregroundStyle(TextLabel.sub3)
-                    
-                    HStack {
-                        Button {
-                            isReportContentShow.toggle()
-                        } label: {
-                            Text("답변 보기")
-                                .font(.pretendard(.medium, size: 16))
-                                .foregroundStyle(BrandPink.text)
-                        }
-                        
-                        Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
-                            .font(.pretendard(.medium, size: 14))
-                            .foregroundStyle(TextLabel.sub4)
-                    }
-                }
-                
-                Spacer()
-            }
-            .padding(24)
-        } else {
-            VStack {
-                HStack {
-                    Image("profileDummyImage")
-                    .resizable()
-                    .frame(width: 28, height: 28)
-                    
-                    Spacer()
-                        .frame(width: 8)
-                    
-                    Text(anonymity)
-                        .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(TextLabel.sub2)
-                        .frame(height: 10)
-                    
-                    Spacer()
-                    
-                    Button {
-                        isReportContentShow.toggle()
-                    } label: {
-                        Text("답변 숨기기")
-                            .font(.pretendard(.medium, size: 16))
-                            .foregroundStyle(BrandPink.text)
-                    }
-                }
-                
-                Spacer()
-                    .frame(height: 8)
-                
-                VStack(alignment: .leading) {
-                    
-                    Text(content)
-                        .font(.pretendard(.medium, size: 16))
-                        .foregroundStyle(TextLabel.main)
-                        .lineSpacing(6)
-                        .multilineTextAlignment(.leading)
-                    
-                    Spacer()
-                        .frame(height: 12)
-                }
-                .padding(.leading, 36)
-            }
-            .padding(24)
-        }
-    }
-}
 // MARK: - HeaderView
 
 private struct HeaderView: View {
-    let anonymity: String
+    
+    let answer: Answer
     let seeMoreAction: () -> Void
     
     var body: some View {
-        HStack(spacing: 8) {
-            Image("profileDummyImage") // 기존 이미지 설정은 프사가 있었던 것 같은데 익명제로 동일 이미지를 사용할 것 같음
+        HStack(spacing: 0) {
+            Image(.profileDummy)
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text(anonymity)
-                .font(.pretendard(.semiBold, size: 14))
-                .foregroundStyle(TextLabel.sub2)
-                .frame(height: 10)
+            Text("아무개 \(answer.anonymityId + 1)")
+                .pretendard(.semiBold, 14)
+                .foregroundStyle(GrayScale.icon)
+                .padding(.leading, 8)
+            
+            Text("\(answer.writingDate.timeAgo)")
+                .pretendard(.regular, 14)
+                .foregroundStyle(TextLabel.sub4)
+                .padding(.leading, 6)
             
             Spacer()
             
@@ -177,21 +62,20 @@ private struct HeaderView: View {
                 seeMoreAction()
             } label: {
                 Image(systemName: "ellipsis")
-                    .foregroundStyle(TextLabel.sub2)
-                    .frame(width: 20, height: 20)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 18, height: 18)
+                    .foregroundStyle(GrayScale.icon)
             }
         }
     }
 }
+
 // MARK: - ContentView
 
 private struct ContentView: View {
     
-    let content: String
-    let isLike: Bool
-    let likeCount: Int
-    let commentCount: Int
-    let writingDate: Date
+    let answer: Answer
     
     var body: some View {
         HStack(spacing: 8) {
@@ -199,59 +83,51 @@ private struct ContentView: View {
                 .foregroundStyle(.clear)
                 .frame(width: 28, height: 28)
             
-            VStack(alignment: .leading, spacing: 0) { // spacing 0 의문?
-                Text(content)
-                    .font(.pretendard(.medium, size: 16))
+            VStack(alignment: .leading, spacing: 0) {
+                Text(answer.content)
+                    .pretendard(.medium, 16)
                     .foregroundStyle(TextLabel.main)
-                    .lineSpacing(6)
-                    .multilineTextAlignment(.leading)
+                    .padding(.top, 2)
                 
-                RemoteView(
-                    isLike: isLike,
-                    likeCount: likeCount,
-                    commentCount: commentCount
-                )
-                
-                Text("\(writingDate.fullDate)") // TODO: 시간 수정 필요!
-                    .font(.pretendard(.regular, size: 14))
-                    .foregroundStyle(TextLabel.sub4)
-                    .padding(.top, 8)
+                RemoteView(answer: answer)
+                    .padding(.top, 12)
             }
         }
     }
 }
+
 // MARK: - RemoteView
 
 private struct RemoteView: View {
     
-    let isLike: Bool
-    let likeCount: Int
-    let commentCount: Int
+    let answer: Answer
     
     var body: some View {
         HStack {
             LikeButton(
-                isLike: isLike,
-                likeCount: likeCount
+                answer: answer,
+                tapAction: {
+                    // TODO: 좋아요 탭
+                }
             )
             
-            CommentButton(commentCount: commentCount)
+            CommentButton(answer: answer)
         }
     }
     
     struct LikeButton: View {
-        let isLike: Bool
-        let likeCount: Int
+        let answer: Answer
+        let tapAction: () -> Void
         
         var body: some View {
             Button {
-                // TODO: 좋아요 탭
+                tapAction()
             } label: {
                 HStack(spacing: 4) {
-                    Image(isLike ? .heartActive : .heart)
+                    Image(answer.isLike ? .heartActive : .heart)
                     
-                    Text("\(likeCount)")
-                        .font(.pretendard(.regular, size: 13))
+                    Text("\(answer.likeCount)")
+                        .pretendard(.regular, 13)
                         .foregroundStyle(TextLabel.sub3)
                 }
             }
@@ -259,17 +135,17 @@ private struct RemoteView: View {
     }
     
     struct CommentButton: View {
-        let commentCount: Int
+        let answer: Answer
         
         var body: some View {
             Button {
                 // TODO: 댓글 화면 present
             } label: {
                 HStack(spacing: 4) {
-                    Image(.comment) // TODO: 이미지 변경
+                    Image(.comment)
                     
-                    Text("\(commentCount)")
-                        .font(.pretendard(.regular, size: 13))
+                    Text("\(answer.commentCount)")
+                        .pretendard(.regular, 13)
                         .foregroundStyle(TextLabel.sub3)
                 }
             }
@@ -277,20 +153,20 @@ private struct RemoteView: View {
     }
 }
 
+// MARK: - Preview
+
 #Preview {
-    ZStack {
-        Color(Background.first)
-            .ignoresSafeArea()
-        
-        AnswerCell(
-            anonymity: "아무개",
-            content: "지금 누가 팀이 있고 없는지 궁금해요",
+    AnswerCell(
+        answer: Answer(
+            id: 0,
+            anonymityId: 0,
+            content: "다들 매크로 팀원 조합 어떠신가요?",
             isLike: true,
-            likeCount: 32,
-            commentCount: 32,
-            writingDate: Date(),
-            isReported: false,
-            seeMoreAction: {}
+            likeCount: 4,
+            commentCount: 1,
+            writingDate: .now,
+            isReported: true
         )
-    }
+    ) {}
+        .environmentObject(BulletinBoardUseCase())
 }
