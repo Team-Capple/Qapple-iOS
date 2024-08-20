@@ -16,6 +16,7 @@ final class NotificationUseCase: ObservableObject {
         self._state = [
             State(
                 targetContent: "'어떤 게시글인지가 들어갑니다.'",
+                targetType: .board,
                 actionType: .comment,
                 commentContent: "내용이 들어갑니다.",
                 timeStamp: Date(),
@@ -24,6 +25,7 @@ final class NotificationUseCase: ObservableObject {
             ),
             State(
                 targetContent: "'어떤 게시글인지가 들어갑니다.'",
+                targetType: .board,
                 actionType: .like,
                 commentContent: nil,
                 timeStamp: Date(),
@@ -32,6 +34,7 @@ final class NotificationUseCase: ObservableObject {
             ),
             State(
                 targetContent: "'어떤 질문인지가 들어갑니다.'",
+                targetType: .morning,
                 actionType: .question,
                 commentContent: "오전 질문이 마감 되었어요\n다른 러너들은 어떻게 답 했는지 확인해보세요",
                 timeStamp: Date(),
@@ -40,6 +43,7 @@ final class NotificationUseCase: ObservableObject {
             ),
             State(
                 targetContent: "'매크로 무슨팀과 함께하고 싶어요?'",
+                targetType: .answer,
                 actionType: .comment,
                 commentContent: "저는 시몬스랑 하고 싶어요!",
                 timeStamp: Date(),
@@ -54,11 +58,35 @@ extension NotificationUseCase {
     
     struct State {
         let targetContent: String // 어떤 게시물인지?
+        let targetType: NotificationTargetType
         let actionType: NotificationActionType
         let commentContent: String?
         let timeStamp: Date
         let likeCount: Int
         let isReadStatus: Bool // 확인한건지?
+    }
+}
+
+extension NotificationUseCase {
+    
+    enum NotificationTargetType {
+        case answer
+        case board
+        case morning
+        case afternoon
+    
+        var description: String {
+            switch self {
+            case .answer:
+                return "답변"
+            case .board:
+                return "게시글"
+            case .morning:
+                return "오전 "
+            case .afternoon:
+                return "오후 "
+            }
+        }
     }
 }
 
@@ -74,7 +102,7 @@ extension NotificationUseCase {
             case .comment:
                 return "댓글을 달았어요"
             case .like:
-                return "좋아요가 달렸어요"
+                return "좋아요를 눌렀어요"
             case .question:
                 return "질문 마감 알림"
             }

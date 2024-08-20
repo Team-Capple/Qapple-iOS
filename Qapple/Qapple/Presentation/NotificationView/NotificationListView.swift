@@ -30,7 +30,7 @@ private struct NotificationContentView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 12) {
+            VStack(spacing: 0) {
                 CustomNavigationBar(
                     leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
                         pathModel.pop()
@@ -48,6 +48,7 @@ private struct NotificationContentView: View {
                     
                     NotificationCell(
                         targetContent: notification.targetContent,
+                        targetType: notification.targetType,
                         actionType: notification.actionType,
                         commentContent: notification.commentContent,
                         timeStamp: notification.timeStamp,
@@ -57,8 +58,8 @@ private struct NotificationContentView: View {
                     }
                     
                     Separator()
+                        .padding(.leading)
                 }
-                .padding(.horizontal)
             }
         }
     }

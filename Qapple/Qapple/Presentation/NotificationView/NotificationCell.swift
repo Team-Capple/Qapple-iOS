@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NotificationCell: View {
     let targetContent: String
+    let targetType: NotificationUseCase.NotificationTargetType
     let actionType: NotificationUseCase.NotificationActionType
     let commentContent: String?
     let timeStamp: Date
@@ -20,18 +21,20 @@ struct NotificationCell: View {
             seeMoreAction()
         } label: {
             VStack(alignment: .leading, spacing: 12) {
-                TitleView(actionType: actionType, timeStamp: timeStamp, likeCount: likeCount)
+                TitleView(targetType: targetType, actionType: actionType, timeStamp: timeStamp, likeCount: likeCount)
                 
                 ContentView(targetContent: targetContent, commentContent: commentContent)
             }
+            .padding(.horizontal)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(PressableButtonStyle())
     }
 }
 
 // MARK: - TitleView
 
 private struct TitleView: View {
+    let targetType: NotificationUseCase.NotificationTargetType
     let actionType: NotificationUseCase.NotificationActionType
     let timeStamp: Date
     let likeCount: Int
@@ -39,7 +42,7 @@ private struct TitleView: View {
     var body: some View {
         HStack(spacing: 8) {
             if actionType == .question {
-                Text(actionType.description) // TODO: 오전 오후 구분 (현재는 오전으로 표시)
+                Text(targetType.description + actionType.description) // TODO: 오전 오후 구분 (현재는 오전으로 표시)
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
@@ -51,7 +54,7 @@ private struct TitleView: View {
                     .lineSpacing(6)
                     .multilineTextAlignment(.leading)
             } else {
-                Text("누군가가 내 답변에 \(actionType.description)")
+                Text("누군가 내 \(targetType.description)에 \(actionType.description)")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
@@ -88,9 +91,21 @@ private struct ContentView: View {
     }
 }
 
+// MARK: - PressableButtonStyle
+
+struct PressableButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .background(configuration.isPressed ? .white.opacity(0.05) : Background.first)
+            .animation(.none, value: configuration.isPressed)
+    }
+}
+
 #Preview {
     NotificationCell(
         targetContent: "'어떤 게시글인지가 들어갑니다.'",
+        targetType: .board,
         actionType: .like,
         commentContent: nil,
         timeStamp: Date(),
