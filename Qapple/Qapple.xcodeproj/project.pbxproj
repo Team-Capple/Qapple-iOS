@@ -68,6 +68,7 @@
 		825226ED2BA96CEF006998E8 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825226EC2BA96CEF006998E8 /* MyPageViewModel.swift */; };
 		825226EF2BA9A7D8006998E8 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825226EE2BA9A7D8006998E8 /* MailView.swift */; };
 		826933532C73954B0004E0B5 /* NewPostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826933522C73954B0004E0B5 /* NewPostButton.swift */; };
+		826933552C743D370004E0B5 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826933542C743D370004E0B5 /* Answer.swift */; };
 		827897B52BBC41A800B3D6F0 /* WrittenAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827897B42BBC41A800B3D6F0 /* WrittenAnswerView.swift */; };
 		827897B72BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827897B62BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift */; };
 		8280CA7A2C5F1F2C00AC07B9 /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */; };
@@ -220,6 +221,7 @@
 		825226EC2BA96CEF006998E8 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		825226EE2BA9A7D8006998E8 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		826933522C73954B0004E0B5 /* NewPostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostButton.swift; sourceTree = "<group>"; };
+		826933542C743D370004E0B5 /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		827897B42BBC41A800B3D6F0 /* WrittenAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrittenAnswerView.swift; sourceTree = "<group>"; };
 		827897B62BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpServiceTermsView.swift; sourceTree = "<group>"; };
 		8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
@@ -933,6 +935,7 @@
 			children = (
 				82398F082B98ABB4006269E0 /* DTO.swift */,
 				823736AA2C674B560057B9CF /* Post.swift */,
+				826933542C743D370004E0B5 /* Answer.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1299,6 +1302,7 @@
 				07BF363F2B8B82C90047F3F7 /* ConfirmAnswerView.swift in Sources */,
 				828715C22B9AC91A001627DB /* AnswerResponse.swift in Sources */,
 				828A03D92BAAC79A0038CF91 /* ProfileEditViewModel.swift in Sources */,
+				826933552C743D370004E0B5 /* Answer.swift in Sources */,
 				827897B72BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift in Sources */,
 				828715BC2B99F6EA001627DB /* TagRequest.swift in Sources */,
 				82D583B92B9852C4003CC424 /* QuestionResponse.swift in Sources */,

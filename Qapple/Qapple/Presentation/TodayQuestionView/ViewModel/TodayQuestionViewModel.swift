@@ -69,6 +69,7 @@ extension TodayQuestionViewModel {
         do {
             let mainQuestion = try await NetworkManager.fetchMainQuestion()
             self.mainQuestion = mainQuestion
+            print("메인 질문 ID:\(mainQuestion.questionId)")
         } catch {
             print("메인 질문 업데이트 실패")
         }
@@ -86,11 +87,10 @@ extension TodayQuestionViewModel {
                 request: .init(
                     questionId: self.mainQuestion.questionId,
                     keyword: nil,
-                    size: 3
+                    size: nil
                 ))
             self.answerList = answerPreview.answerInfos
         } catch {
-            // 요기 오류나는 이유 -> Request 타입 임시 수정했음.
             print("답변 프리뷰 업데이트 실패")
         }
     }

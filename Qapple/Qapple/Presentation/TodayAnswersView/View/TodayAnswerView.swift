@@ -187,32 +187,23 @@ private struct AnswerScrollView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
-                index,
-                answer in
-                VStack{
+            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
+                VStack {
                     AnswerCell(
-                        anonymity: answer.nickname,
-                        content: answer.content,
-                        isLike: answer.isLike,
-                        likeCount: answer.likeCount,
-                        commentCount: answer.commentCount,
-                        writingDate: answer.writingDate,
-                        isReported: answer.isReported,
+                        answer: Answer(
+                            id: answer.answerId,
+                            anonymityId: 0, // TODO: 더미데이터 바꾸기,
+                            content: answer.content,
+                            isLike: true, // TODO: 더미데이터 바꾸기,
+                            likeCount: 13, // TODO: 더미데이터 바꾸기,
+                            commentCount: 8, // TODO: 더미데이터 바꾸기,
+                            writingDate: .now, // TODO: 더미데이터 바꾸기,
+                            isReported: answer.isReported
+                        ),
                         seeMoreAction: {
                             isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
                         }
                     )
-                    
-//                    AnswerCell(
-//                        profileName: answer.nickname,
-//                        answer: answer.content,
-//                        keywords: answer.tags.splitTag,
-//                        isReported: answer.isReported,
-//                        seeMoreAction: {
-//                            isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
-//                        }
-//                    )
                     
                     Separator()
                         .padding(.leading, 24)
