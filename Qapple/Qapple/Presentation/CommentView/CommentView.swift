@@ -26,11 +26,11 @@ struct CommentView: View {
                     VStack(spacing: 0) {
                         // 데이터 연결
                         ForEach(0..<10, id: \.self) { _ in
-                            CommentCell()
+                            CommentCell(isMine: true)
                             
                             seperator
                         }
-                        
+                        CommentCell(isMine: false)
                         Spacer(minLength: 50)
                     }
                 }

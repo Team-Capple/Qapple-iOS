@@ -17,6 +17,7 @@ struct CommentCell: View {
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let anchorWidth: CGFloat = 73
     
+    let isMine: Bool
     
     var body: some View {
         HStack(spacing: 0) {
@@ -26,7 +27,11 @@ struct CommentCell: View {
             content
                 .frame(width: screenWidth)
             
-            reportBtn
+            if isMine {
+                deleteBtn
+            } else {
+                reportBtn
+            }
             
         }
         .offset(x: hOffset)
@@ -76,7 +81,7 @@ struct CommentCell: View {
                 }
                 
                 // 댓글 내용
-                Text("이말 완전 인정 이말 완전 인정\n\n\n\n")
+                Text("이말 완전 인정 이말 완전 인정\n\n")
                     .font(.pretendard(.medium, size: 14))
                     .foregroundStyle(.main)
             }
@@ -114,8 +119,7 @@ struct CommentCell: View {
             
         } label: {
             ZStack {
-                Rectangle()
-                    .foregroundStyle(Color.button)
+                Color.delete
                 
                 Image(systemName: "trash")
                     .resizable()
@@ -145,7 +149,7 @@ struct CommentCell: View {
 
 #Preview {
     VStack {
-        CommentCell()
-        CommentCell()
+        CommentCell(isMine: true)
+        CommentCell(isMine: false)
     }
 }
