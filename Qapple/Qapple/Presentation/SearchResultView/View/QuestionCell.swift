@@ -18,22 +18,19 @@ struct QuestionCell: View {
     
     var body: some View {
         
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             
             HeaderView(
                 question: question,
                 seeMoreAction: seeMoreAction
             )
             
-            Spacer()
-                .frame(height: 16)
-            
             ContentView(question: question)
-            
-            Spacer()
-                .frame(height: 16)
+                .padding(.top, 8)
+                .padding(.trailing, 90 + 16)
             
             AnswerButtonView(question: question)
+                .padding(.top, 8)
         }
         .padding(20)
         .background(RoundedRectangle(cornerRadius: 20)
@@ -64,7 +61,7 @@ private struct HeaderView: View {
                 .frame(width: 2)
             
             Text(formattedDate(from: question.livedAt ?? "default"))
-                .font(.pretendard(.semiBold, size: 14))
+                .font(.pretendard(.regular, size: 13))
                 .foregroundStyle(GrayScale.icon)
             
             Spacer()
@@ -87,13 +84,13 @@ private struct HeaderView: View {
             }
             Spacer()
             
-            Button {
-                seeMoreAction() // TODO: SearchResultView에서 삭제 및 신고 설정
-            } label: {
-                Image(systemName: "ellipsis")
-                    .foregroundStyle(TextLabel.sub2)
-                    .frame(width: 20, height: 20)
-            }
+//            Button {
+//                seeMoreAction() // TODO: SearchResultView에서 삭제 및 신고 설정
+//            } label: {
+//                Image(systemName: "ellipsis")
+//                    .foregroundStyle(TextLabel.sub2)
+//                    .frame(width: 20, height: 20)
+//            }
         }
     }
     
@@ -118,23 +115,12 @@ private struct ContentView: View {
     
     let question: QuestionResponse.Questions.QuestionsInfos
     
-    /// 리스트 타이틀 텍스트를 반환합니다.
-    var listTitleText: AttributedString {
-        var questionMark = AttributedString("Q. ")
-        questionMark.foregroundColor = BrandPink.text
-        let text = AttributedString("\(question.content)")
-        return questionMark + text
-    }
-    
     var body: some View{
-        HStack(alignment: .top) {
-            
-            Text(question.content)
-                .foregroundStyle(TextLabel.main)
-                .font(.pretendard(.medium, size: 17))
-                .lineSpacing(4.0)
-                .frame(maxWidth: 291, alignment: .leading)
-        }
+        Text(question.content)
+            .foregroundStyle(TextLabel.main)
+            .font(.pretendard(.bold, size: 17))
+            .lineSpacing(4.0)
+            .lineLimit(2)
     }
 }
 
@@ -162,8 +148,7 @@ private struct AnswerButtonView: View {
                     Text("답변하기")
                         .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(TextLabel.main)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
+                        .frame(width: 70, height: 36)
                         .background(BrandPink.button)
                         .cornerRadius(30, corners: .allCorners)
                 }
@@ -185,7 +170,11 @@ extension Date {
 }
 
 #Preview {
-    QuestionCell(question: DummyData.questionsInfo,
-                 questionNumber: 0) {}
-        .environmentObject(Router(pathType: .questionList))
+    ZStack {
+        Color.Background.first.ignoresSafeArea()
+        
+        QuestionCell(question: DummyData.questionsInfo,
+                     questionNumber: 0) {}
+            .environmentObject(Router(pathType: .questionList))
+    }
 }
