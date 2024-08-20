@@ -12,6 +12,7 @@ struct NotificationCell: View {
     let actionType: NotificationUseCase.NotificationActionType
     let commentContent: String?
     let timeStamp: Date
+    let likeCount: Int
     let seeMoreAction: () -> Void
     
     var body: some View {
@@ -19,7 +20,7 @@ struct NotificationCell: View {
             seeMoreAction()
         } label: {
             VStack(alignment: .leading, spacing: 12) {
-                TitleView(actionType: actionType, timeStamp: timeStamp)
+                TitleView(actionType: actionType, timeStamp: timeStamp, likeCount: likeCount)
                 
                 ContentView(targetContent: targetContent, commentContent: commentContent)
             }
@@ -33,6 +34,7 @@ struct NotificationCell: View {
 private struct TitleView: View {
     let actionType: NotificationUseCase.NotificationActionType
     let timeStamp: Date
+    let likeCount: Int
     
     var body: some View {
         HStack(spacing: 8) {
@@ -42,11 +44,18 @@ private struct TitleView: View {
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
                     .multilineTextAlignment(.leading)
+            } else if actionType == .like {
+                
+                Text("\(likeCount)개의 \(actionType.description)")
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.main)
+                    .lineSpacing(6)
+                    .multilineTextAlignment(.leading)
             } else {
 //                Image("profileDummyImage")
 //                    .resizable()
 //                    .frame(width: 28, height: 28)
-                
+            
                 Text("누군가가 내 답변에 \(actionType.description)")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
@@ -87,9 +96,10 @@ private struct ContentView: View {
 #Preview {
     NotificationCell(
         targetContent: "'어떤 게시글인지가 들어갑니다.'",
-        actionType: .question,
-        commentContent: "내용이 들어갑니다.",
-        timeStamp: Date()
+        actionType: .like,
+        commentContent: nil,
+        timeStamp: Date(),
+        likeCount: 18
     ) {
         print("해당 답변")
     }

@@ -19,6 +19,7 @@ final class NotificationUseCase: ObservableObject {
                 actionType: .comment,
                 commentContent: "내용이 들어갑니다.",
                 timeStamp: Date(),
+                likeCount: 8,
                 isReadStatus: false
             ),
             State(
@@ -26,6 +27,7 @@ final class NotificationUseCase: ObservableObject {
                 actionType: .like,
                 commentContent: nil,
                 timeStamp: Date(),
+                likeCount: 18,
                 isReadStatus: false
             ),
             State(
@@ -33,6 +35,7 @@ final class NotificationUseCase: ObservableObject {
                 actionType: .question,
                 commentContent: "오전 질문이 마감 되었어요\n다른 러너들은 어떻게 답 했는지 확인해보세요",
                 timeStamp: Date(),
+                likeCount: 28,
                 isReadStatus: false
             ),
             State(
@@ -40,6 +43,7 @@ final class NotificationUseCase: ObservableObject {
                 actionType: .comment,
                 commentContent: "저는 시몬스랑 하고 싶어요!",
                 timeStamp: Date(),
+                likeCount: 1818,
                 isReadStatus: false
             )
         ]
@@ -53,6 +57,7 @@ extension NotificationUseCase {
         let actionType: NotificationActionType
         let commentContent: String?
         let timeStamp: Date
+        let likeCount: Int
         let isReadStatus: Bool // 확인한건지?
     }
 }
@@ -69,7 +74,7 @@ extension NotificationUseCase {
             case .comment:
                 return "댓글을 달았어요"
             case .like:
-                return "좋아요를 달았어요"
+                return "좋아요가 달렸어요"
             case .question:
                 return "질문 마감 알림"
             }

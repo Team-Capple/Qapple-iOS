@@ -50,7 +50,8 @@ private struct NotificationContentView: View {
                         targetContent: notification.targetContent,
                         actionType: notification.actionType,
                         commentContent: notification.commentContent,
-                        timeStamp: notification.timeStamp
+                        timeStamp: notification.timeStamp,
+                        likeCount: notification.likeCount
                     ){
                         print("해당 답변") // TODO: 네비게이션 지정 or 버튼 제거
                     }
