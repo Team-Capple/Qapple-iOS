@@ -73,6 +73,8 @@ final class Router: ObservableObject, NavigationRouter {
                 AlertView()
             case .search:
                 BulletinSearchView()
+            case .comment(postId: let postId):
+                CommentView(postId: postId)
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
@@ -136,6 +138,7 @@ enum BulletinBoardPathType: Hashable {
     case bulletinPosting
     case alert
     case search
+    case comment(postId: UUID)
 }
 
 /// 내 정보 Tab
