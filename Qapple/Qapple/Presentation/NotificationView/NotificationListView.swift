@@ -30,7 +30,7 @@ private struct NotificationContentView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 12) {
+            VStack(spacing: 0) {
                 CustomNavigationBar(
                     leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
                         pathModel.pop()
@@ -47,15 +47,18 @@ private struct NotificationContentView: View {
                     let notification = notificationUseCase._state[index]
                     
                     NotificationCell(
-                        userName: notification.userName,
-                        actionDescription: notification.actionType.description,
-                        timeStamp: notification.timeStamp
-                    ) {
+                        targetContent: notification.targetContent,
+                        targetType: notification.targetType,
+                        actionType: notification.actionType,
+                        commentContent: notification.commentContent,
+                        timeStamp: notification.timeStamp,
+                        likeCount: notification.likeCount
+                    ){
                         print("해당 답변") // TODO: 네비게이션 지정 or 버튼 제거
                     }
-                    .padding(.horizontal)
                     
                     Separator()
+                        .padding(.leading)
                 }
             }
         }

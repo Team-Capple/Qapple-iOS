@@ -70,7 +70,7 @@ final class Router: ObservableObject, NavigationRouter {
             case .bulletinPosting:
                 BulletinPostingView()
             case .alert:
-                AlertView()
+                NotificationListView()
             case .search:
                 BulletinSearchView()
             }
