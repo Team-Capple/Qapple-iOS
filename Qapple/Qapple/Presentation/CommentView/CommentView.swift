@@ -10,7 +10,17 @@ import SwiftUI
 struct CommentView: View {
     @State private var text: String = ""
     
-    let post: Post
+    let postId: UUID
+    
+    private let post = Post(
+        anonymityIndex: 0,
+        isMine: true,
+        content: "다들 매크로 팀원 조합 어떠신가요?",
+        isLike: true,
+        likeCount: 4,
+        commentCount: 1,
+        writingDate: .now
+    )
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     var body: some View {
@@ -87,13 +97,5 @@ struct CommentView: View {
 }
 
 #Preview {
-    CommentView(post: Post(
-        anonymityIndex: 0,
-        isMine: true,
-        content: "다들 매크로 팀원 조합 어떠신가요?",
-        isLike: true,
-        likeCount: 4,
-        commentCount: 1,
-        writingDate: .now
-    ))
+    CommentView(postId: UUID())
 }

@@ -127,6 +127,8 @@ private struct PostListView: View {
     
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
+    @EnvironmentObject private var pathModel: Router
+    
     @State private var selectedPost: Post?
     
     var body: some View {

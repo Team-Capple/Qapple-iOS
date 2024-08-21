@@ -41,13 +41,14 @@ struct AnswerView: View {
                     principalView: {},
                     trailingView: {
                         CustomNavigationTextButton(
-                            title: "다음",
+                            title: "완료",
                             color: viewModel.answer.count < self.textCount ?
                             TextLabel.disable : BrandPink.text,
                             buttonType: .next(pathType: .confirmAnswer)
                         ) {
                             viewModel.questionId = questionId
                             viewModel.questionContent = questionContent
+                            pathModel.pushView(screen: QuestionListPathType.completeAnswer)
                         }
                         .disabled(viewModel.answer.count < self.textCount)
                     },
