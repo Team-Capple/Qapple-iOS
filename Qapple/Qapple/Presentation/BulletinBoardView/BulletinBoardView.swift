@@ -141,9 +141,6 @@ private struct PostListView: View {
                             selectedPost = post
                         }
                     )
-                    .onTapGesture {
-                        pathModel.pushView(screen: BulletinBoardPathType.comment(postId: post.id))
-                    }
                 }
             }
         }

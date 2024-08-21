@@ -137,11 +137,13 @@ private struct RemoteView: View {
     }
     
     struct CommentButton: View {
+        @EnvironmentObject private var pathModel: Router
+        
         let post: Post
         
         var body: some View {
             Button {
-                // TODO: 댓글 화면 present
+                pathModel.pushView(screen: BulletinBoardPathType.comment(postId: post.id))
             } label: {
                 HStack(spacing: 4) {
                     Image(.comment)
