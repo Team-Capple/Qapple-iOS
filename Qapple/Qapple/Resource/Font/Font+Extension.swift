@@ -16,6 +16,7 @@ extension Font {
         case semiBold = "Pretendard-SemiBold"
         case medium = "Pretendard-Medium"
         case regular = "Pretendard-Regular"
+        case light = "Pretendard-Light"
     }
     
     /// 커스텀 Pretendard 폰트를 반환합니다.
@@ -33,6 +34,7 @@ struct PretendardModifier: ViewModifier {
         case semiBold = "Pretendard-SemiBold"
         case medium = "Pretendard-Medium"
         case regular = "Pretendard-Regular"
+        case light = "Pretendard-Light"
     }
     
     var weight: FontWeight

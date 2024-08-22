@@ -62,7 +62,9 @@ struct CommentCell: View {
     private var content: some View {
         HStack(alignment: .top, spacing: 13) {
             // 사용자 이미지
-            Circle()
+            Image(.profileDummy)
+                .resizable()
+                .scaledToFit()
                 .frame(width: 28)
                 .padding(.top, 16)
             
@@ -73,15 +75,14 @@ struct CommentCell: View {
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(.icon)
                     
-                    // TODO: Pretendard-light 폰트 없음
                     // 댓글 timestamp
                     Text("1시간 전")
-                        .font(.pretendard(.regular, size: 12))
+                        .font(.pretendard(.light, size: 12))
                         .foregroundStyle(.disable)
                 }
                 
                 // 댓글 내용
-                Text("이말 완전 인정 이말 완전 인정\n\n")
+                Text("이말 완전 인정 이말 완전 인정")
                     .font(.pretendard(.medium, size: 14))
                     .foregroundStyle(.main)
             }

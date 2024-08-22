@@ -38,6 +38,7 @@
 		2C1E27232C71AC0C000B9D86 /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1E27222C71AC0C000B9D86 /* NavigationRouter.swift */; };
 		2C2E0ED52C63D177003928C1 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E0ED42C63D177003928C1 /* CommentCell.swift */; };
 		2C2E0ED72C646EC9003928C1 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E0ED62C646EC9003928C1 /* CommentView.swift */; };
+		2CD2B5A52C77192600E17B6A /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */; };
 		420D72012C71D53200B56439 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 420D72002C71D53200B56439 /* GoogleService-Info.plist */; };
 		420D72052C71D5BB00B56439 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 420D72042C71D5BB00B56439 /* FirebaseAuth */; };
 		420D720B2C71D81400B56439 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420D720A2C71D81400B56439 /* AppDelegate.swift */; };
@@ -193,6 +194,7 @@
 		2C1E27222C71AC0C000B9D86 /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		2C2E0ED42C63D177003928C1 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C2E0ED62C646EC9003928C1 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		420D72002C71D53200B56439 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		420D720A2C71D81400B56439 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4213DF752C6E1F86007F433C /* NotificationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUseCase.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				07D96EC12B7796FE00754819 /* Pretendard-SemiBold.otf */,
 				07D96EBC2B7796FD00754819 /* Pretendard-Medium.otf */,
 				07D96EC42B7796FE00754819 /* Pretendard-Regular.otf */,
+				2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -1174,6 +1177,7 @@
 				07D96ECC2B7796FE00754819 /* Pretendard-Bold.otf in Resources */,
 				07D96ECD2B7796FE00754819 /* Pretendard-Regular.otf in Resources */,
 				420D72012C71D53200B56439 /* GoogleService-Info.plist in Resources */,
+				2CD2B5A52C77192600E17B6A /* Pretendard-Light.otf in Resources */,
 				F37C17862B872F9C005E5072 /* Pretendard-ExtraBold.otf in Resources */,
 				07D96EB12B77714F00754819 /* Colors.xcassets in Resources */,
 				F3EA66D32B7643F0002417CE /* Preview Assets.xcassets in Resources */,
