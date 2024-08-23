@@ -9,37 +9,31 @@ import SwiftUI
 
 struct CommentView: View {
     
+    @StateObject private var commentUseCase: CommentUseCase = .init()
     @State private var text: String = ""
     
     let postId: UUID
     
-    private let post = Post(
-        anonymityIndex: 0,
-        isMine: true,
-        content: "다들 매크로 팀원 조합 어떠신가요?",
-        isLike: true,
-        likeCount: 4,
-        commentCount: 1,
-        writingDate: .now
-    )
-    
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
+    
     var body: some View {
         VStack(spacing: 0) {
             HeaderView()
             
-            BulletinBoardCell(post: post, seeMoreAction: {})
+            BulletinBoardCell(post: commentUseCase._state.post, seeMoreAction: {})
                 .frame(width: UIScreen.main.bounds.width)
             
             ScrollView {
                 VStack(spacing: 0) {
                     // 데이터 연결
-                    ForEach(0..<3, id: \.self) { _ in
-                        CommentCell(isMine: true)
-                        
+                    ForEach(commentUseCase._state.comment) { comment in
                         seperator
+                        
+                        CommentCell(comment: comment, commentUseCase: commentUseCase)
                     }
-                    CommentCell(isMine: false)
+                    
+                    seperator
+                    
                     Spacer(minLength: 50)
                 }
             }
@@ -71,6 +65,7 @@ struct CommentView: View {
             
             Button {
                 // TODO: 댓글 달기 기능 추가
+                commentUseCase.act(.upload(content: self.text))
             } label: {
                 Image(systemName: "paperplane")
                     .resizable()
