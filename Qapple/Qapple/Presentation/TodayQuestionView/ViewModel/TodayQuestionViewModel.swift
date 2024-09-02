@@ -24,8 +24,8 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         
         // 변수 초기화
-        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
-        self.answerList = []
+        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "매크로 친구들에게 인사해주세요!", isAnswered: false)
+        self.answerList = [AnswerResponse.AnswersOfQuestion.AnswerInfos(answerId: 1, profileImage: nil, nickname: "러너1", content: "안녕 친구들", tags: "옹", isMyAnswer: false, isReported: false), AnswerResponse.AnswersOfQuestion.AnswerInfos(answerId: 3, profileImage: nil, nickname: "러너3", content: "매크로 화이팅!!", tags: "옹", isMyAnswer: true, isReported: false)]
     }
 }
 
@@ -53,7 +53,7 @@ extension TodayQuestionViewModel {
         }
         
         if currentTimeZone == .am || currentTimeZone == .pm {
-            self.state = mainQuestion.isAnswered ? .complete : .ready
+            self.state = mainQuestion.isAnswered ? .ready : .complete
         } else {
             self.state = .creating
         }

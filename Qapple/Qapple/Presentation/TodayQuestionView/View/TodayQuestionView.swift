@@ -285,9 +285,6 @@ private struct AnswerPreview: View {
                                     id: answer.answerId,
                                     anonymityId: 0, // TODO: 더미데이터 바꾸기,
                                     content: answer.content,
-                                    isLike: true, // TODO: 더미데이터 바꾸기,
-                                    likeCount: 13, // TODO: 더미데이터 바꾸기,
-                                    commentCount: 8, // TODO: 더미데이터 바꾸기,
                                     writingDate: .now, // TODO: 더미데이터 바꾸기,
                                     isReported: answer.isReported
                                 ),
