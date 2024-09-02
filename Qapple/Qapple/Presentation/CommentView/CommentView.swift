@@ -8,43 +8,36 @@
 import SwiftUI
 
 struct CommentView: View {
+    
+    @StateObject private var commentUseCase: CommentUseCase = .init()
     @State private var text: String = ""
     
     let postId: UUID
     
-    private let post = Post(
-        anonymityIndex: 0,
-        isMine: true,
-        content: "다들 매크로 팀원 조합 어떠신가요?",
-        isLike: true,
-        likeCount: 4,
-        commentCount: 1,
-        writingDate: .now
-    )
-    
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
+    
     var body: some View {
-        ZStack {
-            Color.bk
-                .ignoresSafeArea()
+        VStack(spacing: 0) {
+            HeaderView()
             
-            VStack(spacing: 0) {
-                BulletinBoardCell(post: post, seeMoreAction: {})
-                    .frame(width: UIScreen.main.bounds.width)
-                
-                ScrollView {
-                    VStack(spacing: 0) {
-                        // 데이터 연결
-                        ForEach(0..<10, id: \.self) { _ in
-                            CommentCell(isMine: true)
-                            
-                            seperator
-                        }
-                        CommentCell(isMine: false)
-                        Spacer(minLength: 50)
+            BulletinBoardCell(post: commentUseCase._state.post, seeMoreAction: {})
+                .frame(width: UIScreen.main.bounds.width)
+            
+            ScrollView {
+                VStack(spacing: 0) {
+                    // 데이터 연결
+                    ForEach(commentUseCase._state.comment) { comment in
+                        seperator
+                        
+                        CommentCell(comment: comment, commentUseCase: commentUseCase)
                     }
+                    
+                    seperator
+                    
+                    Spacer(minLength: 50)
                 }
             }
+            .background(Color.bk)
         }
         .onTapGesture {
             hideKeyboard()
@@ -53,6 +46,7 @@ struct CommentView: View {
             addComment
                 .frame(width: screenWidth)
         }
+        .navigationBarBackButtonHidden()
     }
     
     var seperator: some View {
@@ -70,7 +64,8 @@ struct CommentView: View {
                 .padding(.vertical, 12)
             
             Button {
-                
+                // TODO: 댓글 달기 기능 추가
+                commentUseCase.act(.upload(content: self.text))
             } label: {
                 Image(systemName: "paperplane")
                     .resizable()
@@ -93,6 +88,29 @@ struct CommentView: View {
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+
+private struct HeaderView: View {
+    
+    @EnvironmentObject private var pathModel: Router
+    
+    var body: some View {
+        CustomNavigationBar(
+            leadingView: { 
+                CustomNavigationBackButton(buttonType: .arrow) {
+                    pathModel.pop()
+                }
+            },
+            principalView: {
+                Text("댓글")
+                    .font(.pretendard(.semiBold, size: 17))
+            },
+            trailingView: {
+                
+            },
+            backgroundColor: Color.Background.first)
     }
 }
 

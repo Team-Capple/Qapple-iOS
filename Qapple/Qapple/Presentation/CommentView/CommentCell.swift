@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct CommentCell: View {
-    @State private var likesBtn: Bool = false
+    let comment: Comment
+    
+    let screenWidth: CGFloat = UIScreen.main.bounds.width
+    let anchorWidth: CGFloat = 73
     
     @State private var hOffset: CGFloat = 0
     @State private var anchor: CGFloat = 0
     @State private var isCellToggled: Bool = false
     
-    let screenWidth: CGFloat = UIScreen.main.bounds.width
-    let anchorWidth: CGFloat = 73
-    
-    let isMine: Bool
+    @ObservedObject var commentUseCase: CommentUseCase
     
     var body: some View {
         HStack(spacing: 0) {
@@ -27,7 +27,7 @@ struct CommentCell: View {
             content
                 .frame(width: screenWidth)
             
-            if isMine {
+            if comment.isMine {
                 deleteBtn
             } else {
                 reportBtn
@@ -62,7 +62,9 @@ struct CommentCell: View {
     private var content: some View {
         HStack(alignment: .top, spacing: 13) {
             // 사용자 이미지
-            Circle()
+            Image(.profileDummy)
+                .resizable()
+                .scaledToFit()
                 .frame(width: 28)
                 .padding(.top, 16)
             
@@ -73,15 +75,14 @@ struct CommentCell: View {
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(.icon)
                     
-                    // TODO: Pretendard-light 폰트 없음
                     // 댓글 timestamp
-                    Text("1시간 전")
-                        .font(.pretendard(.regular, size: 12))
+                    Text(comment.timestamp.timeAgo)
+                        .font(.pretendard(.light, size: 12))
                         .foregroundStyle(.disable)
                 }
                 
                 // 댓글 내용
-                Text("이말 완전 인정 이말 완전 인정\n\n")
+                Text(comment.content)
                     .font(.pretendard(.medium, size: 14))
                     .foregroundStyle(.main)
             }
@@ -93,19 +94,22 @@ struct CommentCell: View {
             VStack {
                 // 댓글 좋아요 버튼
                 Button {
-                    self.likesBtn.toggle()
+                    // TODO: 댓글 좋아요 기능
+                    commentUseCase.act(.like(id: 1))
                 } label: {
-                    Image(systemName: self.likesBtn ? "heart.fill" : "heart")
+                    Image(systemName: comment.isLike ? "heart.fill" : "heart")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 16)
-                        .foregroundStyle(self.likesBtn ? .button : .sub4)
+                        .foregroundStyle(comment.isLike ? .button : .sub4)
                 }
                 
                 // 댓글 좋아요 갯수
-                Text("32")
-                    .font(.pretendard(.medium, size: 14))
-                    .foregroundStyle(.sub3)
+                if comment.likeCount != 0 {
+                    Text("\(comment.likeCount)")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(.sub3)
+                }
             }
             .padding(.top, 16)
         }
@@ -116,7 +120,8 @@ struct CommentCell: View {
     
     private var deleteBtn: some View {
         Button {
-            
+            // TODO: 삭제 기능 구현
+            commentUseCase.act(.delete(id: 1))
         } label: {
             ZStack {
                 Color.delete
@@ -133,7 +138,8 @@ struct CommentCell: View {
     
     private var reportBtn: some View {
         Button {
-            
+            // TODO: 신고 기능 구현
+            commentUseCase.act(.report(id: 1))
         } label: {
             ZStack {
                 Color.report
@@ -149,7 +155,7 @@ struct CommentCell: View {
 
 #Preview {
     VStack {
-        CommentCell(isMine: true)
-        CommentCell(isMine: false)
+        CommentCell(comment: Comment(anonymityIndex: 1, isMine: false, isLike: true, likeCount: 12, content: "123123", timestamp: Date()), commentUseCase: .init())
+        CommentCell(comment: Comment(anonymityIndex: 2, isMine: true, isLike: false, likeCount: 0, content: "테스트", timestamp: Date().addingTimeInterval(-60*60*24)), commentUseCase: .init())
     }
 }

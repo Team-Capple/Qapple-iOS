@@ -70,6 +70,7 @@ final class Router: ObservableObject, NavigationRouter {
                 BulletinSearchView()
             case .bulletinPosting:
                 BulletinPostingView()
+                    .toolbar(.hidden, for: .tabBar)
             case .alert:
                 NotificationListView()
             case .search:
