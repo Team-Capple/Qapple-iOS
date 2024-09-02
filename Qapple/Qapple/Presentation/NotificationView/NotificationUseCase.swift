@@ -34,7 +34,7 @@ final class NotificationUseCase: ObservableObject {
             ),
             State(
                 targetContent: "'어떤 질문인지가 들어갑니다.'",
-                targetType: .morning,
+                targetType: .complete,
                 actionType: .question,
                 commentContent: "오전 질문이 마감 되었어요\n다른 러너들은 어떻게 답 했는지 확인해보세요",
                 timeStamp: Date(),
@@ -72,19 +72,19 @@ extension NotificationUseCase {
     enum NotificationTargetType {
         case answer
         case board
-        case morning
-        case afternoon
+        case ready
+        case complete
     
         var description: String {
             switch self {
             case .answer:
-                return "답변"
+                return "댓글"
             case .board:
-                return "게시글"
-            case .morning:
-                return "오전 "
-            case .afternoon:
-                return "오후 "
+                return "게시물"
+            case .ready:
+                return "준비 완료!"
+            case .complete:
+                return "마감 알림"
             }
         }
     }
@@ -104,7 +104,7 @@ extension NotificationUseCase {
             case .like:
                 return "좋아요를 눌렀어요"
             case .question:
-                return "질문 마감 알림"
+                return "오늘의 질문 "
             }
         }
     }
