@@ -84,7 +84,7 @@ struct ProfileEditView: View {
                 Button {
                     // TODO: 이미지 변경
                 } label: {
-                    Image(.capple)
+                    Image(.profileDummy)
                         .resizable()
                         .frame(width: 72, height: 72)
                         .background(Color.white)
