@@ -11,9 +11,25 @@ final class BulletinBoardUseCase: ObservableObject {
     @Published var _state: State
     
     init() {
+        
+        // 매크로 시작 날
+        var startDateComponents = DateComponents()
+        startDateComponents.year = 2024
+        startDateComponents.month = 9
+        startDateComponents.day = 2
+        
+        // 매크로 종료 날
+        var endDateComponents = DateComponents()
+        endDateComponents.year = 2024
+        endDateComponents.month = 11
+        endDateComponents.day = 29
+        
+        let calendar = Calendar.current
+        
         self._state = State(
-            currentEvent: "Prologue", // TODO: 실제 값 업데이트
-            progress: 0.47, // TODO: 실제 값 업데이트
+            currentEvent: "Macro", // TODO: 실제 값 업데이트
+            startDate: calendar.date(from: startDateComponents)!, // TODO: 실제 값 업데이트
+            endDate: calendar.date(from: endDateComponents)!, // TODO: 실제 값 업데이트
             posts: dummyPosts // TODO: 실제 게시글 업데이트
         )
     }
@@ -25,7 +41,8 @@ extension BulletinBoardUseCase {
     
     struct State {
         let currentEvent: String
-        let progress: Double
+        let startDate: Date
+        let endDate: Date
         let posts: [Post]
     }
 }

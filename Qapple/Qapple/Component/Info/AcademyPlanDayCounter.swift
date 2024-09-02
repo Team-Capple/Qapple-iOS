@@ -12,12 +12,22 @@ import SwiftUI
 struct AcademyPlanDayCounter: View {
     
     let currentEvent: String
-    let progress: Double
+    let startDate: Date
+    let endDate: Date
+    
+    var dayLeftUntilNextEvent: Int {
+        let calendar = Calendar.current
+        let difference = calendar.dateComponents([.day], from: .now, to: endDate)
+        return difference.day ?? 0
+    }
     
     var body: some View {
         VStack(spacing: 8) {
             HStack {
-                CurrentEventTitle(currentEvent: currentEvent)
+                CurrentEventTitle(
+                    currentEvent: currentEvent,
+                    dayLeftUntilNextEvent: dayLeftUntilNextEvent
+                )
                 
                 Spacer()
                 
@@ -27,7 +37,11 @@ struct AcademyPlanDayCounter: View {
                     .frame(width: 54, height: 54)
             }
             
-            ProgressBar(progress: progress)
+            ProgressBar(
+                startDate: startDate,
+                endDate: endDate,
+                dayLeftUntilNextEvent: dayLeftUntilNextEvent
+            )
         }
         .padding(.vertical, 16)
         .padding(.horizontal, 20)
@@ -41,7 +55,7 @@ struct AcademyPlanDayCounter: View {
 private struct CurrentEventTitle: View {
     
     let currentEvent: String
-    let dayLeftUntilNextEvent = 23
+    let dayLeftUntilNextEvent: Int
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -50,9 +64,10 @@ private struct CurrentEventTitle: View {
                     .foregroundStyle(BrandPink.text)
                     .pretendard(.bold, 23)
                 
-                Text("까지")
+                Text("종료까지")
                     .foregroundStyle(TextLabel.main)
                     .pretendard(.semiBold, 15)
+                    .padding(.bottom, -2)
             }
             
             Text("D-\(dayLeftUntilNextEvent)")
@@ -66,7 +81,15 @@ private struct CurrentEventTitle: View {
 
 private struct ProgressBar: View {
     
-    let progress: Double
+    let startDate: Date
+    let endDate: Date
+    let dayLeftUntilNextEvent: Int
+    
+    var progress: Double {
+        let calendar = Calendar.current
+        let total = calendar.dateComponents([.day], from: startDate, to: endDate).day ?? 0
+        return Double(total - dayLeftUntilNextEvent) / Double(total)
+    }
     
     var body: some View {
         GeometryReader { proxy in
@@ -74,6 +97,7 @@ private struct ProgressBar: View {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundStyle(TextLabel.placeholder)
                     .frame(width: proxy.size.width)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundStyle(BrandPink.button)
@@ -89,6 +113,7 @@ private struct ProgressBar: View {
 #Preview {
     AcademyPlanDayCounter(
         currentEvent: "Prologue",
-        progress: 0.37
+        startDate: .now,
+        endDate: .now
     )
 }
