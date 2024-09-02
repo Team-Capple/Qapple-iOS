@@ -24,8 +24,8 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         
         // 변수 초기화
-        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "매크로 친구들에게 인사해주세요!", isAnswered: false)
-        self.answerList = [AnswerResponse.AnswersOfQuestion.AnswerInfos(answerId: 1, profileImage: nil, nickname: "러너1", content: "안녕 친구들", tags: "옹", isMyAnswer: false, isReported: false), AnswerResponse.AnswersOfQuestion.AnswerInfos(answerId: 3, profileImage: nil, nickname: "러너3", content: "매크로 화이팅!!", tags: "옹", isMyAnswer: true, isReported: false)]
+        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
+        self.answerList = []
     }
 }
 
@@ -53,7 +53,7 @@ extension TodayQuestionViewModel {
         }
         
         if currentTimeZone == .am || currentTimeZone == .pm {
-            self.state = mainQuestion.isAnswered ? .ready : .complete
+            self.state = mainQuestion.isAnswered ? .complete : .ready
         } else {
             self.state = .creating
         }
@@ -103,10 +103,9 @@ extension TodayQuestionViewModel {
     /// 질문 타이틀 텍스트를 반환합니다.
     var titleText: String {
         var text = ""
-        if timeZone == .amCreate { text = "오전 질문을 만들고 있어요" }
-        else if timeZone == .pmCreate { text = "오후 질문을 만들고 있어요" }
-        else if state == .ready { text = "\(timeZone.rawValue) 질문이\n준비되었어요!" }
-        else if state == .complete { text = "\(timeZone.rawValue) 답변을\n완료했어요!" }
+        if state == .creating { text = "오늘의 질문을 만들고 있어요" }
+        else if state == .ready { text = "오늘의 질문이\n준비되었어요!" }
+        else if state == .complete { text = "오늘의 답변을\n완료했어요!" }
         return text
     }
     
@@ -129,17 +128,7 @@ extension TodayQuestionViewModel {
     var listTitleText: AttributedString {
         let mainQuestionText = AttributedString(mainQuestion.content)
         
-        var text = AttributedString()
-        if state == .creating {
-            if mainQuestion.isAnswered {
-                text = mainQuestionText
-            } else {
-                text = "답변 후 다른 러너의\n생각을 확인해보세요!"
-            }
-        }
-        else if state == .ready { text = "어떤 질문이 나왔을까요?" }
-        else if state == .complete { text = mainQuestionText }
-        return text
+        return mainQuestionText
     }
     
     /// 리스트 서브 타이틀 텍스트를 반환합니다.

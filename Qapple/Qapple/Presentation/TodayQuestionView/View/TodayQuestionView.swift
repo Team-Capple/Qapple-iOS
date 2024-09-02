@@ -283,7 +283,7 @@ private struct AnswerPreview: View {
                             AnswerCell(
                                 answer: Answer(
                                     id: answer.answerId,
-                                    anonymityId: 0, // TODO: 더미데이터 바꾸기,
+                                    anonymityId: answer.answerId, // TODO: 더미데이터 바꾸기,
                                     content: answer.content,
                                     writingDate: .now, // TODO: 더미데이터 바꾸기,
                                     isReported: answer.isReported
