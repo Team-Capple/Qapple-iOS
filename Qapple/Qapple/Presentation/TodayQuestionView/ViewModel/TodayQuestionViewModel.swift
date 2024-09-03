@@ -67,9 +67,10 @@ extension TodayQuestionViewModel {
     @MainActor
     func requestMainQuestion() async {
         do {
-            let mainQuestion = try await NetworkManager.fetchMainQuestion()
-            self.mainQuestion = mainQuestion
-            print("메인 질문 ID:\(mainQuestion.questionId)")
+            let mainQuestion = try await NetworkManager.fetchBoard()
+            print(mainQuestion)
+//            self.mainQuestion = mainQuestion
+//            print("메인 질문 ID:\(mainQuestion.questionId)")
         } catch {
             print("메인 질문 업데이트 실패")
         }

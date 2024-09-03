@@ -49,6 +49,8 @@
 		4213DF782C6E1F8E007F433C /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213DF772C6E1F8E007F433C /* NotificationListView.swift */; };
 		4213DF7A2C6E1F97007F433C /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213DF792C6E1F97007F433C /* NotificationCell.swift */; };
 		42531AEA2C8724F9001CA803 /* NetworkManager+Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42531AE92C8724F9001CA803 /* NetworkManager+Board.swift */; };
+		42531AEC2C8727B8001CA803 /* BoardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42531AEB2C8727B8001CA803 /* BoardResponse.swift */; };
+		42531AEE2C87488A001CA803 /* BoardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42531AED2C87488A001CA803 /* BoardRequest.swift */; };
 		6709800B2BA0A1FF00EE494D /* ReportClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6709800A2BA0A1FF00EE494D /* ReportClass.swift */; };
 		67B1850C2B9436270057E6BB /* AnswerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1850B2B9436270057E6BB /* AnswerListView.swift */; };
 		67B1850E2B9436450057E6BB /* TodayAnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1850D2B9436450057E6BB /* TodayAnswerViewModel.swift */; };
@@ -204,6 +206,8 @@
 		4213DF772C6E1F8E007F433C /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		4213DF792C6E1F97007F433C /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		42531AE92C8724F9001CA803 /* NetworkManager+Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Board.swift"; sourceTree = "<group>"; };
+		42531AEB2C8727B8001CA803 /* BoardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardResponse.swift; sourceTree = "<group>"; };
+		42531AED2C87488A001CA803 /* BoardRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardRequest.swift; sourceTree = "<group>"; };
 		6709800A2BA0A1FF00EE494D /* ReportClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportClass.swift; sourceTree = "<group>"; };
 		67B1850B2B9436270057E6BB /* AnswerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerListView.swift; sourceTree = "<group>"; };
 		67B1850D2B9436450057E6BB /* TodayAnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAnswerViewModel.swift; sourceTree = "<group>"; };
@@ -977,6 +981,7 @@
 				828715C12B9AC91A001627DB /* AnswerResponse.swift */,
 				8295BDB32BA3222200115FA8 /* MemberResponse.swift */,
 				824717312BC9140A005E9631 /* ReportResponse.swift */,
+				42531AEB2C8727B8001CA803 /* BoardResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -989,6 +994,7 @@
 				828715BF2B9AC866001627DB /* AnswerRequest.swift */,
 				8295BDB12BA3209000115FA8 /* MemberRequest.swift */,
 				8247172F2BC913B9005E9631 /* ReportRequest.swift */,
+				42531AED2C87488A001CA803 /* BoardRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1214,6 +1220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42531AEC2C8727B8001CA803 /* BoardResponse.swift in Sources */,
 				F3D452D12B8A55BD000BA51C /* ProfileEditView.swift in Sources */,
 				8247172E2BC8D865005E9631 /* IsMyAnswer.swift in Sources */,
 				828908FB2C6DCD4E00C7F6CD /* BulletinPostingView.swift in Sources */,
@@ -1316,6 +1323,7 @@
 				82C379192B93483B00CC7708 /* AlertListRow.swift in Sources */,
 				82D583B72B9844E6003CC424 /* KeywordSelector.swift in Sources */,
 				F3EA66FD2B7644D0002417CE /* ApiEndpoints.swift in Sources */,
+				42531AEE2C87488A001CA803 /* BoardRequest.swift in Sources */,
 				828715C82B9BFB9E001627DB /* MainPathModel.swift in Sources */,
 				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
 				074819002B8F3DDE00380F14 /* SeeMoreView.swift in Sources */,
