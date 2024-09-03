@@ -48,6 +48,7 @@
 		4213DF762C6E1F86007F433C /* NotificationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213DF752C6E1F86007F433C /* NotificationUseCase.swift */; };
 		4213DF782C6E1F8E007F433C /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213DF772C6E1F8E007F433C /* NotificationListView.swift */; };
 		4213DF7A2C6E1F97007F433C /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213DF792C6E1F97007F433C /* NotificationCell.swift */; };
+		42531AEA2C8724F9001CA803 /* NetworkManager+Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42531AE92C8724F9001CA803 /* NetworkManager+Board.swift */; };
 		6709800B2BA0A1FF00EE494D /* ReportClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6709800A2BA0A1FF00EE494D /* ReportClass.swift */; };
 		67B1850C2B9436270057E6BB /* AnswerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1850B2B9436270057E6BB /* AnswerListView.swift */; };
 		67B1850E2B9436450057E6BB /* TodayAnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1850D2B9436450057E6BB /* TodayAnswerViewModel.swift */; };
@@ -202,6 +203,7 @@
 		4213DF752C6E1F86007F433C /* NotificationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUseCase.swift; sourceTree = "<group>"; };
 		4213DF772C6E1F8E007F433C /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		4213DF792C6E1F97007F433C /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		42531AE92C8724F9001CA803 /* NetworkManager+Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Board.swift"; sourceTree = "<group>"; };
 		6709800A2BA0A1FF00EE494D /* ReportClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportClass.swift; sourceTree = "<group>"; };
 		67B1850B2B9436270057E6BB /* AnswerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerListView.swift; sourceTree = "<group>"; };
 		67B1850D2B9436450057E6BB /* TodayAnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAnswerViewModel.swift; sourceTree = "<group>"; };
@@ -559,6 +561,7 @@
 				8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */,
 				8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */,
 				824717352BC9163C005E9631 /* NetworkManager+Report.swift */,
+				42531AE92C8724F9001CA803 /* NetworkManager+Board.swift */,
 			);
 			name = NetworklManager;
 			sourceTree = "<group>";
@@ -1284,6 +1287,7 @@
 				82CDA77B2BB2F3A30031AEB4 /* AnonymityNoticeView.swift in Sources */,
 				82CDA7722BB169EA0031AEB4 /* CompleteAnswerView.swift in Sources */,
 				4213DF762C6E1F86007F433C /* NotificationUseCase.swift in Sources */,
+				42531AEA2C8724F9001CA803 /* NetworkManager+Board.swift in Sources */,
 				828908F92C6DCD3500C7F6CD /* BulletinPostingUseCase.swift in Sources */,
 				82C3791B2B93499300CC7708 /* Alert.swift in Sources */,
 				828A03DB2BAB36F80038CF91 /* NotificationManager.swift in Sources */,
