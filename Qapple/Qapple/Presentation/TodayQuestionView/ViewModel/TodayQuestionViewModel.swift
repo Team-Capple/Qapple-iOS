@@ -13,7 +13,6 @@ final class TodayQuestionViewModel: ObservableObject {
     var timer: Timer?
     
     @Published var remainingTime = TimeInterval()
-    
     @Published var timeZone: QuestionTimeZone
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
@@ -24,7 +23,13 @@ final class TodayQuestionViewModel: ObservableObject {
         self.timeZone = currentTimeZone
         
         // 변수 초기화
-        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
+        self.mainQuestion = .init(
+            questionId: 0,
+            questionStatus: "",
+            content: "",
+            isAnswered: false
+        )
+        
         self.answerList = []
     }
 }

@@ -46,7 +46,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("아무개 \(answer.anonymityId + 1)")
+            Text("러너 \(answer.anonymityId + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -103,16 +103,12 @@ private struct RemoteView: View {
     let answer: Answer
     
     var body: some View {
-        HStack {
-            LikeButton(
-                answer: answer,
-                tapAction: {
-                    // TODO: 좋아요 탭
-                }
-            )
-            
-            CommentButton(answer: answer)
-        }
+        LikeButton(
+            answer: answer,
+            tapAction: {
+                // TODO: 좋아요 탭
+            }
+        )
     }
     
     struct LikeButton: View {
@@ -133,24 +129,6 @@ private struct RemoteView: View {
             }
         }
     }
-    
-    struct CommentButton: View {
-        let answer: Answer
-        
-        var body: some View {
-            Button {
-                // TODO: 댓글 화면 present
-            } label: {
-                HStack(spacing: 4) {
-                    Image(.comment)
-                    
-                    Text("\(answer.commentCount)")
-                        .pretendard(.regular, 13)
-                        .foregroundStyle(TextLabel.sub3)
-                }
-            }
-        }
-    }
 }
 
 // MARK: - Preview
@@ -163,7 +141,6 @@ private struct RemoteView: View {
             content: "다들 매크로 팀원 조합 어떠신가요?",
             isLike: true,
             likeCount: 4,
-            commentCount: 1,
             writingDate: .now,
             isReported: true
         )

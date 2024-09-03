@@ -19,14 +19,8 @@ struct AnswerResponse {
             let nickname: String
             let profileImage: String
             let content: String
-            let tags: String
             let heartCount: Int
             let writeAt: String
-            
-            let isLike: Bool
-            let likeCount: Int
-            let commentCount: Int
-            let writingDate: Date
         }
     }
     

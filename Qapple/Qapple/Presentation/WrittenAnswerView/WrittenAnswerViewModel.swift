@@ -18,7 +18,7 @@ final class WrittenAnswerViewModel: ObservableObject {
             let answers = try await NetworkManager.fetchAnswers()
             self.myAnswers = answers.memberAnswerInfos
         } catch {
-            print("답변 업데이트")
+            print("답변 업데이트 실패")
         }
     }
 }

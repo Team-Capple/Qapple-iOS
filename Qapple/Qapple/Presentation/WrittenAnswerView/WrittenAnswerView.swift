@@ -53,8 +53,7 @@ struct WrittenAnswerView: View {
                                     anonymityId: 0, // TODO: 더미데이터 바꾸기
                                     content: answer.content,
                                     isLike: true, // TODO: 더미데이터 바꾸기,
-                                    likeCount: 13, // TODO: 더미데이터 바꾸기,
-                                    commentCount: 8, // TODO: 더미데이터 바꾸기,
+                                    likeCount: answer.heartCount,
                                     writingDate: .now, // TODO: 더미데이터 바꾸기,
                                     isReported: false
                                 ),
@@ -62,9 +61,6 @@ struct WrittenAnswerView: View {
                                     isMyAnswer = .init(answerId: answer.answerId, isMine: true)
                                 }
                             )
-                            
-                            Separator()
-                                .padding(.leading, 24)
                         }
                     }
                 }

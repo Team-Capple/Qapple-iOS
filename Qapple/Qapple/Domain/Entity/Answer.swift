@@ -13,7 +13,6 @@ struct Answer: Identifiable {
     let content: String
     let isLike: Bool
     let likeCount: Int
-    let commentCount: Int
     let writingDate: Date
     let isReported: Bool
 }

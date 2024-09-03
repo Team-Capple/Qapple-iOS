@@ -12,6 +12,7 @@ class NetworkManager: ObservableObject {
 }
 
 // MARK: - 질문 관련 API
+
 extension NetworkManager {
     
     /// 오늘의 메인 질문을 조회합니다.

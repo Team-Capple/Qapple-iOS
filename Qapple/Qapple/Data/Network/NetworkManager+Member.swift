@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - 로그인 및 회원가입 Member
+
 extension NetworkManager {
     
     /// 로그인 요청을 합니다.
@@ -128,6 +129,7 @@ extension NetworkManager {
 }
 
 // MARK: - 닉네임 검사
+
 extension NetworkManager {
     
     /// 닉네임 중복 검사를 요청합니다.
@@ -160,6 +162,7 @@ extension NetworkManager {
 }
 
 // MARK: - 마이페이지 조회 및 수정
+
 extension NetworkManager {
     
     /// 마이페이지 정보를 요청합니다.
@@ -258,6 +261,7 @@ extension NetworkManager {
 }
 
 // MARK: - 이메일 인증
+
 extension NetworkManager {
     
     /// 회원가입 인증 코드를 이메일로 요청합니다.
