@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-final class CommentUseCase: ObservableObject {
+final class CommentViewModel: ObservableObject {
 
     @Published public var comments: [CommentResponse.Comments.Comment] = []
     
@@ -44,7 +44,7 @@ final class CommentUseCase: ObservableObject {
 }
 
 
-extension CommentUseCase {
+extension CommentViewModel {
     enum Action {
         case upload(request: CommentRequest.UploadComment)
         case delete(id: Int)

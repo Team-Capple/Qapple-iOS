@@ -17,7 +17,7 @@ struct CommentCell: View {
     @State private var anchor: CGFloat = 0
     @State private var isCellToggled: Bool = false
     
-    @ObservedObject var commentUseCase: CommentUseCase
+    @ObservedObject var commentViewModel: CommentViewModel
     
     var body: some View {
         HStack(spacing: 0) {
@@ -96,8 +96,8 @@ struct CommentCell: View {
                 Button {
                     // TODO: 댓글 좋아요 기능
                     Task.init {
-                        await commentUseCase.act(.like(id: comment.id))
-                        await commentUseCase.loadComments(boardId: 1)
+                        await commentViewModel.act(.like(id: comment.id))
+                        await commentViewModel.loadComments(boardId: 1)
                     }
                 } label: {
                     Image(systemName: comment.isLiked ? "heart.fill" : "heart")
@@ -125,7 +125,7 @@ struct CommentCell: View {
         Button {
             // TODO: 삭제 기능 구현
             Task.init {
-                await commentUseCase.act(.delete(id: 1))
+                await commentViewModel.act(.delete(id: 1))
             }
         } label: {
             ZStack {
@@ -145,7 +145,7 @@ struct CommentCell: View {
         Button {
             // TODO: 신고 기능 구현
             Task.init {
-                await commentUseCase.act(.report(id: 1))
+                await commentViewModel.act(.report(id: 1))
             }
         } label: {
             ZStack {

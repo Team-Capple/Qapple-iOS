@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommentView: View {
     
-    @StateObject private var commentUseCase: CommentUseCase = .init()
+    @StateObject private var commentViewModel: CommentViewModel = .init()
     @State private var text: String = ""
     
     let post: Post
@@ -26,10 +26,10 @@ struct CommentView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     // 데이터 연결
-                    ForEach(commentUseCase.comments) { comment in
+                    ForEach(commentViewModel.comments) { comment in
                         seperator
                         
-                        CommentCell(comment: comment, commentUseCase: commentUseCase)
+                        CommentCell(comment: comment, commentViewModel: commentViewModel)
                     }
                     
                     seperator
@@ -40,7 +40,7 @@ struct CommentView: View {
             .background(Color.bk)
             .refreshable {
                 Task.init {
-                    await commentUseCase.loadComments(boardId: 1)
+                    await commentViewModel.loadComments(boardId: 1)
                 }
             }
         }
@@ -53,7 +53,7 @@ struct CommentView: View {
         }
         .navigationBarBackButtonHidden()
         .task {
-            await commentUseCase.loadComments(boardId: 1)
+            await commentViewModel.loadComments(boardId: 1)
         }
     }
     
@@ -74,8 +74,8 @@ struct CommentView: View {
             Button {
                 // TODO: 댓글 달기 기능 추가
                 Task.init {
-                    await commentUseCase.act(.upload(request: .init(boardId: 1, content: self.text)))
-                    await commentUseCase.loadComments(boardId: 1)
+                    await commentViewModel.act(.upload(request: .init(boardId: 1, content: self.text)))
+                    await commentViewModel.loadComments(boardId: 1)
                     self.text = ""
                 }
             } label: {
