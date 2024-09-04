@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentCell: View {
-    let comment: ApiComment.Comment
+    let comment: CommentResponse.Comments.Comment
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let anchorWidth: CGFloat = 73

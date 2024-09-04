@@ -74,7 +74,7 @@ struct CommentView: View {
             Button {
                 // TODO: 댓글 달기 기능 추가
                 Task.init {
-                    await commentUseCase.act(.upload(content: self.text, id: 1))
+                    await commentUseCase.act(.upload(request: .init(boardId: 1, content: self.text)))
                     await commentUseCase.loadComments(boardId: 1)
                     self.text = ""
                 }
