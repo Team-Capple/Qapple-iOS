@@ -73,11 +73,68 @@ struct Comment: Identifiable {
 
 
 private let sampleComments: [Comment] = [
-    Comment(anonymityIndex: 1, isMine: false, isLike: false, likeCount: 10, content: "이말 완전 인정", timestamp: Date().addingTimeInterval(-60*60)),
-    Comment(anonymityIndex: 1, isMine: false, isLike: false, likeCount: 4, content: "22", timestamp: Date().addingTimeInterval(-60*58)),
-    Comment(anonymityIndex: 1, isMine: false, isLike: false, likeCount: 7, content: "나는 별로 안궁금한데?? 왜 이런거 궁금함? 난 이미 팀있지롱 ㅋ", timestamp: Date()),
-    Comment(anonymityIndex: 1, isMine: false, isLike: true, likeCount: 23, content: "와 위 댓글 ㅁㅊ네", timestamp: Date().addingTimeInterval(-900)),
-    Comment(anonymityIndex: 1, isMine: true, isLike: true, likeCount: 50, content: "왜 시비임? 현피ㄱ?", timestamp: Date().addingTimeInterval(-180)),
-    Comment(anonymityIndex: 1, isMine: false, isLike: true, likeCount: 83, content: "뜨던지ㅋ 목요일 오후 10시 지곡회관으로 와라", timestamp: Date().addingTimeInterval(-53)),
-    Comment(anonymityIndex: 1, isMine: true, isLike: true, likeCount: 125, content: "ㅋㅋ 한대 맞고 울지나 마라", timestamp: Date()),
+    Comment(
+        anonymityIndex: 1,
+        isMine: false,
+        isLike: false,
+        likeCount: 10,
+        content: "이말 완전 인정",
+        timestamp: Date().addingTimeInterval(-60*60)
+    ),
+    Comment(
+        anonymityIndex: 1,
+        isMine: false,
+        isLike: false,
+        likeCount: 4,
+        content: "22",
+        timestamp: Date().addingTimeInterval(-60*58)
+    ),
+    Comment(
+        anonymityIndex: 1,
+        isMine: false,
+        isLike: false,
+        likeCount: 7,
+        content: "나는 별로 안궁금한데?? 왜 이런거 궁금함? 난 이미 팀있지롱 ㅋ",
+        timestamp: Date().addingTimeInterval(-86000)
+    ),
+    Comment(
+        anonymityIndex: 1,
+        isMine: false,
+        isLike: true,
+        likeCount: 23,
+        content: "와 위 댓글 ㅁㅊ네",
+        timestamp: Date().addingTimeInterval(-90000)
+    ),
+    Comment(
+        anonymityIndex: 1,
+        isMine: true,
+        isLike: true,
+        likeCount: 50,
+        content: "왜 시비임? 현피ㄱ?",
+        timestamp: Date().addingTimeInterval(-180)
+    ),
+    Comment(
+        anonymityIndex: 1,
+        isMine: false,
+        isLike: true,
+        likeCount: 83,
+        content: "뜨던지ㅋ 목요일 오후 10시 지곡회관으로 와라",
+        timestamp: Date().addingTimeInterval(-53)
+    ),
+    Comment(
+        anonymityIndex: 1,
+        isMine: true,
+        isLike: true,
+        likeCount: 125,
+        content: "ㅋㅋ 한대 맞고 울지나 마라",
+        timestamp: Date()
+    ),
+    Comment(
+        anonymityIndex: 1,
+        isMine: true,
+        isLike: true,
+        likeCount: 125,
+        content: "ㅋㅋ 한대 맞고 울지나 마라",
+        timestamp: Date().addingTimeInterval(-180000)
+    ),
 ]
