@@ -10,6 +10,9 @@ import SwiftUI
 final class CommentUseCase: ObservableObject {
     @Published public var _state: State
     
+    @Published public var comments: [ApiComment.Comment] = []
+    
+    @MainActor
     init() {
         self._state = State(
             post: Post(
@@ -23,6 +26,45 @@ final class CommentUseCase: ObservableObject {
             ),
             comment: sampleComments
         )
+    }
+    
+    func loadComments(boardId: Int) async {
+        let urlString = ApiEndpoints.basicURLString(path: .comments)
+        
+        guard let url = URL(string: "\(urlString)/\(boardId)") else {
+            print("잘못된 URL 입니다! in CommentView")
+            return
+        }
+        
+        var accessToken = ""
+        
+        do {
+            accessToken = try SignInInfo.shared.token(.access)
+        } catch {
+            print("액세스 토큰 반환 실패")
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                print(response)
+                return
+            }
+            
+            let result = try JSONDecoder().decode(BaseResponse<ApiComment>.self, from: data)
+            
+            self.comments = result.result.boardCommentInfos
+            print(self.comments)
+        } catch {
+            print(String(describing: error))
+        }
+        
     }
 }
 
@@ -71,6 +113,32 @@ struct Comment: Identifiable {
     let timestamp: Date
 }
 
+
+
+struct ApiComment: Codable {
+    
+    let boardCommentInfos: [Comment]
+    
+    struct Comment: Codable, Identifiable {
+        var id: Int
+        var name: String
+        var content: String
+        var heartCount: Int
+        var isLiked: Bool
+        var createdAt: String
+        
+        enum CodingKeys: String, CodingKey {
+            case id = "boardCommentId"
+            case name = "writer"
+            case content
+            case heartCount
+            case isLiked
+            case createdAt
+        }
+    }
+    
+    
+}
 
 private let sampleComments: [Comment] = [
     Comment(anonymityIndex: 1, isMine: false, isLike: false, likeCount: 10, content: "이말 완전 인정", timestamp: Date().addingTimeInterval(-60*60)),

@@ -26,7 +26,7 @@ struct CommentView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     // 데이터 연결
-                    ForEach(commentUseCase._state.comment) { comment in
+                    ForEach(commentUseCase.comments) { comment in
                         seperator
                         
                         CommentCell(comment: comment, commentUseCase: commentUseCase)
@@ -47,6 +47,9 @@ struct CommentView: View {
                 .frame(width: screenWidth)
         }
         .navigationBarBackButtonHidden()
+        .task {
+            await commentUseCase.loadComments(boardId: 1)
+        }
     }
     
     var seperator: some View {
