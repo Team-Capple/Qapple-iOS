@@ -161,7 +161,10 @@ extension AuthViewModel {
                     signUpToken: try SignInInfo.shared.token(.refresh),
                     email: "\(email)\(academyEmailAddress)",
                     nickname: nickname,
-                    profileImage: ""))
+                    profileImage: "",
+                    deviceToken: SignInInfo.shared.deviceToken
+                )
+            )
             
             // 토큰 데이터 업데이트
             try SignInInfo.shared.createToken(.access, token: signUpData.accessToken ?? "")

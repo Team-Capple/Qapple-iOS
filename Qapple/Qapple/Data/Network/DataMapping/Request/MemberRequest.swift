@@ -21,6 +21,7 @@ class MemberRequest {
         let email: String
         let nickname: String
         let profileImage: String?
+        let deviceToken: String
     }
     
     // 프로필 수정
