@@ -75,8 +75,8 @@ final class Router: ObservableObject, NavigationRouter {
                 NotificationListView()
             case .search:
                 BulletinSearchView()
-            case .comment(postId: let postId):
-                CommentView(postId: postId)
+            case .comment(post: let post):
+                CommentView(post: post)
                     .toolbar(.hidden, for: .tabBar)
             }
         } else if pathType == .myProfile {
@@ -141,7 +141,7 @@ enum BulletinBoardPathType: Hashable {
     case bulletinPosting
     case alert
     case search
-    case comment(postId: UUID)
+    case comment(post: Post)
 }
 
 /// 내 정보 Tab

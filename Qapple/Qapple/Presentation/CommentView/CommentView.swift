@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CommentView: View {
     
-    @StateObject private var commentUseCase: CommentUseCase = .init()
+    @StateObject private var commentViewModel: CommentViewModel = .init()
     @State private var text: String = ""
     
-    let postId: UUID
+    let post: Post
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
@@ -20,16 +20,16 @@ struct CommentView: View {
         VStack(spacing: 0) {
             HeaderView()
             
-            BulletinBoardCell(post: commentUseCase._state.post, seeMoreAction: {})
+            BulletinBoardCell(post: self.post, seeMoreAction: {})
                 .frame(width: UIScreen.main.bounds.width)
             
             ScrollView {
                 VStack(spacing: 0) {
                     // 데이터 연결
-                    ForEach(commentUseCase._state.comment) { comment in
+                    ForEach(commentViewModel.comments) { comment in
                         seperator
                         
-                        CommentCell(comment: comment, commentUseCase: commentUseCase)
+                        CommentCell(comment: comment, commentViewModel: commentViewModel)
                     }
                     
                     seperator
@@ -38,6 +38,11 @@ struct CommentView: View {
                 }
             }
             .background(Color.bk)
+            .refreshable {
+                Task.init {
+                    await commentViewModel.loadComments(boardId: 1)
+                }
+            }
         }
         .onTapGesture {
             hideKeyboard()
@@ -47,6 +52,9 @@ struct CommentView: View {
                 .frame(width: screenWidth)
         }
         .navigationBarBackButtonHidden()
+        .task {
+            await commentViewModel.loadComments(boardId: 1)
+        }
     }
     
     var seperator: some View {
@@ -65,7 +73,11 @@ struct CommentView: View {
             
             Button {
                 // TODO: 댓글 달기 기능 추가
-                commentUseCase.act(.upload(content: self.text))
+                Task.init {
+                    await commentViewModel.act(.upload(request: .init(boardId: 1, content: self.text)))
+                    await commentViewModel.loadComments(boardId: 1)
+                    self.text = ""
+                }
             } label: {
                 Image(systemName: "paperplane")
                     .resizable()
@@ -114,6 +126,6 @@ private struct HeaderView: View {
     }
 }
 
-#Preview {
-    CommentView(postId: UUID())
-}
+//#Preview {
+//    CommentView(postId: UUID())
+//}

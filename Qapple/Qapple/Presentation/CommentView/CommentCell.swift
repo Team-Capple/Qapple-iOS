@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentCell: View {
-    let comment: Comment
+    let comment: CommentResponse.Comments.Comment
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let anchorWidth: CGFloat = 73
@@ -17,7 +17,7 @@ struct CommentCell: View {
     @State private var anchor: CGFloat = 0
     @State private var isCellToggled: Bool = false
     
-    @ObservedObject var commentUseCase: CommentUseCase
+    @ObservedObject var commentViewModel: CommentViewModel
     
     var body: some View {
         HStack(spacing: 0) {
@@ -27,7 +27,7 @@ struct CommentCell: View {
             content
                 .frame(width: screenWidth)
             
-            if comment.isMine {
+            if comment.isLiked {
                 deleteBtn
             } else {
                 reportBtn
@@ -76,7 +76,7 @@ struct CommentCell: View {
                         .foregroundStyle(.icon)
                     
                     // 댓글 timestamp
-                    Text(comment.timestamp.timeAgo)
+                    Text(comment.createdAt)
                         .font(.pretendard(.light, size: 12))
                         .foregroundStyle(.disable)
                 }
@@ -95,18 +95,21 @@ struct CommentCell: View {
                 // 댓글 좋아요 버튼
                 Button {
                     // TODO: 댓글 좋아요 기능
-                    commentUseCase.act(.like(id: 1))
+                    Task.init {
+                        await commentViewModel.act(.like(id: comment.id))
+                        await commentViewModel.loadComments(boardId: 1)
+                    }
                 } label: {
-                    Image(systemName: comment.isLike ? "heart.fill" : "heart")
+                    Image(systemName: comment.isLiked ? "heart.fill" : "heart")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 16)
-                        .foregroundStyle(comment.isLike ? .button : .sub4)
+                        .foregroundStyle(comment.isLiked ? .button : .sub4)
                 }
                 
                 // 댓글 좋아요 갯수
-                if comment.likeCount != 0 {
-                    Text("\(comment.likeCount)")
+                if comment.heartCount != 0 {
+                    Text("\(comment.heartCount)")
                         .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(.sub3)
                 }
@@ -121,7 +124,9 @@ struct CommentCell: View {
     private var deleteBtn: some View {
         Button {
             // TODO: 삭제 기능 구현
-            commentUseCase.act(.delete(id: 1))
+            Task.init {
+                await commentViewModel.act(.delete(id: 1))
+            }
         } label: {
             ZStack {
                 Color.delete
@@ -139,7 +144,9 @@ struct CommentCell: View {
     private var reportBtn: some View {
         Button {
             // TODO: 신고 기능 구현
-            commentUseCase.act(.report(id: 1))
+            Task.init {
+                await commentViewModel.act(.report(id: 1))
+            }
         } label: {
             ZStack {
                 Color.report
@@ -153,9 +160,9 @@ struct CommentCell: View {
     }
 }
 
-#Preview {
-    VStack {
-        CommentCell(comment: Comment(anonymityIndex: 1, isMine: false, isLike: true, likeCount: 12, content: "123123", timestamp: Date()), commentUseCase: .init())
-        CommentCell(comment: Comment(anonymityIndex: 2, isMine: true, isLike: false, likeCount: 0, content: "테스트", timestamp: Date().addingTimeInterval(-60*60*24)), commentUseCase: .init())
-    }
-}
+//#Preview {
+//    VStack {
+//        CommentCell(comment: Comment(anonymityIndex: 1, isMine: false, isLike: true, likeCount: 12, content: "123123", timestamp: Date()), commentUseCase: .init())
+//        CommentCell(comment: Comment(anonymityIndex: 2, isMine: true, isLike: false, likeCount: 0, content: "테스트", timestamp: Date().addingTimeInterval(-60*60*24)), commentUseCase: .init())
+//    }
+//}

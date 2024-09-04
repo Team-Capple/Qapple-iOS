@@ -39,7 +39,10 @@
 		2C2E0ED52C63D177003928C1 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E0ED42C63D177003928C1 /* CommentCell.swift */; };
 		2C2E0ED72C646EC9003928C1 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E0ED62C646EC9003928C1 /* CommentView.swift */; };
 		2CD2B5A52C77192600E17B6A /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */; };
-		2CD2B5A72C771C3500E17B6A /* CommentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A62C771C3500E17B6A /* CommentUseCase.swift */; };
+		2CD2B5A72C771C3500E17B6A /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A62C771C3500E17B6A /* CommentViewModel.swift */; };
+		2CD2B5A92C88753800E17B6A /* NetworkManager + Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */; };
+		2CD2B5AB2C88780D00E17B6A /* CommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */; };
+		2CD2B5AD2C88789C00E17B6A /* CommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */; };
 		420D72012C71D53200B56439 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 420D72002C71D53200B56439 /* GoogleService-Info.plist */; };
 		420D72052C71D5BB00B56439 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 420D72042C71D5BB00B56439 /* FirebaseAuth */; };
 		420D720B2C71D81400B56439 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420D720A2C71D81400B56439 /* AppDelegate.swift */; };
@@ -196,7 +199,10 @@
 		2C2E0ED42C63D177003928C1 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C2E0ED62C646EC9003928C1 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
-		2CD2B5A62C771C3500E17B6A /* CommentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentUseCase.swift; sourceTree = "<group>"; };
+		2CD2B5A62C771C3500E17B6A /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager + Comment.swift"; sourceTree = "<group>"; };
+		2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentResponse.swift; sourceTree = "<group>"; };
+		2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRequest.swift; sourceTree = "<group>"; };
 		420D72002C71D53200B56439 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		420D720A2C71D81400B56439 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4213DF752C6E1F86007F433C /* NotificationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUseCase.swift; sourceTree = "<group>"; };
@@ -487,7 +493,7 @@
 			children = (
 				2C2E0ED42C63D177003928C1 /* CommentCell.swift */,
 				2C2E0ED62C646EC9003928C1 /* CommentView.swift */,
-				2CD2B5A62C771C3500E17B6A /* CommentUseCase.swift */,
+				2CD2B5A62C771C3500E17B6A /* CommentViewModel.swift */,
 			);
 			path = CommentView;
 			sourceTree = "<group>";
@@ -559,6 +565,7 @@
 				8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */,
 				8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */,
 				824717352BC9163C005E9631 /* NetworkManager+Report.swift */,
+				2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */,
 			);
 			name = NetworklManager;
 			sourceTree = "<group>";
@@ -974,6 +981,7 @@
 				828715C12B9AC91A001627DB /* AnswerResponse.swift */,
 				8295BDB32BA3222200115FA8 /* MemberResponse.swift */,
 				824717312BC9140A005E9631 /* ReportResponse.swift */,
+				2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -986,6 +994,7 @@
 				828715BF2B9AC866001627DB /* AnswerRequest.swift */,
 				8295BDB12BA3209000115FA8 /* MemberRequest.swift */,
 				8247172F2BC913B9005E9631 /* ReportRequest.swift */,
+				2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1286,6 +1295,7 @@
 				4213DF762C6E1F86007F433C /* NotificationUseCase.swift in Sources */,
 				828908F92C6DCD3500C7F6CD /* BulletinPostingUseCase.swift in Sources */,
 				82C3791B2B93499300CC7708 /* Alert.swift in Sources */,
+				2CD2B5AD2C88789C00E17B6A /* CommentRequest.swift in Sources */,
 				828A03DB2BAB36F80038CF91 /* NotificationManager.swift in Sources */,
 				F36F37C32B9B7A29002EC36B /* AppleLoginButton.swift in Sources */,
 				8295BDB02BA31C5C00115FA8 /* PrivacyDocument.swift in Sources */,
@@ -1318,12 +1328,14 @@
 				073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */,
 				824717342BC9144F005E9631 /* ReportType.swift in Sources */,
 				82F7041F2C6DD29D00479206 /* TabType.swift in Sources */,
-				2CD2B5A72C771C3500E17B6A /* CommentUseCase.swift in Sources */,
+				2CD2B5A72C771C3500E17B6A /* CommentViewModel.swift in Sources */,
+				2CD2B5A92C88753800E17B6A /* NetworkManager + Comment.swift in Sources */,
 				F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */,
 				828715C02B9AC866001627DB /* AnswerRequest.swift in Sources */,
 				8295BDAA2BA04D1300115FA8 /* SignUpEmailView.swift in Sources */,
 				2C2E0ED52C63D177003928C1 /* CommentCell.swift in Sources */,
 				824717322BC9140A005E9631 /* ReportResponse.swift in Sources */,
+				2CD2B5AB2C88780D00E17B6A /* CommentResponse.swift in Sources */,
 				F3D452D92B8A7019000BA51C /* CustonNavigationBar.swift in Sources */,
 				825226EA2BA857FF006998E8 /* String+Extension.swift in Sources */,
 				823736AE2C6752E50057B9CF /* BulletinBoardSeeMoreSheetView.swift in Sources */,
