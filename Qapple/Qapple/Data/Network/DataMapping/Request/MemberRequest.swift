@@ -12,6 +12,7 @@ class MemberRequest {
     // 로그인
     struct SignIn: Codable {
         let code: String // 애플 인증 서버 코드
+        let deviceToken: String
     }
     
     // 회원가입
@@ -20,6 +21,7 @@ class MemberRequest {
         let email: String
         let nickname: String
         let profileImage: String?
+        let deviceToken: String
     }
     
     // 프로필 수정

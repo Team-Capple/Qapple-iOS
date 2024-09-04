@@ -14,7 +14,9 @@ extension NetworkManager {
     static func requestSignIn(request: MemberRequest.SignIn) async throws -> MemberResponse.SignIn {
         
         // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .signIn) + "?code=\(request.code)"
+        let urlString = ApiEndpoints.basicURLString(path: .signIn)
+        + "?code=\(request.code)" + "&deviceToken=\(request.deviceToken)"
+        
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
