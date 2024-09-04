@@ -11,7 +11,7 @@ final class CommentUseCase: ObservableObject {
 
     @Published public var comments: [CommentResponse.Comments.Comment] = []
     
-    
+    // 댓글 불러오기
     @MainActor
     public func loadComments(boardId: Int) async {
         do {
@@ -22,6 +22,7 @@ final class CommentUseCase: ObservableObject {
         }
     }
     
+    // 댓글 좋아요 action
     @MainActor
     public func likeComment(commentId: Int) async {
         do {
@@ -31,6 +32,7 @@ final class CommentUseCase: ObservableObject {
         }
     }
     
+    // 댓글 달기 action
     @MainActor
     public func uploadComment(request: CommentRequest.UploadComment) async {
         do {

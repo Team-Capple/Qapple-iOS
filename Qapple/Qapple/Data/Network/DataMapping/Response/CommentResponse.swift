@@ -10,7 +10,7 @@ import Foundation
 
 struct CommentResponse: Codable {
     
-    
+    // 댓글 조회 Response
     struct Comments: Codable {
         let boardCommentInfos: [Comment]
         

@@ -10,7 +10,7 @@ import Foundation
 // MARK: - 댓글(Comment) 관련 API
 extension NetworkManager {
     
-    
+    // 해당 게시글에 댓글을 불러옵니다.
     static func fetchComments(boardId: Int) async throws -> CommentResponse.Comments {
         let urlString = ApiEndpoints.basicURLString(path: .comments)
         
@@ -43,7 +43,7 @@ extension NetworkManager {
             
             let result = try JSONDecoder().decode(BaseResponse<CommentResponse.Comments>.self, from: data)
             
-            print(result)
+//            print(result)
             
             return result.result
         } catch {
@@ -53,6 +53,7 @@ extension NetworkManager {
         throw NetworkError.decodeFailed
     }
     
+    // 댓글을 업로드 합니다.
     static func postComment(requestBody: CommentRequest.UploadComment) async throws {
         let urlString = ApiEndpoints.basicURLString(path: .createComment)
         
@@ -93,8 +94,7 @@ extension NetworkManager {
         }
     }
     
-    
-    
+    // 해당 댓글에 좋아요를 추가 or 취소 합니다.
     static func likeComment(commentId: Int) async throws {
         let urlString = ApiEndpoints.basicURLString(path: .likeComment)
         
