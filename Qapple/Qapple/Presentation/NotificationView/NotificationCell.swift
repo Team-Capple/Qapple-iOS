@@ -42,7 +42,7 @@ private struct TitleView: View {
     var body: some View {
         HStack(spacing: 8) {
             if actionType == .question {
-                Text(targetType.description + actionType.description)
+                Text(actionType.description + targetType.description)
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
@@ -53,7 +53,13 @@ private struct TitleView: View {
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
                     .multilineTextAlignment(.leading)
-            } else {
+            } else if actionType == .comment && targetType == .answer {
+                Text("누군가 같은 게시물에 \(actionType.description)")
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.main)
+                    .lineSpacing(6)
+                    .multilineTextAlignment(.leading)
+            } else{
                 Text("누군가 내 \(targetType.description)에 \(actionType.description)")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.main)
@@ -77,11 +83,11 @@ private struct ContentView: View {
     let commentContent: String?
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 4) {
             if let comment = commentContent {
                 Text(comment)
                     .pretendard(.medium, 14)
-                    .foregroundColor(.sub2) // TODO: 색 한번 검토 필요!
+                    .foregroundColor(.sub2)
             }
             
             Text(targetContent)
@@ -106,8 +112,8 @@ struct PressableButtonStyle: ButtonStyle {
     NotificationCell(
         targetContent: "'어떤 게시글인지가 들어갑니다.'",
         targetType: .board,
-        actionType: .like,
-        commentContent: nil,
+        actionType: .comment,
+        commentContent: "'댓글내용이 들어갑니다'",
         timeStamp: Date(),
         likeCount: 18
     ) {
