@@ -96,7 +96,8 @@ struct CommentCell: View {
                 Button {
                     // TODO: 댓글 좋아요 기능
                     Task.init {
-                        await commentUseCase.act(.like(id: 1))
+                        await commentUseCase.act(.like(id: comment.id))
+                        await commentUseCase.loadComments(boardId: 1)
                     }
                 } label: {
                     Image(systemName: comment.isLiked ? "heart.fill" : "heart")

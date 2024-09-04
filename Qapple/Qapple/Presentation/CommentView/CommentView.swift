@@ -38,6 +38,11 @@ struct CommentView: View {
                 }
             }
             .background(Color.bk)
+            .refreshable {
+                Task.init {
+                    await commentUseCase.loadComments(boardId: 1)
+                }
+            }
         }
         .onTapGesture {
             hideKeyboard()
