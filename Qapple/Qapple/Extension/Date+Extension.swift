@@ -26,34 +26,30 @@ extension Date {
             from: self, to: now
         )
         
-        if let seconds = components.second, seconds < 10 {
-            return "방금"
+        if let seconds = components.second,
+           let minute = components.minute,
+           let hour = components.hour,
+           let day = components.day {
+            
+            if seconds < 10 && minute == 0 && hour == 0 && day == 0 {
+                return "방금"
+            } else if seconds < 60 && minute == 0 && hour == 0 && day == 0 {
+                return "\(seconds)초 전"
+            } else if minute < 60 && hour == 0 && day == 0 {
+                return "\(minute)분 전"
+            } else if hour < 24 && day == 0 {
+                return "\(hour)시간 전"
+            } else if day < 2 {
+                return "하루 전"
+            } else {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .medium
+                dateFormatter.timeStyle = .none
+                dateFormatter.locale = Locale(identifier: "ko_KR")
+                return dateFormatter.string(from: self)
+            }
+        } else {
+            return "ERROR"
         }
-        
-        if let seconds = components.second, seconds < 60 {
-            return "\(seconds)초 전"
-        }
-        
-        if let minutes = components.minute, minutes < 5 {
-            return "\(minutes)분 전"
-        }
-        
-        if let minutes = components.minute, minutes < 60 {
-            return "\(minutes)분 전"
-        }
-        
-        if let hours = components.hour, hours < 24 {
-            return "\(hours)시간 전"
-        }
-        
-        if let days = components.day, days < 1 {
-            return "하루 전"
-        }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        return dateFormatter.string(from: self)
     }
 }

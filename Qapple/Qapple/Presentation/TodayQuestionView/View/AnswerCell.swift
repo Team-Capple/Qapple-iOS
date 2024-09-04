@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// MARK: - BulletinBoardCell
+// MARK: - TodayQuestionCell
 
 struct AnswerCell: View {
     
@@ -46,7 +46,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("아무개 \(answer.anonymityId + 1)")
+            Text("러너 \(answer.anonymityId + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -88,66 +88,6 @@ private struct ContentView: View {
                     .pretendard(.medium, 16)
                     .foregroundStyle(TextLabel.main)
                     .padding(.top, 2)
-                
-                RemoteView(answer: answer)
-                    .padding(.top, 12)
-            }
-        }
-    }
-}
-
-// MARK: - RemoteView
-
-private struct RemoteView: View {
-    
-    let answer: Answer
-    
-    var body: some View {
-        HStack {
-            LikeButton(
-                answer: answer,
-                tapAction: {
-                    // TODO: 좋아요 탭
-                }
-            )
-            
-            CommentButton(answer: answer)
-        }
-    }
-    
-    struct LikeButton: View {
-        let answer: Answer
-        let tapAction: () -> Void
-        
-        var body: some View {
-            Button {
-                tapAction()
-            } label: {
-                HStack(spacing: 4) {
-                    Image(answer.isLike ? .heartActive : .heart)
-                    
-                    Text("\(answer.likeCount)")
-                        .pretendard(.regular, 13)
-                        .foregroundStyle(TextLabel.sub3)
-                }
-            }
-        }
-    }
-    
-    struct CommentButton: View {
-        let answer: Answer
-        
-        var body: some View {
-            Button {
-                // TODO: 댓글 화면 present
-            } label: {
-                HStack(spacing: 4) {
-                    Image(.comment)
-                    
-                    Text("\(answer.commentCount)")
-                        .pretendard(.regular, 13)
-                        .foregroundStyle(TextLabel.sub3)
-                }
             }
         }
     }
@@ -160,10 +100,7 @@ private struct RemoteView: View {
         answer: Answer(
             id: 0,
             anonymityId: 0,
-            content: "다들 매크로 팀원 조합 어떠신가요?",
-            isLike: true,
-            likeCount: 4,
-            commentCount: 1,
+            content: "아! 이게 질문이 아니고 답변이구나!",
             writingDate: .now,
             isReported: true
         )

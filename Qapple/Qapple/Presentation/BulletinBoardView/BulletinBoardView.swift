@@ -60,7 +60,8 @@ private struct BoardView: View {
             
             AcademyPlanDayCounter(
                 currentEvent: bulletinBoardUseCase._state.currentEvent,
-                progress: bulletinBoardUseCase._state.progress
+                startDate: bulletinBoardUseCase._state.startDate,
+                endDate: bulletinBoardUseCase._state.endDate
             )
             .padding(.top, 20)
             .padding(.horizontal, 16)
