@@ -7,9 +7,7 @@
 
 import Foundation
 
-class NetworkManager: ObservableObject {
-    
-}
+class NetworkManager {}
 
 // MARK: - 질문 관련 API
 extension NetworkManager {
