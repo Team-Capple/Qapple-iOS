@@ -143,7 +143,7 @@ private struct RemoteView: View {
         
         var body: some View {
             Button {
-                pathModel.pushView(screen: BulletinBoardPathType.comment(postId: post.id))
+                pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
             } label: {
                 HStack(spacing: 4) {
                     Image(.comment)

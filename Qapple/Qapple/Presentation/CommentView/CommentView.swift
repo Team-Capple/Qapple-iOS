@@ -12,7 +12,7 @@ struct CommentView: View {
     @StateObject private var commentUseCase: CommentUseCase = .init()
     @State private var text: String = ""
     
-    let postId: UUID
+    let post: Post
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
@@ -20,7 +20,7 @@ struct CommentView: View {
         VStack(spacing: 0) {
             HeaderView()
             
-            BulletinBoardCell(post: commentUseCase._state.post, seeMoreAction: {})
+            BulletinBoardCell(post: self.post, seeMoreAction: {})
                 .frame(width: UIScreen.main.bounds.width)
             
             ScrollView {
@@ -117,6 +117,6 @@ private struct HeaderView: View {
     }
 }
 
-#Preview {
-    CommentView(postId: UUID())
-}
+//#Preview {
+//    CommentView(postId: UUID())
+//}
