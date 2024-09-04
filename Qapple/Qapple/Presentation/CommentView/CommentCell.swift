@@ -95,7 +95,9 @@ struct CommentCell: View {
                 // 댓글 좋아요 버튼
                 Button {
                     // TODO: 댓글 좋아요 기능
-                    commentUseCase.act(.like(id: 1))
+                    Task.init {
+                        await commentUseCase.act(.like(id: 1))
+                    }
                 } label: {
                     Image(systemName: comment.isLiked ? "heart.fill" : "heart")
                         .resizable()
@@ -121,7 +123,9 @@ struct CommentCell: View {
     private var deleteBtn: some View {
         Button {
             // TODO: 삭제 기능 구현
-            commentUseCase.act(.delete(id: 1))
+            Task.init {
+                await commentUseCase.act(.delete(id: 1))
+            }
         } label: {
             ZStack {
                 Color.delete
@@ -139,7 +143,9 @@ struct CommentCell: View {
     private var reportBtn: some View {
         Button {
             // TODO: 신고 기능 구현
-            commentUseCase.act(.report(id: 1))
+            Task.init {
+                await commentUseCase.act(.report(id: 1))
+            }
         } label: {
             ZStack {
                 Color.report

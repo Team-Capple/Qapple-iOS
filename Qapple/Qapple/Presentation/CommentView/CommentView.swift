@@ -68,7 +68,11 @@ struct CommentView: View {
             
             Button {
                 // TODO: 댓글 달기 기능 추가
-                commentUseCase.act(.upload(content: self.text))
+                Task.init {
+                    await commentUseCase.act(.upload(content: self.text, id: 1))
+                    await commentUseCase.loadComments(boardId: 1)
+                    self.text = ""
+                }
             } label: {
                 Image(systemName: "paperplane")
                     .resizable()
