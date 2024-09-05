@@ -19,14 +19,8 @@ struct AnswerResponse {
             let nickname: String
             let profileImage: String
             let content: String
-            let tags: String
             let heartCount: Int
             let writeAt: String
-            
-            let isLike: Bool
-            let likeCount: Int
-            let commentCount: Int
-            let writingDate: Date
         }
     }
     
@@ -39,14 +33,8 @@ struct AnswerResponse {
             let profileImage: String? // 프로필 이미지 URL
             let nickname: String // 닉네임
             let content: String // 답변 내용
-            let tags: String // 키워드
             let isMyAnswer: Bool // 내가 작성한 답변인지 여부
             let isReported: Bool // 신고된 답변인지 여부
-            
-//            let isLike: Bool
-//            let likeCount: Int
-//            let commentCount: Int
-//            let writingDate: Date
         }
     }
     
