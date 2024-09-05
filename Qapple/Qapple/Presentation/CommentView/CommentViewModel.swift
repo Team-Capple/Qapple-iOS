@@ -11,9 +11,14 @@ final class CommentViewModel: ObservableObject {
 
     @Published public var comments: [CommentResponse.Comments.Comment] = []
     
+    // 호출 flag
+    @Published public var isLoading: Bool = false
+    
     // 댓글 불러오기
     @MainActor
     public func loadComments(boardId: Int) async {
+        self.isLoading = true
+        
         do {
             let result = try await NetworkManager.fetchComments(boardId: boardId)
             
@@ -22,26 +27,36 @@ final class CommentViewModel: ObservableObject {
         } catch {
             print(error.localizedDescription)
         }
+        
+        self.isLoading = false
     }
     
     // 댓글 좋아요 action
     @MainActor
     public func likeComment(commentId: Int) async {
+        self.isLoading = true
+        
         do {
             _ = try await NetworkManager.likeComment(commentId: commentId)
         } catch {
             print(error.localizedDescription)
         }
+        
+        self.isLoading = false
     }
     
     // 댓글 달기 action
     @MainActor
     public func uploadComment(request: CommentRequest.UploadComment) async {
+        self.isLoading = true
+        
         do {
             _ = try await NetworkManager.postComment(requestBody: request)
         } catch {
             print(error.localizedDescription)
         }
+
+        self.isLoading = false
     }
 }
 

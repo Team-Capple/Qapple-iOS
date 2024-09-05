@@ -23,24 +23,31 @@ struct CommentView: View {
             BulletinBoardCell(post: self.post, seeMoreAction: {})
                 .frame(width: UIScreen.main.bounds.width)
             
-            ScrollView {
-                VStack(spacing: 0) {
-                    // 데이터 연결
-                    ForEach(commentViewModel.comments) { comment in
+            ZStack {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // 데이터 연결
+                        ForEach(commentViewModel.comments) { comment in
+                            seperator
+                            
+                            CommentCell(comment: comment, commentViewModel: commentViewModel)
+                        }
+                        
                         seperator
                         
-                        CommentCell(comment: comment, commentViewModel: commentViewModel)
+                        Spacer(minLength: 50)
                     }
-                    
-                    seperator
-                    
-                    Spacer(minLength: 50)
                 }
-            }
-            .background(Color.bk)
-            .refreshable {
-                Task.init {
-                    await commentViewModel.loadComments(boardId: 1)
+                .background(Color.bk)
+                .refreshable {
+                    Task.init {
+                        await commentViewModel.loadComments(boardId: 1)
+                    }
+                }
+                
+                if self.commentViewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
                 }
             }
         }
@@ -83,10 +90,11 @@ struct CommentView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20)
-                    .foregroundStyle(Color.wh)
             }
+            .tint(Color.wh)
             .padding(.trailing, 12)
             .padding(.bottom, 12)
+            .disabled( self.text.isEmpty || self.commentViewModel.isLoading )
         }
         .background {
             RoundedRectangle(cornerRadius: 11)
