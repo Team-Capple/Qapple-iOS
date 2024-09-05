@@ -16,7 +16,9 @@ final class CommentViewModel: ObservableObject {
     public func loadComments(boardId: Int) async {
         do {
             let result = try await NetworkManager.fetchComments(boardId: boardId)
-            self.comments = result.boardCommentInfos
+            
+            self.comments = anonymizeComment(result.boardCommentInfos)
+            
         } catch {
             print(error.localizedDescription)
         }
@@ -70,5 +72,52 @@ extension CommentViewModel {
             await likeComment(commentId: id)
             
         }
+    }
+}
+
+
+extension CommentViewModel {
+    // 이름을 익명화 해주는 method
+    private func anonymizeComment(_ comments: [CommentResponse.Comments.Comment]) -> [CommentResponse.Comments.Comment] {
+        // 아무개 번호
+        var nameIndex = 0
+        // 중복 여부 판단하는 딕셔너리
+        var nameArray: [Int: String] = [:]
+        
+        let result = comments.map { comment in
+            // 한번이라도 나온 writer인지 여부 판단
+            let isContainName = nameArray.values.contains {
+                $0 == comment.name
+            }
+            
+            if !isContainName { // 처음 나오는 writer일 경우
+                nameIndex += 1
+                nameArray.updateValue(comment.name, forKey: nameIndex)
+                
+                
+                return CommentResponse.Comments.Comment(
+                    id: comment.id,
+                    name: "아무개\(nameIndex)",
+                    content: comment.content,
+                    heartCount: comment.heartCount,
+                    isLiked: comment.isLiked,
+                    createdAt: comment.createdAt)
+            } else { // 한번 이상 나온 writer일 경우
+                // 해당 value의 key 값을 찾아 name의 index로 제공
+                let currentIndex = nameArray
+                    .filter { $0.value == comment.name }
+                    .first!.key
+                
+                return CommentResponse.Comments.Comment(
+                    id: comment.id,
+                    name: "아무개\(currentIndex)",
+                    content: comment.content,
+                    heartCount: comment.heartCount,
+                    isLiked: comment.isLiked,
+                    createdAt: comment.createdAt)
+            }
+        }
+        
+        return result
     }
 }
