@@ -14,8 +14,12 @@ final class BulletinBoardUseCase: ObservableObject {
         self._state = State(
             currentEvent: "Prologue", // TODO: 실제 값 업데이트
             progress: 0.47, // TODO: 실제 값 업데이트
-            posts: dummyPosts // TODO: 실제 게시글 업데이트
+            posts: []
         )
+        
+        Task {
+            await fetchPostList()
+        }
     }
 }
 
@@ -24,9 +28,9 @@ final class BulletinBoardUseCase: ObservableObject {
 extension BulletinBoardUseCase {
     
     struct State {
-        let currentEvent: String
-        let progress: Double
-        let posts: [Post]
+        var currentEvent: String
+        var progress: Double
+        var posts: [Post]
     }
 }
 
@@ -35,6 +39,7 @@ extension BulletinBoardUseCase {
 extension BulletinBoardUseCase {
     
     enum Effect {
+        case fetchPost
         case likePost(postIndex: Int)
         case removePost(postIndex: Int)
         case reportPost(postIndex: Int)
@@ -42,6 +47,10 @@ extension BulletinBoardUseCase {
     
     func effect(_ effect: Effect) {
         switch effect {
+        case .fetchPost:
+            Task {
+                await fetchPostList()
+            }
         case .likePost(let postIndex):
             print("\(postIndex)번째 게시글 좋아요 업데이트")
             // TODO: 네트워킹 좋아요 업데이트
@@ -51,6 +60,31 @@ extension BulletinBoardUseCase {
             
         case .reportPost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 신고")
+        }
+    }
+}
+// MARK: - fetch
+
+extension BulletinBoardUseCase {
+    
+    @MainActor
+    private func fetchPostList() {
+        Task {
+            let boardList = try await NetworkManager.fetchBoard()
+            
+            let postList: [Post] = boardList.boards.map { board in
+                Post(
+                    anonymityIndex: board.boardId,
+                    isMine: false, // TODO: 나중에 처리
+                    content: board.content,
+                    isLike: false, // TODO: 나중에 처리
+                    likeCount: board.heartCount,
+                    commentCount: board.commentCount,
+                    writingDate: board.createAt.ISO8601ToDate
+                )
+            }
+            
+            _state.posts = postList
         }
     }
 }

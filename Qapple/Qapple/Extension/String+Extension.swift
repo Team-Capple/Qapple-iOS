@@ -13,4 +13,16 @@ extension String {
     var splitTag: [String] {
         return self.split(separator: " ").map(String.init)
     }
+    
+    /// 서버에서 받은 시간(String)을 Date 타입으로 반환합니다.
+    var ISO8601ToDate: Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        
+        if let date = dateFormatter.date(from: self) {
+            return date
+        }
+        
+        return .now
+    }
 }

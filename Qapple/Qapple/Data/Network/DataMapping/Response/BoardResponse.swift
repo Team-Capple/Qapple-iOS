@@ -12,7 +12,7 @@ struct BoardResponse {
     // 카테고리별 게시글 조회 Response
     struct Boards: Codable {
         
-        let boards: [board]?
+        let boards: [board]
         
         struct board: Codable {
             var boardId: Int
