@@ -53,13 +53,19 @@ extension BulletinBoardUseCase {
             }
         case .likePost(let postIndex):
             print("\(postIndex)번째 게시글 좋아요 업데이트")
-            // TODO: 네트워킹 좋아요 업데이트
+            Task {
+                try await NetworkManager.requestLikeBoard(.init(boardId: postIndex))
+            }
             
         case .removePost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 삭제")
+            Task {
+                try await NetworkManager.requestDeleteBoard(.init(boardId: postIndex))
+            }
             
         case .reportPost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 신고")
+            // TODO: 신고 넣기
         }
     }
 }
