@@ -112,7 +112,7 @@ extension CommentViewModel {
                 
                 return CommentResponse.Comments.Comment(
                     id: comment.id,
-                    name: "아무개\(nameIndex)",
+                    name: "러너 \(nameIndex)",
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
@@ -125,7 +125,7 @@ extension CommentViewModel {
                 
                 return CommentResponse.Comments.Comment(
                     id: comment.id,
-                    name: "아무개\(currentIndex)",
+                    name: "러너 \(currentIndex)",
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
