@@ -21,6 +21,7 @@ struct BoardResponse {
             var heartCount: Int
             var commentCount: Int
             var createAt: String
+            // TODO: api 추가
         }
     }
     

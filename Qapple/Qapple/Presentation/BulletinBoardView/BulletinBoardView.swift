@@ -133,7 +133,7 @@ private struct PostListView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
+            LazyVStack(spacing: 0) {
                 ForEach(bulletinBoardUseCase._state.posts) { post in
                     BulletinBoardCell(
                         post: post,
