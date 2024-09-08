@@ -40,7 +40,9 @@ extension BulletinPostingUseCase {
     func effect(_ effect: Effect) {
         switch effect {
         case .uploadPost:
-            // TODO: 네트워킹을 통한 포스팅 업로드
+            Task {
+                try await NetworkManager.requestRegisterBoard(.init(content: _state.content, boardType: "FREEBOARD"))
+            }
             print("포스팅을 업로드합니다.")
         }
     }

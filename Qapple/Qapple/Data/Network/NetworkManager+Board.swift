@@ -81,7 +81,7 @@ extension NetworkManager {
         }
         
         // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .answers)
+        let urlString = ApiEndpoints.basicURLString(path: .boards)
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
@@ -90,8 +90,8 @@ extension NetworkManager {
         // 토큰 추가
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(try SignInInfo.shared.token(.access))", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
