@@ -47,7 +47,7 @@ extension BulletinBoardUseCase {
         let currentEvent: String
         let startDate: Date
         let endDate: Date
-        let posts: [Post]
+        var posts: [Post]
     }
 }
 
