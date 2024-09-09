@@ -71,7 +71,7 @@ struct CommentCell: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 10) {
                     // 사용자 이름
-                    Text("아무개 2")
+                    Text(self.comment.name)
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(.icon)
                     
@@ -94,7 +94,7 @@ struct CommentCell: View {
             VStack {
                 // 댓글 좋아요 버튼
                 Button {
-                    // TODO: 댓글 좋아요 기능
+                    // TODO: boardId 수정
                     Task.init {
                         await commentViewModel.act(.like(id: comment.id))
                         await commentViewModel.loadComments(boardId: 1)

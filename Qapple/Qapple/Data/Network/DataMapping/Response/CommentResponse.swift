@@ -30,6 +30,15 @@ struct CommentResponse: Codable {
                 case isLiked
                 case createdAt
             }
+            
+            init(id: Int, name: String, content: String, heartCount: Int, isLiked: Bool, createdAt: String) {
+                self.id = id
+                self.name = name
+                self.content = content
+                self.heartCount = heartCount
+                self.isLiked = isLiked
+                self.createdAt = createdAt
+            }
         }
     }
 }
