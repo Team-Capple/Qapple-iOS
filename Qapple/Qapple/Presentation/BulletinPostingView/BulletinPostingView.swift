@@ -35,7 +35,6 @@ struct BulletinPostingView: View {
             HStack {
                 Button("취소", role: .cancel) {}
                 Button("그만두기", role: .none) {
-                    // TODO: 뒤로가기
                     pathModel.pop()
                 }
             }
@@ -73,7 +72,12 @@ private struct NavigationBar: View {
             },
             trailingView: {
                 Button("올리기") {
-                    postingUseCase.effect(.uploadPost)
+                    if postingUseCase._state.content.isEmpty {
+                        // TODO: 빈문자 경고 필요
+                    } else {
+                        postingUseCase.effect(.uploadPost)
+                        pathModel.pop()
+                    }
                 }
                 .foregroundStyle(BrandPink.button)
             },

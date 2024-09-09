@@ -36,6 +36,10 @@ enum ApiEndpoints {
         case emailCertification = "/members/email/certification"
         case codeCertification = "/members/email/certification/check"
         
+        // MARK: - 게시판
+        case boards = "/boards"
+        case boardsSearch = "/boards/search"
+        
         // MARK: - 신고
         case report = "/reports"
         
