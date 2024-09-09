@@ -28,6 +28,8 @@ final class SignInInfo {
     
     private var userIDValue = ""
     
+    var deviceToken = ""
+    
     /// 키체인에서 액세스 토큰을 반환합니다.
     func token(_ type: KeychainType) throws -> String {
         

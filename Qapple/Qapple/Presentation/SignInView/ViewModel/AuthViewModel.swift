@@ -111,7 +111,12 @@ extension AuthViewModel {
                 
                 Task {
                     do {
-                        let signInResponse = try await NetworkManager.requestSignIn(request: .init(code: authorizationCode))
+                        let signInResponse = try await NetworkManager.requestSignIn(
+                            request: .init(
+                                code: authorizationCode,
+                                deviceToken: SignInInfo.shared.deviceToken
+                            )
+                        )
                         try SignInInfo.shared.createToken(.access, token: signInResponse.accessToken ?? "")
                         try SignInInfo.shared.createToken(.refresh, token: signInResponse.refreshToken ?? "")
                         userID = appleIDCredential.user
@@ -137,8 +142,7 @@ extension AuthViewModel {
                     print("✅ [RefreshToken Successed]\n\(String(describing: try? SignInInfo.shared.token(.refresh)))\n")
                 }
                 
-            default:
-                break
+            default: break
             }
         case .failure(let error):
             print(error.localizedDescription)
@@ -157,7 +161,10 @@ extension AuthViewModel {
                     signUpToken: try SignInInfo.shared.token(.refresh),
                     email: "\(email)\(academyEmailAddress)",
                     nickname: nickname,
-                    profileImage: ""))
+                    profileImage: "",
+                    deviceToken: SignInInfo.shared.deviceToken
+                )
+            )
             
             // 토큰 데이터 업데이트
             try SignInInfo.shared.createToken(.access, token: signUpData.accessToken ?? "")

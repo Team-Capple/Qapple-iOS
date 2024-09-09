@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CommentView: View {
     
-    @StateObject private var commentUseCase: CommentUseCase = .init()
+    @StateObject private var commentViewModel: CommentViewModel = .init()
     @State private var text: String = ""
     
-    let postId: UUID
+    let post: Post
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
@@ -20,24 +20,36 @@ struct CommentView: View {
         VStack(spacing: 0) {
             HeaderView()
             
-            BulletinBoardCell(post: commentUseCase._state.post, seeMoreAction: {})
+            BulletinBoardCell(post: self.post, seeMoreAction: {})
                 .frame(width: UIScreen.main.bounds.width)
             
-            ScrollView {
-                VStack(spacing: 0) {
-                    // 데이터 연결
-                    ForEach(commentUseCase._state.comment) { comment in
+            ZStack {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // 데이터 연결
+                        ForEach(commentViewModel.comments) { comment in
+                            seperator
+                            
+                            CommentCell(comment: comment, commentViewModel: commentViewModel)
+                        }
+                        
                         seperator
                         
-                        CommentCell(comment: comment, commentUseCase: commentUseCase)
+                        Spacer(minLength: 50)
                     }
-                    
-                    seperator
-                    
-                    Spacer(minLength: 50)
+                }
+                .background(Color.bk)
+                .refreshable {
+                    Task.init {
+                        await commentViewModel.loadComments(boardId: 1)
+                    }
+                }
+                
+                if self.commentViewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
                 }
             }
-            .background(Color.bk)
         }
         .onTapGesture {
             hideKeyboard()
@@ -47,6 +59,9 @@ struct CommentView: View {
                 .frame(width: screenWidth)
         }
         .navigationBarBackButtonHidden()
+        .task {
+            await commentViewModel.loadComments(boardId: 1)
+        }
     }
     
     var seperator: some View {
@@ -65,16 +80,21 @@ struct CommentView: View {
             
             Button {
                 // TODO: 댓글 달기 기능 추가
-                commentUseCase.act(.upload(content: self.text))
+                Task.init {
+                    await commentViewModel.act(.upload(request: .init(boardId: 1, content: self.text)))
+                    await commentViewModel.loadComments(boardId: 1)
+                    self.text = ""
+                }
             } label: {
                 Image(systemName: "paperplane")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20)
-                    .foregroundStyle(Color.wh)
             }
+            .tint(Color.wh)
             .padding(.trailing, 12)
             .padding(.bottom, 12)
+            .disabled( self.text.isEmpty || self.commentViewModel.isLoading )
         }
         .background {
             RoundedRectangle(cornerRadius: 11)
@@ -114,6 +134,6 @@ private struct HeaderView: View {
     }
 }
 
-#Preview {
-    CommentView(postId: UUID())
-}
+//#Preview {
+//    CommentView(postId: UUID())
+//}
