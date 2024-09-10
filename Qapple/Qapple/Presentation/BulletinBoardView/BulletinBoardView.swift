@@ -29,13 +29,13 @@ struct BulletinBoardView: View {
                     .position(
                         CGPoint(
                             x: proxy.size.width / 2,
-                            y: proxy.size.height - 72
+                            y: proxy.size.height - 40
                         )
                     )
                 }
                 .background(Background.first)
                 .refreshable {
-                    // TODO: 데이터 새로 불러오기
+                    bulletinBoardUseCase.effect(.fetchPost)
                 }
                 .navigationDestination(for: BulletinBoardPathType.self) { path in
                     pathModel.getNavigationDestination(view: path)
@@ -135,7 +135,7 @@ private struct PostListView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-                ForEach(bulletinBoardUseCase._state.posts) { post in
+                ForEach(bulletinBoardUseCase._state.posts.reversed()) { post in
                     BulletinBoardCell(
                         post: post,
                         seeMoreAction: {
