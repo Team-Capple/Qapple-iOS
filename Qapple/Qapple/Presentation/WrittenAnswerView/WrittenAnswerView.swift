@@ -59,9 +59,6 @@ struct WrittenAnswerView: View {
                                     isMyAnswer = .init(answerId: answer.answerId, isMine: true)
                                 }
                             )
-                            
-                            Separator()
-                                .padding(.leading, 24)
                         }
                     }
                 }
