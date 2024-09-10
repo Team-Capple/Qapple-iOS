@@ -35,12 +35,15 @@ struct BulletinBoardView: View {
                 }
                 .background(Background.first)
                 .refreshable {
-                    // TODO: 데이터 새로 불러오기
+                    bulletinBoardUseCase.effect(.fetchPost)
                 }
                 .navigationDestination(for: BulletinBoardPathType.self) { path in
                     pathModel.getNavigationDestination(view: path)
                         .environmentObject(bulletinBoardUseCase)
                 }
+            }
+            .onAppear{
+                bulletinBoardUseCase.effect(.fetchPost)
             }
         }
         .environmentObject(bulletinBoardUseCase)
