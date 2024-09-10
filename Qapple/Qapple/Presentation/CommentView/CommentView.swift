@@ -133,7 +133,3 @@ private struct HeaderView: View {
             backgroundColor: Color.Background.first)
     }
 }
-
-//#Preview {
-//    CommentView(postId: UUID())
-//}
