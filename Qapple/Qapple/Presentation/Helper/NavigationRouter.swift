@@ -53,7 +53,6 @@ final class Router: ObservableObject, NavigationRouter {
                     questionId: questionId,
                     questionContent: questionContent
                 )
-                .toolbar(.hidden, for: .tabBar)
             case .confirmAnswer:
                 ConfirmAnswerView(viewModel: answerViewModel!)
             case .searchKeyword:
@@ -77,14 +76,12 @@ final class Router: ObservableObject, NavigationRouter {
                 BulletinSearchView()
             case .bulletinPosting:
                 BulletinPostingView()
-                    .toolbar(.hidden, for: .tabBar)
             case .alert:
                 NotificationListView()
             case .search:
                 BulletinSearchView()
             case .comment(post: let post):
                 CommentView(post: post)
-                    .toolbar(.hidden, for: .tabBar)
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
