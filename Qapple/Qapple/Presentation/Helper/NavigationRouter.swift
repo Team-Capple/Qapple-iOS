@@ -35,8 +35,15 @@ final class Router: ObservableObject, NavigationRouter {
         self.pathType = pathType
     }
     
+    func updatePathType(to pathType: TabPathType) {
+        self.pathType = pathType
+    }
+    
     @ViewBuilder
-    public func getNavigationDestination(answerViewModel: AnswerViewModel? = nil, view: AnyHashable) -> some View {
+    public func getNavigationDestination(
+        answerViewModel: AnswerViewModel? = nil,
+        view: AnyHashable
+    ) -> some View {
         if pathType == .questionList {
             let view = view as! QuestionListPathType
             switch view {
@@ -46,7 +53,6 @@ final class Router: ObservableObject, NavigationRouter {
                     questionId: questionId,
                     questionContent: questionContent
                 )
-                .toolbar(.hidden, for: .tabBar)
             case .confirmAnswer:
                 ConfirmAnswerView(viewModel: answerViewModel!)
             case .searchKeyword:
@@ -70,14 +76,12 @@ final class Router: ObservableObject, NavigationRouter {
                 BulletinSearchView()
             case .bulletinPosting:
                 BulletinPostingView()
-                    .toolbar(.hidden, for: .tabBar)
             case .alert:
                 NotificationListView()
             case .search:
                 BulletinSearchView()
             case .comment(post: let post):
                 CommentView(post: post)
-                    .toolbar(.hidden, for: .tabBar)
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
@@ -103,7 +107,6 @@ final class Router: ObservableObject, NavigationRouter {
 
     }
 }
-
 
 protocol NavigationRouter {
     @MainActor

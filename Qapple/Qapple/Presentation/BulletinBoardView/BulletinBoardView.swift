@@ -12,44 +12,40 @@ import SwiftUI
 struct BulletinBoardView: View {
     
     @EnvironmentObject private var pathModel: Router
-    @StateObject private var bulletinBoardUseCase = BulletinBoardUseCase()
+    @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
     var body: some View {
-        NavigationStack(path: $pathModel.route) {
-            GeometryReader { proxy in
-                ZStack {
-                    BoardView()
-                    
-                    NewPostButton(
-                        title: "게시글 작성",
-                        tapAction: {
-                            pathModel.pushView(screen: BulletinBoardPathType.bulletinPosting)
-                        }
+        GeometryReader { proxy in
+            ZStack {
+                BoardView()
+                
+                NewPostButton(
+                    title: "게시글 작성",
+                    tapAction: {
+                        pathModel.pushView(screen: BulletinBoardPathType.bulletinPosting)
+                    }
+                )
+                .position(
+                    CGPoint(
+                        x: proxy.size.width / 2,
+                        y: proxy.size.height - 40
                     )
-                    .position(
-                        CGPoint(
-                            x: proxy.size.width / 2,
-                            y: proxy.size.height - 40
-                        )
-                    )
-                }
-                .background(Background.first)
-                .refreshable {
-                    bulletinBoardUseCase.effect(.fetchPost)
-                }
-                .navigationDestination(for: BulletinBoardPathType.self) { path in
-                    pathModel.getNavigationDestination(view: path)
-                        .environmentObject(bulletinBoardUseCase)
-                }
+                )
             }
-            .onAppear{
-                bulletinBoardUseCase.isClickComment = false
-                // print(bulletinBoardUseCase.isClickComment)
+            .background(Background.first)
+            .refreshable {
                 bulletinBoardUseCase.effect(.fetchPost)
-
+            }
+            .navigationDestination(for: BulletinBoardPathType.self) { path in
+                pathModel.getNavigationDestination(view: path)
             }
         }
-        .environmentObject(bulletinBoardUseCase)
+        .onAppear{
+            bulletinBoardUseCase.isClickComment = false
+            // print(bulletinBoardUseCase.isClickComment)
+            bulletinBoardUseCase.effect(.fetchPost)
+            
+        }
     }
 }
 
