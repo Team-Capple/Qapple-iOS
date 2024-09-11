@@ -9,6 +9,7 @@ import Foundation
 
 final class BulletinBoardUseCase: ObservableObject {
     @Published var _state: State
+    @Published var isClickComment: Bool = false
     
     init() {
         

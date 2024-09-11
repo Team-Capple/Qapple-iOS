@@ -138,12 +138,17 @@ private struct RemoteView: View {
     
     struct CommentButton: View {
         @EnvironmentObject private var pathModel: Router
+        @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
         
         let post: Post
         
         var body: some View {
             Button {
-                pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                if !bulletinBoardUseCase.isClickComment {
+                    pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                    bulletinBoardUseCase.isClickComment = true
+                    print(bulletinBoardUseCase.isClickComment)
+                }
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "text.bubble.fill")

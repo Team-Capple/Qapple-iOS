@@ -43,7 +43,10 @@ struct BulletinBoardView: View {
                 }
             }
             .onAppear{
+                bulletinBoardUseCase.isClickComment = false
+                // print(bulletinBoardUseCase.isClickComment)
                 bulletinBoardUseCase.effect(.fetchPost)
+
             }
         }
         .environmentObject(bulletinBoardUseCase)
