@@ -33,10 +33,6 @@ final class BulletinBoardUseCase: ObservableObject {
             endDate: calendar.date(from: endDateComponents)!, // TODO: 실제 값 업데이트
             posts: []
         )
-        
-        Task {
-            await fetchPostList()
-        }
     }
 }
 
@@ -92,7 +88,7 @@ extension BulletinBoardUseCase {
 extension BulletinBoardUseCase {
     
     @MainActor
-    private func fetchPostList() {
+    func fetchPostList() {
         Task {
             let boardList = try await NetworkManager.fetchBoard()
             
