@@ -141,7 +141,7 @@
 		F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D42B8A647F000BA51C /* UINavigationController+Extension.swift */; };
 		F3D452D72B8A663E000BA51C /* CustomNavigationTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D62B8A663E000BA51C /* CustomNavigationTextButton.swift */; };
 		F3D452D92B8A7019000BA51C /* CustonNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D82B8A7019000BA51C /* CustonNavigationBar.swift */; };
-		F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* CappleApp.swift */; };
+		F3EA66CC2B7643EE002417CE /* QappleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66CB2B7643EE002417CE /* QappleApp.swift */; };
 		F3EA66D02B7643F0002417CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66CF2B7643F0002417CE /* Assets.xcassets */; };
 		F3EA66D32B7643F0002417CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3EA66D22B7643F0002417CE /* Preview Assets.xcassets */; };
 		F3EA66DD2B7643F0002417CE /* QappleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EA66DC2B7643F0002417CE /* QappleTests.swift */; };
@@ -304,7 +304,7 @@
 		F3D452D62B8A663E000BA51C /* CustomNavigationTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTextButton.swift; sourceTree = "<group>"; };
 		F3D452D82B8A7019000BA51C /* CustonNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustonNavigationBar.swift; sourceTree = "<group>"; };
 		F3EA66C82B7643EE002417CE /* Qapple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Qapple.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F3EA66CB2B7643EE002417CE /* CappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappleApp.swift; sourceTree = "<group>"; };
+		F3EA66CB2B7643EE002417CE /* QappleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QappleApp.swift; sourceTree = "<group>"; };
 		F3EA66CF2B7643F0002417CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F3EA66D22B7643F0002417CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F3EA66D82B7643F0002417CE /* QappleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QappleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1011,7 +1011,7 @@
 		F3EA67072B764530002417CE /* App */ = {
 			isa = PBXGroup;
 			children = (
-				F3EA66CB2B7643EE002417CE /* CappleApp.swift */,
+				F3EA66CB2B7643EE002417CE /* QappleApp.swift */,
 				420D720A2C71D81400B56439 /* AppDelegate.swift */,
 			);
 			path = App;
@@ -1335,7 +1335,7 @@
 				F3EA66FD2B7644D0002417CE /* ApiEndpoints.swift in Sources */,
 				42531AEE2C87488A001CA803 /* BoardRequest.swift in Sources */,
 				828715C82B9BFB9E001627DB /* MainPathModel.swift in Sources */,
-				F3EA66CC2B7643EE002417CE /* CappleApp.swift in Sources */,
+				F3EA66CC2B7643EE002417CE /* QappleApp.swift in Sources */,
 				074819002B8F3DDE00380F14 /* SeeMoreView.swift in Sources */,
 				073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */,
 				824717342BC9144F005E9631 /* ReportType.swift in Sources */,
