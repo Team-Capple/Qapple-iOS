@@ -19,6 +19,8 @@ struct CommentCell: View {
     
     @ObservedObject var commentViewModel: CommentViewModel
     
+    let post: Post
+    
     var body: some View {
         HStack(spacing: 0) {
             Spacer()
@@ -97,7 +99,7 @@ struct CommentCell: View {
                     // TODO: boardId 수정
                     Task.init {
                         await commentViewModel.act(.like(id: comment.id))
-                        await commentViewModel.loadComments(boardId: 1)
+                        await commentViewModel.loadComments(boardId: post.anonymityIndex)
                     }
                 } label: {
                     Image(systemName: comment.isLiked ? "heart.fill" : "heart")
