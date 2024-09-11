@@ -42,6 +42,10 @@ struct BulletinBoardView: View {
                         .environmentObject(bulletinBoardUseCase)
                 }
             }
+            .onAppear{
+                bulletinBoardUseCase.isClickComment = false
+                print(bulletinBoardUseCase.isClickComment)
+            }
         }
         .environmentObject(bulletinBoardUseCase)
     }
