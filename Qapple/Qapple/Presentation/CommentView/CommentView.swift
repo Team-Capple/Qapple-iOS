@@ -30,7 +30,7 @@ struct CommentView: View {
                         ForEach(commentViewModel.comments) { comment in
                             seperator
                             
-                            CommentCell(comment: comment, commentViewModel: commentViewModel)
+                            CommentCell(comment: comment, commentViewModel: commentViewModel, post: self.post)
                         }
                         
                         seperator
@@ -41,7 +41,7 @@ struct CommentView: View {
                 .background(Color.bk)
                 .refreshable {
                     Task.init {
-                        await commentViewModel.loadComments(boardId: 1)
+                        await commentViewModel.loadComments(boardId: post.anonymityIndex)
                     }
                 }
                 
@@ -60,7 +60,7 @@ struct CommentView: View {
         }
         .navigationBarBackButtonHidden()
         .task {
-            await commentViewModel.loadComments(boardId: 1)
+            await commentViewModel.loadComments(boardId: post.anonymityIndex)
         }
     }
     
@@ -81,8 +81,8 @@ struct CommentView: View {
             Button {
                 // TODO: 댓글 달기 기능 추가
                 Task.init {
-                    await commentViewModel.act(.upload(request: .init(boardId: 1, content: self.text)))
-                    await commentViewModel.loadComments(boardId: 1)
+                    await commentViewModel.act(.upload(request: .init(boardId: post.anonymityIndex, content: self.text)))
+                    await commentViewModel.loadComments(boardId: post.anonymityIndex)
                     self.text = ""
                 }
             } label: {
