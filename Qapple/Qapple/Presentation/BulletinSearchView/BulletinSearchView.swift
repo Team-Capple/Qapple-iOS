@@ -42,9 +42,6 @@ struct BulletinSearchView: View {
                 )
             }
             .background(Background.first)
-            .refreshable {
-                // TODO: 데이터 새로 불러오기
-            }
             .navigationBarBackButtonHidden()
         }
     }

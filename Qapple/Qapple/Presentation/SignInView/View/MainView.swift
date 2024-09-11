@@ -25,46 +25,69 @@ struct MainView: View {
     }
 }
 
+// MARK: - MainTabView
+
 private struct MainTabView: View {
+    
     @State private var tabType: TabType = .questionList
     
-    @StateObject private var homePathModel: Router = .init(pathType: .questionList)
-    @StateObject private var bulletinPathModel: Router = .init(pathType: .bulletinBoard)
-    @StateObject private var myPagePathModel: Router = .init(pathType: .myProfile)
+    @StateObject private var activePathModel: Router = .init(pathType: .questionList)
+    @StateObject var answerViewModel: AnswerViewModel = .init()
+    @StateObject private var bulletinBoardUseCase = BulletinBoardUseCase()
     
     var body: some View {
-        TabView(selection: $tabType) {
-            HomeView()
-                .environmentObject(homePathModel)
-                .tag(TabType.questionList)
-                .tabItem {
-                    TabItem(
-                        systemImage: TabType.questionList.icon,
-                        title: TabType.questionList.title
-                    )
-                }
-            
-            BulletinBoardView()
-                .environmentObject(bulletinPathModel)
-                .tag(TabType.bulletinBoard)
-                .tabItem {
-                    TabItem(
-                        systemImage: TabType.bulletinBoard.icon,
-                        title: TabType.bulletinBoard.title
-                    )
-                }
-            
-            MyPageView()
-                .environmentObject(myPagePathModel)
-                .tag(TabType.myProfile)
-                .tabItem {
-                    TabItem(
-                        systemImage: TabType.myProfile.icon,
-                        title: TabType.myProfile.title
-                    )
-                }
+        NavigationStack(path: $activePathModel.route) {
+            TabView(selection: $tabType) {
+                HomeView()
+                    .tag(TabType.questionList)
+                    .tabItem {
+                        TabItem(
+                            systemImage: TabType.questionList.icon,
+                            title: TabType.questionList.title
+                        )
+                    }
+                
+                BulletinBoardView()
+                    .tag(TabType.bulletinBoard)
+                    .tabItem {
+                        TabItem(
+                            systemImage: TabType.bulletinBoard.icon,
+                            title: TabType.bulletinBoard.title
+                        )
+                    }
+                
+                MyPageView()
+                    .tag(TabType.myProfile)
+                    .tabItem {
+                        TabItem(
+                            systemImage: TabType.myProfile.icon,
+                            title: TabType.myProfile.title
+                        )
+                    }
+            }
+            .tint(BrandPink.button)
+            .navigationDestination(for: QuestionListPathType.self) { path in
+                activePathModel.getNavigationDestination(
+                    answerViewModel: answerViewModel,
+                    view: path
+                )
+            }
+            .navigationDestination(for: BulletinBoardPathType.self) { path in
+                activePathModel.getNavigationDestination(view: path)
+            }
+            .navigationDestination(for: MyProfilePathType.self) { path in
+                activePathModel.getNavigationDestination(view: path)
+            }
         }
-        .tint(BrandPink.button)
+        .environmentObject(activePathModel)
+        .environmentObject(bulletinBoardUseCase)
+        .onChange(of: tabType) { _, tab in
+            switch tabType {
+            case .questionList: activePathModel.updatePathType(to: .questionList)
+            case .bulletinBoard: activePathModel.updatePathType(to: .bulletinBoard)
+            case .myProfile: activePathModel.updatePathType(to: .myProfile)
+            }
+        }
     }
 }
 
@@ -97,71 +120,21 @@ private struct HomeView: View {
     @State private var tab: TodayQuestionTab = .todayQuestion
     
     var body: some View {
-        NavigationStack(path: $pathModel.route) {
-            VStack(spacing: 0) {
-                CustomTabBar(tab: $tab)
+        VStack(spacing: 0) {
+            CustomTabBar(tab: $tab)
+            
+            TabView(selection: $tab) {
+                TodayQuestionView()
+                    .tag(TodayQuestionTab.todayQuestion)
                 
-                TabView(selection: $tab) {
-                    TodayQuestionView()
-                        .tag(TodayQuestionTab.todayQuestion)
-                    
-                    SearchResultView()
-                        .tag(TodayQuestionTab.questionList)
-                }
-                .edgesIgnoringSafeArea(.all)
-                .navigationDestination(for: PathType.self) { path in
-                    switch path {
-                    case .answer(let questionId, let questionContent):
-                        AnswerView(
-                            viewModel: answerViewModel,
-                            questionId: questionId,
-                            questionContent: questionContent
-                        )
-                        
-                    case .confirmAnswer:
-                        ConfirmAnswerView(viewModel: answerViewModel)
-                        
-                    case .searchKeyword:
-                        SearchKeywordView(viewModel: answerViewModel)
-                        
-                    case .completeAnswer:
-                        CompleteAnswerView(viewModel: answerViewModel)
-                        
-                    case .todayAnswer(let questionId, let questionContent):
-                        AnswerListView(
-                            questionId: questionId,
-                            questionContent: questionContent
-                        )
-                        
-                    case .myPage:
-                        MyPageView()
-                        
-                    case .notifications:
-                        NotificationListView()
-                        
-                    case let .profileEdit(nickname):
-                        ProfileEditView(nickName: nickname)
-                        
-                    case .writtenAnswer:
-                        WrittenAnswerView()
-                        
-                    case .alert:
-                        AlertView()
-                        
-                    case .report(let answerId):
-                        ReportView(answerId: answerId)
-                        
-                    default: EmptyView()
-                    }
-                }
-                .navigationDestination(for: QuestionListPathType.self) { path in
-                    pathModel.getNavigationDestination(answerViewModel: answerViewModel, view: path)
-                }
+                SearchResultView()
+                    .tag(TodayQuestionTab.questionList)
             }
-            .onAppear {
-                NotificationManager.shared.requestNotificationPermission()
-                NotificationManager.shared.schedule()
-            }
+            .edgesIgnoringSafeArea(.all)
+        }
+        .onAppear {
+            NotificationManager.shared.requestNotificationPermission()
+            NotificationManager.shared.schedule()
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .onChange(of: tab) { _, _ in

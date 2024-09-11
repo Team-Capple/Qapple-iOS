@@ -35,8 +35,15 @@ final class Router: ObservableObject, NavigationRouter {
         self.pathType = pathType
     }
     
+    func updatePathType(to pathType: TabPathType) {
+        self.pathType = pathType
+    }
+    
     @ViewBuilder
-    public func getNavigationDestination(answerViewModel: AnswerViewModel? = nil, view: AnyHashable) -> some View {
+    public func getNavigationDestination(
+        answerViewModel: AnswerViewModel? = nil,
+        view: AnyHashable
+    ) -> some View {
         if pathType == .questionList {
             let view = view as! QuestionListPathType
             switch view {
@@ -103,7 +110,6 @@ final class Router: ObservableObject, NavigationRouter {
 
     }
 }
-
 
 protocol NavigationRouter {
     @MainActor
