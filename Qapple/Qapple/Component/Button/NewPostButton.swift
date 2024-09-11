@@ -18,14 +18,25 @@ struct NewPostButton: View {
         Button {
             tapAction()
         } label: {
-            Text(title)
+            HStack {}
                 .pretendard(.semiBold, 17)
                 .foregroundStyle(.white)
-                .padding(.vertical, 12.5)
-                .frame(width: 160)
+                .padding(.horizontal, 140)
+                .padding(.vertical, 11)
+                .frame(width: 161, height: 47, alignment: .center)
                 .background(.regularMaterial)
-                .clipShape(
+                .cornerRadius(32)
+                .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 4)
+                .overlay(
                     RoundedRectangle(cornerRadius: 32)
+                        .inset(by: 0.17)
+                        .stroke(.white.opacity(0.5), lineWidth: 0.33)
+                    
+                )
+                .overlay(
+                    Text(title)
+                        .font(.pretendard(.semiBold, size: 17))
+                        .foregroundStyle(.white)
                 )
         }
     }

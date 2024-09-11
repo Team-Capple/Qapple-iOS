@@ -37,7 +37,7 @@ struct BulletinSearchView: View {
                 .position(
                     CGPoint(
                         x: proxy.size.width / 2,
-                        y: proxy.size.height - 72
+                        y: proxy.size.height - 40
                     )
                 )
             }

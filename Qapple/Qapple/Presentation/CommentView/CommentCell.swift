@@ -76,7 +76,7 @@ struct CommentCell: View {
                         .foregroundStyle(.icon)
                     
                     // 댓글 timestamp
-                    Text(comment.createdAt)
+                    Text(comment.createdAt.ISO8601ToDate.timeAgo)
                         .font(.pretendard(.light, size: 12))
                         .foregroundStyle(.disable)
                 }

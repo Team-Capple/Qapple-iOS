@@ -46,7 +46,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("아무개 \(post.anonymityIndex + 1)")
+            Text("러너 \(post.anonymityIndex + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -146,7 +146,10 @@ private struct RemoteView: View {
                 pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
             } label: {
                 HStack(spacing: 4) {
-                    Image(.comment)
+                    Image(systemName: "text.bubble.fill")
+                        .resizable()
+                        .frame(width: 15, height: 14)
+                        .foregroundStyle(TextLabel.sub3)
                     
                     Text("\(post.commentCount)")
                         .pretendard(.regular, 13)
