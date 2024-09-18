@@ -12,10 +12,10 @@ struct Post: Identifiable, Hashable {
     let boardId: Int
     let writerId: Int
     let content: String
-    let heartCount: Int
-    let commentCount: Int
+    var heartCount: Int
+    var commentCount: Int
     let createAt: Date
     let isMine: Bool
     let isReported: Bool
-    let isLiked: Bool
+    var isLiked: Bool
 }

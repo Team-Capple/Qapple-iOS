@@ -114,7 +114,7 @@ extension NetworkManager {
     }
     
     /// 게시글 좋아요
-    static func requestLikeBoard(_ request: BoardRequest.LikeBoard) async throws -> BoardResponse.Boards {
+    static func requestLikeBoard(_ request: BoardRequest.LikeBoard) async throws -> BoardResponse.LikeBoard {
         
         // JSON Request
         guard let requestData = try? JSONEncoder().encode(request) else {
@@ -123,7 +123,7 @@ extension NetworkManager {
         }
         
         // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .answers) + "/\(request.boardId)/heart"
+        let urlString = ApiEndpoints.basicURLString(path: .boards) + "/\(request.boardId)/heart"
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
@@ -137,10 +137,15 @@ extension NetworkManager {
         
         // URLSession 실행
         let (data, response) = try await URLSession.shared.upload(for: request, from: requestData)
+        print(data)
+        print(request)
+        print(requestData)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,
            !(200..<300).contains(response.statusCode) {
+            print(response)
+            print(response.statusCode)
             print("Error: badRequest")
             throw NetworkError.badRequest
         }
@@ -148,7 +153,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         do {
-            let decodeData = try decoder.decode(BaseResponse<BoardResponse.Boards>.self, from: data)
+            let decodeData = try decoder.decode(BaseResponse<BoardResponse.LikeBoard>.self, from: data)
             return decodeData.result
         } catch {
             throw NetworkError.decodeFailed
@@ -159,7 +164,7 @@ extension NetworkManager {
     static func requestDeleteBoard(_ request: BoardRequest.DeleteBoard) async throws -> BoardResponse.Boards {
         
         // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .answers) + "/\(request.boardId)"
+        let urlString = ApiEndpoints.basicURLString(path: .boards) + "/\(request.boardId)"
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL

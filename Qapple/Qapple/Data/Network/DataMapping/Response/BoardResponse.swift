@@ -40,4 +40,9 @@ struct BoardResponse {
         var commentCount: Int
         var createAt: String
     }
+    
+    struct LikeBoard: Codable {
+        let boardId: Int
+        let isLiked: Bool
+    }
 }
