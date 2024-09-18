@@ -15,67 +15,77 @@ struct WrittenAnswerView: View {
     @State private var isMyAnswer: IsMyAnswer?
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            CustomNavigationBar(
-                leadingView:{
-                    CustomNavigationBackButton(buttonType: .arrow) {
-                        pathModel.pop()
-                    }
-                },
-                principalView: {
-                    Text("작성한 답변")
-                        .font(Font.pretendard(.semiBold, size: 15))
-                        .foregroundStyle(TextLabel.main)
-                },
-                trailingView: {},
-                backgroundColor: .clear
-            )
-            
-            Spacer()
-            
-            if viewModel.myAnswers.isEmpty {
-                HStack {
-                    Spacer()
-                    Text("작성한 답변이 없어요")
-                        .font(.pretendard(.medium, size: 16))
-                        .foregroundStyle(TextLabel.sub3)
-                    Spacer()
-                }
+        ZStack {
+            VStack(alignment: .leading, spacing: 0) {
+                CustomNavigationBar(
+                    leadingView:{
+                        CustomNavigationBackButton(buttonType: .arrow) {
+                            pathModel.pop()
+                        }
+                    },
+                    principalView: {
+                        Text("작성한 답변")
+                            .font(Font.pretendard(.semiBold, size: 15))
+                            .foregroundStyle(TextLabel.main)
+                    },
+                    trailingView: {},
+                    backgroundColor: .clear
+                )
                 
                 Spacer()
-            } else {
-                ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) {
-                        index,
-                        answer in
-                        VStack {
-                            AnswerCell(
-                                answer: Answer(
-                                    id: answer.answerId,
-                                    writerId: answer.writerId,
-                                    content: answer.content,
-                                    writingDate: answer.writeAt.ISO8601ToDate,
-                                    isMine: false,
-                                    isReported: false
-                                ),
-                                seeMoreAction: {
-                                    isMyAnswer = .init(answerId: answer.answerId, isMine: true)
-                                }
-                            )
+                
+                if viewModel.myAnswers.isEmpty {
+                    HStack {
+                        Spacer()
+                        
+                        Text("작성한 답변이 없어요")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(TextLabel.sub3)
+                            .opacity(viewModel.isLoading ? 0 : 1)
+                        
+                        Spacer()
+                    }
+                    
+                    Spacer()
+                } else {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) {
+                            index,
+                            answer in
+                            VStack {
+                                AnswerCell(
+                                    answer: Answer(
+                                        id: answer.answerId,
+                                        writerId: answer.writerId,
+                                        content: answer.content,
+                                        writingDate: answer.writeAt.ISO8601ToDate,
+                                        isMine: false,
+                                        isReported: false
+                                    ),
+                                    seeMoreAction: {
+                                        isMyAnswer = .init(answerId: answer.answerId, isMine: true)
+                                    }
+                                )
+                            }
                         }
                     }
-                }
-                .sheet(item: $isMyAnswer) {
-                    SeeMoreView(
-                        answerType: .mine,
-                        answerId: $0.answerId
-                    ) {
-                        Task {
-                            await viewModel.requestAnswers()
+                    .sheet(item: $isMyAnswer) {
+                        SeeMoreView(
+                            answerType: .mine,
+                            answerId: $0.answerId
+                        ) {
+                            Task {
+                                await viewModel.requestAnswers()
+                            }
                         }
+                        .presentationDetents([.height(84)])
                     }
-                    .presentationDetents([.height(84)])
                 }
+            }
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
             }
         }
         .background(Background.first)

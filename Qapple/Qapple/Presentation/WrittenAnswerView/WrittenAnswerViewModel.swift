@@ -10,6 +10,7 @@ import Foundation
 final class WrittenAnswerViewModel: ObservableObject {
     
     @Published var myAnswers: [AnswerResponse.Answers.Content] = []
+    @Published var isLoading = true
     
     /// 오늘의 메인 질문을 요청하고 업데이트합니다.
     @MainActor
@@ -20,5 +21,6 @@ final class WrittenAnswerViewModel: ObservableObject {
         } catch {
             print("답변 업데이트")
         }
+        isLoading = false
     }
 }
