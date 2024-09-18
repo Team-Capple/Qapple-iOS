@@ -23,32 +23,38 @@ struct AnswerListView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            CustomNavigationView()
-            Spacer()
-                .frame(height: 16)
-            
-            FloatingQuestionCard(
-                questionContent: questionContent,
-                viewModel: viewModel,
-                questionId: questionId
-            )
-            
-            Spacer()
-                .frame(height: 24)
-            
-            AnswerScrollView(
-                viewModel: viewModel,
-                isBottomSheetPresented: $isBottomSheetPresented,
-                questionId: questionId
-            )
-            .refreshable {
-                Task {
-                    viewModel.loadAnswersForQuestion(questionId: questionId)
-                    HapticManager.shared.impact(style: .light)
+        ZStack {
+            VStack(alignment: .leading) {
+                CustomNavigationView()
+                Spacer()
+                    .frame(height: 16)
+                
+                FloatingQuestionCard(
+                    questionContent: questionContent,
+                    viewModel: viewModel,
+                    questionId: questionId
+                )
+                
+                Spacer()
+                    .frame(height: 24)
+                
+                AnswerScrollView(
+                    viewModel: viewModel,
+                    isBottomSheetPresented: $isBottomSheetPresented,
+                    questionId: questionId
+                )
+                .refreshable {
+                    Task {
+                        viewModel.loadAnswersForQuestion(questionId: questionId)
+                        HapticManager.shared.impact(style: .light)
+                    }
                 }
             }
             
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
         }
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
