@@ -18,6 +18,7 @@ final class TodayQuestionViewModel: ObservableObject {
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content]
+    @Published var isLoading = true
     
     init() {
         let currentTimeZone = dateManager.fetchTimezone()
@@ -33,11 +34,13 @@ final class TodayQuestionViewModel: ObservableObject {
 extension TodayQuestionViewModel {
     
     /// 리프레쉬를 위해 전체 뷰를 업데이트합니다.
+    @MainActor
     func updateTodayQuestionView() {
         Task {
             await requestMainQuestion()
             await requestAnswerPreview()
-            await updateQuestionState()
+            updateQuestionState()
+            isLoading = false
         }
     }
     

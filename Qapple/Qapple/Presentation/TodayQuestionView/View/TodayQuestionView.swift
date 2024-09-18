@@ -41,6 +41,11 @@ struct TodayQuestionView: View {
                 print("뷰 업데이트")
                 viewModel.updateTodayQuestionView()
             }
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
         }
     }
 }
