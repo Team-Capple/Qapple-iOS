@@ -289,7 +289,10 @@ private struct AnswerPreview: View {
                                     isReported: answer.isReported
                                 ),
                                 seeMoreAction: {
-                                    isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
+                                    isMine = .init(
+                                        answerId: answer.answerId,
+                                        isMine: answer.isMine
+                                    )
                                 }
                             )
                         }

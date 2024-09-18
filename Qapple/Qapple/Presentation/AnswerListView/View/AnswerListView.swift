@@ -196,7 +196,9 @@ private struct AnswerScrollView: View {
         .padding(.leading, 20)
         
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
+            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
+                index,
+                answer in
                 VStack {
                     AnswerCell(
                         answer: Answer(
@@ -207,7 +209,10 @@ private struct AnswerScrollView: View {
                             isReported: answer.isReported
                         ),
                         seeMoreAction: {
-                            isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
+                            isMyAnswer = .init(
+                                answerId: answer.answerId,
+                                isMine: answer.isMine
+                            )
                         }
                     )
                 }

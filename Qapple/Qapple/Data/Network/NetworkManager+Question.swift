@@ -33,6 +33,7 @@ extension NetworkManager {
         // 에러 체크
         if let response = response as? HTTPURLResponse,
            !(200..<300).contains(response.statusCode) {
+            print(response.statusCode)
             print("Error: badRequest")
             throw NetworkError.badRequest
         }
@@ -41,7 +42,6 @@ extension NetworkManager {
         let decoder = JSONDecoder()
         do {
             let decodeData = try decoder.decode(BaseResponse<QuestionResponse.MainQuestion>.self, from: data)
-            // print("QuestionResponse.MainQuestion: \(decodeData.result)")
             return decodeData.result
         } catch {
             print("Decode 에러")

@@ -13,7 +13,7 @@ class AnswerListViewModel: ObservableObject {
     
     @Published var keywords: [String] = []
     @Published var todayQuestion: String = ""
-    @Published var answers: [AnswerResponse.AnswersOfQuestion.AnswerInfos] = []
+    @Published var answers: [AnswerResponse.AnswersOfQuestion.Content] = []
     
     /// 답변 호출 API입니다.
     func loadAnswersForQuestion(questionId: Int) {
@@ -60,7 +60,7 @@ class AnswerListViewModel: ObservableObject {
                     do {
                         let decodedData = try JSONDecoder().decode(BaseResponse<AnswerResponse.AnswersOfQuestion>.self, from: data)
                         DispatchQueue.main.async {
-                            self.answers = decodedData.result.answerInfos
+                            self.answers = decodedData.result.content
                         }
                     } catch {
                         print("ServerResponse.Answers - Error decoding response: \(error)")

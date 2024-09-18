@@ -17,7 +17,7 @@ final class TodayQuestionViewModel: ObservableObject {
     @Published var timeZone: QuestionTimeZone
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
-    @Published var answerList: [AnswerResponse.AnswersOfQuestion.AnswerInfos]
+    @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content]
     
     init() {
         let currentTimeZone = dateManager.fetchTimezone()
@@ -87,12 +87,13 @@ extension TodayQuestionViewModel {
             let answerPreview = try await NetworkManager.fetchAnswersOfQuestion(
                 request: .init(
                     questionId: self.mainQuestion.questionId,
-                    keyword: nil,
-                    size: nil
+                    pageNumber: 0,
+                    pageSize: 1000
                 ))
-            let answerList = Array(answerPreview.answerInfos.prefix(3))
+            let answerList = Array(answerPreview.content.prefix(3))
             self.answerList = answerList
         } catch {
+            print(error)
             print("답변 프리뷰 업데이트 실패")
         }
     }
