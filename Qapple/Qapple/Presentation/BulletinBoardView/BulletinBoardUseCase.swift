@@ -68,12 +68,12 @@ extension BulletinBoardUseCase {
             }
         case .likePost(let postIndex):
             print("\(postIndex)번째 게시글 좋아요 업데이트")
-            _state.posts[postIndex-1].isLiked.toggle()
-            if _state.posts[postIndex-1].isLiked == true {
-                _state.posts[postIndex-1].heartCount += 1
-            } else {
-                _state.posts[postIndex-1].heartCount -= 1
-            }
+//            _state.posts[postIndex-1].isLiked.toggle()
+//            if _state.posts[postIndex-1].isLiked == true {
+//                _state.posts[postIndex-1].heartCount += 1
+//            } else {
+//                _state.posts[postIndex-1].heartCount -= 1
+//            }
             Task {
                 try await NetworkManager.requestLikeBoard(.init(boardId: postIndex))
             }
@@ -100,7 +100,7 @@ extension BulletinBoardUseCase {
         self.isLoading = true
         
         Task {
-            let boardList = try await NetworkManager.fetchBoard(.init(pageNumber: 0, pageSize: 100))
+            let boardList = try await NetworkManager.fetchBoard(.init(pageNumber: 0, pageSize: 1000))
             
             let postList: [Post] = boardList.content.map { board in
                 Post(

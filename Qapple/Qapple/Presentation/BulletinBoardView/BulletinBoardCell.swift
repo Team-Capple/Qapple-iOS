@@ -110,6 +110,7 @@ private struct RemoteView: View {
                 post: post,
                 tapAction: {
                     bulletinBoardUseCase.effect(.likePost(postIndex: post.boardId))
+                    bulletinBoardUseCase.effect(.fetchPost)
                 }
             )
             
