@@ -11,16 +11,23 @@ struct AnswerResponse {
     
     /// 내가 작성한 답변 리스트 Response
     struct Answers: Codable {
-        let memberAnswerInfos: [MemberAnswerInfos]
+        let number: Int
+        let size: Int
+        let content: [Content]
+        let numberOfElements: Int
+        let hasPrevious: Bool
+        let hasNext: Bool
         
-        struct MemberAnswerInfos: Codable {
+        struct Content: Codable {
             let questionId: Int
             let answerId: Int
+            let writerId: Int
             let nickname: String
             let profileImage: String
             let content: String
             let heartCount: Int
             let writeAt: String
+            let isLiked: Bool
         }
     }
     

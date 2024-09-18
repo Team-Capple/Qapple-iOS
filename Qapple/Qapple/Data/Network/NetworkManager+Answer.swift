@@ -14,7 +14,10 @@ extension NetworkManager {
     static func fetchAnswers() async throws -> AnswerResponse.Answers {
         
         // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .answers)
+        var urlString = ApiEndpoints.basicURLString(path: .answers)
+        urlString += "?pageNumber=\(0)"
+        urlString += "&pageSize=\(1000)"
+        
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
@@ -38,7 +41,6 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(BaseResponse<AnswerResponse.Answers>.self, from: data)
-        // print("AnswerResponse.AnswersOfQuestion: \(decodeData.result)")
         return decodeData.result
     }
     

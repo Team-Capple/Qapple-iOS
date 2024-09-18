@@ -15,16 +15,23 @@ struct AnswerCell: View {
     let seeMoreAction: () -> Void
     
     var body: some View {
-        if !answer.isReported {
-            ReportAnswerCell(
-                answer: answer,
-                seeMoreAction: seeMoreAction
-            )
-        } else {
+        if answer.isMine {
             NormalAnswerCell(
                 answer: answer,
                 seeMoreAction: seeMoreAction
             )
+        } else {
+            if answer.isReported {
+                ReportAnswerCell(
+                    answer: answer,
+                    seeMoreAction: seeMoreAction
+                )
+            } else {
+                NormalAnswerCell(
+                    answer: answer,
+                    seeMoreAction: seeMoreAction
+                )
+            }
         }
     }
 }
@@ -68,7 +75,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("러너 \(answer.anonymityId + 1)")
+            Text("러너 \(answer.writerId + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -161,7 +168,7 @@ private struct ReportAnswerCell: View {
                         .resizable()
                         .frame(width: 28, height: 28)
                     
-                    Text("러너 \(answer.anonymityId + 1)")
+                    Text("러너 \(answer.writerId + 1)")
                         .pretendard(.semiBold, 14)
                         .foregroundStyle(GrayScale.icon)
                         .padding(.leading, 8)
@@ -201,9 +208,10 @@ private struct ReportAnswerCell: View {
     AnswerCell(
         answer: Answer(
             id: 0,
-            anonymityId: 0,
+            writerId: 0,
             content: "아! 이게 질문이 아니고 답변이구나!",
             writingDate: .now,
+            isMine: true,
             isReported: true
         )
     ) {}

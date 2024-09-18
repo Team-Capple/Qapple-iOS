@@ -278,9 +278,10 @@ private struct AnswerPreview: View {
                             AnswerCell(
                                 answer: Answer(
                                     id: answer.answerId,
-                                    anonymityId: answer.writerId,
+                                    writerId: answer.writerId,
                                     content: answer.content,
                                     writingDate: answer.writeAt.ISO8601ToDate,
+                                    isMine: answer.isMine,
                                     isReported: answer.isReported
                                 ),
                                 seeMoreAction: {

@@ -203,9 +203,10 @@ private struct AnswerScrollView: View {
                     AnswerCell(
                         answer: Answer(
                             id: answer.answerId,
-                            anonymityId: 0, // TODO: 더미데이터 바꾸기,
+                            writerId: answer.writerId,
                             content: answer.content,
-                            writingDate: .now, // TODO: 더미데이터 바꾸기,
+                            writingDate: answer.writeAt.ISO8601ToDate,
+                            isMine: answer.isMine,
                             isReported: answer.isReported
                         ),
                         seeMoreAction: {

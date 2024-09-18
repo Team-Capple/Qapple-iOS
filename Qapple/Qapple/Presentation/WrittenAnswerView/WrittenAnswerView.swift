@@ -45,14 +45,17 @@ struct WrittenAnswerView: View {
                 Spacer()
             } else {
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) { index, answer in
+                    ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) {
+                        index,
+                        answer in
                         VStack {
                             AnswerCell(
                                 answer: Answer(
                                     id: answer.answerId,
-                                    anonymityId: 0, // TODO: 더미데이터 바꾸기
+                                    writerId: answer.writerId,
                                     content: answer.content,
-                                    writingDate: .now, // TODO: 더미데이터 바꾸기,
+                                    writingDate: answer.writeAt.ISO8601ToDate,
+                                    isMine: false,
                                     isReported: false
                                 ),
                                 seeMoreAction: {

@@ -12,6 +12,7 @@ class QuestionViewModel: ObservableObject {
         do {
             let response = try await getQuestions()
             self.questions = response.content
+            print(self.questions)
         } catch {
             print("Error: \(error)")
         }
