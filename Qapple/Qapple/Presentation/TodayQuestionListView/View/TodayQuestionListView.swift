@@ -23,6 +23,7 @@ struct TodayQuestionListView: View {
             if viewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
+                    .tint(.primary)
             }
         }
         .navigationBarBackButtonHidden()

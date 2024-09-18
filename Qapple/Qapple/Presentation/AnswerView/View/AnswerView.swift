@@ -16,12 +16,13 @@ struct AnswerView: View {
     @FocusState private var isTextFieldFocused: Bool
     @State private var isAnonymitySheetPresented = false
     
+    @State private var isRegisterAnswerFailed = false
+    
     private let textCount: Int = 1
     let questionId: Int
     let questionContent: String
     
     var body: some View {
-        
         ZStack {
             Color(Background.first)
                 .ignoresSafeArea()
@@ -48,7 +49,14 @@ struct AnswerView: View {
                         ) {
                             viewModel.questionId = questionId
                             viewModel.questionContent = questionContent
-                            pathModel.pushView(screen: QuestionListPathType.completeAnswer)
+                            Task {
+                                do {
+                                    try await viewModel.requestRegisterAnswer()
+                                    pathModel.pushView(screen: QuestionListPathType.completeAnswer)
+                                } catch {
+                                    isRegisterAnswerFailed.toggle()
+                                }
+                            }
                         }
                         .disabled(viewModel.answer.count < self.textCount)
                     },
@@ -155,11 +163,23 @@ struct AnswerView: View {
             } message: {
                 Text("지금까지 작성한 답변이 사라져요")
             }
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.primary)
+            }
         }
         .onTapGesture {
             isTextFieldFocused.toggle()
         }
+        .alert("답변 등록에 실패했습니다.", isPresented: $isRegisterAnswerFailed) {
+            Button("확인", role: .none) {}
+        } message: {
+            Text("다시 한번 시도해주세요.")
+        }
         .popGestureDisabled()
+        .disabled(viewModel.isLoading)
     }
 }
 

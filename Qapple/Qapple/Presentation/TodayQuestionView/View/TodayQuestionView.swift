@@ -45,6 +45,7 @@ struct TodayQuestionView: View {
             if viewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
+                    .tint(.primary)
             }
         }
     }

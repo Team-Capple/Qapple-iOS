@@ -86,6 +86,7 @@ struct WrittenAnswerView: View {
             if viewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
+                    .tint(.primary)
             }
         }
         .background(Background.first)
