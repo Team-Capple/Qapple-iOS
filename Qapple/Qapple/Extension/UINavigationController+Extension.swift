@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UINavigationController: ObservableObject, UIGestureRecognizerDelegate {
+extension UINavigationController: @retroactive ObservableObject, @retroactive UIGestureRecognizerDelegate {
     open override func viewDidLoad() {
         super.viewDidLoad()
         interactivePopGestureRecognizer?.delegate = self

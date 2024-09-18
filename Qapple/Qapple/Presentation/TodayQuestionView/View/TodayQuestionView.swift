@@ -24,9 +24,7 @@ struct TodayQuestionView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     HeaderView(viewModel: viewModel)
-                    
                     HeaderButtonView(viewModel: viewModel)
-                    
                     AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                 }
             }
@@ -274,18 +272,15 @@ private struct AnswerPreview: View {
                     }
                     .padding(.horizontal, 24)
                     
-                    Separator()
-                        .padding(.leading, 24)
-                    
                     // 답변 있는 케이스
                     ForEach(viewModel.answerList, id: \.self) { answer in
                         VStack {
                             AnswerCell(
                                 answer: Answer(
                                     id: answer.answerId,
-                                    anonymityId: answer.answerId, // TODO: 더미데이터 바꾸기,
+                                    anonymityId: answer.writerId,
                                     content: answer.content,
-                                    writingDate: .now, // TODO: 더미데이터 바꾸기,
+                                    writingDate: answer.writeAt.ISO8601ToDate,
                                     isReported: answer.isReported
                                 ),
                                 seeMoreAction: {

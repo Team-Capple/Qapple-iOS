@@ -83,14 +83,6 @@ private struct HeaderView: View {
                 
             }
             Spacer()
-            
-//            Button {
-//                seeMoreAction() // TODO: SearchResultView에서 삭제 및 신고 설정
-//            } label: {
-//                Image(systemName: "ellipsis")
-//                    .foregroundStyle(TextLabel.sub2)
-//                    .frame(width: 20, height: 20)
-//            }
         }
     }
     

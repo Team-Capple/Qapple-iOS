@@ -40,8 +40,6 @@ class QuestionViewModel: ObservableObject {
         // 네트워크 통신
         
         let (data, response) = try await URLSession.shared.data(for: request)
-        // print(data)
-        // print(response)
         
         if let response = response as? HTTPURLResponse,
            !(200...299).contains(response.statusCode) {
