@@ -27,14 +27,13 @@ struct TodayQuestionActionButton: View {
     }
     
     var body: some View {
-        
         Button {
             action()
         } label: {
             Text(text)
                 .font(.pretendard(.semiBold, size: 17))
         }
-        .padding(.horizontal, 16)
+        .frame(width: 168)
         .padding(.vertical, 14)
         .foregroundStyle(TextLabel.main)
         .background(backgroundColor)

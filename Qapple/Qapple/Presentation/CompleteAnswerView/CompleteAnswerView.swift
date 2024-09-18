@@ -12,8 +12,6 @@ struct CompleteAnswerView: View {
     @EnvironmentObject var pathModel: Router
     @ObservedObject var viewModel: AnswerViewModel
     
-    @State private var isRegisterAnswerFailed = false
-    
     var body: some View {
         VStack(spacing: 0) {
             CustomNavigationBar(
@@ -44,27 +42,15 @@ struct CompleteAnswerView: View {
             Spacer()
             
             ActionButton("확인", isActive: .constant(true)) {
-                Task {
-                    do {
-                        try await viewModel.requestRegisterAnswer()
-                        pathModel.popToRoot()
-                        pathModel.pushView(
-                            screen: QuestionListPathType.todayAnswer(
-                                questionId: viewModel.questionId,
-                                questionContent: viewModel.questionContent)
-                        )
-                        viewModel.resetAnswerInfo()
-                    } catch {
-                        isRegisterAnswerFailed.toggle()
-                    }
-                }
+                pathModel.popToRoot()
+                pathModel.pushView(
+                    screen: QuestionListPathType.todayAnswer(
+                        questionId: viewModel.questionId,
+                        questionContent: viewModel.questionContent)
+                )
+                viewModel.resetAnswerInfo()
             }
             .padding(.bottom, 16)
-            .alert("답변 등록에 실패했습니다.", isPresented: $isRegisterAnswerFailed) {
-                Button("확인", role: .none) {}
-            } message: {
-                Text("다시 한번 시도해주세요.")
-            }
         }
         .padding(.horizontal, 24)
         .background(Background.first)

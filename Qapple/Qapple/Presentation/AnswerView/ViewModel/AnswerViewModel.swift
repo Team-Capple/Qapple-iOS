@@ -15,6 +15,8 @@ final class AnswerViewModel: ObservableObject {
     @Published var keywords: [Keyword]
     @Published var keywordPreviews: [Keyword]
     
+    @Published var isLoading = false
+    
     var questionId = 0
     var questionContent = ""
     
@@ -53,18 +55,20 @@ extension AnswerViewModel {
     @MainActor
     func requestRegisterAnswer() async throws {
         
-        print("\(#function) 실행")
+        isLoading = true
         
         do {
             print("답변 등록을 시도할 질문 ID: \(questionId)")
             let _ = try await NetworkManager.requestRegisterAnswer(
-                request: .init(answer: answer, tags: keywords.map { $0.name }),
+                request: .init(answer: answer),
                 questionID: questionId
             )
             print("답변 등록 성공!")
         } catch {
             print("답변 등록 실패,,,")
         }
+        
+        isLoading = false
     }
 }
 

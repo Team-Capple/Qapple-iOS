@@ -15,6 +15,35 @@ struct AnswerCell: View {
     let seeMoreAction: () -> Void
     
     var body: some View {
+        if answer.isMine {
+            NormalAnswerCell(
+                answer: answer,
+                seeMoreAction: seeMoreAction
+            )
+        } else {
+            if answer.isReported {
+                ReportAnswerCell(
+                    answer: answer,
+                    seeMoreAction: seeMoreAction
+                )
+            } else {
+                NormalAnswerCell(
+                    answer: answer,
+                    seeMoreAction: seeMoreAction
+                )
+            }
+        }
+    }
+}
+
+// MARK: - NormalAnswerCell
+
+private struct NormalAnswerCell: View {
+    
+    let answer: Answer
+    let seeMoreAction: () -> Void
+    
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HeaderView(
                 answer: answer,
@@ -28,7 +57,7 @@ struct AnswerCell: View {
             Divider()
                 .padding(.top, 16)
         }
-        .padding(.top, 16)
+        .padding(.top, 8)
         .background(Background.first)
     }
 }
@@ -46,7 +75,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("러너 \(answer.anonymityId + 1)")
+            Text("러너 \(answer.writerId + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -93,17 +122,97 @@ private struct ContentView: View {
     }
 }
 
+// MARK: - ReportAnswerCell
+
+private struct ReportAnswerCell: View {
+    
+    @State private var isReportContentShow = false
+    
+    let answer: Answer
+    let seeMoreAction: () -> Void
+    
+    var body: some View {
+        if !isReportContentShow {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("신고 되어 내용을 검토 중인 답변이에요")
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.sub3)
+                    .padding(.horizontal, 16)
+                
+                HStack {
+                    Button {
+                        isReportContentShow.toggle()
+                    } label: {
+                        Text("답변 보기")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(BrandPink.text)
+                    }
+                    
+                    Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(TextLabel.sub4)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                
+                Divider()
+                    .padding(.top, 16)
+            }
+            .padding(.top, 16)
+            .background(Background.first)
+        } else {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 0) {
+                    Image(.profileDummy)
+                        .resizable()
+                        .frame(width: 28, height: 28)
+                    
+                    Text("러너 \(answer.writerId + 1)")
+                        .pretendard(.semiBold, 14)
+                        .foregroundStyle(GrayScale.icon)
+                        .padding(.leading, 8)
+                    
+                    Text("\(answer.writingDate.timeAgo)")
+                        .pretendard(.regular, 14)
+                        .foregroundStyle(TextLabel.sub4)
+                        .padding(.leading, 6)
+                    
+                    Spacer()
+                    
+                    Button {
+                        isReportContentShow.toggle()
+                    } label: {
+                        Text("답변 숨기기")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(BrandPink.text)
+                    }
+                }
+                .padding(.horizontal, 16)
+                
+                ContentView(answer: answer)
+                    .padding(.horizontal, 16)
+                
+                Divider()
+                    .padding(.top, 16)
+            }
+            .padding(.top, 8)
+            .background(Background.first)
+        }
+    }
+}
+
 // MARK: - Preview
 
 #Preview {
     AnswerCell(
         answer: Answer(
             id: 0,
-            anonymityId: 0,
+            writerId: 0,
             content: "아! 이게 질문이 아니고 답변이구나!",
             writingDate: .now,
+            isMine: true,
             isReported: true
         )
     ) {}
-        .environmentObject(BulletinBoardUseCase())
 }

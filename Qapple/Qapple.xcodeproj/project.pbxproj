@@ -129,7 +129,7 @@
 		F37C17862B872F9C005E5072 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */; };
 		F37C178A2B873436005E5072 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17892B873436005E5072 /* MyPageView.swift */; };
 		F37C178C2B873658005E5072 /* MyProfileSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C178B2B873658005E5072 /* MyProfileSummary.swift */; };
-		F37C17A42B889956005E5072 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A32B889956005E5072 /* SearchResultView.swift */; };
+		F37C17A42B889956005E5072 /* TodayQuestionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A32B889956005E5072 /* TodayQuestionListView.swift */; };
 		F37C17A72B889999005E5072 /* QuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A62B889999005E5072 /* QuestionViewModel.swift */; };
 		F37C17A92B8899BC005E5072 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37C17A82B8899BC005E5072 /* QuestionCell.swift */; };
 		F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F392AC422B8B2E370069AD7B /* SignUpNicknameView.swift */; };
@@ -291,7 +291,7 @@
 		F37C17852B872F9C005E5072 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		F37C17892B873436005E5072 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		F37C178B2B873658005E5072 /* MyProfileSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileSummary.swift; sourceTree = "<group>"; };
-		F37C17A32B889956005E5072 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
+		F37C17A32B889956005E5072 /* TodayQuestionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayQuestionListView.swift; sourceTree = "<group>"; };
 		F37C17A62B889999005E5072 /* QuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewModel.swift; sourceTree = "<group>"; };
 		F37C17A82B8899BC005E5072 /* QuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
 		F392AC422B8B2E370069AD7B /* SignUpNicknameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpNicknameView.swift; sourceTree = "<group>"; };
@@ -822,19 +822,19 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		F37C17A02B889923005E5072 /* SearchResultView */ = {
+		F37C17A02B889923005E5072 /* TodayQuestionListView */ = {
 			isa = PBXGroup;
 			children = (
 				F37C17A52B88997E005E5072 /* ViewModel */,
 				F37C17A12B889941005E5072 /* View */,
 			);
-			path = SearchResultView;
+			path = TodayQuestionListView;
 			sourceTree = "<group>";
 		};
 		F37C17A12B889941005E5072 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F37C17A32B889956005E5072 /* SearchResultView.swift */,
+				F37C17A32B889956005E5072 /* TodayQuestionListView.swift */,
 				F37C17A82B8899BC005E5072 /* QuestionCell.swift */,
 			);
 			path = View;
@@ -1027,7 +1027,7 @@
 				82C379112B9347AB00CC7708 /* AlertView */,
 				82C379082B93290700CC7708 /* ReportView */,
 				F3D452CE2B8A55A5000BA51C /* ProfileEditView */,
-				F37C17A02B889923005E5072 /* SearchResultView */,
+				F37C17A02B889923005E5072 /* TodayQuestionListView */,
 				4213DF742C6E1F60007F433C /* NotificationView */,
 				F37C17872B873419005E5072 /* MyPageView */,
 				827897B12BBC416C00B3D6F0 /* WrittenAnswerView */,
@@ -1151,7 +1151,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1510;
-				LastUpgradeCheck = 1510;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					F3EA66C72B7643EE002417CE = {
 						CreatedOnToolsVersion = 15.1;
@@ -1236,7 +1236,7 @@
 				8295BDAE2BA1CD8F00115FA8 /* SignUpPrivacyView.swift in Sources */,
 				F36B0EEB2B8655AE009EBE1D /* MainView.swift in Sources */,
 				82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */,
-				F37C17A42B889956005E5072 /* SearchResultView.swift in Sources */,
+				F37C17A42B889956005E5072 /* TodayQuestionListView.swift in Sources */,
 				8295BDBA2BA3231000115FA8 /* NetworkManager+Member.swift in Sources */,
 				82CDA7792BB2EBCF0031AEB4 /* HapticManager.swift in Sources */,
 				07BF36432B8B8A970047F3F7 /* ActionButton.swift in Sources */,
@@ -1594,7 +1594,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82BBA09A2BBF80410092D37E /* Secrets.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1614,7 +1613,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82BBA09A2BBF80410092D37E /* Secrets.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1633,7 +1631,6 @@
 		F3EA66F32B7643F0002417CE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1650,7 +1647,6 @@
 		F3EA66F42B7643F0002417CE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

@@ -24,9 +24,7 @@ struct TodayQuestionView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     HeaderView(viewModel: viewModel)
-                    
                     HeaderButtonView(viewModel: viewModel)
-                    
                     AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                 }
             }
@@ -42,6 +40,12 @@ struct TodayQuestionView: View {
             .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
                 print("뷰 업데이트")
                 viewModel.updateTodayQuestionView()
+            }
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.primary)
             }
         }
     }
@@ -228,6 +232,7 @@ private struct AnswerPreview: View {
                         .multilineTextAlignment(.center)
                         .lineSpacing(6)
                         .padding(.top, 140)
+                        .opacity(viewModel.isLoading ? 0 : 1)
                     
                     Spacer()
                 }
@@ -274,22 +279,23 @@ private struct AnswerPreview: View {
                     }
                     .padding(.horizontal, 24)
                     
-                    Separator()
-                        .padding(.leading, 24)
-                    
                     // 답변 있는 케이스
                     ForEach(viewModel.answerList, id: \.self) { answer in
                         VStack {
                             AnswerCell(
                                 answer: Answer(
                                     id: answer.answerId,
-                                    anonymityId: answer.answerId, // TODO: 더미데이터 바꾸기,
+                                    writerId: answer.writerId,
                                     content: answer.content,
-                                    writingDate: .now, // TODO: 더미데이터 바꾸기,
+                                    writingDate: answer.writeAt.ISO8601ToDate,
+                                    isMine: answer.isMine,
                                     isReported: answer.isReported
                                 ),
                                 seeMoreAction: {
-                                    isMine = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
+                                    isMine = .init(
+                                        answerId: answer.answerId,
+                                        isMine: answer.isMine
+                                    )
                                 }
                             )
                         }

@@ -9,8 +9,9 @@ import Foundation
 
 struct Answer: Identifiable {
     let id: Int
-    let anonymityId: Int
+    let writerId: Int
     let content: String
     let writingDate: Date
+    let isMine: Bool
     let isReported: Bool
 }

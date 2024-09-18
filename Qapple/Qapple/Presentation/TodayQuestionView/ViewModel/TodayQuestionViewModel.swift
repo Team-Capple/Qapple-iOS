@@ -17,7 +17,8 @@ final class TodayQuestionViewModel: ObservableObject {
     @Published var timeZone: QuestionTimeZone
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
-    @Published var answerList: [AnswerResponse.AnswersOfQuestion.AnswerInfos]
+    @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content]
+    @Published var isLoading = true
     
     init() {
         let currentTimeZone = dateManager.fetchTimezone()
@@ -33,11 +34,13 @@ final class TodayQuestionViewModel: ObservableObject {
 extension TodayQuestionViewModel {
     
     /// 리프레쉬를 위해 전체 뷰를 업데이트합니다.
+    @MainActor
     func updateTodayQuestionView() {
         Task {
             await requestMainQuestion()
             await requestAnswerPreview()
-            await updateQuestionState()
+            updateQuestionState()
+            isLoading = false
         }
     }
     
@@ -87,10 +90,10 @@ extension TodayQuestionViewModel {
             let answerPreview = try await NetworkManager.fetchAnswersOfQuestion(
                 request: .init(
                     questionId: self.mainQuestion.questionId,
-                    keyword: nil,
-                    size: nil
+                    pageNumber: 0,
+                    pageSize: 1000
                 ))
-            let answerList = Array(answerPreview.answerInfos.prefix(3))
+            let answerList = Array(answerPreview.content.prefix(3))
             self.answerList = answerList
         } catch {
             print("답변 프리뷰 업데이트 실패")

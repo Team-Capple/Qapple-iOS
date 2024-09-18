@@ -23,32 +23,39 @@ struct AnswerListView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            CustomNavigationView()
-            Spacer()
-                .frame(height: 16)
-            
-            FloatingQuestionCard(
-                questionContent: questionContent,
-                viewModel: viewModel,
-                questionId: questionId
-            )
-            
-            Spacer()
-                .frame(height: 24)
-            
-            AnswerScrollView(
-                viewModel: viewModel,
-                isBottomSheetPresented: $isBottomSheetPresented,
-                questionId: questionId
-            )
-            .refreshable {
-                Task {
-                    viewModel.loadAnswersForQuestion(questionId: questionId)
-                    HapticManager.shared.impact(style: .light)
+        ZStack {
+            VStack(alignment: .leading) {
+                CustomNavigationView()
+                Spacer()
+                    .frame(height: 16)
+                
+                FloatingQuestionCard(
+                    questionContent: questionContent,
+                    viewModel: viewModel,
+                    questionId: questionId
+                )
+                
+                Spacer()
+                    .frame(height: 24)
+                
+                AnswerScrollView(
+                    viewModel: viewModel,
+                    isBottomSheetPresented: $isBottomSheetPresented,
+                    questionId: questionId
+                )
+                .refreshable {
+                    Task {
+                        viewModel.loadAnswersForQuestion(questionId: questionId)
+                        HapticManager.shared.impact(style: .light)
+                    }
                 }
             }
             
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.primary)
+            }
         }
         .navigationBarBackButtonHidden()
         .background(Color.Background.first)
@@ -196,18 +203,24 @@ private struct AnswerScrollView: View {
         .padding(.leading, 20)
         
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) { index, answer in
+            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
+                index,
+                answer in
                 VStack {
                     AnswerCell(
                         answer: Answer(
                             id: answer.answerId,
-                            anonymityId: 0, // TODO: 더미데이터 바꾸기,
+                            writerId: answer.writerId,
                             content: answer.content,
-                            writingDate: .now, // TODO: 더미데이터 바꾸기,
+                            writingDate: answer.writeAt.ISO8601ToDate,
+                            isMine: answer.isMine,
                             isReported: answer.isReported
                         ),
                         seeMoreAction: {
-                            isMyAnswer = .init(answerId: answer.answerId, isMine: answer.isMyAnswer)
+                            isMyAnswer = .init(
+                                answerId: answer.answerId,
+                                isMine: answer.isMine
+                            )
                         }
                     )
                 }
