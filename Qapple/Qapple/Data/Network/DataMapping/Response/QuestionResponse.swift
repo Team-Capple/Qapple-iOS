@@ -12,15 +12,18 @@ struct QuestionResponse {
     // 질문 모아보기 조회 Response
     struct Questions: Codable {
         
-        let questionInfos: [QuestionsInfos]?
+        let number: Int
+        let size: Int
+        let content: [Content]
+        let numberOfElements: Int
+        let hasPrevious: Bool
+        let hasNext: Bool
 
-        struct QuestionsInfos: Codable,Identifiable {
-            var id: Int?
-            var questionId: Int?
-            var questionStatus: QuestionStatus?
+        struct Content: Codable {
+            var questionId: Int
+            var questionStatus: String
             var livedAt: String?
             var content: String
-            var tag: String?
             var isAnswered: Bool
         }
     }

@@ -3,15 +3,15 @@ import Foundation
 // 질문 데이터를 관리하는 ViewModel
 class QuestionViewModel: ObservableObject {
     
-    @Published var filteredQuestions: [QuestionResponse.Questions.QuestionsInfos] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
+    @Published var filteredQuestions: [QuestionResponse.Questions.Content] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     @Published var selectedQuestionId: Int? = nil
-    @Published var questions: [QuestionResponse.Questions.QuestionsInfos] = [] // 모든 질문의 목록입니다.
+    @Published var questions: [QuestionResponse.Questions.Content] = [] // 모든 질문의 목록입니다.
     
     @MainActor
     func fetchGetQuestions() async {
         do {
             let response = try await getQuestions()
-            self.questions = response.questionInfos ?? []
+            self.questions = response.content
         } catch {
             print("Error: \(error)")
         }

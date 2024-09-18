@@ -8,7 +8,7 @@ struct QuestionCell: View {
     @EnvironmentObject var pathModel: Router
     
     @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
-    let question: QuestionResponse.Questions.QuestionsInfos // 이 뷰에서 사용할 질문 객체입니다.
+    let question: QuestionResponse.Questions.Content // 이 뷰에서 사용할 질문 객체입니다.
     @State private var dateString: String = "" // 상태 변수 정의
     
     let questionNumber: Int
@@ -42,12 +42,12 @@ struct QuestionCell: View {
 
 private struct HeaderView: View {
     
-    let question: QuestionResponse.Questions.QuestionsInfos
+    let question: QuestionResponse.Questions.Content
     let seeMoreAction: () -> Void
     
     var questionStatusRawValue: String {
         switch question.questionStatus {
-        case .live:
+        case "LIVE":
             return QuestionStatus.live.rawValue
         default:
             return ""
@@ -113,7 +113,7 @@ private struct HeaderView: View {
 
 private struct ContentView: View {
     
-    let question: QuestionResponse.Questions.QuestionsInfos
+    let question: QuestionResponse.Questions.Content
     
     var body: some View{
         Text(question.content)
@@ -130,7 +130,7 @@ private struct AnswerButtonView: View {
     
     @EnvironmentObject var pathModel: Router
     
-    let question: QuestionResponse.Questions.QuestionsInfos
+    let question: QuestionResponse.Questions.Content
     
     var body: some View{
         HStack(alignment: .top, spacing: 8) {
@@ -140,7 +140,7 @@ private struct AnswerButtonView: View {
                 Button {
                     pathModel.pushView(
                         screen: QuestionListPathType.answer(
-                            questionId: question.questionId ?? 0,
+                            questionId: question.questionId,
                             questionContent: question.content
                         )
                     )
@@ -158,7 +158,13 @@ private struct AnswerButtonView: View {
 }
 
 struct DummyData {
-    static let questionsInfo = QuestionResponse.Questions.QuestionsInfos(questionStatus: .live, livedAt: "2021-01-01T00:00:00", content: "아카데미 러너 중 가장 마음에 드는 유형이 있나요?", isAnswered: true)
+    static let questionsInfo = QuestionResponse.Questions.Content(
+        questionId: 0,
+        questionStatus: "LIVE",
+        livedAt: "2021-01-01T00:00:00",
+        content: "아카데미 러너 중 가장 마음에 드는 유형이 있나요?",
+        isAnswered: true
+    )
 }
 
 extension Date {

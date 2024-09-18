@@ -1,7 +1,7 @@
 import SwiftUI
 
 // 질문 목록을 보여주는 뷰를 정의합니다.
-struct SearchResultView: View {
+struct TodayQuestionListView: View {
     
     @EnvironmentObject var pathModel: Router
     @StateObject var viewModel: QuestionViewModel = .init()
@@ -71,7 +71,7 @@ struct SearchResultView: View {
                                     isBottomSheetPresented.toggle()
                                 }
                                 .onTapGesture {
-                                    guard let id = question.questionId else { return }
+                                    let id = question.questionId
                                     
                                     // 만약 답변 안했다면 경고 창 띄우기
                                     if !question.isAnswered {
@@ -112,7 +112,7 @@ struct SearchResultView: View {
 }
 
 #Preview {
-    SearchResultView()
+    TodayQuestionListView()
         .environmentObject(Router(pathType: .questionList))
         .environmentObject(AuthViewModel())
 }

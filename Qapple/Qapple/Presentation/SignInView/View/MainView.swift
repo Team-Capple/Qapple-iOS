@@ -127,7 +127,7 @@ private struct HomeView: View {
                 TodayQuestionView()
                     .tag(TodayQuestionTab.todayQuestion)
                 
-                SearchResultView()
+                TodayQuestionListView()
                     .tag(TodayQuestionTab.questionList)
             }
             .edgesIgnoringSafeArea(.all)

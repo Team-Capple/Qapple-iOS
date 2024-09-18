@@ -33,7 +33,6 @@ extension NetworkManager {
         // 에러 체크
         if let response = response as? HTTPURLResponse,
            !(200..<300).contains(response.statusCode) {
-            print(response.statusCode)
             print("Error: badRequest")
             throw NetworkError.badRequest
         }
