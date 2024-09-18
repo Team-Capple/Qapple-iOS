@@ -231,6 +231,7 @@ private struct AnswerPreview: View {
                         .multilineTextAlignment(.center)
                         .lineSpacing(6)
                         .padding(.top, 140)
+                        .opacity(viewModel.isLoading ? 0 : 1)
                     
                     Spacer()
                 }

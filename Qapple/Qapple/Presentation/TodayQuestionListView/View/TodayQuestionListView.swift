@@ -19,6 +19,11 @@ struct TodayQuestionListView: View {
                 Spacer()
                     .frame(height: 0)
             }
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
         }
         .navigationBarBackButtonHidden()
         .onAppear {

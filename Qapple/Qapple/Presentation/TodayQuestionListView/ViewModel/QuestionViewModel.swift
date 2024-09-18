@@ -6,13 +6,14 @@ class QuestionViewModel: ObservableObject {
     @Published var filteredQuestions: [QuestionResponse.Questions.Content] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     @Published var selectedQuestionId: Int? = nil
     @Published var questions: [QuestionResponse.Questions.Content] = [] // 모든 질문의 목록입니다.
+    @Published var isLoading = true
     
     @MainActor
     func fetchGetQuestions() async {
         do {
             let response = try await getQuestions()
             self.questions = response.content
-            print(self.questions)
+            isLoading = false
         } catch {
             print("Error: \(error)")
         }
