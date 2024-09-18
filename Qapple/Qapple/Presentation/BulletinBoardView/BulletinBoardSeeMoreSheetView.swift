@@ -25,6 +25,7 @@ struct BulletinBoardSeeMoreSheetView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
     @State private var isRemovePostAlertPresented = false
@@ -40,7 +41,9 @@ struct BulletinBoardSeeMoreSheetView: View {
                 tapAction: {
                     switch sheetType {
                     case .mine: isRemovePostAlertPresented.toggle()
-                    case .others: break // TODO: 신고하기 View 이동
+                    case .others:
+                        dismiss()
+                        pathModel.pushView(screen: BulletinBoardPathType.report(boardId: post.boardId))
                     }
                 }
             )

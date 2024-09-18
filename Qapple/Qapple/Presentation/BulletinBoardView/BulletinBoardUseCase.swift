@@ -87,6 +87,7 @@ extension BulletinBoardUseCase {
         case .reportPost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 신고")
             // TODO: 신고 넣기
+            // TODO: 여기에 해당 게시글 isReported = true 작업해야함(서버에 아직 구현이 안된듯?)
         }
     }
 }

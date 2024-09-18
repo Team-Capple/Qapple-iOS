@@ -90,6 +90,8 @@ struct ReportView: View {
         }
         .alert("신고가 완료됐어요", isPresented: $isReportCompleteAlertPresented) {
             Button("확인", role: .none) {
+                // TODO: usecase를 불러와 isReported를 true로 바꿔야함
+                // bulletinBoardUseCase.effect(.reportPost(postIndex: post.boardId))
                 pathModel.pop()
             }
         } message: {
