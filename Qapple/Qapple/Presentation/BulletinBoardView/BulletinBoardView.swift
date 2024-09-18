@@ -31,11 +31,13 @@ struct BulletinBoardView: View {
                         y: proxy.size.height - 40
                     )
                 )
+                
+                if bulletinBoardUseCase.isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                }
             }
             .background(Background.first)
-            .refreshable {
-                bulletinBoardUseCase.effect(.fetchPost)
-            }
             .navigationDestination(for: BulletinBoardPathType.self) { path in
                 pathModel.getNavigationDestination(view: path)
             }
@@ -146,6 +148,9 @@ private struct PostListView: View {
                     )
                 }
             }
+        }
+        .refreshable {
+            bulletinBoardUseCase.effect(.fetchPost)
         }
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(

@@ -11,10 +11,10 @@ import Foundation
 extension NetworkManager {
     
     /// 게시글을 조회합니다.
-    static func fetchBoard() async throws -> BoardResponse.Boards {
+    static func fetchBoard(_ request: BoardRequest.pageOfBoard) async throws -> BoardResponse.Boards {
         
         // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .boards)
+        let urlString = ApiEndpoints.basicURLString(path: .boards) + "?pageNumber=\(request.pageNumber)" + "&pageSize=\(request.pageSize)"
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL

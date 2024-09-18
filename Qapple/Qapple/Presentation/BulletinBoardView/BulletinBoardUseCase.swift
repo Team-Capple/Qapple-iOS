@@ -10,6 +10,7 @@ import Foundation
 final class BulletinBoardUseCase: ObservableObject {
     @Published var _state: State
     @Published var isClickComment: Bool = false
+    @Published var isLoading: Bool = false
     
     init() {
         
@@ -89,22 +90,27 @@ extension BulletinBoardUseCase {
     
     @MainActor
     func fetchPostList() {
+        self.isLoading = true
+        
         Task {
-            let boardList = try await NetworkManager.fetchBoard()
+            let boardList = try await NetworkManager.fetchBoard(.init(pageNumber: 0, pageSize: 100))
             
-            let postList: [Post] = boardList.boards.map { board in
+            let postList: [Post] = boardList.content.map { board in
                 Post(
-                    anonymityIndex: board.boardId,
-                    isMine: false, // TODO: 나중에 처리
+                    boardId: board.boardId,
+                    writerId: board.writerId,
                     content: board.content,
-                    isLike: false, // TODO: 나중에 처리
-                    likeCount: board.heartCount,
+                    heartCount: board.heartCount,
                     commentCount: board.commentCount,
-                    writingDate: board.createAt.ISO8601ToDate
+                    createAt: board.createAt.ISO8601ToDate,
+                    isMine: board.isMine,
+                    isReported: board.isReported,
+                    isLiked: board.isLiked
                 )
             }
             
             _state.posts = postList
+            self.isLoading = false
         }
     }
 }

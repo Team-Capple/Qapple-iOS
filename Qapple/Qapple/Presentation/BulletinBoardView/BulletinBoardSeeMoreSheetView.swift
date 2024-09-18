@@ -48,7 +48,7 @@ struct BulletinBoardSeeMoreSheetView: View {
         .alert("게시글을 삭제할까요?", isPresented: $isRemovePostAlertPresented) {
             Button("취소", role: .cancel) {}
             Button("삭제하기", role: .destructive) {
-                bulletinBoardUseCase.effect(.removePost(postIndex: post.anonymityIndex))
+                bulletinBoardUseCase.effect(.removePost(postIndex: post.boardId))
                 dismiss()
             }
         } message: {
@@ -92,13 +92,15 @@ private struct SeeMoreCellButton: View {
     BulletinBoardSeeMoreSheetView(
         sheetType: .others,
         post: Post(
-            anonymityIndex: 1,
+            boardId: 1,
+            writerId: 2,
+            content: "캐플짱",
+            heartCount: 20,
+            commentCount: 3,
+            createAt: .now,
             isMine: true,
-            content: "오늘 날씨가 정말 좋네요!",
-            isLike: true,
-            likeCount: 10,
-            commentCount: 2,
-            writingDate: Date()
+            isReported: false,
+            isLiked: false
         )
     )
 }

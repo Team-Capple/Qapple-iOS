@@ -9,11 +9,13 @@ import Foundation
 
 struct Post: Identifiable, Hashable {
     let id = UUID()
-    let anonymityIndex: Int
-    let isMine: Bool
+    let boardId: Int
+    let writerId: Int
     let content: String
-    let isLike: Bool
-    let likeCount: Int
+    let heartCount: Int
     let commentCount: Int
-    let writingDate: Date
+    let createAt: Date
+    let isMine: Bool
+    let isReported: Bool
+    let isLiked: Bool
 }

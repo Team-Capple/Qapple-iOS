@@ -46,12 +46,12 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("러너 \(post.anonymityIndex + 1)")
+            Text("러너 \(post.boardId + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
             
-            Text("\(post.writingDate.timeAgo)")
+            Text("\(post.createAt.timeAgo)")
                 .pretendard(.regular, 14)
                 .foregroundStyle(TextLabel.sub4)
                 .padding(.leading, 6)
@@ -109,7 +109,7 @@ private struct RemoteView: View {
             LikeButton(
                 post: post,
                 tapAction: {
-                    bulletinBoardUseCase.effect(.likePost(postIndex: post.anonymityIndex))
+                    bulletinBoardUseCase.effect(.likePost(postIndex: post.boardId))
                 }
             )
             
@@ -126,9 +126,9 @@ private struct RemoteView: View {
                 tapAction()
             } label: {
                 HStack(spacing: 4) {
-                    Image(post.isLike ? .heartActive : .heart)
+                    Image(post.isLiked ? .heartActive : .heart)
                     
-                    Text("\(post.likeCount)")
+                    Text("\(post.heartCount)")
                         .pretendard(.regular, 13)
                         .foregroundStyle(TextLabel.sub3)
                 }
@@ -170,13 +170,15 @@ private struct RemoteView: View {
 #Preview {
     BulletinBoardCell(
         post: Post(
-            anonymityIndex: 0,
+            boardId: 1,
+            writerId: 2,
+            content: "캐플짱이라요~!",
+            heartCount: 20,
+            commentCount: 3,
+            createAt: .now,
             isMine: true,
-            content: "다들 매크로 팀원 조합 어떠신가요?",
-            isLike: true,
-            likeCount: 4,
-            commentCount: 1,
-            writingDate: .now
+            isReported: false,
+            isLiked: true
         )
     ) {}
         .environmentObject(BulletinBoardUseCase())
