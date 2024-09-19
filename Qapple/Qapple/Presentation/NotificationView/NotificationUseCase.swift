@@ -10,47 +10,35 @@ import Foundation
 
 final class NotificationUseCase: ObservableObject {
     
+    @Published var notificationList: [NotificationResponse.Content] = []
     @Published var _state: [State] = []
     
     init() {
-        self._state = [
-            State(
-                targetContent: "'어떤 게시글인지가 들어갑니다.'",
-                targetType: .board,
-                actionType: .comment,
-                commentContent: "내용이 들어갑니다.",
-                timeStamp: Date(),
-                likeCount: 8,
-                isReadStatus: false
-            ),
-            State(
-                targetContent: "'어떤 게시글인지가 들어갑니다.'",
-                targetType: .board,
-                actionType: .like,
-                commentContent: nil,
-                timeStamp: Date(),
-                likeCount: 18,
-                isReadStatus: false
-            ),
-            State(
-                targetContent: "'어떤 질문인지가 들어갑니다.'",
-                targetType: .complete,
-                actionType: .question,
-                commentContent: "오전 질문이 마감 되었어요\n다른 러너들은 어떻게 답 했는지 확인해보세요",
-                timeStamp: Date(),
-                likeCount: 28,
-                isReadStatus: false
-            ),
-            State(
-                targetContent: "'매크로 무슨팀과 함께하고 싶어요?'",
-                targetType: .answer,
-                actionType: .comment,
-                commentContent: "저는 시몬스랑 하고 싶어요!",
-                timeStamp: Date(),
-                likeCount: 1818,
-                isReadStatus: false
-            )
-        ]
+        Task {
+            await fetchNotificationList()
+        }
+    }
+}
+
+extension NotificationUseCase {
+    
+    @MainActor
+    func fetchNotificationList() {
+        Task {
+            do {
+                let notifications = try await NetworkManager.fetchNotificationList(
+                    .init(
+                        pageNumber: 0,
+                        pageSize: 1000
+                    )
+                )
+                
+                self.notificationList = notifications.content
+                print(self.notificationList)
+            } catch {
+                print("Notification List Error")
+            }
+        }
     }
 }
 

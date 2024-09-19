@@ -119,6 +119,9 @@
 		82D583B92B9852C4003CC424 /* QuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583B82B9852C4003CC424 /* QuestionResponse.swift */; };
 		82D583BB2B985462003CC424 /* NetworkManager+Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583BA2B985462003CC424 /* NetworkManager+Question.swift */; };
 		82D583BD2B9859D7003CC424 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583BC2B9859D7003CC424 /* NetworkError.swift */; };
+		82E3328D2C9B1C2D00D06A8D /* NotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E3328C2C9B1C2D00D06A8D /* NotificationResponse.swift */; };
+		82E3328F2C9B1CBC00D06A8D /* NotificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E3328E2C9B1CBC00D06A8D /* NotificationRequest.swift */; };
+		82E332912C9B1CE300D06A8D /* NetworkManager+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E332902C9B1CE300D06A8D /* NetworkManager+Notification.swift */; };
 		82F7041D2C6DD15000479206 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F7041C2C6DD15000479206 /* TabBar.swift */; };
 		82F7041F2C6DD29D00479206 /* TabType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F7041E2C6DD29D00479206 /* TabType.swift */; };
 		82FD93692C673E96007977D0 /* BulletinBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FD93682C673E96007977D0 /* BulletinBoardCell.swift */; };
@@ -280,6 +283,9 @@
 		82D583B82B9852C4003CC424 /* QuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionResponse.swift; sourceTree = "<group>"; };
 		82D583BA2B985462003CC424 /* NetworkManager+Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Question.swift"; sourceTree = "<group>"; };
 		82D583BC2B9859D7003CC424 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		82E3328C2C9B1C2D00D06A8D /* NotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationResponse.swift; sourceTree = "<group>"; };
+		82E3328E2C9B1CBC00D06A8D /* NotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequest.swift; sourceTree = "<group>"; };
+		82E332902C9B1CE300D06A8D /* NetworkManager+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Notification.swift"; sourceTree = "<group>"; };
 		82F7041C2C6DD15000479206 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		82F7041E2C6DD29D00479206 /* TabType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabType.swift; sourceTree = "<group>"; };
 		82FD93682C673E96007977D0 /* BulletinBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardCell.swift; sourceTree = "<group>"; };
@@ -573,6 +579,7 @@
 				824717352BC9163C005E9631 /* NetworkManager+Report.swift */,
 				42531AE92C8724F9001CA803 /* NetworkManager+Board.swift */,
 				2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */,
+				82E332902C9B1CE300D06A8D /* NetworkManager+Notification.swift */,
 			);
 			name = NetworklManager;
 			sourceTree = "<group>";
@@ -990,6 +997,7 @@
 				824717312BC9140A005E9631 /* ReportResponse.swift */,
 				42531AEB2C8727B8001CA803 /* BoardResponse.swift */,
 				2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */,
+				82E3328C2C9B1C2D00D06A8D /* NotificationResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1004,6 +1012,7 @@
 				8247172F2BC913B9005E9631 /* ReportRequest.swift */,
 				42531AED2C87488A001CA803 /* BoardRequest.swift */,
 				2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */,
+				82E3328E2C9B1CBC00D06A8D /* NotificationRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1247,6 +1256,7 @@
 				07BF364C2B8C598B0047F3F7 /* Keyword.swift in Sources */,
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
 				827897B52BBC41A800B3D6F0 /* WrittenAnswerView.swift in Sources */,
+				82E332912C9B1CE300D06A8D /* NetworkManager+Notification.swift in Sources */,
 				F36F37C82B9B7A54002EC36B /* AuthViewModel.swift in Sources */,
 				07BF36482B8B9C290047F3F7 /* SearchKeywordViewModel.swift in Sources */,
 				07BF36412B8B86310047F3F7 /* KeywordChoiceChip.swift in Sources */,
@@ -1297,6 +1307,7 @@
 				8295BDB42BA3222200115FA8 /* MemberResponse.swift in Sources */,
 				07D96ED12B7797CD00754819 /* Font+Extension.swift in Sources */,
 				07BF36362B8B36D10047F3F7 /* AnswerViewModel.swift in Sources */,
+				82E3328F2C9B1CBC00D06A8D /* NotificationRequest.swift in Sources */,
 				4213DF7A2C6E1F97007F433C /* NotificationCell.swift in Sources */,
 				07D96EE02B7A1AA600754819 /* AnswerCell.swift in Sources */,
 				8280CA7A2C5F1F2C00AC07B9 /* AppleLoginService.swift in Sources */,
@@ -1326,6 +1337,7 @@
 				823736A92C674A370057B9CF /* BulletinBoardUseCase.swift in Sources */,
 				8295BDAC2BA0645200115FA8 /* SignUpAuthCodeView.swift in Sources */,
 				826933532C73954B0004E0B5 /* NewPostButton.swift in Sources */,
+				82E3328D2C9B1C2D00D06A8D /* NotificationResponse.swift in Sources */,
 				07D96EDC2B7A167200754819 /* SeeAllButton.swift in Sources */,
 				82C379172B9347F400CC7708 /* AlertViewModel.swift in Sources */,
 				82C3791D2B943CDB00CC7708 /* Date+Extension.swift in Sources */,

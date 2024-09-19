@@ -47,6 +47,9 @@ enum ApiEndpoints {
         case comments = "/boardComments"
         case createComment = "/boardComments/board"
         case likeComment = "/boardComments/heart"
+        
+        // MARK: - 알림
+        case notifications = "/notifications"
     }
 }
 
