@@ -55,7 +55,7 @@ extension BulletinBoardUseCase {
     
     enum Effect {
         case fetchPost
-        case likePost(postIndex: Int)
+        case likePost(postId: Int)
         case removePost(postIndex: Int)
         case reportPost(postIndex: Int)
     }
@@ -65,17 +65,26 @@ extension BulletinBoardUseCase {
         case .fetchPost:
             Task {
                 await fetchPostList()
+                print("게시판 업데이트")
             }
-        case .likePost(let postIndex):
-            print("\(postIndex)번째 게시글 좋아요 업데이트")
-//            _state.posts[postIndex-1].isLiked.toggle()
-//            if _state.posts[postIndex-1].isLiked == true {
-//                _state.posts[postIndex-1].heartCount += 1
-//            } else {
-//                _state.posts[postIndex-1].heartCount -= 1
-//            }
-            Task {
-                try await NetworkManager.requestLikeBoard(.init(boardId: postIndex))
+        case .likePost(let postId):
+            if let index = _state.posts.firstIndex(where: { $0.boardId == postId }) {
+                print("\(index)번째 게시글 좋아요 업데이트")
+                
+                _state.posts[index].isLiked.toggle()
+                _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
+                
+                // 서버로 좋아요 요청 보내기
+                Task {
+                    do {
+                        try await NetworkManager.requestLikeBoard(.init(boardId: postId))
+                    } catch {
+                        // 오류 발생 시 다시 상태 복구
+                        _state.posts[index].isLiked.toggle()
+                        _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
+                        print("Error updating like for post \(postId): \(error)")
+                    }
+                }
             }
             
         case .removePost(postIndex: let postIndex):

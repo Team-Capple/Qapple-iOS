@@ -46,7 +46,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("러너 \(post.boardId + 1)")
+            Text("러너 \(post.writerId)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -109,8 +109,7 @@ private struct RemoteView: View {
             LikeButton(
                 post: post,
                 tapAction: {
-                    bulletinBoardUseCase.effect(.likePost(postIndex: post.boardId))
-                    bulletinBoardUseCase.effect(.fetchPost)
+                    bulletinBoardUseCase.effect(.likePost(postId: post.boardId))
                 }
             )
             
