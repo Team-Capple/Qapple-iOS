@@ -89,6 +89,9 @@ extension BulletinBoardUseCase {
             
         case .removePost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 삭제")
+            if let index = _state.posts.firstIndex(where: { $0.boardId == postIndex }) {
+                _state.posts.remove(at: index)
+            }
             Task {
                 try await NetworkManager.requestDeleteBoard(.init(boardId: postIndex))
             }
