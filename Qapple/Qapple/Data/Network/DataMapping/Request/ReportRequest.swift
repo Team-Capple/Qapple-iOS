@@ -14,4 +14,10 @@ class ReportRequest {
         let answerId: Int
         let reportType: String
     }
+    
+    // 게시글 신고하기 POST
+    struct ReportBoard: Codable {
+        let boardId: Int
+        let boardReportType: String
+    }
 }

@@ -15,6 +15,7 @@ struct ReportView: View {
     @State private var reportType: ReportType = .DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS
     
     let answerId: Int
+    let boardId: Int
     
     var reportList = [
         "불법촬영물 등의 유통",
@@ -90,8 +91,6 @@ struct ReportView: View {
         }
         .alert("신고가 완료됐어요", isPresented: $isReportCompleteAlertPresented) {
             Button("확인", role: .none) {
-                // TODO: usecase를 불러와 isReported를 true로 바꿔야함
-                // bulletinBoardUseCase.effect(.reportPost(postIndex: post.boardId))
                 pathModel.pop()
             }
         } message: {
@@ -106,15 +105,25 @@ extension ReportView {
     @MainActor
     func requestReportAnswer() async {
         do {
-            print("답변ID: \(answerId)\n신고타입: \(reportType)")
-            let _ = try await NetworkManager.requestReport(
-                request: .init(
-                    answerId: answerId,
-                    reportType: reportType.rawValue
+            if answerId != -1 {
+                print("답변ID: \(answerId)\n신고타입: \(reportType)")
+                let _ = try await NetworkManager.requestReport(
+                    request: .init(
+                        answerId: answerId,
+                        reportType: "QUESTION_" + reportType.rawValue
+                    )
                 )
-            )
+            } else {
+                print("답변ID: \(boardId)\n신고타입: \(reportType)")
+                let _ = try await NetworkManager.requestReportBoard(
+                    request: .init(
+                        boardId: boardId,
+                        boardReportType: "BOARD_" + reportType.rawValue
+                    )
+                )
+            }
         } catch {
-            print("신고하기 실패")
+            print("신고하기 실패: \(error.localizedDescription)")
         }
     }
     
@@ -128,5 +137,5 @@ extension ReportView {
 }
 
 #Preview {
-    ReportView(answerId: 1)
+    ReportView(answerId: 1, boardId: -1)
 }

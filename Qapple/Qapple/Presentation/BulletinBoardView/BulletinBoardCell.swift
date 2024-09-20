@@ -15,6 +15,34 @@ struct BulletinBoardCell: View {
     let seeMoreAction: () -> Void
     
     var body: some View {
+        if post.isMine {
+            NormalBoardCell(
+                post: post,
+                seeMoreAction: seeMoreAction
+            )
+        } else {
+            if post.isReported {
+                ReportBoardCell(
+                    post: post,
+                    seeMoreAction: seeMoreAction
+                )
+            } else {
+                NormalBoardCell(
+                    post: post,
+                    seeMoreAction: seeMoreAction
+                )
+            }
+        }
+    }
+}
+// MARK: - NormalBoardCell
+
+private struct NormalBoardCell: View {
+    
+    let post: Post
+    let seeMoreAction: () -> Void
+    
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HeaderView(
                 post: post,
@@ -33,6 +61,7 @@ struct BulletinBoardCell: View {
     }
 }
 
+
 // MARK: - HeaderView
 
 private struct HeaderView: View {
@@ -46,7 +75,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("러너 \(post.writerId)")
+            Text("익명의 러너")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -161,6 +190,86 @@ private struct RemoteView: View {
                         .foregroundStyle(TextLabel.sub3)
                 }
             }
+        }
+    }
+}
+
+// MARK: - ReportBoardCell
+
+private struct ReportBoardCell: View {
+
+    @State private var isReportContentShow = false
+
+    let post: Post
+    let seeMoreAction: () -> Void
+
+    var body: some View {
+        if !isReportContentShow {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("신고 되어 내용을 검토 중인 답변이에요")
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.sub3)
+                    .padding(.horizontal, 16)
+
+                HStack {
+                    Button {
+                        isReportContentShow.toggle()
+                    } label: {
+                        Text("답변 보기")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(BrandPink.text)
+                    }
+
+                    Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(TextLabel.sub4)
+
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+
+                Divider()
+                    .padding(.top, 16)
+            }
+            .padding(.top, 16)
+            .background(Background.first)
+        } else {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 0) {
+                    Image(.profileDummy)
+                        .resizable()
+                        .frame(width: 28, height: 28)
+
+                    Text("러너 \(post.writerId + 1)")
+                        .pretendard(.semiBold, 14)
+                        .foregroundStyle(GrayScale.icon)
+                        .padding(.leading, 8)
+
+                    Text("\(post.createAt.timeAgo)")
+                        .pretendard(.regular, 14)
+                        .foregroundStyle(TextLabel.sub4)
+                        .padding(.leading, 6)
+
+                    Spacer()
+
+                    Button {
+                        isReportContentShow.toggle()
+                    } label: {
+                        Text("답변 숨기기")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(BrandPink.text)
+                    }
+                }
+                .padding(.horizontal, 16)
+
+                ContentView(post: post)
+                    .padding(.horizontal, 16)
+
+                Divider()
+                    .padding(.top, 16)
+            }
+            .padding(.top, 8)
+            .background(Background.first)
         }
     }
 }
