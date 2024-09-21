@@ -5,7 +5,7 @@
 //  Created by 김민준 on 2/12/24.
 //
 
-import Foundation
+import SwiftUI
 
 final class TodayQuestionViewModel: ObservableObject {
     
@@ -159,6 +159,21 @@ extension TodayQuestionViewModel {
         else if state == .ready { text = "질문에 답변하기" }
         else if state == .complete { text = "다른 답변 둘러보기" }
         return text
+    }
+    
+    /// 버튼 컬러를 반환합니다.
+    var buttonColor: Color {
+        var color = Color.black
+        if state == .creating {
+            if mainQuestion.isAnswered {
+                color = GrayScale.secondaryButton
+            } else {
+                color = BrandPink.button
+            }
+        }
+        else if state == .ready { color = BrandPink.button }
+        else if state == .complete { color = GrayScale.secondaryButton }
+        return color
     }
     
     /// 리스트 타이틀 텍스트를 반환합니다.

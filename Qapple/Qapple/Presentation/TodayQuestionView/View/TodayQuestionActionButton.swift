@@ -9,20 +9,14 @@ import SwiftUI
 
 struct TodayQuestionActionButton: View {
     
-    enum Priority {
-        case primary
-        case secondary
-    }
-    
     private let deviceHeight = UIScreen.main.bounds.height
     var text: String
     var backgroundColor: Color
     var action: () -> Void
     
-    init(_ text: String, priority: Priority, action: @escaping () -> Void) {
+    init(_ text: String, backgroundColor: Color, action: @escaping () -> Void) {
         self.text = text
-        self.backgroundColor = priority == .primary
-        ? BrandPink.button : GrayScale.secondaryButton
+        self.backgroundColor = backgroundColor
         self.action = action
     }
     
@@ -42,5 +36,8 @@ struct TodayQuestionActionButton: View {
 }
 
 #Preview {
-    TodayQuestionActionButton("이전 질문 보러가기", priority: .primary) {}
+    TodayQuestionActionButton(
+        "이전 질문 보러가기",
+        backgroundColor: BrandPink.button
+    ) {}
 }

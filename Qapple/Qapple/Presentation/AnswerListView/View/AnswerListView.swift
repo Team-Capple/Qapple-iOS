@@ -157,12 +157,6 @@ private struct FloatingQuestionCard: View {
             }
             
             Spacer()
-            
-//            Image(isArrowActive ? .arrowUp : .arrowDown)
-//                .resizable()
-//                .scaledToFill()
-//                .frame(width: 28, height: 28)
-//                .foregroundColor(.white)
         }
         .padding(14)
         .frame(maxWidth: .infinity)

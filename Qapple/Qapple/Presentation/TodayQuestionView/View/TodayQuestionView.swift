@@ -175,8 +175,7 @@ private struct HeaderButtonView: View {
             
             TodayQuestionActionButton(
                 viewModel.buttonText,
-                priority: viewModel.state == .complete
-                ? .secondary : .primary
+                backgroundColor: viewModel.buttonColor
             ) {
                 if !viewModel.mainQuestion.isAnswered {
                     
