@@ -65,8 +65,18 @@ struct CommentCell: View {
     private var drag: some Gesture {
         DragGesture()
             .onChanged { value in
-                hOffset = anchor + value.translation.width
+                let transWidth = value.translation.width
                 
+                if transWidth > -20 && transWidth < 0 {
+                    return
+                }
+                
+                if transWidth < 20 && transWidth > 0 {
+                    return
+                }
+                
+                hOffset = anchor + transWidth
+
                 if anchor < 0 {
                     isCellToggled = hOffset < -screenWidth / 3 + screenWidth / 15
                 } else {

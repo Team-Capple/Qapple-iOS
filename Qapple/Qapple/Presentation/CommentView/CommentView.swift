@@ -52,7 +52,7 @@ struct CommentView: View {
                         .progressViewStyle(.circular)
                 }
                 
-                if commentViewModel.comments.isEmpty {
+                if commentViewModel.comments.isEmpty && !self.commentViewModel.isLoading {
                     Text("작성된 댓글이 없습니다.\n 댓글을 달아보세요!")
                         .multilineTextAlignment(.center)
                 }
