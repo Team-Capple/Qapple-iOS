@@ -12,7 +12,7 @@ struct CommentView: View {
     @StateObject private var commentViewModel: CommentViewModel = .init()
     @State private var text: String = ""
     
-    let post: Post
+    @State var post: Post
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
@@ -30,7 +30,7 @@ struct CommentView: View {
                         ForEach(commentViewModel.comments) { comment in
                             seperator
                             
-                            CommentCell(comment: comment, commentViewModel: commentViewModel, post: self.post)
+                            CommentCell(comment: comment, commentViewModel: commentViewModel, post: self.$post)
                         }
                         
                         seperator
@@ -43,6 +43,7 @@ struct CommentView: View {
                     Task.init {
                         // TODO: Page Number 수정
                         await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+                        self.post.commentCount = commentViewModel.comments.count
                     }
                 }
                 
@@ -85,6 +86,7 @@ struct CommentView: View {
                 Task.init {
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
                     await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+                    self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
                 }
             } label: {

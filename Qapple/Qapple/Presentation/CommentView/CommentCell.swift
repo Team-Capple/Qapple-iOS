@@ -23,7 +23,7 @@ struct CommentCell: View {
     
     @ObservedObject var commentViewModel: CommentViewModel
     
-    let post: Post
+    @Binding var post: Post
     
     var body: some View {
         HStack(spacing: 0) {
@@ -56,6 +56,7 @@ struct CommentCell: View {
             Button("확인", role: .none) {
                 Task.init {
                     await commentViewModel.loadComments(boardId: self.post.boardId, pageNumber: 0)
+                    self.post.commentCount = commentViewModel.comments.count
                 }
             }
         }
@@ -122,6 +123,7 @@ struct CommentCell: View {
                     Task.init {
                         await commentViewModel.act(.like(id: comment.id))
                         await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+                        self.post.commentCount = commentViewModel.comments.count
                     }
                 } label: {
                     Image(systemName: comment.isLiked ? "heart.fill" : "heart")
