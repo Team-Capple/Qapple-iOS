@@ -29,6 +29,7 @@ struct BulletinBoardSeeMoreSheetView: View {
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
     @State private var isRemovePostAlertPresented = false
+    @State private var isRemoveCompleteAlertPresented = false
     
     let sheetType: SheetType
     let post: Post
@@ -52,10 +53,15 @@ struct BulletinBoardSeeMoreSheetView: View {
             Button("취소", role: .cancel) {}
             Button("삭제하기", role: .destructive) {
                 bulletinBoardUseCase.effect(.removePost(postIndex: post.boardId))
-                dismiss()
+                isRemoveCompleteAlertPresented.toggle()
             }
         } message: {
             Text("삭제 된 게시글은 복구할 수 없어요")
+        }
+        .alert("삭제가 완료됐어요", isPresented: $isRemoveCompleteAlertPresented) {
+            Button("확인", role: .none) {
+                dismiss()
+            }
         }
         .onAppear {
             print("현재 선택된 포스트: \(post.content)")
