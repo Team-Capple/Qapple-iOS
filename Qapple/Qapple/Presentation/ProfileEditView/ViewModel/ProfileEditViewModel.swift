@@ -14,6 +14,7 @@ final class ProfileEditViewModel: ObservableObject {
     @Published var keyboardBottomPadding: CGFloat = 0
     @Published var isNicknameFieldAvailable = true // 닉네임 유효성 검사
     @Published var isNicknameCanUse = false // 닉네임 중복 검사
+    @Published var isLoading = false
     
     init() {
         nickname = ""
@@ -43,11 +44,14 @@ extension ProfileEditViewModel {
     
     @MainActor
     func requestNicknameCheck() async {
+        isLoading = true
         do {
             let check = try await NetworkManager.requestNicknameCheck(nickname)
             self.isNicknameCanUse = !check
+            isLoading = false
         } catch {
             print("닉네임 중복 검사에 실패했습니다. 다시 시도해주세요")
+            isLoading = false
         }
     }
 }
@@ -58,6 +62,7 @@ extension ProfileEditViewModel {
     /// 회원 정보 수정을 요청합니다.
     @MainActor
     func requestEditProfile() async throws {
+        isLoading = true
         do {
             let _ = try await NetworkManager.requestEditProfile(
                 request: .init(
@@ -65,8 +70,10 @@ extension ProfileEditViewModel {
                     profileImage: nil
                 )
             )
+            isLoading = false
         } catch {
             print("회원 정보 수정 실패")
+            isLoading = false
         }
     }
 }

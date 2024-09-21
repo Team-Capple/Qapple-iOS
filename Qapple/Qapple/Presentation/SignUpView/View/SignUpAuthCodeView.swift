@@ -122,7 +122,7 @@ struct SignUpAuthCodeView: View {
                 Spacer()
                     .frame(height: 28)
                 
-                HStack {
+                HStack(alignment: .top) {
                     if !authViewModel.isCertifyCodeVerified {
                         Text("메일이 오지 않았나요? 정크 메일함 혹은\n이메일 주소를 다시 한번 확인해주세요.")
                             .font(Font.pretendard(.semiBold, size: 14))

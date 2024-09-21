@@ -40,7 +40,7 @@
 		2C2E0ED72C646EC9003928C1 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E0ED62C646EC9003928C1 /* CommentView.swift */; };
 		2CD2B5A52C77192600E17B6A /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */; };
 		2CD2B5A72C771C3500E17B6A /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A62C771C3500E17B6A /* CommentViewModel.swift */; };
-		2CD2B5A92C88753800E17B6A /* NetworkManager + Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */; };
+		2CD2B5A92C88753800E17B6A /* NetworkManager+Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A82C88753800E17B6A /* NetworkManager+Comment.swift */; };
 		2CD2B5AB2C88780D00E17B6A /* CommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */; };
 		2CD2B5AD2C88789C00E17B6A /* CommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */; };
 		2CFF5E212C9EA0470083A42A /* CommentReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFF5E202C9EA0470083A42A /* CommentReportType.swift */; };
@@ -78,6 +78,10 @@
 		825226EF2BA9A7D8006998E8 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825226EE2BA9A7D8006998E8 /* MailView.swift */; };
 		826933532C73954B0004E0B5 /* NewPostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826933522C73954B0004E0B5 /* NewPostButton.swift */; };
 		826933552C743D370004E0B5 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826933542C743D370004E0B5 /* Answer.swift */; };
+		827169172C9EB68C00D8BF81 /* QappleNoti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827169162C9EB68C00D8BF81 /* QappleNoti.swift */; };
+		827169192C9EB8BC00D8BF81 /* NetworkManager+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827169182C9EB8BC00D8BF81 /* NetworkManager+Notification.swift */; };
+		8271691B2C9EB91A00D8BF81 /* NotificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271691A2C9EB91A00D8BF81 /* NotificationRequest.swift */; };
+		8271691D2C9EB95000D8BF81 /* NotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271691C2C9EB95000D8BF81 /* NotificationResponse.swift */; };
 		827897B52BBC41A800B3D6F0 /* WrittenAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827897B42BBC41A800B3D6F0 /* WrittenAnswerView.swift */; };
 		827897B72BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827897B62BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift */; };
 		8280CA7A2C5F1F2C00AC07B9 /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */; };
@@ -205,7 +209,7 @@
 		2C2E0ED62C646EC9003928C1 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		2CD2B5A62C771C3500E17B6A /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
-		2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager + Comment.swift"; sourceTree = "<group>"; };
+		2CD2B5A82C88753800E17B6A /* NetworkManager+Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Comment.swift"; sourceTree = "<group>"; };
 		2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentResponse.swift; sourceTree = "<group>"; };
 		2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRequest.swift; sourceTree = "<group>"; };
 		2CFF5E202C9EA0470083A42A /* CommentReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReportType.swift; sourceTree = "<group>"; };
@@ -240,6 +244,10 @@
 		825226EE2BA9A7D8006998E8 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		826933522C73954B0004E0B5 /* NewPostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostButton.swift; sourceTree = "<group>"; };
 		826933542C743D370004E0B5 /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
+		827169162C9EB68C00D8BF81 /* QappleNoti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QappleNoti.swift; sourceTree = "<group>"; };
+		827169182C9EB8BC00D8BF81 /* NetworkManager+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Notification.swift"; sourceTree = "<group>"; };
+		8271691A2C9EB91A00D8BF81 /* NotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequest.swift; sourceTree = "<group>"; };
+		8271691C2C9EB95000D8BF81 /* NotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationResponse.swift; sourceTree = "<group>"; };
 		827897B42BBC41A800B3D6F0 /* WrittenAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrittenAnswerView.swift; sourceTree = "<group>"; };
 		827897B62BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpServiceTermsView.swift; sourceTree = "<group>"; };
 		8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
@@ -577,7 +585,8 @@
 				8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */,
 				824717352BC9163C005E9631 /* NetworkManager+Report.swift */,
 				42531AE92C8724F9001CA803 /* NetworkManager+Board.swift */,
-				2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */,
+				2CD2B5A82C88753800E17B6A /* NetworkManager+Comment.swift */,
+				827169182C9EB8BC00D8BF81 /* NetworkManager+Notification.swift */,
 			);
 			name = NetworklManager;
 			sourceTree = "<group>";
@@ -950,6 +959,7 @@
 				82398F082B98ABB4006269E0 /* DTO.swift */,
 				823736AA2C674B560057B9CF /* Post.swift */,
 				826933542C743D370004E0B5 /* Answer.swift */,
+				827169162C9EB68C00D8BF81 /* QappleNoti.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -995,6 +1005,7 @@
 				824717312BC9140A005E9631 /* ReportResponse.swift */,
 				42531AEB2C8727B8001CA803 /* BoardResponse.swift */,
 				2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */,
+				8271691C2C9EB95000D8BF81 /* NotificationResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1009,6 +1020,7 @@
 				8247172F2BC913B9005E9631 /* ReportRequest.swift */,
 				42531AED2C87488A001CA803 /* BoardRequest.swift */,
 				2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */,
+				8271691A2C9EB91A00D8BF81 /* NotificationRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1250,6 +1262,7 @@
 				F392AC462B8B2E370069AD7B /* SignUpTermsAgreementView.swift in Sources */,
 				07D96ED62B79E7C000754819 /* TodayQuestionViewModel.swift in Sources */,
 				F37C178A2B873436005E5072 /* MyPageView.swift in Sources */,
+				827169192C9EB8BC00D8BF81 /* NetworkManager+Notification.swift in Sources */,
 				07BF364C2B8C598B0047F3F7 /* Keyword.swift in Sources */,
 				F3EA67032B764504002417CE /* BaseResponse.swift in Sources */,
 				827897B52BBC41A800B3D6F0 /* WrittenAnswerView.swift in Sources */,
@@ -1277,6 +1290,7 @@
 				F36B0EFA2B86746D009EBE1D /* KeyboardReadable.swift in Sources */,
 				F37C17A72B889999005E5072 /* QuestionViewModel.swift in Sources */,
 				07D96ED82B79E7EB00754819 /* TodayQuestionView.swift in Sources */,
+				8271691B2C9EB91A00D8BF81 /* NotificationRequest.swift in Sources */,
 				07D96EB32B77737500754819 /* Color+Extension.swift in Sources */,
 				67B1850C2B9436270057E6BB /* AnswerListView.swift in Sources */,
 				8247172C2BC8C9B5005E9631 /* WrittenAnswerViewModel.swift in Sources */,
@@ -1348,8 +1362,9 @@
 				073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */,
 				824717342BC9144F005E9631 /* ReportType.swift in Sources */,
 				82F7041F2C6DD29D00479206 /* TabType.swift in Sources */,
+				8271691D2C9EB95000D8BF81 /* NotificationResponse.swift in Sources */,
 				2CD2B5A72C771C3500E17B6A /* CommentViewModel.swift in Sources */,
-				2CD2B5A92C88753800E17B6A /* NetworkManager + Comment.swift in Sources */,
+				2CD2B5A92C88753800E17B6A /* NetworkManager+Comment.swift in Sources */,
 				F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */,
 				828715C02B9AC866001627DB /* AnswerRequest.swift in Sources */,
 				8295BDAA2BA04D1300115FA8 /* SignUpEmailView.swift in Sources */,
@@ -1360,6 +1375,7 @@
 				825226EA2BA857FF006998E8 /* String+Extension.swift in Sources */,
 				823736AE2C6752E50057B9CF /* BulletinBoardSeeMoreSheetView.swift in Sources */,
 				828A03DF2BAC09EF0038CF91 /* LoadingView.swift in Sources */,
+				827169172C9EB68C00D8BF81 /* QappleNoti.swift in Sources */,
 				82D2BD4B2C67305000082A58 /* BulletinBoardView.swift in Sources */,
 				82C379142B9347E500CC7708 /* AlertView.swift in Sources */,
 				82CDA7742BB270690031AEB4 /* PopGestureDisabledViewModifier.swift in Sources */,

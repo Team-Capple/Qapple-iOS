@@ -17,6 +17,7 @@ struct SectionInfo: Identifiable {
 final class MyPageViewModel: ObservableObject {
     
     @Published var isDeletedMember: Bool
+    @Published var isLoading: Bool = true
     
     // 섹션 정보
     let sectionInfos: [SectionInfo] = [
@@ -71,10 +72,13 @@ extension MyPageViewModel {
     /// 마이페이지 정보를 업데이트합니다.
     @MainActor
     func requestMyPageInfo() async {
+        isLoading = true
         do {
             self.myPageInfo = try await NetworkManager.requestMyPage()
+            isLoading = false
         } catch {
             print("마이페이지 정보 로드 실패")
+            isLoading = false
         }
     }
     

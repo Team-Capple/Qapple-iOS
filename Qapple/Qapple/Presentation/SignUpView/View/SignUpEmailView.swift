@@ -86,11 +86,10 @@ struct SignUpEmailView: View {
                     Spacer()
                         .frame(height: 18)
                     
-                    HStack {
+                    HStack(alignment: .top) {
                         Text("* 아카데미 계정 아이디를 입력해주세요")
                             .font(Font.pretendard(.semiBold, size: 14))
                             .foregroundStyle(TextLabel.sub3)
-                            .frame(height: 10)
                         
                         Spacer()
                         

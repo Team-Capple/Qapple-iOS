@@ -41,151 +41,158 @@ struct ProfileEditView: View {
     }
     
     var body: some View {
-        
-        VStack(alignment: .leading, spacing: 0) {
-            CustomNavigationBar(
-                leadingView: {
-                    CustomNavigationBackButton(buttonType: .arrow) {
-                        pathModel.pop()
-                    }
-                },
-                principalView: {
-                    Text("프로필 수정")
-                        .font(Font.pretendard(.semiBold, size: 15))
-                        .foregroundStyle(TextLabel.main)
-                },
-                trailingView: {
-                    Button {
-                        Task {
-                            do {
-                                try await viewModel.requestEditProfile()
-                                pathModel.pop()
-                            } catch {
-                                isEditFailed.toggle()
-                            }
+        ZStack {
+            VStack(alignment: .leading, spacing: 0) {
+                CustomNavigationBar(
+                    leadingView: {
+                        CustomNavigationBackButton(buttonType: .arrow) {
+                            pathModel.pop()
                         }
-                    } label: {
-                        Text("완료")
-                            .font(.pretendard(.semiBold, size: 16))
-                            .foregroundStyle(viewModel.isNicknameCanUse ? BrandPink.text : TextLabel.sub4)
-                    }
-                    .disabled(!viewModel.isNicknameCanUse)
-                    .alert("회원 정보 수정에 실패했습니다", isPresented: $isEditFailed) {
-                        Button("확인", role: .none, action: {})
-                    } message: {
-                        Text("다시 요청해주세요")
-                    }
-                },
-                backgroundColor: Background.second)
-            
-            HStack {
-                Spacer()
-                
-                Button {
-                    // TODO: 이미지 변경
-                } label: {
-                    Image(.profileDummy)
-                        .resizable()
-                        .frame(width: 72, height: 72)
-                        .background(Color.white)
-                        .clipShape(Circle())
-                        .padding(EdgeInsets(top: 24, leading: 0, bottom: 32, trailing: 0))
-                }
-                .disabled(true)
-                
-                Spacer()
-            }
-            
-            Spacer().frame(height: 32)
-            
-            VStack(alignment: .leading) {
-                Text("닉네임")
-                    .foregroundStyle(TextLabel.sub3)
-                    .font(Font.pretendard(.medium, size: 14))
-                    .frame(height: 10)
-                
-                Spacer().frame(height: 21)
-                
-                ZStack(alignment: .leading) {
-                    if viewModel.nickname.isEmpty {
-                        Text("닉네임을 입력해주세요")
-                            .foregroundStyle(TextLabel.placeholder)
-                            .font(Font.pretendard(.semiBold, size: 20))
-                            .frame(height: 14)
-                    }
-                    
-                    HStack(spacing: 0) {
-                        TextField("", text: $viewModel.nickname)
+                    },
+                    principalView: {
+                        Text("프로필 수정")
+                            .font(Font.pretendard(.semiBold, size: 15))
                             .foregroundStyle(TextLabel.main)
-                            .font(Font.pretendard(.semiBold, size: 20))
-                            .frame(height: 14)
-                            .autocorrectionDisabled()
-                            .onChange(of: viewModel.nickname) { _ , nickname in
-                                
-                                // 닉네임 중복 검사 값  및 사용 가능 초기화
-                                isNicknameCheckButtonTapped = false
-                                viewModel.isNicknameCanUse = false
-                                
-                                // 글자 수 제한 로직
-                                if nickname.count > nicknameLimit {
-                                    viewModel.nickname = String(nickname.prefix(nicknameLimit))
-                                    return
-                                }
-                                
-                                // 띄어쓰기 방지 로직
-                                viewModel.nickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
-                                
-                                // 특수문자 방지 로직
-                                viewModel.koreaLangCheck(nickname)
-                            }
-                        
-                        Text("\(viewModel.nickname.count)/\(nicknameLimit)")
-                            .foregroundStyle(TextLabel.placeholder)
-                            .font(Font.pretendard(.semiBold, size: 14))
-                            .frame(height: 8)
-                    }
-                    .frame(height: 14)
-                }
-                
-                Spacer().frame(height: 16)
-                
-                Rectangle()
-                    .frame(height: 2)
-                    .foregroundStyle(viewModel.isNicknameCanUse ? GrayScale.wh : (viewModel.nickname.isEmpty ? GrayScale.wh : BrandPink.button))
-                
-                Spacer().frame(height: 8)
-                
-                HStack {
-                    Text(!isNicknameCheckButtonTapped ? beforeDescription : afterDescription)
-                    .font(.pretendard(.semiBold, size: 14))
-                    .foregroundStyle(viewModel.isNicknameFieldAvailable ? TextLabel.sub1 : Context.warning)
-                    
-                    Spacer()
-                    
-                    if viewModel.nickname != defaultNickName {
+                    },
+                    trailingView: {
                         Button {
                             Task {
-                                await viewModel.requestNicknameCheck()
-                                isNicknameCheckButtonTapped = true
+                                do {
+                                    try await viewModel.requestEditProfile()
+                                    pathModel.pop()
+                                } catch {
+                                    isEditFailed.toggle()
+                                }
                             }
                         } label: {
-                            Text("중복 검사")
-                                .font(.pretendard(.medium, size: 14))
-                                .foregroundStyle((viewModel.nickname.isEmpty || !viewModel.isNicknameFieldAvailable) ? TextLabel.sub4 : TextLabel.main)
+                            Text("완료")
+                                .font(.pretendard(.semiBold, size: 16))
+                                .foregroundStyle(viewModel.isNicknameCanUse ? BrandPink.text : TextLabel.sub4)
                         }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(
-                            (viewModel.nickname.isEmpty || !viewModel.isNicknameFieldAvailable) ? GrayScale.secondaryButton : BrandPink.button)
-                        .cornerRadius(20, corners: .allCorners)
-                        .disabled(viewModel.nickname.isEmpty ||
-                                  !viewModel.isNicknameFieldAvailable)
+                        .disabled(!viewModel.isNicknameCanUse)
+                        .alert("회원 정보 수정에 실패했습니다", isPresented: $isEditFailed) {
+                            Button("확인", role: .none, action: {})
+                        } message: {
+                            Text("다시 요청해주세요")
+                        }
+                    },
+                    backgroundColor: Background.second)
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        // TODO: 이미지 변경
+                    } label: {
+                        Image(.profileDummy)
+                            .resizable()
+                            .frame(width: 72, height: 72)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .padding(EdgeInsets(top: 24, leading: 0, bottom: 32, trailing: 0))
                     }
+                    .disabled(true)
+                    
+                    Spacer()
                 }
                 
-                Spacer()
+                Spacer().frame(height: 32)
+                
+                VStack(alignment: .leading) {
+                    Text("닉네임")
+                        .foregroundStyle(TextLabel.sub3)
+                        .font(Font.pretendard(.medium, size: 14))
+                        .frame(height: 10)
+                    
+                    Spacer().frame(height: 21)
+                    
+                    ZStack(alignment: .leading) {
+                        if viewModel.nickname.isEmpty {
+                            Text("닉네임을 입력해주세요")
+                                .foregroundStyle(TextLabel.placeholder)
+                                .font(Font.pretendard(.semiBold, size: 20))
+                                .frame(height: 14)
+                        }
+                        
+                        HStack(spacing: 0) {
+                            TextField("", text: $viewModel.nickname)
+                                .foregroundStyle(TextLabel.main)
+                                .font(Font.pretendard(.semiBold, size: 20))
+                                .frame(height: 14)
+                                .autocorrectionDisabled()
+                                .onChange(of: viewModel.nickname) { _ , nickname in
+                                    
+                                    // 닉네임 중복 검사 값  및 사용 가능 초기화
+                                    isNicknameCheckButtonTapped = false
+                                    viewModel.isNicknameCanUse = false
+                                    
+                                    // 글자 수 제한 로직
+                                    if nickname.count > nicknameLimit {
+                                        viewModel.nickname = String(nickname.prefix(nicknameLimit))
+                                        return
+                                    }
+                                    
+                                    // 띄어쓰기 방지 로직
+                                    viewModel.nickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    
+                                    // 특수문자 방지 로직
+                                    viewModel.koreaLangCheck(nickname)
+                                }
+                            
+                            Text("\(viewModel.nickname.count)/\(nicknameLimit)")
+                                .foregroundStyle(TextLabel.placeholder)
+                                .font(Font.pretendard(.semiBold, size: 14))
+                                .frame(height: 8)
+                        }
+                        .frame(height: 14)
+                    }
+                    
+                    Spacer().frame(height: 16)
+                    
+                    Rectangle()
+                        .frame(height: 2)
+                        .foregroundStyle(viewModel.isNicknameCanUse ? GrayScale.wh : (viewModel.nickname.isEmpty ? GrayScale.wh : BrandPink.button))
+                    
+                    Spacer().frame(height: 8)
+                    
+                    HStack {
+                        Text(!isNicknameCheckButtonTapped ? beforeDescription : afterDescription)
+                            .font(.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(viewModel.isNicknameFieldAvailable ? TextLabel.sub1 : Context.warning)
+                        
+                        Spacer()
+                        
+                        if viewModel.nickname != defaultNickName {
+                            Button {
+                                Task {
+                                    await viewModel.requestNicknameCheck()
+                                    isNicknameCheckButtonTapped = true
+                                }
+                            } label: {
+                                Text("중복 검사")
+                                    .font(.pretendard(.medium, size: 14))
+                                    .foregroundStyle((viewModel.nickname.isEmpty || !viewModel.isNicknameFieldAvailable) ? TextLabel.sub4 : TextLabel.main)
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(
+                                (viewModel.nickname.isEmpty || !viewModel.isNicknameFieldAvailable) ? GrayScale.secondaryButton : BrandPink.button)
+                            .cornerRadius(20, corners: .allCorners)
+                            .disabled(viewModel.nickname.isEmpty ||
+                                      !viewModel.isNicknameFieldAvailable)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
             }
-            .padding(.horizontal, 24)
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.primary)
+            }
         }
         .background(Background.second)
         .navigationBarBackButtonHidden()

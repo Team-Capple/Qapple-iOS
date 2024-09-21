@@ -145,6 +145,12 @@ struct MyPageView: View {
             .sheet(isPresented: $isShowingMailView) {
                 MailView(result: $mailResult)
             }
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.primary)
+            }
         }
     }
 }
