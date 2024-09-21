@@ -66,7 +66,7 @@ final class Router: ObservableObject, NavigationRouter {
             case .alert:
                 AlertView()
             case .report(answerId: let answerId):
-                ReportView(answerId: answerId)
+                ReportView(answerId: answerId, boardId: -1)
             }
         } else if pathType == .bulletinBoard {
             let view = view as! BulletinBoardPathType
@@ -82,6 +82,8 @@ final class Router: ObservableObject, NavigationRouter {
                 BulletinSearchView()
             case .comment(post: let post):
                 CommentView(post: post)
+            case .report(boardId: let boardId):
+                ReportView(answerId: -1, boardId: boardId)
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
@@ -145,6 +147,7 @@ enum BulletinBoardPathType: Hashable {
     case alert
     case search
     case comment(post: Post)
+    case report(boardId: Int)
 }
 
 /// 내 정보 Tab

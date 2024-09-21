@@ -25,9 +25,11 @@ struct BulletinBoardSeeMoreSheetView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
     @State private var isRemovePostAlertPresented = false
+    @State private var isRemoveCompleteAlertPresented = false
     
     let sheetType: SheetType
     let post: Post
@@ -40,7 +42,9 @@ struct BulletinBoardSeeMoreSheetView: View {
                 tapAction: {
                     switch sheetType {
                     case .mine: isRemovePostAlertPresented.toggle()
-                    case .others: break // TODO: 신고하기 View 이동
+                    case .others:
+                        dismiss()
+                        pathModel.pushView(screen: BulletinBoardPathType.report(boardId: post.boardId))
                     }
                 }
             )
@@ -48,11 +52,16 @@ struct BulletinBoardSeeMoreSheetView: View {
         .alert("게시글을 삭제할까요?", isPresented: $isRemovePostAlertPresented) {
             Button("취소", role: .cancel) {}
             Button("삭제하기", role: .destructive) {
-                bulletinBoardUseCase.effect(.removePost(postIndex: post.anonymityIndex))
-                dismiss()
+                bulletinBoardUseCase.effect(.removePost(postIndex: post.boardId))
+                isRemoveCompleteAlertPresented.toggle()
             }
         } message: {
             Text("삭제 된 게시글은 복구할 수 없어요")
+        }
+        .alert("삭제가 완료됐어요", isPresented: $isRemoveCompleteAlertPresented) {
+            Button("확인", role: .none) {
+                dismiss()
+            }
         }
         .onAppear {
             print("현재 선택된 포스트: \(post.content)")
@@ -92,13 +101,15 @@ private struct SeeMoreCellButton: View {
     BulletinBoardSeeMoreSheetView(
         sheetType: .others,
         post: Post(
-            anonymityIndex: 1,
+            boardId: 1,
+            writerId: 2,
+            content: "캐플짱",
+            heartCount: 20,
+            commentCount: 3,
+            createAt: .now,
             isMine: true,
-            content: "오늘 날씨가 정말 좋네요!",
-            isLike: true,
-            likeCount: 10,
-            commentCount: 2,
-            writingDate: Date()
+            isReported: false,
+            isLiked: false
         )
     )
 }
