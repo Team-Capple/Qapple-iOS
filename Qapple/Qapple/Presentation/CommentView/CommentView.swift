@@ -51,6 +51,11 @@ struct CommentView: View {
                     ProgressView()
                         .progressViewStyle(.circular)
                 }
+                
+                if commentViewModel.comments.isEmpty {
+                    Text("작성된 댓글이 없습니다.\n 댓글을 달아보세요!")
+                        .multilineTextAlignment(.center)
+                }
             }
         }
         .onTapGesture {
