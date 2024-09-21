@@ -64,7 +64,7 @@ struct MailView: UIViewControllerRepresentable {
         """
         
         vc.setToRecipients(["0.team.capple@gmail.com"])
-        vc.setSubject("[Capple 캐플] 문의 사항")
+        vc.setSubject("[Qapple 캐플] 문의 사항")
         vc.setMessageBody(bodyString, isHTML: false)
         return vc
     }
