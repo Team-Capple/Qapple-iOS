@@ -75,7 +75,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("러너 \(answer.writerId + 1)")
+            Text("러너 \(answer.learnerIndex + 1)")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -168,7 +168,7 @@ private struct ReportAnswerCell: View {
                         .resizable()
                         .frame(width: 28, height: 28)
                     
-                    Text("러너 \(answer.writerId + 1)")
+                    Text("러너 \(answer.learnerIndex + 1)")
                         .pretendard(.semiBold, 14)
                         .foregroundStyle(GrayScale.icon)
                         .padding(.leading, 8)
@@ -209,6 +209,7 @@ private struct ReportAnswerCell: View {
         answer: Answer(
             id: 0,
             writerId: 0,
+            learnerIndex: 0,
             content: "아! 이게 질문이 아니고 답변이구나!",
             writingDate: .now,
             isMine: true,

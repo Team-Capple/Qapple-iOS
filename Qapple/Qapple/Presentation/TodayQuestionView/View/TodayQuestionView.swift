@@ -280,12 +280,13 @@ private struct AnswerPreview: View {
                     .padding(.horizontal, 24)
                     
                     // 답변 있는 케이스
-                    ForEach(viewModel.answerList, id: \.self) { answer in
+                    ForEach(Array(viewModel.answerList), id: \.self) { answer in
                         VStack {
                             AnswerCell(
                                 answer: Answer(
                                     id: answer.answerId,
                                     writerId: answer.writerId,
+                                    learnerIndex: viewModel.learnerIndex(to: answer),
                                     content: answer.content,
                                     writingDate: answer.writeAt.ISO8601ToDate,
                                     isMine: answer.isMine,

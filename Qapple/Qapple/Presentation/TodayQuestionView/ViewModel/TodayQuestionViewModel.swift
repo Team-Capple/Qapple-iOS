@@ -9,24 +9,56 @@ import Foundation
 
 final class TodayQuestionViewModel: ObservableObject {
     
+    /// Key: writerId
+    /// Value: Index
+    typealias LearnerDictionary = [Int: Int]
+    
     let dateManager = QuestionTimeManager()
     var timer: Timer?
     
     @Published var remainingTime = TimeInterval()
-    
     @Published var timeZone: QuestionTimeZone
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content]
     @Published var isLoading = true
     
+    private var learnerDictionary: LearnerDictionary = [:]
+    
     init() {
         let currentTimeZone = dateManager.fetchTimezone()
         self.timeZone = currentTimeZone
         
         // 변수 초기화
-        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
+        self.mainQuestion = .init(
+            questionId: 0,
+            questionStatus: "",
+            content: "",
+            isAnswered: false
+        )
+        
         self.answerList = []
+    }
+}
+
+// MARK: - 러너 인덱스
+
+extension TodayQuestionViewModel {
+    
+    /// 러너 인덱스를 반환합니다.
+    func learnerIndex(to answer: AnswerResponse.AnswersOfQuestion.Content) -> Int {
+        if let index = learnerDictionary[answer.writerId] {
+            return index
+        } else {
+            return 0
+        }
+    }
+    
+    /// 러너 인덱스가 담긴 Dictionary를 생성합니다.
+    private func createLearnerDictionary() {
+        for (index, answer) in self.answerList.enumerated() {
+            learnerDictionary.updateValue(index, forKey: answer.writerId)
+        }
     }
 }
 
@@ -95,6 +127,7 @@ extension TodayQuestionViewModel {
                 ))
             let answerList = Array(answerPreview.content.prefix(3))
             self.answerList = answerList
+            createLearnerDictionary()
         } catch {
             print("답변 프리뷰 업데이트 실패")
         }

@@ -44,7 +44,6 @@ struct BulletinBoardView: View {
             bulletinBoardUseCase.isClickComment = false
             // print(bulletinBoardUseCase.isClickComment)
             bulletinBoardUseCase.effect(.fetchPost)
-            
         }
     }
 }

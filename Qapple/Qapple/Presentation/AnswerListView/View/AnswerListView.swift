@@ -211,6 +211,7 @@ private struct AnswerScrollView: View {
                         answer: Answer(
                             id: answer.answerId,
                             writerId: answer.writerId,
+                            learnerIndex: 0,
                             content: answer.content,
                             writingDate: answer.writeAt.ISO8601ToDate,
                             isMine: answer.isMine,
