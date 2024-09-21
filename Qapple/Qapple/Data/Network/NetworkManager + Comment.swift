@@ -11,10 +11,10 @@ import Foundation
 extension NetworkManager {
     
     // 해당 게시글에 댓글을 불러옵니다.
-    static func fetchComments(boardId: Int) async throws -> CommentResponse.Comments {
+    static func fetchComments(boardId: Int, pageNumber: Int) async throws -> CommentResponse.Comments {
         let urlString = ApiEndpoints.basicURLString(path: .comments)
         
-        guard let url = URL(string: "\(urlString)/\(boardId)") else {
+        guard let url = URL(string: "\(urlString)/\(boardId)?pageNumber=\(pageNumber)&pageSize=100") else {
             print("잘못된 URL 입니다! in CommentView")
             throw NetworkError.cannotCreateURL
         }
@@ -43,7 +43,7 @@ extension NetworkManager {
             
             let result = try JSONDecoder().decode(BaseResponse<CommentResponse.Comments>.self, from: data)
             
-//            print(result)
+            print(result)
             
             return result.result
         } catch {

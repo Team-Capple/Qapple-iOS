@@ -9,21 +9,21 @@ import SwiftUI
 
 final class CommentViewModel: ObservableObject {
 
-    @Published public var comments: [CommentResponse.Comments.Comment] = []
+    @Published public var comments: [CommentResponse.Comment] = []
     
     // 호출 flag
     @Published public var isLoading: Bool = false
     
     // 댓글 불러오기
     @MainActor
-    public func loadComments(boardId: Int) async {
+    public func loadComments(boardId: Int, pageNumber: Int) async {
         self.isLoading = true
         
         do {
-            let result = try await NetworkManager.fetchComments(boardId: boardId)
+            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId, pageNumber: pageNumber)
+            let content = fetchResult.content
             
-            self.comments = anonymizeComment(result.boardCommentInfos)
-            
+            self.comments = anonymizeComment(content)
         } catch {
             print(error.localizedDescription)
         }
@@ -93,7 +93,7 @@ extension CommentViewModel {
 
 extension CommentViewModel {
     // 이름을 익명화 해주는 method
-    private func anonymizeComment(_ comments: [CommentResponse.Comments.Comment]) -> [CommentResponse.Comments.Comment] {
+    private func anonymizeComment(_ comments: [CommentResponse.Comment]) -> [CommentResponse.Comment] {
         // 아무개 번호
         var nameIndex = 0
         // 중복 여부 판단하는 딕셔너리
@@ -110,12 +110,14 @@ extension CommentViewModel {
                 nameArray.updateValue(comment.name, forKey: nameIndex)
                 
                 
-                return CommentResponse.Comments.Comment(
+                return CommentResponse.Comment(
                     id: comment.id,
                     name: "러너 \(nameIndex)",
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
+                    isMine: comment.isMine,
+                    isReport: comment.isReport,
                     createdAt: comment.createdAt)
             } else { // 한번 이상 나온 writer일 경우
                 // 해당 value의 key 값을 찾아 name의 index로 제공
@@ -123,12 +125,14 @@ extension CommentViewModel {
                     .filter { $0.value == comment.name }
                     .first!.key
                 
-                return CommentResponse.Comments.Comment(
+                return CommentResponse.Comment(
                     id: comment.id,
                     name: "러너 \(currentIndex)",
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
+                    isMine: comment.isMine,
+                    isReport: comment.isReport,
                     createdAt: comment.createdAt)
             }
         }

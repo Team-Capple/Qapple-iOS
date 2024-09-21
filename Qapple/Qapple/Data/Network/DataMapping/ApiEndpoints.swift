@@ -44,9 +44,9 @@ enum ApiEndpoints {
         case report = "/reports"
         
         // MARK: - 댓글
-        case comments = "/boardComments"
-        case createComment = "/boardComments/board"
-        case likeComment = "/boardComments/heart"
+        case comments = "/board-comments"
+        case createComment = "/board-comments/board"
+        case likeComment = "/board-comments/heart"
     }
 }
 

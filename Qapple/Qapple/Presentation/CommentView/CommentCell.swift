@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentCell: View {
-    let comment: CommentResponse.Comments.Comment
+    let comment: CommentResponse.Comment
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let anchorWidth: CGFloat = 73
@@ -96,10 +96,10 @@ struct CommentCell: View {
             VStack {
                 // 댓글 좋아요 버튼
                 Button {
-                    // TODO: boardId 수정
+                    // TODO: Page Number 수정
                     Task.init {
                         await commentViewModel.act(.like(id: comment.id))
-                        await commentViewModel.loadComments(boardId: post.anonymityIndex)
+                        await commentViewModel.loadComments(boardId: post.anonymityIndex, pageNumber: 0)
                     }
                 } label: {
                     Image(systemName: comment.isLiked ? "heart.fill" : "heart")
