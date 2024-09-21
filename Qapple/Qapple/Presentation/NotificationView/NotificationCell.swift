@@ -8,12 +8,7 @@
 import SwiftUI
 
 struct NotificationCell: View {
-    let targetContent: String
-    let targetType: NotificationUseCase.NotificationTargetType
-    let actionType: NotificationUseCase.NotificationActionType
-    let commentContent: String?
-    let timeStamp: Date
-    let likeCount: Int
+    let notification: QappleNoti
     let seeMoreAction: () -> Void
     
     var body: some View {
@@ -21,9 +16,8 @@ struct NotificationCell: View {
             seeMoreAction()
         } label: {
             VStack(alignment: .leading, spacing: 12) {
-                TitleView(targetType: targetType, actionType: actionType, timeStamp: timeStamp, likeCount: likeCount)
-                
-                ContentView(targetContent: targetContent, commentContent: commentContent)
+                TitleView(notification: notification)
+                ContentView(notification: notification)
             }
             .padding(.horizontal)
         }
@@ -34,40 +28,18 @@ struct NotificationCell: View {
 // MARK: - TitleView
 
 private struct TitleView: View {
-    let targetType: NotificationUseCase.NotificationTargetType
-    let actionType: NotificationUseCase.NotificationActionType
-    let timeStamp: Date
-    let likeCount: Int
+    
+    let notification: QappleNoti
     
     var body: some View {
         HStack(spacing: 8) {
-            if actionType == .question {
-                Text(actionType.description + targetType.description)
-                    .font(.pretendard(.medium, size: 16))
-                    .foregroundStyle(TextLabel.main)
-                    .lineSpacing(6)
-                    .multilineTextAlignment(.leading)
-            } else if actionType == .like {
-                Text("\(likeCount)개의 \(actionType.description)")
-                    .font(.pretendard(.medium, size: 16))
-                    .foregroundStyle(TextLabel.main)
-                    .lineSpacing(6)
-                    .multilineTextAlignment(.leading)
-            } else if actionType == .comment && targetType == .answer {
-                Text("누군가 같은 게시물에 \(actionType.description)")
-                    .font(.pretendard(.medium, size: 16))
-                    .foregroundStyle(TextLabel.main)
-                    .lineSpacing(6)
-                    .multilineTextAlignment(.leading)
-            } else{
-                Text("누군가 내 \(targetType.description)에 \(actionType.description)")
-                    .font(.pretendard(.medium, size: 16))
-                    .foregroundStyle(TextLabel.main)
-                    .lineSpacing(6)
-                    .multilineTextAlignment(.leading)
-            }
+            Text(notification.title)
+                .font(.pretendard(.medium, size: 16))
+                .foregroundStyle(TextLabel.main)
+                .lineSpacing(6)
+                .multilineTextAlignment(.leading)
             
-            Text(timeStamp.timeAgo)
+            Text(notification.createAt.timeAgo)
                 .font(.pretendard(.regular, size: 14))
                 .foregroundStyle(TextLabel.sub4)
             
@@ -79,18 +51,16 @@ private struct TitleView: View {
 // MARK: - ContentView
 
 private struct ContentView: View {
-    let targetContent: String
-    let commentContent: String?
+    
+    let notification: QappleNoti
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            if let comment = commentContent {
-                Text(comment)
+                Text(notification.subtitle ?? "")
                     .pretendard(.medium, 14)
                     .foregroundColor(.sub2)
-            }
             
-            Text(targetContent)
+            Text(notification.content)
                 .pretendard(.medium, 14)
                 .foregroundColor(.sub4)
         }
@@ -110,12 +80,15 @@ struct PressableButtonStyle: ButtonStyle {
 
 #Preview {
     NotificationCell(
-        targetContent: "'어떤 게시글인지가 들어갑니다.'",
-        targetType: .board,
-        actionType: .comment,
-        commentContent: "'댓글내용이 들어갑니다'",
-        timeStamp: Date(),
-        likeCount: 18
+        notification: .init(
+            boardId: "0",
+            boardCommentId: "0",
+            title: "누군가가 내 게시글에 좋아요 누름!",
+            subtitle: "와 진짜?",
+            content: "대박박",
+            createAt: .now,
+            isReadStatus: false
+        )
     ) {
         print("해당 답변")
     }

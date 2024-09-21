@@ -43,17 +43,9 @@ private struct NotificationContentView: View {
                     trailingView: {},
                     backgroundColor: Background.first)
                 
-                ForEach(notificationUseCase._state.indices, id: \.self) { index in
-                    let notification = notificationUseCase._state[index]
+                ForEach(notificationUseCase._state.notificationList) { notification in
                     
-                    NotificationCell(
-                        targetContent: notification.targetContent,
-                        targetType: notification.targetType,
-                        actionType: notification.actionType,
-                        commentContent: notification.commentContent,
-                        timeStamp: notification.timeStamp,
-                        likeCount: notification.likeCount
-                    ){
+                    NotificationCell(notification: notification) {
                         print("해당 답변") // TODO: 네비게이션 지정 or 버튼 제거
                     }
                     
