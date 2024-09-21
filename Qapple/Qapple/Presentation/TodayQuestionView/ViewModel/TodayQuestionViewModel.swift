@@ -140,9 +140,9 @@ extension TodayQuestionViewModel {
     /// 질문 타이틀 텍스트를 반환합니다.
     var titleText: String {
         var text = ""
-        if state == .creating { text = "오늘의 질문을 만들고 있어요" }
-        else if state == .ready { text = "오늘의 질문이\n준비되었어요!" }
-        else if state == .complete { text = "오늘의 답변을\n완료했어요!" }
+        if state == .creating { text = "질문을 만들고 있어요" }
+        else if state == .ready { text = "질문이 준비되었어요!" }
+        else if state == .complete { text = "답변을 완료했어요!" }
         return text
     }
     

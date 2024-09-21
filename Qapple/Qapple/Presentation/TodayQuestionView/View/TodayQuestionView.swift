@@ -65,16 +65,11 @@ private struct HeaderView: View {
             Color(Background.second)
                 .ignoresSafeArea()
             
-            VStack {
-                Spacer()
-                    .frame(height: 12)
-                
+            VStack(spacing: 0) {
                 HeaderContentView(viewModel: viewModel)
-                
-                Spacer()
-                    .frame(height: 20)
+                    .padding(.bottom, 12)
             }
-            .frame(height: 260)
+            .frame(height: 230)
         }
     }
 }
@@ -92,62 +87,51 @@ private struct HeaderContentView: View {
         
         // 1. 질문 생성 중
         if viewModel.state == .creating {
-            Text(viewModel.titleText)
-                .font(.pretendard(.bold, size: 16))
-                .foregroundStyle(.wh)
-                .frame(height: 11)
-            
-            Spacer()
-                .frame(height: 16)
-            
-            Text(viewModel.timeString())
-                .font(.pretendard(.bold, size: 38))
-                .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
-                .frame(height: 27)
-                .monospacedDigit()
-                .kerning(-2)
-            
-            Spacer()
-                .frame(height: 10)
-            
             Image(.questionCreate)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)
+            
+            Text(viewModel.titleText)
+                .font(.pretendard(.bold, size: 23))
+                .tracking(-1)
+                .foregroundStyle(.wh)
+                .padding(.top, 4)
+            
+//            Text(viewModel.timeString())
+//                .font(.pretendard(.bold, size: 38))
+//                .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
+//                .frame(height: 27)
+//                .monospacedDigit()
+//                .kerning(-2)
         }
         
         // 2. 질문 준비 완료
         else if viewModel.state == .ready {
-            Text(viewModel.titleText)
-                .font(.pretendard(.bold, size: 23))
-                .foregroundStyle(.wh)
-                .lineSpacing(6)
-                .multilineTextAlignment(.center)
-            
-            Spacer()
-                .frame(height: 10)
-            
             Image(.questionReady)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)
+            
+            Text(viewModel.titleText)
+                .font(.pretendard(.bold, size: 23))
+                .tracking(-1)
+                .foregroundStyle(.wh)
+                .padding(.top, 4)
         }
         
         // 3. 답변 완료
         else if viewModel.state == .complete {
-            Text(viewModel.titleText)
-                .font(.pretendard(.bold, size: 23))
-                .foregroundStyle(.wh)
-                .lineSpacing(6)
-                .multilineTextAlignment(.center)
-            
-            Spacer()
-                .frame(height: 10)
-            
             Image(.questionComplete)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 120 , height: 120)
+            
+            Text(viewModel.titleText)
+                .font(.pretendard(.bold, size: 23))
+                .tracking(-1)
+                .foregroundStyle(.wh)
+                .padding(.top, 4)
         }
     }
 }
