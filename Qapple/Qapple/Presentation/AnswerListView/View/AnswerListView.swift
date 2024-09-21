@@ -195,7 +195,7 @@ private struct AnswerScrollView: View {
     var body: some View {
         
         HStack(alignment: .top) {
-            Text("\(viewModel.answers.count)개의 질문")
+            Text("\(viewModel.answerList.count)개의 질문")
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.sub3)
             Spacer()
@@ -203,15 +203,13 @@ private struct AnswerScrollView: View {
         .padding(.leading, 20)
         
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
-                index,
-                answer in
+            ForEach(viewModel.answerList, id: \.self) { answer in
                 VStack {
                     AnswerCell(
                         answer: Answer(
                             id: answer.answerId,
                             writerId: answer.writerId,
-                            learnerIndex: 0,
+                            learnerIndex: viewModel.learnerIndex(to: answer),
                             content: answer.content,
                             writingDate: answer.writeAt.ISO8601ToDate,
                             isMine: answer.isMine,
