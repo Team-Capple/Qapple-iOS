@@ -38,6 +38,7 @@ struct BulletinPostingView: View {
         .onTapGesture {
             isTextFieldFocused.toggle()
         }
+        .disabled(postingUseCase.isLoading)
         .alert("정말 그만두시겠어요?", isPresented: $isBackAlertPresented) {
             HStack {
                 Button("취소", role: .cancel) {}
@@ -83,6 +84,7 @@ private struct NavigationBar: View {
                         Task {
                             try await postingUseCase.effect(.uploadPost)
                             pathModel.pop()
+                            postingUseCase.isLoading = false
                         }
                     }
                 }

@@ -206,7 +206,7 @@ private struct ReportBoardCell: View {
     var body: some View {
         if !isReportContentShow {
             VStack(alignment: .leading, spacing: 16) {
-                Text("신고 되어 내용을 검토 중인 답변이에요")
+                Text("신고 되어 내용을 검토 중인 게시글이에요")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.sub3)
                     .padding(.horizontal, 16)
