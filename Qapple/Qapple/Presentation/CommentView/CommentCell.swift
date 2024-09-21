@@ -16,6 +16,8 @@ struct CommentCell: View {
     @State private var hOffset: CGFloat = 0
     @State private var anchor: CGFloat = 0
     @State private var isCellToggled: Bool = false
+    @State private var isDelete: Bool = false
+    @State private var isDeleteComplete: Bool = false
     
     @ObservedObject var commentViewModel: CommentViewModel
     
@@ -89,6 +91,20 @@ struct CommentCell: View {
                     .foregroundStyle(.main)
             }
             .padding(.vertical, 16)
+            .alert(isPresented: $isDelete) {
+                SwiftUI.Alert(
+                    title: Text("정말로 댓글을 삭제하시겠습니까?"),
+                    message: Text("한 번 삭제된 댓글은 복구할 수 없습니다."),
+                    primaryButton: SwiftUI.Alert.Button.destructive(Text("삭제"), action: {
+                        Task.init {
+                            // TODO: Page Number 수정
+                            await commentViewModel.act(.delete(id: comment.id))
+                            await commentViewModel.loadComments(boardId: self.post.anonymityIndex, pageNumber: 0)
+                            self.isDeleteComplete.toggle()
+                        }
+                    }),
+                    secondaryButton: SwiftUI.Alert.Button.cancel(Text("취소")))
+            }
             
             Spacer()
             
@@ -117,6 +133,9 @@ struct CommentCell: View {
                 }
             }
             .padding(.top, 16)
+            .alert(isPresented: $isDeleteComplete) {
+                SwiftUI.Alert(title: Text("댓글이 삭제되었습니다!"), dismissButton: SwiftUI.Alert.Button.cancel(Text("확인")))
+            }
         }
         .padding(.horizontal, 16)
         .background(Color.bk)
@@ -125,11 +144,7 @@ struct CommentCell: View {
     
     private var deleteBtn: some View {
         Button {
-            // TODO: Page Number 수정
-            Task.init {
-                await commentViewModel.act(.delete(id: comment.id))
-                await commentViewModel.loadComments(boardId: self.post.anonymityIndex, pageNumber: 0)
-            }
+            self.isDelete.toggle()
         } label: {
             ZStack {
                 Color.delete

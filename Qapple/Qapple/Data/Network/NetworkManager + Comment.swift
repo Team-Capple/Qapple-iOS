@@ -130,7 +130,44 @@ extension NetworkManager {
         }
     }
     
+    // 자신의 댓글을 삭제합니다.
     static func deleteComment(commentId: Int) async throws {
+        let urlString = ApiEndpoints.basicURLString(path: .comments)
+        
+        guard let url = URL(string: "\(urlString)/\(commentId)") else {
+            print("잘못된 URL 입니다! in Delete")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        var accessToken = ""
+        
+        do {
+            accessToken = try SignInInfo.shared.token(.access)
+        } catch {
+            print("액세스 토큰 반환 실패")
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                print(response)
+                throw NetworkError.badRequest
+            }
+            
+        } catch {
+            print(String(describing: error))
+        }
+    }
+    
+    // 타인의 댓글을 신고합니다.
+    static func reportComment(commentId: Int) async throws {
         let urlString = ApiEndpoints.basicURLString(path: .comments)
         
         guard let url = URL(string: "\(urlString)/\(commentId)") else {
