@@ -45,8 +45,7 @@ struct BulletinBoardView: View {
         }
         .onAppear{
             bulletinBoardUseCase.isClickComment = false
-            // print(bulletinBoardUseCase.isClickComment)
-            bulletinBoardUseCase.effect(.fetchPost) // 고민 중
+            bulletinBoardUseCase.effect(.fetchPost)
         }
     }
 }

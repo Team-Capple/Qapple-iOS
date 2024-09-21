@@ -5,28 +5,60 @@
 //  Created by 김민준 on 2/12/24.
 //
 
-import Foundation
+import SwiftUI
 
 final class TodayQuestionViewModel: ObservableObject {
+    
+    /// Key: writerId
+    /// Value: Index
+    typealias LearnerDictionary = [Int: Int]
     
     let dateManager = QuestionTimeManager()
     var timer: Timer?
     
     @Published var remainingTime = TimeInterval()
-    
     @Published var timeZone: QuestionTimeZone
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content]
     @Published var isLoading = true
     
+    private var learnerDictionary: LearnerDictionary = [:]
+    
     init() {
         let currentTimeZone = dateManager.fetchTimezone()
         self.timeZone = currentTimeZone
         
         // 변수 초기화
-        self.mainQuestion = .init(questionId: 0, questionStatus: "", content: "", isAnswered: false)
+        self.mainQuestion = .init(
+            questionId: 0,
+            questionStatus: "",
+            content: "",
+            isAnswered: false
+        )
+        
         self.answerList = []
+    }
+}
+
+// MARK: - 러너 인덱스
+
+extension TodayQuestionViewModel {
+    
+    /// 러너 인덱스를 반환합니다.
+    func learnerIndex(to answer: AnswerResponse.AnswersOfQuestion.Content) -> Int {
+        if let index = learnerDictionary[answer.writerId] {
+            return index
+        } else {
+            return 0
+        }
+    }
+    
+    /// 러너 인덱스가 담긴 Dictionary를 생성합니다.
+    private func createLearnerDictionary() {
+        for (index, answer) in self.answerList.enumerated() {
+            learnerDictionary.updateValue(index, forKey: answer.writerId)
+        }
     }
 }
 
@@ -94,7 +126,8 @@ extension TodayQuestionViewModel {
                     pageSize: 1000
                 ))
             let answerList = Array(answerPreview.content.prefix(3))
-            self.answerList = answerList
+            self.answerList = answerList.reversed()
+            createLearnerDictionary()
         } catch {
             print("답변 프리뷰 업데이트 실패")
         }
@@ -107,9 +140,9 @@ extension TodayQuestionViewModel {
     /// 질문 타이틀 텍스트를 반환합니다.
     var titleText: String {
         var text = ""
-        if state == .creating { text = "오늘의 질문을 만들고 있어요" }
-        else if state == .ready { text = "오늘의 질문이\n준비되었어요!" }
-        else if state == .complete { text = "오늘의 답변을\n완료했어요!" }
+        if state == .creating { text = "질문을 만들고 있어요" }
+        else if state == .ready { text = "질문이 준비되었어요!" }
+        else if state == .complete { text = "답변을 완료했어요!" }
         return text
     }
     
@@ -126,6 +159,21 @@ extension TodayQuestionViewModel {
         else if state == .ready { text = "질문에 답변하기" }
         else if state == .complete { text = "다른 답변 둘러보기" }
         return text
+    }
+    
+    /// 버튼 컬러를 반환합니다.
+    var buttonColor: Color {
+        var color = Color.black
+        if state == .creating {
+            if mainQuestion.isAnswered {
+                color = GrayScale.secondaryButton
+            } else {
+                color = BrandPink.button
+            }
+        }
+        else if state == .ready { color = BrandPink.button }
+        else if state == .complete { color = GrayScale.secondaryButton }
+        return color
     }
     
     /// 리스트 타이틀 텍스트를 반환합니다.

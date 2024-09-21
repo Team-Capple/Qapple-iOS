@@ -57,11 +57,14 @@ struct WrittenAnswerView: View {
                                     answer: Answer(
                                         id: answer.answerId,
                                         writerId: answer.writerId,
+                                        learnerIndex: 0,
+                                        nickname: answer.nickname,
                                         content: answer.content,
                                         writingDate: answer.writeAt.ISO8601ToDate,
                                         isMine: false,
                                         isReported: false
                                     ),
+                                    isWrittenAnswerCell: true,
                                     seeMoreAction: {
                                         isMyAnswer = .init(answerId: answer.answerId, isMine: true)
                                     }
