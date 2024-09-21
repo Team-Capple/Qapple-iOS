@@ -11,6 +11,7 @@ struct Answer: Identifiable {
     let id: Int
     let writerId: Int
     let learnerIndex: Int
+    let nickname: String
     let content: String
     let writingDate: Date
     let isMine: Bool

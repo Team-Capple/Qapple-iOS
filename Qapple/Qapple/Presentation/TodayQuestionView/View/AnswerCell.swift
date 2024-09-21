@@ -12,12 +12,24 @@ import SwiftUI
 struct AnswerCell: View {
     
     let answer: Answer
+    let isWrittenAnswerCell: Bool
     let seeMoreAction: () -> Void
+    
+    init(
+        answer: Answer,
+        isWrittenAnswerCell: Bool = false,
+        seeMoreAction: @escaping () -> Void
+    ) {
+        self.answer = answer
+        self.isWrittenAnswerCell = isWrittenAnswerCell
+        self.seeMoreAction = seeMoreAction
+    }
     
     var body: some View {
         if answer.isMine {
             NormalAnswerCell(
                 answer: answer,
+                isWrittenAnswerCell: isWrittenAnswerCell,
                 seeMoreAction: seeMoreAction
             )
         } else {
@@ -29,6 +41,7 @@ struct AnswerCell: View {
             } else {
                 NormalAnswerCell(
                     answer: answer,
+                    isWrittenAnswerCell: isWrittenAnswerCell,
                     seeMoreAction: seeMoreAction
                 )
             }
@@ -41,12 +54,14 @@ struct AnswerCell: View {
 private struct NormalAnswerCell: View {
     
     let answer: Answer
+    let isWrittenAnswerCell: Bool
     let seeMoreAction: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HeaderView(
                 answer: answer,
+                isWrittenAnswerCell: isWrittenAnswerCell,
                 seeMoreAction: seeMoreAction
             )
             .padding(.horizontal, 16)
@@ -67,7 +82,18 @@ private struct NormalAnswerCell: View {
 private struct HeaderView: View {
     
     let answer: Answer
+    let isWrittenAnswerCell: Bool
     let seeMoreAction: () -> Void
+    
+    private var learnerName: String {
+        if isWrittenAnswerCell {
+            return answer.nickname
+        } else if answer.nickname == "알 수 없음" {
+            return "(알 수 없음)"
+        } else {
+            return "러너 \(answer.learnerIndex + 1)"
+        }
+    }
     
     var body: some View {
         HStack(spacing: 0) {
@@ -75,7 +101,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("러너 \(answer.learnerIndex + 1)")
+             Text(learnerName)
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -131,6 +157,14 @@ private struct ReportAnswerCell: View {
     let answer: Answer
     let seeMoreAction: () -> Void
     
+    private var learnerName: String {
+        if answer.nickname == "알 수 없음" {
+            return answer.nickname
+        } else {
+            return "러너 \(answer.learnerIndex + 1)"
+        }
+    }
+    
     var body: some View {
         if !isReportContentShow {
             VStack(alignment: .leading, spacing: 16) {
@@ -168,7 +202,7 @@ private struct ReportAnswerCell: View {
                         .resizable()
                         .frame(width: 28, height: 28)
                     
-                    Text("러너 \(answer.learnerIndex + 1)")
+                    Text(learnerName)
                         .pretendard(.semiBold, 14)
                         .foregroundStyle(GrayScale.icon)
                         .padding(.leading, 8)
@@ -210,6 +244,7 @@ private struct ReportAnswerCell: View {
             id: 0,
             writerId: 0,
             learnerIndex: 0,
+            nickname: "한톨",
             content: "아! 이게 질문이 아니고 답변이구나!",
             writingDate: .now,
             isMine: true,

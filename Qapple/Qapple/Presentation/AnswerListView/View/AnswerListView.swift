@@ -210,6 +210,7 @@ private struct AnswerScrollView: View {
                             id: answer.answerId,
                             writerId: answer.writerId,
                             learnerIndex: viewModel.learnerIndex(to: answer),
+                            nickname: answer.nickname,
                             content: answer.content,
                             writingDate: answer.writeAt.ISO8601ToDate,
                             isMine: answer.isMine,

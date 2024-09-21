@@ -175,8 +175,8 @@ private struct HeaderButtonView: View {
             
             TodayQuestionActionButton(
                 viewModel.buttonText,
-                priority: viewModel.state == .ready
-                ? .primary : .secondary
+                priority: viewModel.state == .complete
+                ? .secondary : .primary
             ) {
                 if !viewModel.mainQuestion.isAnswered {
                     
@@ -198,6 +198,7 @@ private struct HeaderButtonView: View {
                     )
                 }
             }
+            .opacity(viewModel.isLoading ? 0 : 1)
         }
     }
 }
@@ -283,6 +284,7 @@ private struct AnswerPreview: View {
                                 id: answer.answerId,
                                 writerId: answer.writerId,
                                 learnerIndex: viewModel.learnerIndex(to: answer),
+                                nickname: answer.nickname,
                                 content: answer.content,
                                 writingDate: answer.writeAt.ISO8601ToDate,
                                 isMine: answer.isMine,
