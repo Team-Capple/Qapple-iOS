@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentCell: View {
-    let comment: CommentResponse.Comments.Comment
+    let comment: CommentResponse.Comment
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let anchorWidth: CGFloat = 73
@@ -16,6 +16,10 @@ struct CommentCell: View {
     @State private var hOffset: CGFloat = 0
     @State private var anchor: CGFloat = 0
     @State private var isCellToggled: Bool = false
+    @State private var isDelete: Bool = false
+    @State private var isDeleteComplete: Bool = false
+    
+    @EnvironmentObject private var pathModel: Router
     
     @ObservedObject var commentViewModel: CommentViewModel
     
@@ -29,7 +33,7 @@ struct CommentCell: View {
             content
                 .frame(width: screenWidth)
             
-            if comment.isLiked {
+            if comment.isMine {
                 deleteBtn
             } else {
                 reportBtn
@@ -73,7 +77,7 @@ struct CommentCell: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 10) {
                     // 사용자 이름
-                    Text(self.comment.name)
+                    Text("러너 \(self.comment.writerId)")
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(.icon)
                     
@@ -89,6 +93,20 @@ struct CommentCell: View {
                     .foregroundStyle(.main)
             }
             .padding(.vertical, 16)
+            .alert(isPresented: $isDelete) {
+                SwiftUI.Alert(
+                    title: Text("정말로 댓글을 삭제하시겠습니까?"),
+                    message: Text("한 번 삭제된 댓글은 복구할 수 없습니다."),
+                    primaryButton: SwiftUI.Alert.Button.destructive(Text("삭제"), action: {
+                        Task.init {
+                            // TODO: Page Number 수정
+                            await commentViewModel.act(.delete(id: comment.id))
+                            await commentViewModel.loadComments(boardId: self.post.anonymityIndex, pageNumber: 0)
+                            self.isDeleteComplete.toggle()
+                        }
+                    }),
+                    secondaryButton: SwiftUI.Alert.Button.cancel(Text("취소")))
+            }
             
             Spacer()
             
@@ -96,10 +114,10 @@ struct CommentCell: View {
             VStack {
                 // 댓글 좋아요 버튼
                 Button {
-                    // TODO: boardId 수정
+                    // TODO: Page Number 수정
                     Task.init {
                         await commentViewModel.act(.like(id: comment.id))
-                        await commentViewModel.loadComments(boardId: post.boardId)
+                        await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     }
                 } label: {
                     Image(systemName: comment.isLiked ? "heart.fill" : "heart")
@@ -117,6 +135,9 @@ struct CommentCell: View {
                 }
             }
             .padding(.top, 16)
+            .alert(isPresented: $isDeleteComplete) {
+                SwiftUI.Alert(title: Text("댓글이 삭제되었습니다!"), dismissButton: SwiftUI.Alert.Button.cancel(Text("확인")))
+            }
         }
         .padding(.horizontal, 16)
         .background(Color.bk)
@@ -125,10 +146,7 @@ struct CommentCell: View {
     
     private var deleteBtn: some View {
         Button {
-            // TODO: 삭제 기능 구현
-            Task.init {
-                await commentViewModel.act(.delete(id: 1))
-            }
+            self.isDelete.toggle()
         } label: {
             ZStack {
                 Color.delete
@@ -149,6 +167,7 @@ struct CommentCell: View {
             Task.init {
                 await commentViewModel.act(.report(id: 1))
             }
+            pathModel.pushView(screen: BulletinBoardPathType.commentReport(id: comment.id))
         } label: {
             ZStack {
                 Color.report

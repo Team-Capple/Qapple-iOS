@@ -82,6 +82,8 @@ final class Router: ObservableObject, NavigationRouter {
                 BulletinSearchView()
             case .comment(post: let post):
                 CommentView(post: post)
+            case .commentReport(id: let id):
+                CommentReportView(commentId: id)
             case .report(boardId: let boardId):
                 ReportView(answerId: -1, boardId: boardId)
             }
@@ -147,6 +149,7 @@ enum BulletinBoardPathType: Hashable {
     case alert
     case search
     case comment(post: Post)
+    case commentReport(id: Int)
     case report(boardId: Int)
 }
 

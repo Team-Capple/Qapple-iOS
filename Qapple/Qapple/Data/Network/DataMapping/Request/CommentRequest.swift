@@ -11,8 +11,12 @@ import Foundation
 class CommentRequest {
     
     // 댓글 생성 POST
-    struct UploadComment {
-        let boardId: Int
-        let content: String
+    struct UploadComment: Codable {
+        let comment: String
+    }
+    
+    struct ReportComment: Codable {
+        let boardCommentId: Int
+        let boardCommentReportType: String
     }
 }

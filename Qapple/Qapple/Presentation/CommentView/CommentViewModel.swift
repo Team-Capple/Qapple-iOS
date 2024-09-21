@@ -9,21 +9,21 @@ import SwiftUI
 
 final class CommentViewModel: ObservableObject {
 
-    @Published public var comments: [CommentResponse.Comments.Comment] = []
+    @Published public var comments: [CommentResponse.Comment] = []
     
     // 호출 flag
     @Published public var isLoading: Bool = false
     
     // 댓글 불러오기
     @MainActor
-    public func loadComments(boardId: Int) async {
+    public func loadComments(boardId: Int, pageNumber: Int) async {
         self.isLoading = true
         
         do {
-            let result = try await NetworkManager.fetchComments(boardId: boardId)
+            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId, pageNumber: pageNumber)
+            let content = fetchResult.content
             
-            self.comments = anonymizeComment(result.boardCommentInfos)
-            
+            self.comments = anonymizeComment(content)
         } catch {
             print(error.localizedDescription)
         }
@@ -47,15 +47,28 @@ final class CommentViewModel: ObservableObject {
     
     // 댓글 달기 action
     @MainActor
-    public func uploadComment(request: CommentRequest.UploadComment) async {
+    public func uploadComment(id: Int, request: CommentRequest.UploadComment) async {
         self.isLoading = true
         
         do {
-            _ = try await NetworkManager.postComment(requestBody: request)
+            _ = try await NetworkManager.postComment(id: id, requestBody: request)
         } catch {
             print(error.localizedDescription)
         }
 
+        self.isLoading = false
+    }
+    
+    @MainActor
+    public func deleteComment(id: Int) async {
+        self.isLoading = true
+        
+        do {
+            _ = try await NetworkManager.deleteComment(commentId: id)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
         self.isLoading = false
     }
 }
@@ -63,7 +76,7 @@ final class CommentViewModel: ObservableObject {
 
 extension CommentViewModel {
     enum Action {
-        case upload(request: CommentRequest.UploadComment)
+        case upload(id: Int, request: CommentRequest.UploadComment)
         case delete(id: Int)
         case report(id: Int)
         case like(id: Int)
@@ -71,13 +84,14 @@ extension CommentViewModel {
     
     func act(_ action: Action) async {
         switch action {
-        case .upload(let request):
+        case .upload(let id, let request):
             // TODO: 댓글 업로드 기능 구현
-            print("댓글 업로드: \(request.content)")
-            await uploadComment(request: request)
+            print("댓글 업로드: \(request.comment)")
+            await uploadComment(id: id, request: request)
         case .delete(let id):
             // TODO: 댓글 삭제 기능 구현
             print("\(id)번째 댓글 삭제")
+            await deleteComment(id: id)
         case .report(let id):
             // TODO: 댓글 신고 기능 구현
             print("\(id)번째 댓글 신고")
@@ -93,46 +107,50 @@ extension CommentViewModel {
 
 extension CommentViewModel {
     // 이름을 익명화 해주는 method
-    private func anonymizeComment(_ comments: [CommentResponse.Comments.Comment]) -> [CommentResponse.Comments.Comment] {
+    private func anonymizeComment(_ comments: [CommentResponse.Comment]) -> [CommentResponse.Comment] {
         // 아무개 번호
         var nameIndex = 0
         // 중복 여부 판단하는 딕셔너리
-        var nameArray: [Int: String] = [:]
+        var nameArray: [Int: Int] = [:]
         
         let result = comments.map { comment in
             // 한번이라도 나온 writer인지 여부 판단
             let isContainName = nameArray.values.contains {
-                $0 == comment.name
+                $0 == comment.writerId
             }
             
             if !isContainName { // 처음 나오는 writer일 경우
                 nameIndex += 1
-                nameArray.updateValue(comment.name, forKey: nameIndex)
+                nameArray.updateValue(comment.writerId, forKey: nameIndex)
                 
                 
-                return CommentResponse.Comments.Comment(
+                return CommentResponse.Comment(
                     id: comment.id,
-                    name: "러너 \(nameIndex)",
+                    writerId: nameIndex,
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
+                    isMine: comment.isMine,
+                    isReport: comment.isReport,
                     createdAt: comment.createdAt)
             } else { // 한번 이상 나온 writer일 경우
                 // 해당 value의 key 값을 찾아 name의 index로 제공
                 let currentIndex = nameArray
-                    .filter { $0.value == comment.name }
+                    .filter { $0.value == comment.writerId }
                     .first!.key
                 
-                return CommentResponse.Comments.Comment(
+                return CommentResponse.Comment(
                     id: comment.id,
-                    name: "러너 \(currentIndex)",
+                    writerId: currentIndex,
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
+                    isMine: comment.isMine,
+                    isReport: comment.isReport,
                     createdAt: comment.createdAt)
             }
         }
         
-        return result
+        return result.reversed()
     }
 }

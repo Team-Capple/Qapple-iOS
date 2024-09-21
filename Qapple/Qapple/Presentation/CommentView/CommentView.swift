@@ -41,7 +41,8 @@ struct CommentView: View {
                 .background(Color.bk)
                 .refreshable {
                     Task.init {
-                        await commentViewModel.loadComments(boardId: post.boardId)
+                        // TODO: Page Number 수정
+                        await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     }
                 }
                 
@@ -60,7 +61,8 @@ struct CommentView: View {
         }
         .navigationBarBackButtonHidden()
         .task {
-            await commentViewModel.loadComments(boardId: post.boardId)
+            // TODO: Page Number 수정
+            await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
         }
     }
     
@@ -79,10 +81,10 @@ struct CommentView: View {
                 .padding(.vertical, 12)
             
             Button {
-                // TODO: 댓글 달기 기능 추가
+                // TODO: Page Number 수정
                 Task.init {
-                    await commentViewModel.act(.upload(request: .init(boardId: post.boardId, content: self.text)))
-                    await commentViewModel.loadComments(boardId: post.boardId)
+                    await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
+                    await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     self.text = ""
                 }
             } label: {
