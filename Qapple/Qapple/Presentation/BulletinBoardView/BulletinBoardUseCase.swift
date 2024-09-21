@@ -81,8 +81,10 @@ extension BulletinBoardUseCase {
                         let _ = try await NetworkManager.requestLikeBoard(.init(boardId: postId))
                     } catch {
                         // 오류 발생 시 다시 상태 복구
-                        _state.posts[index].isLiked.toggle()
-                        _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
+                        DispatchQueue.main.async { [self] in
+                            _state.posts[index].isLiked.toggle()
+                            _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
+                        }
                         print("Error updating like for post \(postId): \(error)")
                     }
                     DispatchQueue.main.async {

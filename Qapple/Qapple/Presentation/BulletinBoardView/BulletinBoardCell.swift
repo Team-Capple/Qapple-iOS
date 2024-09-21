@@ -139,6 +139,9 @@ private struct RemoteView: View {
                 post: post,
                 tapAction: {
                     bulletinBoardUseCase.effect(.likePost(postId: post.boardId))
+                    if bulletinBoardUseCase.isClickComment {
+                    }
+                    print(post.boardId)
                 }
             )
             
@@ -175,6 +178,7 @@ private struct RemoteView: View {
             Button {
                 if !bulletinBoardUseCase.isClickComment {
                     pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                    print(post)
                     bulletinBoardUseCase.isClickComment = true
                     print(bulletinBoardUseCase.isClickComment)
                 }

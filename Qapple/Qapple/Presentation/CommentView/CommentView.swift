@@ -9,10 +9,12 @@ import SwiftUI
 
 struct CommentView: View {
     
+    @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
+    
     @StateObject private var commentViewModel: CommentViewModel = .init()
     @State private var text: String = ""
     
-    let post: Post
+    @State var post: Post
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
@@ -22,6 +24,7 @@ struct CommentView: View {
             
             BulletinBoardCell(post: self.post, seeMoreAction: {})
                 .frame(width: UIScreen.main.bounds.width)
+                .disabled(bulletinBoardUseCase.isLoading)
             
             ZStack {
                 ScrollView {
@@ -63,6 +66,11 @@ struct CommentView: View {
         .task {
             // TODO: Page Number 수정
             await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+        }
+        .onChange(of: bulletinBoardUseCase._state.posts) { newPosts in
+            if let updatedPost = newPosts.first(where: { $0.boardId == post.boardId }) {
+                self.post = updatedPost
+            }
         }
     }
     
