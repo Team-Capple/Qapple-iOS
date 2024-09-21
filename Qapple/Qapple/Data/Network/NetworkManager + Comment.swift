@@ -77,8 +77,7 @@ extension NetworkManager {
         
         
         do {
-            let bodyText = requestBody.comment
-            let body = try JSONEncoder().encode(bodyText)
+            let body = try JSONEncoder().encode(requestBody)
             
             request.httpBody = body
             
@@ -167,10 +166,10 @@ extension NetworkManager {
     }
     
     // 타인의 댓글을 신고합니다.
-    static func reportComment(commentId: Int) async throws {
-        let urlString = ApiEndpoints.basicURLString(path: .comments)
+    static func reportComment(requestBody: CommentRequest.ReportComment) async throws {
+        let urlString = ApiEndpoints.basicURLString(path: .commentReport)
         
-        guard let url = URL(string: "\(urlString)/\(commentId)") else {
+        guard let url = URL(string: "\(urlString)") else {
             print("잘못된 URL 입니다! in Delete")
             throw NetworkError.cannotCreateURL
         }
@@ -184,11 +183,14 @@ extension NetworkManager {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
+        request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
         do {
+            let body = try JSONEncoder().encode(requestBody)
+            request.httpBody = body
+            
             let (_, response) = try await URLSession.shared.data(for: request)
             
             guard let httpResponse = response as? HTTPURLResponse,

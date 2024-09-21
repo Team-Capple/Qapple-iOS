@@ -1,0 +1,32 @@
+//
+//  CommentReportType.swift
+//  Qapple
+//
+//  Created by 문인범 on 9/21/24.
+//
+
+import Foundation
+
+enum CommentReportType: String, CaseIterable {
+    
+    /// 불법촬영물 등의 유통
+    case DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS = "COMMENT_DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS"
+    
+    /// 상업적 광고 및 판매
+    case COMMERCIAL_ADVERTISING_AND_SALES = "COMMENT_COMMERCIAL_ADVERTISING_AND_SALES"
+    
+    /// 게시판 성격에 부적절함
+    case INADEQUATE_BOARD_CHARACTER = "COMMENT_INADEQUATE_BOARD_CHARACTER"
+    
+    /// 욕설/비하
+    case ABUSIVE_LANGUAGE_AND_DISPARAGEMENT = "COMMENT_ABUSIVE_LANGUAGE_AND_DISPARAGEMENT"
+    
+    /// 정당/정치인 비하 및 선거운동
+    case POLITICAL_PARTY_OR_POLITICIAN_DEMEANING_AND_CAMPAIGNING = "COMMENT_POLITICAL_PARTY_OR_POLITICIAN_DEMEANING_AND_CAMPAIGNING"
+    
+    /// 욕설/사칭/사기
+    case LEAK_IMPERSONATION_FRAUD = "COMMENT_LEAK_IMPERSONATION_FRAUD"
+    
+    /// 낚시/놀림/도배
+    case TRICK_TEASING_PLASTERED = "COMMENT_TRICK_TEASING_PLASTERED"
+}

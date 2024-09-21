@@ -43,6 +43,8 @@
 		2CD2B5A92C88753800E17B6A /* NetworkManager + Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */; };
 		2CD2B5AB2C88780D00E17B6A /* CommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */; };
 		2CD2B5AD2C88789C00E17B6A /* CommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */; };
+		2CFF5E212C9EA0470083A42A /* CommentReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFF5E202C9EA0470083A42A /* CommentReportType.swift */; };
+		2CFF5E232C9EA0E30083A42A /* CommentReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFF5E222C9EA0E30083A42A /* CommentReportView.swift */; };
 		420D72012C71D53200B56439 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 420D72002C71D53200B56439 /* GoogleService-Info.plist */; };
 		420D72052C71D5BB00B56439 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 420D72042C71D5BB00B56439 /* FirebaseAuth */; };
 		420D720B2C71D81400B56439 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420D720A2C71D81400B56439 /* AppDelegate.swift */; };
@@ -206,6 +208,8 @@
 		2CD2B5A82C88753800E17B6A /* NetworkManager + Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager + Comment.swift"; sourceTree = "<group>"; };
 		2CD2B5AA2C88780D00E17B6A /* CommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentResponse.swift; sourceTree = "<group>"; };
 		2CD2B5AC2C88789C00E17B6A /* CommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRequest.swift; sourceTree = "<group>"; };
+		2CFF5E202C9EA0470083A42A /* CommentReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReportType.swift; sourceTree = "<group>"; };
+		2CFF5E222C9EA0E30083A42A /* CommentReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReportView.swift; sourceTree = "<group>"; };
 		420D72002C71D53200B56439 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		420D720A2C71D81400B56439 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4213DF752C6E1F86007F433C /* NotificationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUseCase.swift; sourceTree = "<group>"; };
@@ -500,6 +504,7 @@
 				2C2E0ED42C63D177003928C1 /* CommentCell.swift */,
 				2C2E0ED62C646EC9003928C1 /* CommentView.swift */,
 				2CD2B5A62C771C3500E17B6A /* CommentViewModel.swift */,
+				2CFF5E222C9EA0E30083A42A /* CommentReportView.swift */,
 			);
 			path = CommentView;
 			sourceTree = "<group>";
@@ -1077,6 +1082,7 @@
 				8247172D2BC8D865005E9631 /* IsMyAnswer.swift */,
 				824717332BC9144F005E9631 /* ReportType.swift */,
 				2C1E27222C71AC0C000B9D86 /* NavigationRouter.swift */,
+				2CFF5E202C9EA0470083A42A /* CommentReportType.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1260,6 +1266,7 @@
 				07D96EDE2B7A17EF00754819 /* Separator.swift in Sources */,
 				F37C17A92B8899BC005E5072 /* QuestionCell.swift in Sources */,
 				F3D452D32B8A6015000BA51C /* CustomNavigationBackButton.swift in Sources */,
+				2CFF5E212C9EA0470083A42A /* CommentReportType.swift in Sources */,
 				F37C178C2B873658005E5072 /* MyProfileSummary.swift in Sources */,
 				F392AC472B8B2E370069AD7B /* SignUpCompletedView.swift in Sources */,
 				82D2BD502C6736EC00082A58 /* AcademyPlanDayCounter.swift in Sources */,
@@ -1320,6 +1327,7 @@
 				828A03D92BAAC79A0038CF91 /* ProfileEditViewModel.swift in Sources */,
 				826933552C743D370004E0B5 /* Answer.swift in Sources */,
 				827897B72BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift in Sources */,
+				2CFF5E232C9EA0E30083A42A /* CommentReportView.swift in Sources */,
 				828715BC2B99F6EA001627DB /* TagRequest.swift in Sources */,
 				82D583B92B9852C4003CC424 /* QuestionResponse.swift in Sources */,
 				073C3DDE2B8714240016C333 /* QuestionTimeZone.swift in Sources */,

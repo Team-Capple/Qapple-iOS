@@ -19,6 +19,8 @@ struct CommentCell: View {
     @State private var isDelete: Bool = false
     @State private var isDeleteComplete: Bool = false
     
+    @EnvironmentObject private var pathModel: Router
+    
     @ObservedObject var commentViewModel: CommentViewModel
     
     let post: Post
@@ -165,6 +167,7 @@ struct CommentCell: View {
             Task.init {
                 await commentViewModel.act(.report(id: 1))
             }
+            pathModel.pushView(screen: BulletinBoardPathType.commentReport(id: comment.id))
         } label: {
             ZStack {
                 Color.report

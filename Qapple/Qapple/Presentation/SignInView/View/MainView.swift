@@ -38,7 +38,7 @@ private struct MainTabView: View {
     var body: some View {
         NavigationStack(path: $activePathModel.route) {
             TabView(selection: $tabType) {
-                CommentView(post: .init(anonymityIndex: 30, isMine: false, content: "123", isLike: true, likeCount: 0, commentCount: 0, writingDate: .init()))
+                HomeView()
                     .tag(TabType.questionList)
                     .tabItem {
                         TabItem(
