@@ -42,6 +42,23 @@ struct CommentCell: View {
         }
         .offset(x: hOffset)
         .animation(.easeInOut, value: hOffset)
+        .alert("정말로 댓글을 삭제하시겠습니까?", isPresented: $isDelete) {
+            Button("삭제", role: .destructive, action: {
+                Task.init {
+                    // TODO: Page Number 수정
+                    await commentViewModel.act(.delete(id: comment.id))
+                    self.isDeleteComplete.toggle()
+                }
+            })
+            Button("취소", role: .cancel, action: {})
+        }
+        .alert("댓글이 삭제되었습니다!", isPresented: $isDeleteComplete) {
+            Button("확인", role: .none) {
+                Task.init {
+                    await commentViewModel.loadComments(boardId: self.post.boardId, pageNumber: 0)
+                }
+            }
+        }
     }
     
     private var drag: some Gesture {
@@ -93,20 +110,7 @@ struct CommentCell: View {
                     .foregroundStyle(.main)
             }
             .padding(.vertical, 16)
-            .alert(isPresented: $isDelete) {
-                SwiftUI.Alert(
-                    title: Text("정말로 댓글을 삭제하시겠습니까?"),
-                    message: Text("한 번 삭제된 댓글은 복구할 수 없습니다."),
-                    primaryButton: SwiftUI.Alert.Button.destructive(Text("삭제"), action: {
-                        Task.init {
-                            // TODO: Page Number 수정
-                            await commentViewModel.act(.delete(id: comment.id))
-                            await commentViewModel.loadComments(boardId: self.post.boardId, pageNumber: 0)
-                            self.isDeleteComplete.toggle()
-                        }
-                    }),
-                    secondaryButton: SwiftUI.Alert.Button.cancel(Text("취소")))
-            }
+
             
             Spacer()
             
@@ -135,9 +139,6 @@ struct CommentCell: View {
                 }
             }
             .padding(.top, 16)
-            .alert(isPresented: $isDeleteComplete) {
-                SwiftUI.Alert(title: Text("댓글이 삭제되었습니다!"), dismissButton: SwiftUI.Alert.Button.cancel(Text("확인")))
-            }
         }
         .padding(.horizontal, 16)
         .background(Color.bk)
