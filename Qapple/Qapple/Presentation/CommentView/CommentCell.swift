@@ -125,9 +125,10 @@ struct CommentCell: View {
     
     private var deleteBtn: some View {
         Button {
-            // TODO: 삭제 기능 구현
+            // TODO: Page Number 수정
             Task.init {
                 await commentViewModel.act(.delete(id: comment.id))
+                await commentViewModel.loadComments(boardId: self.post.anonymityIndex, pageNumber: 0)
             }
         } label: {
             ZStack {

@@ -58,6 +58,19 @@ final class CommentViewModel: ObservableObject {
 
         self.isLoading = false
     }
+    
+    @MainActor
+    public func deleteComment(id: Int) async {
+        self.isLoading = true
+        
+        do {
+            _ = try await NetworkManager.deleteComment(commentId: id)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        self.isLoading = false
+    }
 }
 
 
@@ -78,6 +91,7 @@ extension CommentViewModel {
         case .delete(let id):
             // TODO: 댓글 삭제 기능 구현
             print("\(id)번째 댓글 삭제")
+            await deleteComment(id: id)
         case .report(let id):
             // TODO: 댓글 신고 기능 구현
             print("\(id)번째 댓글 신고")
