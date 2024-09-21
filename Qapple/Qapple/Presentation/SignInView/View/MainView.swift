@@ -258,7 +258,7 @@ private struct CustomTabBar: View {
                 Button {
                     tab = .todayQuestion
                 } label: {
-                    Text("오늘의질문")
+                    Text("오늘의 질문")
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(tab == .todayQuestion ? TextLabel.main : TextLabel.sub4)
                 }
@@ -267,7 +267,7 @@ private struct CustomTabBar: View {
                 Button {
                     tab = .questionList
                 } label: {
-                    Text("질문리스트")
+                    Text("질문 리스트")
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(tab == .questionList ? TextLabel.main : TextLabel.sub4)
                 }

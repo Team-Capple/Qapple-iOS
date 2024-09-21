@@ -42,7 +42,7 @@ struct CommentView: View {
                 .refreshable {
                     Task.init {
                         // TODO: Page Number 수정
-                        await commentViewModel.loadComments(boardId: post.anonymityIndex, pageNumber: 0)
+                        await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     }
                 }
                 
@@ -62,7 +62,7 @@ struct CommentView: View {
         .navigationBarBackButtonHidden()
         .task {
             // TODO: Page Number 수정
-            await commentViewModel.loadComments(boardId: post.anonymityIndex, pageNumber: 0)
+            await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
         }
     }
     
@@ -83,8 +83,8 @@ struct CommentView: View {
             Button {
                 // TODO: Page Number 수정
                 Task.init {
-                    await commentViewModel.act(.upload(id: post.anonymityIndex, request: .init(comment: self.text)))
-                    await commentViewModel.loadComments(boardId: post.anonymityIndex, pageNumber: 0)
+                    await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
+                    await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     self.text = ""
                 }
             } label: {

@@ -36,7 +36,7 @@ struct AnswerListView: View {
                 )
                 
                 Spacer()
-                    .frame(height: 24)
+                    .frame(height: 16)
                 
                 AnswerScrollView(
                     viewModel: viewModel,
@@ -143,35 +143,30 @@ private struct FloatingQuestionCard: View {
     }
     
     var body: some View {
-        HStack {
-            HStack(alignment: .top){
+        HStack(spacing: 0) {
+            HStack(alignment: .top, spacing: 0) {
                 Text(questionMark)
                     .font(.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main)
+                
                 Text(creatingText)
                     .font(.pretendard(.semiBold, size: 15))
                     .foregroundStyle(TextLabel.main)
                     .lineSpacing(6)
-                    .lineLimit(isCardExpanded ? 3 : 0)
+                    .lineLimit(3)
             }
             
             Spacer()
-            
-            Image(isArrowActive ? .arrowUp : .arrowDown)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 28, height: 28)
-                .foregroundColor(.white)
         }
         .padding(14)
         .frame(maxWidth: .infinity)
         .background(GrayScale.secondaryButton)
         .cornerRadius(15)
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 16)
         .onTapGesture {
             isArrowActive.toggle()
             withAnimation {
-                isCardExpanded.toggle() // 확장/축소 상태 토글
+                isCardExpanded.toggle()
             }
         }
     }
@@ -193,24 +188,24 @@ private struct AnswerScrollView: View {
     }
     
     var body: some View {
-        
         HStack(alignment: .top) {
-            Text("\(viewModel.answers.count)개의 질문")
+            Text("\(viewModel.answerList.count)개의 답변")
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.sub3)
+            
             Spacer()
         }
         .padding(.leading, 20)
         
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answers.enumerated()), id: \.offset) {
-                index,
-                answer in
+            ForEach(viewModel.answerList, id: \.self) { answer in
                 VStack {
                     AnswerCell(
                         answer: Answer(
                             id: answer.answerId,
                             writerId: answer.writerId,
+                            learnerIndex: viewModel.learnerIndex(to: answer),
+                            nickname: answer.nickname,
                             content: answer.content,
                             writingDate: answer.writeAt.ISO8601ToDate,
                             isMine: answer.isMine,

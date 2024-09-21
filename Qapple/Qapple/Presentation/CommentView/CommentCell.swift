@@ -117,7 +117,7 @@ struct CommentCell: View {
                     // TODO: Page Number 수정
                     Task.init {
                         await commentViewModel.act(.like(id: comment.id))
-                        await commentViewModel.loadComments(boardId: post.anonymityIndex, pageNumber: 0)
+                        await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     }
                 } label: {
                     Image(systemName: comment.isLiked ? "heart.fill" : "heart")
