@@ -27,19 +27,6 @@ struct BulletinSearchView: View {
                     
                     SearchListView(searchText: searchText)
                 }
-                
-                NewPostButton(
-                    title: "게시글 작성",
-                    tapAction: {
-                        pathModel.pushView(screen: BulletinBoardPathType.bulletinPosting)
-                    }
-                )
-                .position(
-                    CGPoint(
-                        x: proxy.size.width / 2,
-                        y: proxy.size.height - 40
-                    )
-                )
             }
             .background(Background.first)
             .navigationBarBackButtonHidden()
@@ -63,7 +50,7 @@ private struct NavigationBar: View {
             },
             principalView: {
                 Text("검색하기")
-                    .font(Font.pretendard(.semiBold, size: 15))
+                    .font(Font.pretendard(.semiBold, size: 17))
                     .foregroundStyle(TextLabel.main)
             },
             trailingView: {},

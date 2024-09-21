@@ -10,6 +10,7 @@ import Foundation
 final class BulletinBoardUseCase: ObservableObject {
     @Published var _state: State
     @Published var isClickComment: Bool = false
+    @Published var isLoading: Bool = false
     
     init() {
         
@@ -54,7 +55,7 @@ extension BulletinBoardUseCase {
     
     enum Effect {
         case fetchPost
-        case likePost(postIndex: Int)
+        case likePost(postId: Int)
         case removePost(postIndex: Int)
         case reportPost(postIndex: Int)
     }
@@ -64,22 +65,43 @@ extension BulletinBoardUseCase {
         case .fetchPost:
             Task {
                 await fetchPostList()
+                print("게시판 업데이트")
             }
-        case .likePost(let postIndex):
-            print("\(postIndex)번째 게시글 좋아요 업데이트")
-            Task {
-                try await NetworkManager.requestLikeBoard(.init(boardId: postIndex))
+        case .likePost(let postId):
+            if let index = _state.posts.firstIndex(where: { $0.boardId == postId }) {
+                print("\(index)번째 게시글 좋아요 업데이트")
+                
+                _state.posts[index].isLiked.toggle()
+                _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
+                
+                // 서버로 좋아요 요청 보내기
+                Task {
+                    do {
+                        try await NetworkManager.requestLikeBoard(.init(boardId: postId))
+                    } catch {
+                        // 오류 발생 시 다시 상태 복구
+                        _state.posts[index].isLiked.toggle()
+                        _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
+                        print("Error updating like for post \(postId): \(error)")
+                    }
+                }
             }
             
         case .removePost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 삭제")
+            if let index = _state.posts.firstIndex(where: { $0.boardId == postIndex }) {
+                _state.posts.remove(at: index)
+            }
             Task {
-                try await NetworkManager.requestDeleteBoard(.init(boardId: postIndex))
+                do {
+                    try await NetworkManager.requestDeleteBoard(.init(boardId: postIndex))
+                } catch {
+                    print(error)
+                }
             }
             
         case .reportPost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 신고")
-            // TODO: 신고 넣기
         }
     }
 }
@@ -89,22 +111,27 @@ extension BulletinBoardUseCase {
     
     @MainActor
     func fetchPostList() {
+        self.isLoading = true
+        
         Task {
-            let boardList = try await NetworkManager.fetchBoard()
+            let boardList = try await NetworkManager.fetchBoard(.init(pageNumber: 0, pageSize: 1000))
             
-            let postList: [Post] = boardList.boards.map { board in
+            let postList: [Post] = boardList.content.map { board in
                 Post(
-                    anonymityIndex: board.boardId,
-                    isMine: false, // TODO: 나중에 처리
+                    boardId: board.boardId,
+                    writerId: board.writerId,
                     content: board.content,
-                    isLike: false, // TODO: 나중에 처리
-                    likeCount: board.heartCount,
+                    heartCount: board.heartCount,
                     commentCount: board.commentCount,
-                    writingDate: board.createAt.ISO8601ToDate
+                    createAt: board.createAt.ISO8601ToDate,
+                    isMine: board.isMine,
+                    isReported: board.isReported,
+                    isLiked: board.isLiked
                 )
             }
             
             _state.posts = postList
+            self.isLoading = false
         }
     }
 }

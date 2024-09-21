@@ -31,18 +31,20 @@ struct BulletinBoardView: View {
                         y: proxy.size.height - 40
                     )
                 )
+                
+                if bulletinBoardUseCase.isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .tint(.primary)
+                }
             }
             .background(Background.first)
-            .refreshable {
-                bulletinBoardUseCase.effect(.fetchPost)
-            }
             .navigationDestination(for: BulletinBoardPathType.self) { path in
                 pathModel.getNavigationDestination(view: path)
             }
         }
         .onAppear{
             bulletinBoardUseCase.isClickComment = false
-            // print(bulletinBoardUseCase.isClickComment)
             bulletinBoardUseCase.effect(.fetchPost)
         }
     }
@@ -136,7 +138,7 @@ private struct PostListView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-                ForEach(bulletinBoardUseCase._state.posts.reversed()) { post in
+                ForEach(bulletinBoardUseCase._state.posts) { post in
                     BulletinBoardCell(
                         post: post,
                         seeMoreAction: {
@@ -145,6 +147,9 @@ private struct PostListView: View {
                     )
                 }
             }
+        }
+        .refreshable {
+            bulletinBoardUseCase.effect(.fetchPost)
         }
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(

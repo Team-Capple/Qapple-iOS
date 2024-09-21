@@ -13,4 +13,9 @@ struct ReportResponse {
     struct Report: Codable {
         let reportId: Int
     }
+    
+    /// ReportBoard POST Response
+    struct ReportBoard: Codable {
+        let boardReportId: Int
+    }
 }

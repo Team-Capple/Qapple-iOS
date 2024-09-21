@@ -41,7 +41,7 @@ struct CommentView: View {
                 .background(Color.bk)
                 .refreshable {
                     Task.init {
-                        await commentViewModel.loadComments(boardId: post.anonymityIndex)
+                        await commentViewModel.loadComments(boardId: post.boardId)
                     }
                 }
                 
@@ -60,7 +60,7 @@ struct CommentView: View {
         }
         .navigationBarBackButtonHidden()
         .task {
-            await commentViewModel.loadComments(boardId: post.anonymityIndex)
+            await commentViewModel.loadComments(boardId: post.boardId)
         }
     }
     
@@ -81,8 +81,8 @@ struct CommentView: View {
             Button {
                 // TODO: 댓글 달기 기능 추가
                 Task.init {
-                    await commentViewModel.act(.upload(request: .init(boardId: post.anonymityIndex, content: self.text)))
-                    await commentViewModel.loadComments(boardId: post.anonymityIndex)
+                    await commentViewModel.act(.upload(request: .init(boardId: post.boardId, content: self.text)))
+                    await commentViewModel.loadComments(boardId: post.boardId)
                     self.text = ""
                 }
             } label: {

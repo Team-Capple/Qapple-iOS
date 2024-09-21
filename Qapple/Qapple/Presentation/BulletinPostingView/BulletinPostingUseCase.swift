@@ -8,11 +8,12 @@
 import Foundation
 
 final class BulletinPostingUseCase: ObservableObject {
-
+    
     @Published var _state: State
-
+    @Published var isLoading: Bool = false
+    
     let textCountLimit = 150
-
+    
     init() {
         self._state = State(
             content: ""
@@ -23,7 +24,7 @@ final class BulletinPostingUseCase: ObservableObject {
 // MARK: - State
 
 extension BulletinPostingUseCase {
-
+    
     struct State {
         var content: String
     }
@@ -32,17 +33,19 @@ extension BulletinPostingUseCase {
 // MARK: - Effect
 
 extension BulletinPostingUseCase {
-
+    
     enum Effect {
         case uploadPost
     }
-
-    func effect(_ effect: Effect) {
+    
+    @MainActor
+    func effect(_ effect: Effect) async throws {
         switch effect {
         case .uploadPost:
-            Task {
-                try await NetworkManager.requestRegisterBoard(.init(content: _state.content, boardType: "FREEBOARD"))
-            }
+            self.isLoading = true
+            
+            let _ = try await NetworkManager.requestRegisterBoard(.init(content: _state.content, boardType: "FREEBOARD"))
+            self.isLoading = false
             print("포스팅을 업로드합니다.")
         }
     }

@@ -15,6 +15,7 @@ struct ReportView: View {
     @State private var reportType: ReportType = .DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS
     
     let answerId: Int
+    let boardId: Int
     
     var reportList = [
         "불법촬영물 등의 유통",
@@ -104,15 +105,25 @@ extension ReportView {
     @MainActor
     func requestReportAnswer() async {
         do {
-            print("답변ID: \(answerId)\n신고타입: \(reportType)")
-            let _ = try await NetworkManager.requestReport(
-                request: .init(
-                    answerId: answerId,
-                    reportType: reportType.rawValue
+            if answerId != -1 {
+                print("답변ID: \(answerId)\n신고타입: \(reportType)")
+                let _ = try await NetworkManager.requestReport(
+                    request: .init(
+                        answerId: answerId,
+                        reportType: "QUESTION_" + reportType.rawValue
+                    )
                 )
-            )
+            } else {
+                print("답변ID: \(boardId)\n신고타입: \(reportType)")
+                let _ = try await NetworkManager.requestReportBoard(
+                    request: .init(
+                        boardId: boardId,
+                        boardReportType: "BOARD_" + reportType.rawValue
+                    )
+                )
+            }
         } catch {
-            print("신고하기 실패")
+            print("신고하기 실패: \(error.localizedDescription)")
         }
     }
     
@@ -126,5 +137,5 @@ extension ReportView {
 }
 
 #Preview {
-    ReportView(answerId: 1)
+    ReportView(answerId: 1, boardId: -1)
 }

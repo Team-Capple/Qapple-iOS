@@ -15,6 +15,34 @@ struct BulletinBoardCell: View {
     let seeMoreAction: () -> Void
     
     var body: some View {
+        if post.isMine {
+            NormalBoardCell(
+                post: post,
+                seeMoreAction: seeMoreAction
+            )
+        } else {
+            if post.isReported {
+                ReportBoardCell(
+                    post: post,
+                    seeMoreAction: seeMoreAction
+                )
+            } else {
+                NormalBoardCell(
+                    post: post,
+                    seeMoreAction: seeMoreAction
+                )
+            }
+        }
+    }
+}
+// MARK: - NormalBoardCell
+
+private struct NormalBoardCell: View {
+    
+    let post: Post
+    let seeMoreAction: () -> Void
+    
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HeaderView(
                 post: post,
@@ -33,6 +61,7 @@ struct BulletinBoardCell: View {
     }
 }
 
+
 // MARK: - HeaderView
 
 private struct HeaderView: View {
@@ -46,12 +75,12 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("러너 \(post.anonymityIndex + 1)")
+            Text("익명의 러너")
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
             
-            Text("\(post.writingDate.timeAgo)")
+            Text("\(post.createAt.timeAgo)")
                 .pretendard(.regular, 14)
                 .foregroundStyle(TextLabel.sub4)
                 .padding(.leading, 6)
@@ -109,7 +138,7 @@ private struct RemoteView: View {
             LikeButton(
                 post: post,
                 tapAction: {
-                    bulletinBoardUseCase.effect(.likePost(postIndex: post.anonymityIndex))
+                    bulletinBoardUseCase.effect(.likePost(postId: post.boardId))
                 }
             )
             
@@ -126,9 +155,9 @@ private struct RemoteView: View {
                 tapAction()
             } label: {
                 HStack(spacing: 4) {
-                    Image(post.isLike ? .heartActive : .heart)
+                    Image(post.isLiked ? .heartActive : .heart)
                     
-                    Text("\(post.likeCount)")
+                    Text("\(post.heartCount)")
                         .pretendard(.regular, 13)
                         .foregroundStyle(TextLabel.sub3)
                 }
@@ -165,18 +194,100 @@ private struct RemoteView: View {
     }
 }
 
+// MARK: - ReportBoardCell
+
+private struct ReportBoardCell: View {
+
+    @State private var isReportContentShow = false
+
+    let post: Post
+    let seeMoreAction: () -> Void
+
+    var body: some View {
+        if !isReportContentShow {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("신고 되어 내용을 검토 중인 답변이에요")
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.sub3)
+                    .padding(.horizontal, 16)
+
+                HStack {
+                    Button {
+                        isReportContentShow.toggle()
+                    } label: {
+                        Text("답변 보기")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(BrandPink.text)
+                    }
+
+                    Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(TextLabel.sub4)
+
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+
+                Divider()
+                    .padding(.top, 16)
+            }
+            .padding(.top, 16)
+            .background(Background.first)
+        } else {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 0) {
+                    Image(.profileDummy)
+                        .resizable()
+                        .frame(width: 28, height: 28)
+
+                    Text("러너 \(post.writerId + 1)")
+                        .pretendard(.semiBold, 14)
+                        .foregroundStyle(GrayScale.icon)
+                        .padding(.leading, 8)
+
+                    Text("\(post.createAt.timeAgo)")
+                        .pretendard(.regular, 14)
+                        .foregroundStyle(TextLabel.sub4)
+                        .padding(.leading, 6)
+
+                    Spacer()
+
+                    Button {
+                        isReportContentShow.toggle()
+                    } label: {
+                        Text("답변 숨기기")
+                            .font(.pretendard(.medium, size: 16))
+                            .foregroundStyle(BrandPink.text)
+                    }
+                }
+                .padding(.horizontal, 16)
+
+                ContentView(post: post)
+                    .padding(.horizontal, 16)
+
+                Divider()
+                    .padding(.top, 16)
+            }
+            .padding(.top, 8)
+            .background(Background.first)
+        }
+    }
+}
+
 // MARK: - Preview
 
 #Preview {
     BulletinBoardCell(
         post: Post(
-            anonymityIndex: 0,
+            boardId: 1,
+            writerId: 2,
+            content: "캐플짱이라요~!",
+            heartCount: 20,
+            commentCount: 3,
+            createAt: .now,
             isMine: true,
-            content: "다들 매크로 팀원 조합 어떠신가요?",
-            isLike: true,
-            likeCount: 4,
-            commentCount: 1,
-            writingDate: .now
+            isReported: false,
+            isLiked: true
         )
     ) {}
         .environmentObject(BulletinBoardUseCase())
