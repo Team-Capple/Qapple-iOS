@@ -45,4 +45,12 @@ struct BoardResponse {
         let boardId: Int
         let isLiked: Bool
     }
+    
+    struct PostBoard: Codable {
+        let boardId: Int
+    }
+    
+    struct DeleteBoard: Codable {
+        let boardId: Int
+    }
 }

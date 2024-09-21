@@ -35,6 +35,7 @@ struct BulletinBoardView: View {
                 if bulletinBoardUseCase.isLoading {
                     ProgressView()
                         .progressViewStyle(.circular)
+                        .tint(.primary)
                 }
             }
             .background(Background.first)

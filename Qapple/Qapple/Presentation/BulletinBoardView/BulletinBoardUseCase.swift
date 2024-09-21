@@ -93,7 +93,11 @@ extension BulletinBoardUseCase {
                 _state.posts.remove(at: index)
             }
             Task {
-                try await NetworkManager.requestDeleteBoard(.init(boardId: postIndex))
+                do {
+                    try await NetworkManager.requestDeleteBoard(.init(boardId: postIndex))
+                } catch {
+                    print(error)
+                }
             }
             
         case .reportPost(postIndex: let postIndex):

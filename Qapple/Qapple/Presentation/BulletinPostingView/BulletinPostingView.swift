@@ -17,12 +17,19 @@ struct BulletinPostingView: View {
     @FocusState private var isTextFieldFocused: Bool
 
     var body: some View {
-        VStack(spacing: 0) {
-            NavigationBar(isBackAlertPresented: $isBackAlertPresented)
-            Spacer()
-            WritingView(isTextFieldFocused: $isTextFieldFocused)
-            Spacer()
-            Footer()
+        ZStack{
+            VStack(spacing: 0) {
+                NavigationBar(isBackAlertPresented: $isBackAlertPresented)
+                Spacer()
+                WritingView(isTextFieldFocused: $isTextFieldFocused)
+                Spacer()
+                Footer()
+            }
+            if postingUseCase.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.primary)
+            }
         }
         .background(Background.first)
         .navigationBarBackButtonHidden()
@@ -72,14 +79,15 @@ private struct NavigationBar: View {
             },
             trailingView: {
                 Button("올리기") {
-                    if postingUseCase._state.content.isEmpty {
-                        // TODO: 빈문자 경고 필요
-                    } else {
-                        postingUseCase.effect(.uploadPost)
-                        pathModel.pop()
+                    if !postingUseCase._state.content.isEmpty {
+                        Task {
+                            try await postingUseCase.effect(.uploadPost)
+                            pathModel.pop()
+                        }
                     }
                 }
-                .foregroundStyle(BrandPink.button)
+                .foregroundStyle(postingUseCase._state.content.isEmpty ? .disable : BrandPink.button)
+                .disabled(postingUseCase._state.content.isEmpty)
             },
             backgroundColor: .clear
         )

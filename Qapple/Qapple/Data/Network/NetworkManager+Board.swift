@@ -72,7 +72,7 @@ extension NetworkManager {
     }
     
     /// 게시글 등록
-    static func requestRegisterBoard(_ request: BoardRequest.RegisterBoard) async throws -> BoardResponse.Boards {
+    static func requestRegisterBoard(_ request: BoardRequest.RegisterBoard) async throws -> BoardResponse.PostBoard {
         
         // JSON Request
         guard let requestData = try? JSONEncoder().encode(request) else {
@@ -106,7 +106,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         do {
-            let decodeData = try decoder.decode(BaseResponse<BoardResponse.Boards>.self, from: data)
+            let decodeData = try decoder.decode(BaseResponse<BoardResponse.PostBoard>.self, from: data)
             return decodeData.result
         } catch {
             throw NetworkError.decodeFailed
@@ -161,7 +161,7 @@ extension NetworkManager {
     }
     
     /// 게시글 삭제
-    static func requestDeleteBoard(_ request: BoardRequest.DeleteBoard) async throws -> BoardResponse.Boards {
+    static func requestDeleteBoard(_ request: BoardRequest.DeleteBoard) async throws -> BoardResponse.DeleteBoard {
         
         // URL 객체 생성
         let urlString = ApiEndpoints.basicURLString(path: .boards) + "/\(request.boardId)"
@@ -187,7 +187,7 @@ extension NetworkManager {
         
         // 디코딩
         let decoder = JSONDecoder()
-        let decodeData = try decoder.decode(BaseResponse<BoardResponse.Boards>.self, from: data)
+        let decodeData = try decoder.decode(BaseResponse<BoardResponse.DeleteBoard>.self, from: data)
         return decodeData.result
     }
     
