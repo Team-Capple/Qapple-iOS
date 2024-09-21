@@ -70,6 +70,7 @@ extension BulletinBoardUseCase {
         case .likePost(let postId):
             if let index = _state.posts.firstIndex(where: { $0.boardId == postId }) {
                 print("\(index)번째 게시글 좋아요 업데이트")
+                self.isLoading = true
                 
                 _state.posts[index].isLiked.toggle()
                 _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
@@ -77,12 +78,15 @@ extension BulletinBoardUseCase {
                 // 서버로 좋아요 요청 보내기
                 Task {
                     do {
-                        try await NetworkManager.requestLikeBoard(.init(boardId: postId))
+                        let _ = try await NetworkManager.requestLikeBoard(.init(boardId: postId))
                     } catch {
                         // 오류 발생 시 다시 상태 복구
                         _state.posts[index].isLiked.toggle()
                         _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
                         print("Error updating like for post \(postId): \(error)")
+                    }
+                    DispatchQueue.main.async {
+                        self.isLoading = false
                     }
                 }
             }
@@ -94,7 +98,7 @@ extension BulletinBoardUseCase {
             }
             Task {
                 do {
-                    try await NetworkManager.requestDeleteBoard(.init(boardId: postIndex))
+                    let _ = try await NetworkManager.requestDeleteBoard(.init(boardId: postIndex))
                 } catch {
                     print(error)
                 }

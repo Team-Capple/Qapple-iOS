@@ -147,6 +147,7 @@ private struct PostListView: View {
                     )
                 }
             }
+            .disabled(bulletinBoardUseCase.isLoading)
         }
         .refreshable {
             bulletinBoardUseCase.effect(.fetchPost)
