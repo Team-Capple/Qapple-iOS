@@ -101,7 +101,7 @@ struct CommentCell: View {
                         Task.init {
                             // TODO: Page Number 수정
                             await commentViewModel.act(.delete(id: comment.id))
-                            await commentViewModel.loadComments(boardId: self.post.anonymityIndex, pageNumber: 0)
+                            await commentViewModel.loadComments(boardId: self.post.boardId, pageNumber: 0)
                             self.isDeleteComplete.toggle()
                         }
                     }),

@@ -112,5 +112,5 @@ extension CommentReportView {
 }
 
 #Preview {
-    ReportView(answerId: 1)
+    ReportView(answerId: 1, boardId: -1)
 }
