@@ -12,7 +12,6 @@ class CommentRequest {
     
     // 댓글 생성 POST
     struct UploadComment {
-        let boardId: Int
-        let content: String
+        let comment: String
     }
 }

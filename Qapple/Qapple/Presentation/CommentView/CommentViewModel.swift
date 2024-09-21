@@ -47,11 +47,11 @@ final class CommentViewModel: ObservableObject {
     
     // 댓글 달기 action
     @MainActor
-    public func uploadComment(request: CommentRequest.UploadComment) async {
+    public func uploadComment(id: Int, request: CommentRequest.UploadComment) async {
         self.isLoading = true
         
         do {
-            _ = try await NetworkManager.postComment(requestBody: request)
+            _ = try await NetworkManager.postComment(id: id, requestBody: request)
         } catch {
             print(error.localizedDescription)
         }
@@ -63,7 +63,7 @@ final class CommentViewModel: ObservableObject {
 
 extension CommentViewModel {
     enum Action {
-        case upload(request: CommentRequest.UploadComment)
+        case upload(id: Int, request: CommentRequest.UploadComment)
         case delete(id: Int)
         case report(id: Int)
         case like(id: Int)
@@ -71,10 +71,10 @@ extension CommentViewModel {
     
     func act(_ action: Action) async {
         switch action {
-        case .upload(let request):
+        case .upload(let id, let request):
             // TODO: 댓글 업로드 기능 구현
-            print("댓글 업로드: \(request.content)")
-            await uploadComment(request: request)
+            print("댓글 업로드: \(request.comment)")
+            await uploadComment(id: id, request: request)
         case .delete(let id):
             // TODO: 댓글 삭제 기능 구현
             print("\(id)번째 댓글 삭제")

@@ -83,7 +83,7 @@ struct CommentView: View {
             Button {
                 // TODO: Page Number 수정
                 Task.init {
-                    await commentViewModel.act(.upload(request: .init(boardId: post.anonymityIndex, content: self.text)))
+                    await commentViewModel.act(.upload(id: post.anonymityIndex, request: .init(comment: self.text)))
                     await commentViewModel.loadComments(boardId: post.anonymityIndex, pageNumber: 0)
                     self.text = ""
                 }

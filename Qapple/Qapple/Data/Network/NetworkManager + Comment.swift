@@ -54,10 +54,10 @@ extension NetworkManager {
     }
     
     // 댓글을 업로드 합니다.
-    static func postComment(requestBody: CommentRequest.UploadComment) async throws {
+    static func postComment(id: Int, requestBody: CommentRequest.UploadComment) async throws {
         let urlString = ApiEndpoints.basicURLString(path: .createComment)
         
-        guard let url = URL(string: "\(urlString)/\(requestBody.boardId)") else {
+        guard let url = URL(string: "\(urlString)/\(id)") else {
             print("잘못된 URL 입니다! in CommentView")
             throw NetworkError.cannotCreateURL
         }
@@ -77,7 +77,7 @@ extension NetworkManager {
         
         
         do {
-            let bodyText = requestBody.content
+            let bodyText = requestBody.comment
             let body = try JSONEncoder().encode(bodyText)
             
             request.httpBody = body
