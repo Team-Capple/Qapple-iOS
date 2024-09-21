@@ -52,6 +52,11 @@ private struct NotificationContentView: View {
                     Separator()
                         .padding(.leading)
                 }
+                
+                Text("알림은 7일간 보관됩니다.")
+                    .font(Font.pretendard(.medium, size: 14))
+                    .foregroundStyle(TextLabel.sub4)
+                    .padding(.top, 16)
             }
         }
     }

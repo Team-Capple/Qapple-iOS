@@ -56,13 +56,15 @@ private struct ContentView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-                Text(notification.subtitle ?? "")
-                    .pretendard(.medium, 14)
-                    .foregroundColor(.sub2)
-            
             Text(notification.content)
                 .pretendard(.medium, 14)
-                .foregroundColor(.sub4)
+                .foregroundColor(.sub2)
+            
+            if let subTitle = notification.subtitle {
+                Text(subTitle)
+                    .pretendard(.medium, 14)
+                    .foregroundColor(.sub4)
+            }
         }
     }
 }
