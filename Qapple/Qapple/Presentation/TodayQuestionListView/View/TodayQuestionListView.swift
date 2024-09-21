@@ -8,7 +8,7 @@ struct TodayQuestionListView: View {
     @State private var isBottomSheetPresented = false
     
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack {
             Color(Background.first)
                 .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
             
