@@ -151,6 +151,6 @@ extension CommentViewModel {
             }
         }
         
-        return result
+        return result.reversed()
     }
 }
