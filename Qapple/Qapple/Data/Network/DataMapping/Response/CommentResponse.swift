@@ -22,7 +22,7 @@ struct CommentResponse: Codable {
     
     struct Comment: Codable, Identifiable {
         var id: Int
-        var name: String
+        var writerId: Int
         var content: String
         var heartCount: Int
         var isLiked: Bool
@@ -32,7 +32,7 @@ struct CommentResponse: Codable {
         
         enum CodingKeys: String, CodingKey {
             case id = "boardCommentId"
-            case name = "writer"
+            case writerId
             case content
             case heartCount
             case isLiked
@@ -41,9 +41,9 @@ struct CommentResponse: Codable {
             case createdAt
         }
         
-        init(id: Int, name: String, content: String, heartCount: Int, isLiked: Bool, isMine: Bool, isReport: Bool, createdAt: String) {
+        init(id: Int, writerId: Int, content: String, heartCount: Int, isLiked: Bool, isMine: Bool, isReport: Bool, createdAt: String) {
             self.id = id
-            self.name = name
+            self.writerId = writerId
             self.content = content
             self.heartCount = heartCount
             self.isLiked = isLiked

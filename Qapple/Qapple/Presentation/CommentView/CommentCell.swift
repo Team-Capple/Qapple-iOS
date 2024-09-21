@@ -29,7 +29,7 @@ struct CommentCell: View {
             content
                 .frame(width: screenWidth)
             
-            if comment.isLiked {
+            if comment.isMine {
                 deleteBtn
             } else {
                 reportBtn
@@ -73,7 +73,7 @@ struct CommentCell: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 10) {
                     // 사용자 이름
-                    Text(self.comment.name)
+                    Text("러너 \(self.comment.writerId)")
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(.icon)
                     
@@ -127,7 +127,7 @@ struct CommentCell: View {
         Button {
             // TODO: 삭제 기능 구현
             Task.init {
-                await commentViewModel.act(.delete(id: 1))
+                await commentViewModel.act(.delete(id: comment.id))
             }
         } label: {
             ZStack {

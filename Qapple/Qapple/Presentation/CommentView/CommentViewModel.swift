@@ -97,22 +97,22 @@ extension CommentViewModel {
         // 아무개 번호
         var nameIndex = 0
         // 중복 여부 판단하는 딕셔너리
-        var nameArray: [Int: String] = [:]
+        var nameArray: [Int: Int] = [:]
         
         let result = comments.map { comment in
             // 한번이라도 나온 writer인지 여부 판단
             let isContainName = nameArray.values.contains {
-                $0 == comment.name
+                $0 == comment.writerId
             }
             
             if !isContainName { // 처음 나오는 writer일 경우
                 nameIndex += 1
-                nameArray.updateValue(comment.name, forKey: nameIndex)
+                nameArray.updateValue(comment.writerId, forKey: nameIndex)
                 
                 
                 return CommentResponse.Comment(
                     id: comment.id,
-                    name: "러너 \(nameIndex)",
+                    writerId: nameIndex,
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
@@ -122,12 +122,12 @@ extension CommentViewModel {
             } else { // 한번 이상 나온 writer일 경우
                 // 해당 value의 key 값을 찾아 name의 index로 제공
                 let currentIndex = nameArray
-                    .filter { $0.value == comment.name }
+                    .filter { $0.value == comment.writerId }
                     .first!.key
                 
                 return CommentResponse.Comment(
                     id: comment.id,
-                    name: "러너 \(currentIndex)",
+                    writerId: currentIndex,
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
