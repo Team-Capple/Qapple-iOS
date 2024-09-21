@@ -237,26 +237,19 @@ private struct AnswerPreview: View {
                     Spacer()
                 }
             } else {
-                VStack(spacing: 14) {
-                    VStack(alignment: .leading) {
-                        Spacer()
-                            .frame(height: 44)
-                        
+                VStack(spacing: 0) {
+                    VStack(alignment: .leading, spacing: 0) {
                         HStack(alignment: .top, spacing: 2) {
+                            Text("Q.")
+                                .foregroundStyle(BrandPink.text)
                             
-                            if viewModel.mainQuestion.isAnswered {
-                                Text("Q.")
-                                    .foregroundStyle(BrandPink.text)
-                            }
                             
                             Text(viewModel.listTitleText)
                                 .foregroundStyle(TextLabel.main)
                         }
+                        .padding(.top, 40)
                         .font(.pretendard(.bold, size: 20))
                         .lineSpacing(4)
-                        
-                        Spacer()
-                            .frame(height: 24)
                         
                         HStack {
                             Text(viewModel.listSubText)
@@ -276,31 +269,34 @@ private struct AnswerPreview: View {
                                 }
                             }
                         }
+                        .padding(.top, 20)
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, 20)
+                    
+                    Divider()
+                        .padding(.top, 12)
                     
                     // 답변 있는 케이스
                     ForEach(Array(viewModel.answerList), id: \.self) { answer in
-                        VStack {
-                            AnswerCell(
-                                answer: Answer(
-                                    id: answer.answerId,
-                                    writerId: answer.writerId,
-                                    learnerIndex: viewModel.learnerIndex(to: answer),
-                                    content: answer.content,
-                                    writingDate: answer.writeAt.ISO8601ToDate,
-                                    isMine: answer.isMine,
-                                    isReported: answer.isReported
-                                ),
-                                seeMoreAction: {
-                                    isMine = .init(
-                                        answerId: answer.answerId,
-                                        isMine: answer.isMine
-                                    )
-                                }
-                            )
-                        }
+                        AnswerCell(
+                            answer: Answer(
+                                id: answer.answerId,
+                                writerId: answer.writerId,
+                                learnerIndex: viewModel.learnerIndex(to: answer),
+                                content: answer.content,
+                                writingDate: answer.writeAt.ISO8601ToDate,
+                                isMine: answer.isMine,
+                                isReported: answer.isReported
+                            ),
+                            seeMoreAction: {
+                                isMine = .init(
+                                    answerId: answer.answerId,
+                                    isMine: answer.isMine
+                                )
+                            }
+                        )
                     }
+                    .padding(.top, 12)
                     .sheet(item: $isMine) {
                         SeeMoreView(
                             answerType: $0.isMine ? .mine : .others,
