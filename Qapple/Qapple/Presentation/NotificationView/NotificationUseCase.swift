@@ -29,6 +29,7 @@ extension NotificationUseCase {
     
     struct State {
         var notificationList: [QappleNoti]
+        var isLoading: Bool = true
     }
 }
 
@@ -38,6 +39,8 @@ extension NotificationUseCase {
     
     @MainActor
     func fetchNotificationList() {
+        _state.isLoading = true
+        
         Task {
             do {
                 let notificationList = try await NetworkManager.fetchNotificationList(
@@ -58,8 +61,11 @@ extension NotificationUseCase {
                         isReadStatus: false
                     )
                 }
+                
+                _state.isLoading = false
             } catch {
                 print("Notification을 불러오는데 실패했습니다.")
+                _state.isLoading = false
             }
         }
     }
