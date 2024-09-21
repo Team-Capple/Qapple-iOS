@@ -285,10 +285,11 @@ private struct AnswerPreview: View {
                     .sheet(item: $isMine) {
                         SeeMoreView(
                             answerType: $0.isMine ? .mine : .others,
-                            answerId: $0.answerId
-                        ) {
-                            viewModel.updateTodayQuestionView()
-                        }
+                            answerId: $0.answerId,
+                            completion: {
+                                viewModel.updateTodayQuestionView()
+                            }
+                        )
                         .presentationDetents([.height(84)])
                     }
                 }
