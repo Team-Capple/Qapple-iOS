@@ -37,7 +37,7 @@ class AnswerListViewModel: ObservableObject {
                     )
                 )
                 
-                self.answerList = response.content
+                self.answerList = response.content.reversed()
                 createLearnerDictionary()
             } catch {
                 print("답변 리스트 호출 실패")

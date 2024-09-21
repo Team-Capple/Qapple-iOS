@@ -126,7 +126,7 @@ extension TodayQuestionViewModel {
                     pageSize: 1000
                 ))
             let answerList = Array(answerPreview.content.prefix(3))
-            self.answerList = answerList
+            self.answerList = answerList.reversed()
             createLearnerDictionary()
         } catch {
             print("답변 프리뷰 업데이트 실패")
