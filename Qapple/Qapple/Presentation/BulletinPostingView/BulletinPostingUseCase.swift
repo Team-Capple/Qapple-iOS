@@ -45,7 +45,7 @@ extension BulletinPostingUseCase {
             self.isLoading = true
             
             let _ = try await NetworkManager.requestRegisterBoard(.init(content: _state.content, boardType: "FREEBOARD"))
-            self.isLoading = false
+//            self.isLoading = false
             print("포스팅을 업로드합니다.")
         }
     }

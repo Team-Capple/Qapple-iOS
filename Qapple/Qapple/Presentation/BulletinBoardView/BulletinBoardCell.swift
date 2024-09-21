@@ -139,6 +139,9 @@ private struct RemoteView: View {
                 post: post,
                 tapAction: {
                     bulletinBoardUseCase.effect(.likePost(postId: post.boardId))
+                    if bulletinBoardUseCase.isClickComment {
+                    }
+                    print(post.boardId)
                 }
             )
             
@@ -175,6 +178,7 @@ private struct RemoteView: View {
             Button {
                 if !bulletinBoardUseCase.isClickComment {
                     pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                    print(post)
                     bulletinBoardUseCase.isClickComment = true
                     print(bulletinBoardUseCase.isClickComment)
                 }
@@ -206,7 +210,7 @@ private struct ReportBoardCell: View {
     var body: some View {
         if !isReportContentShow {
             VStack(alignment: .leading, spacing: 16) {
-                Text("신고 되어 내용을 검토 중인 답변이에요")
+                Text("신고 되어 내용을 검토 중인 게시글이에요")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.sub3)
                     .padding(.horizontal, 16)
