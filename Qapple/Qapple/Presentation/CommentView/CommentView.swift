@@ -50,7 +50,7 @@ struct CommentView: View {
                     }
                 }
                 
-                if self.commentViewModel.isLoading {
+                if self.commentViewModel.isLoading || self.bulletinBoardUseCase.isLoading {
                     ProgressView()
                         .progressViewStyle(.circular)
                 }
@@ -73,7 +73,7 @@ struct CommentView: View {
             // TODO: Page Number 수정
             await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
         }
-        .onChange(of: bulletinBoardUseCase._state.posts) { newPosts in
+        .onChange(of: bulletinBoardUseCase._state.posts) { _, newPosts in
             if let updatedPost = newPosts.first(where: { $0.boardId == post.boardId }) {
                 self.post = updatedPost
             }
@@ -101,6 +101,7 @@ struct CommentView: View {
                     await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
+                    self.hideKeyboard()
                 }
             } label: {
                 Image(systemName: "paperplane")

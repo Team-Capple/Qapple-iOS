@@ -23,7 +23,7 @@ final class CommentViewModel: ObservableObject {
             let fetchResult = try await NetworkManager.fetchComments(boardId: boardId, pageNumber: pageNumber)
             let content = fetchResult.content
             
-            self.comments = anonymizeComment(content)
+            self.comments = anonymizeComment(content.reversed())
         } catch {
             print(error.localizedDescription)
         }
@@ -151,6 +151,6 @@ extension CommentViewModel {
             }
         }
         
-        return result.reversed()
+        return result
     }
 }
