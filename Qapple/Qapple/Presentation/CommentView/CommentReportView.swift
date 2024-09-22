@@ -12,6 +12,7 @@ struct CommentReportView: View {
     @EnvironmentObject var pathModel: Router
     @State private var isReportAlertPresented = false
     @State private var isReportCompleteAlertPresented = false
+    @State private var isLoading: Bool = false
     @State private var reportType: CommentReportType = .DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS
     
     let commentId: Int
@@ -62,6 +63,7 @@ struct CommentReportView: View {
                                 .frame(height: 48)
                                 .background(Background.first)
                         }
+                        .disabled(self.isLoading)
                     }
                     
                     Spacer()
@@ -76,13 +78,20 @@ struct CommentReportView: View {
                 
                 Spacer()
             }
+            
+            if self.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
         }
         .navigationBarBackButtonHidden()
         .alert("답변을 신고하시겠어요?", isPresented: $isReportAlertPresented) {
             Button("취소", role: .cancel) {}
             Button("신고하기", role: .destructive) {
                 Task {
+                    self.isLoading = true
                     await self.reportComment()
+                    self.isLoading = false
                     self.isReportCompleteAlertPresented.toggle()
                 }
             }
@@ -92,7 +101,7 @@ struct CommentReportView: View {
                 pathModel.pop()
             }
         } message: {
-            Text("신고한 답변은 블라인드 처리 되며, 관리자 검토 후 최대 24시간 이내에 조치 될 예정이에요")
+            Text("신고한 댓글은 블라인드 처리 되며, 관리자 검토 후 최대 24시간 이내에 조치 될 예정이에요")
         }
     }
 }
