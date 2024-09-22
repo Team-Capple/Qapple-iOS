@@ -97,6 +97,7 @@ struct CommentView: View {
             Button {
                 // TODO: Page Number 수정
                 Task.init {
+                    HapticManager.shared.notification(type: .success)
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
                     await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     self.post.commentCount = commentViewModel.comments.count

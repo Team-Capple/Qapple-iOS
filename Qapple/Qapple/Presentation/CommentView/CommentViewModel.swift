@@ -85,18 +85,14 @@ extension CommentViewModel {
     func act(_ action: Action) async {
         switch action {
         case .upload(let id, let request):
-            // TODO: 댓글 업로드 기능 구현
             print("댓글 업로드: \(request.comment)")
             await uploadComment(id: id, request: request)
         case .delete(let id):
-            // TODO: 댓글 삭제 기능 구현
             print("\(id)번째 댓글 삭제")
             await deleteComment(id: id)
         case .report(let id):
-            // TODO: 댓글 신고 기능 구현
             print("\(id)번째 댓글 신고")
         case .like(id: let id):
-            // TODO: 댓글 좋아요 기능 구현
             print("\(id)번째 댓글 좋아요")
             await likeComment(commentId: id)
             
