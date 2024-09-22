@@ -155,7 +155,8 @@ private struct PostListView: View {
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(
                 sheetType: post.isMine ? .mine : .others,
-                post: post
+                post: post,
+                isComment: false
             )
             .presentationDetents([.height(84)])
             .presentationDragIndicator(.visible)

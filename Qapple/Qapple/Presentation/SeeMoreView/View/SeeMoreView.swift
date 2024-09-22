@@ -50,7 +50,12 @@ struct SeeMoreView: View {
                     SeeMoreCell(title: "신고하기") {
                         presentationMode.wrappedValue.dismiss()
 //                        pathModel.paths.append(.report(answerId: answerId))
-                        pathModel.pushView(screen: QuestionListPathType.report(answerId: answerId))
+                        pathModel.pushView(
+                            screen: QuestionListPathType.report(
+                                answerId: answerId,
+                                isComment: false
+                            )
+                        )
                     }
                 }
 

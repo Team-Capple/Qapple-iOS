@@ -33,6 +33,7 @@ struct BulletinBoardSeeMoreSheetView: View {
     
     let sheetType: SheetType
     let post: Post
+    let isComment: Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -44,7 +45,7 @@ struct BulletinBoardSeeMoreSheetView: View {
                     case .mine: isRemovePostAlertPresented.toggle()
                     case .others:
                         dismiss()
-                        pathModel.pushView(screen: BulletinBoardPathType.report(boardId: post.boardId))
+                        pathModel.pushView(screen: BulletinBoardPathType.report(boardId: post.boardId, isComment: isComment))
                     }
                 }
             )
@@ -61,6 +62,9 @@ struct BulletinBoardSeeMoreSheetView: View {
         .alert("삭제가 완료됐어요", isPresented: $isRemoveCompleteAlertPresented) {
             Button("확인", role: .none) {
                 dismiss()
+                if isComment {
+                    pathModel.pop()
+                }
             }
         }
         .onAppear {
@@ -110,6 +114,7 @@ private struct SeeMoreCellButton: View {
             isMine: true,
             isReported: false,
             isLiked: false
-        )
+        ),
+        isComment: false
     )
 }

@@ -89,6 +89,7 @@ private struct HeaderView: View {
             
             Button {
                 seeMoreAction()
+                print("ellipsis")
             } label: {
                 Image(systemName: "ellipsis")
                     .resizable()
