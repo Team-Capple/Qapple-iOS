@@ -24,11 +24,10 @@ struct AppleLoginService {
                         try SignInInfo.shared.createToken(.refresh, token: response.refreshToken)
                         
                         print("✅ [Auto Login Successed]\n")
-                        print("✅ [AccessToken Successed]\n\(String(describing: try? SignInInfo.shared.token(.access)))\n")
-                        print("✅ [RefreshToken Successed]\n\(String(describing: try? SignInInfo.shared.token(.refresh)))\n")
-                        
+                        print("유효한 토큰 확인, 메인 화면으로 이동")
                         return completion(true)
                     } catch {
+                        print("유효한 토큰 없음, 로그인 화면으로 이동")
                         return completion(false)
                     }
                 }

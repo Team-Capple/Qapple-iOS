@@ -24,13 +24,11 @@ extension NetworkManager {
         
         // URLSession 생성
         let (data, response) = try await URLSession.shared.data(from: url)
-        // print(data)
-        // print(response)
         
         // 에러 체크
         if let response = response as? HTTPURLResponse,
            !(200..<300).contains(response.statusCode) {
-            print("Error: badRequest")
+            print("Error: badRequest \(response.statusCode)")
             throw NetworkError.badRequest
         }
         
@@ -38,7 +36,6 @@ extension NetworkManager {
         let decoder = JSONDecoder()
         do {
             let decodeData = try decoder.decode(BaseResponse<MemberResponse.SignIn>.self, from: data)
-            // print("QuestionResponse.MainQuestions: \(decodeData.result)")
             return decodeData.result
         } catch {
             print("Decode 에러")

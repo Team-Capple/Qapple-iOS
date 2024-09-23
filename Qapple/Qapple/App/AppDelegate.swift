@@ -46,6 +46,7 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         Messaging.messaging().delegate = self
         
         UNUserNotificationCenter.current().delegate = self
+        
         return true
     }
     
@@ -53,7 +54,7 @@ class AppDelegate: NSObject, UIApplicationDelegate{
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         let deviceTokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
-        print("✅ [Device Token Successed]\n\(deviceTokenString)\n")
+        // print("✅ [Device Token Successed]\n\(deviceTokenString)\n")
         
         // Device Token 업데이트
         SignInInfo.shared.deviceToken = deviceTokenString
@@ -63,7 +64,7 @@ class AppDelegate: NSObject, UIApplicationDelegate{
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("❌ [Device Token Failed]\n" + error.localizedDescription + "\n")
+        // print("❌ [Device Token Failed]\n" + error.localizedDescription + "\n")
     }
 }
 
@@ -73,13 +74,13 @@ extension AppDelegate: MessagingDelegate{
     // fcm 등록 토큰을 받았을 때
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
 
-        print("토큰을 받았다")
-        // Store this token to firebase and retrieve when to send message to someone...
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        
-        // Store token in Firestore For Sending Notifications From Server in Future...
-        
-        print(dataDict)
+//        print("토큰을 받았다")
+//        // Store this token to firebase and retrieve when to send message to someone...
+//        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+//        
+//        // Store token in Firestore For Sending Notifications From Server in Future...
+//        
+//        print(dataDict)
      
     }
 }
