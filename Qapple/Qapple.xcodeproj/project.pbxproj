@@ -118,6 +118,8 @@
 		82CDA7772BB2EBC00031AEB4 /* PopGestureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA7762BB2EBC00031AEB4 /* PopGestureManager.swift */; };
 		82CDA7792BB2EBCF0031AEB4 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA7782BB2EBCF0031AEB4 /* HapticManager.swift */; };
 		82CDA77B2BB2F3A30031AEB4 /* AnonymityNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDA77A2BB2F3A30031AEB4 /* AnonymityNoticeView.swift */; };
+		82CF06982CA0F7060039C2FF /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CF06972CA0F7060039C2FF /* TokenResponse.swift */; };
+		82CF069A2CA0F73D0039C2FF /* NetworkManager+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CF06992CA0F73D0039C2FF /* NetworkManager+Token.swift */; };
 		82D2BD4B2C67305000082A58 /* BulletinBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D2BD4A2C67305000082A58 /* BulletinBoardView.swift */; };
 		82D2BD4E2C6731E400082A58 /* CustomToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D2BD4D2C6731E400082A58 /* CustomToolbarItem.swift */; };
 		82D2BD502C6736EC00082A58 /* AcademyPlanDayCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D2BD4F2C6736EC00082A58 /* AcademyPlanDayCounter.swift */; };
@@ -285,6 +287,8 @@
 		82CDA7762BB2EBC00031AEB4 /* PopGestureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopGestureManager.swift; sourceTree = "<group>"; };
 		82CDA7782BB2EBCF0031AEB4 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		82CDA77A2BB2F3A30031AEB4 /* AnonymityNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymityNoticeView.swift; sourceTree = "<group>"; };
+		82CF06972CA0F7060039C2FF /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
+		82CF06992CA0F73D0039C2FF /* NetworkManager+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Token.swift"; sourceTree = "<group>"; };
 		82D2BD4A2C67305000082A58 /* BulletinBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardView.swift; sourceTree = "<group>"; };
 		82D2BD4D2C6731E400082A58 /* CustomToolbarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarItem.swift; sourceTree = "<group>"; };
 		82D2BD4F2C6736EC00082A58 /* AcademyPlanDayCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademyPlanDayCounter.swift; sourceTree = "<group>"; };
@@ -587,6 +591,7 @@
 				42531AE92C8724F9001CA803 /* NetworkManager+Board.swift */,
 				2CD2B5A82C88753800E17B6A /* NetworkManager+Comment.swift */,
 				827169182C9EB8BC00D8BF81 /* NetworkManager+Notification.swift */,
+				82CF06992CA0F73D0039C2FF /* NetworkManager+Token.swift */,
 			);
 			name = NetworklManager;
 			sourceTree = "<group>";
@@ -998,6 +1003,7 @@
 			isa = PBXGroup;
 			children = (
 				F3EA67022B764504002417CE /* BaseResponse.swift */,
+				82CF06972CA0F7060039C2FF /* TokenResponse.swift */,
 				82D583B82B9852C4003CC424 /* QuestionResponse.swift */,
 				828715BD2B99FC54001627DB /* TagResponse.swift */,
 				828715C12B9AC91A001627DB /* AnswerResponse.swift */,
@@ -1331,6 +1337,7 @@
 				828A03DB2BAB36F80038CF91 /* NotificationManager.swift in Sources */,
 				F36F37C32B9B7A29002EC36B /* AppleLoginButton.swift in Sources */,
 				8295BDB02BA31C5C00115FA8 /* PrivacyDocument.swift in Sources */,
+				82CF069A2CA0F73D0039C2FF /* NetworkManager+Token.swift in Sources */,
 				073C3DE02B87143B0016C333 /* QuestionState.swift in Sources */,
 				82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */,
 				8295BDB62BA322A300115FA8 /* NetworkManager+Answer.swift in Sources */,
@@ -1368,6 +1375,7 @@
 				F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */,
 				828715C02B9AC866001627DB /* AnswerRequest.swift in Sources */,
 				8295BDAA2BA04D1300115FA8 /* SignUpEmailView.swift in Sources */,
+				82CF06982CA0F7060039C2FF /* TokenResponse.swift in Sources */,
 				2C2E0ED52C63D177003928C1 /* CommentCell.swift in Sources */,
 				824717322BC9140A005E9631 /* ReportResponse.swift in Sources */,
 				2CD2B5AB2C88780D00E17B6A /* CommentResponse.swift in Sources */,
