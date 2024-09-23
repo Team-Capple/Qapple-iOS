@@ -131,6 +131,7 @@ struct CommentCell: View {
                 Button {
                     // TODO: Page Number 수정
                     Task.init {
+                        HapticManager.shared.notification(type: .success)
                         await commentViewModel.act(.like(id: comment.id))
                         await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                         self.post.commentCount = commentViewModel.comments.count
@@ -160,6 +161,7 @@ struct CommentCell: View {
     private var deleteBtn: some View {
         Button {
             self.isDelete.toggle()
+            HapticManager.shared.notification(type: .error)
         } label: {
             ZStack {
                 Color.delete

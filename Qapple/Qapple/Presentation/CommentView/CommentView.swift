@@ -55,7 +55,7 @@ struct CommentView: View {
                     }
                 }
                 
-                if self.commentViewModel.isLoading {
+                if self.commentViewModel.isLoading || self.bulletinBoardUseCase.isLoading {
                     ProgressView()
                         .progressViewStyle(.circular)
                 }
@@ -87,7 +87,7 @@ struct CommentView: View {
             .presentationDetents([.height(84)])
             .presentationDragIndicator(.visible)
         }
-        .onChange(of: bulletinBoardUseCase._state.posts) { newPosts in
+        .onChange(of: bulletinBoardUseCase._state.posts) { _, newPosts in
             if let updatedPost = newPosts.first(where: { $0.boardId == post.boardId }) {
                 self.post = updatedPost
             }
@@ -111,10 +111,12 @@ struct CommentView: View {
             Button {
                 // TODO: Page Number 수정
                 Task.init {
+                    HapticManager.shared.notification(type: .success)
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
                     await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
                     self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
+                    self.hideKeyboard()
                 }
             } label: {
                 Image(systemName: "paperplane")
