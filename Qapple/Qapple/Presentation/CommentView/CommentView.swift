@@ -13,6 +13,7 @@ struct CommentView: View {
     
     @StateObject private var commentViewModel: CommentViewModel = .init()
     @State private var text: String = ""
+    @State private var selectedPost: Post?
     
     @State var post: Post
     
@@ -22,7 +23,11 @@ struct CommentView: View {
         VStack(spacing: 0) {
             HeaderView()
             
-            BulletinBoardCell(post: self.post, seeMoreAction: {})
+            BulletinBoardCell(
+                post: self.post,
+                seeMoreAction: {
+                    selectedPost = post
+                })
                 .frame(width: UIScreen.main.bounds.width)
                 .disabled(bulletinBoardUseCase.isLoading)
             
@@ -72,6 +77,15 @@ struct CommentView: View {
         .task {
             // TODO: Page Number 수정
             await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+        }
+        .sheet(item: $selectedPost) { post in
+            BulletinBoardSeeMoreSheetView(
+                sheetType: post.isMine ? .mine : .others,
+                post: post,
+                isComment: true
+            )
+            .presentationDetents([.height(84)])
+            .presentationDragIndicator(.visible)
         }
         .onChange(of: bulletinBoardUseCase._state.posts) { _, newPosts in
             if let updatedPost = newPosts.first(where: { $0.boardId == post.boardId }) {

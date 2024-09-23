@@ -12,10 +12,12 @@ struct ReportView: View {
     @EnvironmentObject var pathModel: Router
     @State private var isReportAlertPresented = false
     @State private var isReportCompleteAlertPresented = false
+    @State private var isLoading: Bool = false
     @State private var reportType: ReportType = .DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS
     
     let answerId: Int
     let boardId: Int
+    let isComment: Bool
     
     var reportList = [
         "불법촬영물 등의 유통",
@@ -63,6 +65,7 @@ struct ReportView: View {
                                 .frame(height: 48)
                                 .background(Background.first)
                         }
+                        .disabled(self.isLoading)
                     }
                     
                     Spacer()
@@ -77,13 +80,20 @@ struct ReportView: View {
                 
                 Spacer()
             }
+            
+            if self.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
         }
         .navigationBarBackButtonHidden()
         .alert("답변을 신고하시겠어요?", isPresented: $isReportAlertPresented) {
             Button("취소", role: .cancel) {}
             Button("신고하기", role: .destructive) {
                 Task {
+                    self.isLoading = true
                     await requestReportAnswer()
+                    self.isLoading = false
                     isReportCompleteAlertPresented.toggle()
                     sendUpdateViewNotification()
                 }
@@ -92,6 +102,9 @@ struct ReportView: View {
         .alert("신고가 완료됐어요", isPresented: $isReportCompleteAlertPresented) {
             Button("확인", role: .none) {
                 pathModel.pop()
+                if isComment {
+                    pathModel.pop()
+                }
             }
         } message: {
             Text("신고한 답변은 블라인드 처리 되며, 관리자 검토 후 최대 24시간 이내에 조치 될 예정이에요")
@@ -137,5 +150,5 @@ extension ReportView {
 }
 
 #Preview {
-    ReportView(answerId: 1, boardId: -1)
+    ReportView(answerId: 1, boardId: -1, isComment: false)
 }

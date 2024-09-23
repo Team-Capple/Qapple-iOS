@@ -89,6 +89,7 @@ private struct HeaderView: View {
             
             Button {
                 seeMoreAction()
+                print("ellipsis")
             } label: {
                 Image(systemName: "ellipsis")
                     .resizable()
@@ -219,7 +220,7 @@ private struct ReportBoardCell: View {
                     Button {
                         isReportContentShow.toggle()
                     } label: {
-                        Text("답변 보기")
+                        Text("게시글 보기")
                             .font(.pretendard(.medium, size: 16))
                             .foregroundStyle(BrandPink.text)
                     }
@@ -259,7 +260,7 @@ private struct ReportBoardCell: View {
                     Button {
                         isReportContentShow.toggle()
                     } label: {
-                        Text("답변 숨기기")
+                        Text("게시글 숨기기")
                             .font(.pretendard(.medium, size: 16))
                             .foregroundStyle(BrandPink.text)
                     }
