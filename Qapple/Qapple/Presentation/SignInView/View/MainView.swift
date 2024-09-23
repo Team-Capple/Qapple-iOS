@@ -235,6 +235,12 @@ private struct SignInView: View {
                 pathModel.paths.append(.email)
             }
         }
+        .alert("일시적인 오류로 애플 로그인에 실패했습니다. 다시 시도해주세요.", isPresented: $authViewModel.isAppleLoginFailedAlertPresenteed) {
+            Button("확인", role: .none) {}
+        }
+        .alert("캐플 서버 로그인에 실패했습니다. 관리자에게 문의해주세요.", isPresented: $authViewModel.isSignInFailedAlertPresented) {
+            Button("확인", role: .none) {}
+        }
     }
     
     var signInView: some View {

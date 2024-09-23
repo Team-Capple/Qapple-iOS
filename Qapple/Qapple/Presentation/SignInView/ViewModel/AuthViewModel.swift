@@ -37,6 +37,9 @@ class AuthViewModel: ObservableObject {
     @Published var isNicknameCanUse = false // 닉네임 중복 검사
     
     @Published var isSignUpFailedAlertPresented = false // 회원가입 실패 알림
+    
+    @Published var isAppleLoginFailedAlertPresenteed = false // 애플 로그인 실패 알림
+    @Published var isSignInFailedAlertPresented = false // 서버 로그인 실패 알림
 }
 
 // MARK: - Helper
@@ -134,7 +137,7 @@ extension AuthViewModel {
                         }
                         isSignInLoading = false
                     } catch {
-                        print("로그인 요청 실패,,,")
+                        isSignInFailedAlertPresented = true
                         isSignInLoading = false
                     }
                 }
@@ -142,7 +145,7 @@ extension AuthViewModel {
             default: break
             }
         case .failure(let error):
-            print("애플 로그인 요청 실패")
+            isAppleLoginFailedAlertPresenteed = true
             isSignInLoading = false
         }
     }
