@@ -17,6 +17,7 @@ struct ReportView: View {
     
     let answerId: Int
     let boardId: Int
+    let isComment: Bool
     
     var reportList = [
         "불법촬영물 등의 유통",
@@ -101,6 +102,9 @@ struct ReportView: View {
         .alert("신고가 완료됐어요", isPresented: $isReportCompleteAlertPresented) {
             Button("확인", role: .none) {
                 pathModel.pop()
+                if isComment {
+                    pathModel.pop()
+                }
             }
         } message: {
             Text("신고한 답변은 블라인드 처리 되며, 관리자 검토 후 최대 24시간 이내에 조치 될 예정이에요")
@@ -146,5 +150,5 @@ extension ReportView {
 }
 
 #Preview {
-    ReportView(answerId: 1, boardId: -1)
+    ReportView(answerId: 1, boardId: -1, isComment: false)
 }

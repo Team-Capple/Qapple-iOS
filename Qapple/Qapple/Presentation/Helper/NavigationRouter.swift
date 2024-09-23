@@ -65,8 +65,8 @@ final class Router: ObservableObject, NavigationRouter {
                 AnswerListView(questionId: questionId, questionContent: questionContent)
             case .alert:
                 AlertView()
-            case .report(answerId: let answerId):
-                ReportView(answerId: answerId, boardId: -1)
+            case .report(answerId: let answerId, isComment: let isComment):
+                ReportView(answerId: answerId, boardId: -1, isComment: isComment)
             }
         } else if pathType == .bulletinBoard {
             let view = view as! BulletinBoardPathType
@@ -84,8 +84,8 @@ final class Router: ObservableObject, NavigationRouter {
                 CommentView(post: post)
             case .commentReport(id: let id):
                 CommentReportView(commentId: id)
-            case .report(boardId: let boardId):
-                ReportView(answerId: -1, boardId: boardId)
+            case .report(boardId: let boardId, isComment: let isComment):
+                ReportView(answerId: -1, boardId: boardId, isComment: isComment)
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
@@ -138,7 +138,7 @@ enum QuestionListPathType: Hashable {
     /// 알림 및 신고
     case notifications
     case alert
-    case report(answerId: Int)
+    case report(answerId: Int, isComment: Bool)
 }
 
 /// 게시판 Tab
@@ -150,7 +150,7 @@ enum BulletinBoardPathType: Hashable {
     case search
     case comment(post: Post)
     case commentReport(id: Int)
-    case report(boardId: Int)
+    case report(boardId: Int, isComment: Bool)
 }
 
 /// 내 정보 Tab
