@@ -82,6 +82,7 @@ private struct NavigationBar: View {
                 Button("올리기") {
                     if !postingUseCase._state.content.isEmpty {
                         Task {
+                            HapticManager.shared.notification(type: .success)
                             try await postingUseCase.effect(.uploadPost)
                             pathModel.pop()
                             postingUseCase.isLoading = false

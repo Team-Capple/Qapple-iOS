@@ -22,6 +22,7 @@ struct BulletinBoardView: View {
                 NewPostButton(
                     title: "게시글 작성",
                     tapAction: {
+                        HapticManager.shared.notification(type: .success)
                         pathModel.pushView(screen: BulletinBoardPathType.bulletinPosting)
                     }
                 )

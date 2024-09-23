@@ -42,7 +42,8 @@ struct BulletinBoardSeeMoreSheetView: View {
                 isDestructive: true,
                 tapAction: {
                     switch sheetType {
-                    case .mine: isRemovePostAlertPresented.toggle()
+                    case .mine:
+                        isRemovePostAlertPresented.toggle()
                     case .others:
                         dismiss()
                         pathModel.pushView(screen: BulletinBoardPathType.report(boardId: post.boardId, isComment: isComment))
@@ -86,6 +87,7 @@ private struct SeeMoreCellButton: View {
     var body: some View {
         HStack {
             Button {
+                HapticManager.shared.notification(type: .success)
                 tapAction()
             } label: {
                 Text(title)
