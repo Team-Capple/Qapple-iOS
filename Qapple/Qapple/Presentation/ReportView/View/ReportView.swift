@@ -12,6 +12,7 @@ struct ReportView: View {
     @EnvironmentObject var pathModel: Router
     @State private var isReportAlertPresented = false
     @State private var isReportCompleteAlertPresented = false
+    @State private var isLoading: Bool = false
     @State private var reportType: ReportType = .DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS
     
     let answerId: Int
@@ -63,6 +64,7 @@ struct ReportView: View {
                                 .frame(height: 48)
                                 .background(Background.first)
                         }
+                        .disabled(self.isLoading)
                     }
                     
                     Spacer()
@@ -77,13 +79,20 @@ struct ReportView: View {
                 
                 Spacer()
             }
+            
+            if self.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
         }
         .navigationBarBackButtonHidden()
         .alert("답변을 신고하시겠어요?", isPresented: $isReportAlertPresented) {
             Button("취소", role: .cancel) {}
             Button("신고하기", role: .destructive) {
                 Task {
+                    self.isLoading = true
                     await requestReportAnswer()
+                    self.isLoading = false
                     isReportCompleteAlertPresented.toggle()
                     sendUpdateViewNotification()
                 }
