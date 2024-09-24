@@ -93,7 +93,7 @@ private struct CustomTabBar: View {
     
     var body: some View {
         ZStack {
-            Text("자유게시판")
+            Text("게시판")
                 .pretendard(.medium, 16)
                 .foregroundStyle(.white)
             
@@ -148,11 +148,11 @@ private struct PostListView: View {
                     )
                 }
             }
-            .disabled(bulletinBoardUseCase.isLoading)
         }
         .refreshable {
             bulletinBoardUseCase.effect(.fetchPost)
         }
+        .disabled(bulletinBoardUseCase.isLoading)
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(
                 sheetType: post.isMine ? .mine : .others,
