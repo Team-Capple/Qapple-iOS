@@ -148,11 +148,11 @@ private struct PostListView: View {
                     )
                 }
             }
-            .disabled(bulletinBoardUseCase.isLoading)
         }
         .refreshable {
             bulletinBoardUseCase.effect(.fetchPost)
         }
+        .disabled(bulletinBoardUseCase.isLoading)
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(
                 sheetType: post.isMine ? .mine : .others,
