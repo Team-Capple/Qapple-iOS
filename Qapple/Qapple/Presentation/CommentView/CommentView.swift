@@ -48,10 +48,12 @@ struct CommentView: View {
                 }
                 .background(Color.bk)
                 .refreshable {
-                    Task.init {
-                        // TODO: Page Number 수정
-                        await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
-                        self.post.commentCount = commentViewModel.comments.count
+                    if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
+                        Task.init {
+                            // TODO: Page Number 수정
+                            await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+                            self.post.commentCount = commentViewModel.comments.count
+                        }
                     }
                 }
                 
