@@ -13,14 +13,33 @@ struct MainView: View {
     @StateObject private var pathModel: PathModel = .init()
     
     var body: some View {
-        if authViewModel.isSignIn {
-            MainTabView()
-                .environmentObject(pathModel)
-                .environmentObject(authViewModel)
-        } else {
-            SignInView()
-                .environmentObject(pathModel)
-                .environmentObject(authViewModel)
+        Group {
+            if authViewModel.isSignIn {
+                MainTabView()
+                    .environmentObject(pathModel)
+                    .environmentObject(authViewModel)
+            } else {
+                SignInView()
+                    .environmentObject(pathModel)
+                    .environmentObject(authViewModel)
+                    .onAppear {
+                        if authViewModel.isAutoSignInMode {
+                            AppleLoginService.autoLogin { isSingIn in
+                                if isSingIn {
+                                    DispatchQueue.main.async {
+                                        authViewModel.isAutoSignInMode = false
+                                        authViewModel.isSignIn = true
+                                    }
+                                } else {
+                                    DispatchQueue.main.async {
+                                        authViewModel.isAutoSignInMode = false
+                                        authViewModel.isSignIn = false
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
         }
     }
 }
@@ -202,12 +221,25 @@ private struct SignInView: View {
                     .padding(.top, 60)
                     .opacity(authViewModel.isSignInLoading ? 1 : 0) // 로딩 중에만 보이도록 설정
                     .tint(.wh)
+                
+                // 자동 로그인 실행 전 화면
+                Rectangle()
+                    .ignoresSafeArea()
+                    .foregroundStyle(authViewModel.isAutoSignInMode ? Background.first : .clear)
+                    .frame(maxWidth: .infinity)
+                    .frame(maxHeight: .infinity)
             }
         }
         .onChange(of: authViewModel.isSignUp) { _, isSignUp in
             if isSignUp {
                 pathModel.paths.append(.email)
             }
+        }
+        .alert("일시적인 오류로 애플 로그인에 실패했습니다. 다시 시도해주세요.", isPresented: $authViewModel.isAppleLoginFailedAlertPresenteed) {
+            Button("확인", role: .none) {}
+        }
+        .alert("캐플 서버 로그인에 실패했습니다. 관리자에게 문의해주세요.", isPresented: $authViewModel.isSignInFailedAlertPresented) {
+            Button("확인", role: .none) {}
         }
     }
     

@@ -15,6 +15,8 @@ class AuthViewModel: ObservableObject {
     
     private var userID = ""
     
+    @Published var isAutoSignInMode = true // 자동 로그인 모드 활성화
+    
     @Published var isSignIn = false // 로그인 되었는지 확인
     @Published var isSignUp = false // 회원가입 로직 실행용
     
@@ -35,6 +37,9 @@ class AuthViewModel: ObservableObject {
     @Published var isNicknameCanUse = false // 닉네임 중복 검사
     
     @Published var isSignUpFailedAlertPresented = false // 회원가입 실패 알림
+    
+    @Published var isAppleLoginFailedAlertPresenteed = false // 애플 로그인 실패 알림
+    @Published var isSignInFailedAlertPresented = false // 서버 로그인 실패 알림
 }
 
 // MARK: - Helper
@@ -98,16 +103,15 @@ extension AuthViewModel {
     // Apple 로그인 완료 처리
     @MainActor
     func appleLoginCompletion(result: Result<ASAuthorization, Error>) async {
-        // Apple 로그인 완료 후 처리하는 코드
         switch result {
         case .success(let authResults):
+            
             switch authResults.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                let authorizationCode = String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? "인증 코드 생성 실패"
-                
-                DispatchQueue.main.async {
-                    print("AuthorizationCode: \(authorizationCode)")
-                }
+                let authorizationCode = String(
+                    data: appleIDCredential.authorizationCode!,
+                    encoding: .utf8
+                ) ?? "인증 코드 생성 실패"
                 
                 Task {
                     do {
@@ -133,20 +137,15 @@ extension AuthViewModel {
                         }
                         isSignInLoading = false
                     } catch {
-                        print("로그인 요칭 실패,,,")
+                        isSignInFailedAlertPresented = true
                         isSignInLoading = false
-                        // TODO: 로그인 실패 Alert
                     }
-                    
-                    print("✅ [AccessToken Successed]\n\(String(describing: try? SignInInfo.shared.token(.access)))\n")
-                    print("✅ [RefreshToken Successed]\n\(String(describing: try? SignInInfo.shared.token(.refresh)))\n")
                 }
                 
             default: break
             }
         case .failure(let error):
-            print(error.localizedDescription)
-            print("error")
+            isAppleLoginFailedAlertPresenteed = true
             isSignInLoading = false
         }
     }

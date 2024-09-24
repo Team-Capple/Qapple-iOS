@@ -13,6 +13,9 @@ enum ApiEndpoints {
     
     enum Path: String {
         
+        // MARK: - 토큰
+        case tokenRefresh = "/token/refresh"
+        
         // MARK: - 질문
         case questions = "/questions"
         case mainQuestion = "/questions/main"
