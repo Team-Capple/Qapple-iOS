@@ -93,7 +93,7 @@ private struct CustomTabBar: View {
     
     var body: some View {
         ZStack {
-            Text("자유게시판")
+            Text("게시판")
                 .pretendard(.medium, 16)
                 .foregroundStyle(.white)
             

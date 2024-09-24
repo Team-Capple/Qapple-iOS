@@ -34,7 +34,7 @@ struct MyPageView: View {
                 CustomNavigationBar(
                     leadingView: {},
                     principalView: {
-                        Text("프로필")
+                        Text("내 정보")
                             .font(Font.pretendard(.semiBold, size: 15))
                             .foregroundStyle(TextLabel.main)
                     },
