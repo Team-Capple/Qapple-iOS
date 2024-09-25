@@ -52,11 +52,11 @@ extension NotificationUseCase {
                 
                 _state.notificationList = notificationList.content.map {
                     QappleNoti(
-                        boardId: $0.boardId,
+                        boardId: $0.boardId ?? "",
                         boardCommentId: $0.boardCommentId,
                         title: $0.title,
                         subtitle: $0.subtitle,
-                        content: $0.content,
+                        content: $0.content ?? "",
                         createAt: $0.createdAt.ISO8601ToDate,
                         isReadStatus: false
                     )
