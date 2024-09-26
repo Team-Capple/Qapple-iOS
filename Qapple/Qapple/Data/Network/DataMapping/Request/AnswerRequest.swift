@@ -12,8 +12,8 @@ class AnswerRequest {
     /// 특정 질문에 대한 답변 요청 구조체
     struct AnswersOfQuestion {
         let questionId: Int
-        let pageNumber: Int?
-        let pageSize: Int?
+        let pageNumber: Int
+        let pageSize: Int
     }
     
     /// 답변 등록 요청 구조체

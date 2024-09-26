@@ -50,8 +50,8 @@ extension NetworkManager {
         // URL 객체 생성
         var urlString = ApiEndpoints.basicURLString(path: .answersOfQuestion)
         urlString += "/\(request.questionId)?"
-        urlString += "pageNumber=\(request.pageNumber ?? 0)"
-        urlString += "&pageSize=\(request.pageSize ?? 1000)"
+        urlString += "pageNumber=\(request.pageNumber)"
+        urlString += "&pageSize=\(request.pageSize)"
 
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
