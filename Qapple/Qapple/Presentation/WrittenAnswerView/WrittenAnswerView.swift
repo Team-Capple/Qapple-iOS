@@ -49,9 +49,7 @@ struct WrittenAnswerView: View {
                     Spacer()
                 } else {
                     ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) {
-                            index,
-                            answer in
+                        ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) { index, answer in
                             VStack {
                                 AnswerCell(
                                     answer: Answer(
@@ -69,7 +67,21 @@ struct WrittenAnswerView: View {
                                         isMyAnswer = .init(answerId: answer.answerId, isMine: true)
                                     }
                                 )
+                                .onAppear {
+                                    if index == viewModel.myAnswers.count - 1
+                                        && viewModel.hasNext {
+                                        print("답변 페이지네이션")
+                                        Task {
+                                            await viewModel.fetchAnswers()
+                                        }
+                                    }
+                                }
                             }
+                        }
+                    }
+                    .refreshable {
+                        Task {
+                            await viewModel.refreshAnswers()
                         }
                     }
                     .sheet(item: $isMyAnswer) {
@@ -78,7 +90,7 @@ struct WrittenAnswerView: View {
                             answerId: $0.answerId
                         ) {
                             Task {
-                                await viewModel.requestAnswers()
+                                await viewModel.refreshAnswers()
                             }
                         }
                         .presentationDetents([.height(84)])
@@ -96,7 +108,7 @@ struct WrittenAnswerView: View {
         .navigationBarBackButtonHidden()
         .onAppear {
             Task {
-                await viewModel.requestAnswers()
+                await viewModel.fetchAnswers()
             }
         }
     }
