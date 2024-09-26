@@ -69,7 +69,7 @@ private struct SearchListView: View {
     let searchText: String
     
     private var searchList: [Post] {
-        bulletinBoardUseCase._state.posts.filter {
+        bulletinBoardUseCase.state.posts.filter {
             $0.content.contains(searchText)
         }
     }

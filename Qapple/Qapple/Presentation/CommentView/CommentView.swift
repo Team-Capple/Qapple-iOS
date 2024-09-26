@@ -89,7 +89,7 @@ struct CommentView: View {
             .presentationDetents([.height(84)])
             .presentationDragIndicator(.visible)
         }
-        .onChange(of: bulletinBoardUseCase._state.posts) { _, newPosts in
+        .onChange(of: bulletinBoardUseCase.state.posts) { _, newPosts in
             if let updatedPost = newPosts.first(where: { $0.boardId == post.boardId }) {
                 self.post = updatedPost
             }

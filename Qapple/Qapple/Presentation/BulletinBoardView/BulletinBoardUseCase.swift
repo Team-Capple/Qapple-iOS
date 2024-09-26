@@ -8,7 +8,8 @@
 import Foundation
 
 final class BulletinBoardUseCase: ObservableObject {
-    @Published var _state: State
+    
+    @Published var state: State
     @Published var isClickComment: Bool = false
     @Published var isLoading: Bool = false
     
@@ -28,7 +29,7 @@ final class BulletinBoardUseCase: ObservableObject {
         
         let calendar = Calendar.current
         
-        self._state = State(
+        self.state = State(
             currentEvent: "Macro", // TODO: 실제 값 업데이트
             startDate: calendar.date(from: startDateComponents)!, // TODO: 실제 값 업데이트
             endDate: calendar.date(from: endDateComponents)!, // TODO: 실제 값 업데이트
@@ -46,6 +47,9 @@ extension BulletinBoardUseCase {
         let startDate: Date
         let endDate: Date
         var posts: [Post]
+        var pageNumber = 0
+        var hasPrevious = false
+        var hasNext = false
     }
 }
 
@@ -55,6 +59,7 @@ extension BulletinBoardUseCase {
     
     enum Effect {
         case fetchPost
+        case refreshPost
         case likePost(postId: Int)
         case removePost(postIndex: Int)
         case reportPost(postIndex: Int)
@@ -67,13 +72,20 @@ extension BulletinBoardUseCase {
                 await fetchPostList()
                 print("게시판 업데이트")
             }
+            
+        case .refreshPost:
+            Task {
+                await refreshPostList()
+                print("게시판 리프레쉬")
+            }
+            
         case .likePost(let postId):
-            if let index = _state.posts.firstIndex(where: { $0.boardId == postId }) {
+            if let index = state.posts.firstIndex(where: { $0.boardId == postId }) {
                 print("\(index)번째 게시글 좋아요 업데이트")
                 self.isLoading = true
                 
-                _state.posts[index].isLiked.toggle()
-                _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
+                state.posts[index].isLiked.toggle()
+                state.posts[index].heartCount += state.posts[index].isLiked ? 1 : -1
                 
                 // 서버로 좋아요 요청 보내기
                 Task {
@@ -82,8 +94,8 @@ extension BulletinBoardUseCase {
                     } catch {
                         // 오류 발생 시 다시 상태 복구
                         DispatchQueue.main.async { [self] in
-                            _state.posts[index].isLiked.toggle()
-                            _state.posts[index].heartCount += _state.posts[index].isLiked ? 1 : -1
+                            state.posts[index].isLiked.toggle()
+                            state.posts[index].heartCount += state.posts[index].isLiked ? 1 : -1
                         }
                         print("Error updating like for post \(postId): \(error)")
                     }
@@ -95,8 +107,8 @@ extension BulletinBoardUseCase {
             
         case .removePost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 삭제")
-            if let index = _state.posts.firstIndex(where: { $0.boardId == postIndex }) {
-                _state.posts.remove(at: index)
+            if let index = state.posts.firstIndex(where: { $0.boardId == postIndex }) {
+                state.posts.remove(at: index)
             }
             Task {
                 do {
@@ -116,28 +128,95 @@ extension BulletinBoardUseCase {
 extension BulletinBoardUseCase {
     
     @MainActor
-    func fetchPostList() {
+    func reset() {
+        state.pageNumber = 0
+        state.hasPrevious = false
+        state.hasNext = false
+        state.posts.removeAll()
+    }
+    
+    @MainActor
+    private func fetchPostList() {
         self.isLoading = true
         
         Task {
-            let boardList = try await NetworkManager.fetchBoard(.init(pageNumber: 0, pageSize: 1000))
-            
-            let postList: [Post] = boardList.content.map { board in
-                Post(
-                    boardId: board.boardId,
-                    writerId: board.writerId,
-                    content: board.content,
-                    heartCount: board.heartCount,
-                    commentCount: board.commentCount,
-                    createAt: board.createAt.ISO8601ToDate,
-                    isMine: board.isMine,
-                    isReported: board.isReported,
-                    isLiked: board.isLiked
+            do {
+                let boardList = try await NetworkManager.fetchBoard(
+                    .init(
+                        pageNumber: state.pageNumber,
+                        pageSize: 25 // 한번 불러올 때 25개 씩
+                    )
                 )
+                
+                let postList: [Post] = boardList.content.map { board in
+                    Post(
+                        boardId: board.boardId,
+                        writerId: board.writerId,
+                        content: board.content,
+                        heartCount: board.heartCount,
+                        commentCount: board.commentCount,
+                        createAt: board.createAt.ISO8601ToDate,
+                        isMine: board.isMine,
+                        isReported: board.isReported,
+                        isLiked: board.isLiked
+                    )
+                }
+                
+                state.posts += postList
+                state.pageNumber += 1
+                state.hasPrevious = boardList.hasPrevious
+                state.hasNext = boardList.hasNext
+                self.isLoading = false
+            } catch {
+                print("게시판 업데이트 실패")
+                self.isLoading = false
             }
-            
-            _state.posts = postList
-            self.isLoading = false
+        }
+    }
+    
+    @MainActor
+    func refreshPostList() {
+        self.isLoading = true
+        
+        /// 초기화
+        state.pageNumber = 0
+        state.hasPrevious = false
+        state.hasNext = false
+        
+        Task {
+            do {
+                let boardList = try await NetworkManager.fetchBoard(
+                    .init(
+                        pageNumber: state.pageNumber,
+                        pageSize: 25 // 한번 불러올 때 25개 씩
+                    )
+                )
+                
+                let postList: [Post] = boardList.content.map { board in
+                    Post(
+                        boardId: board.boardId,
+                        writerId: board.writerId,
+                        content: board.content,
+                        heartCount: board.heartCount,
+                        commentCount: board.commentCount,
+                        createAt: board.createAt.ISO8601ToDate,
+                        isMine: board.isMine,
+                        isReported: board.isReported,
+                        isLiked: board.isLiked
+                    )
+                }
+                
+                state.posts.removeAll()
+                state.posts += postList
+                state.pageNumber += 1
+                state.hasPrevious = boardList.hasPrevious
+                state.hasNext = boardList.hasNext
+                print("리프레쉬 성공")
+                self.isLoading = false
+            } catch {
+                print("게시판 업데이트 실패")
+                self.isLoading = false
+            }
         }
     }
 }
