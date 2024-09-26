@@ -5,8 +5,8 @@
 //  Created by ShimHyeonhee on 3/3/24.
 //
 
-import Foundation
 import SwiftUI
+
 struct AnswerListView: View {
     
     @EnvironmentObject var pathModel: Router
@@ -14,8 +14,8 @@ struct AnswerListView: View {
     
     @State private var isBottomSheetPresented = false
     
-    var questionContent: String = "완전기본값제공" // 여기에 기본값을 제공합니다.
-    var questionId: Int =  1// 여기에 기본값을 제공합니다.
+    var questionContent: String = "완전기본값제공"
+    var questionId: Int =  1
     
     init(questionId: Int, questionContent: String) {
         self.questionContent = questionContent
@@ -45,7 +45,7 @@ struct AnswerListView: View {
                 )
                 .refreshable {
                     Task {
-                        viewModel.loadAnswersForQuestion(questionId: questionId)
+                        viewModel.refreshAnswersForQuestion(questionId: questionId)
                         HapticManager.shared.impact(style: .light)
                     }
                 }
@@ -198,7 +198,7 @@ private struct AnswerScrollView: View {
         .padding(.leading, 20)
         
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(viewModel.answerList, id: \.self) { answer in
+            ForEach(Array(viewModel.answerList.enumerated()), id: \.offset) { index, answer in
                 VStack {
                     AnswerCell(
                         answer: Answer(
@@ -218,6 +218,13 @@ private struct AnswerScrollView: View {
                             )
                         }
                     )
+                    .onAppear {
+                        if index == viewModel.answerList.count - 1
+                            && viewModel.hasNext {
+                            print("답변 페이지네이션")
+                            viewModel.loadAnswersForQuestion(questionId: questionId)
+                        }
+                    }
                 }
             }
             .sheet(item: $isMyAnswer) {

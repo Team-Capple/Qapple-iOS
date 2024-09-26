@@ -33,7 +33,10 @@ final class BulletinBoardUseCase: ObservableObject {
             currentEvent: "Macro", // TODO: 실제 값 업데이트
             startDate: calendar.date(from: startDateComponents)!, // TODO: 실제 값 업데이트
             endDate: calendar.date(from: endDateComponents)!, // TODO: 실제 값 업데이트
-            posts: []
+            posts: [],
+            pageNumber: 0,
+            hasPrevious: false,
+            hasNext: false
         )
     }
 }
@@ -47,9 +50,9 @@ extension BulletinBoardUseCase {
         let startDate: Date
         let endDate: Date
         var posts: [Post]
-        var pageNumber = 0
-        var hasPrevious = false
-        var hasNext = false
+        var pageNumber: Int
+        var hasPrevious: Bool
+        var hasNext: Bool
     }
 }
 

@@ -19,10 +19,11 @@ class AnswerListViewModel: ObservableObject {
     @Published var todayQuestion: String = ""
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content] = []
     @Published var isLoading = true
+    @Published var pageNumber: Int = 0
+    @Published var hasPrevious: Bool = false
+    @Published var hasNext: Bool = false
     
     private var learnerDictionary: LearnerDictionary = [:]
-    
-    
     
     /// 답변 호출 API입니다.
     @MainActor
@@ -32,12 +33,49 @@ class AnswerListViewModel: ObservableObject {
                 let response = try await NetworkManager.fetchAnswersOfQuestion(
                     request: .init(
                         questionId: questionId,
-                        pageNumber: 0,
-                        pageSize: 1000
+                        pageNumber: pageNumber,
+                        pageSize: 25
                     )
                 )
                 
-                self.answerList = response.content.reversed()
+                let newAnswerList = response.content.reversed()
+                self.answerList += newAnswerList
+                self.pageNumber += 1
+                self.hasPrevious = response.hasPrevious
+                self.hasNext = response.hasNext
+                createLearnerDictionary()
+            } catch {
+                print("답변 리스트 호출 실패")
+            }
+            self.isLoading = false
+        }
+    }
+    
+    /// 답변 리프레쉬 API입니다.
+    @MainActor
+    func refreshAnswersForQuestion(questionId: Int) {
+        
+        // 초기화
+        self.pageNumber = 0
+        self.hasPrevious = false
+        self.hasNext = false
+        
+        Task {
+            do {
+                let response = try await NetworkManager.fetchAnswersOfQuestion(
+                    request: .init(
+                        questionId: questionId,
+                        pageNumber: pageNumber,
+                        pageSize: 25
+                    )
+                )
+                
+                self.answerList.removeAll()
+                let newAnswerList = response.content.reversed()
+                self.answerList += newAnswerList
+                self.pageNumber += 1
+                self.hasPrevious = response.hasPrevious
+                self.hasNext = response.hasNext
                 createLearnerDictionary()
             } catch {
                 print("답변 리스트 호출 실패")
