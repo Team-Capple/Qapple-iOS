@@ -10,7 +10,6 @@ import Foundation
 struct NotificationResponse {
     
     struct FetchNotificationResponse: Codable {
-        
         let number: Int
         let size: Int
         let content: [Content]
@@ -21,8 +20,9 @@ struct NotificationResponse {
         struct Content: Codable {
             let title: String
             let subtitle: String?
-            let content: String
-            let boardId: String
+            let content: String?
+            let boardId: String?
+            let questionId: String?
             let boardCommentId: String?
             let createdAt: String
         }
