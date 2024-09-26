@@ -52,10 +52,17 @@ private struct NotificationContentView: View {
             
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(notificationUseCase._state.notificationList) { notification in
+                    ForEach(Array(notificationUseCase._state.notificationList.enumerated()), id: \.offset) { index, notification in
                         
                         NotificationCell(notification: notification) {
                             print("해당 답변") // TODO: 네비게이션 지정 or 버튼 제거
+                        }
+                        .onAppear {
+                            if index == notificationUseCase._state.notificationList.count - 1
+                                && notificationUseCase._state.hasNext {
+                                print("Notification 페이지네이션")
+                                notificationUseCase.fetchNotificationList()
+                            }
                         }
                         
                         Separator()
@@ -67,6 +74,9 @@ private struct NotificationContentView: View {
                         .foregroundStyle(TextLabel.sub4)
                         .padding(.top, 16)
                 }
+            }
+            .refreshable {
+                notificationUseCase.refreshNotificationList()
             }
         }
     }
