@@ -55,7 +55,7 @@ struct CommentCell: View {
         .alert("댓글이 삭제되었습니다!", isPresented: $isDeleteComplete) {
             Button("확인", role: .none) {
                 Task.init {
-                    await commentViewModel.loadComments(boardId: self.post.boardId, pageNumber: 0)
+                    await commentViewModel.loadComments(boardId: self.post.boardId)
                     self.post.commentCount = commentViewModel.comments.count
                 }
             }
@@ -133,7 +133,7 @@ struct CommentCell: View {
                     Task.init {
                         HapticManager.shared.notification(type: .success)
                         await commentViewModel.act(.like(id: comment.id))
-                        await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+                        await commentViewModel.loadComments(boardId: post.boardId)
                         self.post.commentCount = commentViewModel.comments.count
                     }
                 } label: {

@@ -14,7 +14,7 @@ extension NetworkManager {
     static func fetchComments(boardId: Int, pageNumber: Int) async throws -> CommentResponse.Comments {
         let urlString = ApiEndpoints.basicURLString(path: .comments)
         
-        guard let url = URL(string: "\(urlString)/\(boardId)?pageNumber=\(pageNumber)&pageSize=100") else {
+        guard let url = URL(string: "\(urlString)/\(boardId)?pageNumber=\(pageNumber)&pageSize=25") else {
             print("잘못된 URL 입니다! in CommentView")
             throw NetworkError.cannotCreateURL
         }

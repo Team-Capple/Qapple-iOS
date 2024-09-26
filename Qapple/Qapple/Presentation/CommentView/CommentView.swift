@@ -14,7 +14,7 @@ struct CommentView: View {
     @StateObject private var commentViewModel: CommentViewModel = .init()
     @State private var text: String = ""
     @State private var selectedPost: Post?
-    
+
     @State var post: Post
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
@@ -35,10 +35,19 @@ struct CommentView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         // 데이터 연결
-                        ForEach(commentViewModel.comments) { comment in
+                        ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) { index, comment in
                             seperator
                             
                             CommentCell(comment: comment, commentViewModel: commentViewModel, post: self.$post)
+                                .onAppear {
+                                    if index == commentViewModel.comments.count - 1
+                                        && commentViewModel.hasNext {
+                                        print("Notification 페이지네이션")
+                                        Task {
+                                            await commentViewModel.loadComments(boardId: post.boardId)
+                                        }
+                                    }
+                                }
                         }
                         
                         seperator
@@ -50,8 +59,7 @@ struct CommentView: View {
                 .refreshable {
                     if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
                         Task.init {
-                            // TODO: Page Number 수정
-                            await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+                            await commentViewModel.refreshComments(boardId: post.boardId)
                             self.post.commentCount = commentViewModel.comments.count
                         }
                     }
@@ -77,8 +85,7 @@ struct CommentView: View {
         }
         .navigationBarBackButtonHidden()
         .task {
-            // TODO: Page Number 수정
-            await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+            await commentViewModel.loadComments(boardId: post.boardId)
         }
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(
@@ -115,7 +122,7 @@ struct CommentView: View {
                 Task.init {
                     HapticManager.shared.notification(type: .success)
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
-                    await commentViewModel.loadComments(boardId: post.boardId, pageNumber: 0)
+                    await commentViewModel.loadComments(boardId: post.boardId)
                     self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
                     self.hideKeyboard()
