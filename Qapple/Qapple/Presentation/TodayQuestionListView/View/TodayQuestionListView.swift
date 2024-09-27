@@ -65,15 +65,22 @@ struct TodayQuestionListView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 4) {
-                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) {
-                            index,
-                            question in
+                        ForEach(Array(viewModel.questions.enumerated()), id: \.offset) { index, question in
                             VStack {
                                 QuestionCell(
                                     question: question,
                                     questionNumber: viewModel.questions.count - index
                                 ) {
                                     isBottomSheetPresented.toggle()
+                                }
+                                .onAppear {
+                                    if index == viewModel.questions.count - 1
+                                        && viewModel.hasNext {
+                                        print("답변 페이지네이션")
+                                        Task {
+                                            await viewModel.fetchGetQuestions()
+                                        }
+                                    }
                                 }
                                 .onTapGesture {
                                     let id = question.questionId
@@ -106,7 +113,7 @@ struct TodayQuestionListView: View {
                 .scrollIndicators(.hidden)
                 .refreshable {
                     Task {
-                        await viewModel.fetchGetQuestions()
+                        await viewModel.refreshGetQuestions()
                         HapticManager.shared.impact(style: .light)
                     }
                 }

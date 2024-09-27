@@ -121,9 +121,9 @@ extension TodayQuestionViewModel {
                 request: .init(
                     questionId: self.mainQuestion.questionId,
                     pageNumber: 0,
-                    pageSize: 1000
+                    pageSize: 3
                 ))
-            let answerList = Array(answerPreview.content.prefix(3))
+            let answerList = Array(answerPreview.content)
             self.answerList = answerList.reversed()
             createLearnerDictionary()
         } catch {

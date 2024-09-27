@@ -10,6 +10,7 @@ import SwiftUI
 struct BulletinPostingView: View {
 
     @EnvironmentObject private var pathModel: Router
+    
     @StateObject private var postingUseCase = BulletinPostingUseCase()
 
     @State private var isBackAlertPresented = false
@@ -57,6 +58,7 @@ struct BulletinPostingView: View {
 private struct NavigationBar: View {
 
     @EnvironmentObject private var pathModel: Router
+    @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     @EnvironmentObject private var postingUseCase: BulletinPostingUseCase
 
     @Binding private(set) var isBackAlertPresented: Bool
@@ -84,6 +86,7 @@ private struct NavigationBar: View {
                         Task {
                             HapticManager.shared.notification(type: .success)
                             try await postingUseCase.effect(.uploadPost)
+                            bulletinBoardUseCase.reset()
                             pathModel.pop()
                             postingUseCase.isLoading = false
                         }

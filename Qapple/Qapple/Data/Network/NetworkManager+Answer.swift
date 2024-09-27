@@ -11,12 +11,12 @@ import Foundation
 extension NetworkManager {
     
     /// 내가 작성한 답변을 조회합니다.
-    static func fetchAnswers() async throws -> AnswerResponse.Answers {
+    static func fetchAnswers(pageNumber: Int, pageSize: Int) async throws -> AnswerResponse.Answers {
         
         // URL 객체 생성
         var urlString = ApiEndpoints.basicURLString(path: .answers)
-        urlString += "?pageNumber=\(0)"
-        urlString += "&pageSize=\(1000)"
+        urlString += "?pageNumber=\(pageNumber)"
+        urlString += "&pageSize=\(pageSize)"
         
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
@@ -50,8 +50,8 @@ extension NetworkManager {
         // URL 객체 생성
         var urlString = ApiEndpoints.basicURLString(path: .answersOfQuestion)
         urlString += "/\(request.questionId)?"
-        urlString += "pageNumber=\(request.pageNumber ?? 0)"
-        urlString += "&pageSize=\(request.pageSize ?? 1000)"
+        urlString += "pageNumber=\(request.pageNumber)"
+        urlString += "&pageSize=\(request.pageSize)"
 
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")

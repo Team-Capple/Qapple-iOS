@@ -13,17 +13,46 @@ final class CommentViewModel: ObservableObject {
     
     // 호출 flag
     @Published public var isLoading: Bool = false
+    @Published var pageNumber: Int = 0
+    @Published var hasPrevious: Bool = false
+    @Published var hasNext: Bool = false
     
     // 댓글 불러오기
     @MainActor
-    public func loadComments(boardId: Int, pageNumber: Int) async {
+    public func loadComments(boardId: Int) async {
         self.isLoading = true
         
         do {
             let fetchResult = try await NetworkManager.fetchComments(boardId: boardId, pageNumber: pageNumber)
             let content = fetchResult.content
-            
-            self.comments = anonymizeComment(content.reversed())
+            self.comments += anonymizeComment(content.reversed())
+            self.pageNumber += 1
+            self.hasPrevious = fetchResult.hasPrevious
+            self.hasNext = fetchResult.hasNext
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        self.isLoading = false
+    }
+    
+    // 댓글 리프레쉬
+    @MainActor
+    public func refreshComments(boardId: Int) async {
+        print(#function)
+        self.isLoading = true
+        self.pageNumber = 0
+        self.hasPrevious = false
+        self.hasNext = false
+        
+        do {
+            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId, pageNumber: pageNumber)
+            let content = fetchResult.content
+            self.comments.removeAll()
+            self.comments += anonymizeComment(content.reversed())
+            self.pageNumber += 1
+            self.hasPrevious = fetchResult.hasPrevious
+            self.hasNext = fetchResult.hasNext
         } catch {
             print(error.localizedDescription)
         }

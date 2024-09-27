@@ -63,9 +63,9 @@ private struct BoardView: View {
                 .padding(.horizontal, 16)
             
             AcademyPlanDayCounter(
-                currentEvent: bulletinBoardUseCase._state.currentEvent,
-                startDate: bulletinBoardUseCase._state.startDate,
-                endDate: bulletinBoardUseCase._state.endDate
+                currentEvent: bulletinBoardUseCase.state.currentEvent,
+                startDate: bulletinBoardUseCase.state.startDate,
+                endDate: bulletinBoardUseCase.state.endDate
             )
             .padding(.top, 20)
             .padding(.horizontal, 16)
@@ -139,18 +139,25 @@ private struct PostListView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-                ForEach(bulletinBoardUseCase._state.posts) { post in
+                ForEach(Array(bulletinBoardUseCase.state.posts.enumerated()), id: \.offset) { index, post in
                     BulletinBoardCell(
                         post: post,
                         seeMoreAction: {
                             selectedPost = post
                         }
                     )
+                    .onAppear {
+                        if index == bulletinBoardUseCase.state.posts.count - 1
+                            && bulletinBoardUseCase.state.hasNext {
+                            print("게시판 페이지네이션")
+                            bulletinBoardUseCase.effect(.fetchPost)
+                        }
+                    }
                 }
             }
         }
         .refreshable {
-            bulletinBoardUseCase.effect(.fetchPost)
+            bulletinBoardUseCase.refreshPostList()
         }
         .disabled(bulletinBoardUseCase.isLoading)
         .sheet(item: $selectedPost) { post in

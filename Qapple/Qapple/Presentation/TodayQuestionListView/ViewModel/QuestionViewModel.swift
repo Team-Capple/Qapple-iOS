@@ -7,12 +7,46 @@ class QuestionViewModel: ObservableObject {
     @Published var selectedQuestionId: Int? = nil
     @Published var questions: [QuestionResponse.Questions.Content] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = true
+    @Published var pageNumber: Int = 0
+    @Published var hasPrevious: Bool = false
+    @Published var hasNext: Bool = false
     
     @MainActor
     func fetchGetQuestions() async {
         do {
-            let response = try await getQuestions()
-            self.questions = response.content
+            let response = try await getQuestions(
+                pageNumber: pageNumber,
+                pageSize: 25
+            )
+            
+            self.questions += response.content
+            self.pageNumber += 1
+            self.hasPrevious = response.hasPrevious
+            self.hasNext = response.hasNext
+            isLoading = false
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
+    @MainActor
+    func refreshGetQuestions() async {
+        
+        self.pageNumber = 0
+        self.hasPrevious = false
+        self.hasNext = false
+        
+        do {
+            let response = try await getQuestions(
+                pageNumber: pageNumber,
+                pageSize: 25
+            )
+            
+            self.questions.removeAll()
+            self.questions += response.content
+            self.pageNumber += 1
+            self.hasPrevious = response.hasPrevious
+            self.hasNext = response.hasNext
             isLoading = false
         } catch {
             print("Error: \(error)")
@@ -20,10 +54,12 @@ class QuestionViewModel: ObservableObject {
     }
     
     /// 질문 목록을 받아옵니다.
-    func getQuestions() async throws -> QuestionResponse.Questions {
+    func getQuestions(pageNumber: Int, pageSize: Int) async throws -> QuestionResponse.Questions {
         
         // URL 생성
-        let urlString = ApiEndpoints.basicURLString(path: .questions)
+        var urlString = ApiEndpoints.basicURLString(path: .questions)
+        urlString += "?pageNumber=\(pageNumber)"
+        urlString += "&pageSize=\(pageSize)"
         guard let url = URL(string: urlString) else { fatalError("에러") }
         
         var accessToken = ""
