@@ -24,7 +24,7 @@ struct WrittenAnswerView: View {
                         }
                     },
                     principalView: {
-                        Text("작성한 답변")
+                        Text("내 답변")
                             .font(Font.pretendard(.semiBold, size: 15))
                             .foregroundStyle(TextLabel.main)
                     },

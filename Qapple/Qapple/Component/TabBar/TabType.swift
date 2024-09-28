@@ -20,7 +20,7 @@ enum TabType: CaseIterable, Identifiable {
         switch self {
         case .questionList: return "오늘의 질문"
         case .bulletinBoard: return "게시판"
-        case .myProfile: return "내 정보"
+        case .myProfile: return "프로필"
         }
     }
     
