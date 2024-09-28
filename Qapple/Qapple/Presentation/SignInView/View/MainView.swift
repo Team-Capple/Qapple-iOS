@@ -153,7 +153,6 @@ private struct HomeView: View {
         }
         .onAppear {
             NotificationManager.shared.requestNotificationPermission()
-            NotificationManager.shared.schedule()
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .onChange(of: tab) { _, _ in

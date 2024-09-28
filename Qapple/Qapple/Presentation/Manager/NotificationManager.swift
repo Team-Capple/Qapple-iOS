@@ -30,7 +30,7 @@ final class NotificationManager {
     }
     
     /// 권한에 따른 Notification을 스케줄링합니다.
-    func schedule() {
+    private func schedule() {
         UNUserNotificationCenter.current().getNotificationSettings { setting in
             switch setting.authorizationStatus {
             case .notDetermined:
