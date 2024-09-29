@@ -71,8 +71,15 @@ struct CommentView: View {
                 }
                 
                 if commentViewModel.comments.isEmpty && !self.commentViewModel.isLoading {
-                    Text("작성된 댓글이 없습니다.\n 댓글을 달아보세요!")
-                        .multilineTextAlignment(.center)
+                    VStack {
+                        Text("아직 작성된 댓글이 없습니다")
+                            .font(.pretendard(.medium, size: 14))
+                            .foregroundStyle(.sub5)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 24)
+                        
+                        Spacer()
+                    }
                 }
             }
         }

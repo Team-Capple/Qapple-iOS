@@ -196,9 +196,3 @@ struct CommentCell: View {
     }
 }
 
-//#Preview {
-//    VStack {
-//        CommentCell(comment: Comment(anonymityIndex: 1, isMine: false, isLike: true, likeCount: 12, content: "123123", timestamp: Date()), commentUseCase: .init())
-//        CommentCell(comment: Comment(anonymityIndex: 2, isMine: true, isLike: false, likeCount: 0, content: "테스트", timestamp: Date().addingTimeInterval(-60*60*24)), commentUseCase: .init())
-//    }
-//}
