@@ -18,7 +18,7 @@ struct CommentCell: View {
     @State private var isCellToggled: Bool = false
     @State private var isDelete: Bool = false
     @State private var isDeleteComplete: Bool = false
-    @State private var isReportedCommnet: Bool = false
+    @State private var isReportedComment: Bool = false
     
     @EnvironmentObject private var pathModel: Router
     
@@ -28,7 +28,7 @@ struct CommentCell: View {
     
     var body: some View {
         ZStack {
-            if !isReportedCommnet {
+            if !isReportedComment {
                 HStack(spacing: 0) {
                     Spacer()
                         .frame(width: 73)
@@ -54,7 +54,7 @@ struct CommentCell: View {
                     Spacer()
                     
                     Button {
-                        self.isReportedCommnet.toggle()
+                        self.isReportedComment.toggle()
                     } label: {
                         Text("댓글 보기")
                             .font(.pretendard(.medium, size: 16.35))
@@ -85,7 +85,7 @@ struct CommentCell: View {
         }
         .onAppear {
             if comment.isReport {
-                self.isReportedCommnet = true
+                self.isReportedComment = true
             }
         }
         
@@ -126,7 +126,7 @@ struct CommentCell: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 10) {
                     // 사용자 이름
-                    if self.comment.isMine {
+                    if self.comment.writerId == -1 {
                         Text("작성자")
                             .font(.pretendard(.semiBold, size: 14))
                             .foregroundStyle(.text)

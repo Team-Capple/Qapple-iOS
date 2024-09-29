@@ -92,7 +92,8 @@ struct CommentView: View {
         }
         .navigationBarBackButtonHidden()
         .task {
-            print("task proceed")
+//            print("task proceed")
+            commentViewModel.postId = self.post.writerId
             await commentViewModel.loadComments(boardId: post.boardId)
         }
         .sheet(item: $selectedPost) { post in
