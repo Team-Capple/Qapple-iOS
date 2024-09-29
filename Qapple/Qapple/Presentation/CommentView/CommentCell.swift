@@ -134,9 +134,15 @@ struct CommentCell: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 10) {
                     // 사용자 이름
-                    Text("러너 \(self.comment.writerId)")
-                        .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(.icon)
+                    if self.comment.isMine {
+                        Text("작성자")
+                            .font(.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(.text)
+                    } else {
+                        Text("러너 \(self.comment.writerId)")
+                            .font(.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(.icon)
+                    }
                     
                     // 댓글 timestamp
                     Text(comment.createdAt.ISO8601ToDate.timeAgo)
