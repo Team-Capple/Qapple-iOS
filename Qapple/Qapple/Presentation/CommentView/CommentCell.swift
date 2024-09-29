@@ -78,7 +78,7 @@ struct CommentCell: View {
         .alert("댓글이 삭제되었습니다!", isPresented: $isDeleteComplete) {
             Button("확인", role: .none) {
                 Task.init {
-                    await commentViewModel.loadComments(boardId: self.post.boardId)
+                    await commentViewModel.refreshComments(boardId: self.post.boardId)
                     self.post.commentCount = commentViewModel.comments.count
                 }
             }
@@ -182,7 +182,7 @@ struct CommentCell: View {
         }
         .padding(.horizontal, 16)
         .background(Color.bk)
-        .gesture(drag)
+        .gesture(drag, isEnabled: !comment.isReport)
     }
     
     private var deleteBtn: some View {
