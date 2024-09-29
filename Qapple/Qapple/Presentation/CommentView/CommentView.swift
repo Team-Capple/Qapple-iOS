@@ -117,6 +117,7 @@ struct CommentView: View {
             .frame(height: 1)
     }
     
+    // 댓글 작성 View
     var addComment: some View {
         HStack(alignment: .bottom) {
             TextField("댓글 추가", text: $text, axis: .vertical)
@@ -130,7 +131,7 @@ struct CommentView: View {
                 Task.init {
                     HapticManager.shared.notification(type: .success)
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
-                    await commentViewModel.loadComments(boardId: post.boardId)
+                    await commentViewModel.refreshComments(boardId: post.boardId)
                     self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
                     self.hideKeyboard()

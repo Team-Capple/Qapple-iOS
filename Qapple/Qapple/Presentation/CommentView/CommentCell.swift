@@ -160,7 +160,7 @@ struct CommentCell: View {
                     Task.init {
                         HapticManager.shared.notification(type: .success)
                         await commentViewModel.act(.like(id: comment.id))
-                        await commentViewModel.loadComments(boardId: post.boardId)
+                        await commentViewModel.refreshComments(boardId: post.boardId)
                         self.post.commentCount = commentViewModel.comments.count
                     }
                 } label: {
