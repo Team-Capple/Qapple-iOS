@@ -18,6 +18,7 @@ struct CommentCell: View {
     @State private var isCellToggled: Bool = false
     @State private var isDelete: Bool = false
     @State private var isDeleteComplete: Bool = false
+    @State private var isReportedCommnet: Bool = false
     
     @EnvironmentObject private var pathModel: Router
     
@@ -26,22 +27,44 @@ struct CommentCell: View {
     @Binding var post: Post
     
     var body: some View {
-        HStack(spacing: 0) {
-            Spacer()
-                .frame(width: 73)
-            
-            content
-                .frame(width: screenWidth)
-            
-            if comment.isMine {
-                deleteBtn
+        ZStack {
+            if !isReportedCommnet {
+                HStack(spacing: 0) {
+                    Spacer()
+                        .frame(width: 73)
+                    
+                    content
+                        .frame(width: screenWidth)
+                    
+                    if comment.isMine {
+                        deleteBtn
+                    } else {
+                        reportBtn
+                    }
+                }
+                .offset(x: hOffset)
+                .animation(.easeInOut, value: hOffset)
             } else {
-                reportBtn
+                HStack {
+                    Text("신고에 의해 숨김처리 된 댓글입니다.")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(.sub4)
+                        .padding(.leading, 16)
+                    
+                    Spacer()
+                    
+                    Button {
+                        self.isReportedCommnet.toggle()
+                    } label: {
+                        Text("댓글 보기")
+                            .font(.pretendard(.medium, size: 16.35))
+                            .foregroundStyle(.text)
+                    }
+                    .padding(.trailing, 27)
+                }
+                .frame(width: screenWidth, height: 56.03)
             }
-            
         }
-        .offset(x: hOffset)
-        .animation(.easeInOut, value: hOffset)
         .alert("정말로 댓글을 삭제하시겠습니까?", isPresented: $isDelete) {
             Button("삭제", role: .destructive, action: {
                 Task.init {
@@ -60,6 +83,12 @@ struct CommentCell: View {
                 }
             }
         }
+        .onAppear {
+            if comment.isReport {
+                self.isReportedCommnet = true
+            }
+        }
+        
     }
     
     private var drag: some Gesture {
@@ -178,11 +207,7 @@ struct CommentCell: View {
     
     private var reportBtn: some View {
         Button {
-            // TODO: 신고 기능 구현
-            Task.init {
-                await commentViewModel.act(.report(id: 1))
-            }
-            pathModel.pushView(screen: BulletinBoardPathType.commentReport(id: comment.id))
+            pathModel.pushView(screen: BulletinBoardPathType.commentReport(comment: comment))
         } label: {
             ZStack {
                 Color.report
