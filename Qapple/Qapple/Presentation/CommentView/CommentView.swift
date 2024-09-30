@@ -92,9 +92,9 @@ struct CommentView: View {
         }
         .navigationBarBackButtonHidden()
         .task {
-//            print("task proceed")
             commentViewModel.postId = self.post.writerId
             await commentViewModel.loadComments(boardId: post.boardId)
+            self.updatePost()
         }
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(
@@ -157,10 +157,6 @@ struct CommentView: View {
         .padding(.horizontal, 16)
 
     }
-    
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }
 
 
@@ -183,5 +179,16 @@ private struct HeaderView: View {
                 
             },
             backgroundColor: Color.Background.first)
+    }
+}
+
+// MARK: View 업데이트 관련 메소드
+extension CommentView {
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
+    private func updatePost() {
+        self.post.commentCount = self.commentViewModel.comments.count
     }
 }
