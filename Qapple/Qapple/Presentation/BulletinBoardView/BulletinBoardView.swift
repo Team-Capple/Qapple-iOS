@@ -135,6 +135,7 @@ private struct PostListView: View {
     @EnvironmentObject private var pathModel: Router
     
     @State private var selectedPost: Post?
+    @State private var isReportedPostTappedAlert = false
     
     var body: some View {
         ScrollView {
@@ -154,8 +155,13 @@ private struct PostListView: View {
                         }
                     }
                     .onTapGesture {
-                        pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
-                        bulletinBoardUseCase.isClickComment = true
+                        if !post.isReported {
+                            pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                            bulletinBoardUseCase.isClickComment = true
+                        } else {
+                            HapticManager.shared.notification(type: .warning)
+                            isReportedPostTappedAlert.toggle()
+                        }
                     }
                 }
             }
@@ -172,6 +178,11 @@ private struct PostListView: View {
             )
             .presentationDetents([.height(84)])
             .presentationDragIndicator(.visible)
+        }
+        .alert("신고된 게시글", isPresented: $isReportedPostTappedAlert) {
+            Button("확인", role: .none, action: {})
+        } message: {
+            Text("신고된 게시글은 열람할 수 없습니다.")
         }
     }
 }

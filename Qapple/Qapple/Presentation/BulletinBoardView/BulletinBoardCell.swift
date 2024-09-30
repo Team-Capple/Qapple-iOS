@@ -120,6 +120,7 @@ private struct ContentView: View {
                 
                 RemoteView(post: post)
                     .padding(.top, 12)
+                    .disabled(post.isReported)
             }
         }
     }
