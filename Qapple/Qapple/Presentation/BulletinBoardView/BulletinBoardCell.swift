@@ -88,9 +88,7 @@ private struct HeaderView: View {
             Spacer()
             
             Button {
-                HapticManager.shared.notification(type: .success)
                 seeMoreAction()
-                print("ellipsis")
             } label: {
                 Image(systemName: "ellipsis")
                     .resizable()
@@ -140,7 +138,7 @@ private struct RemoteView: View {
             LikeButton(
                 post: post,
                 tapAction: {
-                    HapticManager.shared.notification(type: .success)
+                    if !post.isLiked { HapticManager.shared.impact(style: .light) }
                     bulletinBoardUseCase.effect(.likePost(postId: post.boardId))
                 }
             )
@@ -176,11 +174,8 @@ private struct RemoteView: View {
         
         var body: some View {
             Button {
-                HapticManager.shared.notification(type: .success)
                 pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
-                print(post)
                 bulletinBoardUseCase.isClickComment = true
-                print(bulletinBoardUseCase.isClickComment)
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "text.bubble.fill")

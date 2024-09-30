@@ -153,6 +153,10 @@ private struct PostListView: View {
                             bulletinBoardUseCase.effect(.fetchPost)
                         }
                     }
+                    .onTapGesture {
+                        pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                        bulletinBoardUseCase.isClickComment = true
+                    }
                 }
             }
         }
