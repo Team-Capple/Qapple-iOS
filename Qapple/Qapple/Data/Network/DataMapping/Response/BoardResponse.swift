@@ -33,12 +33,24 @@ struct BoardResponse {
     }
     
     struct SearchBoards: Codable {
-        var boardId: Int
-        var writerId: Int
-        var content: String
-        var heartCount: Int
-        var commentCount: Int
-        var createAt: String
+        let number: Int
+        let size: Int
+        let content: [board]
+        let numberOfElements: Int
+        let hasPrevious: Bool
+        let hasNext: Bool
+        
+        struct board: Codable {
+            let boardId: Int
+            let writerId: Int
+            let content: String
+            let heartCount: Int
+            let commentCount: Int
+            let createAt: String
+            let isMine: Bool
+            let isReported: Bool
+            let isLiked: Bool
+        }
     }
     
     struct LikeBoard: Codable {

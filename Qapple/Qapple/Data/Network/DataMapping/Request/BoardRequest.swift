@@ -18,6 +18,8 @@ class BoardRequest {
     /// 특정 단어에 대한 게시글 검색 요청 구조체
     struct BoardOfSearch {
         let keyword: String
+        let pageNumber: Int
+        let pageSize: Int
     }
     
     /// 게시글 생성 구조체

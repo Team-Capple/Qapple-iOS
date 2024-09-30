@@ -30,10 +30,11 @@ final class BulletinBoardUseCase: ObservableObject {
         let calendar = Calendar.current
         
         self.state = State(
-            currentEvent: "Macro", // TODO: 실제 값 업데이트
-            startDate: calendar.date(from: startDateComponents)!, // TODO: 실제 값 업데이트
-            endDate: calendar.date(from: endDateComponents)!, // TODO: 실제 값 업데이트
+            currentEvent: "Macro",
+            startDate: calendar.date(from: startDateComponents)!,
+            endDate: calendar.date(from: endDateComponents)!,
             posts: [],
+            searchPosts: [],
             pageNumber: 0,
             hasPrevious: false,
             hasNext: false
@@ -50,6 +51,7 @@ extension BulletinBoardUseCase {
         let startDate: Date
         let endDate: Date
         var posts: [Post]
+        var searchPosts: [Post]
         var pageNumber: Int
         var hasPrevious: Bool
         var hasNext: Bool
@@ -63,6 +65,7 @@ extension BulletinBoardUseCase {
     enum Effect {
         case fetchPost
         case refreshPost
+        case searchPost(keyword: String)
         case likePost(postId: Int)
         case removePost(postIndex: Int)
         case reportPost(postIndex: Int)
@@ -80,6 +83,12 @@ extension BulletinBoardUseCase {
             Task {
                 await refreshPostList()
                 print("게시판 리프레쉬")
+            }
+            
+        case .searchPost(let keyword):
+            Task {
+                await searchPost(keyword: keyword)
+                print("게시판 검색")
             }
             
         case .likePost(let postId):
@@ -219,6 +228,37 @@ extension BulletinBoardUseCase {
             } catch {
                 print("게시판 업데이트 실패")
                 self.isLoading = false
+            }
+        }
+    }
+    
+    @MainActor
+    func searchPost(keyword: String) {
+        Task {
+            do {
+                let searchPostList = try await NetworkManager.fetchBoardOfSearch(
+                    .init(
+                        keyword: keyword,
+                        pageNumber: 0,
+                        pageSize: 1000
+                    )
+                )
+                 
+                self.state.searchPosts = searchPostList.content.map {
+                    Post(
+                        boardId: $0.boardId,
+                        writerId: $0.writerId,
+                        content: $0.content,
+                        heartCount: $0.heartCount,
+                        commentCount: $0.commentCount,
+                        createAt: $0.createAt.ISO8601ToDate,
+                        isMine: $0.isMine,
+                        isReported: $0.isReported,
+                        isLiked: $0.isLiked
+                    )
+                }
+            } catch {
+                print("게시판 검색 실패")
             }
         }
     }
