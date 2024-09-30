@@ -83,10 +83,15 @@ extension AuthViewModel {
     
     @MainActor
     func requestNicknameCheck() async {
+        
+        self.isLoading = true
+        
         do {
             let check = try await NetworkManager.requestNicknameCheck(nickname)
             self.isNicknameCanUse = !check
+            self.isLoading = false
         } catch {
+            self.isLoading = false
             print("닉네임 중복 검사에 실패했습니다. 다시 시도해주세요")
         }
     }

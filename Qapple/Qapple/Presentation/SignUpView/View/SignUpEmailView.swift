@@ -62,14 +62,14 @@ struct SignUpEmailView: View {
                         
                         HStack(spacing: 0) {
                             TextField("", text: $authViewModel.email)
-                                .foregroundStyle(isEnableButton ? TextLabel.main : BrandPink.text)
+                                .foregroundStyle(TextLabel.main)
                                 .font(Font.pretendard(.semiBold, size: 20))
                                 .frame(height: 14)
                             
                             Spacer()
                             
                             Text(authViewModel.academyEmailAddress)
-                                .foregroundStyle(authViewModel.email.isEmpty ? TextLabel.placeholder : BrandPink.text)
+                                .foregroundStyle(TextLabel.placeholder)
                                 .font(Font.pretendard(.semiBold, size: 14))
                                 .frame(height: 8)
                         }
@@ -81,7 +81,7 @@ struct SignUpEmailView: View {
                     
                     Rectangle()
                         .frame(height: 2)
-                        .foregroundStyle(isEnableButton ? GrayScale.wh : (authViewModel.email.isEmpty ? GrayScale.wh : BrandPink.button))
+                        .foregroundStyle(isEnableButton ? GrayScale.wh : (authViewModel.email.isEmpty ? TextLabel.placeholder : GrayScale.wh))
                     
                     Spacer()
                         .frame(height: 18)
