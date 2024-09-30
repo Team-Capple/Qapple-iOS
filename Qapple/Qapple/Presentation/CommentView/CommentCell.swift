@@ -68,7 +68,6 @@ struct CommentCell: View {
         .alert("정말로 댓글을 삭제하시겠습니까?", isPresented: $isDelete) {
             Button("삭제", role: .destructive, action: {
                 Task.init {
-                    // TODO: Page Number 수정
                     await commentViewModel.act(.delete(id: comment.id))
                     self.isDeleteComplete.toggle()
                 }
@@ -156,26 +155,27 @@ struct CommentCell: View {
             VStack {
                 // 댓글 좋아요 버튼
                 Button {
-                    // TODO: Page Number 수정
-                    Task.init {
-                        HapticManager.shared.notification(type: .success)
+                    Task {
+                        if !comment.isLiked { HapticManager.shared.impact(style: .light) }
                         await commentViewModel.act(.like(id: comment.id))
                         await commentViewModel.refreshComments(boardId: post.boardId)
                         self.post.commentCount = commentViewModel.comments.count
                     }
                 } label: {
-                    Image(systemName: comment.isLiked ? "heart.fill" : "heart")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 16)
-                        .foregroundStyle(comment.isLiked ? .button : .sub4)
-                }
-                
-                // 댓글 좋아요 갯수
-                if comment.heartCount != 0 {
-                    Text("\(comment.heartCount)")
-                        .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(.sub3)
+                    VStack {
+                        Image(systemName: comment.isLiked ? "heart.fill" : "heart")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 16)
+                            .foregroundStyle(comment.isLiked ? .button : .sub4)
+                        
+                        // 댓글 좋아요 갯수
+                        if comment.heartCount != 0 {
+                            Text("\(comment.heartCount)")
+                                .font(.pretendard(.medium, size: 14))
+                                .foregroundStyle(.sub3)
+                        }
+                    }
                 }
             }
             .padding(.top, 16)
