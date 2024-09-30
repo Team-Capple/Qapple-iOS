@@ -6,12 +6,16 @@
 //
 
 import Foundation
+import Combine
 
 final class BulletinBoardUseCase: ObservableObject {
     
     @Published var state: State
     @Published var isClickComment: Bool = false
     @Published var isLoading: Bool = false
+    @Published var searchText = ""
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     init() {
         
@@ -39,6 +43,20 @@ final class BulletinBoardUseCase: ObservableObject {
             hasPrevious: false,
             hasNext: false
         )
+        
+        // 검색 로직
+        $searchText
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .sink { [weak self] query in
+                guard !query.isEmpty else { return }
+                
+                Task {
+                    @MainActor in
+                    self?.searchPost(keyword: query)
+                    self?.isLoading = false
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 
