@@ -50,10 +50,10 @@ struct SignUpCompletedView: View {
                     }
                 }
                 .padding(.bottom, 16)
-                .disabled(authViewModel.isSignUpLoading)
+                .disabled(authViewModel.isLoading)
             }
             
-            if authViewModel.isSignUpLoading {
+            if authViewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
                     .tint(.primary)

@@ -119,6 +119,7 @@ struct SignUpEmailView: View {
                         .background(authViewModel.email.isEmpty ? GrayScale.secondaryButton : BrandPink.button)
                         .cornerRadius(20, corners: .allCorners)
                         .disabled(authViewModel.email.isEmpty)
+                        .disabled(authViewModel.certifyMailLoading)
                     }
                     
                     Spacer()

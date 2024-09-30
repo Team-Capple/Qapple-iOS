@@ -21,7 +21,7 @@ class AuthViewModel: ObservableObject {
     @Published var isSignUp = false // 회원가입 로직 실행용
     
     @Published var isSignInLoading = false // 로그인 로딩 용도
-    @Published var isSignUpLoading = false // 회원가입 로딩 용도
+    @Published var isLoading = false // 전체 로딩 관리
     
     @Published var authorizationCode: String = "" // 로그인 인증 코드
     @Published var nickname: String = "" // 닉네임
@@ -155,7 +155,7 @@ extension AuthViewModel {
     @MainActor
     func requestSignUp() async {
         
-        self.isSignUpLoading = true
+        self.isLoading = true
         
         do {
             // 회원가입 API
@@ -175,9 +175,9 @@ extension AuthViewModel {
             try SignInInfo.shared.createUserID(userID)
             print("UserID!\n\(try SignInInfo.shared.userID())\n")
             
-            self.isSignUpLoading = false
+            self.isLoading = false
         } catch {
-            self.isSignUpLoading = false
+            self.isLoading = false
             isSignUpFailedAlertPresented.toggle()
         }
     }
@@ -190,6 +190,8 @@ extension AuthViewModel {
     @MainActor
     func requestEmailCertification() async -> Bool {
         
+        self.isLoading = true
+        
         // 인증 코드 초기화
         certifyCode.removeAll()
         
@@ -201,11 +203,13 @@ extension AuthViewModel {
                 )
             )
             print("인증코드 전송 완료")
+            self.isLoading = false
             return true
         } catch {
             print("인증코드 요청 실패")
             certifyMailLoading = false
             isExistEmailAlertPresented = true
+            self.isLoading = false
             return false
         }
     }
@@ -213,6 +217,9 @@ extension AuthViewModel {
     /// 대학 이메일 인증 코드를 확인합니다.
     @MainActor
     func requestCertifyCode() {
+        
+        self.isLoading = true
+        
         Task {
             do {
                 let response = try await NetworkManager.requestCodeCertificationCode(
@@ -231,11 +238,14 @@ extension AuthViewModel {
                     isCertifyCodeVerified = true
                 }
                 
+                self.isLoading = false
+                
             } catch {
                 // 인증 실패 케이스
                 print("인증 실패")
                 isCertifyCodeInvalid = true
                 isCertifyCodeFailed = true
+                self.isLoading = false
             }
         }
     }
