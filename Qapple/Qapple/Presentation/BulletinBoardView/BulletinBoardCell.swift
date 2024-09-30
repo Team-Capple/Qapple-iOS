@@ -240,7 +240,7 @@ private struct ReportBoardCell: View {
                         .resizable()
                         .frame(width: 28, height: 28)
 
-                    Text("러너 \(post.writerId + 1)")
+                    Text("익명의 러너")
                         .pretendard(.semiBold, 14)
                         .foregroundStyle(GrayScale.icon)
                         .padding(.leading, 8)

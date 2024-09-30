@@ -48,6 +48,10 @@ struct BulletinBoardView: View {
             bulletinBoardUseCase.isClickComment = false
             bulletinBoardUseCase.effect(.fetchPost)
         }
+        .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
+            print("뷰 업데이트")
+            bulletinBoardUseCase.refreshPostList()
+        }
     }
 }
 
