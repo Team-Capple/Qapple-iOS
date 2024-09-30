@@ -60,6 +60,10 @@ private struct HeaderView: View {
         self.viewModel = viewModel
     }
     
+    private var height: CGFloat {
+        viewModel.state == .creating ? 270 : 230
+    }
+    
     fileprivate var body: some View {
         ZStack {
             Color(Background.second)
@@ -69,7 +73,7 @@ private struct HeaderView: View {
                 HeaderContentView(viewModel: viewModel)
                     .padding(.bottom, 12)
             }
-            .frame(height: 230)
+            .frame(height: height)
         }
     }
 }
@@ -81,6 +85,18 @@ private struct HeaderContentView: View {
     
     fileprivate init(viewModel: TodayQuestionViewModel) {
         self.viewModel = viewModel
+    }
+    
+    private var timeStringGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [
+                Color(red: 212/255, green: 105/255, blue: 249/255),
+                Color(red: 244/255, green: 78/255, blue: 156/255),
+                Color(red: 232/255, green: 44/255, blue: 201/255).opacity(0.84)
+            ]),
+            startPoint: .leading,
+            endPoint: .trailing
+        )
     }
     
     fileprivate var body: some View {
@@ -100,8 +116,9 @@ private struct HeaderContentView: View {
             
             Text(viewModel.timeString())
                 .font(.pretendard(.bold, size: 38))
-                .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
+                .foregroundStyle(timeStringGradient)
                 .frame(height: 27)
+                .padding(.top, 12)
                 .monospacedDigit()
                 .kerning(-2)
         }
@@ -220,6 +237,7 @@ private struct AnswerPreview: View {
                     .padding(.horizontal, 20)
                     .font(.pretendard(.bold, size: 20))
                     .lineSpacing(4)
+                    .opacity(viewModel.isLoading ? 0 : 1)
                     
                     HStack {
                         Text(viewModel.listSubText)
@@ -244,6 +262,7 @@ private struct AnswerPreview: View {
                     
                     Divider()
                         .padding(.top, 12)
+                        .opacity(viewModel.isLoading ? 0 : 1)
                     
                     HStack {
                         Spacer()
