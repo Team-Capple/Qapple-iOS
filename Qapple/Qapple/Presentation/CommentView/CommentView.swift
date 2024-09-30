@@ -110,6 +110,12 @@ struct CommentView: View {
                 self.post = updatedPost
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
+            Task {
+                await commentViewModel.refreshComments(boardId: self.post.boardId)
+                self.post.commentCount = commentViewModel.comments.count
+            }
+        }
     }
     
     var seperator: some View {

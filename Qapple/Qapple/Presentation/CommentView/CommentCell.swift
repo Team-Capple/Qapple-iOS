@@ -67,7 +67,7 @@ struct CommentCell: View {
         }
         .alert("정말로 댓글을 삭제하시겠습니까?", isPresented: $isDelete) {
             Button("삭제", role: .destructive, action: {
-                Task.init {
+                Task {
                     await commentViewModel.act(.delete(id: comment.id))
                     self.isDeleteComplete.toggle()
                 }
@@ -76,7 +76,7 @@ struct CommentCell: View {
         }
         .alert("댓글이 삭제되었습니다", isPresented: $isDeleteComplete) {
             Button("확인", role: .none) {
-                Task.init {
+                Task {
                     await commentViewModel.refreshComments(boardId: self.post.boardId)
                     self.post.commentCount = commentViewModel.comments.count
                 }
