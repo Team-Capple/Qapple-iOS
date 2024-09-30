@@ -19,7 +19,6 @@ struct NotificationCell: View {
                 TitleView(notification: notification)
                 ContentView(notification: notification)
             }
-            .padding(.horizontal)
         }
         .buttonStyle(PressableButtonStyle())
     }
@@ -74,7 +73,7 @@ private struct ContentView: View {
 struct PressableButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding()
+            .padding(.vertical, 24)
             .background(configuration.isPressed ? .white.opacity(0.05) : Background.first)
             .animation(.none, value: configuration.isPressed)
     }

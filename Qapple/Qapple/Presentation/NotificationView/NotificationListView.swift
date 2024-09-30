@@ -16,6 +16,7 @@ struct NotificationListView: View {
     var body: some View {
         ZStack {
             Color(Background.first).ignoresSafeArea()
+            
             NotificationContentView()
             
             if notificationUseCase._state.isLoading {
@@ -66,7 +67,6 @@ private struct NotificationContentView: View {
                         }
                         
                         Separator()
-                            .padding(.horizontal, 24)
                     }
                     
                     Text("알림은 7일간 보관됩니다.")
@@ -74,6 +74,7 @@ private struct NotificationContentView: View {
                         .foregroundStyle(TextLabel.sub4)
                         .padding(.top, 16)
                 }
+                .padding(.horizontal, 24)
             }
             .refreshable {
                 notificationUseCase.refreshNotificationList()
