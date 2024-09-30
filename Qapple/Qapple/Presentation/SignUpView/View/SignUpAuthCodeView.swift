@@ -17,6 +17,15 @@ struct SignUpAuthCodeView: View {
     
     private let codeLimit = 5
     
+    /// TextField 구분선 컬러를 지정합니다.
+    private var dividerForgroundStyle: Color {
+        if authViewModel.certifyCode.isEmpty {
+            return TextLabel.disable
+        } else {
+            return TextLabel.main
+        }
+    }
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
@@ -69,7 +78,7 @@ struct SignUpAuthCodeView: View {
                         
                         HStack(spacing: 0) {
                             TextField("", text: $authViewModel.certifyCode)
-                                .foregroundStyle(authViewModel.isCertifyCodeVerified ? TextLabel.main : BrandPink.text)
+                                .foregroundStyle(TextLabel.main)
                                 .font(Font.pretendard(.semiBold, size: 20))
                                 .frame(height: 14)
                                 .keyboardType(.alphabet)
@@ -119,7 +128,7 @@ struct SignUpAuthCodeView: View {
                     
                     Rectangle()
                         .frame(height: 2)
-                        .foregroundStyle(authViewModel.isCertifyCodeVerified ? GrayScale.wh : (authViewModel.certifyCode.isEmpty ? GrayScale.wh : BrandPink.button))
+                        .foregroundStyle(dividerForgroundStyle)
                     
                     Spacer()
                         .frame(height: 28)
