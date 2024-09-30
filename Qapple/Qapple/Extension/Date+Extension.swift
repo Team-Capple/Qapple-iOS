@@ -43,8 +43,7 @@ extension Date {
                 return "하루 전"
             } else {
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateStyle = .medium
-                dateFormatter.timeStyle = .none
+                dateFormatter.dateFormat = "MM.dd"
                 dateFormatter.locale = Locale(identifier: "ko_KR")
                 return dateFormatter.string(from: self)
             }

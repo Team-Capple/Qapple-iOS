@@ -44,7 +44,11 @@ extension NetworkManager {
     /// 게시글 검색 조회
     static func fetchBoardOfSearch(_ request: BoardRequest.BoardOfSearch) async throws -> BoardResponse.SearchBoards {
         
-        let urlString = ApiEndpoints.basicURLString(path: .boardsSearch) + "?keyword=\(request.keyword)"
+        var urlString = ApiEndpoints.basicURLString(path: .boardsSearch)
+        urlString += "?keyword=\(request.keyword)"
+        urlString += "&pageNumber=\(request.pageNumber)"
+        urlString += "&pageSize=\(request.pageSize)"
+        
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL

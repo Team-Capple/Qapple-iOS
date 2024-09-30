@@ -82,6 +82,8 @@
 		827169192C9EB8BC00D8BF81 /* NetworkManager+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827169182C9EB8BC00D8BF81 /* NetworkManager+Notification.swift */; };
 		8271691B2C9EB91A00D8BF81 /* NotificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271691A2C9EB91A00D8BF81 /* NotificationRequest.swift */; };
 		8271691D2C9EB95000D8BF81 /* NotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8271691C2C9EB95000D8BF81 /* NotificationResponse.swift */; };
+		82733E752CA7912F00AB9D5D /* MyPageSectionTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82733E742CA7912F00AB9D5D /* MyPageSectionTitle.swift */; };
+		82733E772CA7923A00AB9D5D /* MyPageSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82733E762CA7923A00AB9D5D /* MyPageSectionCell.swift */; };
 		827897B52BBC41A800B3D6F0 /* WrittenAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827897B42BBC41A800B3D6F0 /* WrittenAnswerView.swift */; };
 		827897B72BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827897B62BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift */; };
 		8280CA7A2C5F1F2C00AC07B9 /* AppleLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */; };
@@ -143,7 +145,6 @@
 		F392AC452B8B2E370069AD7B /* SignUpNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F392AC422B8B2E370069AD7B /* SignUpNicknameView.swift */; };
 		F392AC462B8B2E370069AD7B /* SignUpTermsAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F392AC432B8B2E370069AD7B /* SignUpTermsAgreementView.swift */; };
 		F392AC472B8B2E370069AD7B /* SignUpCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F392AC442B8B2E370069AD7B /* SignUpCompletedView.swift */; };
-		F3D452CC2B8A4468000BA51C /* MyPageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452CB2B8A4468000BA51C /* MyPageSection.swift */; };
 		F3D452D12B8A55BD000BA51C /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D02B8A55BD000BA51C /* ProfileEditView.swift */; };
 		F3D452D32B8A6015000BA51C /* CustomNavigationBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D22B8A6015000BA51C /* CustomNavigationBackButton.swift */; };
 		F3D452D52B8A647F000BA51C /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D452D42B8A647F000BA51C /* UINavigationController+Extension.swift */; };
@@ -250,6 +251,8 @@
 		827169182C9EB8BC00D8BF81 /* NetworkManager+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Notification.swift"; sourceTree = "<group>"; };
 		8271691A2C9EB91A00D8BF81 /* NotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequest.swift; sourceTree = "<group>"; };
 		8271691C2C9EB95000D8BF81 /* NotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationResponse.swift; sourceTree = "<group>"; };
+		82733E742CA7912F00AB9D5D /* MyPageSectionTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSectionTitle.swift; sourceTree = "<group>"; };
+		82733E762CA7923A00AB9D5D /* MyPageSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSectionCell.swift; sourceTree = "<group>"; };
 		827897B42BBC41A800B3D6F0 /* WrittenAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrittenAnswerView.swift; sourceTree = "<group>"; };
 		827897B62BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpServiceTermsView.swift; sourceTree = "<group>"; };
 		8280CA792C5F1F2C00AC07B9 /* AppleLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginService.swift; sourceTree = "<group>"; };
@@ -313,7 +316,6 @@
 		F392AC422B8B2E370069AD7B /* SignUpNicknameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpNicknameView.swift; sourceTree = "<group>"; };
 		F392AC432B8B2E370069AD7B /* SignUpTermsAgreementView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpTermsAgreementView.swift; sourceTree = "<group>"; };
 		F392AC442B8B2E370069AD7B /* SignUpCompletedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpCompletedView.swift; sourceTree = "<group>"; };
-		F3D452CB2B8A4468000BA51C /* MyPageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSection.swift; sourceTree = "<group>"; };
 		F3D452D02B8A55BD000BA51C /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
 		F3D452D22B8A6015000BA51C /* CustomNavigationBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBackButton.swift; sourceTree = "<group>"; };
 		F3D452D42B8A647F000BA51C /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
@@ -836,7 +838,8 @@
 			children = (
 				F37C17892B873436005E5072 /* MyPageView.swift */,
 				F37C178B2B873658005E5072 /* MyProfileSummary.swift */,
-				F3D452CB2B8A4468000BA51C /* MyPageSection.swift */,
+				82733E742CA7912F00AB9D5D /* MyPageSectionTitle.swift */,
+				82733E762CA7923A00AB9D5D /* MyPageSectionCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1287,6 +1290,7 @@
 				F3D452D32B8A6015000BA51C /* CustomNavigationBackButton.swift in Sources */,
 				2CFF5E212C9EA0470083A42A /* CommentReportType.swift in Sources */,
 				F37C178C2B873658005E5072 /* MyProfileSummary.swift in Sources */,
+				82733E752CA7912F00AB9D5D /* MyPageSectionTitle.swift in Sources */,
 				F392AC472B8B2E370069AD7B /* SignUpCompletedView.swift in Sources */,
 				82D2BD502C6736EC00082A58 /* AcademyPlanDayCounter.swift in Sources */,
 				67B1850E2B9436450057E6BB /* TodayAnswerViewModel.swift in Sources */,
@@ -1313,7 +1317,6 @@
 				8295BDB22BA3209000115FA8 /* MemberRequest.swift in Sources */,
 				824717362BC9163C005E9631 /* NetworkManager+Report.swift in Sources */,
 				82D583BD2B9859D7003CC424 /* NetworkError.swift in Sources */,
-				F3D452CC2B8A4468000BA51C /* MyPageSection.swift in Sources */,
 				F3EA67062B76450F002417CE /* BaseRequest.swift in Sources */,
 				824717382BC922F3005E9631 /* NotificationName+Extension.swift in Sources */,
 				825226E82BA6E529006998E8 /* SignInInfo.swift in Sources */,
@@ -1350,6 +1353,7 @@
 				827897B72BBC4A8500B3D6F0 /* SignUpServiceTermsView.swift in Sources */,
 				2CFF5E232C9EA0E30083A42A /* CommentReportView.swift in Sources */,
 				828715BC2B99F6EA001627DB /* TagRequest.swift in Sources */,
+				82733E772CA7923A00AB9D5D /* MyPageSectionCell.swift in Sources */,
 				82D583B92B9852C4003CC424 /* QuestionResponse.swift in Sources */,
 				073C3DDE2B8714240016C333 /* QuestionTimeZone.swift in Sources */,
 				823736A92C674A370057B9CF /* BulletinBoardUseCase.swift in Sources */,

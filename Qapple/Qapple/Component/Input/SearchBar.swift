@@ -13,15 +13,21 @@ struct SearchBar: View {
     
     @Binding private(set) var searchText: String
     
+    let action: () -> Void
+    
     var body: some View {
         HStack(spacing: 6) {
             TextField("검색어를 입력해주세요", text: $searchText)
                 .pretendard(.semiBold, 15)
             
-            Image(.search)
-                .resizable()
-                .frame(width: 24, height: 24)
-                .foregroundStyle(GrayScale.icon)
+            Button {
+                action()
+            } label: {
+                Image(.search)
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(GrayScale.icon)
+            }
         }
         .padding(14)
         .background(GrayScale.secondaryButton)
@@ -30,5 +36,5 @@ struct SearchBar: View {
 }
 
 #Preview {
-    SearchBar(searchText: .constant(""))
+    SearchBar(searchText: .constant("")) {}
 }

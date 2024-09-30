@@ -22,8 +22,10 @@ struct BulletinSearchView: View {
                 VStack(spacing: 0) {
                     NavigationBar()
                     
-                    SearchBar(searchText: $searchText)
-                        .padding(.horizontal, 16)
+                    SearchBar(searchText: $searchText) {
+                        bulletinBoardUseCase.effect(.searchPost(keyword: searchText))
+                    }
+                    .padding(.horizontal, 16)
                     
                     SearchListView(searchText: searchText)
                 }
@@ -68,16 +70,10 @@ private struct SearchListView: View {
     
     let searchText: String
     
-    private var searchList: [Post] {
-        bulletinBoardUseCase.state.posts.filter {
-            $0.content.contains(searchText)
-        }
-    }
-    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                ForEach(searchList) { post in
+                ForEach(bulletinBoardUseCase.state.searchPosts) { post in
                     BulletinBoardCell(
                         post: post,
                         seeMoreAction: {

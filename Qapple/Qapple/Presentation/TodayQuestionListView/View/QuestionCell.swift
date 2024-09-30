@@ -93,7 +93,7 @@ private struct HeaderView: View {
         
         if let date = inputFormatter.date(from: dateString) {
             let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "yyyy.MM.dd"
+            outputFormatter.dateFormat = "MM.dd"
             return outputFormatter.string(from: date)
         } else {
             return "실패!" // 잘못된 입력 형식일 경우 처리
@@ -162,7 +162,7 @@ struct DummyData {
 extension Date {
     func formattedDate() -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = "MM-dd"
         return formatter.string(from: self)
     }
 }
