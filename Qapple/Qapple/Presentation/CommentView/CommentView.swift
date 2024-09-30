@@ -49,10 +49,6 @@ struct CommentView: View {
                                     }
                                 }
                         }
-                        
-                        seperator
-                        
-                        Spacer(minLength: 50)
                     }
                 }
                 .background(Color.bk)
@@ -82,13 +78,16 @@ struct CommentView: View {
                     }
                 }
             }
-        }
-        .onTapGesture {
-            hideKeyboard()
-        }
-        .overlay(alignment: .bottom) {
+            
+            Spacer()
+            
             addComment
                 .frame(width: screenWidth)
+                .padding(.bottom, 8)
+        }
+        .background(Color.bk)
+        .onTapGesture {
+            hideKeyboard()
         }
         .navigationBarBackButtonHidden()
         .task {
@@ -158,10 +157,8 @@ struct CommentView: View {
             RoundedRectangle(cornerRadius: 11)
                 .foregroundStyle(Color.placeholder)
         }
-        
         .frame(minHeight: 50)
         .padding(.horizontal, 16)
-
     }
 }
 
