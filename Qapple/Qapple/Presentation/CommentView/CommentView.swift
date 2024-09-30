@@ -71,8 +71,15 @@ struct CommentView: View {
                 }
                 
                 if commentViewModel.comments.isEmpty && !self.commentViewModel.isLoading {
-                    Text("작성된 댓글이 없습니다.\n 댓글을 달아보세요!")
-                        .multilineTextAlignment(.center)
+                    VStack {
+                        Text("아직 작성된 댓글이 없습니다")
+                            .font(.pretendard(.medium, size: 14))
+                            .foregroundStyle(.sub5)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 24)
+                        
+                        Spacer()
+                    }
                 }
             }
         }
@@ -85,7 +92,9 @@ struct CommentView: View {
         }
         .navigationBarBackButtonHidden()
         .task {
+            commentViewModel.postId = self.post.writerId
             await commentViewModel.loadComments(boardId: post.boardId)
+            self.updatePost()
         }
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(
@@ -109,6 +118,7 @@ struct CommentView: View {
             .frame(height: 1)
     }
     
+    // 댓글 작성 View
     var addComment: some View {
         HStack(alignment: .bottom) {
             TextField("댓글 추가", text: $text, axis: .vertical)
@@ -122,7 +132,7 @@ struct CommentView: View {
                 Task.init {
                     HapticManager.shared.notification(type: .success)
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
-                    await commentViewModel.loadComments(boardId: post.boardId)
+                    await commentViewModel.refreshComments(boardId: post.boardId)
                     self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
                     self.hideKeyboard()
@@ -147,10 +157,6 @@ struct CommentView: View {
         .padding(.horizontal, 16)
 
     }
-    
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }
 
 
@@ -173,5 +179,16 @@ private struct HeaderView: View {
                 
             },
             backgroundColor: Color.Background.first)
+    }
+}
+
+// MARK: View 업데이트 관련 메소드
+extension CommentView {
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
+    private func updatePost() {
+        self.post.commentCount = self.commentViewModel.comments.count
     }
 }

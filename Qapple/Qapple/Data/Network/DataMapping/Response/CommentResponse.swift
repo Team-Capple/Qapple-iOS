@@ -20,7 +20,7 @@ struct CommentResponse: Codable {
         let hasNext: Bool
     }
     
-    struct Comment: Codable, Identifiable {
+    struct Comment: Codable, Identifiable, Hashable {
         var id: Int
         var writerId: Int
         var content: String

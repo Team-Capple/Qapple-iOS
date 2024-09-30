@@ -18,6 +18,7 @@ struct CommentCell: View {
     @State private var isCellToggled: Bool = false
     @State private var isDelete: Bool = false
     @State private var isDeleteComplete: Bool = false
+    @State private var isReportedComment: Bool = false
     
     @EnvironmentObject private var pathModel: Router
     
@@ -26,22 +27,44 @@ struct CommentCell: View {
     @Binding var post: Post
     
     var body: some View {
-        HStack(spacing: 0) {
-            Spacer()
-                .frame(width: 73)
-            
-            content
-                .frame(width: screenWidth)
-            
-            if comment.isMine {
-                deleteBtn
+        ZStack {
+            if !isReportedComment {
+                HStack(spacing: 0) {
+                    Spacer()
+                        .frame(width: 73)
+                    
+                    content
+                        .frame(width: screenWidth)
+                    
+                    if comment.isMine {
+                        deleteBtn
+                    } else {
+                        reportBtn
+                    }
+                }
+                .offset(x: hOffset)
+                .animation(.easeInOut, value: hOffset)
             } else {
-                reportBtn
+                HStack {
+                    Text("신고에 의해 숨김처리 된 댓글입니다.")
+                        .font(.pretendard(.semiBold, size: 14))
+                        .foregroundStyle(.sub4)
+                        .padding(.leading, 16)
+                    
+                    Spacer()
+                    
+                    Button {
+                        self.isReportedComment.toggle()
+                    } label: {
+                        Text("댓글 보기")
+                            .font(.pretendard(.medium, size: 16.35))
+                            .foregroundStyle(.text)
+                    }
+                    .padding(.trailing, 27)
+                }
+                .frame(width: screenWidth, height: 56.03)
             }
-            
         }
-        .offset(x: hOffset)
-        .animation(.easeInOut, value: hOffset)
         .alert("정말로 댓글을 삭제하시겠습니까?", isPresented: $isDelete) {
             Button("삭제", role: .destructive, action: {
                 Task.init {
@@ -55,26 +78,24 @@ struct CommentCell: View {
         .alert("댓글이 삭제되었습니다!", isPresented: $isDeleteComplete) {
             Button("확인", role: .none) {
                 Task.init {
-                    await commentViewModel.loadComments(boardId: self.post.boardId)
+                    await commentViewModel.refreshComments(boardId: self.post.boardId)
                     self.post.commentCount = commentViewModel.comments.count
                 }
             }
         }
+        .onAppear {
+            if comment.isReport {
+                self.isReportedComment = true
+            }
+        }
+        
     }
     
     private var drag: some Gesture {
-        DragGesture()
+        DragGesture(minimumDistance: 50)
             .onChanged { value in
                 let transWidth = value.translation.width
-                
-                if transWidth > -20 && transWidth < 0 {
-                    return
-                }
-                
-                if transWidth < 20 && transWidth > 0 {
-                    return
-                }
-                
+
                 hOffset = anchor + transWidth
 
                 if anchor < 0 {
@@ -105,9 +126,15 @@ struct CommentCell: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 10) {
                     // 사용자 이름
-                    Text("러너 \(self.comment.writerId)")
-                        .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(.icon)
+                    if self.comment.writerId == -1 {
+                        Text("작성자")
+                            .font(.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(.text)
+                    } else {
+                        Text("러너 \(self.comment.writerId)")
+                            .font(.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(.icon)
+                    }
                     
                     // 댓글 timestamp
                     Text(comment.createdAt.ISO8601ToDate.timeAgo)
@@ -133,7 +160,7 @@ struct CommentCell: View {
                     Task.init {
                         HapticManager.shared.notification(type: .success)
                         await commentViewModel.act(.like(id: comment.id))
-                        await commentViewModel.loadComments(boardId: post.boardId)
+                        await commentViewModel.refreshComments(boardId: post.boardId)
                         self.post.commentCount = commentViewModel.comments.count
                     }
                 } label: {
@@ -155,7 +182,7 @@ struct CommentCell: View {
         }
         .padding(.horizontal, 16)
         .background(Color.bk)
-        .gesture(drag)
+        .gesture(drag, isEnabled: !comment.isReport)
     }
     
     private var deleteBtn: some View {
@@ -178,11 +205,7 @@ struct CommentCell: View {
     
     private var reportBtn: some View {
         Button {
-            // TODO: 신고 기능 구현
-            Task.init {
-                await commentViewModel.act(.report(id: 1))
-            }
-            pathModel.pushView(screen: BulletinBoardPathType.commentReport(id: comment.id))
+            pathModel.pushView(screen: BulletinBoardPathType.commentReport(comment: comment))
         } label: {
             ZStack {
                 Color.report
@@ -196,9 +219,3 @@ struct CommentCell: View {
     }
 }
 
-//#Preview {
-//    VStack {
-//        CommentCell(comment: Comment(anonymityIndex: 1, isMine: false, isLike: true, likeCount: 12, content: "123123", timestamp: Date()), commentUseCase: .init())
-//        CommentCell(comment: Comment(anonymityIndex: 2, isMine: true, isLike: false, likeCount: 0, content: "테스트", timestamp: Date().addingTimeInterval(-60*60*24)), commentUseCase: .init())
-//    }
-//}

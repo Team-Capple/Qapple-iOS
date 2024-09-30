@@ -15,7 +15,7 @@ struct CommentReportView: View {
     @State private var isLoading: Bool = false
     @State private var reportType: CommentReportType = .DISTRIBUTION_OF_ILLEGAL_PHOTOGRAPHS
     
-    let commentId: Int
+    let comment: CommentResponse.Comment
     
     var reportList = [
         "불법촬영물 등의 유통",
@@ -112,7 +112,7 @@ extension CommentReportView {
     private func reportComment() async {
         do {
             try await NetworkManager.reportComment(
-                requestBody: .init(boardCommentId: self.commentId,
+                requestBody: .init(boardCommentId: self.comment.id,
                                    boardCommentReportType: self.reportType.rawValue))
         } catch {
             print(error.localizedDescription)

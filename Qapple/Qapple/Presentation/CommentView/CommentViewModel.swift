@@ -17,6 +17,7 @@ final class CommentViewModel: ObservableObject {
     @Published var hasPrevious: Bool = false
     @Published var hasNext: Bool = false
     
+    var postId: Int?
     // 댓글 불러오기
     @MainActor
     public func loadComments(boardId: Int) async {
@@ -133,12 +134,17 @@ extension CommentViewModel {
 extension CommentViewModel {
     // 이름을 익명화 해주는 method
     private func anonymizeComment(_ comments: [CommentResponse.Comment]) -> [CommentResponse.Comment] {
+        guard let postWriterId = self.postId else {
+            return []
+        }
+        
         // 아무개 번호
         var nameIndex = 0
         // 중복 여부 판단하는 딕셔너리
         var nameArray: [Int: Int] = [:]
         
         let result = comments.map { comment in
+            
             // 한번이라도 나온 writer인지 여부 판단
             let isContainName = nameArray.values.contains {
                 $0 == comment.writerId
@@ -146,12 +152,16 @@ extension CommentViewModel {
             
             if !isContainName { // 처음 나오는 writer일 경우
                 nameIndex += 1
-                nameArray.updateValue(comment.writerId, forKey: nameIndex)
                 
+                if comment.writerId == postWriterId {
+                    nameArray.updateValue(comment.writerId, forKey: -1)
+                } else {
+                    nameArray.updateValue(comment.writerId, forKey: nameIndex)
+                }
                 
                 return CommentResponse.Comment(
                     id: comment.id,
-                    writerId: nameIndex,
+                    writerId: (comment.writerId == postWriterId) ? -1 : nameIndex,
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
