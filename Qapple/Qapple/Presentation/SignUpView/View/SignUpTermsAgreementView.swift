@@ -16,10 +16,17 @@ struct SignUpTermsAgreementView: View {
     @State private var isPrivacyTermsChecked = false
     @State private var isEULAChecked = false
     
+    /// 약관동의 체크버튼을 Toggle 합니다.
+    private func toggleCheckButton() {
+        if (isServiceTermsChecked && isPrivacyTermsChecked) && isEULAChecked {
+            isAllChecked = true
+        } else {
+            isAllChecked = false
+        }
+    }
+    
     var body: some View {
-        
         VStack(spacing: 0) {
-            
             CustomNavigationBar(
                 leadingView: { CustomNavigationBackButton(buttonType: .arrow) {
                     pathModel.paths.removeLast()
@@ -186,15 +193,6 @@ struct SignUpTermsAgreementView: View {
             Button("확인", role: .none, action: {})
         } message: {
             Text("네트워크 또는 서버 문제로 회원가입에 실패했습니다. 다시 시도 또는 관리자에게 문의 해주세요.")
-        }
-    }
-    
-    /// 약관동의 체크버튼을 Toggle 합니다.
-    func toggleCheckButton() {
-        if (isServiceTermsChecked && isPrivacyTermsChecked) && isEULAChecked {
-            isAllChecked = true
-        } else {
-            isAllChecked = false
         }
     }
 }

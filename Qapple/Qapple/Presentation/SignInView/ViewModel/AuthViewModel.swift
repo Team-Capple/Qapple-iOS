@@ -21,6 +21,7 @@ class AuthViewModel: ObservableObject {
     @Published var isSignUp = false // 회원가입 로직 실행용
     
     @Published var isSignInLoading = false // 로그인 로딩 용도
+    @Published var isSignUpLoading = false // 회원가입 로딩 용도
     
     @Published var authorizationCode: String = "" // 로그인 인증 코드
     @Published var nickname: String = "" // 닉네임
@@ -144,7 +145,7 @@ extension AuthViewModel {
                 
             default: break
             }
-        case .failure(let error):
+        case .failure:
             isAppleLoginFailedAlertPresenteed = true
             isSignInLoading = false
         }
@@ -153,6 +154,9 @@ extension AuthViewModel {
     /// 회원가입을 요청합니다.
     @MainActor
     func requestSignUp() async {
+        
+        self.isSignUpLoading = true
+        
         do {
             // 회원가입 API
             let signUpData = try await NetworkManager.requestSignUp(
@@ -170,7 +174,10 @@ extension AuthViewModel {
             try SignInInfo.shared.createToken(.refresh, token: signUpData.refreshToken ?? "")
             try SignInInfo.shared.createUserID(userID)
             print("UserID!\n\(try SignInInfo.shared.userID())\n")
+            
+            self.isSignUpLoading = false
         } catch {
+            self.isSignUpLoading = false
             isSignUpFailedAlertPresented.toggle()
         }
     }
