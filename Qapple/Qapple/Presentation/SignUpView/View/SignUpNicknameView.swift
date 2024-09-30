@@ -119,7 +119,7 @@ struct SignUpNicknameView: View {
                     
                     Rectangle()
                         .frame(height: 2)
-                        .foregroundStyle(authViewModel.isNicknameCanUse ? GrayScale.wh : (authViewModel.nickname.isEmpty ? GrayScale.wh : BrandPink.button))
+                        .foregroundStyle(authViewModel.nickname.isEmpty ? TextLabel.disable : TextLabel.main)
                     
                     Spacer().frame(height: 8)
                     
@@ -145,8 +145,8 @@ struct SignUpNicknameView: View {
                         .background(
                             (authViewModel.nickname.isEmpty || !authViewModel.isNicknameFieldAvailable) ? GrayScale.secondaryButton : BrandPink.button)
                         .cornerRadius(20, corners: .allCorners)
-                        .disabled(authViewModel.nickname.isEmpty ||
-                                  !authViewModel.isNicknameFieldAvailable)
+                        .disabled(authViewModel.nickname.isEmpty)
+                        .disabled(authViewModel.isNicknameCanUse)
                         .disabled(authViewModel.isLoading)
                     }
                     
