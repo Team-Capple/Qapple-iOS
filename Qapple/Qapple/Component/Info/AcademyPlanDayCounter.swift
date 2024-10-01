@@ -85,10 +85,22 @@ private struct ProgressBar: View {
     let endDate: Date
     let dayLeftUntilNextEvent: Int
     
-    var progress: Double {
+    private var progress: Double {
         let calendar = Calendar.current
         let total = calendar.dateComponents([.day], from: startDate, to: endDate).day ?? 0
         return Double(total - dayLeftUntilNextEvent) / Double(total)
+    }
+    
+    private var gradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [
+                Color(red: 212/255, green: 105/255, blue: 249/255),
+                Color(red: 244/255, green: 78/255, blue: 156/255),
+                Color(red: 232/255, green: 44/255, blue: 201/255).opacity(0.84)
+            ]),
+            startPoint: .leading,
+            endPoint: .trailing
+        )
     }
     
     var body: some View {

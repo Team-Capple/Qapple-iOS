@@ -190,6 +190,18 @@ private struct Footer: View {
 
     var body: some View {
         HStack {
+            Button {
+                isAnonymitySheetPresented.toggle()
+            } label: {
+                Text("익명이 보장되나요?")
+                    .font(.pretendard(.semiBold, size: 12))
+                    .foregroundStyle(BrandPink.text)
+            }
+            .sheet(isPresented: $isAnonymitySheetPresented) {
+                AnonymityNoticeView(isAnonymitySheetPresented: $isAnonymitySheetPresented)
+                    .presentationDetents([.height(560)])
+            }
+            
             Spacer()
 
             Text("\(postingUseCase._state.content.count)/\(postingUseCase.textCountLimit)")

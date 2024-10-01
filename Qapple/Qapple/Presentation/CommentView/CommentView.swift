@@ -49,10 +49,6 @@ struct CommentView: View {
                                     }
                                 }
                         }
-                        
-                        seperator
-                        
-                        Spacer(minLength: 50)
                     }
                 }
                 .background(Color.bk)
@@ -82,13 +78,16 @@ struct CommentView: View {
                     }
                 }
             }
-        }
-        .onTapGesture {
-            hideKeyboard()
-        }
-        .overlay(alignment: .bottom) {
+            
+            Spacer()
+            
             addComment
                 .frame(width: screenWidth)
+                .padding(.bottom, 8)
+        }
+        .background(Color.bk)
+        .onTapGesture {
+            hideKeyboard()
         }
         .navigationBarBackButtonHidden()
         .task {
@@ -108,6 +107,12 @@ struct CommentView: View {
         .onChange(of: bulletinBoardUseCase.state.posts) { _, newPosts in
             if let updatedPost = newPosts.first(where: { $0.boardId == post.boardId }) {
                 self.post = updatedPost
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
+            Task {
+                await commentViewModel.refreshComments(boardId: self.post.boardId)
+                self.post.commentCount = commentViewModel.comments.count
             }
         }
     }
@@ -152,10 +157,8 @@ struct CommentView: View {
             RoundedRectangle(cornerRadius: 11)
                 .foregroundStyle(Color.placeholder)
         }
-        
         .frame(minHeight: 50)
         .padding(.horizontal, 16)
-
     }
 }
 

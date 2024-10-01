@@ -42,7 +42,7 @@ struct MyProfileSummary: View {
                     }
                 }
                 
-                Text("\(joinDate) 가입")
+                Text("\(joinDate)")
                     .foregroundStyle(TextLabel.sub3)
                     .font(Font.pretendard(.semiBold, size: 14))
                     .frame(height: 10)

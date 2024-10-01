@@ -60,6 +60,10 @@ private struct HeaderView: View {
         self.viewModel = viewModel
     }
     
+    private var height: CGFloat {
+        viewModel.state == .creating ? 270 : 230
+    }
+    
     fileprivate var body: some View {
         ZStack {
             Color(Background.second)
@@ -69,7 +73,7 @@ private struct HeaderView: View {
                 HeaderContentView(viewModel: viewModel)
                     .padding(.bottom, 12)
             }
-            .frame(height: 230)
+            .frame(height: height)
         }
     }
 }
@@ -81,6 +85,18 @@ private struct HeaderContentView: View {
     
     fileprivate init(viewModel: TodayQuestionViewModel) {
         self.viewModel = viewModel
+    }
+    
+    private var timeStringGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [
+                Color(red: 212/255, green: 105/255, blue: 249/255),
+                Color(red: 244/255, green: 78/255, blue: 156/255),
+                Color(red: 232/255, green: 44/255, blue: 201/255).opacity(0.84)
+            ]),
+            startPoint: .leading,
+            endPoint: .trailing
+        )
     }
     
     fileprivate var body: some View {
@@ -98,12 +114,13 @@ private struct HeaderContentView: View {
                 .foregroundStyle(.wh)
                 .padding(.top, 4)
             
-//            Text(viewModel.timeString())
-//                .font(.pretendard(.bold, size: 38))
-//                .foregroundColor(Color(red: 0.83, green: 0.41, blue: 0.98))
-//                .frame(height: 27)
-//                .monospacedDigit()
-//                .kerning(-2)
+            Text(viewModel.timeString())
+                .font(.pretendard(.bold, size: 38))
+                .foregroundStyle(timeStringGradient)
+                .frame(height: 27)
+                .padding(.top, 12)
+                .monospacedDigit()
+                .kerning(-2)
         }
         
         // 2. 질문 준비 완료
@@ -207,18 +224,59 @@ private struct AnswerPreview: View {
             
             // 답변 리스트 유무에 따른 화면 분기
             if viewModel.answerList.isEmpty {
-                HStack {
-                    Spacer()
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(alignment: .top, spacing: 2) {
+                        Text("Q.")
+                            .foregroundStyle(BrandPink.text)
+                        
+                        
+                        Text(viewModel.listTitleText)
+                            .foregroundStyle(TextLabel.main)
+                    }
+                    .padding(.top, 40)
+                    .padding(.horizontal, 20)
+                    .font(.pretendard(.bold, size: 20))
+                    .lineSpacing(4)
+                    .opacity(viewModel.isLoading ? 0 : 1)
                     
-                    Text("오늘 질문에 대한 답변이 아직 없어요\n답변하러 가볼까요?")
-                        .font(.pretendard(.semiBold, size: 16))
-                        .foregroundStyle(TextLabel.sub3)
-                        .multilineTextAlignment(.center)
-                        .lineSpacing(6)
-                        .padding(.top, 140)
+                    HStack {
+                        Text(viewModel.listSubText)
+                            .font(.pretendard(.medium, size: 14))
+                            .foregroundStyle(TextLabel.sub3)
+                        
+                        Spacer()
+                        
+                        if viewModel.mainQuestion.isAnswered {
+                            SeeAllButton {
+                                pathModel.pushView(
+                                    screen: QuestionListPathType.todayAnswer(
+                                        questionId: viewModel.mainQuestion.questionId,
+                                        questionContent: viewModel.mainQuestion.content
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    .padding(.top, 20)
+                    .padding(.horizontal, 20)
+                    
+                    Divider()
+                        .padding(.top, 12)
                         .opacity(viewModel.isLoading ? 0 : 1)
                     
-                    Spacer()
+                    HStack {
+                        Spacer()
+                        
+                        Text("아직 답변이 달리지않았어요\n첫 답변을 달아보세요!")
+                            .font(.pretendard(.semiBold, size: 14))
+                            .foregroundStyle(TextLabel.sub4)
+                            .multilineTextAlignment(.center)
+                            .lineSpacing(6)
+                            .padding(.top, 32)
+                            .opacity(viewModel.isLoading ? 0 : 1)
+                        
+                        Spacer()
+                    }
                 }
             } else {
                 VStack(spacing: 0) {

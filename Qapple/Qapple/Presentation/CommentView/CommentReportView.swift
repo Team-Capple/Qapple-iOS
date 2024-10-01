@@ -92,6 +92,7 @@ struct CommentReportView: View {
                     self.isLoading = true
                     await self.reportComment()
                     self.isLoading = false
+                    sendUpdateViewNotification()
                     self.isReportCompleteAlertPresented.toggle()
                 }
             }
@@ -117,6 +118,14 @@ extension CommentReportView {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    /// View 업데이트 Notification을 전송합니다.
+    func sendUpdateViewNotification() {
+        NotificationCenter.default.post(
+            name: .updateViewNotification,
+            object: nil
+        )
     }
 }
 

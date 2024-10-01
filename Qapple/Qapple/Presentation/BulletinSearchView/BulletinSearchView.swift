@@ -14,24 +14,41 @@ struct BulletinSearchView: View {
     @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
-    @State private var searchText = ""
-    
     var body: some View {
         GeometryReader { proxy in
             ZStack {
                 VStack(spacing: 0) {
                     NavigationBar()
                     
-                    SearchBar(searchText: $searchText) {
-                        bulletinBoardUseCase.effect(.searchPost(keyword: searchText))
-                    }
-                    .padding(.horizontal, 16)
+                    SearchBar(searchText: $bulletinBoardUseCase.searchText)
+                        .padding(.horizontal, 16)
                     
-                    SearchListView(searchText: searchText)
+                    if !bulletinBoardUseCase.state.searchPosts.isEmpty {
+                        SearchListView(searchText: bulletinBoardUseCase.searchText)
+                    } else {
+                        NoResultView()
+                    }
+                }
+                
+                if bulletinBoardUseCase.isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .tint(.primary)
                 }
             }
             .background(Background.first)
             .navigationBarBackButtonHidden()
+        }
+        .onChange(of: bulletinBoardUseCase.searchText) { _, newValue in
+            if newValue.isEmpty {
+                bulletinBoardUseCase.isLoading = false
+            } else {
+                bulletinBoardUseCase.isLoading = true
+            }
+        }
+        .onDisappear {
+            bulletinBoardUseCase.state.searchPosts.removeAll()
+            bulletinBoardUseCase.searchText = ""
         }
     }
 }
@@ -91,6 +108,21 @@ private struct SearchListView: View {
             )
             .presentationDetents([.height(84)])
             .presentationDragIndicator(.visible)
+        }
+    }
+}
+
+// MARK: - NoResultView
+
+private struct NoResultView: View {
+    var body: some View {
+        VStack {
+            Text("검색 결과가 없어요")
+                .font(Font.pretendard(.medium, size: 14))
+                .foregroundStyle(TextLabel.sub4)
+                .padding(.top, 24)
+            
+            Spacer()
         }
     }
 }

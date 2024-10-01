@@ -16,6 +16,7 @@ struct NotificationListView: View {
     var body: some View {
         ZStack {
             Color(Background.first).ignoresSafeArea()
+            
             NotificationContentView()
             
             if notificationUseCase._state.isLoading {
@@ -55,7 +56,7 @@ private struct NotificationContentView: View {
                     ForEach(Array(notificationUseCase._state.notificationList.enumerated()), id: \.offset) { index, notification in
                         
                         NotificationCell(notification: notification) {
-                            print("해당 답변") // TODO: 네비게이션 지정 or 버튼 제거
+                            // TODO: 네비게이션 지정 or 버튼 제거
                         }
                         .onAppear {
                             if index == notificationUseCase._state.notificationList.count - 1
@@ -66,7 +67,6 @@ private struct NotificationContentView: View {
                         }
                         
                         Separator()
-                            .padding(.leading)
                     }
                     
                     Text("알림은 7일간 보관됩니다.")
@@ -74,6 +74,7 @@ private struct NotificationContentView: View {
                         .foregroundStyle(TextLabel.sub4)
                         .padding(.top, 16)
                 }
+                .padding(.horizontal, 24)
             }
             .refreshable {
                 notificationUseCase.refreshNotificationList()

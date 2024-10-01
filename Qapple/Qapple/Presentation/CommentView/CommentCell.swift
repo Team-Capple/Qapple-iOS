@@ -67,17 +67,16 @@ struct CommentCell: View {
         }
         .alert("정말로 댓글을 삭제하시겠습니까?", isPresented: $isDelete) {
             Button("삭제", role: .destructive, action: {
-                Task.init {
-                    // TODO: Page Number 수정
+                Task {
                     await commentViewModel.act(.delete(id: comment.id))
                     self.isDeleteComplete.toggle()
                 }
             })
             Button("취소", role: .cancel, action: {})
         }
-        .alert("댓글이 삭제되었습니다!", isPresented: $isDeleteComplete) {
+        .alert("댓글이 삭제되었습니다", isPresented: $isDeleteComplete) {
             Button("확인", role: .none) {
-                Task.init {
+                Task {
                     await commentViewModel.refreshComments(boardId: self.post.boardId)
                     self.post.commentCount = commentViewModel.comments.count
                 }
@@ -88,7 +87,6 @@ struct CommentCell: View {
                 self.isReportedComment = true
             }
         }
-        
     }
     
     private var drag: some Gesture {
@@ -156,26 +154,37 @@ struct CommentCell: View {
             VStack {
                 // 댓글 좋아요 버튼
                 Button {
-                    // TODO: Page Number 수정
-                    Task.init {
-                        HapticManager.shared.notification(type: .success)
-                        await commentViewModel.act(.like(id: comment.id))
-                        await commentViewModel.refreshComments(boardId: post.boardId)
-                        self.post.commentCount = commentViewModel.comments.count
+                    if !comment.isReport {
+                        Task {
+                            if !comment.isLiked { HapticManager.shared.impact(style: .light) }
+                            await commentViewModel.act(.like(id: comment.id))
+                            await commentViewModel.refreshComments(boardId: post.boardId)
+                            self.post.commentCount = commentViewModel.comments.count
+                        }
+                    } else {
+                        self.isReportedComment.toggle()
                     }
                 } label: {
-                    Image(systemName: comment.isLiked ? "heart.fill" : "heart")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 16)
-                        .foregroundStyle(comment.isLiked ? .button : .sub4)
-                }
-                
-                // 댓글 좋아요 갯수
-                if comment.heartCount != 0 {
-                    Text("\(comment.heartCount)")
-                        .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(.sub3)
+                    if !comment.isReport {
+                        VStack {
+                            Image(systemName: comment.isLiked ? "heart.fill" : "heart")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 16)
+                                .foregroundStyle(comment.isLiked ? .button : .sub4)
+                            
+                            // 댓글 좋아요 갯수
+                            if comment.heartCount != 0 {
+                                Text("\(comment.heartCount)")
+                                    .font(.pretendard(.medium, size: 14))
+                                    .foregroundStyle(.sub3)
+                            }
+                        }
+                    } else {
+                        Text("댓글 숨기기")
+                            .font(.pretendard(.medium, size: 16.35))
+                            .foregroundStyle(.text)
+                    }
                 }
             }
             .padding(.top, 16)
