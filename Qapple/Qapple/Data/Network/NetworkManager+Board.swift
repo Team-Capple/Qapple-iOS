@@ -13,9 +13,25 @@ extension NetworkManager {
     /// 게시글을 조회합니다.
     static func fetchBoard(_ request: BoardRequest.pageOfBoard) async throws -> BoardResponse.Boards {
         
-        // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .boards) + "?pageNumber=\(request.pageNumber)" + "&pageSize=\(request.pageSize)"
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: ApiEndpoints.basicURLString(path: .boards)) else {
+            throw NetworkError.cannotCreateURL
+        }
+        
+        var urlComponent = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        if let threshold = request.threshold {
+            urlComponent.queryItems = [
+                .init(name: "threshold", value: String(threshold)),
+                .init(name: "pageNumber", value: String(request.pageNumber)),
+                .init(name: "pageSize", value: String(request.pageSize))
+            ]
+        } else {
+            urlComponent.queryItems = [
+                .init(name: "pageNumber", value: String(request.pageNumber)),
+                .init(name: "pageSize", value: String(request.pageSize))
+            ]
+        }
+        
+        guard let url = urlComponent.url else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
         }
@@ -38,6 +54,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(BaseResponse<BoardResponse.Boards>.self, from: data)
+        // dump(decodeData.result)
         return decodeData.result
     }
     
@@ -194,5 +211,4 @@ extension NetworkManager {
         let decodeData = try decoder.decode(BaseResponse<BoardResponse.DeleteBoard>.self, from: data)
         return decodeData.result
     }
-    
 }

@@ -33,10 +33,12 @@ struct AnswerResponse {
     
     /// 특정 질문에 대한 답변 리스트 Response
     struct AnswersOfQuestion: Codable {
-        let number: Int
+        let total: Int
+        let number: Int?
         let size: Int
         let content: [Content] // 답변 리스트
         let numberOfElements: Int
+        let threshold: Int
         let hasPrevious: Bool
         let hasNext: Bool
         

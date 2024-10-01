@@ -11,6 +11,7 @@ class BoardRequest {
     
     /// 페이지별 게시글 조회 요청 구조체
     struct pageOfBoard {
+        let threshold: Int?
         let pageNumber: Int
         let pageSize: Int
     }

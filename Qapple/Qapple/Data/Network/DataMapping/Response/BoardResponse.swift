@@ -11,17 +11,19 @@ struct BoardResponse {
     
     // 카테고리별 게시글 조회 Response
     struct Boards: Codable {
-        
+        let total: Int
         let number: Int
         let size: Int
         let content: [board]
         let numberOfElements: Int
+        let threshold: String
         let hasPrevious: Bool
         let hasNext: Bool
         
         struct board: Codable {
             let boardId: Int
             let writerId: Int
+            let writerNickname: String
             let content: String
             let heartCount: Int
             let commentCount: Int

@@ -71,6 +71,7 @@ extension BulletinBoardUseCase {
         var posts: [Post]
         var searchPosts: [Post]
         var pageNumber: Int
+        var threshold: Int?
         var hasPrevious: Bool
         var hasNext: Bool
     }
@@ -171,14 +172,15 @@ extension BulletinBoardUseCase {
         
         Task {
             do {
-                let boardList = try await NetworkManager.fetchBoard(
+                let result = try await NetworkManager.fetchBoard(
                     .init(
+                        threshold: state.threshold,
                         pageNumber: state.pageNumber,
                         pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
                 
-                let postList: [Post] = boardList.content.map { board in
+                let postList: [Post] = result.content.map { board in
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
@@ -194,8 +196,9 @@ extension BulletinBoardUseCase {
                 
                 state.posts += postList
                 state.pageNumber += 1
-                state.hasPrevious = boardList.hasPrevious
-                state.hasNext = boardList.hasNext
+                state.threshold = Int(result.threshold)
+                state.hasPrevious = result.hasPrevious
+                state.hasNext = result.hasNext
                 self.isLoading = false
             } catch {
                 print("게시판 업데이트 실패")
@@ -215,14 +218,15 @@ extension BulletinBoardUseCase {
         
         Task {
             do {
-                let boardList = try await NetworkManager.fetchBoard(
+                let result = try await NetworkManager.fetchBoard(
                     .init(
+                        threshold: state.threshold,
                         pageNumber: state.pageNumber,
                         pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
                 
-                let postList: [Post] = boardList.content.map { board in
+                let postList: [Post] = result.content.map { board in
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
@@ -239,8 +243,9 @@ extension BulletinBoardUseCase {
                 state.posts.removeAll()
                 state.posts += postList
                 state.pageNumber += 1
-                state.hasPrevious = boardList.hasPrevious
-                state.hasNext = boardList.hasNext
+                state.threshold = Int(result.threshold)
+                state.hasPrevious = result.hasPrevious
+                state.hasNext = result.hasNext
                 print("리프레쉬 성공")
                 self.isLoading = false
             } catch {
@@ -258,7 +263,7 @@ extension BulletinBoardUseCase {
                     .init(
                         keyword: keyword,
                         pageNumber: 0,
-                        pageSize: 1000
+                        pageSize: 25
                     )
                 )
                  

@@ -52,6 +52,8 @@ extension NetworkManager {
         urlString += "/\(request.questionId)?"
         urlString += "pageNumber=\(request.pageNumber)"
         urlString += "&pageSize=\(request.pageSize)"
+        
+        print(urlString)
 
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
@@ -153,7 +155,6 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(BaseResponse<AnswerResponse.DeleteAnswer>.self, from: data)
-        // print("AnswerResponse.AnswersOfQuestion: \(decodeData.result)")
         return decodeData.result
     }
 }

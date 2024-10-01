@@ -65,6 +65,7 @@
 		823736B12C6771DA0057B9CF /* BulletinSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823736B02C6771DA0057B9CF /* BulletinSearchView.swift */; };
 		823736B42C6773850057B9CF /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823736B32C6773850057B9CF /* SearchBar.swift */; };
 		82398F092B98ABB4006269E0 /* DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82398F082B98ABB4006269E0 /* DTO.swift */; };
+		8242F1162CAC15700076815E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8242F1152CAC15700076815E /* Alamofire */; };
 		8247172C2BC8C9B5005E9631 /* WrittenAnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8247172B2BC8C9B5005E9631 /* WrittenAnswerViewModel.swift */; };
 		8247172E2BC8D865005E9631 /* IsMyAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8247172D2BC8D865005E9631 /* IsMyAnswer.swift */; };
 		824717302BC913B9005E9631 /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8247172F2BC913B9005E9631 /* ReportRequest.swift */; };
@@ -340,6 +341,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8242F1162CAC15700076815E /* Alamofire in Frameworks */,
 				07D96EE62B7A52AB00754819 /* FlexView in Frameworks */,
 				420D720D2C71D8AC00B56439 /* FirebaseMessaging in Frameworks */,
 				420D720F2C71DB7F00B56439 /* FirebaseAnalytics in Frameworks */,
@@ -1129,6 +1131,7 @@
 				420D72042C71D5BB00B56439 /* FirebaseAuth */,
 				420D720C2C71D8AC00B56439 /* FirebaseMessaging */,
 				420D720E2C71DB7F00B56439 /* FirebaseAnalytics */,
+				8242F1152CAC15700076815E /* Alamofire */,
 			);
 			productName = Capple;
 			productReference = F3EA66C82B7643EE002417CE /* Qapple.app */;
@@ -1205,6 +1208,7 @@
 			packageReferences = (
 				07D96EE42B7A52AA00754819 /* XCRemoteSwiftPackageReference "FlexView" */,
 				420D72022C71D56400B56439 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8242F1142CAC15700076815E /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = F3EA66C92B7643EE002417CE /* Products */;
 			projectDirPath = "";
@@ -1754,6 +1758,14 @@
 				minimumVersion = 11.0.0;
 			};
 		};
+		8242F1142CAC15700076815E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1776,6 +1788,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 420D72022C71D56400B56439 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		8242F1152CAC15700076815E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8242F1142CAC15700076815E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
