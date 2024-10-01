@@ -176,7 +176,7 @@ extension BulletinBoardUseCase {
                     .init(
                         threshold: state.threshold,
                         pageNumber: state.pageNumber,
-                        pageSize: 25 // 한번 불러올 때 25개 씩
+                        pageSize: 25
                     )
                 )
                 
@@ -184,6 +184,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
+                        writerNickname: board.writerNickname,
                         content: board.content,
                         heartCount: board.heartCount,
                         commentCount: board.commentCount,
@@ -222,7 +223,7 @@ extension BulletinBoardUseCase {
                     .init(
                         threshold: state.threshold,
                         pageNumber: state.pageNumber,
-                        pageSize: 25 // 한번 불러올 때 25개 씩
+                        pageSize: 25
                     )
                 )
                 
@@ -230,6 +231,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
+                        writerNickname: board.writerNickname,
                         content: board.content,
                         heartCount: board.heartCount,
                         commentCount: board.commentCount,
@@ -271,6 +273,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: $0.boardId,
                         writerId: $0.writerId,
+                        writerNickname: "TODO",
                         content: $0.content,
                         heartCount: $0.heartCount,
                         commentCount: $0.commentCount,
