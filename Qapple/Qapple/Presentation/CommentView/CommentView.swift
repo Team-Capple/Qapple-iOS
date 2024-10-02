@@ -26,7 +26,6 @@ struct CommentView: View {
             BulletinBoardCell(
                 post: self.post,
                 seeMoreAction: {
-                    selectedPost = post
                 })
                 .frame(width: UIScreen.main.bounds.width)
                 .disabled(bulletinBoardUseCase.isLoading)
