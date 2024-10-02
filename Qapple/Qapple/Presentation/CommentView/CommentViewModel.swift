@@ -11,6 +11,7 @@ final class CommentViewModel: ObservableObject {
 
     @Published public var comments: [CommentResponse.Comment] = []
     @Published public var isLoading: Bool = false
+    @Published public var scrollIndex: Int?
     @Published var pageNumber: Int = 0
     @Published var threshold: Int?
     @Published var hasPrevious: Bool = false

@@ -17,6 +17,8 @@ struct CommentView: View {
 
     @State var post: Post
     
+    @State private var scrollIndex: Int?
+    
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
     var body: some View {
@@ -32,25 +34,31 @@ struct CommentView: View {
                 .disabled(bulletinBoardUseCase.isLoading)
             
             ZStack {
-                ScrollView {
-                    VStack(spacing: 0) {
-                        // 데이터 연결
-                        ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) { index, comment in
-                            seperator
-                            
-                            CommentCell(comment: comment, commentViewModel: commentViewModel, post: self.$post)
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            // 데이터 연결
+                            ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) { index, comment in
+                                seperator
+                                
+                                CommentCell(comment: comment, cellIndex: index, commentViewModel: commentViewModel, post: self.$post)
+                                    .id(index)
+                            }
+                        }
+                        .onChange(of: self.commentViewModel.scrollIndex) { _, index in
+                            proxy.scrollTo(index)
                         }
                     }
-                }
-                .background(Color.bk)
-                .refreshable {
-                    if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
-                        Task.init {
-                            await commentViewModel.refreshComments(boardId: post.boardId)
-                            while commentViewModel.hasNext {
-                                await commentViewModel.loadComments(boardId: post.boardId)
+                    .background(Color.bk)
+                    .refreshable {
+                        if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
+                            Task.init {
+                                await commentViewModel.refreshComments(boardId: post.boardId)
+                                while commentViewModel.hasNext {
+                                    await commentViewModel.loadComments(boardId: post.boardId)
+                                }
+                                self.post.commentCount = commentViewModel.comments.count
                             }
-                            self.post.commentCount = commentViewModel.comments.count
                         }
                     }
                 }
@@ -138,6 +146,7 @@ struct CommentView: View {
                         await commentViewModel.loadComments(boardId: post.boardId)
                     }
                     
+                    self.commentViewModel.scrollIndex = commentViewModel.comments.count - 1
                     self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
                     self.hideKeyboard()

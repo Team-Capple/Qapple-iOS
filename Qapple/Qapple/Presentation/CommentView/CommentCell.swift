@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommentCell: View {
     let comment: CommentResponse.Comment
+    let cellIndex: Int
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let anchorWidth: CGFloat = 73
@@ -78,6 +79,10 @@ struct CommentCell: View {
             Button("확인", role: .none) {
                 Task {
                     await commentViewModel.refreshComments(boardId: self.post.boardId)
+                    while commentViewModel.hasNext {
+                        await commentViewModel.loadComments(boardId: post.boardId)
+                    }
+                    commentViewModel.scrollIndex = self.cellIndex - 1
                     self.post.commentCount = commentViewModel.comments.count
                 }
             }
@@ -162,7 +167,11 @@ struct CommentCell: View {
                             while commentViewModel.hasNext {
                                 await commentViewModel.loadComments(boardId: post.boardId)
                             }
+                            
+                            self.commentViewModel.scrollIndex = self.cellIndex
                             self.post.commentCount = commentViewModel.comments.count
+                            
+                            
                         }
                     } else {
                         self.isReportedComment.toggle()
