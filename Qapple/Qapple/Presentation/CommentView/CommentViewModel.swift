@@ -16,7 +16,10 @@ final class CommentViewModel: ObservableObject {
     @Published var hasPrevious: Bool = false
     @Published var hasNext: Bool = false
     
-    var postId: Int?
+    public var postId: Int?
+    
+    private var anonymousArray: [Int: Int] = [:]
+    private var anonymousIndex: Int = 0
     
     @MainActor
     public func loadComments(boardId: Int) async {
@@ -30,7 +33,7 @@ final class CommentViewModel: ObservableObject {
                 pageSize: 25
             )
             let content = fetchResult.content
-            self.comments += anonymizeComment(content.reversed())
+            self.comments += anonymizeComment(content)
             self.pageNumber += 1
             self.threshold = Int(fetchResult.threshold)
             self.hasPrevious = fetchResult.hasPrevious
@@ -49,6 +52,7 @@ final class CommentViewModel: ObservableObject {
         self.pageNumber = 0
         self.hasPrevious = false
         self.hasNext = false
+        self.threshold = nil
         
         do {
             let fetchResult = try await NetworkManager.fetchComments(
@@ -57,9 +61,10 @@ final class CommentViewModel: ObservableObject {
                 pageNumber: pageNumber,
                 pageSize: 25
             )
+            print(fetchResult.hasNext)
             let content = fetchResult.content
             self.comments.removeAll()
-            self.comments += anonymizeComment(content.reversed())
+            self.comments += anonymizeComment(content)
             self.pageNumber += 1
             self.threshold = Int(fetchResult.threshold)
             self.hasPrevious = fetchResult.hasPrevious
@@ -148,30 +153,25 @@ extension CommentViewModel {
             return []
         }
         
-        // 아무개 번호
-        var nameIndex = 0
-        // 중복 여부 판단하는 딕셔너리
-        var nameArray: [Int: Int] = [:]
-        
         let result = comments.map { comment in
             
             // 한번이라도 나온 writer인지 여부 판단
-            let isContainName = nameArray.values.contains {
+            let isContainName = self.anonymousArray.values.contains {
                 $0 == comment.writerId
             }
             
             if !isContainName { // 처음 나오는 writer일 경우
-                nameIndex += 1
+                self.anonymousIndex += 1
                 
                 if comment.writerId == postWriterId {
-                    nameArray.updateValue(comment.writerId, forKey: -1)
+                    self.anonymousArray.updateValue(comment.writerId, forKey: -1)
                 } else {
-                    nameArray.updateValue(comment.writerId, forKey: nameIndex)
+                    self.anonymousArray.updateValue(comment.writerId, forKey: self.anonymousIndex)
                 }
                 
                 return CommentResponse.Comment(
                     id: comment.id,
-                    writerId: (comment.writerId == postWriterId) ? -1 : nameIndex,
+                    writerId: (comment.writerId == postWriterId) ? -1 : self.anonymousIndex,
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
@@ -180,7 +180,7 @@ extension CommentViewModel {
                     createdAt: comment.createdAt)
             } else { // 한번 이상 나온 writer일 경우
                 // 해당 value의 key 값을 찾아 name의 index로 제공
-                let currentIndex = nameArray
+                let currentIndex = self.anonymousArray
                     .filter { $0.value == comment.writerId }
                     .first!.key
                 

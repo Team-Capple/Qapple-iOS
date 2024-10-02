@@ -188,7 +188,7 @@ extension BulletinBoardUseCase {
                         content: board.content,
                         heartCount: board.heartCount,
                         commentCount: board.commentCount,
-                        createAt: board.createAt.ISO8601ToDate,
+                        createAt: board.createdAt.ISO8601ToDate,
                         isMine: board.isMine,
                         isReported: board.isReported,
                         isLiked: board.isLiked
@@ -235,7 +235,7 @@ extension BulletinBoardUseCase {
                         content: board.content,
                         heartCount: board.heartCount,
                         commentCount: board.commentCount,
-                        createAt: board.createAt.ISO8601ToDate,
+                        createAt: board.createdAt.ISO8601ToDate,
                         isMine: board.isMine,
                         isReported: board.isReported,
                         isLiked: board.isLiked

@@ -159,6 +159,9 @@ struct CommentCell: View {
                             if !comment.isLiked { HapticManager.shared.impact(style: .light) }
                             await commentViewModel.act(.like(id: comment.id))
                             await commentViewModel.refreshComments(boardId: post.boardId)
+                            while commentViewModel.hasNext {
+                                await commentViewModel.loadComments(boardId: post.boardId)
+                            }
                             self.post.commentCount = commentViewModel.comments.count
                         }
                     } else {

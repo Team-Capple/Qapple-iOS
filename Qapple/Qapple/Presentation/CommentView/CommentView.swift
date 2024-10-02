@@ -39,15 +39,6 @@ struct CommentView: View {
                             seperator
                             
                             CommentCell(comment: comment, commentViewModel: commentViewModel, post: self.$post)
-                                .onAppear {
-                                    if index == commentViewModel.comments.count - 1
-                                        && commentViewModel.hasNext {
-                                        print("페이지네이션")
-                                        Task {
-                                            await commentViewModel.loadComments(boardId: post.boardId)
-                                        }
-                                    }
-                                }
                         }
                     }
                 }
@@ -56,6 +47,9 @@ struct CommentView: View {
                     if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
                         Task.init {
                             await commentViewModel.refreshComments(boardId: post.boardId)
+                            while commentViewModel.hasNext {
+                                await commentViewModel.loadComments(boardId: post.boardId)
+                            }
                             self.post.commentCount = commentViewModel.comments.count
                         }
                     }
@@ -93,6 +87,9 @@ struct CommentView: View {
         .task {
             commentViewModel.postId = self.post.writerId
             await commentViewModel.loadComments(boardId: post.boardId)
+            while commentViewModel.hasNext {
+                await commentViewModel.loadComments(boardId: post.boardId)
+            }
             self.updatePost()
         }
         .sheet(item: $selectedPost) { post in
@@ -133,11 +130,14 @@ struct CommentView: View {
                 .padding(.vertical, 12)
             
             Button {
-                // TODO: Page Number 수정
                 Task.init {
                     HapticManager.shared.notification(type: .success)
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
                     await commentViewModel.refreshComments(boardId: post.boardId)
+                    while commentViewModel.hasNext {
+                        await commentViewModel.loadComments(boardId: post.boardId)
+                    }
+                    
                     self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
                     self.hideKeyboard()
