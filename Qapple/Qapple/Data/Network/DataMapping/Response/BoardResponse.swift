@@ -25,7 +25,7 @@ struct BoardResponse {
             let content: String
             let heartCount: Int
             let commentCount: Int
-            let createAt: String
+            let createdAt: String
             let isMine: Bool
             let isReported: Bool
             let isLiked: Bool
@@ -46,7 +46,7 @@ struct BoardResponse {
             let content: String
             let heartCount: Int
             let commentCount: Int
-            let createAt: String
+            let createdAt: String
             let isMine: Bool
             let isReported: Bool
             let isLiked: Bool

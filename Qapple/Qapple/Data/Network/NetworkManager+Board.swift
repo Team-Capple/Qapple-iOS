@@ -41,6 +41,37 @@ extension NetworkManager {
         return decodeData.result
     }
     
+    /// 게시글을 조회합니다.
+    static func fetchSingleBoard(_ request: BoardRequest.SingleBoard) async throws -> BoardResponse.Boards.board {
+        
+        // URL 객체 생성
+        let urlString = ApiEndpoints.basicURLString(path: .boards) + "/\(request.boardId)"
+        guard let url = URL(string: urlString) else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // 토큰 추가
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(try SignInInfo.shared.token(.access))", forHTTPHeaderField: "Authorization")
+        
+        // URLSession 생성
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // 에러 체크
+        if let response = response as? HTTPURLResponse,
+           !(200..<300).contains(response.statusCode) {
+            print("Error: badRequest")
+            throw NetworkError.badRequest
+        }
+        
+        // 디코딩
+        let decoder = JSONDecoder()
+        let decodeData = try decoder.decode(BaseResponse<BoardResponse.Boards.board>.self, from: data)
+        return decodeData.result
+    }
+    
     /// 게시글 검색 조회
     static func fetchBoardOfSearch(_ request: BoardRequest.BoardOfSearch) async throws -> BoardResponse.SearchBoards {
         

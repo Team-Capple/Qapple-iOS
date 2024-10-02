@@ -37,4 +37,9 @@ class BoardRequest {
     struct LikeBoard: Codable {
         let boardId: Int
     }
+    
+    /// 단건 게시글 조회 요청 구조체
+    struct SingleBoard: Codable {
+        let boardId: Int
+    }
 }
