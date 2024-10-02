@@ -48,7 +48,6 @@ final class CommentViewModel: ObservableObject {
         
         do {
             let fetchResult = try await NetworkManager.fetchComments(boardId: boardId, pageNumber: pageNumber)
-            let _ = try await NetworkManager.fetchSingleBoard(.init(boardId: boardId))
             let content = fetchResult.content
             self.comments.removeAll()
             self.comments += anonymizeComment(content.reversed())

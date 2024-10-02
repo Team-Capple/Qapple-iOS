@@ -54,6 +54,7 @@ struct CommentView: View {
                 .refreshable {
                     if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
                         Task.init {
+                            bulletinBoardUseCase.effect(.fetchSinglePost(postId: post.boardId))
                             await commentViewModel.refreshComments(boardId: post.boardId)
                             self.post.commentCount = commentViewModel.comments.count
                         }

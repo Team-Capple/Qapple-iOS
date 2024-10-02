@@ -87,6 +87,7 @@ extension BulletinBoardUseCase {
         case likePost(postId: Int)
         case removePost(postIndex: Int)
         case reportPost(postIndex: Int)
+        case fetchSinglePost(postId: Int)
     }
     
     func effect(_ effect: Effect) {
@@ -150,6 +151,13 @@ extension BulletinBoardUseCase {
             
         case .reportPost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 신고")
+            
+        case .fetchSinglePost(postId: let postId):
+            if let index = state.posts.firstIndex(where: { $0.boardId == postId }) {
+                Task{
+                    await fetchSinglePost(boardId: postId, index: index)
+                }
+            }
         }
     }
 }
@@ -249,6 +257,7 @@ extension BulletinBoardUseCase {
             }
         }
     }
+// MARK: - Search
     
     @MainActor
     func searchPost(keyword: String) {
@@ -277,6 +286,33 @@ extension BulletinBoardUseCase {
                 }
             } catch {
                 print("게시판 검색 실패")
+            }
+        }
+    }
+// MARK: - SingleFetch
+   
+    @MainActor
+    private func fetchSinglePost(boardId: Int, index: Int) {
+        Task {
+            do {
+                let singleBoard = try await NetworkManager.fetchSingleBoard(.init(boardId: boardId))
+                
+                let changeBoard: Post =
+                    Post(
+                        boardId: singleBoard.boardId,
+                        writerId: singleBoard.writerId,
+                        content: singleBoard.content,
+                        heartCount: singleBoard.heartCount,
+                        commentCount: singleBoard.commentCount,
+                        createAt: singleBoard.createdAt.ISO8601ToDate,
+                        isMine: singleBoard.isMine,
+                        isReported: singleBoard.isReported,
+                        isLiked: singleBoard.isLiked
+                    )
+                
+                state.posts[index] = changeBoard
+            } catch {
+                print("단건 게시판 업데이트 실패")
             }
         }
     }
