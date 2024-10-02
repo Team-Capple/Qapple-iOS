@@ -22,6 +22,7 @@ class AnswerListViewModel: ObservableObject {
     @Published var pageNumber: Int = 0
     @Published var hasPrevious: Bool = false
     @Published var hasNext: Bool = false
+    @Published var threshold: Int?
     
     private var learnerDictionary: LearnerDictionary = [:]
     
@@ -33,6 +34,7 @@ class AnswerListViewModel: ObservableObject {
                 let response = try await NetworkManager.fetchAnswersOfQuestion(
                     request: .init(
                         questionId: questionId,
+                        threshold: threshold,
                         pageNumber: pageNumber,
                         pageSize: 25
                     )
@@ -41,6 +43,7 @@ class AnswerListViewModel: ObservableObject {
                 let newAnswerList = response.content.reversed()
                 self.answerList += newAnswerList
                 self.pageNumber += 1
+                self.threshold = Int(response.threshold)
                 self.hasPrevious = response.hasPrevious
                 self.hasNext = response.hasNext
                 createLearnerDictionary()
@@ -65,6 +68,7 @@ class AnswerListViewModel: ObservableObject {
                 let response = try await NetworkManager.fetchAnswersOfQuestion(
                     request: .init(
                         questionId: questionId,
+                        threshold: threshold,
                         pageNumber: pageNumber,
                         pageSize: 25
                     )
@@ -74,6 +78,7 @@ class AnswerListViewModel: ObservableObject {
                 let newAnswerList = response.content.reversed()
                 self.answerList += newAnswerList
                 self.pageNumber += 1
+                self.threshold = Int(response.threshold)
                 self.hasPrevious = response.hasPrevious
                 self.hasNext = response.hasNext
                 createLearnerDictionary()

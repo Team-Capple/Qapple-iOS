@@ -12,6 +12,7 @@ class AnswerRequest {
     /// 특정 질문에 대한 답변 요청 구조체
     struct AnswersOfQuestion {
         let questionId: Int
+        let threshold: Int?
         let pageNumber: Int
         let pageSize: Int
     }
