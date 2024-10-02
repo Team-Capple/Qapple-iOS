@@ -33,53 +33,7 @@ struct CommentView: View {
                 .frame(width: UIScreen.main.bounds.width)
                 .disabled(bulletinBoardUseCase.isLoading)
             
-            ZStack {
-                ScrollViewReader { proxy in
-                    ScrollView {
-                        VStack(spacing: 0) {
-                            // 데이터 연결
-                            ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) { index, comment in
-                                seperator
-                                
-                                CommentCell(comment: comment, cellIndex: index, commentViewModel: commentViewModel, post: self.$post)
-                                    .id(index)
-                            }
-                        }
-                        .onChange(of: self.commentViewModel.scrollIndex) { _, index in
-                            proxy.scrollTo(index)
-                        }
-                    }
-                    .background(Color.bk)
-                    .refreshable {
-                        if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
-                            Task.init {
-                                await commentViewModel.refreshComments(boardId: post.boardId)
-                                while commentViewModel.hasNext {
-                                    await commentViewModel.loadComments(boardId: post.boardId)
-                                }
-                                self.post.commentCount = commentViewModel.comments.count
-                            }
-                        }
-                    }
-                }
-                
-                if self.commentViewModel.isLoading || self.bulletinBoardUseCase.isLoading {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                }
-                
-                if commentViewModel.comments.isEmpty && !self.commentViewModel.isLoading {
-                    VStack {
-                        Text("아직 작성된 댓글이 없습니다")
-                            .font(.pretendard(.medium, size: 14))
-                            .foregroundStyle(.sub5)
-                            .multilineTextAlignment(.center)
-                            .padding(.top, 24)
-                        
-                        Spacer()
-                    }
-                }
-            }
+            commentList
             
             Spacer()
             
@@ -116,16 +70,55 @@ struct CommentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
             Task {
-                await commentViewModel.refreshComments(boardId: self.post.boardId)
-                self.post.commentCount = commentViewModel.comments.count
+                await self.refreshComments()
             }
         }
     }
-    
-    var seperator: some View {
-        Rectangle()
-            .foregroundStyle(Color.placeholder)
-            .frame(height: 1)
+
+    var commentList: some View {
+        ZStack {
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // 데이터 연결
+                        ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) { index, comment in
+                            seperator
+                            
+                            CommentCell(comment: comment, cellIndex: index, commentViewModel: commentViewModel, post: self.$post)
+                                .id(index)
+                        }
+                    }
+                    .onChange(of: self.commentViewModel.scrollIndex) { _, index in
+                        proxy.scrollTo(index)
+                    }
+                }
+                .background(Color.bk)
+                .refreshable {
+                    if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
+                        Task.init {
+                            await self.refreshComments()
+                        }
+                    }
+                }
+            }
+            
+            if self.commentViewModel.isLoading || self.bulletinBoardUseCase.isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
+            
+            if commentViewModel.comments.isEmpty && !self.commentViewModel.isLoading {
+                VStack {
+                    Text("아직 작성된 댓글이 없습니다")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(.sub5)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 24)
+                    
+                    Spacer()
+                }
+            }
+        }
     }
     
     // 댓글 작성 View
@@ -141,13 +134,8 @@ struct CommentView: View {
                 Task.init {
                     HapticManager.shared.notification(type: .success)
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
-                    await commentViewModel.refreshComments(boardId: post.boardId)
-                    while commentViewModel.hasNext {
-                        await commentViewModel.loadComments(boardId: post.boardId)
-                    }
-                    
+                    await self.refreshComments()
                     self.commentViewModel.scrollIndex = commentViewModel.comments.count - 1
-                    self.post.commentCount = commentViewModel.comments.count
                     self.text = ""
                     self.hideKeyboard()
                 }
@@ -168,6 +156,13 @@ struct CommentView: View {
         }
         .frame(minHeight: 50)
         .padding(.horizontal, 16)
+    }
+    
+    
+    var seperator: some View {
+        Rectangle()
+            .foregroundStyle(Color.placeholder)
+            .frame(height: 1)
     }
 }
 
@@ -202,5 +197,13 @@ extension CommentView {
     
     private func updatePost() {
         self.post.commentCount = self.commentViewModel.comments.count
+    }
+    
+    private func refreshComments() async {
+        await commentViewModel.refreshComments(boardId: post.boardId)
+        while commentViewModel.hasNext {
+            await commentViewModel.loadComments(boardId: post.boardId)
+        }
+        self.updatePost()
     }
 }
