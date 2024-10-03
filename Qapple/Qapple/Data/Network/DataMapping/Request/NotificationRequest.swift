@@ -10,7 +10,7 @@ import Foundation
 struct NotificationRequest {
     
     struct FetchNotificationRequest: Codable {
-        let pageNumber: Int
+        let threshold: Int?
         let pageSize: Int
     }
 }

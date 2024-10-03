@@ -246,7 +246,8 @@ private struct AnswerPreview: View {
                         
                         Spacer()
                         
-                        if viewModel.mainQuestion.isAnswered {
+                        if viewModel.mainQuestion.isAnswered &&
+                            !viewModel.isLoading {
                             SeeAllButton {
                                 pathModel.pushView(
                                     screen: QuestionListPathType.todayAnswer(
@@ -300,7 +301,8 @@ private struct AnswerPreview: View {
                             
                             Spacer()
                             
-                            if viewModel.mainQuestion.isAnswered {
+                            if viewModel.mainQuestion.isAnswered &&
+                                !viewModel.isLoading {
                                 SeeAllButton {
                                     pathModel.pushView(
                                         screen: QuestionListPathType.todayAnswer(

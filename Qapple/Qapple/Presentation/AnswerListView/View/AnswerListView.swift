@@ -199,7 +199,7 @@ private struct AnswerScrollView: View {
         
         ScrollView(.vertical, showsIndicators: false) {
             ForEach(Array(viewModel.answerList.enumerated()), id: \.offset) { index, answer in
-                VStack {
+                LazyVStack {
                     AnswerCell(
                         answer: Answer(
                             id: answer.answerId,
