@@ -21,19 +21,24 @@ struct TodayQuestionView: View {
             Color(Background.first)
                 .ignoresSafeArea()
             
-            ScrollView {
-                VStack(spacing: 0) {
-                    HeaderView(viewModel: viewModel)
-                    HeaderButtonView(viewModel: viewModel)
-                    AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
+            VStack(spacing: 0) {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        HeaderView(viewModel: viewModel)
+                        HeaderButtonView(viewModel: viewModel)
+                        AnswerPreview(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
+                    }
                 }
+                .scrollIndicators(.hidden)
+                .background(Background.second)
+                
+                Spacer()
+                    .frame(height: 2)
             }
-            .scrollIndicators(.hidden)
             .refreshable {
                 viewModel.updateTodayQuestionView()
                 HapticManager.shared.impact(style: .light)
             }
-            .background(Background.second)
             .onAppear {
                 viewModel.updateTodayQuestionView()
             }
@@ -321,37 +326,42 @@ private struct AnswerPreview: View {
                         .padding(.top, 12)
                     
                     // 답변 있는 케이스
-                    ForEach(Array(viewModel.answerList), id: \.self) { answer in
-                        AnswerCell(
-                            answer: Answer(
-                                id: answer.answerId,
-                                writerId: answer.writerId,
-                                learnerIndex: viewModel.learnerIndex(to: answer),
-                                nickname: answer.nickname,
-                                content: answer.content,
-                                writingDate: answer.writeAt.ISO8601ToDate,
-                                isMine: answer.isMine,
-                                isReported: answer.isReported
-                            ),
-                            seeMoreAction: {
-                                isMine = .init(
-                                    answerId: answer.answerId,
-                                    isMine: answer.isMine
-                                )
+                    VStack(spacing: 0) {
+                        ForEach(Array(viewModel.answerList.enumerated()), id: \.offset) { index, answer in
+                            AnswerCell(
+                                answer: Answer(
+                                    id: answer.answerId,
+                                    writerId: answer.writerId,
+                                    learnerIndex: viewModel.learnerIndex(to: answer),
+                                    nickname: answer.nickname,
+                                    content: answer.content,
+                                    writingDate: answer.writeAt.ISO8601ToDate,
+                                    isMine: answer.isMine,
+                                    isReported: answer.isReported
+                                ),
+                                seeMoreAction: {
+                                    isMine = .init(
+                                        answerId: answer.answerId,
+                                        isMine: answer.isMine
+                                    )
+                                }
+                            )
+                            
+                            if index != viewModel.answerList.endIndex - 1 {
+                                Divider()
                             }
-                        )
+                        }
                     }
-                    .padding(.top, 12)
-                    .sheet(item: $isMine) {
-                        SeeMoreView(
-                            answerType: $0.isMine ? .mine : .others,
-                            answerId: $0.answerId,
-                            completion: {
-                                viewModel.updateTodayQuestionView()
-                            }
-                        )
-                        .presentationDetents([.height(84)])
-                    }
+                }
+                .sheet(item: $isMine) {
+                    SeeMoreView(
+                        answerType: $0.isMine ? .mine : .others,
+                        answerId: $0.answerId,
+                        completion: {
+                            viewModel.updateTodayQuestionView()
+                        }
+                    )
+                    .presentationDetents([.height(84)])
                 }
             }
         }

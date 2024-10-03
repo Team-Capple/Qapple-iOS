@@ -38,11 +38,21 @@ struct AnswerListView: View {
                 Spacer()
                     .frame(height: 16)
                 
+                HStack(alignment: .top) {
+                    Text("\(viewModel.total)개의 답변")
+                        .font(.pretendard(.semiBold, size: 15))
+                        .foregroundStyle(TextLabel.sub3)
+                    
+                    Spacer()
+                }
+                .padding(.leading, 20)
+                
                 AnswerScrollView(
                     viewModel: viewModel,
                     isBottomSheetPresented: $isBottomSheetPresented,
                     questionId: questionId
                 )
+                .padding(.top, 6)
                 .refreshable {
                     Task {
                         viewModel.refreshAnswersForQuestion(questionId: questionId)
@@ -188,18 +198,9 @@ private struct AnswerScrollView: View {
     }
     
     var body: some View {
-        HStack(alignment: .top) {
-            Text("\(viewModel.total)개의 답변")
-                .font(.pretendard(.semiBold, size: 15))
-                .foregroundStyle(TextLabel.sub3)
-            
-            Spacer()
-        }
-        .padding(.leading, 20)
-        
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(Array(viewModel.answerList.enumerated()), id: \.offset) { index, answer in
-                LazyVStack {
+            LazyVStack(spacing: 0) {
+                ForEach(Array(viewModel.answerList.enumerated()), id: \.offset) { index, answer in
                     AnswerCell(
                         answer: Answer(
                             id: answer.answerId,
@@ -225,17 +226,21 @@ private struct AnswerScrollView: View {
                             viewModel.loadAnswersForQuestion(questionId: questionId)
                         }
                     }
+                    
+                    if index != viewModel.answerList.endIndex - 1 {
+                        Divider()
+                    }
                 }
             }
-            .sheet(item: $isMyAnswer) {
-                SeeMoreView(
-                    answerType: $0.isMine ? .mine : .others,
-                    answerId: $0.answerId
-                ) {
-                    pathModel.pop()
-                }
-                .presentationDetents([.height(84)])
+        }
+        .sheet(item: $isMyAnswer) {
+            SeeMoreView(
+                answerType: $0.isMine ? .mine : .others,
+                answerId: $0.answerId
+            ) {
+                pathModel.pop()
             }
+            .presentationDetents([.height(84)])
         }
     }
 }
