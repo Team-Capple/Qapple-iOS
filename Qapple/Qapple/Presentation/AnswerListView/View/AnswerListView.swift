@@ -189,7 +189,7 @@ private struct AnswerScrollView: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            Text("\(viewModel.answerList.count)개의 답변")
+            Text("\(viewModel.total)개의 답변")
                 .font(.pretendard(.semiBold, size: 15))
                 .foregroundStyle(TextLabel.sub3)
             

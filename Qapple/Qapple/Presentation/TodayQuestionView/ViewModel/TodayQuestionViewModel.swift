@@ -21,7 +21,6 @@ final class TodayQuestionViewModel: ObservableObject {
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content]
-    @Published var threshold: Int?
     @Published var isLoading = true
     
     private var learnerDictionary: LearnerDictionary = [:]
@@ -121,12 +120,11 @@ extension TodayQuestionViewModel {
             let result = try await NetworkManager.fetchAnswersOfQuestion(
                 request: .init(
                     questionId: self.mainQuestion.questionId,
-                    threshold: threshold,
+                    threshold: nil,
                     pageSize: 3
                 ))
             let answerList = result.content
             self.answerList = answerList.reversed()
-            self.threshold = Int(result.threshold)
             createLearnerDictionary()
         } catch {
             print("답변 프리뷰 업데이트 실패")

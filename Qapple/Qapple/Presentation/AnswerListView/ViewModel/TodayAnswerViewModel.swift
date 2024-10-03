@@ -19,6 +19,8 @@ class AnswerListViewModel: ObservableObject {
     @Published var todayQuestion: String = ""
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content] = []
     @Published var isLoading = true
+    
+    @Published var total = 0
     @Published var hasNext: Bool = false
     @Published var threshold: Int?
     
@@ -37,8 +39,8 @@ class AnswerListViewModel: ObservableObject {
                     )
                 )
                 
-                let newAnswerList = response.content.reversed()
-                self.answerList += newAnswerList
+                self.answerList += response.content.reversed()
+                self.total = response.total
                 self.threshold = Int(response.threshold)
                 self.hasNext = response.hasNext
                 createLearnerDictionary()
@@ -61,14 +63,14 @@ class AnswerListViewModel: ObservableObject {
                 let response = try await NetworkManager.fetchAnswersOfQuestion(
                     request: .init(
                         questionId: questionId,
-                        threshold: threshold,
+                        threshold: nil,
                         pageSize: 25
                     )
                 )
                 
                 self.answerList.removeAll()
-                let newAnswerList = response.content.reversed()
-                self.answerList += newAnswerList
+                self.total = response.total
+                self.answerList += response.content.reversed()
                 self.threshold = Int(response.threshold)
                 self.hasNext = response.hasNext
                 createLearnerDictionary()
