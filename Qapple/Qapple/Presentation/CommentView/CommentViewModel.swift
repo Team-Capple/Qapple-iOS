@@ -13,8 +13,6 @@ final class CommentViewModel: ObservableObject {
     
     // 호출 flag
     @Published public var isLoading: Bool = false
-    @Published var pageNumber: Int = 0
-    @Published var hasPrevious: Bool = false
     @Published var hasNext: Bool = false
     
     var postId: Int?
@@ -24,11 +22,9 @@ final class CommentViewModel: ObservableObject {
         self.isLoading = true
         
         do {
-            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId, pageNumber: pageNumber)
+            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId)
             let content = fetchResult.content
             self.comments += anonymizeComment(content.reversed())
-            self.pageNumber += 1
-            self.hasPrevious = fetchResult.hasPrevious
             self.hasNext = fetchResult.hasNext
         } catch {
             print(error.localizedDescription)
@@ -42,17 +38,13 @@ final class CommentViewModel: ObservableObject {
     public func refreshComments(boardId: Int) async {
         print(#function)
         self.isLoading = true
-        self.pageNumber = 0
-        self.hasPrevious = false
         self.hasNext = false
         
         do {
-            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId, pageNumber: pageNumber)
+            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId)
             let content = fetchResult.content
             self.comments.removeAll()
             self.comments += anonymizeComment(content.reversed())
-            self.pageNumber += 1
-            self.hasPrevious = fetchResult.hasPrevious
             self.hasNext = fetchResult.hasNext
         } catch {
             print(error.localizedDescription)

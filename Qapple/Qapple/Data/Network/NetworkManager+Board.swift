@@ -23,7 +23,6 @@ extension NetworkManager {
             urlString += "?pageSize=\(request.pageSize)"
         }
         
-        print(urlString)
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
