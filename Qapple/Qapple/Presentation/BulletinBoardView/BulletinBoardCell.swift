@@ -281,6 +281,7 @@ private struct ReportBoardCell: View {
         post: Post(
             boardId: 1,
             writerId: 2,
+            wriertNickname: "캐플짱",
             content: "캐플짱이라요~!",
             heartCount: 20,
             commentCount: 3,

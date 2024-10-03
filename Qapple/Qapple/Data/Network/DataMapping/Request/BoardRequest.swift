@@ -11,14 +11,14 @@ class BoardRequest {
     
     /// 페이지별 게시글 조회 요청 구조체
     struct pageOfBoard {
-        let pageNumber: Int
+        let threshold: Int?
         let pageSize: Int
     }
     
     /// 특정 단어에 대한 게시글 검색 요청 구조체
     struct BoardOfSearch {
         let keyword: String
-        let pageNumber: Int
+        let threshold: Int?
         let pageSize: Int
     }
     

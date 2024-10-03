@@ -39,8 +39,7 @@ final class BulletinBoardUseCase: ObservableObject {
             endDate: calendar.date(from: endDateComponents)!,
             posts: [],
             searchPosts: [],
-            pageNumber: 0,
-            hasPrevious: false,
+            threshold: nil,
             hasNext: false
         )
         
@@ -70,8 +69,7 @@ extension BulletinBoardUseCase {
         let endDate: Date
         var posts: [Post]
         var searchPosts: [Post]
-        var pageNumber: Int
-        var hasPrevious: Bool
+        var threshold: Int?
         var hasNext: Bool
     }
 }
@@ -167,8 +165,7 @@ extension BulletinBoardUseCase {
     
     @MainActor
     func reset() {
-        state.pageNumber = 0
-        state.hasPrevious = false
+        state.threshold = nil
         state.hasNext = false
         state.posts.removeAll()
     }
@@ -181,7 +178,7 @@ extension BulletinBoardUseCase {
             do {
                 let boardList = try await NetworkManager.fetchBoard(
                     .init(
-                        pageNumber: state.pageNumber,
+                        threshold: state.threshold,
                         pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
@@ -190,6 +187,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
+                        wriertNickname: board.writerNickname,
                         content: board.content,
                         heartCount: board.heartCount,
                         commentCount: board.commentCount,
@@ -201,8 +199,7 @@ extension BulletinBoardUseCase {
                 }
                 
                 state.posts += postList
-                state.pageNumber += 1
-                state.hasPrevious = boardList.hasPrevious
+                state.threshold = Int(boardList.threshold)
                 state.hasNext = boardList.hasNext
                 self.isLoading = false
             } catch {
@@ -217,15 +214,14 @@ extension BulletinBoardUseCase {
         self.isLoading = true
         
         /// 초기화
-        state.pageNumber = 0
-        state.hasPrevious = false
+        state.threshold = nil
         state.hasNext = false
         
         Task {
             do {
                 let boardList = try await NetworkManager.fetchBoard(
                     .init(
-                        pageNumber: state.pageNumber,
+                        threshold: state.threshold,
                         pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
@@ -234,6 +230,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
+                        wriertNickname: board.writerNickname,
                         content: board.content,
                         heartCount: board.heartCount,
                         commentCount: board.commentCount,
@@ -246,8 +243,7 @@ extension BulletinBoardUseCase {
                 
                 state.posts.removeAll()
                 state.posts += postList
-                state.pageNumber += 1
-                state.hasPrevious = boardList.hasPrevious
+                state.threshold = Int(boardList.threshold)
                 state.hasNext = boardList.hasNext
                 print("리프레쉬 성공")
                 self.isLoading = false
@@ -266,7 +262,7 @@ extension BulletinBoardUseCase {
                 let searchPostList = try await NetworkManager.fetchBoardOfSearch(
                     .init(
                         keyword: keyword,
-                        pageNumber: 0,
+                        threshold: nil,
                         pageSize: 1000
                     )
                 )
@@ -275,6 +271,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: $0.boardId,
                         writerId: $0.writerId,
+                        wriertNickname: $0.writerNickname,
                         content: $0.content,
                         heartCount: $0.heartCount,
                         commentCount: $0.commentCount,
@@ -285,6 +282,7 @@ extension BulletinBoardUseCase {
                     )
                 }
             } catch {
+                print(error.localizedDescription)
                 print("게시판 검색 실패")
             }
         }
@@ -301,6 +299,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: singleBoard.boardId,
                         writerId: singleBoard.writerId,
+                        wriertNickname: singleBoard.writerNickname,
                         content: singleBoard.content,
                         heartCount: singleBoard.heartCount,
                         commentCount: singleBoard.commentCount,

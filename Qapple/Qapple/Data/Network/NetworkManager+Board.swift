@@ -14,7 +14,16 @@ extension NetworkManager {
     static func fetchBoard(_ request: BoardRequest.pageOfBoard) async throws -> BoardResponse.Boards {
         
         // URL 객체 생성
-        let urlString = ApiEndpoints.basicURLString(path: .boards) + "?pageNumber=\(request.pageNumber)" + "&pageSize=\(request.pageSize)"
+        var urlString = ApiEndpoints.basicURLString(path: .boards)
+        
+        if let threshold = request.threshold {
+            urlString += "?threshold=\(threshold)"
+            urlString += "&pageSize=\(request.pageSize)"
+        } else {
+            urlString += "?pageSize=\(request.pageSize)"
+        }
+        
+        print(urlString)
         guard let url = URL(string: urlString) else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
@@ -41,7 +50,7 @@ extension NetworkManager {
         return decodeData.result
     }
     
-    /// 게시글을 조회합니다.
+    /// 단건 게시글을 조회합니다.
     static func fetchSingleBoard(_ request: BoardRequest.SingleBoard) async throws -> BoardResponse.Boards.board {
         
         // URL 객체 생성
@@ -77,7 +86,9 @@ extension NetworkManager {
         
         var urlString = ApiEndpoints.basicURLString(path: .boardsSearch)
         urlString += "?keyword=\(request.keyword)"
-        urlString += "&pageNumber=\(request.pageNumber)"
+        if let threshold = request.threshold {
+            urlString += "&threshold=\(threshold)"
+        }
         urlString += "&pageSize=\(request.pageSize)"
         
         guard let url = URL(string: urlString) else {
