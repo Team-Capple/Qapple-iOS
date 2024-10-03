@@ -49,8 +49,8 @@ struct WrittenAnswerView: View {
                     Spacer()
                 } else {
                     ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) { index, answer in
-                            VStack {
+                        LazyVStack(spacing: 0) {
+                            ForEach(Array(viewModel.myAnswers.enumerated()), id: \.offset) { index, answer in
                                 AnswerCell(
                                     answer: Answer(
                                         id: answer.answerId,
@@ -75,6 +75,10 @@ struct WrittenAnswerView: View {
                                             await viewModel.fetchAnswers()
                                         }
                                     }
+                                }
+                                
+                                if index != viewModel.myAnswers.endIndex - 1 {
+                                    Divider()
                                 }
                             }
                         }

@@ -11,11 +11,11 @@ struct AnswerResponse {
     
     /// 내가 작성한 답변 리스트 Response
     struct Answers: Codable {
-        let number: Int
+        let total: Int?
         let size: Int
         let content: [Content]
         let numberOfElements: Int
-        let hasPrevious: Bool
+        let threshold: String
         let hasNext: Bool
         
         struct Content: Codable {
