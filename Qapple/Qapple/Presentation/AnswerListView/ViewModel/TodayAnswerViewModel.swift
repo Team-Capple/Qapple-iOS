@@ -19,8 +19,6 @@ class AnswerListViewModel: ObservableObject {
     @Published var todayQuestion: String = ""
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content] = []
     @Published var isLoading = true
-    @Published var pageNumber: Int = 0
-    @Published var hasPrevious: Bool = false
     @Published var hasNext: Bool = false
     @Published var threshold: Int?
     
@@ -35,16 +33,13 @@ class AnswerListViewModel: ObservableObject {
                     request: .init(
                         questionId: questionId,
                         threshold: threshold,
-                        pageNumber: pageNumber,
                         pageSize: 25
                     )
                 )
                 
                 let newAnswerList = response.content.reversed()
                 self.answerList += newAnswerList
-                self.pageNumber += 1
                 self.threshold = Int(response.threshold)
-                self.hasPrevious = response.hasPrevious
                 self.hasNext = response.hasNext
                 createLearnerDictionary()
             } catch {
@@ -59,8 +54,6 @@ class AnswerListViewModel: ObservableObject {
     func refreshAnswersForQuestion(questionId: Int) {
         
         // 초기화
-        self.pageNumber = 0
-        self.hasPrevious = false
         self.hasNext = false
         
         Task {
@@ -69,7 +62,6 @@ class AnswerListViewModel: ObservableObject {
                     request: .init(
                         questionId: questionId,
                         threshold: threshold,
-                        pageNumber: pageNumber,
                         pageSize: 25
                     )
                 )
@@ -77,9 +69,7 @@ class AnswerListViewModel: ObservableObject {
                 self.answerList.removeAll()
                 let newAnswerList = response.content.reversed()
                 self.answerList += newAnswerList
-                self.pageNumber += 1
                 self.threshold = Int(response.threshold)
-                self.hasPrevious = response.hasPrevious
                 self.hasNext = response.hasNext
                 createLearnerDictionary()
             } catch {

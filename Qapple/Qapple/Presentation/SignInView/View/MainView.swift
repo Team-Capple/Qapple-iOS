@@ -24,7 +24,7 @@ struct MainView: View {
                     .environmentObject(authViewModel)
                     .onAppear {
                         if authViewModel.isAutoSignInMode {
-                            AppleLoginService.autoLogin { isSingIn in
+                            AppleLoginService.shared.autoLogin { isSingIn in
                                 if isSingIn {
                                     DispatchQueue.main.async {
                                         authViewModel.isAutoSignInMode = false

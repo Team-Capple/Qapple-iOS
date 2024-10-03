@@ -56,12 +56,10 @@ extension NetworkManager {
         if let threshold = request.threshold {
             urlComponent.queryItems = [
                 .init(name: "threshold", value: String(threshold)),
-                .init(name: "pageNumber", value: String(request.pageNumber)),
                 .init(name: "pageSize", value: String(request.pageSize))
             ]
         } else {
             urlComponent.queryItems = [
-                .init(name: "pageNumber", value: String(request.pageNumber)),
                 .init(name: "pageSize", value: String(request.pageSize))
             ]
         }

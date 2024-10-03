@@ -13,7 +13,6 @@ class AnswerRequest {
     struct AnswersOfQuestion {
         let questionId: Int
         let threshold: Int?
-        let pageNumber: Int
         let pageSize: Int
     }
     

@@ -21,8 +21,8 @@ final class TodayQuestionViewModel: ObservableObject {
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content]
-    @Published var isLoading = true
     @Published var threshold: Int?
+    @Published var isLoading = true
     
     private var learnerDictionary: LearnerDictionary = [:]
     
@@ -122,7 +122,6 @@ extension TodayQuestionViewModel {
                 request: .init(
                     questionId: self.mainQuestion.questionId,
                     threshold: threshold,
-                    pageNumber: 0,
                     pageSize: 3
                 ))
             let answerList = result.content
