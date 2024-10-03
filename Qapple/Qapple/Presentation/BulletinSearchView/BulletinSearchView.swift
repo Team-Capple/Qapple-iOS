@@ -40,6 +40,9 @@ struct BulletinSearchView: View {
             .navigationBarBackButtonHidden()
         }
         .onChange(of: bulletinBoardUseCase.searchText) { _, newValue in
+            bulletinBoardUseCase.state.searchTheshold = nil
+            bulletinBoardUseCase.state.searchPosts.removeAll()
+            print("아하!")
             if newValue.isEmpty {
                 bulletinBoardUseCase.isLoading = false
             } else {
@@ -90,15 +93,24 @@ private struct SearchListView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                ForEach(bulletinBoardUseCase.state.searchPosts) { post in
+                ForEach(Array(bulletinBoardUseCase.state.searchPosts.enumerated()), id: \.offset) { index, post in
                     BulletinBoardCell(
                         post: post,
                         seeMoreAction: {
                             selectedPost = post
                         }
                     )
+                    .onAppear {
+                        if index == bulletinBoardUseCase.state.searchPosts.count - 1 && bulletinBoardUseCase.state.searchHasNext {
+                            print("게시판 검색 페이지네이션")
+                            bulletinBoardUseCase.effect(.searchPost(keyword: bulletinBoardUseCase.searchText))
+                        }
+                    }
                 }
             }
+        }
+        .refreshable {
+            bulletinBoardUseCase.effect(.refreshSearchPost(keyword: bulletinBoardUseCase.searchText))
         }
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(

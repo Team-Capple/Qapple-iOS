@@ -39,7 +39,7 @@ final class BulletinBoardUseCase: ObservableObject {
             endDate: calendar.date(from: endDateComponents)!,
             posts: [],
             searchPosts: [],
-            threshold: nil,
+            searchHasNext: false,
             hasNext: false
         )
         
@@ -69,7 +69,9 @@ extension BulletinBoardUseCase {
         let endDate: Date
         var posts: [Post]
         var searchPosts: [Post]
+        var searchTheshold: Int?
         var threshold: Int?
+        var searchHasNext: Bool
         var hasNext: Bool
     }
 }
@@ -82,6 +84,7 @@ extension BulletinBoardUseCase {
         case fetchPost
         case refreshPost
         case searchPost(keyword: String)
+        case refreshSearchPost(keyword: String)
         case likePost(postId: Int)
         case removePost(postIndex: Int)
         case reportPost(postIndex: Int)
@@ -106,6 +109,12 @@ extension BulletinBoardUseCase {
             Task {
                 await searchPost(keyword: keyword)
                 print("게시판 검색")
+            }
+            
+        case .refreshSearchPost(let keyword):
+            Task {
+                await refreshSearchPost(keyword: keyword)
+                print("게시판 검색 리프레쉬")
             }
             
         case .likePost(let postId):
@@ -165,7 +174,9 @@ extension BulletinBoardUseCase {
     
     @MainActor
     func reset() {
+        state.searchTheshold = nil
         state.threshold = nil
+        state.searchHasNext = false
         state.hasNext = false
         state.posts.removeAll()
     }
@@ -262,31 +273,80 @@ extension BulletinBoardUseCase {
                 let searchPostList = try await NetworkManager.fetchBoardOfSearch(
                     .init(
                         keyword: keyword,
-                        threshold: nil,
-                        pageSize: 1000
+                        threshold: state.searchTheshold,
+                        pageSize: 25
                     )
                 )
-                 
-                self.state.searchPosts = searchPostList.content.map {
+                
+                let searchList: [Post] = searchPostList.content.map { search in
                     Post(
-                        boardId: $0.boardId,
-                        writerId: $0.writerId,
-                        wriertNickname: $0.writerNickname,
-                        content: $0.content,
-                        heartCount: $0.heartCount,
-                        commentCount: $0.commentCount,
-                        createAt: $0.createdAt.ISO8601ToDate,
-                        isMine: $0.isMine,
-                        isReported: $0.isReported,
-                        isLiked: $0.isLiked
+                        boardId: search.boardId,
+                        writerId: search.writerId,
+                        wriertNickname: search.writerNickname,
+                        content: search.content,
+                        heartCount: search.heartCount,
+                        commentCount: search.commentCount,
+                        createAt: search.createdAt.ISO8601ToDate,
+                        isMine: search.isMine,
+                        isReported: search.isReported,
+                        isLiked: search.isLiked
                     )
                 }
+                
+                state.searchPosts += searchList
+                state.searchTheshold = Int(searchPostList.threshold)
+                state.searchHasNext = searchPostList.hasNext
+                print(state.searchHasNext)
             } catch {
                 print(error.localizedDescription)
                 print("게시판 검색 실패")
             }
         }
     }
+    
+    @MainActor
+    func refreshSearchPost(keyword: String) {
+        
+        state.searchTheshold = nil
+        state.searchHasNext = false
+        
+        Task {
+            do {
+                let searchPostList = try await NetworkManager.fetchBoardOfSearch(
+                    .init(
+                        keyword: keyword,
+                        threshold: state.searchTheshold,
+                        pageSize: 25
+                    )
+                )
+                
+                let searchList: [Post] = searchPostList.content.map { search in
+                    Post(
+                        boardId: search.boardId,
+                        writerId: search.writerId,
+                        wriertNickname: search.writerNickname,
+                        content: search.content,
+                        heartCount: search.heartCount,
+                        commentCount: search.commentCount,
+                        createAt: search.createdAt.ISO8601ToDate,
+                        isMine: search.isMine,
+                        isReported: search.isReported,
+                        isLiked: search.isLiked
+                    )
+                }
+                
+                state.searchPosts.removeAll()
+                state.searchPosts += searchList
+                state.searchTheshold = Int(searchPostList.threshold)
+                state.searchHasNext = searchPostList.hasNext
+                print("검색 리프레쉬 성공")
+            } catch {
+                print(error.localizedDescription)
+                print("검색 리프레쉬 실패")
+            }
+        }
+    }
+
 // MARK: - SingleFetch
    
     @MainActor
