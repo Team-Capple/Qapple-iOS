@@ -11,6 +11,7 @@ struct Post: Identifiable, Hashable {
     let id = UUID()
     let boardId: Int
     let writerId: Int
+    let writerNickname: String
     let content: String
     var heartCount: Int
     var commentCount: Int

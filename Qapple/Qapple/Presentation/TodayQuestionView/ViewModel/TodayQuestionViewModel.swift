@@ -117,13 +117,13 @@ extension TodayQuestionViewModel {
     @MainActor
     func requestAnswerPreview() async {
         do {
-            let answerPreview = try await NetworkManager.fetchAnswersOfQuestion(
+            let result = try await NetworkManager.fetchAnswersOfQuestion(
                 request: .init(
                     questionId: self.mainQuestion.questionId,
-                    pageNumber: 0,
+                    threshold: nil,
                     pageSize: 3
                 ))
-            let answerList = Array(answerPreview.content)
+            let answerList = result.content
             self.answerList = answerList.reversed()
             createLearnerDictionary()
         } catch {

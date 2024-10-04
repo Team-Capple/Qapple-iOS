@@ -11,23 +11,22 @@ final class WrittenAnswerViewModel: ObservableObject {
     
     @Published var myAnswers: [AnswerResponse.Answers.Content] = []
     @Published var isLoading = true
-    @Published var pageNumber: Int = 0
-    @Published var hasPrevious: Bool = false
+    
+    @Published var threshold: Int?
     @Published var hasNext: Bool = false
     
     /// 오늘의 메인 질문을 요청하고 업데이트합니다.
     @MainActor
     func fetchAnswers() async {
         do {
-            let answers = try await NetworkManager.fetchAnswers(
-                pageNumber: pageNumber,
+            let response = try await NetworkManager.fetchAnswers(
+                threshold: threshold,
                 pageSize: 25
             )
             
-            self.myAnswers += answers.content
-            self.pageNumber += 1
-            self.hasPrevious = answers.hasPrevious
-            self.hasNext = answers.hasNext
+            self.myAnswers += response.content
+            self.threshold = Int(response.threshold)
+            self.hasNext = response.hasNext
         } catch {
             print("답변 업데이트")
         }
@@ -37,21 +36,18 @@ final class WrittenAnswerViewModel: ObservableObject {
     /// 오늘의 메인 질문을 요청하고 업데이트합니다.
     @MainActor
     func refreshAnswers() async {
-        self.pageNumber = 0
-        self.hasPrevious = false
         self.hasNext = false
         
         do {
-            let answers = try await NetworkManager.fetchAnswers(
-                pageNumber: pageNumber,
+            let response = try await NetworkManager.fetchAnswers(
+                threshold: nil,
                 pageSize: 25
             )
             
             self.myAnswers.removeAll()
-            self.myAnswers += answers.content
-            self.pageNumber += 1
-            self.hasPrevious = answers.hasPrevious
-            self.hasNext = answers.hasNext
+            self.myAnswers += response.content
+            self.threshold = Int(response.threshold)
+            self.hasNext = response.hasNext
         } catch {
             print("답변 업데이트")
         }

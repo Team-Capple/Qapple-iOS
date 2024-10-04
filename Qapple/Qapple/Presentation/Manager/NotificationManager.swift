@@ -36,8 +36,9 @@ final class NotificationManager {
             case .notDetermined:
                 self.requestNotificationPermission()
             case .authorized, .provisional:
-                self.scheduleMorningNotification()
-                self.scheduleEveningNotification()
+                break
+                // self.scheduleMorningNotification()
+                // self.scheduleEveningNotification()
             default:
                 break
             }

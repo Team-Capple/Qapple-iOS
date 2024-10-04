@@ -69,13 +69,21 @@ private struct HeaderView: View {
     let post: Post
     let seeMoreAction: () -> Void
     
+    private var nickname: String {
+        if post.writerNickname == "알 수 없음" {
+            return "(알 수 없음)"
+        } else {
+            return "익명의 러너"
+        }
+    }
+    
     var body: some View {
         HStack(spacing: 0) {
             Image(.profileDummy)
                 .resizable()
                 .frame(width: 28, height: 28)
             
-            Text("익명의 러너")
+            Text(nickname)
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -202,6 +210,14 @@ private struct ReportBoardCell: View {
 
     let post: Post
     let seeMoreAction: () -> Void
+    
+    private var nickname: String {
+        if post.writerNickname == "알 수 없음" {
+            return "(알 수 없음)"
+        } else {
+            return "익명의 러너"
+        }
+    }
 
     var body: some View {
         if !isReportContentShow {
@@ -240,7 +256,7 @@ private struct ReportBoardCell: View {
                         .resizable()
                         .frame(width: 28, height: 28)
 
-                    Text("익명의 러너")
+                    Text(nickname)
                         .pretendard(.semiBold, 14)
                         .foregroundStyle(GrayScale.icon)
                         .padding(.leading, 8)
@@ -281,6 +297,7 @@ private struct ReportBoardCell: View {
         post: Post(
             boardId: 1,
             writerId: 2,
+            writerNickname: "한톨",
             content: "캐플짱이라요~!",
             heartCount: 20,
             commentCount: 3,

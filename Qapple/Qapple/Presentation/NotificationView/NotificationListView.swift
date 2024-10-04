@@ -19,7 +19,7 @@ struct NotificationListView: View {
             
             NotificationContentView()
             
-            if notificationUseCase._state.isLoading {
+            if notificationUseCase.state.isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
                     .tint(.primary)
@@ -52,15 +52,15 @@ private struct NotificationContentView: View {
                 backgroundColor: Background.first)
             
             ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(Array(notificationUseCase._state.notificationList.enumerated()), id: \.offset) { index, notification in
+                LazyVStack(spacing: 0) {
+                    ForEach(Array(notificationUseCase.state.notificationList.enumerated()), id: \.offset) { index, notification in
                         
                         NotificationCell(notification: notification) {
                             // TODO: 네비게이션 지정 or 버튼 제거
                         }
                         .onAppear {
-                            if index == notificationUseCase._state.notificationList.count - 1
-                                && notificationUseCase._state.hasNext {
+                            if index == notificationUseCase.state.notificationList.count - 1
+                                && notificationUseCase.state.hasNext {
                                 print("Notification 페이지네이션")
                                 notificationUseCase.fetchNotificationList()
                             }
