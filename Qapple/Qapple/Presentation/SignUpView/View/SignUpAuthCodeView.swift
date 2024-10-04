@@ -74,9 +74,10 @@ struct SignUpAuthCodeView: View {
                                 .foregroundStyle(TextLabel.placeholder)
                                 .font(Font.pretendard(.semiBold, size: 20))
                                 .frame(height: 14)
+                                .offset(y: 8)
                         }
                         
-                        HStack(spacing: 0) {
+                        HStack(alignment: .bottom, spacing: 0) {
                             TextField("", text: $authViewModel.certifyCode)
                                 .foregroundStyle(TextLabel.main)
                                 .font(Font.pretendard(.semiBold, size: 20))
@@ -116,7 +117,7 @@ struct SignUpAuthCodeView: View {
                                 .alert("인증 코드가 일치하지 않아요", isPresented: $authViewModel.isCertifyCodeInvalid) {
                                     Button("확인", role: .cancel) {}
                                 } message: {
-                                    Text("메일함의 인증코드를 다시 확인해주세요.")
+                                    Text("메일함의 인증코드를 다시 확인해주세요")
                                 }
                             }
                         }
@@ -131,15 +132,24 @@ struct SignUpAuthCodeView: View {
                         .foregroundStyle(dividerForgroundStyle)
                     
                     Spacer()
-                        .frame(height: 28)
+                        .frame(height: 18)
                     
                     HStack(alignment: .top) {
                         if !authViewModel.isCertifyCodeVerified {
-                            Text("메일이 오지 않았나요? 정크 메일함 혹은\n이메일 주소를 다시 한번 확인해주세요.")
-                                .font(Font.pretendard(.semiBold, size: 14))
-                                .foregroundStyle(TextLabel.sub3)
-                                .lineLimit(2)
-                                .lineSpacing(6)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("메일이 오지 않았나요?")
+                                    .font(Font.pretendard(.semiBold, size: 14))
+                                    .foregroundStyle(TextLabel.sub3)
+                                
+                                Text("정크 메일함 혹은 이메일 주소를 다시 한번")
+                                    .font(Font.pretendard(.semiBold, size: 14))
+                                    .foregroundStyle(TextLabel.sub3)
+                                
+                                Text("확인해주세요.")
+                                    .font(Font.pretendard(.semiBold, size: 14))
+                                    .foregroundStyle(TextLabel.sub3)
+                            }
                             
                             Spacer()
                             
@@ -153,12 +163,15 @@ struct SignUpAuthCodeView: View {
                                 Text("메일 재발송")
                                     .font(.pretendard(.medium, size: 14))
                                     .foregroundStyle(TextLabel.main)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 8)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(GrayScale.secondaryButton)
+                                            .stroke(.button, lineWidth: 1)
+                                    )
                             }
                             .disabled(authViewModel.isLoading)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(GrayScale.secondaryButton)
-                            .cornerRadius(20, corners: .allCorners)
                             .alert("메일이 재발송 되었어요", isPresented: $isMailResendAlertPresented) {
                                 Button("확인", role: .cancel) {}
                             }
