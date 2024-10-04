@@ -36,7 +36,6 @@ struct MyPageSectionCell: View {
         } label: {
             HStack(spacing: 12) {
                 Image(icon)
-                    .opacity(isDistructive ? 0.3 : 1)
                 
                 Text(title)
                     .foregroundStyle(forgroundStyle)
