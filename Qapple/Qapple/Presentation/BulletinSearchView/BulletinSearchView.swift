@@ -92,7 +92,7 @@ private struct SearchListView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
+            LazyVStack(spacing: 0) {
                 ForEach(Array(bulletinBoardUseCase.state.searchPosts.enumerated()), id: \.offset) { index, post in
                     BulletinBoardCell(
                         post: post,
