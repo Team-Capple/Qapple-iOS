@@ -79,23 +79,33 @@ struct CommentView: View {
         ZStack {
             ScrollViewReader { proxy in
                 ScrollView {
-                    VStack(spacing: 0) {
+                    LazyVStack(spacing: 0) {
                         // 데이터 연결
                         ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) { index, comment in
                             seperator
                             
-                            CommentCell(comment: comment, cellIndex: index, commentViewModel: commentViewModel, post: self.$post)
-                                .id(index)
+                            CommentCell(comment: comment, commentViewModel: commentViewModel, post: self.$post)
+                                .onAppear {
+                                    if index == commentViewModel.comments.count - 1
+                                        && commentViewModel.hasNext {
+                                        print("페이지네이션")
+                                        Task {
+                                            await commentViewModel.loadComments(boardId: post.boardId)
+                                        }
+                                    }
+                                }
                         }
                     }
                     .onChange(of: self.commentViewModel.scrollIndex) { _, index in
                         proxy.scrollTo(index)
                     }
                 }
+                .scrollDismissesKeyboard(.immediately)
                 .background(Color.bk)
                 .refreshable {
                     if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
                         Task.init {
+                            bulletinBoardUseCase.effect(.fetchSinglePost(postId: post.boardId))
                             await self.refreshComments()
                         }
                     }
@@ -133,6 +143,7 @@ struct CommentView: View {
             Button {
                 Task.init {
                     HapticManager.shared.notification(type: .success)
+                    bulletinBoardUseCase.effect(.fetchSinglePost(postId: post.boardId))
                     await commentViewModel.act(.upload(id: post.boardId, request: .init(comment: self.text)))
                     await self.refreshComments()
                     self.commentViewModel.scrollIndex = commentViewModel.comments.count - 1
@@ -191,9 +202,6 @@ private struct HeaderView: View {
 
 // MARK: View 업데이트 관련 메소드
 extension CommentView {
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
     
     private func updatePost() {
         self.post.commentCount = self.commentViewModel.comments.count

@@ -11,10 +11,11 @@ import Foundation
 extension NetworkManager {
     
     // 해당 게시글에 댓글을 불러옵니다.
-    static func fetchComments(boardId: Int, threshold: Int?, pageNumber: Int, pageSize: Int) async throws -> CommentResponse.Comments {
+    static func fetchComments(boardId: Int, threshold: Int?, pageSize: Int) async throws -> CommentResponse.Comments {
+        let urlString = ApiEndpoints.basicURLString(path: .comments)
         
-        let urlString = ApiEndpoints.basicURLString(path: .comments) + "/\(boardId)"
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: "\(urlString)/\(boardId)?pageSize=25") else {
+            print("잘못된 URL 입니다! in CommentView")
             throw NetworkError.cannotCreateURL
         }
         
@@ -22,12 +23,10 @@ extension NetworkManager {
         if let threshold = threshold {
             urlComponent.queryItems = [
                 .init(name: "threshold", value: String(threshold)),
-                .init(name: "pageNumber", value: String(pageNumber)),
                 .init(name: "pageSize", value: String(pageSize))
             ]
         } else {
             urlComponent.queryItems = [
-                .init(name: "pageNumber", value: String(pageNumber)),
                 .init(name: "pageSize", value: String(pageSize))
             ]
         }

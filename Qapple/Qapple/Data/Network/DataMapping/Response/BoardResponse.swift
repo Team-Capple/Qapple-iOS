@@ -12,12 +12,10 @@ struct BoardResponse {
     // 카테고리별 게시글 조회 Response
     struct Boards: Codable {
         let total: Int
-        let number: Int
         let size: Int
         let content: [board]
         let numberOfElements: Int
         let threshold: String
-        let hasPrevious: Bool
         let hasNext: Bool
         
         struct board: Codable {
@@ -35,20 +33,21 @@ struct BoardResponse {
     }
     
     struct SearchBoards: Codable {
-        let number: Int
+        let total: Int?
         let size: Int
         let content: [board]
         let numberOfElements: Int
-        let hasPrevious: Bool
+        let threshold: String
         let hasNext: Bool
         
         struct board: Codable {
             let boardId: Int
             let writerId: Int
+            let writerNickname: String
             let content: String
             let heartCount: Int
             let commentCount: Int
-            let createAt: String
+            let createdAt: String
             let isMine: Bool
             let isReported: Bool
             let isLiked: Bool

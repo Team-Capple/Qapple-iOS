@@ -39,16 +39,18 @@ struct BulletinSearchView: View {
             .background(Background.first)
             .navigationBarBackButtonHidden()
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
         .onChange(of: bulletinBoardUseCase.searchText) { _, newValue in
+            bulletinBoardUseCase.state.searchTheshold = nil
+            bulletinBoardUseCase.state.searchPosts.removeAll()
+            print("아하!")
             if newValue.isEmpty {
                 bulletinBoardUseCase.isLoading = false
             } else {
                 bulletinBoardUseCase.isLoading = true
             }
-        }
-        .onDisappear {
-            bulletinBoardUseCase.state.searchPosts.removeAll()
-            bulletinBoardUseCase.searchText = ""
         }
     }
 }
@@ -81,24 +83,48 @@ private struct NavigationBar: View {
 
 private struct SearchListView: View {
     
+    @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
     @State private var selectedPost: Post?
     
     let searchText: String
     
+    private var searchPostList: [Post] {
+        bulletinBoardUseCase.state.searchPosts.filter { !$0.isReported }
+    }
+    
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
-                ForEach(bulletinBoardUseCase.state.searchPosts) { post in
+            LazyVStack(spacing: 0) {
+                ForEach(Array(searchPostList.enumerated()), id: \.offset) { index, post in
                     BulletinBoardCell(
                         post: post,
                         seeMoreAction: {
                             selectedPost = post
                         }
                     )
+                    .onAppear {
+                        if index == bulletinBoardUseCase.state.searchPosts.count - 1 && bulletinBoardUseCase.state.searchHasNext {
+                            print("게시판 검색 페이지네이션")
+                            bulletinBoardUseCase.effect(.searchPost(keyword: bulletinBoardUseCase.searchText))
+                        }
+                    }
+                    .onTapGesture {
+                        if !post.isReported {
+                            pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                            bulletinBoardUseCase.isClickComment = true
+                        } else {
+                            HapticManager.shared.notification(type: .warning)
+                            // isReportedPostTappedAlert.toggle()
+                        }
+                    }
                 }
             }
+        }
+        .scrollDismissesKeyboard(.immediately)
+        .refreshable {
+            bulletinBoardUseCase.effect(.refreshSearchPost(keyword: bulletinBoardUseCase.searchText))
         }
         .sheet(item: $selectedPost) { post in
             BulletinBoardSeeMoreSheetView(

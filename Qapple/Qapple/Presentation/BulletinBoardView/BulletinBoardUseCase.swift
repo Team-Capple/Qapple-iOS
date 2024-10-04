@@ -39,8 +39,7 @@ final class BulletinBoardUseCase: ObservableObject {
             endDate: calendar.date(from: endDateComponents)!,
             posts: [],
             searchPosts: [],
-            pageNumber: 0,
-            hasPrevious: false,
+            searchHasNext: false,
             hasNext: false
         )
         
@@ -70,9 +69,9 @@ extension BulletinBoardUseCase {
         let endDate: Date
         var posts: [Post]
         var searchPosts: [Post]
-        var pageNumber: Int
+        var searchTheshold: Int?
         var threshold: Int?
-        var hasPrevious: Bool
+        var searchHasNext: Bool
         var hasNext: Bool
     }
 }
@@ -85,9 +84,11 @@ extension BulletinBoardUseCase {
         case fetchPost
         case refreshPost
         case searchPost(keyword: String)
+        case refreshSearchPost(keyword: String)
         case likePost(postId: Int)
         case removePost(postIndex: Int)
         case reportPost(postIndex: Int)
+        case fetchSinglePost(postId: Int)
     }
     
     func effect(_ effect: Effect) {
@@ -108,6 +109,12 @@ extension BulletinBoardUseCase {
             Task {
                 await searchPost(keyword: keyword)
                 print("게시판 검색")
+            }
+            
+        case .refreshSearchPost(let keyword):
+            Task {
+                await refreshSearchPost(keyword: keyword)
+                print("게시판 검색 리프레쉬")
             }
             
         case .likePost(let postId):
@@ -151,6 +158,13 @@ extension BulletinBoardUseCase {
             
         case .reportPost(postIndex: let postIndex):
             print("\(postIndex)번째 게시글 신고")
+            
+        case .fetchSinglePost(postId: let postId):
+            if let index = state.posts.firstIndex(where: { $0.boardId == postId }) {
+                Task{
+                    await fetchSinglePost(boardId: postId, index: index)
+                }
+            }
         }
     }
 }
@@ -160,8 +174,9 @@ extension BulletinBoardUseCase {
     
     @MainActor
     func reset() {
-        state.pageNumber = 0
-        state.hasPrevious = false
+        state.searchTheshold = nil
+        state.threshold = nil
+        state.searchHasNext = false
         state.hasNext = false
         state.posts.removeAll()
     }
@@ -172,15 +187,14 @@ extension BulletinBoardUseCase {
         
         Task {
             do {
-                let result = try await NetworkManager.fetchBoard(
+                let boardList = try await NetworkManager.fetchBoard(
                     .init(
                         threshold: state.threshold,
-                        pageNumber: state.pageNumber,
-                        pageSize: 25
+                        pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
                 
-                let postList: [Post] = result.content.map { board in
+                let postList: [Post] = boardList.content.map { board in
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
@@ -196,10 +210,8 @@ extension BulletinBoardUseCase {
                 }
                 
                 state.posts += postList
-                state.pageNumber += 1
-                state.threshold = Int(result.threshold)
-                state.hasPrevious = result.hasPrevious
-                state.hasNext = result.hasNext
+                state.threshold = Int(boardList.threshold)
+                state.hasNext = boardList.hasNext
                 self.isLoading = false
             } catch {
                 print("게시판 업데이트 실패")
@@ -213,21 +225,19 @@ extension BulletinBoardUseCase {
         self.isLoading = true
         
         /// 초기화
-        state.pageNumber = 0
-        state.hasPrevious = false
+        state.threshold = nil
         state.hasNext = false
         
         Task {
             do {
-                let result = try await NetworkManager.fetchBoard(
+                let boardList = try await NetworkManager.fetchBoard(
                     .init(
                         threshold: state.threshold,
-                        pageNumber: state.pageNumber,
-                        pageSize: 25
+                        pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
                 
-                let postList: [Post] = result.content.map { board in
+                let postList: [Post] = boardList.content.map { board in
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
@@ -244,10 +254,8 @@ extension BulletinBoardUseCase {
                 
                 state.posts.removeAll()
                 state.posts += postList
-                state.pageNumber += 1
-                state.threshold = Int(result.threshold)
-                state.hasPrevious = result.hasPrevious
-                state.hasNext = result.hasNext
+                state.threshold = Int(boardList.threshold)
+                state.hasNext = boardList.hasNext
                 print("리프레쉬 성공")
                 self.isLoading = false
             } catch {
@@ -256,6 +264,7 @@ extension BulletinBoardUseCase {
             }
         }
     }
+// MARK: - Search
     
     @MainActor
     func searchPost(keyword: String) {
@@ -264,27 +273,105 @@ extension BulletinBoardUseCase {
                 let searchPostList = try await NetworkManager.fetchBoardOfSearch(
                     .init(
                         keyword: keyword,
-                        pageNumber: 0,
+                        threshold: state.searchTheshold,
                         pageSize: 25
                     )
                 )
-                 
-                self.state.searchPosts = searchPostList.content.map {
+                
+                let searchList: [Post] = searchPostList.content.map { search in
                     Post(
-                        boardId: $0.boardId,
-                        writerId: $0.writerId,
-                        writerNickname: "TODO",
-                        content: $0.content,
-                        heartCount: $0.heartCount,
-                        commentCount: $0.commentCount,
-                        createAt: $0.createAt.ISO8601ToDate,
-                        isMine: $0.isMine,
-                        isReported: $0.isReported,
-                        isLiked: $0.isLiked
+                        boardId: search.boardId,
+                        writerId: search.writerId,
+                        writerNickname: search.writerNickname,
+                        content: search.content,
+                        heartCount: search.heartCount,
+                        commentCount: search.commentCount,
+                        createAt: search.createdAt.ISO8601ToDate,
+                        isMine: search.isMine,
+                        isReported: search.isReported,
+                        isLiked: search.isLiked
                     )
                 }
+                
+                state.searchPosts += searchList
+                state.searchTheshold = Int(searchPostList.threshold)
+                state.searchHasNext = searchPostList.hasNext
+                print(state.searchHasNext)
             } catch {
+                print(error.localizedDescription)
                 print("게시판 검색 실패")
+            }
+        }
+    }
+    
+    @MainActor
+    func refreshSearchPost(keyword: String) {
+        
+        state.searchTheshold = nil
+        state.searchHasNext = false
+        
+        Task {
+            do {
+                let searchPostList = try await NetworkManager.fetchBoardOfSearch(
+                    .init(
+                        keyword: keyword,
+                        threshold: state.searchTheshold,
+                        pageSize: 25
+                    )
+                )
+                
+                let searchList: [Post] = searchPostList.content.map { search in
+                    Post(
+                        boardId: search.boardId,
+                        writerId: search.writerId,
+                        writerNickname: search.writerNickname,
+                        content: search.content,
+                        heartCount: search.heartCount,
+                        commentCount: search.commentCount,
+                        createAt: search.createdAt.ISO8601ToDate,
+                        isMine: search.isMine,
+                        isReported: search.isReported,
+                        isLiked: search.isLiked
+                    )
+                }
+                
+                state.searchPosts.removeAll()
+                state.searchPosts += searchList
+                state.searchTheshold = Int(searchPostList.threshold)
+                state.searchHasNext = searchPostList.hasNext
+                print("검색 리프레쉬 성공")
+            } catch {
+                print(error.localizedDescription)
+                print("검색 리프레쉬 실패")
+            }
+        }
+    }
+
+// MARK: - SingleFetch
+   
+    @MainActor
+    private func fetchSinglePost(boardId: Int, index: Int) {
+        Task {
+            do {
+                let singleBoard = try await NetworkManager.fetchSingleBoard(.init(boardId: boardId))
+                
+                let changeBoard: Post =
+                    Post(
+                        boardId: singleBoard.boardId,
+                        writerId: singleBoard.writerId,
+                        writerNickname: singleBoard.writerNickname,
+                        content: singleBoard.content,
+                        heartCount: singleBoard.heartCount,
+                        commentCount: singleBoard.commentCount,
+                        createAt: singleBoard.createdAt.ISO8601ToDate,
+                        isMine: singleBoard.isMine,
+                        isReported: singleBoard.isReported,
+                        isLiked: singleBoard.isLiked
+                    )
+                
+                state.posts[index] = changeBoard
+            } catch {
+                print("단건 게시판 업데이트 실패")
             }
         }
     }

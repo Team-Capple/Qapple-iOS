@@ -45,7 +45,10 @@ struct BulletinBoardView: View {
         }
         .onAppear{
             bulletinBoardUseCase.isClickComment = false
+            bulletinBoardUseCase.state.searchPosts.removeAll()
+            bulletinBoardUseCase.searchText = ""
             bulletinBoardUseCase.effect(.fetchPost)
+            
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
             bulletinBoardUseCase.refreshPostList()

@@ -17,6 +17,10 @@ extension View {
     func popGestureDisabled() -> some View {
         modifier(PopGestureDisabledViewModifier())
     }
+    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
 
 /// 특정 부분 CornerRadius 적용을 위한 Shape

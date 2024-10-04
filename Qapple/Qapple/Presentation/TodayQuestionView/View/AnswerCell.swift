@@ -68,11 +68,8 @@ private struct NormalAnswerCell: View {
             
             ContentView(answer: answer)
                 .padding(.horizontal, 16)
-            
-            Divider()
-                .padding(.top, 16)
         }
-        .padding(.top, 8)
+        .padding(.top, 18)
         .background(Background.first)
     }
 }
@@ -138,13 +135,12 @@ private struct ContentView: View {
                 .foregroundStyle(.clear)
                 .frame(width: 28, height: 28)
             
-            VStack(alignment: .leading, spacing: 0) {
-                Text(answer.content)
-                    .pretendard(.medium, 16)
-                    .foregroundStyle(TextLabel.main)
-                    .padding(.top, 2)
-            }
+            Text(answer.content)
+                .pretendard(.medium, 16)
+                .foregroundStyle(TextLabel.main)
+                .padding(.top, 2)
         }
+        .padding(.bottom, 16)
     }
 }
 
@@ -189,11 +185,8 @@ private struct ReportAnswerCell: View {
                     Spacer()
                 }
                 .padding(.horizontal, 16)
-                
-                Divider()
-                    .padding(.top, 16)
             }
-            .padding(.top, 16)
+            .padding(.top, 18)
             .background(Background.first)
         } else {
             VStack(alignment: .leading, spacing: 0) {
@@ -226,11 +219,8 @@ private struct ReportAnswerCell: View {
                 
                 ContentView(answer: answer)
                     .padding(.horizontal, 16)
-                
-                Divider()
-                    .padding(.top, 16)
             }
-            .padding(.top, 8)
+            .padding(.top, 18)
             .background(Background.first)
         }
     }
@@ -239,16 +229,35 @@ private struct ReportAnswerCell: View {
 // MARK: - Preview
 
 #Preview {
-    AnswerCell(
-        answer: Answer(
-            id: 0,
-            writerId: 0,
-            learnerIndex: 0,
-            nickname: "한톨",
-            content: "아! 이게 질문이 아니고 답변이구나!",
-            writingDate: .now,
-            isMine: true,
-            isReported: true
-        )
-    ) {}
+    ZStack {
+        Color.blue
+        
+        VStack {
+            AnswerCell(
+                answer: Answer(
+                    id: 0,
+                    writerId: 0,
+                    learnerIndex: 0,
+                    nickname: "한톨",
+                    content: "아! 이게 질문이 아니고 답변이구나!",
+                    writingDate: .now,
+                    isMine: true,
+                    isReported: true
+                )
+            ) {}
+            
+            AnswerCell(
+                answer: Answer(
+                    id: 0,
+                    writerId: 0,
+                    learnerIndex: 0,
+                    nickname: "한톨",
+                    content: "아! 이게 질문이 아니고 답변이구나!",
+                    writingDate: .now,
+                    isMine: true,
+                    isReported: true
+                )
+            ) {}
+        }
+    }
 }

@@ -12,9 +12,7 @@ final class CommentViewModel: ObservableObject {
     @Published public var comments: [CommentResponse.Comment] = []
     @Published public var isLoading: Bool = false
     @Published public var scrollIndex: Int?
-    @Published var pageNumber: Int = 0
     @Published var threshold: Int?
-    @Published var hasPrevious: Bool = false
     @Published var hasNext: Bool = false
     
     public var postId: Int?
@@ -30,14 +28,11 @@ final class CommentViewModel: ObservableObject {
             let fetchResult = try await NetworkManager.fetchComments(
                 boardId: boardId,
                 threshold: threshold,
-                pageNumber: pageNumber,
                 pageSize: 25
             )
             let content = fetchResult.content
             self.comments += anonymizeComment(content)
-            self.pageNumber += 1
             self.threshold = Int(fetchResult.threshold)
-            self.hasPrevious = fetchResult.hasPrevious
             self.hasNext = fetchResult.hasNext
         } catch {
             print(error.localizedDescription)
@@ -50,8 +45,6 @@ final class CommentViewModel: ObservableObject {
     @MainActor
     public func refreshComments(boardId: Int) async {
         self.isLoading = true
-        self.pageNumber = 0
-        self.hasPrevious = false
         self.hasNext = false
         self.threshold = nil
         
@@ -59,16 +52,13 @@ final class CommentViewModel: ObservableObject {
             let fetchResult = try await NetworkManager.fetchComments(
                 boardId: boardId,
                 threshold: threshold,
-                pageNumber: pageNumber,
                 pageSize: 25
             )
             print(fetchResult.hasNext)
             let content = fetchResult.content
             self.comments.removeAll()
             self.comments += anonymizeComment(content)
-            self.pageNumber += 1
             self.threshold = Int(fetchResult.threshold)
-            self.hasPrevious = fetchResult.hasPrevious
             self.hasNext = fetchResult.hasNext
         } catch {
             print(error.localizedDescription)

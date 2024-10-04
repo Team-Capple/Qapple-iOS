@@ -11,17 +11,31 @@ import Foundation
 extension NetworkManager {
     
     /// 내가 작성한 답변을 조회합니다.
-    static func fetchAnswers(pageNumber: Int, pageSize: Int) async throws -> AnswerResponse.Answers {
+    static func fetchAnswers(threshold: Int?, pageSize: Int) async throws -> AnswerResponse.Answers {
         
-        // URL 객체 생성
-        var urlString = ApiEndpoints.basicURLString(path: .answers)
-        urlString += "?pageNumber=\(pageNumber)"
-        urlString += "&pageSize=\(pageSize)"
-        
+        let urlString = ApiEndpoints.basicURLString(path: .answers)
         guard let url = URL(string: urlString) else {
+            throw NetworkError.cannotCreateURL
+        }
+        
+        var urlComponent = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        if let threshold = threshold {
+            urlComponent.queryItems = [
+                .init(name: "threshold", value: String(threshold)),
+                .init(name: "pageSize", value: String(pageSize))
+            ]
+        } else {
+            urlComponent.queryItems = [
+                .init(name: "pageSize", value: String(pageSize))
+            ]
+        }
+        
+        guard let url = urlComponent.url else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
         }
+        
+        print("작성한 답변 조회하기: \(url)\n")
         
         // 토큰 추가
         var request = URLRequest(url: url)
@@ -47,18 +61,29 @@ extension NetworkManager {
     /// 특정 질문에 대한 답변을 조회합니다.
     static func fetchAnswersOfQuestion(request: AnswerRequest.AnswersOfQuestion) async throws -> AnswerResponse.AnswersOfQuestion {
         
-        // URL 객체 생성
-        var urlString = ApiEndpoints.basicURLString(path: .answersOfQuestion)
-        urlString += "/\(request.questionId)?"
-        urlString += "pageNumber=\(request.pageNumber)"
-        urlString += "&pageSize=\(request.pageSize)"
-        
-        print(urlString)
-
+        let urlString = ApiEndpoints.basicURLString(path: .answersOfQuestion) + "/\(request.questionId)?"
         guard let url = URL(string: urlString) else {
+            throw NetworkError.cannotCreateURL
+        }
+        
+        var urlComponent = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        if let threshold = request.threshold {
+            urlComponent.queryItems = [
+                .init(name: "threshold", value: String(threshold)),
+                .init(name: "pageSize", value: String(request.pageSize))
+            ]
+        } else {
+            urlComponent.queryItems = [
+                .init(name: "pageSize", value: String(request.pageSize))
+            ]
+        }
+        
+        guard let url = urlComponent.url else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
         }
+        
+        print("답변 조회하기: \(url)\n")
         
         // 토큰 추가
         var request = URLRequest(url: url)

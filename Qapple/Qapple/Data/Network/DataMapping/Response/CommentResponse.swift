@@ -13,12 +13,10 @@ struct CommentResponse: Codable {
     // 댓글 조회 Response
     struct Comments: Codable {
         let total: Int?
-        let number: Int
         let size: Int
         let content: [Comment]
         let numberOfElements: Int
         let threshold: String
-        let hasPrevious: Bool
         let hasNext: Bool
     }
     
