@@ -187,14 +187,14 @@ extension BulletinBoardUseCase {
         
         Task {
             do {
-                let boardList = try await NetworkManager.fetchBoard(
+                let result = try await NetworkManager.fetchBoard(
                     .init(
                         threshold: state.threshold,
                         pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
                 
-                let postList: [Post] = boardList.content.map { board in
+                let postList: [Post] = result.content.map { board in
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
@@ -230,14 +230,14 @@ extension BulletinBoardUseCase {
         
         Task {
             do {
-                let boardList = try await NetworkManager.fetchBoard(
+                let result = try await NetworkManager.fetchBoard(
                     .init(
                         threshold: state.threshold,
                         pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
                 
-                let postList: [Post] = boardList.content.map { board in
+                let postList: [Post] = result.content.map { board in
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,

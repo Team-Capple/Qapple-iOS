@@ -10,13 +10,11 @@ import SwiftUI
 final class CommentViewModel: ObservableObject {
 
     @Published public var comments: [CommentResponse.Comment] = []
-    
-    // 호출 flag
     @Published public var isLoading: Bool = false
     @Published var hasNext: Bool = false
     
     var postId: Int?
-    // 댓글 불러오기
+    
     @MainActor
     public func loadComments(boardId: Int) async {
         self.isLoading = true
@@ -36,7 +34,6 @@ final class CommentViewModel: ObservableObject {
     // 댓글 리프레쉬
     @MainActor
     public func refreshComments(boardId: Int) async {
-        print(#function)
         self.isLoading = true
         self.hasNext = false
         
@@ -53,7 +50,7 @@ final class CommentViewModel: ObservableObject {
         self.isLoading = false
     }
     
-    // 댓글 좋아요 action
+    /// 댓글 좋아요 action
     @MainActor
     public func likeComment(commentId: Int) async {
         self.isLoading = true
@@ -67,7 +64,7 @@ final class CommentViewModel: ObservableObject {
         self.isLoading = false
     }
     
-    // 댓글 달기 action
+    /// 댓글 달기 action
     @MainActor
     public func uploadComment(id: Int, request: CommentRequest.UploadComment) async {
         self.isLoading = true
@@ -81,6 +78,7 @@ final class CommentViewModel: ObservableObject {
         self.isLoading = false
     }
     
+    /// 댓글 삭제
     @MainActor
     public func deleteComment(id: Int) async {
         self.isLoading = true
@@ -117,13 +115,12 @@ extension CommentViewModel {
         case .like(id: let id):
             print("\(id)번째 댓글 좋아요")
             await likeComment(commentId: id)
-            
         }
     }
 }
 
-
 extension CommentViewModel {
+    
     // 이름을 익명화 해주는 method
     private func anonymizeComment(_ comments: [CommentResponse.Comment]) -> [CommentResponse.Comment] {
         guard let postWriterId = self.postId else {

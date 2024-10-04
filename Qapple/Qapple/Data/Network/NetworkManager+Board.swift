@@ -46,6 +46,7 @@ extension NetworkManager {
         // 디코딩
         let decoder = JSONDecoder()
         let decodeData = try decoder.decode(BaseResponse<BoardResponse.Boards>.self, from: data)
+        // dump(decodeData.result)
         return decodeData.result
     }
     
@@ -235,5 +236,4 @@ extension NetworkManager {
         let decodeData = try decoder.decode(BaseResponse<BoardResponse.DeleteBoard>.self, from: data)
         return decodeData.result
     }
-    
 }

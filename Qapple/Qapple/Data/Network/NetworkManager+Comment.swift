@@ -19,18 +19,30 @@ extension NetworkManager {
             throw NetworkError.cannotCreateURL
         }
         
-        var accessToken = ""
-        
-        do {
-            accessToken = try SignInInfo.shared.token(.access)
-        } catch {
-            print("액세스 토큰 반환 실패")
+        var urlComponent = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        if let threshold = threshold {
+            urlComponent.queryItems = [
+                .init(name: "threshold", value: String(threshold)),
+                .init(name: "pageNumber", value: String(pageNumber)),
+                .init(name: "pageSize", value: String(pageSize))
+            ]
+        } else {
+            urlComponent.queryItems = [
+                .init(name: "pageNumber", value: String(pageNumber)),
+                .init(name: "pageSize", value: String(pageSize))
+            ]
         }
+        
+        guard let url = urlComponent.url else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        print(url)
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(try SignInInfo.shared.token(.access))", forHTTPHeaderField: "Authorization")
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
@@ -42,8 +54,6 @@ extension NetworkManager {
             }
             
             let result = try JSONDecoder().decode(BaseResponse<CommentResponse.Comments>.self, from: data)
-            
-//            print(result)
             
             return result.result
         } catch {

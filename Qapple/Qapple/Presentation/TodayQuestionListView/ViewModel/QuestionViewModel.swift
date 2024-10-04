@@ -1,29 +1,30 @@
 import Foundation
 
 // 질문 데이터를 관리하는 ViewModel
-class QuestionViewModel: ObservableObject {
+final class QuestionViewModel: ObservableObject {
     
     @Published var filteredQuestions: [QuestionResponse.Questions.Content] = [] // 검색 쿼리에 따라 필터링된 질문 목록입니다.
     @Published var selectedQuestionId: Int? = nil
     @Published var questions: [QuestionResponse.Questions.Content] = [] // 모든 질문의 목록입니다.
     @Published var isLoading = true
-    @Published var pageNumber: Int = 0
-    @Published var hasPrevious: Bool = false
+    
+    @Published var total = 0
+    @Published var threshold: Int?
     @Published var hasNext: Bool = false
     
     @MainActor
     func fetchGetQuestions() async {
         do {
             let response = try await getQuestions(
-                pageNumber: pageNumber,
+                threshold: threshold,
                 pageSize: 25
             )
             
             self.questions += response.content
-            self.pageNumber += 1
-            self.hasPrevious = response.hasPrevious
+            self.total = response.total
+            self.threshold = Int(response.threshold)
             self.hasNext = response.hasNext
-            isLoading = false
+            self.isLoading = false
         } catch {
             print("Error: \(error)")
         }
@@ -31,49 +32,54 @@ class QuestionViewModel: ObservableObject {
     
     @MainActor
     func refreshGetQuestions() async {
-        
-        self.pageNumber = 0
-        self.hasPrevious = false
         self.hasNext = false
         
         do {
             let response = try await getQuestions(
-                pageNumber: pageNumber,
+                threshold: threshold,
                 pageSize: 25
             )
             
             self.questions.removeAll()
             self.questions += response.content
-            self.pageNumber += 1
-            self.hasPrevious = response.hasPrevious
+            self.total = response.total
+            self.threshold = Int(response.threshold)
             self.hasNext = response.hasNext
-            isLoading = false
+            self.isLoading = false
         } catch {
             print("Error: \(error)")
         }
     }
     
     /// 질문 목록을 받아옵니다.
-    func getQuestions(pageNumber: Int, pageSize: Int) async throws -> QuestionResponse.Questions {
+    func getQuestions(threshold: Int?, pageSize: Int) async throws -> QuestionResponse.Questions {
         
-        // URL 생성
-        var urlString = ApiEndpoints.basicURLString(path: .questions)
-        urlString += "?pageNumber=\(pageNumber)"
-        urlString += "&pageSize=\(pageSize)"
-        guard let url = URL(string: urlString) else { fatalError("에러") }
-        
-        var accessToken = ""
-        
-        do {
-            accessToken = try SignInInfo.shared.token(.access)
-        } catch {
-            print("액세스 토큰 반환 실패")
+        let urlString = ApiEndpoints.basicURLString(path: .questions)
+        guard let url = URL(string: urlString) else {
+            throw NetworkError.cannotCreateURL
         }
         
-        // Request 생성
+        var urlComponent = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        if let threshold = threshold {
+            urlComponent.queryItems = [
+                .init(name: "threshold", value: String(threshold)),
+                .init(name: "pageSize", value: String(pageSize))
+            ]
+        } else {
+            urlComponent.queryItems = [
+                .init(name: "pageSize", value: String(pageSize))
+            ]
+        }
+        
+        guard let url = urlComponent.url else {
+            print("Error: cannotCreateURL")
+            throw NetworkError.cannotCreateURL
+        }
+        
+        // 토큰 추가
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(try SignInInfo.shared.token(.access))", forHTTPHeaderField: "Authorization")
         
         // 네트워크 통신
         

@@ -8,9 +8,12 @@
 import Foundation
 import AuthenticationServices
 
-struct AppleLoginService {
+final class AppleLoginService {
     
-    static func autoLogin(completion: @escaping (Bool) -> Void) {
+    static let shared = AppleLoginService()
+    private init() {}
+    
+     func autoLogin(completion: @escaping (Bool) -> Void) {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let userID = try? SignInInfo.shared.userID()
         

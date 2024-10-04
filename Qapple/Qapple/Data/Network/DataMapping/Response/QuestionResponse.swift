@@ -11,12 +11,11 @@ struct QuestionResponse {
     
     // 질문 모아보기 조회 Response
     struct Questions: Codable {
-        
-        let number: Int
+        let total: Int
         let size: Int
         let content: [Content]
         let numberOfElements: Int
-        let hasPrevious: Bool
+        let threshold: String
         let hasNext: Bool
 
         struct Content: Codable {

@@ -45,7 +45,7 @@ private struct HeaderView: View {
     let question: QuestionResponse.Questions.Content
     let seeMoreAction: () -> Void
     
-    var questionStatusRawValue: String {
+    private var questionStatusRawValue: String {
         switch question.questionStatus {
         case "LIVE":
             return QuestionStatus.live.rawValue
@@ -60,9 +60,19 @@ private struct HeaderView: View {
             Spacer()
                 .frame(width: 2)
             
-            Text(formattedDate(from: question.livedAt ?? "default"))
-                .font(.pretendard(.regular, size: 13))
-                .foregroundStyle(GrayScale.icon)
+            HStack(alignment: .center, spacing: 6) {
+                Text("#\(question.questionId)")
+                    .font(.pretendard(.semiBold, size: 14))
+                    .foregroundStyle(GrayScale.icon)
+                
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 2, height: 10)
+                    .foregroundStyle(GrayScale.icon.opacity(0.5))
+                
+                Text(formattedDate(from: question.livedAt ?? "default"))
+                    .font(.pretendard(.regular, size: 14))
+                    .foregroundStyle(GrayScale.icon)
+            }
             
             Spacer()
                 .frame(width: 8)

@@ -10,13 +10,13 @@ struct TodayQuestionListView: View {
     var body: some View {
         ZStack {
             Color(Background.first)
-                .edgesIgnoringSafeArea(.all) // 전체 배경색을 검정색으로 설정합니다.
+                .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 0) {
                 QuestionListView(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                 
                 Spacer()
-                    .frame(height: 0)
+                    .frame(height: 2)
             }
             
             if viewModel.isLoading {
@@ -28,7 +28,7 @@ struct TodayQuestionListView: View {
         .navigationBarBackButtonHidden()
         .onAppear {
             Task {
-                await viewModel.fetchGetQuestions()
+                await viewModel.refreshGetQuestions()
             }
         }
     }
@@ -55,11 +55,11 @@ struct TodayQuestionListView: View {
             VStack(spacing: 11) {
                 
                 HStack(alignment: .top) {
-                    Text("\(viewModel.questions.count)개의 질문")
+                    Text("\(viewModel.total)개의 질문")
                         .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(TextLabel.sub3)
-                    Spacer()
                     
+                    Spacer()
                 }
                 .padding(.horizontal, 24)
                 

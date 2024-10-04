@@ -13,15 +13,29 @@ extension NetworkManager {
     /// Notification 리스트를 조회합니다.
     static func fetchNotificationList(_ request: NotificationRequest.FetchNotificationRequest) async throws -> NotificationResponse.FetchNotificationResponse {
         
-        // URL 객체 생성
-        var urlString = ApiEndpoints.basicURLString(path: .notifications)
-        urlString += "?pageNumber=\(request.pageNumber)"
-        urlString += "&pageSize=\(request.pageSize)"
-        
+        let urlString = ApiEndpoints.basicURLString(path: .notifications)
         guard let url = URL(string: urlString) else {
+            throw NetworkError.cannotCreateURL
+        }
+        
+        var urlComponent = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        if let threshold = request.threshold {
+            urlComponent.queryItems = [
+                .init(name: "threshold", value: String(threshold)),
+                .init(name: "pageSize", value: String(request.pageSize))
+            ]
+        } else {
+            urlComponent.queryItems = [
+                .init(name: "pageSize", value: String(request.pageSize))
+            ]
+        }
+        
+        guard let url = urlComponent.url else {
             print("Error: cannotCreateURL")
             throw NetworkError.cannotCreateURL
         }
+        
+        print("알림 조회하기: \(url)\n")
         
         // 토큰 추가
         var request = URLRequest(url: url)

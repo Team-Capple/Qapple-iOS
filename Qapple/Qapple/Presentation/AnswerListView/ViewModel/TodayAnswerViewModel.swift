@@ -19,9 +19,10 @@ class AnswerListViewModel: ObservableObject {
     @Published var todayQuestion: String = ""
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content] = []
     @Published var isLoading = true
-    @Published var pageNumber: Int = 0
-    @Published var hasPrevious: Bool = false
+    
+    @Published var total = 0
     @Published var hasNext: Bool = false
+    @Published var threshold: Int?
     
     private var learnerDictionary: LearnerDictionary = [:]
     
@@ -33,15 +34,14 @@ class AnswerListViewModel: ObservableObject {
                 let response = try await NetworkManager.fetchAnswersOfQuestion(
                     request: .init(
                         questionId: questionId,
-                        pageNumber: pageNumber,
+                        threshold: threshold,
                         pageSize: 25
                     )
                 )
                 
-                let newAnswerList = response.content.reversed()
-                self.answerList += newAnswerList
-                self.pageNumber += 1
-                self.hasPrevious = response.hasPrevious
+                self.answerList += response.content.reversed()
+                self.total = response.total
+                self.threshold = Int(response.threshold)
                 self.hasNext = response.hasNext
                 createLearnerDictionary()
             } catch {
@@ -56,8 +56,6 @@ class AnswerListViewModel: ObservableObject {
     func refreshAnswersForQuestion(questionId: Int) {
         
         // 초기화
-        self.pageNumber = 0
-        self.hasPrevious = false
         self.hasNext = false
         
         Task {
@@ -65,16 +63,15 @@ class AnswerListViewModel: ObservableObject {
                 let response = try await NetworkManager.fetchAnswersOfQuestion(
                     request: .init(
                         questionId: questionId,
-                        pageNumber: pageNumber,
+                        threshold: nil,
                         pageSize: 25
                     )
                 )
                 
                 self.answerList.removeAll()
-                let newAnswerList = response.content.reversed()
-                self.answerList += newAnswerList
-                self.pageNumber += 1
-                self.hasPrevious = response.hasPrevious
+                self.total = response.total
+                self.answerList += response.content.reversed()
+                self.threshold = Int(response.threshold)
                 self.hasNext = response.hasNext
                 createLearnerDictionary()
             } catch {

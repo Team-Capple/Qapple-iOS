@@ -42,7 +42,7 @@ struct CommentView: View {
                                 .onAppear {
                                     if index == commentViewModel.comments.count - 1
                                         && commentViewModel.hasNext {
-                                        print("Notification 페이지네이션")
+                                        print("페이지네이션")
                                         Task {
                                             await commentViewModel.loadComments(boardId: post.boardId)
                                         }
