@@ -71,7 +71,7 @@ private struct BoardView: View {
                 startDate: bulletinBoardUseCase.state.startDate,
                 endDate: bulletinBoardUseCase.state.endDate
             )
-            .padding(.top, 20)
+            .padding(.top, 8)
             .padding(.horizontal, 16)
             
             PostListView()

@@ -155,6 +155,59 @@ private struct ReportAnswerCell: View {
     let answer: Answer
     let seeMoreAction: () -> Void
     
+    var body: some View {
+        if !isReportContentShow {
+            ReportHideView(isReportContentShow: $isReportContentShow)
+        } else {
+            ReportShowView(
+                isReportContentShow: $isReportContentShow,
+                answer: answer
+            )
+        }
+    }
+}
+
+// MARK: - ReportHideView
+
+private struct ReportHideView: View {
+    @Binding private(set) var isReportContentShow: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("신고 되어 내용을 검토 중인 답변이에요")
+                .font(.pretendard(.medium, size: 16))
+                .foregroundStyle(TextLabel.sub3)
+                .padding(.horizontal, 16)
+            
+            HStack {
+                Button {
+                    isReportContentShow.toggle()
+                } label: {
+                    Text("답변 보기")
+                        .font(.pretendard(.medium, size: 16))
+                        .foregroundStyle(BrandPink.text)
+                }
+                
+                Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
+                    .font(.pretendard(.medium, size: 14))
+                    .foregroundStyle(TextLabel.sub4)
+                
+                Spacer()
+            }
+            .padding(.horizontal, 16)
+        }
+        .padding(.vertical, 18)
+        .background(Background.first)
+    }
+}
+
+// MARK: - ReportShowView
+
+private struct ReportShowView: View {
+    @Binding private(set) var isReportContentShow: Bool
+    
+    let answer: Answer
+    
     private var learnerName: String {
         if answer.nickname == "알 수 없음" {
             return answer.nickname
@@ -164,67 +217,39 @@ private struct ReportAnswerCell: View {
     }
     
     var body: some View {
-        if !isReportContentShow {
-            VStack(alignment: .leading, spacing: 16) {
-                Text("신고 되어 내용을 검토 중인 답변이에요")
-                    .font(.pretendard(.medium, size: 16))
-                    .foregroundStyle(TextLabel.sub3)
-                    .padding(.horizontal, 16)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 0) {
+                Image(.profileDummy)
+                    .resizable()
+                    .frame(width: 28, height: 28)
                 
-                HStack {
-                    Button {
-                        isReportContentShow.toggle()
-                    } label: {
-                        Text("답변 보기")
-                            .font(.pretendard(.medium, size: 16))
-                            .foregroundStyle(BrandPink.text)
-                    }
-                    
-                    Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
-                        .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(TextLabel.sub4)
-                    
-                    Spacer()
-                }
-                .padding(.horizontal, 16)
-            }
-            .padding(.vertical, 18)
-            .background(Background.first)
-        } else {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 0) {
-                    Image(.profileDummy)
-                        .resizable()
-                        .frame(width: 28, height: 28)
-                    
-                    Text(learnerName)
-                        .pretendard(.semiBold, 14)
-                        .foregroundStyle(GrayScale.icon)
-                        .padding(.leading, 8)
-                    
-                    Text("\(answer.writingDate.timeAgo)")
-                        .pretendard(.regular, 14)
-                        .foregroundStyle(TextLabel.sub4)
-                        .padding(.leading, 6)
-                    
-                    Spacer()
-                    
-                    Button {
-                        isReportContentShow.toggle()
-                    } label: {
-                        Text("답변 숨기기")
-                            .font(.pretendard(.medium, size: 16))
-                            .foregroundStyle(BrandPink.text)
-                    }
-                }
-                .padding(.horizontal, 16)
+                Text(learnerName)
+                    .pretendard(.semiBold, 14)
+                    .foregroundStyle(GrayScale.icon)
+                    .padding(.leading, 8)
                 
-                ContentView(answer: answer)
-                    .padding(.horizontal, 16)
+                Text("\(answer.writingDate.timeAgo)")
+                    .pretendard(.regular, 14)
+                    .foregroundStyle(TextLabel.sub4)
+                    .padding(.leading, 6)
+                
+                Spacer()
+                
+                Button {
+                    isReportContentShow.toggle()
+                } label: {
+                    Text("답변 숨기기")
+                        .font(.pretendard(.medium, size: 16))
+                        .foregroundStyle(BrandPink.text)
+                }
             }
-            .padding(.top, 18)
-            .background(Background.first)
+            .padding(.horizontal, 16)
+            
+            ContentView(answer: answer)
+                .padding(.horizontal, 16)
         }
+        .padding(.top, 18)
+        .background(Background.first)
     }
 }
 
