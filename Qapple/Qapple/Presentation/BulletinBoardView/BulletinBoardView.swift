@@ -77,6 +77,9 @@ private struct BoardView: View {
             
             PostListView()
                 .padding(.top, 20)
+            
+            Spacer()
+                .frame(height: 2)
         }
     }
 }
