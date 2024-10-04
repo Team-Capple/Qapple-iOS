@@ -26,24 +26,26 @@ struct AnswerCell: View {
     }
     
     var body: some View {
-        if answer.isMine {
-            NormalAnswerCell(
-                answer: answer,
-                isWrittenAnswerCell: isWrittenAnswerCell,
-                seeMoreAction: seeMoreAction
-            )
-        } else {
-            if answer.isReported {
-                ReportAnswerCell(
-                    answer: answer,
-                    seeMoreAction: seeMoreAction
-                )
-            } else {
+        Group {
+            if answer.isMine {
                 NormalAnswerCell(
                     answer: answer,
                     isWrittenAnswerCell: isWrittenAnswerCell,
                     seeMoreAction: seeMoreAction
                 )
+            } else {
+                if answer.isReported {
+                    ReportAnswerCell(
+                        answer: answer,
+                        seeMoreAction: seeMoreAction
+                    )
+                } else {
+                    NormalAnswerCell(
+                        answer: answer,
+                        isWrittenAnswerCell: isWrittenAnswerCell,
+                        seeMoreAction: seeMoreAction
+                    )
+                }
             }
         }
     }
@@ -98,7 +100,7 @@ private struct HeaderView: View {
                 .resizable()
                 .frame(width: 28, height: 28)
             
-             Text(learnerName)
+            Text(learnerName)
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
                 .padding(.leading, 8)
@@ -174,7 +176,7 @@ private struct ReportAnswerCell: View {
                         isReportContentShow.toggle()
                     } label: {
                         Text("답변 보기")
-                           .font(.pretendard(.medium, size: 16))
+                            .font(.pretendard(.medium, size: 16))
                             .foregroundStyle(BrandPink.text)
                     }
                     

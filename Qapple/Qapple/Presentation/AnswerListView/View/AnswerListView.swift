@@ -77,7 +77,7 @@ struct AnswerListView: View {
         .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
             print("뷰 업데이트")
             Task {
-                viewModel.loadAnswersForQuestion(questionId: questionId)
+                viewModel.refreshAnswersForQuestion(questionId: questionId)
             }
         }
     }
