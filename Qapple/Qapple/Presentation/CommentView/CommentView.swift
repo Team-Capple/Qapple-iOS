@@ -165,7 +165,7 @@ struct CommentView: View {
             .tint(Color.wh)
             .padding(.trailing, 12)
             .padding(.bottom, 12)
-            .disabled( self.text.isEmpty || self.commentViewModel.isLoading )
+            .disabled(self.text.isEmpty || self.commentViewModel.isLoading )
         }
         .background {
             RoundedRectangle(cornerRadius: 11)

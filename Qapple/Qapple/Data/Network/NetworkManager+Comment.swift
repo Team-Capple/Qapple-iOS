@@ -55,10 +55,8 @@ extension NetworkManager {
             
             return result.result
         } catch {
-            print(String(describing: error))
+            throw NetworkError.badRequest
         }
-        
-        throw NetworkError.decodeFailed
     }
     
     // 댓글을 업로드 합니다.
@@ -97,7 +95,7 @@ extension NetworkManager {
                 throw NetworkError.badRequest
             }
         } catch {
-            print(String(describing: error))
+            throw NetworkError.decodeFailed
         }
     }
     
@@ -133,7 +131,7 @@ extension NetworkManager {
             }
             
         } catch {
-            print(String(describing: error))
+            throw NetworkError.badRequest
         }
     }
     
@@ -169,7 +167,7 @@ extension NetworkManager {
             }
             
         } catch {
-            print(String(describing: error))
+            throw NetworkError.badRequest
         }
     }
     
@@ -208,7 +206,7 @@ extension NetworkManager {
             }
             
         } catch {
-            print(String(describing: error))
+            throw NetworkError.badRequest
         }
     }
 }
