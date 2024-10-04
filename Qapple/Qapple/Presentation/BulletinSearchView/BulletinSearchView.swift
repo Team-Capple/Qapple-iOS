@@ -84,16 +84,21 @@ private struct NavigationBar: View {
 
 private struct SearchListView: View {
     
+    @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
     @State private var selectedPost: Post?
     
     let searchText: String
     
+    private var searchPostList: [Post] {
+        bulletinBoardUseCase.state.searchPosts.filter { !$0.isReported }
+    }
+    
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-                ForEach(Array(bulletinBoardUseCase.state.searchPosts.enumerated()), id: \.offset) { index, post in
+                ForEach(Array(searchPostList.enumerated()), id: \.offset) { index, post in
                     BulletinBoardCell(
                         post: post,
                         seeMoreAction: {
@@ -104,6 +109,15 @@ private struct SearchListView: View {
                         if index == bulletinBoardUseCase.state.searchPosts.count - 1 && bulletinBoardUseCase.state.searchHasNext {
                             print("게시판 검색 페이지네이션")
                             bulletinBoardUseCase.effect(.searchPost(keyword: bulletinBoardUseCase.searchText))
+                        }
+                    }
+                    .onTapGesture {
+                        if !post.isReported {
+                            pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                            bulletinBoardUseCase.isClickComment = true
+                        } else {
+                            HapticManager.shared.notification(type: .warning)
+                            // isReportedPostTappedAlert.toggle()
                         }
                     }
                 }
