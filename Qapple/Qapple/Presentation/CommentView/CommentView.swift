@@ -49,9 +49,6 @@ struct CommentView: View {
         .task {
             commentViewModel.postId = self.post.writerId
             await commentViewModel.loadComments(boardId: post.boardId)
-            while commentViewModel.hasNext {
-                await commentViewModel.loadComments(boardId: post.boardId)
-            }
             self.updatePost()
         }
         .sheet(item: $selectedPost) { post in
@@ -81,16 +78,24 @@ struct CommentView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         // 데이터 연결
-                        ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) { index, comment in
+                        ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) {
+                            index,
+                            comment in
                             seperator
                             
-                            CommentCell(comment: comment, commentViewModel: commentViewModel, post: self.$post)
-                                .onAppear {
+                            CommentCell(
+                                comment: comment,
+                                cellIndex: index,
+                                commentViewModel: commentViewModel,
+                                post: self.$post
+                            )
+                            .onAppear {
                                     if index == commentViewModel.comments.count - 1
                                         && commentViewModel.hasNext {
                                         print("페이지네이션")
                                         Task {
-                                            await commentViewModel.loadComments(boardId: post.boardId)
+                                            await commentViewModel
+                                                .loadComments(boardId: post.boardId)
                                         }
                                     }
                                 }
@@ -104,7 +109,7 @@ struct CommentView: View {
                 .background(Color.bk)
                 .refreshable {
                     if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
-                        Task.init {
+                        Task {
                             bulletinBoardUseCase.effect(.fetchSinglePost(postId: post.boardId))
                             await self.refreshComments()
                         }

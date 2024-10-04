@@ -28,7 +28,7 @@ final class CommentViewModel: ObservableObject {
             let fetchResult = try await NetworkManager.fetchComments(
                 boardId: boardId,
                 threshold: threshold,
-                pageSize: 25
+                pageSize: 10
             )
             let content = fetchResult.content
             self.comments += anonymizeComment(content)
@@ -51,8 +51,8 @@ final class CommentViewModel: ObservableObject {
         do {
             let fetchResult = try await NetworkManager.fetchComments(
                 boardId: boardId,
-                threshold: threshold,
-                pageSize: 25
+                threshold: nil,
+                pageSize: 10
             )
             print(fetchResult.hasNext)
             let content = fetchResult.content
