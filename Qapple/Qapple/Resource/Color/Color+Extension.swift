@@ -27,6 +27,7 @@ extension Color {
         static let text = Color(.text)
         static let subText = Color(.subText)
         static let profile = Color(.profile)
+        static let darkPink = Color(.darkPink)
     }
     
     /// 흑백 색상

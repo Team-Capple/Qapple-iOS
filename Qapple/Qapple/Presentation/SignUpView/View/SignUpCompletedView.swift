@@ -25,7 +25,7 @@ struct SignUpCompletedView: View {
                     .frame(height: 32)
                 
                 HStack {
-                    Text("캐플에 오신걸 환영합니다.\n당신의 이야기를 들려주세요!")
+                    Text("캐플에 오신걸 환영합니다\n당신의 이야기를 들려주세요!")
                         .foregroundStyle(TextLabel.main)
                         .font(Font.pretendard(.bold, size: 24))
                         .lineSpacing(6)

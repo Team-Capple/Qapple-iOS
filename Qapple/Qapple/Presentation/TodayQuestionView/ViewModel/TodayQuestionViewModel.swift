@@ -149,7 +149,7 @@ extension TodayQuestionViewModel {
         var text = ""
         if state == .creating {
             if mainQuestion.isAnswered {
-                text = "이전 답변 둘러보기"
+                text = "다른 답변 둘러보기"
             } else {
                 text = "이전 질문 답변하기"
             }

@@ -30,8 +30,8 @@ struct AnswerListView: View {
                     .frame(height: 16)
                 
                 FloatingQuestionCard(
-                    questionContent: questionContent,
                     viewModel: viewModel,
+                    questionContent: questionContent,
                     questionId: questionId
                 )
                 
@@ -135,10 +135,9 @@ private struct KeywordScrollView: View {
 // MARK: - 플로팅 질문 카드
 private struct FloatingQuestionCard: View {
     
-    var questionContent: String // 질문 내용을 저장할 프로퍼티
     @ObservedObject var viewModel: AnswerListViewModel // 뷰 모델
-    @State private var isCardExpanded = true // 카드 확장 상태
-    @State private var isArrowActive = true
+    
+    var questionContent: String // 질문 내용을 저장할 프로퍼티
     var questionId: Int?  // 추가됨
     
     var questionMark: AttributedString {
@@ -173,12 +172,6 @@ private struct FloatingQuestionCard: View {
         .background(GrayScale.secondaryButton)
         .cornerRadius(15)
         .padding(.horizontal, 16)
-        .onTapGesture {
-            isArrowActive.toggle()
-            withAnimation {
-                isCardExpanded.toggle()
-            }
-        }
     }
 }
 

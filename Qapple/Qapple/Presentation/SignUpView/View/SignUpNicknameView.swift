@@ -121,12 +121,14 @@ struct SignUpNicknameView: View {
                         .frame(height: 2)
                         .foregroundStyle(authViewModel.nickname.isEmpty ? TextLabel.disable : TextLabel.main)
                     
-                    Spacer().frame(height: 8)
+                    Spacer().frame(height: 14)
                     
-                    HStack {
+                    HStack(alignment: .top) {
                         Text(!isNicknameCheckButtonTapped ? beforeDescription : afterDescription)
                         .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(authViewModel.isNicknameFieldAvailable ? TextLabel.sub1 : Context.warning)
+                        .foregroundStyle(
+                            authViewModel.isNicknameFieldAvailable ? TextLabel.sub3 : Context.warning
+                        )
                         
                         Spacer()
                         

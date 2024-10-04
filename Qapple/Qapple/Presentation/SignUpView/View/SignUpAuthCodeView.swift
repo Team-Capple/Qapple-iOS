@@ -167,7 +167,7 @@ struct SignUpAuthCodeView: View {
                                     .padding(.vertical, 8)
                                     .background(
                                         RoundedRectangle(cornerRadius: 20)
-                                            .fill(GrayScale.secondaryButton)
+                                            .fill(BrandPink.darkPink)
                                             .stroke(.button, lineWidth: 1)
                                     )
                             }

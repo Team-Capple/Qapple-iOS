@@ -41,7 +41,7 @@ struct SignUpTermsAgreementView: View {
                 .frame(height: 32)
             
             VStack(alignment: .leading, spacing: 0) {
-                Text("한 단계 남았어요")
+                Text("가입까지 한 단계 남았어요")
                     .foregroundStyle(TextLabel.main)
                     .font(Font.pretendard(.bold, size: 24))
                     .frame(height: 17)

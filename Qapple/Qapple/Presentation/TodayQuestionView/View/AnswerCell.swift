@@ -174,7 +174,7 @@ private struct ReportAnswerCell: View {
                         isReportContentShow.toggle()
                     } label: {
                         Text("답변 보기")
-                            .font(.pretendard(.medium, size: 16))
+                           .font(.pretendard(.medium, size: 16))
                             .foregroundStyle(BrandPink.text)
                     }
                     
@@ -186,7 +186,7 @@ private struct ReportAnswerCell: View {
                 }
                 .padding(.horizontal, 16)
             }
-            .padding(.top, 18)
+            .padding(.vertical, 18)
             .background(Background.first)
         } else {
             VStack(alignment: .leading, spacing: 0) {
@@ -242,7 +242,7 @@ private struct ReportAnswerCell: View {
                     content: "아! 이게 질문이 아니고 답변이구나!",
                     writingDate: .now,
                     isMine: true,
-                    isReported: true
+                    isReported: false
                 )
             ) {}
             
@@ -254,7 +254,7 @@ private struct ReportAnswerCell: View {
                     nickname: "한톨",
                     content: "아! 이게 질문이 아니고 답변이구나!",
                     writingDate: .now,
-                    isMine: true,
+                    isMine: false,
                     isReported: true
                 )
             ) {}
