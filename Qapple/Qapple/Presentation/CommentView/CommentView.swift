@@ -33,7 +33,7 @@ struct CommentView: View {
             
             ZStack {
                 ScrollView {
-                    VStack(spacing: 0) {
+                    LazyVStack(spacing: 0) {
                         // 데이터 연결
                         ForEach(Array(commentViewModel.comments.enumerated()), id: \.offset) { index, comment in
                             seperator
@@ -51,6 +51,7 @@ struct CommentView: View {
                         }
                     }
                 }
+                .scrollDismissesKeyboard(.immediately)
                 .background(Color.bk)
                 .refreshable {
                     if !self.commentViewModel.isLoading || !self.bulletinBoardUseCase.isLoading {
@@ -189,9 +190,6 @@ private struct HeaderView: View {
 
 // MARK: View 업데이트 관련 메소드
 extension CommentView {
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
     
     private func updatePost() {
         self.post.commentCount = self.commentViewModel.comments.count

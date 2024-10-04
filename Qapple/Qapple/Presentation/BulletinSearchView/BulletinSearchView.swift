@@ -39,6 +39,9 @@ struct BulletinSearchView: View {
             .background(Background.first)
             .navigationBarBackButtonHidden()
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
         .onChange(of: bulletinBoardUseCase.searchText) { _, newValue in
             bulletinBoardUseCase.state.searchTheshold = nil
             bulletinBoardUseCase.state.searchPosts.removeAll()
@@ -48,10 +51,6 @@ struct BulletinSearchView: View {
             } else {
                 bulletinBoardUseCase.isLoading = true
             }
-        }
-        .onDisappear {
-            bulletinBoardUseCase.state.searchPosts.removeAll()
-            bulletinBoardUseCase.searchText = ""
         }
     }
 }
@@ -123,6 +122,7 @@ private struct SearchListView: View {
                 }
             }
         }
+        .scrollDismissesKeyboard(.immediately)
         .refreshable {
             bulletinBoardUseCase.effect(.refreshSearchPost(keyword: bulletinBoardUseCase.searchText))
         }
