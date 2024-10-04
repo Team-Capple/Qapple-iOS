@@ -187,18 +187,18 @@ extension BulletinBoardUseCase {
         
         Task {
             do {
-                let result = try await NetworkManager.fetchBoard(
+                let boardList = try await NetworkManager.fetchBoard(
                     .init(
                         threshold: state.threshold,
                         pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
                 
-                let postList: [Post] = result.content.map { board in
+                let postList: [Post] = boardList.content.map { board in
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
-                        wriertNickname: board.writerNickname,
+                        writerNickname: board.writerNickname,
                         content: board.content,
                         heartCount: board.heartCount,
                         commentCount: board.commentCount,
@@ -230,18 +230,18 @@ extension BulletinBoardUseCase {
         
         Task {
             do {
-                let result = try await NetworkManager.fetchBoard(
+                let boardList = try await NetworkManager.fetchBoard(
                     .init(
                         threshold: state.threshold,
                         pageSize: 25 // 한번 불러올 때 25개 씩
                     )
                 )
                 
-                let postList: [Post] = result.content.map { board in
+                let postList: [Post] = boardList.content.map { board in
                     Post(
                         boardId: board.boardId,
                         writerId: board.writerId,
-                        wriertNickname: board.writerNickname,
+                        writerNickname: board.writerNickname,
                         content: board.content,
                         heartCount: board.heartCount,
                         commentCount: board.commentCount,
@@ -282,7 +282,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: search.boardId,
                         writerId: search.writerId,
-                        wriertNickname: search.writerNickname,
+                        writerNickname: search.writerNickname,
                         content: search.content,
                         heartCount: search.heartCount,
                         commentCount: search.commentCount,
@@ -324,7 +324,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: search.boardId,
                         writerId: search.writerId,
-                        wriertNickname: search.writerNickname,
+                        writerNickname: search.writerNickname,
                         content: search.content,
                         heartCount: search.heartCount,
                         commentCount: search.commentCount,
@@ -359,7 +359,7 @@ extension BulletinBoardUseCase {
                     Post(
                         boardId: singleBoard.boardId,
                         writerId: singleBoard.writerId,
-                        wriertNickname: singleBoard.writerNickname,
+                        writerNickname: singleBoard.writerNickname,
                         content: singleBoard.content,
                         heartCount: singleBoard.heartCount,
                         commentCount: singleBoard.commentCount,

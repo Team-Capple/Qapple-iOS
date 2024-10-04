@@ -11,6 +11,7 @@ final class CommentViewModel: ObservableObject {
 
     @Published public var comments: [CommentResponse.Comment] = []
     @Published public var isLoading: Bool = false
+    @Published var threshold: Int?
     @Published var hasNext: Bool = false
     
     var postId: Int?
@@ -20,7 +21,11 @@ final class CommentViewModel: ObservableObject {
         self.isLoading = true
         
         do {
-            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId)
+            let fetchResult = try await NetworkManager.fetchComments(
+                boardId: boardId,
+                threshold: threshold,
+                pageSize: 25
+            )
             let content = fetchResult.content
             self.comments += anonymizeComment(content.reversed())
             self.hasNext = fetchResult.hasNext
@@ -38,7 +43,11 @@ final class CommentViewModel: ObservableObject {
         self.hasNext = false
         
         do {
-            let fetchResult = try await NetworkManager.fetchComments(boardId: boardId)
+            let fetchResult = try await NetworkManager.fetchComments(
+                boardId: boardId,
+                threshold: threshold,
+                pageSize: 25
+            )
             let content = fetchResult.content
             self.comments.removeAll()
             self.comments += anonymizeComment(content.reversed())

@@ -109,7 +109,7 @@ private struct SeeMoreCellButton: View {
         post: Post(
             boardId: 1,
             writerId: 2,
-            wriertNickname: "익명",
+            writerNickname: "익명",
             content: "캐플짱",
             heartCount: 20,
             commentCount: 3,
