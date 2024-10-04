@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommentCell: View {
     let comment: CommentResponse.Comment
+    let cellIndex: Int
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let anchorWidth: CGFloat = 73
@@ -45,24 +46,7 @@ struct CommentCell: View {
                 .offset(x: hOffset)
                 .animation(.easeInOut, value: hOffset)
             } else {
-                HStack {
-                    Text("신고에 의해 숨김처리 된 댓글입니다.")
-                        .font(.pretendard(.semiBold, size: 14))
-                        .foregroundStyle(.sub4)
-                        .padding(.leading, 16)
-                    
-                    Spacer()
-                    
-                    Button {
-                        self.isReportedComment.toggle()
-                    } label: {
-                        Text("댓글 보기")
-                            .font(.pretendard(.medium, size: 16.35))
-                            .foregroundStyle(.text)
-                    }
-                    .padding(.trailing, 27)
-                }
-                .frame(width: screenWidth, height: 56.03)
+                reportCell
             }
         }
         .alert("정말로 댓글을 삭제하시겠습니까?", isPresented: $isDelete) {
@@ -78,6 +62,10 @@ struct CommentCell: View {
             Button("확인", role: .none) {
                 Task {
                     await commentViewModel.refreshComments(boardId: self.post.boardId)
+                    while commentViewModel.hasNext {
+                        await commentViewModel.loadComments(boardId: post.boardId)
+                    }
+                    commentViewModel.scrollIndex = self.cellIndex - 1
                     self.post.commentCount = commentViewModel.comments.count
                 }
             }
@@ -87,6 +75,27 @@ struct CommentCell: View {
                 self.isReportedComment = true
             }
         }
+    }
+    
+    private var reportCell: some View {
+        HStack {
+            Text("신고에 의해 숨김처리 된 댓글입니다.")
+                .font(.pretendard(.semiBold, size: 14))
+                .foregroundStyle(.sub4)
+                .padding(.leading, 16)
+            
+            Spacer()
+            
+            Button {
+                self.isReportedComment.toggle()
+            } label: {
+                Text("댓글 보기")
+                    .font(.pretendard(.medium, size: 16.35))
+                    .foregroundStyle(.text)
+            }
+            .padding(.trailing, 27)
+        }
+        .frame(width: screenWidth, height: 56.03)
     }
     
     private var drag: some Gesture {
@@ -159,7 +168,14 @@ struct CommentCell: View {
                             if !comment.isLiked { HapticManager.shared.impact(style: .light) }
                             await commentViewModel.act(.like(id: comment.id))
                             await commentViewModel.refreshComments(boardId: post.boardId)
+                            while commentViewModel.hasNext {
+                                await commentViewModel.loadComments(boardId: post.boardId)
+                            }
+                            
+                            self.commentViewModel.scrollIndex = self.cellIndex
                             self.post.commentCount = commentViewModel.comments.count
+                            
+                            
                         }
                     } else {
                         self.isReportedComment.toggle()
