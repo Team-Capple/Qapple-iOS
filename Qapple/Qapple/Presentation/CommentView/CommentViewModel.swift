@@ -54,7 +54,7 @@ final class CommentViewModel: ObservableObject {
                 threshold: nil,
                 pageSize: 10
             )
-            print(fetchResult.hasNext)
+            
             let content = fetchResult.content
             self.comments.removeAll()
             self.comments += anonymizeComment(content)
