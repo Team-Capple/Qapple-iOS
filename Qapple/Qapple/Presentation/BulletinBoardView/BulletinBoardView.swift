@@ -132,7 +132,7 @@ private struct CustomTabBar: View {
                 }
                 .padding(.trailing, 8)
             },
-            backgroundColor: Background.second)
+            backgroundColor: Background.first)
     }
 }
 
