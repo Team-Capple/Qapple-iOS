@@ -14,6 +14,7 @@ final class CommentViewModel: ObservableObject {
     @Published public var scrollIndex: Int?
     @Published var threshold: Int?
     @Published var hasNext: Bool = false
+    @Published var isPostDeletedAlertPresented = false
     
     public var postId: Int?
     
@@ -35,7 +36,7 @@ final class CommentViewModel: ObservableObject {
             self.threshold = Int(fetchResult.threshold)
             self.hasNext = fetchResult.hasNext
         } catch {
-            print(error.localizedDescription)
+            isPostDeletedAlertPresented.toggle()
         }
         
         self.isLoading = false
@@ -61,7 +62,7 @@ final class CommentViewModel: ObservableObject {
             self.threshold = Int(fetchResult.threshold)
             self.hasNext = fetchResult.hasNext
         } catch {
-            print(error.localizedDescription)
+            isPostDeletedAlertPresented.toggle()
         }
         
         self.isLoading = false
@@ -75,7 +76,7 @@ final class CommentViewModel: ObservableObject {
         do {
             _ = try await NetworkManager.likeComment(commentId: commentId)
         } catch {
-            print(error.localizedDescription)
+            isPostDeletedAlertPresented.toggle()
         }
         
         self.isLoading = false
@@ -89,7 +90,7 @@ final class CommentViewModel: ObservableObject {
         do {
             _ = try await NetworkManager.postComment(id: id, requestBody: request)
         } catch {
-            print(error.localizedDescription)
+            isPostDeletedAlertPresented.toggle()
         }
 
         self.isLoading = false

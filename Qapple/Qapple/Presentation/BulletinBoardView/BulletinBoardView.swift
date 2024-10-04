@@ -65,7 +65,6 @@ private struct BoardView: View {
     var body: some View {
         VStack(spacing: 0) {
             NavigationBar()
-                .padding(.horizontal, 16)
             
             AcademyPlanDayCounter(
                 currentEvent: bulletinBoardUseCase.state.currentEvent,
@@ -100,37 +99,40 @@ private struct CustomTabBar: View {
     @EnvironmentObject var pathModel: Router
     
     var body: some View {
-        ZStack {
-            Text("게시판")
-                .pretendard(.medium, 16)
-                .foregroundStyle(.white)
-            
-            HStack(spacing: 8) {
-                Spacer()
-                
-                Button {
-                    pathModel.pushView(screen: BulletinBoardPathType.alert)
-                } label: {
-                    Image(.noticeIcon)
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundColor(GrayScale.icon)
-                        .frame(width: 26 , height: 26)
+        CustomNavigationBar(
+            leadingView: {},
+            principalView: {
+                Text("게시판")
+                    .font(Font.pretendard(.semiBold, size: 15))
+                    .foregroundStyle(TextLabel.main)
+            },
+            trailingView: {
+                HStack(spacing: 12) {
+                    Spacer()
+                    
+                    Button {
+                        pathModel.pushView(screen: BulletinBoardPathType.alert)
+                    } label: {
+                        Image(.noticeIcon)
+                            .resizable()
+                            .scaledToFill()
+                            .foregroundColor(GrayScale.icon)
+                            .frame(width: 26 , height: 26)
+                    }
+                    
+                    Button {
+                        pathModel.pushView(screen: BulletinBoardPathType.search)
+                    } label: {
+                        Image(.search)
+                            .resizable()
+                            .scaledToFill()
+                            .foregroundColor(GrayScale.icon)
+                            .frame(width: 26 , height: 26)
+                    }
                 }
-                
-                Button {
-                    pathModel.pushView(screen: BulletinBoardPathType.search)
-                } label: {
-                    Image(.search)
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundColor(GrayScale.icon)
-                        .frame(width: 26 , height: 26)
-                }
-            }
-            .padding(.trailing, 8)
-        }
-        .frame(height: 32)
+                .padding(.trailing, 8)
+            },
+            backgroundColor: Background.second)
     }
 }
 

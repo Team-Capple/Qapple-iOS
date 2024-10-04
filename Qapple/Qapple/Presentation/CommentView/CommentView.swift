@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommentView: View {
     
+    @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
     
     @StateObject private var commentViewModel: CommentViewModel = .init()
@@ -67,6 +68,11 @@ struct CommentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
             Task {
                 await self.refreshComments()
+            }
+        }
+        .alert("게시글이 삭제됐거나 오류가 발생했습니다.", isPresented: $commentViewModel.isPostDeletedAlertPresented) {
+            Button("확인", role: .none) {
+                pathModel.pop()
             }
         }
     }
