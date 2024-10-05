@@ -1,20 +1,19 @@
 import SwiftUI
-import FlexView
 import Foundation
 
-// 하나의 질문을 보여주는 뷰를 정의합니다.
 struct QuestionCell: View {
     
     @EnvironmentObject var pathModel: Router
     
-    @State private var showingReportSheet = false // 모달 표시를 위한 상태 변수
-    let question: QuestionResponse.Questions.Content // 이 뷰에서 사용할 질문 객체입니다.
-    @State private var dateString: String = "" // 상태 변수 정의
-    
+    let question: QuestionResponse.Questions.Content
     let questionNumber: Int
     let seeMoreAction: () -> Void
     
-    var questionStatus: String = ""
+    private var cellColor: Color {
+        question.isAnswered
+        ? TextLabel.sub4.opacity(0.05) :
+        Color.white.opacity(0.04)
+    }
     
     var body: some View {
         
@@ -33,8 +32,10 @@ struct QuestionCell: View {
                 .padding(.top, 8)
         }
         .padding(20)
-        .background(RoundedRectangle(cornerRadius: 20)
-            .fill(Color.white.opacity(0.04))) // 배경색을 설정하고 투명도를 조절합니다.
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(cellColor)
+        )
     }
 }
 
@@ -137,43 +138,23 @@ private struct AnswerButtonView: View {
     var body: some View{
         HStack(alignment: .top, spacing: 8) {
             Spacer()
-            
-            if !question.isAnswered { // isAnswered가 false일 때만 표시
-                Button {
-                    pathModel.pushView(
-                        screen: QuestionListPathType.answer(
-                            questionId: question.questionId,
-                            questionContent: question.content
-                        )
+            Button {
+                pathModel.pushView(
+                    screen: QuestionListPathType.answer(
+                        questionId: question.questionId,
+                        questionContent: question.content
                     )
-                } label: {
-                    Text("답변하기")
-                        .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(TextLabel.main)
-                        .frame(width: 70, height: 36)
-                        .background(BrandPink.button)
-                        .cornerRadius(30, corners: .allCorners)
-                }
+                )
+            } label: {
+                Text(question.isAnswered ? "답변완료" : "답변하기")
+                    .font(.pretendard(.medium, size: 14))
+                    .foregroundStyle(question.isAnswered ? TextLabel.disable : TextLabel.main)
+                    .frame(width: 70, height: 36)
+                    .background(question.isAnswered ? GrayScale.secondaryButton : BrandPink.button)
+                    .cornerRadius(30, corners: .allCorners)
             }
+            .disabled(question.isAnswered)
         }
-    }
-}
-
-struct DummyData {
-    static let questionsInfo = QuestionResponse.Questions.Content(
-        questionId: 0,
-        questionStatus: "LIVE",
-        livedAt: "2021-01-01T00:00:00",
-        content: "아카데미 러너 중 가장 마음에 드는 유형이 있나요?",
-        isAnswered: true
-    )
-}
-
-extension Date {
-    func formattedDate() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd"
-        return formatter.string(from: self)
     }
 }
 
@@ -181,8 +162,29 @@ extension Date {
     ZStack {
         Color.Background.first.ignoresSafeArea()
         
-        QuestionCell(question: DummyData.questionsInfo,
-                     questionNumber: 0) {}
-            .environmentObject(Router(pathType: .questionList))
+        VStack {
+            QuestionCell(
+                question: .init(
+                    questionId: 13,
+                    questionStatus: "LIVE",
+                    livedAt: "2021-01-01T00:00:00",
+                    content: "아카데미 러너 중 가장 마음에 드는 유형이 있나요?",
+                    isAnswered: true
+                ),
+                questionNumber: 0
+            ) {}
+            
+            QuestionCell(
+                question: .init(
+                    questionId: 13,
+                    questionStatus: "LIVE",
+                    livedAt: "2021-01-01T00:00:00",
+                    content: "아카데미 러너 중 가장 마음에 드는 유형이 있나요?",
+                    isAnswered: false
+                ),
+                questionNumber: 0
+            ) {}
+        }
     }
+    .environmentObject(Router(pathType: .questionList))
 }
