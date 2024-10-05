@@ -84,6 +84,7 @@ struct AnswerListView: View {
 }
 
 // MARK: - 커스텀 네비게이션
+
 private struct CustomNavigationView: View {
     
     @EnvironmentObject var pathModel: Router
@@ -108,31 +109,8 @@ private struct CustomNavigationView: View {
     }
 }
 
-// MARK: - 키워드 스크롤 뷰
-private struct KeywordScrollView: View {
-    
-    @ObservedObject var viewModel: AnswerListViewModel
-    
-    fileprivate init(viewModel: AnswerListViewModel) {
-        self.viewModel = viewModel
-    }
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(viewModel.keywords, id: \.self) { keyword in
-                    KeywordSelector(
-                        keywordText: keyword,
-                        keywordCount: 13) {
-                            // TODO: 키워드 선택
-                        }
-                }
-            }
-        }
-    }
-}
-
 // MARK: - 플로팅 질문 카드
+
 private struct FloatingQuestionCard: View {
     
     @ObservedObject var viewModel: AnswerListViewModel // 뷰 모델
@@ -221,7 +199,7 @@ private struct AnswerScrollView: View {
                     }
                     
                     if index != viewModel.answerList.endIndex - 1 {
-                        Divider()
+                        QappleDivider()
                     }
                 }
             }

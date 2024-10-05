@@ -156,14 +156,17 @@ private struct ReportAnswerCell: View {
     let seeMoreAction: () -> Void
     
     var body: some View {
-        if !isReportContentShow {
-            ReportHideView(isReportContentShow: $isReportContentShow)
-        } else {
-            ReportShowView(
-                isReportContentShow: $isReportContentShow,
-                answer: answer
-            )
+        Group {
+            if !isReportContentShow {
+                ReportHideView(isReportContentShow: $isReportContentShow)
+            } else {
+                ReportShowView(
+                    isReportContentShow: $isReportContentShow,
+                    answer: answer
+                )
+            }
         }
+        .opacity(0.5)
     }
 }
 
@@ -174,20 +177,25 @@ private struct ReportHideView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("신고 되어 내용을 검토 중인 답변이에요")
-                .font(.pretendard(.medium, size: 16))
-                .foregroundStyle(TextLabel.sub3)
-                .padding(.horizontal, 16)
-            
-            HStack {
+            HStack(alignment: .top) {
+                Text("신고 되어 내용을 검토 중인 답변이에요")
+                    .font(.pretendard(.medium, size: 16))
+                    .foregroundStyle(TextLabel.sub3)
+                
+                Spacer()
+                
                 Button {
-                    isReportContentShow.toggle()
+                    isReportContentShow = true
                 } label: {
                     Text("답변 보기")
-                        .font(.pretendard(.medium, size: 16))
+                        .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(BrandPink.text)
                 }
-                
+            }
+            .frame(height: 28)
+            .padding(.horizontal, 16)
+            
+            HStack {
                 Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
                     .font(.pretendard(.medium, size: 14))
                     .foregroundStyle(TextLabel.sub4)
@@ -236,10 +244,10 @@ private struct ReportShowView: View {
                 Spacer()
                 
                 Button {
-                    isReportContentShow.toggle()
+                    isReportContentShow = false
                 } label: {
                     Text("답변 숨기기")
-                        .font(.pretendard(.medium, size: 16))
+                        .font(.pretendard(.medium, size: 14))
                         .foregroundStyle(BrandPink.text)
                 }
             }
@@ -257,7 +265,7 @@ private struct ReportShowView: View {
 
 #Preview {
     ZStack {
-        Color.blue
+        Background.second
         
         VStack {
             AnswerCell(

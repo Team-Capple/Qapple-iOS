@@ -78,7 +78,7 @@ struct WrittenAnswerView: View {
                                 }
                                 
                                 if index != viewModel.myAnswers.endIndex - 1 {
-                                    Divider()
+                                    QappleDivider()
                                 }
                             }
                         }

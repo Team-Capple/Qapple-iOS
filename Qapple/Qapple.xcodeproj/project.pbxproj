@@ -101,6 +101,7 @@
 		8295BDB62BA322A300115FA8 /* NetworkManager+Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */; };
 		8295BDB82BA322E600115FA8 /* NetworkManager+Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */; };
 		8295BDBA2BA3231000115FA8 /* NetworkManager+Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */; };
+		82AB98D42CB1338A00D602E2 /* QappleDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AB98D32CB1338A00D602E2 /* QappleDivider.swift */; };
 		82C3790C2B93291C00CC7708 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790B2B93291C00CC7708 /* ReportView.swift */; };
 		82C3790E2B93292200CC7708 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790D2B93292200CC7708 /* ReportViewModel.swift */; };
 		82C379102B9330BA00CC7708 /* ReportListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C3790F2B9330BA00CC7708 /* ReportListRow.swift */; };
@@ -267,6 +268,7 @@
 		8295BDB52BA322A300115FA8 /* NetworkManager+Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Answer.swift"; sourceTree = "<group>"; };
 		8295BDB72BA322E600115FA8 /* NetworkManager+Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Tag.swift"; sourceTree = "<group>"; };
 		8295BDB92BA3231000115FA8 /* NetworkManager+Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Member.swift"; sourceTree = "<group>"; };
+		82AB98D32CB1338A00D602E2 /* QappleDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QappleDivider.swift; sourceTree = "<group>"; };
 		82BBA09A2BBF80410092D37E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		82C3790B2B93291C00CC7708 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		82C3790D2B93292200CC7708 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -598,6 +600,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		82AB98D22CB1337900D602E2 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				82AB98D32CB1338A00D602E2 /* QappleDivider.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
 		82C379082B93290700CC7708 /* ReportView */ = {
 			isa = PBXGroup;
 			children = (
@@ -684,6 +694,7 @@
 		82D2BD4C2C6731B700082A58 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				82AB98D22CB1337900D602E2 /* Foundation */,
 				826933512C7395410004E0B5 /* Button */,
 				82F7041B2C6DD14700479206 /* TabBar */,
 				823736B22C6773790057B9CF /* Input */,
@@ -1249,6 +1260,7 @@
 				8271691B2C9EB91A00D8BF81 /* NotificationRequest.swift in Sources */,
 				07D96EB32B77737500754819 /* Color+Extension.swift in Sources */,
 				67B1850C2B9436270057E6BB /* AnswerListView.swift in Sources */,
+				82AB98D42CB1338A00D602E2 /* QappleDivider.swift in Sources */,
 				8247172C2BC8C9B5005E9631 /* WrittenAnswerViewModel.swift in Sources */,
 				828715BE2B99FC54001627DB /* TagResponse.swift in Sources */,
 				6709800B2BA0A1FF00EE494D /* ReportClass.swift in Sources */,

@@ -90,12 +90,13 @@ struct CommentCell: View {
                 self.isReportedComment.toggle()
             } label: {
                 Text("댓글 보기")
-                    .font(.pretendard(.medium, size: 16.35))
+                    .font(.pretendard(.medium, size: 14))
                     .foregroundStyle(.text)
             }
             .padding(.trailing, 27)
         }
         .frame(width: screenWidth, height: 56.03)
+        .opacity(0.5)
     }
     
     private var drag: some Gesture {
@@ -198,7 +199,7 @@ struct CommentCell: View {
                         }
                     } else {
                         Text("댓글 숨기기")
-                            .font(.pretendard(.medium, size: 16.35))
+                            .font(.pretendard(.medium, size: 14))
                             .foregroundStyle(.text)
                     }
                 }

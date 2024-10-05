@@ -210,6 +210,26 @@ private struct ReportBoardCell: View {
 
     let post: Post
     let seeMoreAction: () -> Void
+
+    var body: some View {
+        Group {
+            if !isReportContentShow {
+                ReportHideView(isReportContentShow: $isReportContentShow)
+            } else {
+                ReportShowView(isReportContentShow: $isReportContentShow, post: post)
+            }
+        }
+        .opacity(0.5)
+    }
+}
+
+// MARK: - ReportShowView
+
+private struct ReportShowView: View {
+    
+    @Binding private(set) var isReportContentShow: Bool
+    
+    let post: Post
     
     private var nickname: String {
         if post.writerNickname == "알 수 없음" {
@@ -218,94 +238,119 @@ private struct ReportBoardCell: View {
             return "익명의 러너"
         }
     }
-
+    
     var body: some View {
-        if !isReportContentShow {
-            VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 0) {
+                Image(.profileDummy)
+                    .resizable()
+                    .frame(width: 28, height: 28)
+
+                Text(nickname)
+                    .pretendard(.semiBold, 14)
+                    .foregroundStyle(GrayScale.icon)
+                    .padding(.leading, 8)
+
+                Text("\(post.createAt.timeAgo)")
+                    .pretendard(.regular, 14)
+                    .foregroundStyle(TextLabel.sub4)
+                    .padding(.leading, 6)
+
+                Spacer()
+
+                Button {
+                    isReportContentShow.toggle()
+                } label: {
+                    Text("게시글 숨기기")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(BrandPink.text)
+                }
+            }
+            .padding(.horizontal, 16)
+
+            ContentView(post: post)
+                .padding(.horizontal, 16)
+        }
+        .padding(.top, 16)
+        .padding(.bottom, 20)
+        .background(Background.first)
+    }
+}
+
+// MARK: - ReportHideView
+
+private struct ReportHideView: View {
+    
+    @Binding private(set) var isReportContentShow: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
                 Text("신고 되어 내용을 검토 중인 게시글이에요")
                     .font(.pretendard(.medium, size: 16))
                     .foregroundStyle(TextLabel.sub3)
-                    .padding(.horizontal, 16)
-
-                HStack {
-                    Button {
-                        isReportContentShow.toggle()
-                    } label: {
-                        Text("게시글 보기")
-                            .font(.pretendard(.medium, size: 16))
-                            .foregroundStyle(BrandPink.text)
-                    }
-
-                    Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
+                
+                Spacer()
+                
+                Button {
+                    isReportContentShow.toggle()
+                } label: {
+                    Text("게시글 보기")
                         .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(TextLabel.sub4)
-
-                    Spacer()
+                        .foregroundStyle(BrandPink.text)
                 }
-                .padding(.horizontal, 16)
-
-                Divider()
-                    .padding(.top, 16)
             }
-            .padding(.top, 16)
-            .background(Background.first)
-        } else {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 0) {
-                    Image(.profileDummy)
-                        .resizable()
-                        .frame(width: 28, height: 28)
+            .frame(height: 28)
+            .padding(.horizontal, 16)
 
-                    Text(nickname)
-                        .pretendard(.semiBold, 14)
-                        .foregroundStyle(GrayScale.icon)
-                        .padding(.leading, 8)
+            HStack {
+                Text("주의) 부적절한 콘텐츠가 포함될 수 있어요")
+                    .font(.pretendard(.medium, size: 14))
+                    .foregroundStyle(TextLabel.sub4)
 
-                    Text("\(post.createAt.timeAgo)")
-                        .pretendard(.regular, 14)
-                        .foregroundStyle(TextLabel.sub4)
-                        .padding(.leading, 6)
-
-                    Spacer()
-
-                    Button {
-                        isReportContentShow.toggle()
-                    } label: {
-                        Text("게시글 숨기기")
-                            .font(.pretendard(.medium, size: 16))
-                            .foregroundStyle(BrandPink.text)
-                    }
-                }
-                .padding(.horizontal, 16)
-
-                ContentView(post: post)
-                    .padding(.horizontal, 16)
-
-                Divider()
-                    .padding(.top, 16)
+                Spacer()
             }
-            .padding(.top, 8)
-            .background(Background.first)
+            .padding(.horizontal, 16)
         }
+        .padding(.top, 20)
+        .padding(.bottom, 26)
+        .background(Background.first)
     }
 }
 
 // MARK: - Preview
 
 #Preview {
-    BulletinBoardCell(
-        post: Post(
-            boardId: 1,
-            writerId: 2,
-            writerNickname: "캐플짱",
-            content: "캐플짱이라요~!",
-            heartCount: 20,
-            commentCount: 3,
-            createAt: .now,
-            isMine: true,
-            isReported: false,
-            isLiked: true
-        )
-    ) {}
-        .environmentObject(BulletinBoardUseCase())
+    VStack {
+        BulletinBoardCell(
+            post: Post(
+                boardId: 1,
+                writerId: 2,
+                writerNickname: "캐플짱",
+                content: "캐플짱이라요~!",
+                heartCount: 20,
+                commentCount: 3,
+                createAt: .now,
+                isMine: true,
+                isReported: false,
+                isLiked: true
+            )
+        ) {}
+        
+        BulletinBoardCell(
+            post: Post(
+                boardId: 1,
+                writerId: 2,
+                writerNickname: "캐플짱",
+                content: "캐플짱이라요~!",
+                heartCount: 20,
+                commentCount: 3,
+                createAt: .now,
+                isMine: false,
+                isReported: true,
+                isLiked: true
+            )
+        ) {}
+    }
+    .environmentObject(BulletinBoardUseCase())
 }

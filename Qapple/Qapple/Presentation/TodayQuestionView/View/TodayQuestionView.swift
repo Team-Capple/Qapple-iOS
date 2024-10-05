@@ -354,7 +354,7 @@ private struct AnswerPreview: View {
                             )
                             
                             if index != viewModel.answerList.endIndex - 1 {
-                                Divider()
+                                QappleDivider()
                             }
                         }
                     }

@@ -173,6 +173,10 @@ private struct PostListView: View {
                             isReportedPostTappedAlert.toggle()
                         }
                     }
+                    
+                    if index != bulletinBoardUseCase.state.posts.endIndex - 1 {
+                        QappleDivider()
+                    }
                 }
             }
         }
