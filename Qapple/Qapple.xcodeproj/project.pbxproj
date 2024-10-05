@@ -126,6 +126,7 @@
 		82D2BD4B2C67305000082A58 /* BulletinBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D2BD4A2C67305000082A58 /* BulletinBoardView.swift */; };
 		82D2BD4E2C6731E400082A58 /* CustomToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D2BD4D2C6731E400082A58 /* CustomToolbarItem.swift */; };
 		82D2BD502C6736EC00082A58 /* AcademyPlanDayCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D2BD4F2C6736EC00082A58 /* AcademyPlanDayCounter.swift */; };
+		82D3A32C2CB10BF70054BEE9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D3A32B2CB10BF70054BEE9 /* Utils.swift */; };
 		82D583B72B9844E6003CC424 /* KeywordSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583B62B9844E6003CC424 /* KeywordSelector.swift */; };
 		82D583B92B9852C4003CC424 /* QuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583B82B9852C4003CC424 /* QuestionResponse.swift */; };
 		82D583BB2B985462003CC424 /* NetworkManager+Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D583BA2B985462003CC424 /* NetworkManager+Question.swift */; };
@@ -296,6 +297,7 @@
 		82D2BD4A2C67305000082A58 /* BulletinBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardView.swift; sourceTree = "<group>"; };
 		82D2BD4D2C6731E400082A58 /* CustomToolbarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarItem.swift; sourceTree = "<group>"; };
 		82D2BD4F2C6736EC00082A58 /* AcademyPlanDayCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademyPlanDayCounter.swift; sourceTree = "<group>"; };
+		82D3A32B2CB10BF70054BEE9 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		82D583B62B9844E6003CC424 /* KeywordSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordSelector.swift; sourceTree = "<group>"; };
 		82D583B82B9852C4003CC424 /* QuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionResponse.swift; sourceTree = "<group>"; };
 		82D583BA2B985462003CC424 /* NetworkManager+Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Question.swift"; sourceTree = "<group>"; };
@@ -959,6 +961,7 @@
 			isa = PBXGroup;
 			children = (
 				F3EA66F62B764460002417CE /* Entity */,
+				82D3A32B2CB10BF70054BEE9 /* Utils.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -1295,6 +1298,7 @@
 				2CFF5E212C9EA0470083A42A /* CommentReportType.swift in Sources */,
 				F37C178C2B873658005E5072 /* MyProfileSummary.swift in Sources */,
 				82733E752CA7912F00AB9D5D /* MyPageSectionTitle.swift in Sources */,
+				82D3A32C2CB10BF70054BEE9 /* Utils.swift in Sources */,
 				F392AC472B8B2E370069AD7B /* SignUpCompletedView.swift in Sources */,
 				82D2BD502C6736EC00082A58 /* AcademyPlanDayCounter.swift in Sources */,
 				67B1850E2B9436450057E6BB /* TodayAnswerViewModel.swift in Sources */,

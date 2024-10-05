@@ -19,7 +19,7 @@ struct MyPageView: View {
             Color(Background.first)
                 .ignoresSafeArea()
             
-            VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 NavigationBar()
                 
                 MyProfileSummary(
@@ -29,6 +29,10 @@ struct MyPageView: View {
                 .padding(.bottom, 24)
                 
                 MyPageList()
+                    .padding(.horizontal, 24)
+                
+                BottomSection()
+                    .padding(.top, 24)
                     .padding(.horizontal, 24)
                 
                 Spacer()
@@ -203,6 +207,21 @@ private struct AccountSection: View {
         } message: {
             Text("탈퇴하면 계정은 복구되지 않아요\n단, 이미 작성한 답변은 남아있어요")
         }
+    }
+}
+
+// MARK: - BottomSection
+
+private struct BottomSection: View {
+    
+    private var appVersion: String {
+        Utils.getAppVersion()
+    }
+    
+    var body: some View {
+        Text("앱 버전 \(appVersion)")
+            .pretendard(.regular, 15)
+            .foregroundStyle(TextLabel.disable)
     }
 }
 
