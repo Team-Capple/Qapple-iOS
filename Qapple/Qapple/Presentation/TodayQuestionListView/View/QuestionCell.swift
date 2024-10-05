@@ -15,10 +15,16 @@ struct QuestionCell: View {
         Color.white.opacity(0.04)
     }
     
+    private var cellStrokeColor: Color {
+        if question.questionStatus == "LIVE" {
+            return BrandPink.button.opacity(0.4)
+        } else {
+            return .clear
+        }
+    }
+    
     var body: some View {
-        
         VStack(alignment: .leading, spacing: 0) {
-            
             HeaderView(
                 question: question,
                 seeMoreAction: seeMoreAction
@@ -31,10 +37,13 @@ struct QuestionCell: View {
             AnswerButtonView(question: question)
                 .padding(.top, 8)
         }
-        .padding(20)
+        .padding(.top, 20)
+        .padding(.horizontal, 20)
+        .padding(.bottom, 12)
         .background(
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 18)
                 .fill(cellColor)
+                .stroke(cellStrokeColor, lineWidth: 1)
         )
     }
 }
@@ -78,11 +87,9 @@ private struct HeaderView: View {
             Spacer()
                 .frame(width: 8)
             
-            
-            // LIVE *questionStatusRawValue가 있어야 하는지 의문!*
-            if !questionStatusRawValue.isEmpty{
+            if !questionStatusRawValue.isEmpty {
                 Text(questionStatusRawValue)
-                    .font(.pretendard(.bold, size: 9))
+                    .font(.pretendard(.bold, size: 11))
                     .foregroundColor(.main)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
@@ -147,7 +154,7 @@ private struct AnswerButtonView: View {
                 )
             } label: {
                 Text(question.isAnswered ? "답변완료" : "답변하기")
-                    .font(.pretendard(.medium, size: 14))
+                    .font(.pretendard(question.isAnswered ? .medium : .semiBold, size: 14))
                     .foregroundStyle(question.isAnswered ? TextLabel.disable : TextLabel.main)
                     .frame(width: 70, height: 36)
                     .background(question.isAnswered ? GrayScale.secondaryButton : BrandPink.button)
@@ -177,7 +184,7 @@ private struct AnswerButtonView: View {
             QuestionCell(
                 question: .init(
                     questionId: 13,
-                    questionStatus: "LIVE",
+                    questionStatus: "PENDING",
                     livedAt: "2021-01-01T00:00:00",
                     content: "아카데미 러너 중 가장 마음에 드는 유형이 있나요?",
                     isAnswered: false
@@ -185,6 +192,7 @@ private struct AnswerButtonView: View {
                 questionNumber: 0
             ) {}
         }
+        .padding(.horizontal, 10)
     }
     .environmentObject(Router(pathType: .questionList))
 }
