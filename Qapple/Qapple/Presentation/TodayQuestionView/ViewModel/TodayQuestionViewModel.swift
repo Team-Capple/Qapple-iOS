@@ -120,7 +120,7 @@ extension TodayQuestionViewModel {
             let result = try await NetworkManager.fetchAnswersOfQuestion(
                 request: .init(
                     questionId: self.mainQuestion.questionId,
-                    threshold: threshold,
+                    threshold: nil,
                     pageSize: 3
                 ))
             let answerList = result.content
