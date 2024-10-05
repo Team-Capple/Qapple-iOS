@@ -5,12 +5,18 @@
 //  Created by 김민준 on 10/5/24.
 //
 
-import Foundation
+import UIKit
 
-final class VersionManager {
+struct VersionManager {
     
     enum VersionError: Error {
         case networkError
+    }
+    
+    private static let appleId = "6480340462"
+    
+    private static var appStoreOpenUrlString: String {
+        "itms-apps://itunes.apple.com/app/apple-store/\(appleId)"
     }
     
     /// 현재 버전이 최신 버전인지 확인
@@ -24,8 +30,7 @@ final class VersionManager {
     
     /// 앱스토어 내 최신 버전
     static func appStoreAppVersion() async -> String? {
-        let appleID = "6480340462"
-        guard let url = URL(string: "http://itunes.apple.com/lookup?id=\(appleID)") else { return nil }
+        guard let url = URL(string: "http://itunes.apple.com/lookup?id=\(VersionManager.appleId)") else { return nil }
         
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
@@ -51,5 +56,13 @@ final class VersionManager {
     /// 빌드 버전
     static var buildVersion: String {
         return Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+    }
+    
+    /// 앱스토어를 Open합니다.
+    static func openAppStore() {
+        guard let url = URL(string: appStoreOpenUrlString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 }

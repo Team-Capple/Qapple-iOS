@@ -59,7 +59,7 @@ struct MainView: View {
             HStack {
                 Button("취소", role: .cancel) {}
                 Button("업데이트", role: .none) {
-                    
+                    VersionManager.openAppStore()
                 }
             }
         } message: {
