@@ -21,6 +21,7 @@ final class TodayQuestionViewModel: ObservableObject {
     @Published var state: QuestionState?
     @Published var mainQuestion: QuestionResponse.MainQuestion
     @Published var answerList: [AnswerResponse.AnswersOfQuestion.Content]
+    @Published var threshold: Int?
     @Published var isLoading = true
     
     private var learnerDictionary: LearnerDictionary = [:]
@@ -67,13 +68,12 @@ extension TodayQuestionViewModel {
     
     /// 리프레쉬를 위해 전체 뷰를 업데이트합니다.
     @MainActor
-    func updateTodayQuestionView() {
-        Task {
-            await requestMainQuestion()
-            await requestAnswerPreview()
-            updateQuestionState()
-            isLoading = false
-        }
+    func updateTodayQuestionView() async {
+        await requestMainQuestion()
+        await requestAnswerPreview()
+        updateQuestionState()
+        isLoading = false
+        
     }
     
     /// 현재 시간 및 답변 상태에 따라 QuestionState를 업데이트합니다.
@@ -120,14 +120,15 @@ extension TodayQuestionViewModel {
             let result = try await NetworkManager.fetchAnswersOfQuestion(
                 request: .init(
                     questionId: self.mainQuestion.questionId,
-                    threshold: nil,
+                    threshold: threshold,
                     pageSize: 3
                 ))
             let answerList = result.content
             self.answerList = answerList.reversed()
+            self.threshold = Int(result.threshold)
             createLearnerDictionary()
         } catch {
-            print("답변 프리뷰 업데이트 실패")
+            print("답변 프리뷰 업데이트 실패: \(error)")
         }
     }
 }
@@ -195,7 +196,6 @@ extension TodayQuestionViewModel {
 extension TodayQuestionViewModel {
     
     /// 타이머를 실행합니다.
-    @MainActor
     func startTimer() {
         timer?.invalidate()
         
@@ -232,7 +232,9 @@ extension TodayQuestionViewModel {
             // 시간이 음수가 되면 타이머 중지 후 QuestionTimeZone 업데이트
             if remainingTime <= 0 {
                 timer.invalidate()
-                updateTodayQuestionView()
+                Task { [weak self] in
+                    await self?.updateTodayQuestionView()
+                }
             }
         }
     }

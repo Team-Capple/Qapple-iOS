@@ -215,7 +215,7 @@ private struct AccountSection: View {
 private struct BottomSection: View {
     
     private var appVersion: String {
-        Utils.getAppVersion()
+        VersionManager.deviceAppVersion
     }
     
     var body: some View {

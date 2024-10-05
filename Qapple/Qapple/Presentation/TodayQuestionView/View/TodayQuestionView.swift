@@ -36,15 +36,21 @@ struct TodayQuestionView: View {
                     .frame(height: 2)
             }
             .refreshable {
-                viewModel.updateTodayQuestionView()
-                HapticManager.shared.impact(style: .light)
+                Task {
+                    await viewModel.updateTodayQuestionView()
+                    HapticManager.shared.impact(style: .light)
+                }
             }
             .onAppear {
-                viewModel.updateTodayQuestionView()
+                Task {
+                    await viewModel.updateTodayQuestionView()
+                }
             }
             .onReceive(NotificationCenter.default.publisher(for: .updateViewNotification)) { _ in
                 print("뷰 업데이트")
-                viewModel.updateTodayQuestionView()
+                Task {
+                    await viewModel.updateTodayQuestionView()
+                }
             }
             
             if viewModel.isLoading {
@@ -358,7 +364,9 @@ private struct AnswerPreview: View {
                         answerType: $0.isMine ? .mine : .others,
                         answerId: $0.answerId,
                         completion: {
-                            viewModel.updateTodayQuestionView()
+                            Task {
+                                await viewModel.updateTodayQuestionView()
+                            }
                         }
                     )
                     .presentationDetents([.height(84)])

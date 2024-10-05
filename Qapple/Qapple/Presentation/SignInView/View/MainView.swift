@@ -12,6 +12,8 @@ struct MainView: View {
     @ObservedObject private(set) var authViewModel: AuthViewModel
     @StateObject private var pathModel: PathModel = .init()
     
+    @State private var isUpdateAlertpresented = false
+    
     var body: some View {
         Group {
             if authViewModel.isSignIn {
@@ -40,6 +42,28 @@ struct MainView: View {
                         }
                     }
             }
+        }
+        .task {
+            let isRecentVersion = await VersionManager.isRecentVersion()
+            switch isRecentVersion {
+            case .success(let isRecent):
+                if !isRecent {
+                    isUpdateAlertpresented.toggle()
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+        .alert("업데이트 알림", isPresented: $isUpdateAlertpresented) {
+            HStack {
+                Button("취소", role: .cancel) {}
+                Button("업데이트", role: .none) {
+                    
+                }
+            }
+        } message: {
+            Text("캐플이 업데이트되었습니다. 원활한 사용을 위해 업데이트 부탁드립니다!")
         }
     }
 }
