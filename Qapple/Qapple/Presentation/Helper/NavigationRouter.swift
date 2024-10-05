@@ -53,10 +53,6 @@ final class Router: ObservableObject, NavigationRouter {
                     questionId: questionId,
                     questionContent: questionContent
                 )
-            case .confirmAnswer:
-                ConfirmAnswerView(viewModel: answerViewModel!)
-            case .searchKeyword:
-                SearchKeywordView(viewModel: answerViewModel!)
             case .completeAnswer:
                 CompleteAnswerView(viewModel: answerViewModel!)
             case .notifications:
@@ -128,8 +124,6 @@ protocol NavigationRouter {
 enum QuestionListPathType: Hashable {
     /// 답변하기
     case answer(questionId: Int, questionContent: String) // 답변하기
-    case confirmAnswer // 답변확인(키워드선택)
-    case searchKeyword // 키워드 검색
     case completeAnswer // 답변 완료
     
     /// 모아보기
