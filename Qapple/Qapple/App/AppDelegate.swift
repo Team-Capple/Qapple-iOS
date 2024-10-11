@@ -120,6 +120,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     if let messageID = userInfo[gcmMessageIDKey] {
         print("Message ID: \(messageID)")
     }
+    
+    if let questionId = userInfo["questionId"] {
+        let idString = questionId as! String
+        
+    }
+      
+    if let boardId = userInfo["boardId"] {
+        let idString = boardId as! String
+        PushNotificationManager.shared.boardId = Int(idString)
+    }
       
     print(userInfo)
 

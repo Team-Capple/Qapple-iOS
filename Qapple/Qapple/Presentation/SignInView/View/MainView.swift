@@ -77,6 +77,7 @@ private struct MainTabView: View {
     @StateObject private var activePathModel: Router = .init(pathType: .questionList)
     @StateObject var answerViewModel: AnswerViewModel = .init()
     @StateObject private var bulletinBoardUseCase = BulletinBoardUseCase()
+    @StateObject private var pushNotificationManager: PushNotificationManager = .shared
     
     var body: some View {
         NavigationStack(path: $activePathModel.route) {
@@ -129,6 +130,20 @@ private struct MainTabView: View {
             case .questionList: activePathModel.updatePathType(to: .questionList)
             case .bulletinBoard: activePathModel.updatePathType(to: .bulletinBoard)
             case .myProfile: activePathModel.updatePathType(to: .myProfile)
+            }
+        }
+        .onReceive(self.pushNotificationManager.$boardId) { id in
+            guard let boardId = id else {
+                return
+            }
+            self.tabType = .bulletinBoard
+            
+            Task.init {
+                let singleBoard = try await NetworkManager.fetchSingleBoard(.init(boardId: boardId))
+                
+                let post = Post(boardId: singleBoard.boardId, writerId: singleBoard.writerId, writerNickname: singleBoard.writerNickname, content: singleBoard.content, heartCount: singleBoard.heartCount, commentCount: singleBoard.commentCount, createAt: singleBoard.createdAt.ISO8601ToDate, isMine: singleBoard.isMine, isReported: singleBoard.isReported, isLiked: singleBoard.isLiked)
+                
+                self.activePathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
             }
         }
     }
