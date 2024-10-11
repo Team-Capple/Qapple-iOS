@@ -141,10 +141,29 @@ private struct MainTabView: View {
             Task.init {
                 let singleBoard = try await NetworkManager.fetchSingleBoard(.init(boardId: boardId))
                 
-                let post = Post(boardId: singleBoard.boardId, writerId: singleBoard.writerId, writerNickname: singleBoard.writerNickname, content: singleBoard.content, heartCount: singleBoard.heartCount, commentCount: singleBoard.commentCount, createAt: singleBoard.createdAt.ISO8601ToDate, isMine: singleBoard.isMine, isReported: singleBoard.isReported, isLiked: singleBoard.isLiked)
+                let post = Post(
+                    boardId: singleBoard.boardId,
+                    writerId: singleBoard.writerId,
+                    writerNickname: singleBoard.writerNickname,
+                    content: singleBoard.content,
+                    heartCount: singleBoard.heartCount,
+                    commentCount: singleBoard.commentCount,
+                    createAt: singleBoard.createdAt.ISO8601ToDate,
+                    isMine: singleBoard.isMine,
+                    isReported: singleBoard.isReported,
+                    isLiked: singleBoard.isLiked)
                 
                 self.activePathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                self.pushNotificationManager.boardId = nil
             }
+        }
+        .onReceive(self.pushNotificationManager.$questionId) { id in
+            guard let questionId = id else {
+                return
+            }
+            
+            self.tabType = .questionList
+            
         }
     }
 }
