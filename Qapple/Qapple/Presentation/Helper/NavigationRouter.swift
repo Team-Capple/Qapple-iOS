@@ -39,6 +39,16 @@ final class Router: ObservableObject, NavigationRouter {
         self.pathType = pathType
     }
     
+    func searchPathType() -> TabPathType {
+        if pathType == .questionList {
+            return .questionList
+        } else if pathType == .bulletinBoard {
+            return .bulletinBoard
+        } else {
+            return .myProfile
+        }
+    }
+    
     @ViewBuilder
     public func getNavigationDestination(
         answerViewModel: AnswerViewModel? = nil,
@@ -61,6 +71,8 @@ final class Router: ObservableObject, NavigationRouter {
                 AnswerListView(questionId: questionId, questionContent: questionContent)
             case .alert:
                 AlertView()
+            case .comment(post: let post):
+                CommentView(post: post)
             case .report(answerId: let answerId, isComment: let isComment):
                 ReportView(answerId: answerId, boardId: -1, isComment: isComment)
             }
@@ -132,6 +144,7 @@ enum QuestionListPathType: Hashable {
     /// 알림 및 신고
     case notifications
     case alert
+    case comment(post: Post)
     case report(answerId: Int, isComment: Bool)
 }
 

@@ -36,6 +36,9 @@ private struct NotificationContentView: View {
     
     @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var notificationUseCase: NotificationUseCase
+    @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
+    
+    @State private var isReportedPostTappedAlert = false // 신고된 게시글 알림
     
     var body: some View {
         VStack(spacing: 0) {
@@ -56,7 +59,25 @@ private struct NotificationContentView: View {
                     ForEach(Array(notificationUseCase.state.notificationList.enumerated()), id: \.offset) { index, notification in
                         
                         NotificationCell(notification: notification) {
-                            // TODO: 네비게이션 지정 or 버튼 제거
+                            print(pathModel.searchPathType())
+                            if let boardId = Int(notification.boardId) {
+                                Task {
+                                    if let post = bulletinBoardUseCase.state.posts.first(where: { $0.boardId == boardId }) {
+                                        if post.isReported {
+                                            // 신고된 게시글이면 알림 표시
+                                            isReportedPostTappedAlert.toggle()
+                                        } else {
+                                            if pathModel.searchPathType() == .questionList {
+                                                pathModel.pushView(screen: QuestionListPathType.comment(post: post))
+                                            } else if pathModel.searchPathType() == .bulletinBoard {
+                                                pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                // TODO: 질문 리스트로 가기
+                            }
                         }
                         .onAppear {
                             if index == notificationUseCase.state.notificationList.count - 1
@@ -79,6 +100,14 @@ private struct NotificationContentView: View {
             .refreshable {
                 notificationUseCase.refreshNotificationList()
             }
+            .alert("신고된 게시글", isPresented: $isReportedPostTappedAlert) {
+                Button("확인", role: .none, action: {})
+            } message: {
+                Text("신고된 게시글은 열람할 수 없습니다.")
+            }
+        }
+        .onAppear {
+            bulletinBoardUseCase.effect(.fetchPost)
         }
     }
 }
