@@ -146,12 +146,22 @@ private struct AnswerButtonView: View {
         HStack(alignment: .top, spacing: 8) {
             Spacer()
             Button {
-                pathModel.pushView(
-                    screen: QuestionListPathType.answer(
-                        questionId: question.questionId,
-                        questionContent: question.content
+                if pathModel.searchPathType() == .questionList {
+                    pathModel.pushView(
+                        screen: QuestionListPathType.answer(
+                            questionId: question.questionId,
+                            questionContent: question.content
+                        )
                     )
-                )
+                } else if pathModel.searchPathType() == .bulletinBoard {
+                    pathModel.pushView(
+                        screen: BulletinBoardPathType.answer(
+                            questionId: question.questionId,
+                            questionContent: question.content
+                        )
+                    )
+                }
+                
             } label: {
                 Text(question.isAnswered ? "답변완료" : "답변하기")
                     .font(.pretendard(question.isAnswered ? .medium : .semiBold, size: 14))

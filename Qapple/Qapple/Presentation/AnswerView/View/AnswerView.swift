@@ -52,7 +52,12 @@ struct AnswerView: View {
                             Task {
                                 do {
                                     try await viewModel.requestRegisterAnswer()
-                                    pathModel.pushView(screen: QuestionListPathType.completeAnswer)
+                                    if pathModel.searchPathType() == .questionList {
+                                        pathModel.pushView(screen: QuestionListPathType.completeAnswer)
+                                    } else if pathModel.searchPathType() == .bulletinBoard {
+                                        pathModel.pushView(screen: BulletinBoardPathType.completeAnswer)
+                                    }
+                                    
                                 } catch {
                                     isRegisterAnswerFailed.toggle()
                                 }

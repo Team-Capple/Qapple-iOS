@@ -69,6 +69,8 @@ final class Router: ObservableObject, NavigationRouter {
                 NotificationListView()
             case .todayAnswer(questionId: let questionId, questionContent: let questionContent):
                 AnswerListView(questionId: questionId, questionContent: questionContent)
+            case .todayQuestionList:
+                TodayQuestionListView()
             case .alert:
                 AlertView()
             case .comment(post: let post):
@@ -94,6 +96,18 @@ final class Router: ObservableObject, NavigationRouter {
                 CommentReportView(comment: comment)
             case .report(boardId: let boardId, isComment: let isComment):
                 ReportView(answerId: -1, boardId: boardId, isComment: isComment)
+            case .answer(let questionId, let questionContent):
+                AnswerView(
+                    viewModel: answerViewModel!,
+                    questionId: questionId,
+                    questionContent: questionContent
+                )
+            case .completeAnswer:
+                CompleteAnswerView(viewModel: answerViewModel!)
+            case .todayAnswer(questionId: let questionId, questionContent: let questionContent):
+                AnswerListView(questionId: questionId, questionContent: questionContent)
+            case .todayQuestionList:
+                TodayQuestionListView()
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
@@ -140,6 +154,7 @@ enum QuestionListPathType: Hashable {
     
     /// 모아보기
     case todayAnswer(questionId: Int, questionContent: String)
+    case todayQuestionList
     
     /// 알림 및 신고
     case notifications
@@ -158,6 +173,10 @@ enum BulletinBoardPathType: Hashable {
     case comment(post: Post)
     case commentReport(comment: CommentResponse.Comment)
     case report(boardId: Int, isComment: Bool)
+    case answer(questionId: Int, questionContent: String) // 답변하기
+    case completeAnswer // 답변 완료
+    case todayAnswer(questionId: Int, questionContent: String)
+    case todayQuestionList
 }
 
 /// 내 정보 Tab

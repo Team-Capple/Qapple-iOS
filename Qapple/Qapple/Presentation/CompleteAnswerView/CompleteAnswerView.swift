@@ -43,11 +43,19 @@ struct CompleteAnswerView: View {
             
             ActionButton("확인", isActive: .constant(true)) {
                 pathModel.popToRoot()
-                pathModel.pushView(
-                    screen: QuestionListPathType.todayAnswer(
-                        questionId: viewModel.questionId,
-                        questionContent: viewModel.questionContent)
-                )
+                if pathModel.searchPathType() == .questionList {
+                    pathModel.pushView(
+                        screen: QuestionListPathType.todayAnswer(
+                            questionId: viewModel.questionId,
+                            questionContent: viewModel.questionContent)
+                    )
+                } else if pathModel.searchPathType() == .bulletinBoard {
+                    pathModel.pushView(
+                        screen: BulletinBoardPathType.todayAnswer(
+                            questionId: viewModel.questionId,
+                            questionContent: viewModel.questionContent)
+                    )
+                }
                 viewModel.resetAnswerInfo()
             }
             .padding(.bottom, 16)

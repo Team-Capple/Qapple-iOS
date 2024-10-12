@@ -59,7 +59,6 @@ private struct NotificationContentView: View {
                     ForEach(Array(notificationUseCase.state.notificationList.enumerated()), id: \.offset) { index, notification in
                         
                         NotificationCell(notification: notification) {
-                            print(pathModel.searchPathType())
                             if let boardId = Int(notification.boardId) {
                                 Task {
                                     if let post = bulletinBoardUseCase.state.posts.first(where: { $0.boardId == boardId }) {
@@ -76,7 +75,11 @@ private struct NotificationContentView: View {
                                     }
                                 }
                             } else {
-                                // TODO: 질문 리스트로 가기
+                                if pathModel.searchPathType() == .questionList {
+                                    pathModel.pushView(screen: QuestionListPathType.todayQuestionList)
+                                } else if pathModel.searchPathType() == .bulletinBoard {
+                                    pathModel.pushView(screen: BulletinBoardPathType.todayQuestionList)
+                                }
                             }
                         }
                         .onAppear {

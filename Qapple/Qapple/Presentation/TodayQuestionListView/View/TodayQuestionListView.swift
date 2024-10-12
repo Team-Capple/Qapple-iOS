@@ -13,6 +13,24 @@ struct TodayQuestionListView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 0) {
+                if !pathModel.route.isEmpty {
+                    CustomNavigationBar(
+                        leadingView: {
+                            CustomNavigationBackButton(buttonType: .arrow) {
+                                pathModel.pop()
+                            }
+                        },
+                        principalView: {
+                            Text("질문 리스트")
+                                .font(.pretendard(.semiBold, size: 17))
+                        },
+                        trailingView: {
+                            
+                        },
+                        backgroundColor: Color.Background.first
+                    )
+                }
+                
                 QuestionListView(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                 
                 Spacer()
@@ -92,13 +110,24 @@ struct TodayQuestionListView: View {
                                         return
                                     }
                                     
-                                    pathModel.pushView(
-                                        screen: QuestionListPathType.todayAnswer(
-                                            questionId: id, questionContent: viewModel.contentForQuestion(
-                                                withId: id
-                                            ) ?? "내용 없음"
+                                    if pathModel.searchPathType() == .questionList {
+                                        pathModel.pushView(
+                                            screen: QuestionListPathType.todayAnswer(
+                                                questionId: id, questionContent: viewModel.contentForQuestion(
+                                                    withId: id
+                                                ) ?? "내용 없음"
+                                            )
                                         )
-                                    )
+                                    } else if pathModel.searchPathType() == .bulletinBoard {
+                                        pathModel.pushView(
+                                            screen: BulletinBoardPathType.todayAnswer(
+                                                questionId: id, questionContent: viewModel.contentForQuestion(
+                                                    withId: id
+                                                ) ?? "내용 없음"
+                                            )
+                                        )
+                                    }
+                                    
                                 }
                                 .alert("답변하면 확인이 가능해요 😀", isPresented: $isAnsweredAlert) {
                                     Button("확인", role: .none) {}

@@ -116,7 +116,10 @@ private struct MainTabView: View {
                 )
             }
             .navigationDestination(for: BulletinBoardPathType.self) { path in
-                activePathModel.getNavigationDestination(view: path)
+                activePathModel.getNavigationDestination(
+                    answerViewModel: answerViewModel,
+                    view: path
+                )
             }
             .navigationDestination(for: MyProfilePathType.self) { path in
                 activePathModel.getNavigationDestination(view: path)
