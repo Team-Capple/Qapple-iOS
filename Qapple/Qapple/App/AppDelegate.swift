@@ -135,4 +135,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
     completionHandler()
   }
+    
+    // 앱이 종료된 상태에서 push 알림을 눌렀을 때
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        print(#function)
+        if let questionId = userInfo["questionId"] {
+            let idString = questionId as! String
+            PushNotificationManager.shared.questionId = Int(idString)
+        }
+        
+        if let boardId = userInfo["boardId"] {
+            let idString = boardId as! String
+            PushNotificationManager.shared.boardId = Int(idString)
+        }
+        
+        completionHandler(.newData)
+    }
 }

@@ -158,12 +158,11 @@ private struct MainTabView: View {
             }
         }
         .onReceive(self.pushNotificationManager.$questionId) { id in
-            guard let questionId = id else {
+            guard let _ = id else {
                 return
             }
             
             self.tabType = .questionList
-            
         }
     }
 }
