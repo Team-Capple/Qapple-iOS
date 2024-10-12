@@ -60,6 +60,7 @@ private struct NotificationContentView: View {
                         
                         NotificationCell(notification: notification) {
                             if let boardId = Int(notification.boardId) {
+                                // 게시글 댓글로 이동
                                 Task {
                                     if let post = bulletinBoardUseCase.state.posts.first(where: { $0.boardId == boardId }) {
                                         if post.isReported {
@@ -75,6 +76,7 @@ private struct NotificationContentView: View {
                                     }
                                 }
                             } else {
+                                // 질문리스트로 이동
                                 if pathModel.searchPathType() == .questionList {
                                     pathModel.pushView(screen: QuestionListPathType.todayQuestionList)
                                 } else if pathModel.searchPathType() == .bulletinBoard {
