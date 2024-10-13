@@ -69,8 +69,6 @@ final class Router: ObservableObject, NavigationRouter {
                 NotificationListView()
             case .todayAnswer(questionId: let questionId, questionContent: let questionContent):
                 AnswerListView(questionId: questionId, questionContent: questionContent)
-            case .todayQuestionList:
-                TodayQuestionListView()
             case .alert:
                 AlertView()
             case .comment(post: let post):
@@ -106,8 +104,6 @@ final class Router: ObservableObject, NavigationRouter {
                 CompleteAnswerView(viewModel: answerViewModel!)
             case .todayAnswer(questionId: let questionId, questionContent: let questionContent):
                 AnswerListView(questionId: questionId, questionContent: questionContent)
-            case .todayQuestionList:
-                TodayQuestionListView()
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
@@ -154,7 +150,6 @@ enum QuestionListPathType: Hashable {
     
     /// 모아보기
     case todayAnswer(questionId: Int, questionContent: String)
-    case todayQuestionList
     
     /// 알림 및 신고
     case notifications
@@ -176,7 +171,6 @@ enum BulletinBoardPathType: Hashable {
     case answer(questionId: Int, questionContent: String) // 답변하기
     case completeAnswer // 답변 완료
     case todayAnswer(questionId: Int, questionContent: String)
-    case todayQuestionList
 }
 
 /// 내 정보 Tab

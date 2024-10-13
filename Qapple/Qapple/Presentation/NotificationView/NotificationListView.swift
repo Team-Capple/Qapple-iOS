@@ -78,27 +78,25 @@ private struct NotificationContentView: View {
                                     }
                                 }
                             } else {
-                                Task {
-                                    // notification의 content와 QuestionViewModel의 content를 비교
-                                    if let question = viewModel.questions.first(where: { $0.content == notification.content }) {
-                                        
-                                        if question.isAnswered {
-                                            // 답변된 경우 answerListView로 이동
-                                            if pathModel.searchPathType() == .questionList {
-                                                pathModel.pushView(screen: QuestionListPathType.todayAnswer(questionId: question.questionId, questionContent: question.content))
-                                            } else if pathModel.searchPathType() == .bulletinBoard {
-                                                pathModel.pushView(screen: BulletinBoardPathType.todayAnswer(questionId: question.questionId, questionContent: question.content))
-                                            }
-                                        } else {
-                                            // 답변되지 않은 경우 answerView로 이동
-                                            if pathModel.searchPathType() == .questionList {
-                                                pathModel.pushView(screen: QuestionListPathType.answer(questionId: question.questionId, questionContent: question.content))
-                                            } else if pathModel.searchPathType() == .bulletinBoard {
-                                                pathModel.pushView(screen: BulletinBoardPathType.answer(questionId: question.questionId, questionContent: question.content))
+                                if let questionId = Int(notification.questionId) {
+                                    Task {
+                                        if let question = viewModel.questions.first(where: { $0.questionId == questionId }) {
+                                            if question.isAnswered {
+                                                // 답변된 경우 answerListView로 이동
+                                                if pathModel.searchPathType() == .questionList {
+                                                    pathModel.pushView(screen: QuestionListPathType.todayAnswer(questionId: question.questionId, questionContent: question.content))
+                                                } else if pathModel.searchPathType() == .bulletinBoard {
+                                                    pathModel.pushView(screen: BulletinBoardPathType.todayAnswer(questionId: question.questionId, questionContent: question.content))
+                                                }
+                                            } else {
+                                                // 답변되지 않은 경우 answerView로 이동
+                                                if pathModel.searchPathType() == .questionList {
+                                                    pathModel.pushView(screen: QuestionListPathType.answer(questionId: question.questionId, questionContent: question.content))
+                                                } else if pathModel.searchPathType() == .bulletinBoard {
+                                                    pathModel.pushView(screen: BulletinBoardPathType.answer(questionId: question.questionId, questionContent: question.content))
+                                                }
                                             }
                                         }
-                                    } else {
-                                        print("해당 질문을 찾을 수 없습니다.")
                                     }
                                 }
                             }

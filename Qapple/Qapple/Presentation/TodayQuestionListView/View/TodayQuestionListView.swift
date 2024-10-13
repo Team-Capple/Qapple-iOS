@@ -13,10 +13,6 @@ struct TodayQuestionListView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 0) {
-                if !pathModel.route.isEmpty {
-                    HeaderView()
-                }
-                
                 QuestionListView(viewModel: viewModel, isBottomSheetPresented: $isBottomSheetPresented)
                 
                 Spacer()
@@ -34,29 +30,6 @@ struct TodayQuestionListView: View {
             Task {
                 await viewModel.refreshGetQuestions()
             }
-        }
-    }
-    // MARK: - HeaderView
-    
-    private struct HeaderView: View {
-        
-        @EnvironmentObject private var pathModel: Router
-        
-        var body: some View {
-            CustomNavigationBar(
-                leadingView: {
-                    CustomNavigationBackButton(buttonType: .arrow) {
-                        pathModel.pop()
-                    }
-                },
-                principalView: {
-                    Text("질문 리스트")
-                        .font(.pretendard(.semiBold, size: 17))
-                },
-                trailingView: {
-                    
-                },
-                backgroundColor: Color.Background.first)
         }
     }
     

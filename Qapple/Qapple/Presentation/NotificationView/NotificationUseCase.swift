@@ -51,6 +51,7 @@ extension NotificationUseCase {
                 
                 state.notificationList += response.content.map {
                     QappleNoti(
+                        questionId: $0.questionId ?? "",
                         boardId: $0.boardId ?? "",
                         boardCommentId: $0.boardCommentId,
                         title: $0.title,
@@ -90,6 +91,7 @@ extension NotificationUseCase {
                 state.notificationList.removeAll()
                 state.notificationList += notificationList.content.map {
                     QappleNoti(
+                        questionId: $0.questionId ?? "",
                         boardId: $0.boardId ?? "",
                         boardCommentId: $0.boardCommentId,
                         title: $0.title,
