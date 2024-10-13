@@ -19,6 +19,7 @@ struct NotificationCell: View {
                 TitleView(notification: notification)
                 ContentView(notification: notification)
             }
+            .padding(.horizontal, 24)
         }
         .buttonStyle(PressableButtonStyle())
     }

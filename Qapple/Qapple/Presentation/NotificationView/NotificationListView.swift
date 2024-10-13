@@ -100,7 +100,6 @@ private struct NotificationContentView: View {
                         .foregroundStyle(TextLabel.sub4)
                         .padding(.top, 16)
                 }
-                .padding(.horizontal, 24)
             }
             .refreshable {
                 notificationUseCase.refreshNotificationList()
@@ -121,4 +120,6 @@ private struct NotificationContentView: View {
 
 #Preview {
     NotificationListView()
+        .environmentObject(NotificationUseCase())
+        .environmentObject(BulletinBoardUseCase())
 }
