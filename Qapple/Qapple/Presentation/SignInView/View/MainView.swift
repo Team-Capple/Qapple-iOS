@@ -163,6 +163,7 @@ private struct MainTabView: View {
             }
             
             self.tabType = .questionList
+            self.pushNotificationManager.questionId = nil
         }
     }
 }
