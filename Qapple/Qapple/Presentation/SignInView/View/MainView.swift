@@ -158,14 +158,47 @@ private struct MainTabView: View {
             }
         }
         .onReceive(self.pushNotificationManager.$questionId) { id in
-            guard let _ = id else {
+            guard let questionId = id else {
                 return
             }
             
-            self.tabType = .questionList
-            self.pushNotificationManager.questionId = nil
+            goToPushNotificationDestination(questionId: questionId)
         }
     }
+    
+    ///  질문 관련 push 알림이 왔을 때 navigation 메소드
+    private func goToPushNotificationDestination(questionId: Int) {
+        Task.init {
+            let viewModel = QuestionViewModel()
+            
+            await viewModel.refreshGetQuestions()
+            
+            var isFind = false
+            
+            while !isFind {
+                let isQuestionFinded = viewModel.questions.first{ $0.questionId == questionId }
+                
+                if isQuestionFinded == nil {
+                    await viewModel.fetchGetQuestions()
+                } else {
+                    isFind = true
+                    
+                    if isQuestionFinded!.isAnswered {
+                        let content = isQuestionFinded!.content
+                        
+                        self.tabType = .questionList
+                        self.activePathModel.pushView(screen: QuestionListPathType.todayAnswer(questionId: questionId, questionContent: content))
+                    } else {
+                        let content = isQuestionFinded!.content
+                        
+                        self.tabType = .questionList
+                        self.activePathModel.pushView(screen: QuestionListPathType.answer(questionId: questionId, questionContent: content))
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: - TabItem
