@@ -9,6 +9,7 @@ import Foundation
 
 struct QappleNoti: Identifiable {
     let id = UUID()
+    let questionId: String
     let boardId: String
     let boardCommentId: String?
     let title: String

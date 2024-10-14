@@ -19,6 +19,7 @@ struct NotificationCell: View {
                 TitleView(notification: notification)
                 ContentView(notification: notification)
             }
+            .padding(.horizontal, 24)
         }
         .buttonStyle(PressableButtonStyle())
     }
@@ -82,6 +83,7 @@ struct PressableButtonStyle: ButtonStyle {
 #Preview {
     NotificationCell(
         notification: .init(
+            questionId: "",
             boardId: "0",
             boardCommentId: "0",
             title: "누군가가 내 게시글에 좋아요 누름!",

@@ -16,6 +16,16 @@ final class Router: ObservableObject, NavigationRouter {
     /// Tab 구분을 위한 타입 지정
     private var pathType: TabPathType
     
+    var searchPathType: TabPathType {
+        if pathType == .questionList {
+            return .questionList
+        } else if pathType == .bulletinBoard {
+            return .bulletinBoard
+        } else {
+            return .myProfile
+        }
+    }
+    
     /// path 추가
     func pushView<T: Hashable>(screen: T) {
         self.route.append(screen)
@@ -61,6 +71,8 @@ final class Router: ObservableObject, NavigationRouter {
                 AnswerListView(questionId: questionId, questionContent: questionContent)
             case .alert:
                 AlertView()
+            case .comment(post: let post):
+                CommentView(post: post)
             case .report(answerId: let answerId, isComment: let isComment):
                 ReportView(answerId: answerId, boardId: -1, isComment: isComment)
             }
@@ -82,6 +94,16 @@ final class Router: ObservableObject, NavigationRouter {
                 CommentReportView(comment: comment)
             case .report(boardId: let boardId, isComment: let isComment):
                 ReportView(answerId: -1, boardId: boardId, isComment: isComment)
+            case .answer(let questionId, let questionContent):
+                AnswerView(
+                    viewModel: answerViewModel!,
+                    questionId: questionId,
+                    questionContent: questionContent
+                )
+            case .completeAnswer:
+                CompleteAnswerView(viewModel: answerViewModel!)
+            case .todayAnswer(questionId: let questionId, questionContent: let questionContent):
+                AnswerListView(questionId: questionId, questionContent: questionContent)
             }
         } else if pathType == .myProfile {
             let view = view as! MyProfilePathType
@@ -132,6 +154,7 @@ enum QuestionListPathType: Hashable {
     /// 알림 및 신고
     case notifications
     case alert
+    case comment(post: Post)
     case report(answerId: Int, isComment: Bool)
 }
 
@@ -145,6 +168,9 @@ enum BulletinBoardPathType: Hashable {
     case comment(post: Post)
     case commentReport(comment: CommentResponse.Comment)
     case report(boardId: Int, isComment: Bool)
+    case answer(questionId: Int, questionContent: String) // 답변하기
+    case completeAnswer // 답변 완료
+    case todayAnswer(questionId: Int, questionContent: String)
 }
 
 /// 내 정보 Tab

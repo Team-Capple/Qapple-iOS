@@ -36,6 +36,11 @@ private struct NotificationContentView: View {
     
     @EnvironmentObject private var pathModel: Router
     @EnvironmentObject private var notificationUseCase: NotificationUseCase
+    @EnvironmentObject private var bulletinBoardUseCase: BulletinBoardUseCase
+    
+    @StateObject var viewModel: QuestionViewModel = .init()
+    
+    @State private var isReportedPostTappedAlert = false // 신고된 게시글 알림
     
     var body: some View {
         VStack(spacing: 0) {
@@ -56,7 +61,45 @@ private struct NotificationContentView: View {
                     ForEach(Array(notificationUseCase.state.notificationList.enumerated()), id: \.offset) { index, notification in
                         
                         NotificationCell(notification: notification) {
-                            // TODO: 네비게이션 지정 or 버튼 제거
+                            if let boardId = Int(notification.boardId) {
+                                // 게시글 댓글로 이동
+                                Task {
+                                    if let post = bulletinBoardUseCase.state.posts.first(where: { $0.boardId == boardId }) {
+                                        if post.isReported {
+                                            // 신고된 게시글이면 알림 표시
+                                            isReportedPostTappedAlert.toggle()
+                                        } else {
+                                            if pathModel.searchPathType == .questionList {
+                                                pathModel.pushView(screen: QuestionListPathType.comment(post: post))
+                                            } else if pathModel.searchPathType == .bulletinBoard {
+                                                pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                if let questionId = Int(notification.questionId) {
+                                    Task {
+                                        if let question = viewModel.questions.first(where: { $0.questionId == questionId }) {
+                                            if question.isAnswered {
+                                                // 답변된 경우 answerListView로 이동
+                                                if pathModel.searchPathType == .questionList {
+                                                    pathModel.pushView(screen: QuestionListPathType.todayAnswer(questionId: question.questionId, questionContent: question.content))
+                                                } else if pathModel.searchPathType == .bulletinBoard {
+                                                    pathModel.pushView(screen: BulletinBoardPathType.todayAnswer(questionId: question.questionId, questionContent: question.content))
+                                                }
+                                            } else {
+                                                // 답변되지 않은 경우 answerView로 이동
+                                                if pathModel.searchPathType == .questionList {
+                                                    pathModel.pushView(screen: QuestionListPathType.answer(questionId: question.questionId, questionContent: question.content))
+                                                } else if pathModel.searchPathType == .bulletinBoard {
+                                                    pathModel.pushView(screen: BulletinBoardPathType.answer(questionId: question.questionId, questionContent: question.content))
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                         .onAppear {
                             if index == notificationUseCase.state.notificationList.count - 1
@@ -74,10 +117,20 @@ private struct NotificationContentView: View {
                         .foregroundStyle(TextLabel.sub4)
                         .padding(.top, 16)
                 }
-                .padding(.horizontal, 24)
             }
             .refreshable {
                 notificationUseCase.refreshNotificationList()
+            }
+            .alert("신고된 게시글", isPresented: $isReportedPostTappedAlert) {
+                Button("확인", role: .none, action: {})
+            } message: {
+                Text("신고된 게시글은 열람할 수 없습니다.")
+            }
+        }
+        .onAppear {
+            bulletinBoardUseCase.effect(.fetchPost)
+            Task {
+                await viewModel.refreshGetQuestions()
             }
         }
     }
@@ -87,4 +140,6 @@ private struct NotificationContentView: View {
 
 #Preview {
     NotificationListView()
+        .environmentObject(NotificationUseCase())
+        .environmentObject(BulletinBoardUseCase())
 }
