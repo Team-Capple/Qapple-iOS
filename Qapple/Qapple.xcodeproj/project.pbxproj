@@ -33,6 +33,7 @@
 		2C1E27232C71AC0C000B9D86 /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1E27222C71AC0C000B9D86 /* NavigationRouter.swift */; };
 		2C2E0ED52C63D177003928C1 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E0ED42C63D177003928C1 /* CommentCell.swift */; };
 		2C2E0ED72C646EC9003928C1 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E0ED62C646EC9003928C1 /* CommentView.swift */; };
+		2C7AE7AD2CB96865004098AF /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7AE7AC2CB96865004098AF /* PushNotificationManager.swift */; };
 		2CD2B5A52C77192600E17B6A /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */; };
 		2CD2B5A72C771C3500E17B6A /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A62C771C3500E17B6A /* CommentViewModel.swift */; };
 		2CD2B5A92C88753800E17B6A /* NetworkManager+Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2B5A82C88753800E17B6A /* NetworkManager+Comment.swift */; };
@@ -203,6 +204,7 @@
 		2C1E27222C71AC0C000B9D86 /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		2C2E0ED42C63D177003928C1 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		2C2E0ED62C646EC9003928C1 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		2C7AE7AC2CB96865004098AF /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		2CD2B5A42C77192600E17B6A /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		2CD2B5A62C771C3500E17B6A /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		2CD2B5A82C88753800E17B6A /* NetworkManager+Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Comment.swift"; sourceTree = "<group>"; };
@@ -676,6 +678,7 @@
 				828A03DA2BAB36F80038CF91 /* NotificationManager.swift */,
 				82CDA7762BB2EBC00031AEB4 /* PopGestureManager.swift */,
 				82CDA7782BB2EBCF0031AEB4 /* HapticManager.swift */,
+				2C7AE7AC2CB96865004098AF /* PushNotificationManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1328,6 +1331,7 @@
 				074819002B8F3DDE00380F14 /* SeeMoreView.swift in Sources */,
 				073C3DE22B871F130016C333 /* TimeInterval+Extension.swift in Sources */,
 				824717342BC9144F005E9631 /* ReportType.swift in Sources */,
+				2C7AE7AD2CB96865004098AF /* PushNotificationManager.swift in Sources */,
 				82F7041F2C6DD29D00479206 /* TabType.swift in Sources */,
 				8271691D2C9EB95000D8BF81 /* NotificationResponse.swift in Sources */,
 				2CD2B5A72C771C3500E17B6A /* CommentViewModel.swift in Sources */,

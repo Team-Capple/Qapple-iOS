@@ -77,6 +77,7 @@ private struct MainTabView: View {
     @StateObject private var activePathModel: Router = .init(pathType: .questionList)
     @StateObject var answerViewModel: AnswerViewModel = .init()
     @StateObject private var bulletinBoardUseCase = BulletinBoardUseCase()
+    @StateObject private var pushNotificationManager: PushNotificationManager = .shared
     
     var body: some View {
         NavigationStack(path: $activePathModel.route) {
@@ -134,7 +135,73 @@ private struct MainTabView: View {
             case .myProfile: activePathModel.updatePathType(to: .myProfile)
             }
         }
+        .onReceive(self.pushNotificationManager.$boardId) { id in
+            guard let boardId = id else {
+                return
+            }
+            self.tabType = .bulletinBoard
+            
+            Task.init {
+                let singleBoard = try await NetworkManager.fetchSingleBoard(.init(boardId: boardId))
+                
+                let post = Post(
+                    boardId: singleBoard.boardId,
+                    writerId: singleBoard.writerId,
+                    writerNickname: singleBoard.writerNickname,
+                    content: singleBoard.content,
+                    heartCount: singleBoard.heartCount,
+                    commentCount: singleBoard.commentCount,
+                    createAt: singleBoard.createdAt.ISO8601ToDate,
+                    isMine: singleBoard.isMine,
+                    isReported: singleBoard.isReported,
+                    isLiked: singleBoard.isLiked)
+                
+                self.activePathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
+                self.pushNotificationManager.boardId = nil
+            }
+        }
+        .onReceive(self.pushNotificationManager.$questionId) { id in
+            guard let questionId = id else {
+                return
+            }
+            
+            goToPushNotificationDestination(questionId: questionId)
+        }
     }
+    
+    ///  질문 관련 push 알림이 왔을 때 navigation 메소드
+    private func goToPushNotificationDestination(questionId: Int) {
+        Task.init {
+            let viewModel = QuestionViewModel()
+            
+            await viewModel.refreshGetQuestions()
+            
+            var isFind = false
+            
+            while !isFind {
+                let isQuestionFinded = viewModel.questions.first{ $0.questionId == questionId }
+                
+                if isQuestionFinded == nil {
+                    await viewModel.fetchGetQuestions()
+                } else {
+                    isFind = true
+                    
+                    if isQuestionFinded!.isAnswered {
+                        let content = isQuestionFinded!.content
+                        
+                        self.tabType = .questionList
+                        self.activePathModel.pushView(screen: QuestionListPathType.todayAnswer(questionId: questionId, questionContent: content))
+                    } else {
+                        let content = isQuestionFinded!.content
+                        
+                        self.tabType = .questionList
+                        self.activePathModel.pushView(screen: QuestionListPathType.answer(questionId: questionId, questionContent: content))
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: - TabItem
