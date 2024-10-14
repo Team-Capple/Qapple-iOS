@@ -69,9 +69,9 @@ private struct NotificationContentView: View {
                                             // 신고된 게시글이면 알림 표시
                                             isReportedPostTappedAlert.toggle()
                                         } else {
-                                            if pathModel.searchPathType() == .questionList {
+                                            if pathModel.searchPathType == .questionList {
                                                 pathModel.pushView(screen: QuestionListPathType.comment(post: post))
-                                            } else if pathModel.searchPathType() == .bulletinBoard {
+                                            } else if pathModel.searchPathType == .bulletinBoard {
                                                 pathModel.pushView(screen: BulletinBoardPathType.comment(post: post))
                                             }
                                         }
@@ -83,16 +83,16 @@ private struct NotificationContentView: View {
                                         if let question = viewModel.questions.first(where: { $0.questionId == questionId }) {
                                             if question.isAnswered {
                                                 // 답변된 경우 answerListView로 이동
-                                                if pathModel.searchPathType() == .questionList {
+                                                if pathModel.searchPathType == .questionList {
                                                     pathModel.pushView(screen: QuestionListPathType.todayAnswer(questionId: question.questionId, questionContent: question.content))
-                                                } else if pathModel.searchPathType() == .bulletinBoard {
+                                                } else if pathModel.searchPathType == .bulletinBoard {
                                                     pathModel.pushView(screen: BulletinBoardPathType.todayAnswer(questionId: question.questionId, questionContent: question.content))
                                                 }
                                             } else {
                                                 // 답변되지 않은 경우 answerView로 이동
-                                                if pathModel.searchPathType() == .questionList {
+                                                if pathModel.searchPathType == .questionList {
                                                     pathModel.pushView(screen: QuestionListPathType.answer(questionId: question.questionId, questionContent: question.content))
-                                                } else if pathModel.searchPathType() == .bulletinBoard {
+                                                } else if pathModel.searchPathType == .bulletinBoard {
                                                     pathModel.pushView(screen: BulletinBoardPathType.answer(questionId: question.questionId, questionContent: question.content))
                                                 }
                                             }

@@ -146,14 +146,14 @@ private struct AnswerButtonView: View {
         HStack(alignment: .top, spacing: 8) {
             Spacer()
             Button {
-                if pathModel.searchPathType() == .questionList {
+                if pathModel.searchPathType == .questionList {
                     pathModel.pushView(
                         screen: QuestionListPathType.answer(
                             questionId: question.questionId,
                             questionContent: question.content
                         )
                     )
-                } else if pathModel.searchPathType() == .bulletinBoard {
+                } else if pathModel.searchPathType == .bulletinBoard {
                     pathModel.pushView(
                         screen: BulletinBoardPathType.answer(
                             questionId: question.questionId,

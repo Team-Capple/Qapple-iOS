@@ -16,6 +16,16 @@ final class Router: ObservableObject, NavigationRouter {
     /// Tab 구분을 위한 타입 지정
     private var pathType: TabPathType
     
+    var searchPathType: TabPathType {
+        if pathType == .questionList {
+            return .questionList
+        } else if pathType == .bulletinBoard {
+            return .bulletinBoard
+        } else {
+            return .myProfile
+        }
+    }
+    
     /// path 추가
     func pushView<T: Hashable>(screen: T) {
         self.route.append(screen)
@@ -37,16 +47,6 @@ final class Router: ObservableObject, NavigationRouter {
     
     func updatePathType(to pathType: TabPathType) {
         self.pathType = pathType
-    }
-    
-    func searchPathType() -> TabPathType {
-        if pathType == .questionList {
-            return .questionList
-        } else if pathType == .bulletinBoard {
-            return .bulletinBoard
-        } else {
-            return .myProfile
-        }
     }
     
     @ViewBuilder

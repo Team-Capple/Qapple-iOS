@@ -92,7 +92,7 @@ struct TodayQuestionListView: View {
                                         return
                                     }
                                     
-                                    if pathModel.searchPathType() == .questionList {
+                                    if pathModel.searchPathType == .questionList {
                                         pathModel.pushView(
                                             screen: QuestionListPathType.todayAnswer(
                                                 questionId: id, questionContent: viewModel.contentForQuestion(
@@ -100,7 +100,7 @@ struct TodayQuestionListView: View {
                                                 ) ?? "내용 없음"
                                             )
                                         )
-                                    } else if pathModel.searchPathType() == .bulletinBoard {
+                                    } else if pathModel.searchPathType == .bulletinBoard {
                                         pathModel.pushView(
                                             screen: BulletinBoardPathType.todayAnswer(
                                                 questionId: id, questionContent: viewModel.contentForQuestion(

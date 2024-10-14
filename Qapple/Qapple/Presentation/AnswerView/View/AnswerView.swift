@@ -52,9 +52,9 @@ struct AnswerView: View {
                             Task {
                                 do {
                                     try await viewModel.requestRegisterAnswer()
-                                    if pathModel.searchPathType() == .questionList {
+                                    if pathModel.searchPathType == .questionList {
                                         pathModel.pushView(screen: QuestionListPathType.completeAnswer)
-                                    } else if pathModel.searchPathType() == .bulletinBoard {
+                                    } else if pathModel.searchPathType == .bulletinBoard {
                                         pathModel.pushView(screen: BulletinBoardPathType.completeAnswer)
                                     }
                                     
