@@ -9,7 +9,7 @@ final class QuestionViewModel: ObservableObject {
     @Published var isLoading = true
     
     @Published var total = 0
-    @Published var threshold: Int?
+    @Published var threshold: String?
     @Published var hasNext: Bool = false
     
     @MainActor
@@ -22,8 +22,9 @@ final class QuestionViewModel: ObservableObject {
             
             self.questions += response.content
             self.total = response.total
-            self.threshold = Int(response.threshold)
+            self.threshold = response.threshold
             self.hasNext = response.hasNext
+            print("다음 질문 있냐? : \(self.hasNext)")
             self.isLoading = false
         } catch {
             print("Error: \(error)")
@@ -36,14 +37,14 @@ final class QuestionViewModel: ObservableObject {
         
         do {
             let response = try await getQuestions(
-                threshold: threshold,
+                threshold: nil,
                 pageSize: 25
             )
             
             self.questions.removeAll()
             self.questions += response.content
             self.total = response.total
-            self.threshold = Int(response.threshold)
+            self.threshold = response.threshold
             self.hasNext = response.hasNext
             self.isLoading = false
         } catch {
@@ -52,7 +53,7 @@ final class QuestionViewModel: ObservableObject {
     }
     
     /// 질문 목록을 받아옵니다.
-    func getQuestions(threshold: Int?, pageSize: Int) async throws -> QuestionResponse.Questions {
+    func getQuestions(threshold: String?, pageSize: Int) async throws -> QuestionResponse.Questions {
         
         let urlString = ApiEndpoints.basicURLString(path: .questions)
         guard let url = URL(string: urlString) else {
@@ -60,9 +61,10 @@ final class QuestionViewModel: ObservableObject {
         }
         
         var urlComponent = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-        if let threshold = threshold {
+        if let threshold = threshold,
+           let encodedThreshold = threshold.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             urlComponent.queryItems = [
-                .init(name: "threshold", value: String(threshold)),
+                .init(name: "threshold", value: encodedThreshold),
                 .init(name: "pageSize", value: String(pageSize))
             ]
         } else {

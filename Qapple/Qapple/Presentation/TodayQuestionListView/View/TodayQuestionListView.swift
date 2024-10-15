@@ -76,7 +76,7 @@ struct TodayQuestionListView: View {
                                 .onAppear {
                                     if index == viewModel.questions.count - 1
                                         && viewModel.hasNext {
-                                        print("답변 페이지네이션")
+                                        print("질문 페이지네이션")
                                         Task {
                                             await viewModel.fetchGetQuestions()
                                         }
