@@ -1,0 +1,48 @@
+name: Qapple CI
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+
+jobs:
+  unitTest:
+
+    runs-on: macos-latest
+
+    env: 
+      GOOGLE_SERVICE: ${{ secrets.GOOGLE_SERVICE }}
+      SERVER: ${{ secrets.SERVER }}
+
+    steps:
+    - uses: maxim-lobanov/setup-xcode@v1.6.0
+      with:
+        # 16.2 버전 오류로 인해 16.1 버전 설정
+        xcode-version: '16.1'
+        
+    - name: Check XCode version
+      run: xcodebuild -version
+      
+    # - name: List available Simulators
+    #   run: xcrun simctl list
+
+    - name: Branch Checkout ✔
+      uses: actions/checkout@v4
+
+    - name: Make GoogleService-Info.plist
+      run: |
+        echo -n $GOOGLE_SERVICE | base64 --decode > Qapple/Qapple/QappleBox/GoogleService_Info.plist
+
+    - name: Make Server.xcconfig
+      run: |
+        echo -n $SERVER | base64 --decode > Qapple/Qapple/QappleBox/Secrets.xcconfig
+
+    - name: UnitTest run
+      run: |
+        xcodebuild clean test \
+        -project Qapple/Qapple.xcodeproj \
+        -scheme QappleTests \
+        -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1' \
+        -skipMacroValidation
