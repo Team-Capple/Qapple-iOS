@@ -11,5 +11,8 @@ import QappleRepository
 @testable import Qapple
 
 struct QappleTests {
-
+    @Test
+    func sampleTest() async throws {
+        
+    }
 }
