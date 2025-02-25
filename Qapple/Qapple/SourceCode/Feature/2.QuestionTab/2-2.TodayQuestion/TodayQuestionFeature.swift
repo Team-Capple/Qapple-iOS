@@ -28,7 +28,7 @@ struct TodayQuestionFeature {
         case refresh
         case mainQuestionResponse(Question)
         case answerListResponse([Answer])
-        case networkingFailed
+        case networkingFailed(Error)
         case questionButtonTapped(Question)
         case seeAllAnswerButtonTapped(Question)
         case seeMoreAnswerButtonTapped(Answer)
@@ -62,7 +62,7 @@ struct TodayQuestionFeature {
                         await send(.mainQuestionResponse(mainQuestion))
                         await send(.answerListResponse(answerList))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -93,9 +93,9 @@ struct TodayQuestionFeature {
                 state.answerPreviewList = answerList
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case .questionButtonTapped:
@@ -135,7 +135,7 @@ struct TodayQuestionFeature {
                         try await answerRepository.deleteAnswer(answer.id)
                         await send(.sheet(.presented(.seeMore(.completionDeletion))))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }

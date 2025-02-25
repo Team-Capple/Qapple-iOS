@@ -11,7 +11,7 @@ import AuthenticationServices
 
 struct SocialLoginView: View {
     
-    let store: StoreOf<SocialLoginFeature>
+    @Bindable var store: StoreOf<SocialLoginFeature>
     
     var body: some View {
         VStack(alignment : .leading, spacing: 0) {
@@ -44,6 +44,7 @@ struct SocialLoginView: View {
         .background(LinearGradient.backgroundGradient)
         .ignoresSafeArea()
         .loadingIndicator(isLoading: store.isLoading)
+        .alert($store.scope(state: \.alert, action: \.alert))
     }
 }
 

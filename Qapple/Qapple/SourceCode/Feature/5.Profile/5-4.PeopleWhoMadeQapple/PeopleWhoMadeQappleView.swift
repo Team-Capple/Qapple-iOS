@@ -62,7 +62,7 @@ private struct ProductManager: View {
                 position: "Product Manager",
                 description: "냉정과 열정 사이",
                 githubLink: nil,
-                linkedinLink: "www.linkedin.com/in/sammy-kwak-8b2286221"
+                linkedinLink: "https://www.linkedin.com/in/sammy-kwak-8b2286221/"
             )
         }
     }
@@ -83,7 +83,7 @@ private struct Designer: View {
                 position: "Designer",
                 description: "인풋과 아웃풋의 조화",
                 githubLink: nil,
-                linkedinLink: "https://www.linkedin.com/in/minwoo-kim-7b94952b7/"
+                linkedinLink: "https://www.linkedin.com/in/ramunesoojin/"
             )
         }
     }

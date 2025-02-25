@@ -23,7 +23,7 @@ struct SignUpFlowFeature {
         case onAppear
         case autoLoginResponse
         case socialLogin(SocialLoginFeature.Action)
-        case networkingFailed
+        case networkingFailed(Error)
         case path(StackActionOf<Path>)
         case alert(PresentationAction<Alert>)
         
@@ -45,7 +45,7 @@ struct SignUpFlowFeature {
                         try await appleLoginService.autoLogin()
                         await send(.autoLoginResponse)
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                 }
                 
@@ -64,9 +64,9 @@ struct SignUpFlowFeature {
                 }
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .path(stackAction):

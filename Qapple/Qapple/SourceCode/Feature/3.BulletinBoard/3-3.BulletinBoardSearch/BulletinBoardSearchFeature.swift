@@ -34,7 +34,7 @@ struct BulletinBoardSearchFeature {
         case binding(BindingAction<State>)
         case boardCellTapped(BulletinBoard)
         case seeMoreAction(BulletinBoard)
-        case networkingFailed
+        case networkingFailed(Error)
         case toggleLoading(Bool)
         
         case sheet(PresentationAction<Sheet.Action>)
@@ -59,7 +59,7 @@ struct BulletinBoardSearchFeature {
                         let response = try await bulletinBoardRepository.searchBoard(searchText, nil)
                         await send(.searchBoardListResponse(response.0, response.1))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -74,7 +74,7 @@ struct BulletinBoardSearchFeature {
                         let response = try await bulletinBoardRepository.searchBoard(searchText, threshold)
                         await send(.searchBoardListResponse(response.0, response.1))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -96,7 +96,7 @@ struct BulletinBoardSearchFeature {
                         try await bulletinBoardRepository.likeBoard(board.id)
                         await send(.likeBoard(board.id))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -141,9 +141,9 @@ struct BulletinBoardSearchFeature {
                 )
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .toggleLoading(bool):
@@ -159,7 +159,7 @@ struct BulletinBoardSearchFeature {
                         await send(.deleteBoard(board.id))
                         await send(.sheet(.presented(.seeMore(.completionDeletion))))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }

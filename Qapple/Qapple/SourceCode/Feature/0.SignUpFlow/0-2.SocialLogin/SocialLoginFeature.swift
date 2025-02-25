@@ -20,7 +20,7 @@ struct SocialLoginFeature {
     enum Action {
         case appleLoginOnRequest(ASAuthorizationAppleIDRequest)
         case appleLoginOnCompletion(Result<ASAuthorization, Error>)
-        case networkingFailed
+        case networkingFailed(Error)
         case toggleLoading(Bool)
         case delegate(Delegate)
         
@@ -51,14 +51,14 @@ struct SocialLoginFeature {
                         let isSignUp = try await memberRepository.signIn(authCode)
                         await send(.delegate(.signInResponse(isSignUp)))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .toggleLoading(bool):

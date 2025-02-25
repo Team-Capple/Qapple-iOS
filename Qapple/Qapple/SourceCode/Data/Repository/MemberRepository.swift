@@ -36,14 +36,8 @@ extension MemberRepository: DependencyKey {
                 deviceToken: deviceToken,
                 server: repositoryService.server
             )
-            try keychainService.createData(
-                .accessToken,
-                response.accessToken ?? ""
-            )
-            try keychainService.createData(
-                .refreshToken,
-                response.refreshToken ?? ""
-            )
+            try keychainService.createData(.accessToken, response.accessToken ?? "")
+            try keychainService.createData(.refreshToken, response.refreshToken ?? "")
             return response.isMember
         },
         signUp: { email, nickname in
@@ -56,14 +50,8 @@ extension MemberRepository: DependencyKey {
                 deviceToken: deviceToken,
                 server: repositoryService.server
             )
-            try keychainService.createData(
-                .accessToken,
-                response.accessToken ?? ""
-            )
-            try keychainService.createData(
-                .refreshToken,
-                response.refreshToken ?? ""
-            )
+            try keychainService.createData(.accessToken, response.accessToken ?? "")
+            try keychainService.createData(.refreshToken, response.refreshToken ?? "")
         },
         sendCertificationEmail: { email in
             let refreshToken = try keychainService.fetchData(.refreshToken)

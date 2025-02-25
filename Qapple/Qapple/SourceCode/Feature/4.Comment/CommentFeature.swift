@@ -42,7 +42,7 @@ struct CommentFeature {
         case likeBoardButtonTapped
         case likeBoard
         case seeMoreAction
-        case networkingFailed
+        case networkingFailed(Error)
         case toggleLoading(Bool)
         case binding(BindingAction<State>)
         
@@ -72,7 +72,7 @@ struct CommentFeature {
                         await send(.commentListResponse(commentResponse.0, commentResponse.1))
                         await send(.boardResponse(boardResponse))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -90,7 +90,7 @@ struct CommentFeature {
                         let response = try await commentRepository.fetchBoardCommentList(boardId, threshold)
                         await send(.paginationResponse(response.0, response.1))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -122,7 +122,7 @@ struct CommentFeature {
                         try await commentRepository.likeBoardComment(boardComment.id)
                         await send(.likeComment(boardComment.id))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -146,7 +146,7 @@ struct CommentFeature {
                         await send(.refresh)
                         await send(.commentTextReset)
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -177,7 +177,7 @@ struct CommentFeature {
                         try await bulletinBoardRepository.likeBoard(board.id)
                         await send(.likeBoard)
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -200,9 +200,9 @@ struct CommentFeature {
                 )
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .toggleLoading(bool):
@@ -220,7 +220,7 @@ struct CommentFeature {
                         try await bulletinBoardRepository.deleteBoard(board.id)
                         await send(.sheet(.presented(.seeMore(.completionDeletion))))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -243,7 +243,7 @@ struct CommentFeature {
                         await send(.refresh)
                         await send(.successDeletion)
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }

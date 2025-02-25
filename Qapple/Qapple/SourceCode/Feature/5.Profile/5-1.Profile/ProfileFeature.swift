@@ -36,7 +36,7 @@ struct ProfileFeature {
         case peopleWhoMadeQappleButtonTapped
         case logOutButtonTapped
         case resignButtonTapped
-        case networkingFailed
+        case networkingFailed(Error)
         case toggleLoading(Bool)
         
         enum Alert {
@@ -72,7 +72,7 @@ struct ProfileFeature {
                         isSignIn.withLock { $0 = false }
                         try keychainService.createData(.userId, "")
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                 }
                 
@@ -84,7 +84,7 @@ struct ProfileFeature {
                         isSignIn.withLock { $0 = false }
                         try keychainService.createData(.userId, "")
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -96,7 +96,7 @@ struct ProfileFeature {
                         let data = try await memberRepository.fetchMyPage()
                         await send(.fetchProfile(data))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -136,9 +136,9 @@ struct ProfileFeature {
                 state.alert = .confirmResign
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .toggleLoading(bool):

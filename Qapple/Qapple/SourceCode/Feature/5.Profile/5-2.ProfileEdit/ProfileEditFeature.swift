@@ -34,7 +34,7 @@ struct ProfileEditFeature {
         case toggleNicknameChange(Bool)
         case binding(BindingAction<State>)
         case nicknameChanged(String)
-        case networkingFailed
+        case networkingFailed(Error)
         case toggleLoading(Bool)
         
         enum Alert {
@@ -76,7 +76,7 @@ struct ProfileEditFeature {
                         await send(.toggleNicknameCheck(!data))
                         await send(.toggleNicknameChange(false))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -121,9 +121,9 @@ struct ProfileEditFeature {
                     }
                 }
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .toggleLoading(bool):

@@ -22,7 +22,7 @@ struct ReportFeature {
         case backButtonTapped
         case reportCellTapped(ReportType)
         case completionReport
-        case networkingFailed
+        case networkingFailed(Error)
         case toggleLoading(Bool)
         case alert(PresentationAction<Alert>)
         
@@ -63,7 +63,7 @@ struct ReportFeature {
                         }
                         await send(.completionReport)
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -72,9 +72,9 @@ struct ReportFeature {
                 state.alert = .reportComplete(from: state.dataType)
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .toggleLoading(bool):

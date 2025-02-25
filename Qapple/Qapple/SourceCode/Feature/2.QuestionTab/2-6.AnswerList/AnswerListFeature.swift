@@ -28,7 +28,7 @@ struct AnswerListFeature {
         case pagination
         case answerListResponse([Answer], QappleAPI.TotalCount, QappleAPI.PaginationInfo)
         case paginagionResponse([Answer], QappleAPI.PaginationInfo)
-        case networkingFailed
+        case networkingFailed(Error)
         case seeMoreAction(Answer)
         case backButtonTapped
         case toggleLoading(Bool)
@@ -61,7 +61,7 @@ struct AnswerListFeature {
                             )
                         )
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -79,7 +79,7 @@ struct AnswerListFeature {
                         )
                         await send(.paginagionResponse(response.0, response.2))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -95,9 +95,9 @@ struct AnswerListFeature {
                 state.paginationInfo = paginationInfo
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .seeMoreAction(answer):
@@ -117,7 +117,7 @@ struct AnswerListFeature {
                         try await answerRepository.deleteAnswer(answer.id)
                         await send(.sheet(.presented(.seeMore(.completionDeletion))))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }

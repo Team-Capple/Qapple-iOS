@@ -35,7 +35,7 @@ struct MyAnswerListFeature {
         )
         case seeMoreAction(Answer)
         case backButtonTapped
-        case networkingFailed
+        case networkingFailed(Error)
         case toggleLoading(Bool)
         case sheet(PresentationAction<Sheet.Action>)
         case alert(PresentationAction<Alert>)
@@ -56,7 +56,7 @@ struct MyAnswerListFeature {
                         let response = try await answerRepository.fetchAnswerListOfProfile(nil)
                         await send(.answerListResponse(response.0, response.1))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -98,7 +98,7 @@ struct MyAnswerListFeature {
                         try await answerRepository.deleteAnswer(answer.id)
                         await send(.sheet(.presented(.seeMore(.completionDeletion))))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -114,9 +114,9 @@ struct MyAnswerListFeature {
                     await dismiss()
                 }
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .toggleLoading(bool):

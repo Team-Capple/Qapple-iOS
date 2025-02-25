@@ -1,12 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "github.png",
+      "filename" : "Octicons-mark-github 1.svg",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

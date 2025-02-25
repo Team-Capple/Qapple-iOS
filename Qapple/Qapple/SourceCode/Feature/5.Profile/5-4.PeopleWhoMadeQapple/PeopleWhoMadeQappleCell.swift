@@ -56,20 +56,34 @@ struct PeopleWhoMadeQappleCell: View {
                 Button {
                     openURL(githubLink)
                 } label: {
-                    Image(.github)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(.white.opacity(0.12))
+                            .stroke(TextLabel.ph, lineWidth: 1)
+                            .frame(width: 36, height: 36)
+                            
+                        Image(.github)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }
             if let linkedinLink = linkedinLink {
                 Button {
                     openURL(linkedinLink)
                 } label: {
-                    Image(.linkedin)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(.white.opacity(0.12))
+                            .stroke(TextLabel.ph, lineWidth: 1)
+                            .frame(width: 36, height: 36)
+                            
+                        Image(.linkedin)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }
         }
@@ -88,14 +102,17 @@ struct PeopleWhoMadeQappleCell: View {
 // MARK: - Preview
 
 #Preview {
-    PeopleWhoMadeQappleCell(
-        avatar: .liver,
-        backgroundColor: .liver,
-        nicknameKor: "리버",
-        nicknameEng: "Liver",
-        position: "Back-end Developer",
-        description: "리버풀 광팬",
-        githubLink: "https://github.com/kyxxgsoo",
-        linkedinLink: nil
-    )
+    ZStack {
+        Color.first.ignoresSafeArea()
+        PeopleWhoMadeQappleCell(
+            avatar: .liver,
+            backgroundColor: .liver,
+            nicknameKor: "리버",
+            nicknameEng: "Liver",
+            position: "Back-end Developer",
+            description: "리버풀 광팬",
+            githubLink: "https://github.com/kyxxgsoo",
+            linkedinLink: nil
+        )
+    }
 }

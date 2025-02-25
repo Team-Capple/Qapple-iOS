@@ -25,7 +25,7 @@ struct BulletinBoardPostFeature {
         case boardTextChanged
         case postBoardButtonTapped
         case anonymityNoticeButtonTapped
-        case networkingFailed
+        case networkingFailed(Error)
         case toggleLoading(Bool)
         case binding(BindingAction<State>)
         
@@ -75,7 +75,7 @@ struct BulletinBoardPostFeature {
                         try await bulletinBoardRepository.postBoard(boardText)
                         await dismiss()
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -84,9 +84,9 @@ struct BulletinBoardPostFeature {
                 state.sheet = .anonymityNotice
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .toggleLoading(bool):

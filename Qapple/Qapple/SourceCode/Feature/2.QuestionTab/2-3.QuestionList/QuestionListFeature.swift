@@ -25,7 +25,7 @@ struct QuestionListFeature {
         case pagination
         case questionListResponse([Question], QappleAPI.TotalCount, QappleAPI.PaginationInfo)
         case paginationResponse([Question], QappleAPI.PaginationInfo)
-        case networkingFailed
+        case networkingFailed(Error)
         case questionCellTapped(Question)
         case answerButtonTapped(Question)
         case toggleLoading(Bool)
@@ -46,7 +46,7 @@ struct QuestionListFeature {
                         let response = try await fetchQuestionList(nil)
                         await send(.questionListResponse(response.0, response.1, response.2))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -58,7 +58,7 @@ struct QuestionListFeature {
                         let response = try await fetchQuestionList(threshold)
                         await send(.paginationResponse(response.0, response.2))
                     } catch {
-                        await send(.networkingFailed)
+                        await send(.networkingFailed(error))
                     }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
@@ -74,9 +74,9 @@ struct QuestionListFeature {
                 state.paginationInfo = paginationInfo
                 return .none
                 
-            case .networkingFailed:
+            case let .networkingFailed(error):
                 HapticService.notification(type: .error)
-                state.alert = .failedNetworking
+                state.alert = .failedNetworking(with: error)
                 return .none
                 
             case let .questionCellTapped(question):
