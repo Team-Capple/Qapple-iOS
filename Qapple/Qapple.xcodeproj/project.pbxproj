@@ -226,6 +226,8 @@
 /* Begin XCBuildConfiguration section */
 		827F39152D6B24FD00A65538 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 820BD96B2D3E508200178F7E /* Qapple */;
+			baseConfigurationReferenceRelativePath = QappleBox/Secrets.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -245,6 +247,8 @@
 		};
 		827F39162D6B24FD00A65538 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 820BD96B2D3E508200178F7E /* Qapple */;
+			baseConfigurationReferenceRelativePath = QappleBox/Secrets.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
