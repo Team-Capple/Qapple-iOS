@@ -11,5 +11,7 @@ import QappleRepository
 @testable import Qapple
 
 struct QappleTests {
-
+    @Test func sample() {
+        
+    }
 }
