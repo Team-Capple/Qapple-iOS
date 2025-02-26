@@ -31,6 +31,10 @@ jobs:
     - name: Branch Checkout ✔
       uses: actions/checkout@v4
 
+    - name: Boot Simulator
+      run: |
+        xcrun simctl boot "iPhone 16 Pro" || sleep 15
+
     #- name: Make GoogleService-Info.plist
     #  run: |
     #    echo -n $GOOGLE_SERVICE | base64 --decode > Qapple/Qapple/QappleBox/GoogleService_Info.plist
