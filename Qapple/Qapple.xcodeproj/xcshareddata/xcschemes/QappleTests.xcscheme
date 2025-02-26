@@ -30,7 +30,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "827F390D2D6B24FD00A65538"
+               BlueprintIdentifier = "2CF388972D6ED23800DAD8BF"
                BuildableName = "QappleTests.xctest"
                BlueprintName = "QappleTests"
                ReferencedContainer = "container:Qapple.xcodeproj">
@@ -58,7 +58,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "827F390D2D6B24FD00A65538"
+            BlueprintIdentifier = "2CF388972D6ED23800DAD8BF"
             BuildableName = "QappleTests.xctest"
             BlueprintName = "QappleTests"
             ReferencedContainer = "container:Qapple.xcodeproj">
