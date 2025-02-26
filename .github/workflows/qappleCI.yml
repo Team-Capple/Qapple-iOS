@@ -31,13 +31,13 @@ jobs:
     - name: Branch Checkout ✔
       uses: actions/checkout@v4
 
-    - name: Make GoogleService-Info.plist
-      run: |
-        echo -n $GOOGLE_SERVICE | base64 --decode > Qapple/Qapple/QappleBox/GoogleService_Info.plist
+    #- name: Make GoogleService-Info.plist
+    #  run: |
+    #    echo -n $GOOGLE_SERVICE | base64 --decode > Qapple/Qapple/QappleBox/GoogleService_Info.plist
         
-    - name: Make Server.xcconfig
-      run: |
-        echo -n $SERVER | base64 --decode > Qapple/Qapple/QappleBox/Secrets.xcconfig
+    #- name: Make Server.xcconfig
+    #  run: |
+    #    echo -n $SERVER | base64 --decode > Qapple/Qapple/QappleBox/Secrets.xcconfig
         
     - name: UnitTest run
       run: |
