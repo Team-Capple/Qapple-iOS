@@ -49,6 +49,7 @@ struct TodayQuestionFeature {
     @Dependency(\.questionRepository.fetchMainQuestion) var fetchMainQuestion
     @Dependency(\.answerRepository) var answerRepository
     @Dependency(\.continuousClock) var clock
+    @Dependency(\.date) var date
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -183,7 +184,7 @@ extension TodayQuestionFeature {
     ///
     /// 질문 라이브 시간: 오후 1시 ~ 오후 8시
     private var isQuestionLiveTime: Bool {
-        let currentHour = Calendar.current.component(.hour, from: .now)
+        let currentHour = Calendar.current.component(.hour, from: date.now)
         return (13...20).contains(currentHour)
     }
     
@@ -192,8 +193,8 @@ extension TodayQuestionFeature {
     /// 질문 생성 시간: 오후 1시
     private var timeLeftForQuestion: TimeInterval {
         let calendar = Calendar.current
-        var nextQuestionDate = calendar.date(bySettingHour: 13, minute: 0, second: 0, of: .now)!
-        if Date.now > nextQuestionDate {
+        var nextQuestionDate = calendar.date(bySettingHour: 13, minute: 0, second: 0, of: date.now)!
+        if date.now > nextQuestionDate {
             nextQuestionDate = calendar.date(byAdding: .day, value: 1, to: nextQuestionDate)!
         }
         return nextQuestionDate.timeIntervalSinceNow
