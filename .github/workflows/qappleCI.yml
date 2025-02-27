@@ -47,6 +47,6 @@ jobs:
       run: |
         xcodebuild clean test \
         -project Qapple/Qapple.xcodeproj \
-        -scheme Qapple \
+        -scheme QappleTests \
         -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1' \
         -skipMacroValidation
