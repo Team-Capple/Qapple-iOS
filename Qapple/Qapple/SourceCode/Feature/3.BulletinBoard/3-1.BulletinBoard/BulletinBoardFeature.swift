@@ -105,8 +105,7 @@ struct BulletinBoardFeature {
             case let .likeBoardButtonTapped(board):
                 let event = "likeBoardButtonTapped"
                 let parameters = [
-                    "itemName": "likeBoardButton",
-                    "itemCategory": "BulletinBoard"
+                    "select_content": "likeBoardButton"
                 ]
                 Analytics.logEvent(event, parameters: parameters)
                 HapticService.impact(style: .light)
