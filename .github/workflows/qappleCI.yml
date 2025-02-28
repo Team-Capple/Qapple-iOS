@@ -11,10 +11,13 @@ on:
       - develop
 
 
-
 jobs:
   build:
     runs-on: macos-latest
+
+    #env: 
+    #  GOOGLE_SERVICE: ${{ secrets.GOOGLE_SERVICE }}
+    #  SERVER: ${{ secrets.SERVER }}
 
     steps:
     - name: Set Xcode Version 🛠️
@@ -29,6 +32,14 @@ jobs:
 
     - name: Checkout Repository 🖨️
       uses: actions/checkout@v4
+
+      
+    #- name: Make GoogleService-Info.plist
+    #  run: |
+    #    echo -n $GOOGLE_SERVICE | base64 --decode > Qapple/Qapple/QappleBox/GoogleService_Info.plist
+    #- name: Make Server.xcconfig
+    #  run: |
+    #    echo -n $SERVER | base64 --decode > Qapple/Qapple/QappleBox/Secrets.xcconfig
 
     - name: Build 💻
       run: |
