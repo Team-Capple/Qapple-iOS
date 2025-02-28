@@ -17,7 +17,6 @@ xcuserdata/
 ## Secrets
 Secrets.xcconfig
 GoogleService-Info.plist
-*.xcscheme
 
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
