@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 import ComposableArchitecture
 
 @Reducer
@@ -102,6 +103,11 @@ struct BulletinBoardFeature {
                 return .none
                 
             case let .likeBoardButtonTapped(board):
+                let event = "likeBoardButtonTapped"
+                let parameters = [
+                    "select_content": "likeBoardButton"
+                ]
+                Analytics.logEvent(event, parameters: parameters)
                 HapticService.impact(style: .light)
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)
