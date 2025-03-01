@@ -51,6 +51,8 @@ struct TodayQuestionView: View {
 
 private struct HeaderView: View {
     
+    @State private var offsetY: CGFloat = 0
+    
     let store: StoreOf<TodayQuestionFeature>
     
     var body: some View {
@@ -60,12 +62,18 @@ private struct HeaderView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: 120, height: 120)
+                    .offset(y: offsetY)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 1.5).repeatForever()) {
+                            offsetY = -20
+                        }
+                    }
                 
                 Text(store.questionState.mainTitle)
                     .font(.pretendard(.bold, size: 23))
                     .foregroundStyle(.wh)
                     .tracking(-1)
-                    .padding(.top, 16)
+                    .padding(.top, 20)
                 
                 if store.questionState == .creating {
                     Text(store.timeRemainingForQuestion.timerFormat)
