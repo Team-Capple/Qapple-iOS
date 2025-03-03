@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "3A459733-A2B9-46BA-9FCD-FFA8C857EEA9",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Qapple.xcodeproj",
+      "identifier" : "82E17E1E2D6F3CED0004FFB4",
+      "name" : "QappleTests"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Qapple.xcodeproj",
+        "identifier" : "82E17E1E2D6F3CED0004FFB4",
+        "name" : "QappleTests"
+      }
+    }
+  ],
+  "version" : 1
+}
