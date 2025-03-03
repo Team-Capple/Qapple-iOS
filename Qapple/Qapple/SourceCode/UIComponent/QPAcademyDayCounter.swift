@@ -53,28 +53,21 @@ private struct ContentView: View {
             Header(event: event, dayLeft: dayLeft, isCurrentEvent: true)
             
             HStack {
-                Text(monthDayDate(event.period.0))
+                Text(event.period.0.formatting(.mdKorean))
                 Spacer()
-                Text(monthDayDate(event.period.1))
+                Text(event.period.1.formatting(.mdKorean))
             }
             .padding(.top, 16)
+            .padding(.horizontal, 2)
             .foregroundStyle(.main).opacity(0.6)
-            .pretendard(.regular, 14)
+            .pretendard(.semiBold, 14)
             
             ProgressBar(
                 event: event,
-                dayLeftUntilNextEvent: dayLeft
+                dayLeft: dayLeft
             )
             .padding(.top, 8)
         }
-    }
-    
-    /// 전체 날짜 포맷 문자열을 분리 문자열과 함께 반환합니다.
-    /// ex) 03.03 or 03/03
-    private func monthDayDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd"
-        return dateFormatter.string(from: date)
     }
 }
 
@@ -111,7 +104,7 @@ private struct Header: View {
 private struct ProgressBar: View {
 
     let event: AcademyEventFor4th
-    let dayLeftUntilNextEvent: Int
+    let dayLeft: Int
 
     var body: some View {
         GeometryReader { proxy in
@@ -136,7 +129,7 @@ private struct ProgressBar: View {
             .current
             .dateComponents([.day], from: startDate, to: endDate)
             .day ?? 0
-        return Double(total - dayLeftUntilNextEvent) / Double(total)
+        return Double(total - dayLeft) / Double(total)
     }
 }
 

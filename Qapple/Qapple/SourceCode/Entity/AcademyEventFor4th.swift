@@ -113,6 +113,6 @@ extension AcademyEventFor4th {
     
     /// 두 날짜 사이의 일 수를 계산합니다.
     private func daysBetween(_ startDate: StartDate, _ endDate: EndDate) -> Int {
-        Calendar.current.dateComponents([.day], from: startDate, to: endDate).day ?? 0
+        Calendar.current.dateComponents([.day], from: startDate, to: endDate).day! + 1
     }
 }

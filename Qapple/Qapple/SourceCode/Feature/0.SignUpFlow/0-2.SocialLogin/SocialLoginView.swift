@@ -42,7 +42,7 @@ struct SocialLoginView: View {
             .disabled(store.isLoading)
         }
         .padding(.horizontal, 24)
-        .background(LinearGradient.backgroundGradient)
+        .background(LinearGradient.background)
         .ignoresSafeArea()
         .loadingIndicator(isLoading: store.isLoading)
         .alert($store.scope(state: \.alert, action: \.alert))

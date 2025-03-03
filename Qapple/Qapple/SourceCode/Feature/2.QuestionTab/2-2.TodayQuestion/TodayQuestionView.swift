@@ -78,7 +78,7 @@ private struct HeaderView: View {
                 if store.questionState == .creating {
                     Text(store.timeRemainingForQuestion.timerFormat)
                         .font(.pretendard(.bold, size: 38))
-                        .foregroundStyle(LinearGradient.timerGradient)
+                        .foregroundStyle(LinearGradient.timer)
                         .frame(height: 27)
                         .padding(.top, 12)
                         .monospacedDigit()

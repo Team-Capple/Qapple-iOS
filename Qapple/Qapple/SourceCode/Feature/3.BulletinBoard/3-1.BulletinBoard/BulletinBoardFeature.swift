@@ -28,6 +28,7 @@ struct BulletinBoardFeature {
         case bulletinBoardListResponse([BulletinBoard], QappleAPI.PaginationInfo)
         case paginationResponse([BulletinBoard], QappleAPI.PaginationInfo)
         
+        case academyDayCounterTapped
         case boardCellTapped(BulletinBoard)
         case reportButtonTapped
         case likeBoardButtonTapped(BulletinBoard)
@@ -91,6 +92,10 @@ struct BulletinBoardFeature {
             case let .paginationResponse(bulletinBoardList, paginationInfo):
                 state.bulletinBoardList += bulletinBoardList
                 state.paginationInfo = paginationInfo
+                return .none
+                
+            case .academyDayCounterTapped:
+                state.sheet = .academySchedule
                 return .none
                 
             case .boardCellTapped:
@@ -201,6 +206,7 @@ extension BulletinBoardFeature {
     @Reducer(state: .equatable)
     enum Sheet {
         case seeMore(SeeMoreSheetFeature)
+        case academySchedule
     }
 }
 
