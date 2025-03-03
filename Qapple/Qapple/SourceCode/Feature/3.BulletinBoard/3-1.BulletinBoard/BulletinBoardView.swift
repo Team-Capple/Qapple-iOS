@@ -69,11 +69,9 @@ private struct BulletinBoardContentView: View {
                 }
             )
             
-            QPAcademyDayCounter(
-                academyEvents: store.academyEvents
-            )
-            .padding(.top, 8)
-            .padding(.horizontal, 16)
+            QPAcademyDayCounter()
+                .padding(.top, 8)
+                .padding(.horizontal, 16)
             
             BulletionBoardListView(store: store)
                 .padding(.top, 20)

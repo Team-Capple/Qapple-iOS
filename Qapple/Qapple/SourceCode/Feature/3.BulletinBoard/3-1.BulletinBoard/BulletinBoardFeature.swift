@@ -17,7 +17,6 @@ struct BulletinBoardFeature {
         @Presents var alert: AlertState<Action.Alert>?
         var bulletinBoardList: [BulletinBoard] = []
         var paginationInfo = QappleAPI.PaginationInfo(threshold: "", hasNext: false)
-        var academyEvents: [AcademyEvent] = [.macro, .epilogue]
         var isLoading: Bool = false
         var isFirstLaunch = true
     }
