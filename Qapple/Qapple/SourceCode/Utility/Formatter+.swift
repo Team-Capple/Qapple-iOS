@@ -11,12 +11,31 @@ import Foundation
 
 extension Date {
     
+    /// DateFormatter 재사용을 위한 타입 프로퍼티
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }()
+    
+    /// 날짜 변환 타입 열거형
+    enum FormatType {
+        case md
+        case mdd
+        case mmdd
+        case mdKorean
+    }
+    
     /// 전체 날짜 포맷 문자열을 반환합니다.
     /// ex) 03.03
-    var monthDayDate: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM.dd"
-        return dateFormatter.string(from: self)
+    func formatting(_ formatType: FormatType, separator: String = ".") -> String {
+        switch formatType {
+        case .md: Date.dateFormatter.dateFormat = "M\(separator)d"
+        case .mdd: Date.dateFormatter.dateFormat = "M\(separator)dd"
+        case .mmdd: Date.dateFormatter.dateFormat = "MM\(separator)dd"
+        case .mdKorean: Date.dateFormatter.dateFormat = "M월 d일"
+        }
+        return Date.dateFormatter.string(from: self)
     }
     
     /// 현재 날짜와 비교해 방금, n초전, n분 전, n시간 전, 하루 전, 날짜 출력 포맷을 반환합니다.
@@ -44,10 +63,7 @@ extension Date {
             } else if day < 2 {
                 return "하루 전"
             } else {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MM.dd"
-                dateFormatter.locale = Locale(identifier: "ko_KR")
-                return dateFormatter.string(from: self)
+                return self.formatting(.mmdd)
             }
         } else {
             return "ERROR"

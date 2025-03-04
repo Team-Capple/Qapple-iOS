@@ -137,7 +137,7 @@ extension QuestionCell {
                 .frame(width: 2, height: 10)
                 .foregroundStyle(.icon.opacity(0.5))
             
-            Text(question.publishedDate.monthDayDate)
+            Text(question.publishedDate.formatting(.mmdd))
                 .font(.pretendard(.regular, size: 14))
                 .foregroundStyle(.icon)
             
