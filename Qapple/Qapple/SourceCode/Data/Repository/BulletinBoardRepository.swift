@@ -154,6 +154,19 @@ extension BulletinBoardRepository: DependencyKey {
             return (filteredList, QappleAPI.PaginationInfo(threshold: "0", hasNext: false))
         }
     )
+    
+    static let testValue = Self(
+        fetchBulletinBoardList: { _ in
+            (stubBulletinBoardList, .init(threshold: "0", hasNext: false))
+        },
+        postBoard: { _ in },
+        fetchSingleBoard: { _ in stubSingleBulletinBoard },
+        deleteBoard: { _ in },
+        likeBoard: { _ in },
+        searchBoard: { _, _ in
+            (stubBulletinBoardList, .init(threshold: "0", hasNext: false))
+        }
+    )
 }
 
 // MARK: - DependencyValues
@@ -189,4 +202,18 @@ extension BulletinBoardRepository {
         }
         return boardList
     }
+    
+    private static let stubSingleBulletinBoard: BulletinBoard =
+        .init(
+            id: 1,
+            writerId: 1,
+            writerNickname: "테스트",
+            content: "테스트입니다.",
+            heartCount: 2,
+            commentCount: 3,
+            createAt: Date.distantPast,
+            isMine: true,
+            isReported: false,
+            isLiked: false
+        )
 }
