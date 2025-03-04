@@ -27,12 +27,16 @@ enum AcademyEventFor4th: CaseIterable {
     typealias StartDate = Date
     typealias EndDate = Date
     
+    /// 재사용을 위한 DateComponents
+    private static var dateComponent = DateComponents()
+    
     /// 현재 진행 중인 아카데미 이벤트를 반환합니다.
     static var currentEvent: AcademyEventFor4th? {
         let events = AcademyEventFor4th.allCases
+        let today = Calendar.utc.dateComponents([.year, .month, .day], from: .now)
         for event in events {
             let (startDate, endDate) = event.period
-            if startDate...endDate ~= Date.now {
+            if startDate...endDate ~= Calendar.utc.date(from: today)! {
                 return event
             }
         }
@@ -74,7 +78,7 @@ enum AcademyEventFor4th: CaseIterable {
     /// 아카데미 이벤트 기간을 시작날짜, 종료날짜 형태의 튜플로 반환합니다.
     var period: (StartDate, EndDate) {
         switch self {
-        case .newStart: (ymdToDate(1, 1), ymdToDate(3, 9))
+        case .newStart: (ymdToDate(1, 1), ymdToDate(3, 4))
         case .prelude: (ymdToDate(3, 10), ymdToDate(3, 15))
         case .challenge1: (ymdToDate(3, 17), ymdToDate(3, 29))
         case .bridge1: (ymdToDate(3, 31), ymdToDate(4, 5))
@@ -104,15 +108,14 @@ extension AcademyEventFor4th {
     
     /// 연, 월, 일을 인자로 받아 Date 타입을 반환합니다.
     private func ymdToDate(_ month: Int, _ day: Int) -> Date {
-        var dateComponent = DateComponents()
-        dateComponent.year = 2025
-        dateComponent.month = month
-        dateComponent.day = day
-        return Calendar.current.date(from: dateComponent)!
+        AcademyEventFor4th.dateComponent.year = 2025
+        AcademyEventFor4th.dateComponent.month = month
+        AcademyEventFor4th.dateComponent.day = day
+        return Calendar.utc.date(from: AcademyEventFor4th.dateComponent)!
     }
     
     /// 두 날짜 사이의 일 수를 계산합니다.
     private func daysBetween(_ startDate: StartDate, _ endDate: EndDate) -> Int {
-        Calendar.current.dateComponents([.day], from: startDate, to: endDate).day! + 1
+        Calendar.utc.dateComponents([.day], from: startDate, to: endDate).day!
     }
 }

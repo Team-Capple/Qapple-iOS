@@ -34,10 +34,8 @@ struct QPAcademyDayCounter: View {
     
     /// 종료 날짜까지 얼마나 남았는지 반환합니다.
     private func dayLeft(from date: Date) -> Int {
-        Calendar
-            .current
-            .dateComponents([.day], from: .now, to: date)
-            .day! + 1
+        let today = Calendar.utc.dateComponents([.year, .month, .day], from: .now)
+        return Calendar.utc.dateComponents([.day], from: Calendar.utc.date(from: today)!, to: date).day!
     }
 }
 
@@ -92,9 +90,17 @@ private struct Header: View {
             
             Spacer()
             
-            Text("\(dayLeft)\(isCurrentEvent ? "일 남음" : "일 후 시작")")
+            Text(dayLeftText)
                 .foregroundStyle(.main).opacity(0.8)
                 .pretendard(.semiBold, 17)
+        }
+    }
+    
+    private var dayLeftText: String {
+        if dayLeft == 0 {
+            "마지막 날"
+        } else {
+            "\(dayLeft)\(isCurrentEvent ? "일 남음" : "일 후 시작")"
         }
     }
 }
@@ -125,8 +131,7 @@ private struct ProgressBar: View {
     /// Progress 값을 반환합니다.
     private var progress: Double {
         let (startDate, endDate) = event.period
-        let total = Calendar
-            .current
+        let total = Calendar.utc
             .dateComponents([.day], from: startDate, to: endDate)
             .day ?? 0
         return Double(total - dayLeft) / Double(total)
