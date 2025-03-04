@@ -16,14 +16,14 @@ struct QPAcademyScheduleSheet: View {
                 if let currentEvent = AcademyEventFor4th.currentEvent {
                     ContentView(
                         event: currentEvent,
-                        dayLeft: dayLeft(from: currentEvent.period.1),
+                        dayLeft: currentEvent.period.1.dayLeft,
                         isCurrentEvent: true
                     )
                 } else {
                     if let nextEvent = AcademyEventFor4th.nextEvent {
                         ContentView(
                             event: nextEvent,
-                            dayLeft: dayLeft(from: nextEvent.period.0),
+                            dayLeft: nextEvent.period.0.dayLeft,
                             isCurrentEvent: false
                         )
                     }
@@ -32,14 +32,6 @@ struct QPAcademyScheduleSheet: View {
         }
         .presentationDragIndicator(.visible)
         .presentationDetents(.init([.medium, .large]))
-    }
-    
-    /// 종료 날짜까지 얼마나 남았는지 반환합니다.
-    private func dayLeft(from date: Date) -> Int {
-        Calendar
-            .current
-            .dateComponents([.day], from: .now, to: date)
-            .day! + 1
     }
 }
 

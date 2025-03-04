@@ -33,10 +33,9 @@ enum AcademyEventFor4th: CaseIterable {
     /// 현재 진행 중인 아카데미 이벤트를 반환합니다.
     static var currentEvent: AcademyEventFor4th? {
         let events = AcademyEventFor4th.allCases
-        let today = Calendar.utc.dateComponents([.year, .month, .day], from: .now)
         for event in events {
             let (startDate, endDate) = event.period
-            if startDate...endDate ~= Calendar.utc.date(from: today)! {
+            if startDate...endDate ~= today {
                 return event
             }
         }
@@ -48,7 +47,7 @@ enum AcademyEventFor4th: CaseIterable {
         let events = AcademyEventFor4th.allCases
         for event in events {
             let (startDate, _) = event.period
-            if Date.now < startDate {
+            if today < startDate {
                 return event
             }
         }
@@ -78,19 +77,19 @@ enum AcademyEventFor4th: CaseIterable {
     /// 아카데미 이벤트 기간을 시작날짜, 종료날짜 형태의 튜플로 반환합니다.
     var period: (StartDate, EndDate) {
         switch self {
-        case .newStart: (ymdToDate(1, 1), ymdToDate(3, 4))
-        case .prelude: (ymdToDate(3, 10), ymdToDate(3, 15))
-        case .challenge1: (ymdToDate(3, 17), ymdToDate(3, 29))
-        case .bridge1: (ymdToDate(3, 31), ymdToDate(4, 5))
-        case .challenge2: (ymdToDate(4, 7), ymdToDate(4, 26))
-        case .bridge2: (ymdToDate(4, 28), ymdToDate(5, 3))
-        case .challenge3: (ymdToDate(5, 5), ymdToDate(6, 14))
-        case .bridge3: (ymdToDate(6, 16), ymdToDate(6, 21))
-        case .challenge4: (ymdToDate(6, 21), ymdToDate(8, 2))
-        case .bridge4: (ymdToDate(8, 4), ymdToDate(8, 9))
-        case .challenge5: (ymdToDate(8, 11), ymdToDate(8, 23))
+        case .newStart: (ymdToDate(1, 1), ymdToDate(3, 9))
+        case .prelude: (ymdToDate(3, 10), ymdToDate(3, 14))
+        case .challenge1: (ymdToDate(3, 17), ymdToDate(3, 28))
+        case .bridge1: (ymdToDate(3, 31), ymdToDate(4, 4))
+        case .challenge2: (ymdToDate(4, 7), ymdToDate(4, 25))
+        case .bridge2: (ymdToDate(4, 28), ymdToDate(5, 2))
+        case .challenge3: (ymdToDate(5, 7), ymdToDate(6, 14))
+        case .bridge3: (ymdToDate(6, 16), ymdToDate(6, 20))
+        case .challenge4: (ymdToDate(6, 23), ymdToDate(8, 1))
+        case .bridge4: (ymdToDate(8, 4), ymdToDate(8, 8))
+        case .challenge5: (ymdToDate(8, 11), ymdToDate(8, 22))
         case .bridge5: (ymdToDate(8, 25), ymdToDate(8, 29))
-        case .challenge6: (ymdToDate(9, 1), ymdToDate(11, 29))
+        case .challenge6: (ymdToDate(9, 26), ymdToDate(11, 28))
         case .epilogue: (ymdToDate(12, 1), ymdToDate(12, 13))
         }
     }
@@ -98,13 +97,19 @@ enum AcademyEventFor4th: CaseIterable {
     /// 아카데미 이벤트 기간의 총 일수를 반환합니다.
     var totalDays: Int {
         let (startDate, endDate) = period
-        return daysBetween(startDate, endDate)
+        return daysBetween(startDate, endDate) + 1
     }
 }
 
 // MARK: - Helper
 
 extension AcademyEventFor4th {
+    
+    /// 오늘 날짜를 UTC 형식으로 반환합니다.
+    private static var today: Date {
+        let todayComponent = Calendar.utc.dateComponents([.year, .month, .day], from: .now)
+        return Calendar.utc.date(from: todayComponent)!
+    }
     
     /// 연, 월, 일을 인자로 받아 Date 타입을 반환합니다.
     private func ymdToDate(_ month: Int, _ day: Int) -> Date {
