@@ -91,6 +91,17 @@ private struct NormalCell: View {
                 .foregroundStyle(.icon)
                 .padding(.leading, 8)
             
+            if !answer.authorGeneration.isEmpty {
+                Text(answer.authorGeneration)
+                    .pretendard(.medium, 11)
+                    .foregroundStyle(.wh)
+                    .padding(.vertical, 2)
+                    .padding(.horizontal, 8)
+                    .background(.secondaryButton)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding(.leading, 6)
+            }
+            
             Text(answer.publishedDate.timeAgo)
                 .pretendard(.regular, 14)
                 .foregroundStyle(.sub4)
@@ -249,6 +260,7 @@ private struct ReportedCell: View {
             id: 0,
             content: "일반 답변",
             authorNickname: "시몬스",
+            authorGeneration: "3기",
             publishedDate: .now,
             isReported: false,
             isMine: false,
@@ -258,6 +270,7 @@ private struct ReportedCell: View {
             id: 1,
             content: "내 답변",
             authorNickname: "한톨",
+            authorGeneration: "4기",
             publishedDate: .now,
             isReported: false,
             isMine: true,
@@ -267,6 +280,7 @@ private struct ReportedCell: View {
             id: 2,
             content: "탈퇴한 답변",
             authorNickname: "무니",
+            authorGeneration: "3기",
             publishedDate: .now,
             isReported: false,
             isMine: false,
@@ -276,6 +290,7 @@ private struct ReportedCell: View {
             id: 3,
             content: "신고된 답변",
             authorNickname: "리버",
+            authorGeneration: "4기",
             publishedDate: .now,
             isReported: true,
             isMine: false,
