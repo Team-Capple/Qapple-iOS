@@ -91,16 +91,14 @@ private struct NormalCell: View {
                 .foregroundStyle(.icon)
                 .padding(.leading, 8)
             
-            if !answer.authorGeneration.isEmpty {
-                Text(answer.authorGeneration)
-                    .pretendard(.medium, 11)
-                    .foregroundStyle(.wh)
-                    .padding(.vertical, 2)
-                    .padding(.horizontal, 8)
-                    .background(.secondaryButton)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding(.leading, 6)
-            }
+            Text(answer.authorGeneration.isEmpty ? "3기" : answer.authorGeneration)
+                .pretendard(.medium, 11)
+                .foregroundStyle(.wh)
+                .padding(.vertical, 2)
+                .padding(.horizontal, 8)
+                .background(.secondaryButton)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .padding(.leading, 6)
             
             Text(answer.publishedDate.timeAgo)
                 .pretendard(.regular, 14)
