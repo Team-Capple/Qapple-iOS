@@ -11,6 +11,8 @@ struct QappleNotification: Identifiable, Equatable {
     let id: String
     let boardId: String
     let boardCommentId: String?
+    let isResponsedQuestion: Bool?
+    let isReportedBoard: Bool?
     let title: String
     let subtitle: String?
     let content: String
