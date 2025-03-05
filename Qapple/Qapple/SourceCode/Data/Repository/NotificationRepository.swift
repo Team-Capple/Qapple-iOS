@@ -35,7 +35,7 @@ extension NotificationRepository: DependencyKey {
             
             let result = response.content.map {
                 QappleNotification(
-                    id: $0.questionId ?? "",
+                    questionId: $0.questionId ?? "",
                     boardId: $0.boardId ?? "",
                     boardCommentId: $0.boardCommentId,
                     isResponsedQuestion: $0.isResponsedQuestion,
@@ -88,6 +88,11 @@ extension NotificationRepository: DependencyKey {
             NotificationRepository.dummyBoard
         }
     )
+    
+    static let testValue: NotificationRepository = Self(
+        fetchNotificationList: { _ in (dummyNoti, .init(threshold: "1234", hasNext: true)) },
+        fetchSingleBoard: { _ in dummyBoard }
+    )
 }
 
 // MARK: - DependencyValues
@@ -107,7 +112,7 @@ extension NotificationRepository {
         var result = [QappleNotification]()
         for i in 0 ..< 25 {
             result.append(.init(
-                id: String(i),
+                questionId: String(i),
                 boardId: String(i),
                 boardCommentId: nil,
                 isResponsedQuestion: nil,

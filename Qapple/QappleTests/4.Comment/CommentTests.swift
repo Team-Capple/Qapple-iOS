@@ -104,6 +104,7 @@ extension CommentTests {
         BoardComment( // 좋아요 눌러진 댓글
             id: 1,
             writeId: 1,
+            writerGeneration: "3기",
             content: "테스트 댓글입니다.1",
             heartCount: 0,
             isLiked: false,
@@ -114,6 +115,7 @@ extension CommentTests {
         BoardComment( // 좋아요 눌러지지 않은 게시글
             id: 2,
             writeId: 1,
+            writerGeneration: "3기",
             content: "테스트 댓글입니다.2",
             heartCount: 1,
             isLiked: true,
@@ -308,6 +310,8 @@ extension CommentTests {
     }
 }
 
+
+// MARK: - Test Stub
 extension CommentTests {
     private var sampleBoard: BulletinBoard {
         .init(

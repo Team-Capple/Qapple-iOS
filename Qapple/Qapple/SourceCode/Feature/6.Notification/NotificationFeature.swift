@@ -26,7 +26,7 @@ struct NotificationFeature {
     enum Action {
         case onAppear
         case onRefresh
-        case onPagenationCellAppear(Int)
+        case onPaginationCellAppear(Int)
         case notificationCellTapped(Int)
         case reportedBoard
         case unknownError
@@ -66,13 +66,17 @@ struct NotificationFeature {
                     }
                 }
                 
-            case let .onPagenationCellAppear(index):
+            case let .onPaginationCellAppear(index):
                 guard state.hasNext, index == state.notifications.count - 1 else { return .none }
                 state.isLoading = true
                 
                 return .run { [threshold = state.threshold] send in
-                    let result = try await notificationRepository.fetchNotificationList(threshold)
-                    await send(.fetchNotifications(result.0, result.1))
+                    do {
+                        let result = try await notificationRepository.fetchNotificationList(threshold)
+                        await send(.fetchNotifications(result.0, result.1))
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
                 }
                 
             case let .fetchNotifications(notifications, pagenationInfo):
@@ -104,7 +108,7 @@ struct NotificationFeature {
                         } catch {
                             await send(.unknownError)
                         }
-                    } else if let questionId = Int(noti.id) { // 질문 관련 알림일때
+                    } else if let questionId = Int(noti.questionId) { // 질문 관련 알림일때
                         guard let isAnswered = noti.isResponsedQuestion else {
                             await send(.unknownError)
                             return
