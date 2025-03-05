@@ -46,7 +46,7 @@ final class RepositoryService {
         do {
             // 1. 네트워킹 성공 시, 기존 Token 값 사용
             return try await handler(self.server, accessToken)
-        } catch NetworkError.authenticationFailed {
+        } catch RepositoryError.authenticationFailed {
             
             do {
                 // 2-1. 네트워킹 실패(403 에러 발생)시, Token 재발급

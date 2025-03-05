@@ -39,6 +39,7 @@ extension CommentRepository: DependencyKey {
                 BoardComment(
                     id: $0.boardCommentId,
                     writeId: $0.writerId,
+                    writerGeneration: $0.writerGeneration,
                     content: $0.content,
                     heartCount: $0.heartCount,
                     isLiked: $0.isLiked,
@@ -117,6 +118,7 @@ extension CommentRepository {
         .init(
             id: 0,
             writeId: 0,
+            writerGeneration: "3기",
             content: "하이요1",
             heartCount: 1,
             isLiked: false,
@@ -128,6 +130,7 @@ extension CommentRepository {
         .init(
             id: 1,
             writeId: 1,
+            writerGeneration: "3기",
             content: "하이요2",
             heartCount: 2,
             isLiked: true,
@@ -139,6 +142,7 @@ extension CommentRepository {
         .init(
             id: 2,
             writeId: 2,
+            writerGeneration: "3기",
             content: "하이요3",
             heartCount: 3,
             isLiked: false,
@@ -150,6 +154,7 @@ extension CommentRepository {
         .init(
             id: 3,
             writeId: 3,
+            writerGeneration: "3기",
             content: "하이요4",
             heartCount: 4,
             isLiked: true,
@@ -161,6 +166,7 @@ extension CommentRepository {
         .init(
             id: 3,
             writeId: 2,
+            writerGeneration: "3기",
             content: "하이요5",
             heartCount: 4,
             isLiked: true,
@@ -172,6 +178,7 @@ extension CommentRepository {
         .init(
             id: 3,
             writeId: 1,
+            writerGeneration: "3기",
             content: "하이요6",
             heartCount: 4,
             isLiked: true,

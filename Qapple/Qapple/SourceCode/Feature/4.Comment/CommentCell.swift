@@ -253,6 +253,7 @@ private struct CommentReportButton: View {
     let comment = BoardComment(
         id: 4,
         writeId: 5,
+        writerGeneration: "3기",
         content: "테스트입니다",
         heartCount: 20,
         isLiked: true,
