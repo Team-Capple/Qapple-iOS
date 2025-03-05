@@ -27,7 +27,7 @@ struct BulletinBoardView: View {
                     )
                 )
             }
-            .background(Background.first)
+            .background(.first)
         }
         .onAppear{
             store.send(.onAppear)
@@ -40,6 +40,7 @@ struct BulletinBoardView: View {
         ) { store in
             switch store.case {
             case let .seeMore(store): SeeMoreSheet(store: store)
+            case .academySchedule: QPAcademyScheduleSheet()
             }
         }
         .alert($store.scope(state: \.alert, action: \.alert))
@@ -69,11 +70,14 @@ private struct BulletinBoardContentView: View {
                 }
             )
             
-            QPAcademyDayCounter(
-                academyEvents: store.academyEvents
-            )
-            .padding(.top, 8)
-            .padding(.horizontal, 16)
+            Button {
+                store.send(.academyDayCounterTapped)
+            } label: {
+                QPAcademyDayCounter()
+                    .padding(.top, 8)
+                    .padding(.horizontal, 16)
+            }
+            .buttonStyle(ScalableButtonStyle())
             
             BulletionBoardListView(store: store)
                 .padding(.top, 20)

@@ -9,8 +9,17 @@ import SwiftUI
 
 extension LinearGradient {
     
+    /// 투명 그라디언트(분기 처리용)
+    static var clear: LinearGradient {
+        LinearGradient(
+            stops: [],
+            startPoint: UnitPoint(x: 0, y: 0),
+            endPoint: UnitPoint(x: 0, y: 0)
+        )
+    }
+    
     /// 배경 그라디언트
-    static var backgroundGradient: LinearGradient {
+    static var background: LinearGradient {
         LinearGradient(
             stops: [
                 Gradient.Stop(color: Color(red: 0.12, green: 0.12, blue: 0.13).opacity(0), location: 0.00),
@@ -22,7 +31,7 @@ extension LinearGradient {
     }
     
     /// 타이머 그라디언트
-    static var timerGradient: LinearGradient {
+    static var timer: LinearGradient {
         LinearGradient(
             gradient: Gradient(colors: [
                 Color(red: 212/255, green: 105/255, blue: 249/255),
@@ -31,6 +40,18 @@ extension LinearGradient {
             ]),
             startPoint: .leading,
             endPoint: .trailing
+        )
+    }
+    
+    /// 핑크 그라디언트
+    static var pink: LinearGradient {
+        LinearGradient(
+            stops: [
+                Gradient.Stop(color: Color(red: 0.84, green: 0.61, blue: 0.65), location: 0.00),
+                Gradient.Stop(color: Color(red: 0.88, green: 0.4, blue: 0.48), location: 1.00),
+            ],
+            startPoint: UnitPoint(x: 0.5, y: 0),
+            endPoint: UnitPoint(x: 0.5, y: 1)
         )
     }
 }

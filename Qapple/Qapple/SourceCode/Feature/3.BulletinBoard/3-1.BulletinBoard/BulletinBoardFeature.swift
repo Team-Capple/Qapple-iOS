@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 import ComposableArchitecture
 
 @Reducer
@@ -16,7 +17,6 @@ struct BulletinBoardFeature {
         @Presents var alert: AlertState<Action.Alert>?
         var bulletinBoardList: [BulletinBoard] = []
         var paginationInfo = QappleAPI.PaginationInfo(threshold: "", hasNext: false)
-        var academyEvents: [AcademyEvent] = [.macro, .epilogue]
         var isLoading: Bool = false
         var isFirstLaunch = true
     }
@@ -28,6 +28,7 @@ struct BulletinBoardFeature {
         case bulletinBoardListResponse([BulletinBoard], QappleAPI.PaginationInfo)
         case paginationResponse([BulletinBoard], QappleAPI.PaginationInfo)
         
+        case academyDayCounterTapped
         case boardCellTapped(BulletinBoard)
         case reportButtonTapped
         case likeBoardButtonTapped(BulletinBoard)
@@ -93,6 +94,10 @@ struct BulletinBoardFeature {
                 state.paginationInfo = paginationInfo
                 return .none
                 
+            case .academyDayCounterTapped:
+                state.sheet = .academySchedule
+                return .none
+                
             case .boardCellTapped:
                 return .none
                 
@@ -102,6 +107,11 @@ struct BulletinBoardFeature {
                 return .none
                 
             case let .likeBoardButtonTapped(board):
+                let event = "likeBoardButtonTapped"
+                let parameters = [
+                    "select_content": "likeBoardButton"
+                ]
+                Analytics.logEvent(event, parameters: parameters)
                 HapticService.impact(style: .light)
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)
@@ -196,6 +206,7 @@ extension BulletinBoardFeature {
     @Reducer(state: .equatable)
     enum Sheet {
         case seeMore(SeeMoreSheetFeature)
+        case academySchedule
     }
 }
 

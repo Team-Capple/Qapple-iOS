@@ -10,6 +10,7 @@ import Foundation
 struct BoardComment: Identifiable, Equatable {
     let id: Int
     let writeId: Int
+    let writerGeneration: String
     let content: String
     var heartCount: Int
     var isLiked: Bool
@@ -19,9 +20,10 @@ struct BoardComment: Identifiable, Equatable {
     
     var anonymityId: Int
     
-    init(id: Int, writeId: Int, content: String, heartCount: Int, isLiked: Bool, isMine: Bool, isReport: Bool, createdAt: Date, anonymityId: Int) {
+    init(id: Int, writeId: Int, writerGeneration: String, content: String, heartCount: Int, isLiked: Bool, isMine: Bool, isReport: Bool, createdAt: Date, anonymityId: Int) {
         self.id = id
         self.writeId = writeId
+        self.writerGeneration = writerGeneration
         self.content = content
         self.heartCount = heartCount
         self.isLiked = isLiked
@@ -31,9 +33,10 @@ struct BoardComment: Identifiable, Equatable {
         self.anonymityId = anonymityId
     }
     
-    init(id: Int, writeId: Int, content: String, heartCount: Int, isLiked: Bool, isMine: Bool, isReport: Bool, createdAt: Date) {
+    init(id: Int, writeId: Int, writerGeneration: String, content: String, heartCount: Int, isLiked: Bool, isMine: Bool, isReport: Bool, createdAt: Date) {
         self.id = id
         self.writeId = writeId
+        self.writerGeneration = writerGeneration
         self.content = content
         self.heartCount = heartCount
         self.isLiked = isLiked
