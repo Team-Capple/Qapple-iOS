@@ -101,7 +101,7 @@ private struct CommentContentView: View {
                 .padding(.top, 16)
             
             VStack(alignment: .leading, spacing: 5) {
-                HStack(spacing: 10) {
+                HStack(spacing: 6) {
                     // 사용자 이름
                     if self.comment.anonymityId == -1 {
                         Text("작성자")
@@ -112,6 +112,15 @@ private struct CommentContentView: View {
                             .font(.pretendard(.semiBold, size: 14))
                             .foregroundStyle(.icon)
                     }
+                    
+                    Capsule()
+                        .frame(width: 32, height: 17)
+                        .foregroundStyle(.writerGeneration)
+                        .overlay {
+                            Text(comment.writerGeneration)
+                                .font(.pretendard(.medium, size: 10.7))
+                                .foregroundStyle(.white)
+                        }
                     
                     // 댓글 timestamp
                     Text(comment.createdAt.timeAgo)
