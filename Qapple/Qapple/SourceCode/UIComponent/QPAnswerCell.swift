@@ -92,8 +92,8 @@ private struct NormalCell: View {
                 .padding(.leading, 8)
             
             Text(answer.authorGeneration.isEmpty ? "3기" : answer.authorGeneration)
-                .pretendard(.medium, 11)
-                .foregroundStyle(.wh)
+                .pretendard(.medium, 10)
+                .foregroundStyle(.main)
                 .padding(.vertical, 2)
                 .padding(.horizontal, 8)
                 .background(.secondaryButton)
