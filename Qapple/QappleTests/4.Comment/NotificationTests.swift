@@ -115,7 +115,7 @@ extension NotificationTests {
 // MARK: - 셀 터치 이벤트
 extension NotificationTests {
     @Test("노티피케이션 셀 터치 이벤트", arguments: [
-            QappleNotification(
+            QappleNotification( // 게시판 알람 with 정상 게시글
                 questionId: "",
                 boardId: "1",
                 boardCommentId: "1",
@@ -127,7 +127,7 @@ extension NotificationTests {
                 createAt: .distantPast,
                 isReadStatus: false
             ),
-            QappleNotification(
+            QappleNotification( // 게시판 알람 with 신고 게시글
                 questionId: "",
                 boardId: "2",
                 boardCommentId: "2",
@@ -139,7 +139,7 @@ extension NotificationTests {
                 createAt: .distantPast,
                 isReadStatus: false
             ),
-            QappleNotification(
+            QappleNotification( // 질문 알람 with 답하지 않은 질문
                 questionId: "3",
                 boardId: "",
                 boardCommentId: nil,
@@ -151,7 +151,7 @@ extension NotificationTests {
                 createAt: .distantPast,
                 isReadStatus: false
             ),
-            QappleNotification(
+            QappleNotification( // 질문 알람 with 답한 질문
                 questionId: "4",
                 boardId: "",
                 boardCommentId: nil,
