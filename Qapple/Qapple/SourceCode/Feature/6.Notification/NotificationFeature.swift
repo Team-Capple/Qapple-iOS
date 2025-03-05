@@ -89,30 +89,41 @@ struct NotificationFeature {
                     // 게시판 관련 알림일때
                     if let boardId = Int(noti.boardId) {
                         do {
-                            let result = try await notificationRepository.fetchSingleBoard(boardId)
+                            guard let isReported = noti.isReportedBoard else {
+                                await send(.unknownError)
+                                return
+                            }
                             
-                            // 신고된 게시물일 경우
-                            if result.isReported { await send(.reportedBoard) }
-                            else {
-                                await send(.navigateToComment(result))
+                            switch isReported {
+                            case true:
+                                await send(.reportedBoard)
+                            case false:
+                                let board = try await notificationRepository.fetchSingleBoard(boardId)
+                                await send(.navigateToComment(board))
                             }
                         } catch {
                             await send(.unknownError)
                         }
-                    // 질문 관련 알림일때
-                    } else if let questionId = Int(noti.id) {
-                        do {
-                            let result = try await notificationRepository.isAnsweredQuestion(questionId)
-                            
-                            if result.0 {
-                                await send(.navigateToAnswerList(result.1))
-                            } else {
-                                await send(.navigateToWriteAnswer(result.1))
-                            }
-                        } catch {
+                    } else if let questionId = Int(noti.id) { // 질문 관련 알림일때
+                        guard let isAnswered = noti.isResponsedQuestion else {
                             await send(.unknownError)
+                            return
                         }
                         
+                        let question = Question(
+                            id: questionId,
+                            content: noti.content,
+                            publishedDate: .now,
+                            isAnswered: isAnswered,
+                            isLived: false
+                        )
+                        
+                        switch isAnswered {
+                        case true:
+                            await send(.navigateToAnswerList(question))
+                        case false:
+                            await send(.navigateToWriteAnswer(question))
+                        }
                     }
                 }
                 
