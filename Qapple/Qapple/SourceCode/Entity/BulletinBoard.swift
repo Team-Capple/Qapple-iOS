@@ -11,6 +11,7 @@ struct BulletinBoard: Identifiable, Equatable {
     let id: Int
     let writerId: Int
     let writerNickname: String
+    let writerGeneration: String
     let content: String
     var heartCount: Int
     var commentCount: Int
