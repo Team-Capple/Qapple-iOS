@@ -10,8 +10,8 @@
 		420D72052C71D5BB00B56439 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 420D72042C71D5BB00B56439 /* FirebaseAuth */; };
 		420D720D2C71D8AC00B56439 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 420D720C2C71D8AC00B56439 /* FirebaseMessaging */; };
 		420D720F2C71DB7F00B56439 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 420D720E2C71DB7F00B56439 /* FirebaseAnalytics */; };
+		429C4B8D2D784910000957E8 /* QappleRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 429C4B8C2D784910000957E8 /* QappleRepository */; };
 		829A879C2D423D4200808E43 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 829A879B2D423D4200808E43 /* ComposableArchitecture */; };
-		82C43BE22D6496D50093BB60 /* QappleRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 82C43BE12D6496D50093BB60 /* QappleRepository */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +59,7 @@
 			files = (
 				420D720D2C71D8AC00B56439 /* FirebaseMessaging in Frameworks */,
 				420D720F2C71DB7F00B56439 /* FirebaseAnalytics in Frameworks */,
-				82C43BE22D6496D50093BB60 /* QappleRepository in Frameworks */,
+				429C4B8D2D784910000957E8 /* QappleRepository in Frameworks */,
 				829A879C2D423D4200808E43 /* ComposableArchitecture in Frameworks */,
 				420D72052C71D5BB00B56439 /* FirebaseAuth in Frameworks */,
 			);
@@ -133,7 +133,7 @@
 				420D720C2C71D8AC00B56439 /* FirebaseMessaging */,
 				420D720E2C71DB7F00B56439 /* FirebaseAnalytics */,
 				829A879B2D423D4200808E43 /* ComposableArchitecture */,
-				82C43BE12D6496D50093BB60 /* QappleRepository */,
+				429C4B8C2D784910000957E8 /* QappleRepository */,
 			);
 			productName = Capple;
 			productReference = F3EA66C82B7643EE002417CE /* Qapple.app */;
@@ -170,7 +170,7 @@
 			packageReferences = (
 				420D72022C71D56400B56439 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				829A879A2D423D4200808E43 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				82C43BE02D6496D50093BB60 /* XCRemoteSwiftPackageReference "Qapple-Repository" */,
+				429C4B8B2D784910000957E8 /* XCRemoteSwiftPackageReference "Qapple-Repository" */,
 			);
 			productRefGroup = F3EA66C92B7643EE002417CE /* Products */;
 			projectDirPath = "";
@@ -510,20 +510,20 @@
 				minimumVersion = 11.0.0;
 			};
 		};
+		429C4B8B2D784910000957E8 /* XCRemoteSwiftPackageReference "Qapple-Repository" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Team-Capple/Qapple-Repository.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		829A879A2D423D4200808E43 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.17.1;
-			};
-		};
-		82C43BE02D6496D50093BB60 /* XCRemoteSwiftPackageReference "Qapple-Repository" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Team-Capple/Qapple-Repository.git";
-			requirement = {
-				branch = main;
-				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -544,15 +544,15 @@
 			package = 420D72022C71D56400B56439 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
 		};
+		429C4B8C2D784910000957E8 /* QappleRepository */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 429C4B8B2D784910000957E8 /* XCRemoteSwiftPackageReference "Qapple-Repository" */;
+			productName = QappleRepository;
+		};
 		829A879B2D423D4200808E43 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 829A879A2D423D4200808E43 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
-		};
-		82C43BE12D6496D50093BB60 /* QappleRepository */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 82C43BE02D6496D50093BB60 /* XCRemoteSwiftPackageReference "Qapple-Repository" */;
-			productName = QappleRepository;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
