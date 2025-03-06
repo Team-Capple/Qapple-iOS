@@ -212,6 +212,7 @@ extension BulletinBoardRepository {
             id: 1,
             writerId: 1,
             writerNickname: "테스트",
+            writerGeneration: "3기",
             content: "테스트입니다.",
             heartCount: 2,
             commentCount: 3,
