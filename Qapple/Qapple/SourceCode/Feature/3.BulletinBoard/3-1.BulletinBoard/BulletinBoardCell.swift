@@ -85,6 +85,14 @@ private struct HeaderView: View {
         }
     }
     
+    private var generation: String {
+        if board.writerGeneration == "" {
+            return "3기"
+        } else {
+            return board.writerGeneration
+        }
+    }
+    
     var body: some View {
         HStack(spacing: 0) {
             Image(.profileDummy)
@@ -94,6 +102,16 @@ private struct HeaderView: View {
             Text(nickname)
                 .pretendard(.semiBold, 14)
                 .foregroundStyle(GrayScale.icon)
+                .padding(.leading, 8)
+            
+            Text(generation)
+                .pretendard(.medium, 10)
+                .foregroundStyle(TextLabel.main)
+                .frame(width: 32, height: 17)
+                .background(
+                    RoundedRectangle(cornerRadius: 19)
+                        .fill(.secondaryButton)
+                )
                 .padding(.leading, 8)
             
             Text("\(board.createAt.timeAgo)")

@@ -170,6 +170,7 @@ private struct AddCommentView: View {
                     id: 1,
                     writerId: 1,
                     writerNickname: "이호창",
+                    writerGeneration: "3기",
                     content: "특전사",
                     heartCount: 10,
                     commentCount: 13,
