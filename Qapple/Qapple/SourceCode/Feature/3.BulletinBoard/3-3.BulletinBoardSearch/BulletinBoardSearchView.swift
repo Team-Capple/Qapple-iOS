@@ -116,6 +116,7 @@ private struct SearchListView: View {
                             store.send(.pagination)
                         }
                     )
+                    .disabled(store.isLoading)
                 }
             }
         }

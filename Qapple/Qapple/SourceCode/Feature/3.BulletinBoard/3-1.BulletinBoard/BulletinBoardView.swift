@@ -123,6 +123,7 @@ private struct BulletionBoardListView: View {
                             store.send(.pagination)
                         }
                     )
+                    .disabled(store.isLoading)
                     if index != store.bulletinBoardList.endIndex - 1 {
                         QPDivider()
                     }

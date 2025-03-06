@@ -64,6 +64,7 @@ private struct ReportList: View {
                         .frame(height: 48)
                         .padding(.horizontal, 24)
                 }
+                .disabled(store.isLoading)
             }
         }
     }

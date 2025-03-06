@@ -53,6 +53,7 @@ private struct NotificationContentView: View {
                         NotificationCell(notification: notification) {
                             store.send(.notificationCellTapped(index))
                         }
+                        .disabled(store.isLoading)
                         .onAppear {
                             store.send(.onPaginationCellAppear(index))
                         }
