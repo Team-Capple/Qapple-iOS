@@ -9,7 +9,7 @@ import Foundation
 
 /// 아카데미 4기 이벤트 열거형
 enum AcademyEventFor4th: CaseIterable {
-    case newStart
+    case fourthStart
     case prelude
     case challenge1
     case bridge1
@@ -57,7 +57,7 @@ enum AcademyEventFor4th: CaseIterable {
     /// 아카데미 이벤트 제목을 반환합니다.
     var title: String {
         switch self {
-        case .newStart: "NEWSTART"
+        case .fourthStart: "4th START"
         case .prelude: "PRELUDE"
         case .challenge1: "CHALLENGE 1"
         case .bridge1: "BRIDGE 1"
@@ -77,7 +77,7 @@ enum AcademyEventFor4th: CaseIterable {
     /// 아카데미 이벤트 기간을 시작날짜, 종료날짜 형태의 튜플로 반환합니다.
     var period: (StartDate, EndDate) {
         switch self {
-        case .newStart: (ymdToDate(1, 1), ymdToDate(3, 9))
+        case .fourthStart: (ymdToDate(1, 1), ymdToDate(3, 9))
         case .prelude: (ymdToDate(3, 10), ymdToDate(3, 14))
         case .challenge1: (ymdToDate(3, 17), ymdToDate(3, 28))
         case .bridge1: (ymdToDate(3, 31), ymdToDate(4, 4))

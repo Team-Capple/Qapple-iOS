@@ -51,7 +51,8 @@ private struct ContentView: View {
                 isCurrentEvent: isCurrentEvent
             )
             .padding(.top, 32)
-            .padding(.horizontal, 24)
+            .padding(.leading, 24)
+            .padding(.trailing, 16)
             
             Text("아카데미 전체 일정")
                 .foregroundStyle(.icon)
@@ -76,14 +77,16 @@ private struct Header: View {
     let isCurrentEvent: Bool
     
     var body: some View {
-        HStack(spacing: 10) {
+        HStack {
             Text(event.title)
                 .foregroundStyle(.text)
                 .pretendard(.bold, 20)
+                .layoutPriority(1)
             
             Text("\(dayLeft)\(isCurrentEvent ? "일 남음" : "일 후 시작")")
                 .foregroundStyle(.main).opacity(0.8)
-                .pretendard(.bold, 17)
+                .pretendard(.bold, 16)
+                .padding(.leading, 0)
             
             Spacer()
             
@@ -95,13 +98,13 @@ private struct Header: View {
         HStack(spacing: 8) {
             Text(event.period.0.formatting(.md, separator: "/"))
                 .foregroundStyle(.main).opacity(0.6)
-                .pretendard(.bold, 17)
+                .pretendard(.bold, 15)
             
             Image(.halfArrow)
             
             Text(event.period.1.formatting(.md, separator: "/"))
                 .foregroundStyle(.main).opacity(0.6)
-                .pretendard(.bold, 17)
+                .pretendard(.bold, 15)
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 16)
@@ -168,9 +171,8 @@ private struct ScheduleCell: View {
     }
     
     private func StartDateToEndDate() -> some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 0) {
             Text(event.period.0.formatting(.md, separator: "/"))
-                .layoutPriority(1)
             
             ZStack {
                 Image(isSelected ? .longHalfArrowActive: .longHalfArrowInActive)
@@ -186,12 +188,16 @@ private struct ScheduleCell: View {
                             .fill(isSelected ? LinearGradient.pink : LinearGradient.clear)
                     )
             }
+            .padding(.leading, 8)
             
             Text(event.period.1.formatting(.md, separator: "/"))
-                .layoutPriority(1)
+                .padding(.leading, 8)
+            
+            Spacer()
         }
         .foregroundStyle(.wh)
         .pretendard(isSelected ? .semiBold : .medium, 16)
+        .frame(width: 180)
     }
 }
 
