@@ -54,7 +54,7 @@ private struct NotificationContentView: View {
                             store.send(.notificationCellTapped(index))
                         }
                         .onAppear {
-                            store.send(.onPagenationCellAppear(index))
+                            store.send(.onPaginationCellAppear(index))
                         }
                         
                         QPDivider()

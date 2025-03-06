@@ -84,7 +84,8 @@ private struct CommentListView: View {
         ZStack {
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    // 데이터 연결
+                    seperator
+                    
                     ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
                         CommentCell(
                             comment: comment,
@@ -106,6 +107,8 @@ private struct CommentListView: View {
                                 store.send(.pagination)
                             }
                         )
+                        
+                        seperator
                     }
                 }
             }
@@ -124,6 +127,12 @@ private struct CommentListView: View {
                 }
             }
         }
+    }
+    
+    private var seperator: some View {
+        Rectangle()
+            .frame(height: 1)
+            .foregroundStyle(Color.placeholder)
     }
 }
 

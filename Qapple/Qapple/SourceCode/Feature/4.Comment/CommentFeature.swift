@@ -310,6 +310,7 @@ extension CommentFeature {
                 return BoardComment(
                     id: comment.id,
                     writeId: comment.writeId,
+                    writerGeneration: "3기",
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,
@@ -324,6 +325,7 @@ extension CommentFeature {
                 return BoardComment(
                     id: comment.id,
                     writeId: currentIndex,
+                    writerGeneration: "3기",
                     content: comment.content,
                     heartCount: comment.heartCount,
                     isLiked: comment.isLiked,

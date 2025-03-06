@@ -16,7 +16,6 @@ import ComposableArchitecture
 struct NotificationRepository {
     var fetchNotificationList: (_ threshold: Int?) async throws -> ([QappleNotification], QappleAPI.PaginationInfo)
     var fetchSingleBoard: (_ boardId: Int) async throws -> BulletinBoard
-    var isAnsweredQuestion: (_ questionId: Int) async throws -> (Bool, Question)
 }
 
 // MARK: - DependencyKey
@@ -36,9 +35,11 @@ extension NotificationRepository: DependencyKey {
             
             let result = response.content.map {
                 QappleNotification(
-                    id: $0.questionId ?? "",
+                    questionId: $0.questionId ?? "",
                     boardId: $0.boardId ?? "",
                     boardCommentId: $0.boardCommentId,
+                    isResponsedQuestion: $0.isResponsedQuestion,
+                    isReportedBoard: $0.isReportedBoard,
                     title: $0.title,
                     subtitle: $0.subtitle,
                     content: $0.content ?? "",
@@ -77,39 +78,6 @@ extension NotificationRepository: DependencyKey {
             )
             
             return result
-        },
-        isAnsweredQuestion: { questionId in
-            var hasNext = true
-            var threshold: String?
-            
-            while hasNext {
-                let response = try await RepositoryService.shared.request { server, accessToken in
-                    try await QuestionAPI.fetchQuestionList(
-                        threshold: threshold,
-                        pageSize: 25,
-                        server: server,
-                        accessToken: accessToken
-                    )
-                }
-                
-                if let question = response.content.first(where: { $0.questionId == questionId }) {
-                    let entity = Question(
-                        id: question.questionId,
-                        content: question.content,
-                        publishedDate: question.livedAt?.ISO8601ToDate ?? .init(),
-                        isAnswered: question.isAnswered,
-                        isLived: question.questionStatus == "LIVE"
-                    )
-                    
-                    return (question.isAnswered, entity)
-                }
-                
-                hasNext = response.hasNext
-                threshold = response.threshold
-            }
-            
-            // id에 맞는 질문 찾기 실패시 에러 던지기
-            throw NSError()
         }
     )
     
@@ -119,18 +87,12 @@ extension NotificationRepository: DependencyKey {
         },
         fetchSingleBoard: { _ in
             NotificationRepository.dummyBoard
-        },
-        isAnsweredQuestion: { _ in
-            let question = Question(
-                id: 1234,
-                content: "테스트 질문 입니다.",
-                publishedDate: .init(),
-                isAnswered: false,
-                isLived: true
-            )
-            
-            return (false, question)
         }
+    )
+    
+    static let testValue: NotificationRepository = Self(
+        fetchNotificationList: { _ in (dummyNoti, .init(threshold: "1234", hasNext: true)) },
+        fetchSingleBoard: { _ in dummyBoard }
     )
 }
 
@@ -151,9 +113,11 @@ extension NotificationRepository {
         var result = [QappleNotification]()
         for i in 0 ..< 25 {
             result.append(.init(
-                id: String(i),
+                questionId: String(i),
                 boardId: String(i),
                 boardCommentId: nil,
+                isResponsedQuestion: nil,
+                isReportedBoard: nil,
                 title: "테스트입니다 \(i)",
                 subtitle: nil,
                 content: "테스트 컨텐츠 입니다 \(i)",

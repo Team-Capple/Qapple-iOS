@@ -10,6 +10,7 @@ import Foundation
 struct BoardComment: Identifiable, Equatable {
     let id: Int
     let writeId: Int
+    let writerGeneration: String
     let content: String
     var heartCount: Int
     var isLiked: Bool
