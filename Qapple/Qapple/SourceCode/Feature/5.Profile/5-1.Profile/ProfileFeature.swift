@@ -119,6 +119,7 @@ struct ProfileFeature {
                 
             case .inquiryButtonTapped:
                 if !MFMailComposeViewController.canSendMail() {
+                    HapticService.notification(type: .warning)
                     state.alert = .confirmEmailDisabled
                 } else {
                     state.sheet = .inquiryButtonTap

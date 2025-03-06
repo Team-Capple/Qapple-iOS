@@ -95,6 +95,7 @@ struct BulletinBoardFeature {
                 return .none
                 
             case .academyDayCounterTapped:
+                HapticService.impact(style: .light)
                 state.sheet = .academySchedule
                 return .none
                 
