@@ -18,6 +18,9 @@ struct Answer: Identifiable, Equatable {
     /// 작성자 닉네임
     let authorNickname: String
     
+    /// 작성자 기수
+    let authorGeneration: String
+    
     /// 답변 게시 날짜
     let publishedDate: Date
     
@@ -36,6 +39,7 @@ struct Answer: Identifiable, Equatable {
             id: 0,
             content: "",
             authorNickname: "",
+            authorGeneration: "",
             publishedDate: .now,
             isReported: false,
             isMine: true,
