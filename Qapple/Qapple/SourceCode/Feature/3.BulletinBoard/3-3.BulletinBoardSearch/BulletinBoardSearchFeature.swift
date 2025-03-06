@@ -80,12 +80,12 @@ struct BulletinBoardSearchFeature {
                 }
                 
             case let .searchBoardListResponse(searchBoardList, paginationInfo):
-                state.searchBoardList = searchBoardList
+                state.searchBoardList = searchBoardList.filter { !$0.isReported }
                 state.paginationInfo = paginationInfo
                 return .none
                 
             case let .paginationResponse(searchBoardList, paginationInfo):
-                state.searchBoardList += searchBoardList
+                state.searchBoardList += searchBoardList.filter { !$0.isReported }
                 state.paginationInfo = paginationInfo
                 return .none
                 

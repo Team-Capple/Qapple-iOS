@@ -87,14 +87,10 @@ private struct SearchListView: View {
     
    let store: StoreOf<BulletinBoardSearchFeature>
     
-    private var searchBoardList: [BulletinBoard] {
-        store.searchBoardList.filter { !$0.isReported }
-    }
-    
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-                ForEach(enumerated(searchBoardList), id: \.offset) { index, board in
+                ForEach(enumerated(store.searchBoardList), id: \.offset) { index, board in
                     Button {
                         store.send(.boardCellTapped(board))
                     } label: {
