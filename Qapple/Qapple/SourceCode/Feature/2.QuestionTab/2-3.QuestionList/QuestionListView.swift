@@ -60,6 +60,7 @@ private struct QuestionList: View {
                             }
                         )
                     }
+                    .buttonStyle(ScalableButtonStyle())
                     .padding(.horizontal, 12)
                     .configurePagination(
                         store.questionList,

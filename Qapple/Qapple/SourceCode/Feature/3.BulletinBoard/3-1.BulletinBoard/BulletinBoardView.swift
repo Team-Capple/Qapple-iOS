@@ -15,20 +15,14 @@ struct BulletinBoardView: View {
     @Bindable var store: StoreOf<BulletinBoardFeature>
     
     var body: some View {
-        GeometryReader { proxy in
-            ZStack {
-                BulletinBoardContentView(store: store)
-                
-                NewBoardPostButton(store: store)
-                .position(
-                    CGPoint(
-                        x: proxy.size.width / 2,
-                        y: proxy.size.height - 40
-                    )
-                )
-            }
-            .background(.first)
+        ZStack(alignment: .bottom) {
+            BulletinBoardContentView(store: store)
+            
+            NewBoardPostButton(store: store)
+                .padding(.bottom, 20)
         }
+        .background(.first)
+        
         .onAppear{
             store.send(.onAppear)
         }
@@ -157,6 +151,7 @@ struct NewBoardPostButton: View {
                         .stroke(.white.opacity(0.5), lineWidth: 0.33)
                 )
         }
+        .buttonStyle(ScalableButtonStyle())
     }
 }
 
