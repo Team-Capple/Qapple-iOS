@@ -115,10 +115,10 @@ private struct CommentContentView: View {
                     
                     Capsule()
                         .frame(width: 32, height: 17)
-                        .foregroundStyle(.writerGeneration)
+                        .foregroundStyle(.sub5)
                         .overlay {
-                            Text(comment.writerGeneration)
-                                .font(.pretendard(.medium, size: 10.7))
+                            Text(comment.writerGeneration.isEmpty ? "3기" : comment.writerGeneration)
+                                .font(.pretendard(.medium, size: 10))
                                 .foregroundStyle(.white)
                         }
                     
