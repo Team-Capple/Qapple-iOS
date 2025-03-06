@@ -122,6 +122,12 @@ private struct QuestionCell: View {
         ? BrandPink.button.opacity(0.4)
         : .clear
     }
+    
+    /// 질문 기수
+    private var questionGeneration: Int {
+        let thirdEndDate = AcademyEventFor4th.fourthStart.period.1
+        return thirdEndDate > Date.now ? 3 : 4
+    }
 }
 
 // MARK: - QuestionCell SubView
@@ -130,7 +136,7 @@ extension QuestionCell {
     
     private func Header() -> some View {
         HStack(spacing: 8) {
-            Text("#\(question.id)")
+            Text("\(questionGeneration)기의 \(question.id)번째 질문")
                 .font(.pretendard(.semiBold, size: 14))
                 .foregroundStyle(.icon)
             
@@ -138,8 +144,8 @@ extension QuestionCell {
                 .frame(width: 2, height: 10)
                 .foregroundStyle(.icon.opacity(0.5))
             
-            Text(question.publishedDate.formatting(.mmdd))
-                .font(.pretendard(.regular, size: 14))
+            Text(question.publishedDate.formatting(.md))
+                .font(.pretendard(.medium, size: 14))
                 .foregroundStyle(.icon)
             
             if question.isLived {
