@@ -110,7 +110,8 @@ extension CommentTests {
             isLiked: false,
             isMine: true,
             isReport: false,
-            createdAt: .now
+            createdAt: .now,
+            anonymityId: -2
         ),
         BoardComment( // 좋아요 눌러지지 않은 게시글
             id: 2,
@@ -121,7 +122,8 @@ extension CommentTests {
             isLiked: true,
             isMine: true,
             isReport: false,
-            createdAt: .now
+            createdAt: .now,
+            anonymityId: -2
         )
     ])
     func likeCommentButtonTapped(comment: BoardComment) async throws {

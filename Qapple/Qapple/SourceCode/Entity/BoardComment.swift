@@ -19,30 +19,4 @@ struct BoardComment: Identifiable, Equatable {
     let createdAt: Date
     
     var anonymityId: Int
-    
-    init(id: Int, writeId: Int, writerGeneration: String, content: String, heartCount: Int, isLiked: Bool, isMine: Bool, isReport: Bool, createdAt: Date, anonymityId: Int) {
-        self.id = id
-        self.writeId = writeId
-        self.writerGeneration = writerGeneration
-        self.content = content
-        self.heartCount = heartCount
-        self.isLiked = isLiked
-        self.isMine = isMine
-        self.isReport = isReport
-        self.createdAt = createdAt
-        self.anonymityId = anonymityId
-    }
-    
-    init(id: Int, writeId: Int, writerGeneration: String, content: String, heartCount: Int, isLiked: Bool, isMine: Bool, isReport: Bool, createdAt: Date) {
-        self.id = id
-        self.writeId = writeId
-        self.writerGeneration = writerGeneration
-        self.content = content
-        self.heartCount = heartCount
-        self.isLiked = isLiked
-        self.isMine = isMine
-        self.isReport = isReport
-        self.createdAt = createdAt
-        self.anonymityId = -2
-    }
 }

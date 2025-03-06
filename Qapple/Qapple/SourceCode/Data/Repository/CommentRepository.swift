@@ -132,7 +132,8 @@ extension CommentRepository {
             isLiked: true,
             isMine: true,
             isReport: false,
-            createdAt: .now
+            createdAt: .now,
+            anonymityId: -2
         ),
         .init(
             id: 2,
@@ -143,7 +144,8 @@ extension CommentRepository {
             isLiked: false,
             isMine: false,
             isReport: true,
-            createdAt: Date().addingTimeInterval(-30)
+            createdAt: Date().addingTimeInterval(-30),
+            anonymityId: -2
         ),
         .init(
             id: 3,
@@ -154,7 +156,8 @@ extension CommentRepository {
             isLiked: true,
             isMine: false,
             isReport: false,
-            createdAt: Date().addingTimeInterval(-60*20)
+            createdAt: Date().addingTimeInterval(-60*20),
+            anonymityId: -2
         ),
         .init(
             id: 4,
@@ -165,7 +168,8 @@ extension CommentRepository {
             isLiked: false,
             isMine: false,
             isReport: false,
-            createdAt: Date().addingTimeInterval(-60*60*2)
+            createdAt: Date().addingTimeInterval(-60*60*2),
+            anonymityId: -2
         )
     ]
     
