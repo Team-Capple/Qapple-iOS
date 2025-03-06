@@ -18,7 +18,7 @@ extension AlertState {
                 TextState("확인")
             }
         } message: {
-            TextState("현재 상태가 지속될 시 관리자 문의를 부탁드려요 🥲\n\n\(error)")
+            TextState("현재 상태가 지속될 시 관리자 문의를 부탁드려요 🥲\n\n\(error.localizedDescription)")
         }
     }
 }
