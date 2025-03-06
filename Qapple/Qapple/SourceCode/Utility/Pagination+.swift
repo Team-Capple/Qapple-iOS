@@ -16,7 +16,7 @@ struct ConfigurePagination: ViewModifier {
     
     func body(content: Content) -> some View {
         content.onAppear {
-            if currentIndex == list.endIndex - 3 && hasNext {
+            if currentIndex == list.endIndex - 5 && hasNext {
                 pagination()
             }
         }

@@ -35,10 +35,13 @@ struct NotificationFeature {
         case backButtonTapped
         
         case fetchNotifications([QappleNotification], QappleAPI.PaginationInfo)
+        case fetchNotificationPagination([QappleNotification], QappleAPI.PaginationInfo)
         
         case navigateToComment(BulletinBoard)
         case navigateToWriteAnswer(Question)
         case navigateToAnswerList(Question)
+        
+        case toggleLoading(Bool)
         
         case alert(PresentationAction<Alert>)
         
@@ -52,44 +55,48 @@ struct NotificationFeature {
         Reduce { state, action in
             switch action {
             case .onAppear, .onRefresh:
-                state.isLoading = true
-                
-                state.notifications.removeAll()
                 state.threshold = nil
                 state.hasNext = false
                 return .run { send in
+                    await send(.toggleLoading(true), animation: .bouncy)
                     do {
                         let result = try await notificationRepository.fetchNotificationList(nil)
                         await send(.fetchNotifications(result.0, result.1))
                     } catch {
                         await send(.networkingFailed(error))
                     }
+                    await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
             case let .onPaginationCellAppear(index):
                 guard state.hasNext, index == state.notifications.count - 1 else { return .none }
-                state.isLoading = true
                 
                 return .run { [threshold = state.threshold] send in
+                    await send(.toggleLoading(true), animation: .bouncy)
                     do {
                         let result = try await notificationRepository.fetchNotificationList(threshold)
-                        await send(.fetchNotifications(result.0, result.1))
+                        await send(.fetchNotificationPagination(result.0, result.1))
                     } catch {
                         await send(.networkingFailed(error))
                     }
+                    await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
             case let .fetchNotifications(notifications, pagenationInfo):
                 state.threshold = Int(pagenationInfo.threshold)
                 state.hasNext = pagenationInfo.hasNext
-                state.notifications.append(contentsOf: notifications)
+                state.notifications = notifications
+                return .none
                 
-                state.isLoading = false
+            case let .fetchNotificationPagination(notifications, pagenationInfo):
+                state.threshold = Int(pagenationInfo.threshold)
+                state.hasNext = pagenationInfo.hasNext
+                state.notifications.append(contentsOf: notifications)
                 return .none
                 
             case let .notificationCellTapped(index):
-                state.isLoading = true
                 return .run { [noti = state.notifications[index] ] send in
+                    await send(.toggleLoading(true), animation: .bouncy)
                     // 게시판 관련 알림일때
                     if let boardId = Int(noti.boardId) {
                         do {
@@ -129,27 +136,35 @@ struct NotificationFeature {
                             await send(.navigateToWriteAnswer(question))
                         }
                     }
+                    await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
             case .navigateToComment:
-                state.isLoading = false
-                return .none
+                return .run { send in
+                    await send(.toggleLoading(false), animation: .bouncy)
+                }
+                
             case .navigateToWriteAnswer:
-                state.isLoading = false
-                return .none
+                return .run { send in
+                    await send(.toggleLoading(false), animation: .bouncy)
+                }
+                
             case .navigateToAnswerList:
-                state.isLoading = false
-                return .none
+                return .run { send in
+                    await send(.toggleLoading(false), animation: .bouncy)
+                }
                 
             case .reportedBoard:
-                state.isLoading = false
                 state.alert = .reportedBoard
-                return .none
+                return .run { send in
+                    await send(.toggleLoading(false), animation: .bouncy)
+                }
                 
             case .unknownError:
-                state.isLoading = false
                 state.alert = .unknownError
-                return .none
+                return .run { send in
+                    await send(.toggleLoading(false), animation: .bouncy)
+                }
                 
             case let .networkingFailed(error):
                 HapticService.notification(type: .error)
@@ -160,6 +175,10 @@ struct NotificationFeature {
                 return .run { send in
                     await dismiss()
                 }
+                
+            case let .toggleLoading(bool):
+                state.isLoading = bool
+                return .none
                 
             case .alert:
                 return .none
