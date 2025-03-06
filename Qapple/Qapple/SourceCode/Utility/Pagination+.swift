@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// 페이지네이션을 위한 Modifier
 struct ConfigurePagination: ViewModifier {
     let list: [Any]
     let currentIndex: Int
@@ -15,7 +16,7 @@ struct ConfigurePagination: ViewModifier {
     
     func body(content: Content) -> some View {
         content.onAppear {
-            if currentIndex == list.endIndex - 1 && hasNext {
+            if currentIndex == list.endIndex - 3 && hasNext {
                 pagination()
             }
         }
