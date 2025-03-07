@@ -72,7 +72,7 @@ struct BulletinBoardPostFeature {
                 let parameters = [
                     "select_content": "postBoardButton"
                 ]
-                Analytics.logEvent(event, parameters: parameters)
+                // Analytics.logEvent(event, parameters: parameters)
                 HapticService.notification(type: .success)
                 let boardText = state.boardText
                 return .run { send in
