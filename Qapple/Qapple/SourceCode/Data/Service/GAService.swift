@@ -13,10 +13,24 @@ import Firebase
 enum GAService {
     
     enum Event {
+        
+        /// Push 알림을 눌러 질문 탭으로 이동
+        case navigationToQuestionTabFromPush(title: String, body: String, questionId: Int)
+        
+        /// Push 알림을 눌러 게시판 댓글로 이동
+        case navigateToBoardCommentFromPush(title: String, body: String, board: BulletinBoard)
+        
+        /// 게시글 작성
+        case postBoard(content: String)
+        
+        /// 게시글 좋아요
         case likeBoard(board: BulletinBoard)
         
         var name: String {
             switch self {
+            case .navigationToQuestionTabFromPush: "navigation_To_Question_Tab_From_Push"
+            case .navigateToBoardCommentFromPush: "navigate_To_Board_Comment_From_Push"
+            case .postBoard: "post_Board"
             case .likeBoard: "like_Board"
             }
         }
@@ -27,10 +41,31 @@ enum GAService {
         var parameters = [String: Any]()
         
         switch event {
+        case let .navigationToQuestionTabFromPush(title, body, questionId):
+            parameters = makePrameters([
+                "question_Id": questionId,
+                "title": title,
+                "body": body
+            ])
+            
+        case let .navigateToBoardCommentFromPush(title, body, board):
+            parameters = makePrameters([
+                "board_Id": board.id,
+                "content": board.content,
+                "title": title,
+                "body": body
+            ])
+            
+        case let .postBoard(content):
+            parameters = makePrameters([
+                "content": content
+            ])
+            
         case let .likeBoard(board):
             parameters = makePrameters([
                 "board_Id": board.id,
-                "content": board.content
+                "content": board.content,
+                "heart_count": board.heartCount + 1
             ])
         }
         

@@ -38,7 +38,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-        pushNotificationTapped(userInfo: userInfo)
+        pushNotificationTapped(
+            title: response.notification.request.content.title,
+            body: response.notification.request.content.body,
+            userInfo: userInfo
+        )
         
         // Do Something With MSG Data...
         if let messageID = userInfo[Constant.gcmMessageIDKey] {
@@ -50,46 +54,30 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler()
     }
     
-    private func pushNotificationTapped(userInfo: [AnyHashable: Any]) {
+    /// Push Notification 탭 이벤트
+    private func pushNotificationTapped(title: String, body: String, userInfo: [AnyHashable: Any]) {
+        
+        // 질문 Push 알림
         if let questionId = userInfo["questionId"],
            let idString = questionId as? String,
-           let _ = Int(idString) {
-            // TODO: API 업데이트 후 추후 적용
-            //            evaluateQuestionPushNotification(id)
+           let id = Int(idString) {
+            // TODO: APNs에서 답변했는지 안했는지 여부를 알아야 함
+            GAService.log(.navigationToQuestionTabFromPush(title: title, body: body, questionId: id))
+            return
         }
         
+        // 게시판 댓글 Push 알림
         if let boardId = userInfo["boardId"],
            let idString = boardId as? String,
            let id = Int(idString) {
             Task {
                 do {
-                    let response = try await bulletinBoardRepository.fetchSingleBoard(id)
-                    mainFlowStore.send(.pushToComment(response))
+                    let board = try await bulletinBoardRepository.fetchSingleBoard(id)
+                    mainFlowStore.send(.pushToComment(board))
+                    GAService.log(.navigateToBoardCommentFromPush(title: title, body: body, board: board))
                 } catch {
                     print("Failed to fetch single board")
                 }
-            }
-        }
-    }
-    
-    private func evaluateQuestionPushNotification(_ id: Int) {
-        var hasNext = true
-        var threshold: String?
-        while hasNext {
-            Task {
-                let response = try await questionRepository.fetchQuestionList(threshold)
-                response.0.forEach {
-                    if $0.id == id {
-                        if $0.isAnswered {
-                            mainFlowStore.send(.pushToAnswerList($0))
-                        } else {
-                            mainFlowStore.send(.pushToWriteAnswer($0))
-                        }
-                        return
-                    }
-                }
-                threshold = response.2.threshold
-                hasNext = response.2.hasNext
             }
         }
     }

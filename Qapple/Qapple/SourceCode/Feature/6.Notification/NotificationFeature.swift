@@ -97,8 +97,7 @@ struct NotificationFeature {
             case let .notificationCellTapped(index):
                 return .run { [noti = state.notifications[index] ] send in
                     await send(.toggleLoading(true), animation: .bouncy)
-                    // 게시판 관련 알림일때
-                    if let boardId = Int(noti.boardId) {
+                    if let boardId = Int(noti.boardId) { // 게시판 관련 알림일때
                         do {
                             guard let isReported = noti.isReportedBoard else {
                                 await send(.unknownError)
