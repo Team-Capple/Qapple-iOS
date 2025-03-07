@@ -35,6 +35,7 @@
 			membershipExceptions = (
 				QappleBox/Info.plist,
 				QappleBox/Qapple.xctestplan,
+				QappleBox/Secrets.xcconfig,
 			);
 			target = F3EA66C72B7643EE002417CE /* Qapple */;
 		};
@@ -147,7 +148,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					82E17E1E2D6F3CED0004FFB4 = {
 						CreatedOnToolsVersion = 16.0;

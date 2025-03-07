@@ -14,11 +14,8 @@ enum GAService {
     
     enum Event {
         
-        /// 앱 접속 시간
-        case screenTime(duration: TimeInterval)
-        
         /// 답변 작성
-        case postAnswer(question: Question)
+        case postAnswer(question: Question, answer: String)
         
         /// 게시글 작성
         case postBoard(content: String)
@@ -46,7 +43,6 @@ enum GAService {
         
         var name: String {
             switch self {
-            case .screenTime: "screen_time"
             case .postAnswer: "post_answer"
             case .postBoard: "post_board"
             case .likeBoardFromList: "like_board_from_list"
@@ -62,19 +58,17 @@ enum GAService {
     
     /// 로그를 전송합니다.
     static func log(_ event: Event) {
+        guard RepositoryService.shared.server == .production else { return }
+        
         var parameters = [String: Any]()
         
         switch event {
-        case let .screenTime(duration):
-            parameters = [
-                "duration": Int(duration),
-            ]
-            
-        case let .postAnswer(question):
+        case let .postAnswer(question, answer):
             parameters = [
                 "question_id": question.id,
                 "question": question.content,
-                "is_lived": "\(question.isLived)"
+                "is_lived": "\(question.isLived)",
+                "answer": answer
             ]
             
         case let .postBoard(content):

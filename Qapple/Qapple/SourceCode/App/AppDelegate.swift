@@ -9,7 +9,6 @@ import ComposableArchitecture
 import SwiftUI
 import Firebase
 import FirebaseMessaging
-import QappleRepository
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -29,10 +28,10 @@ extension AppDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
-        #if RELEASE
-        RepositoryService.shared.configureServer(to: .production)
-        #else
+        #if DEBUG
         RepositoryService.shared.configureServer(to: .test)
+        #else
+        RepositoryService.shared.configureServer(to: .production)
         #endif
         setupPushNotification(application)
         setupFirebase()
@@ -89,13 +88,6 @@ extension AppDelegate {
         
         // 메세징 델리겟
         Messaging.messaging().delegate = self
-        
-        // 디버깅 모드
-        #if DEBUG
-        var newArguments = ProcessInfo.processInfo.arguments
-        newArguments.append("-FIRDebugEnabled")
-        ProcessInfo.processInfo.setValue(newArguments, forKey: "arguments")
-        #endif
     }
     
     /// Push Notification 권한을 요청합니다.
