@@ -95,6 +95,7 @@ struct BulletinBoardFeature {
                 
             case .academyDayCounterTapped:
                 HapticService.impact(style: .light)
+                GAService.log(.checkAcademySchedule(event: .currentEvent ?? (.nextEvent ?? .prelude)))
                 state.sheet = .academySchedule
                 return .none
                 
@@ -113,7 +114,7 @@ struct BulletinBoardFeature {
                     do {
                         try await bulletinBoardRepository.likeBoard(board.id)
                         await send(.likeBoard(board.id))
-                        if !board.isLiked { GAService.log(.likeBoard(board: board)) }
+                        if !board.isLiked { GAService.log(.likeBoardFromList(board: board)) }
                     } catch {
                         await send(.networkingFailed(error))
                     }

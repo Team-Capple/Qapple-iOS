@@ -19,14 +19,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         -> Void
     ) {
         let userInfo = notification.request.content.userInfo
-        pushNotificationTapped(userInfo: userInfo)
         
-        // Do Something With MSG Data...
-        if let messageID = userInfo[Constant.gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        print(userInfo)
+        pushNotificationTapped(
+            title: notification.request.content.title,
+            body: notification.request.content.body,
+            userInfo: userInfo
+        )
         
         completionHandler([[.banner, .badge, .sound]])
     }
@@ -44,13 +42,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             userInfo: userInfo
         )
         
-        // Do Something With MSG Data...
-        if let messageID = userInfo[Constant.gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        print(userInfo)
-        
         completionHandler()
     }
     
@@ -62,7 +53,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
            let idString = questionId as? String,
            let id = Int(idString) {
             // TODO: APNs에서 답변했는지 안했는지 여부를 알아야 함
-            GAService.log(.navigationToQuestionTabFromPush(title: title, body: body, questionId: id))
+            GAService.log(.navigateToQuestionTabFromPush(title: title, body: body, questionId: id))
             return
         }
         

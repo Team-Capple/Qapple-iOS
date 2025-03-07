@@ -14,24 +14,44 @@ enum GAService {
     
     enum Event {
         
-        /// Push 알림을 눌러 질문 탭으로 이동
-        case navigationToQuestionTabFromPush(title: String, body: String, questionId: Int)
-        
-        /// Push 알림을 눌러 게시판 댓글로 이동
-        case navigateToBoardCommentFromPush(title: String, body: String, board: BulletinBoard)
+        /// 답변 작성
+        case postAnswer(question: Question)
         
         /// 게시글 작성
         case postBoard(content: String)
         
-        /// 게시글 좋아요
-        case likeBoard(board: BulletinBoard)
+        /// 게시글 리스트에서 좋아요
+        case likeBoardFromList(board: BulletinBoard)
+        
+        /// 게시글 상세 페이지에서 좋아요
+        case likeBoardFromDetail(board: BulletinBoard)
+        
+        /// 아카데미 일정 확인
+        case checkAcademySchedule(event: AcademyEventFor4th)
+        
+        /// 게시글 댓글 작성
+        case postBoardComment(board: BulletinBoard, comment: String)
+        
+        /// 게시글 댓글 좋아요
+        case likeBoardComment(board: BulletinBoard, boardComment: BoardComment)
+        
+        /// Push 알림을 눌러 질문 탭으로 이동
+        case navigateToQuestionTabFromPush(title: String, body: String, questionId: Int)
+        
+        /// Push 알림을 눌러 게시판 댓글로 이동
+        case navigateToBoardCommentFromPush(title: String, body: String, board: BulletinBoard)
         
         var name: String {
             switch self {
-            case .navigationToQuestionTabFromPush: "navigation_To_Question_Tab_From_Push"
-            case .navigateToBoardCommentFromPush: "navigate_To_Board_Comment_From_Push"
-            case .postBoard: "post_Board"
-            case .likeBoard: "like_Board"
+            case .postAnswer: "post_answer"
+            case .postBoard: "post_board"
+            case .likeBoardFromList: "like_board_from_list"
+            case .likeBoardFromDetail: "like_board_from_detail"
+            case .checkAcademySchedule: "check_academy_schedule"
+            case .postBoardComment: "post_board_comment"
+            case .likeBoardComment: "like_board_comment"
+            case .navigateToQuestionTabFromPush: "navigate_to_question_tab_from_push_notification"
+            case .navigateToBoardCommentFromPush: "navigate_to_board_comment_from_push_notification"
             }
         }
     }
@@ -41,19 +61,11 @@ enum GAService {
         var parameters = [String: Any]()
         
         switch event {
-        case let .navigationToQuestionTabFromPush(title, body, questionId):
+        case let .postAnswer(question):
             parameters = makePrameters([
-                "question_Id": questionId,
-                "title": title,
-                "body": body
-            ])
-            
-        case let .navigateToBoardCommentFromPush(title, body, board):
-            parameters = makePrameters([
-                "board_Id": board.id,
-                "content": board.content,
-                "title": title,
-                "body": body
+                "question_id": question.id,
+                "question": question.content,
+                "is_lived": question.isLived
             ])
             
         case let .postBoard(content):
@@ -61,11 +73,54 @@ enum GAService {
                 "content": content
             ])
             
-        case let .likeBoard(board):
+        case let .likeBoardFromList(board):
             parameters = makePrameters([
-                "board_Id": board.id,
+                "board_id": board.id,
                 "content": board.content,
                 "heart_count": board.heartCount + 1
+            ])
+            
+        case let .likeBoardFromDetail(board):
+            parameters = makePrameters([
+                "board_id": board.id,
+                "content": board.content,
+                "heart_count": board.heartCount + 1
+            ])
+            
+        case let .checkAcademySchedule(event):
+            parameters = makePrameters([
+                "event_title": event.title
+            ])
+            
+        case let .postBoardComment(board, comment):
+            parameters = makePrameters([
+                "board_id": board.id,
+                "board_content": board.content,
+                "comment_content": comment
+            ])
+            
+        case let .likeBoardComment(board, comment):
+            parameters = makePrameters([
+                "board_id": board.id,
+                "board_content": board.content,
+                "board_heart_count": board.heartCount,
+                "comment_content": comment.content,
+                "comment_heart_count": comment.heartCount + 1
+            ])
+            
+        case let .navigateToQuestionTabFromPush(title, body, questionId):
+            parameters = makePrameters([
+                "question_id": questionId,
+                "title": title,
+                "body": body
+            ])
+            
+        case let .navigateToBoardCommentFromPush(title, body, board):
+            parameters = makePrameters([
+                "board_id": board.id,
+                "content": board.content,
+                "title": title,
+                "body": body
             ])
         }
         

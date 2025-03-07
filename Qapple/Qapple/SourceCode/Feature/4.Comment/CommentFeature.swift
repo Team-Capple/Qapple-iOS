@@ -116,11 +116,12 @@ struct CommentFeature {
                 
             case let .likeCommentButtonTapped(boardComment):
                 HapticService.impact(style: .light)
-                return .run { send in
+                return .run { [board = state.board] send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
                         try await commentRepository.likeBoardComment(boardComment.id)
                         await send(.likeComment(boardComment.id))
+                        GAService.log(.likeBoardComment(board: board, boardComment: boardComment))
                     } catch {
                         await send(.networkingFailed(error))
                     }
@@ -135,14 +136,15 @@ struct CommentFeature {
                 return .none
                 
             case .uploadCommentButtonTapped:
-                HapticService.notification(type: .success)
                 return .run { [
                     text = state.commentText,
-                    boardId = state.board.id
+                    board = state.board
                 ] send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
-                        try await commentRepository.postBoardComment(boardId, text)
+                        try await commentRepository.postBoardComment(board.id, text)
+                        HapticService.notification(type: .success)
+                        GAService.log(.postBoardComment(board: board, comment: text))
                         await send(.refresh)
                         await send(.commentTextReset)
                     } catch {
@@ -176,6 +178,7 @@ struct CommentFeature {
                     do {
                         try await bulletinBoardRepository.likeBoard(board.id)
                         await send(.likeBoard)
+                        if !board.isLiked { GAService.log(.likeBoardFromDetail(board: board)) }
                     } catch {
                         await send(.networkingFailed(error))
                     }

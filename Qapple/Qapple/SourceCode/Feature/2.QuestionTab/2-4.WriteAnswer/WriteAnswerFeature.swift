@@ -73,6 +73,7 @@ struct WriteAnswerFeature {
                     do {
                         try await postAnswer(state.question.id, state.answerText)
                         await send(.postAnswerResponse(state.question))
+                        
                     } catch {
                         await send(.networkingFailed(error))
                     }
@@ -84,8 +85,9 @@ struct WriteAnswerFeature {
                     await dismiss()
                 }
                 
-            case .postAnswerResponse:
+            case let .postAnswerResponse(question):
                 HapticService.notification(type: .success)
+                GAService.log(.postAnswer(question: question))
                 return .none
                 
             case let .networkingFailed(error):
