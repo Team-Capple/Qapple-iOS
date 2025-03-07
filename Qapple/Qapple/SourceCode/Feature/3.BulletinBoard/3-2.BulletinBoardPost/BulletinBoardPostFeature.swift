@@ -68,17 +68,12 @@ struct BulletinBoardPostFeature {
                 return .none
                 
             case .postBoardButtonTapped:
-                let event = "postBoardButtonTapped"
-                let parameters = [
-                    "select_content": "postBoardButton"
-                ]
-                Analytics.logEvent(event, parameters: parameters)
-                HapticService.notification(type: .success)
-                let boardText = state.boardText
-                return .run { send in
+                return .run { [boardText = state.boardText] send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
                         try await bulletinBoardRepository.postBoard(boardText)
+                        HapticService.notification(type: .success)
+                        GAService.log(.postBoard(content: boardText))
                         await dismiss()
                     } catch {
                         await send(.networkingFailed(error))

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Firebase
 import ComposableArchitecture
 
 @Reducer
@@ -96,6 +95,7 @@ struct BulletinBoardFeature {
                 
             case .academyDayCounterTapped:
                 HapticService.impact(style: .light)
+                GAService.log(.checkAcademySchedule(event: .currentEvent ?? (.nextEvent ?? .prelude)))
                 state.sheet = .academySchedule
                 return .none
                 
@@ -108,17 +108,13 @@ struct BulletinBoardFeature {
                 return .none
                 
             case let .likeBoardButtonTapped(board):
-                let event = "likeBoardButtonTapped"
-                let parameters = [
-                    "select_content": "likeBoardButton"
-                ]
-                Analytics.logEvent(event, parameters: parameters)
                 HapticService.impact(style: .light)
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
                         try await bulletinBoardRepository.likeBoard(board.id)
                         await send(.likeBoard(board.id))
+                        if !board.isLiked { GAService.log(.likeBoardFromList(board: board)) }
                     } catch {
                         await send(.networkingFailed(error))
                     }

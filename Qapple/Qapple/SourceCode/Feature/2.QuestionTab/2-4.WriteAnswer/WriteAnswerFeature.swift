@@ -73,6 +73,7 @@ struct WriteAnswerFeature {
                     do {
                         try await postAnswer(state.question.id, state.answerText)
                         await send(.postAnswerResponse(state.question))
+                        GAService.log(.postAnswer(question: state.question, answer: state.answerText))
                     } catch {
                         await send(.networkingFailed(error))
                     }

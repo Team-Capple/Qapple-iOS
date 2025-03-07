@@ -13,8 +13,9 @@ enum Constant {
     static let gcmMessageIDKey = "gcm.message_id"
 }
 
-// MARK: - InMemory
+// MARK: - Shared Key
 
 extension Constant {
     static let isSignIn = "isSignIn"
+    static let userRandomID = "userRandomID"
 }
