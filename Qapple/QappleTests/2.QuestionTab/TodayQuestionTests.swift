@@ -27,6 +27,7 @@ struct TodayQuestionTests {
         id: 0,
         content: "테스트 답변 1",
         authorNickname: "어쩌구",
+        authorGeneration: "3기",
         publishedDate: .now,
         isReported: false,
         isMine: false,
