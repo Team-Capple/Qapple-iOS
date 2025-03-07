@@ -118,6 +118,7 @@ private struct QuestionButton: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
             }
             .opacity(store.isLoading ? 0 : 1)
+            .buttonStyle(ScalableButtonStyle())
         }
         .frame(maxWidth: .infinity)
         .background(.first)

@@ -107,6 +107,7 @@ private struct CommentListView: View {
                                 store.send(.pagination)
                             }
                         )
+                        .disabled(store.isLoading)
                         
                         seperator
                     }

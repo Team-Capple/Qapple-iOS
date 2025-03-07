@@ -11,7 +11,13 @@ import SwiftUI
 struct ScalableButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.5), value: configuration.isPressed)
+            .scaleEffect(configuration.isPressed ? 0.94 : 1.0)
+            .animation(
+                .spring(
+                    response: 0.3,
+                    dampingFraction: 0.5
+                ),
+                value: configuration.isPressed
+            )
     }
 }

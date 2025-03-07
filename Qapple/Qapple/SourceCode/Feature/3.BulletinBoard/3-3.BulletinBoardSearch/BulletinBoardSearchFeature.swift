@@ -25,6 +25,7 @@ struct BulletinBoardSearchFeature {
         case refresh
         case pagination
         case searchBoardListResponse([BulletinBoard], QappleAPI.PaginationInfo)
+        case paginationResponse([BulletinBoard], QappleAPI.PaginationInfo)
         
         case backButtonTapped
         case likeBoardButtonTapped(BulletinBoard)
@@ -52,7 +53,6 @@ struct BulletinBoardSearchFeature {
         Reduce { state, action in
             switch action {
             case .onAppear, .refresh:
-                state.searchBoardList = []
                 return .run { [searchText = state.searchText] send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
@@ -72,7 +72,7 @@ struct BulletinBoardSearchFeature {
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
                         let response = try await bulletinBoardRepository.searchBoard(searchText, threshold)
-                        await send(.searchBoardListResponse(response.0, response.1))
+                        await send(.paginationResponse(response.0, response.1))
                     } catch {
                         await send(.networkingFailed(error))
                     }
@@ -80,7 +80,12 @@ struct BulletinBoardSearchFeature {
                 }
                 
             case let .searchBoardListResponse(searchBoardList, paginationInfo):
-                state.searchBoardList += searchBoardList
+                state.searchBoardList = searchBoardList.filter { !$0.isReported }
+                state.paginationInfo = paginationInfo
+                return .none
+                
+            case let .paginationResponse(searchBoardList, paginationInfo):
+                state.searchBoardList += searchBoardList.filter { !$0.isReported }
                 state.paginationInfo = paginationInfo
                 return .none
                 
