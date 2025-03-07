@@ -66,71 +66,71 @@ enum GAService {
         
         switch event {
         case let .screenTime(duration):
-            parameters = makePrameters([
+            parameters = [
                 "duration": Int(duration),
-            ])
+            ]
             
         case let .postAnswer(question):
-            parameters = makePrameters([
+            parameters = [
                 "question_id": question.id,
                 "question": question.content,
-                "is_lived": question.isLived
-            ])
+                "is_lived": "\(question.isLived)"
+            ]
             
         case let .postBoard(content):
-            parameters = makePrameters([
+            parameters = [
                 "content": content
-            ])
+            ]
             
         case let .likeBoardFromList(board):
-            parameters = makePrameters([
+            parameters = [
                 "board_id": board.id,
                 "content": board.content,
                 "heart_count": board.heartCount + 1
-            ])
+            ]
             
         case let .likeBoardFromDetail(board):
-            parameters = makePrameters([
+            parameters = [
                 "board_id": board.id,
                 "content": board.content,
                 "heart_count": board.heartCount + 1
-            ])
+            ]
             
         case let .checkAcademySchedule(event):
-            parameters = makePrameters([
+            parameters = [
                 "event_title": event.title
-            ])
+            ]
             
         case let .postBoardComment(board, comment):
-            parameters = makePrameters([
+            parameters = [
                 "board_id": board.id,
                 "board_content": board.content,
                 "comment_content": comment
-            ])
+            ]
             
         case let .likeBoardComment(board, comment):
-            parameters = makePrameters([
+            parameters = [
                 "board_id": board.id,
                 "board_content": board.content,
                 "board_heart_count": board.heartCount,
                 "comment_content": comment.content,
                 "comment_heart_count": comment.heartCount + 1
-            ])
+            ]
             
         case let .navigateToQuestionTabFromPush(title, body, questionId):
-            parameters = makePrameters([
+            parameters = [
                 "question_id": questionId,
                 "title": title,
                 "body": body
-            ])
+            ]
             
         case let .navigateToBoardCommentFromPush(title, body, board):
-            parameters = makePrameters([
+            parameters = [
                 "board_id": board.id,
                 "content": board.content,
                 "title": title,
                 "body": body
-            ])
+            ]
         }
         
         Analytics.setUserID(userRandomID)
@@ -149,11 +149,4 @@ extension GAService {
         let id = UUID().uuidString.replacingOccurrences(of: "-", with: "").prefix(16)
         return String(id)
     }()
-    
-    /// Parameter를 기본값과 함께 생성합니다.
-    private static func makePrameters(_ parmas: [String: Any]) -> [String: Any] {
-        var parameters = [String: Any]()
-        parmas.forEach { parameters.updateValue($0.value, forKey: $0.key) }
-        return parameters
-    }
 }
