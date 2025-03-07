@@ -14,6 +14,9 @@ enum GAService {
     
     enum Event {
         
+        /// 앱 접속 시간
+        case screenTime(duration: TimeInterval)
+        
         /// 답변 작성
         case postAnswer(question: Question)
         
@@ -43,6 +46,7 @@ enum GAService {
         
         var name: String {
             switch self {
+            case .screenTime: "screen_time"
             case .postAnswer: "post_answer"
             case .postBoard: "post_board"
             case .likeBoardFromList: "like_board_from_list"
@@ -61,6 +65,11 @@ enum GAService {
         var parameters = [String: Any]()
         
         switch event {
+        case let .screenTime(duration):
+            parameters = makePrameters([
+                "duration": Int(duration),
+            ])
+            
         case let .postAnswer(question):
             parameters = makePrameters([
                 "question_id": question.id,
