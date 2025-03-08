@@ -136,7 +136,7 @@ extension QuestionCell {
     
     private func Header() -> some View {
         HStack(spacing: 8) {
-            Text("\(questionGeneration)기의 \(question.id)번째 질문")
+            Text("#\(questionGeneration)기-\(question.id)번")
                 .font(.pretendard(.semiBold, size: 14))
                 .foregroundStyle(.icon)
             
