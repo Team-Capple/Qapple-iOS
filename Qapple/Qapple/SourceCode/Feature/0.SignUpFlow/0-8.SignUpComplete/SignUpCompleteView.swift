@@ -13,23 +13,26 @@ struct SignUpCompleteView: View {
     let store: StoreOf<SignUpCompleteFeature>
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(spacing: 0) {
             QPNavigationBar()
             
-            Text("캐플에 오신 것을 환영합니다.\n당신의 이야기를 들려주세요!")
-                .foregroundStyle(.main)
-                .font(Font.pretendard(.bold, size: 24))
-                .lineSpacing(6)
-                .padding(.top, 32)
-                .padding(.horizontal, 24)
-            
             Spacer()
+            
+            Text("캐플에 오신 것을 환영합니다 🍎 \n러너분들의 이야기를 들려주세요!")
+                .foregroundStyle(.main)
+                .pretendard(.bold, 24)
+                .lineSpacing(12)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 2)
             
             QPActionButton("시작하기", isActive: true) {
                 store.send(.startButtonTapped)
             }
-            .padding(.bottom, 16)
-            .padding(.horizontal, 24)
+            .padding(.top, 32)
+            .padding(.horizontal, 120)
+            .padding(.bottom, 48)
+            
+            Spacer()
         }
         .background(.first)
         .navigationBarBackButtonHidden()
