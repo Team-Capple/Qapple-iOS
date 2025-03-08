@@ -30,7 +30,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Qapple.xctestplan"
+            reference = "container:Qapple/QappleBox/Qapple.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
