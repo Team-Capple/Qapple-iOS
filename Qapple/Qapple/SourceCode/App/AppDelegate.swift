@@ -9,6 +9,8 @@ import ComposableArchitecture
 import SwiftUI
 import Firebase
 import FirebaseMessaging
+import AdSupport
+import AppTrackingTransparency
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -71,9 +73,6 @@ extension AppDelegate {
         // 원격 알림 등록
         UNUserNotificationCenter.current().delegate = self
         
-        // Push 알림 권한 요청
-        requestPushNotificationAutorization()
-        
         // APNs에 기기 등록을 요청
         application.registerForRemoteNotifications()
         
@@ -88,15 +87,6 @@ extension AppDelegate {
         
         // 메세징 델리겟
         Messaging.messaging().delegate = self
-    }
-    
-    /// Push Notification 권한을 요청합니다.
-    private func requestPushNotificationAutorization() {
-        let authOption: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOption,
-            completionHandler: { _, _ in }
-        )
     }
 }
 

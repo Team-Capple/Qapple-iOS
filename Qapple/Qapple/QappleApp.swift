@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import AppTrackingTransparency
 import SwiftUI
 
 @main
@@ -23,11 +24,38 @@ struct QappleApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if signUpFlowStore.isSignIn {
-                MainFlowView(store: QappleApp.mainFlowStore)
-            } else {
-                SignUpFlowView(store: signUpFlowStore)
+            Group {
+                if signUpFlowStore.isSignIn {
+                    MainFlowView(store: QappleApp.mainFlowStore)
+                } else {
+                    SignUpFlowView(store: signUpFlowStore)
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                requestAppTrackingTransparency()
+                requestPushNotificationAutorization()
             }
         }
+    }
+}
+
+// MARK: - Permission
+
+extension QappleApp {
+    
+    /// 앱 추적 투명성 권한을 요청합니다.
+    private func requestAppTrackingTransparency() {
+        Task {
+            await ATTrackingManager.requestTrackingAuthorization()
+        }
+    }
+    
+    /// Push Notification 권한을 요청합니다.
+    private func requestPushNotificationAutorization() {
+        let authOption: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOption,
+            completionHandler: { _, _ in }
+        )
     }
 }

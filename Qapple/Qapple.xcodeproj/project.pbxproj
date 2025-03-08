@@ -397,7 +397,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Qapple/QappleBox/Qapple.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2502261117;
+				CURRENT_PROJECT_VERSION = 2503081116;
 				DEVELOPMENT_ASSET_PATHS = "\"Qapple/Resource/Preview Content\"";
 				DEVELOPMENT_TEAM = 7YZM4XMXXU;
 				ENABLE_PREVIEWS = YES;
@@ -405,6 +405,7 @@
 				INFOPLIST_FILE = Qapple/QappleBox/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Qapple;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "UX 개선을 위한 데이터 분석 권한을 허용해 주세요";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -438,7 +439,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Qapple/QappleBox/Qapple.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2502261117;
+				CURRENT_PROJECT_VERSION = 2503081116;
 				DEVELOPMENT_ASSET_PATHS = "\"Qapple/Resource/Preview Content\"";
 				DEVELOPMENT_TEAM = 7YZM4XMXXU;
 				ENABLE_PREVIEWS = YES;
@@ -446,6 +447,7 @@
 				INFOPLIST_FILE = Qapple/QappleBox/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Qapple;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "UX 개선을 위한 데이터 분석 권한을 허용해 주세요";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
