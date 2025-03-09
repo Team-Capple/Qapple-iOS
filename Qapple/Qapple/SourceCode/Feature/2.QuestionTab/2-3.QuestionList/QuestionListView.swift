@@ -125,8 +125,8 @@ private struct QuestionCell: View {
     
     /// 질문 기수
     private var questionGeneration: Int {
-        let thirdEndDate = AcademyEventFor4th.fourthStart.period.1
-        return thirdEndDate > Date.now ? 3 : 4
+        let thirdEndDate = AcademyEventFor4th.prelude.period.0
+        return thirdEndDate > question.publishedDate ? 3 : 4
     }
 }
 
