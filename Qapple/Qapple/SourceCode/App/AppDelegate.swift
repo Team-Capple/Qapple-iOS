@@ -9,8 +9,6 @@ import ComposableArchitecture
 import SwiftUI
 import Firebase
 import FirebaseMessaging
-import AdSupport
-import AppTrackingTransparency
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
