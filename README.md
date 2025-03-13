@@ -33,6 +33,10 @@
 
 ## 트러블 슈팅
 - [무니 Mooni의 CI/CD 구축기 with Github Actions (1)](https://velog.io/@mooninbeom/CICD-구축기-with-Github-Actions-1)
+- [한톨의 캐플 리팩토링 첫 번째 이야기 - 방향성 설정하기](https://thinkyside.tistory.com/56)
+- [한톨의 캐플 리팩토링 두 번째 이야기 - 프로젝트 세팅하기](https://thinkyside.tistory.com/58)
+- [한톨의 캐플 리팩토링 세 번째 이야기 - 트러블 슈팅](https://thinkyside.tistory.com/66) 
+- [한톨의 캐플 리팩토링 네 번째 이야기 - Repository 모듈 만들기](https://thinkyside.tistory.com/90)
 
 ## 프로젝트 회고
 |||
