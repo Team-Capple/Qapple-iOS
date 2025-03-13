@@ -1,8 +1,33 @@
 # 🥕 Qapple-iOS
 
-### 👏 Git Conventions
-> 동료를 위해, 나를 위해 같이 열심히 지켜봐요!
-- Commit: `[#115] 캐플 로고 추가`
-- Branch: `feat/#17-LoginView`
-- Issue: `[FEAT] 회원가입 기능 추가`
-- PR: `[FEAT] 회원가입 기능 추가`
+## 프로젝트 개요
+|상태|앱스토어 배포 완료 및 업데이트 진행 중(v2.0.3)|
+|:--:|:--|
+|기술 스택|SwiftUI, TCA, Keychain, SPM, Firebase, Google Analytics, Github Actions|
+|앱스토어|[캐플 - 아카데미 러너끼리 익명으로 답변하기](https://apps.apple.com/kr/app/qapple-%EC%BA%90%ED%94%8C/id6480340462)|
+|Repository 패키지|[Qapple-Repository](https://github.com/Team-Capple/Qapple-Repository)|
+|이메일 문의|0.team.capple@gmail.com|
+
+#### 시즌 1) MVP 개발을 통한 빠른 피드백 수집 (24. 01. 22 ~ 24. 04. 01)
+|참여 인원|총 7명(한톨 Hantol, 리버 Liver, 라무네 Ramune, 웰디 WellD, 망고 Mango, 루시 Lucy, 아리 Ari)|
+|:--:|:--|
+
+#### 시즌 2) 유지보수 및 TCA 리팩토링 (24. 04. 01 ~ 진행 중)
+|참여 인원|총 10명(한톨 Hantol, 시몬스 Simmons, 무니 Mooni, 프라이데이 Friday, 세미 Sammy, 라무네 Ramune, 망고 Mango, 루시 Lucy, 아리 Ari)|
+|:--:|:--|
+
+## 스크린샷
+![image](https://github.com/user-attachments/assets/94c3601d-dfef-4037-97e5-c98ee5bc86b5)
+
+## 프로젝트 구조
+- 이벤트 Flow 정리(TCA) >> 한톨
+- 폴더 구조 정리 >> 시몬스
+- Navigation Flow >> 무니
+
+## 트러블 슈팅
+- [무니 Mooni의 CI/CD 구축기 with Github Actions (1)](https://velog.io/@mooninbeom/CICD-구축기-with-Github-Actions-1)
+
+## 프로젝트 회고
+|||
+|:--:|:--|
+|||
