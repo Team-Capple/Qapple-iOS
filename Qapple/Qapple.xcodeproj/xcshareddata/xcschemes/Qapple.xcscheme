@@ -30,7 +30,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Qapple.xctestplan"
+            reference = "container:Qapple/QappleBox/Qapple.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -58,7 +58,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-FIRDebugEnabled"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

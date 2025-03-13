@@ -125,8 +125,8 @@ private struct QuestionCell: View {
     
     /// 질문 기수
     private var questionGeneration: Int {
-        let thirdEndDate = AcademyEventFor4th.fourthStart.period.1
-        return thirdEndDate > Date.now ? 3 : 4
+        let thirdEndDate = AcademyEventFor4th.prelude.period.0
+        return thirdEndDate > question.publishedDate ? 3 : 4
     }
 }
 
@@ -136,7 +136,7 @@ extension QuestionCell {
     
     private func Header() -> some View {
         HStack(spacing: 8) {
-            Text("\(questionGeneration)기의 \(question.id)번째 질문")
+            Text("\(questionGeneration)기 \(question.id)번")
                 .font(.pretendard(.semiBold, size: 14))
                 .foregroundStyle(.icon)
             
