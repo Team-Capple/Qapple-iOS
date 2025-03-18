@@ -256,6 +256,7 @@ private struct ReportedCell: View {
     let answers = [
         Answer(
             id: 0,
+            writerId: 0,
             content: "일반 답변",
             authorNickname: "시몬스",
             authorGeneration: "3기",
@@ -266,6 +267,7 @@ private struct ReportedCell: View {
         ),
         Answer(
             id: 1,
+            writerId: 1,
             content: "내 답변",
             authorNickname: "한톨",
             authorGeneration: "4기",
@@ -276,6 +278,7 @@ private struct ReportedCell: View {
         ),
         Answer(
             id: 2,
+            writerId: 2,
             content: "탈퇴한 답변",
             authorNickname: "무니",
             authorGeneration: "3기",
@@ -286,6 +289,7 @@ private struct ReportedCell: View {
         ),
         Answer(
             id: 3,
+            writerId: 3,
             content: "신고된 답변",
             authorNickname: "리버",
             authorGeneration: "4기",

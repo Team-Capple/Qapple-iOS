@@ -267,6 +267,7 @@ private struct SeeAllButton: View {
             answerPreviewList: [
                 Answer(
                     id: 0,
+                    writerId: 0,
                     content: "테스트 답변 01",
                     authorNickname: "테스트 러너 1",
                     authorGeneration: "3기",
@@ -277,6 +278,7 @@ private struct SeeAllButton: View {
                 ),
                 Answer(
                     id: 1,
+                    writerId: 1,
                     content: "테스트 답변 02",
                     authorNickname: "테스트 러너 2",
                     authorGeneration: "4기",
@@ -287,6 +289,7 @@ private struct SeeAllButton: View {
                 ),
                 Answer(
                     id: 2,
+                    writerId: 2,
                     content: "테스트 답변 03",
                     authorNickname: "테스트 러너 3",
                     authorGeneration: "3기",

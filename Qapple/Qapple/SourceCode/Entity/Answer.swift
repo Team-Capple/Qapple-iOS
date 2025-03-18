@@ -12,6 +12,9 @@ struct Answer: Identifiable, Equatable {
     /// 답변 ID
     let id: Int
     
+    /// 사용자 ID
+    let writerId: Int
+    
     /// 답변 내용
     let content: String
     
@@ -37,6 +40,7 @@ struct Answer: Identifiable, Equatable {
     static var initialState: Answer {
         Answer(
             id: 0,
+            writerId: 0,
             content: "",
             authorNickname: "",
             authorGeneration: "",

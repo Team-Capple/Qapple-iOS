@@ -187,7 +187,7 @@ struct BulletinBoardSearchFeature {
             case let .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockUser(sheetData)))))):
                 guard case let .bulletinBoard(board) = sheetData else { return .none }
                 return .run { send in
-                    UserDefaults.addBoardBlockedUser(board.writerId)
+                    UserDefaults.addBlockedUser(board.writerId)
                     await send(.sheet(.presented(.seeMore(.completionBlocking))))
                 }
                 
