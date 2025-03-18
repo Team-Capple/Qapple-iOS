@@ -187,6 +187,7 @@ private struct ScheduleCell: View {
                             .fill(isSelected ? .clear : .stroke)
                             .fill(isSelected ? LinearGradient.pink : LinearGradient.clear)
                     )
+                    .padding(.trailing, 2)
             }
             .padding(.leading, 8)
             
