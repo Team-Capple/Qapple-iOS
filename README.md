@@ -57,10 +57,9 @@
 └── 📄README.md                       
 ~~~
 
-## 프로젝트 구조
-- 이벤트 Flow 정리(TCA) >> 한톨
-- 폴더 구조 정리 >> 시몬스
-- Navigation Flow >> 무니
+### 이벤트 Flow
+![image](https://github.com/user-attachments/assets/f8ca3858-7ca3-4191-b604-8d87688643cb)
+
 
 ## 트러블 슈팅
 - [무니 Mooni의 CI/CD 구축기 with Github Actions (1)](https://velog.io/@mooninbeom/CICD-구축기-with-Github-Actions-1)
@@ -70,6 +69,4 @@
 - [한톨의 캐플 리팩토링 네 번째 이야기 - Repository 모듈 만들기](https://thinkyside.tistory.com/90)
 
 ## 프로젝트 회고
-|||
-|:--:|:--|
-|||
+- [시몬스의 회고](https://dding-genie.tistory.com/38)
