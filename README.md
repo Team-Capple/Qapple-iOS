@@ -23,8 +23,39 @@
 |Back-End|리버 Liver, 망고 Mango, 루시 Lucy, 아리 Ari|
 |UXUI|라무네 Ramune|
 
-## 스크린샷
+### 스크린샷
 ![image](https://github.com/user-attachments/assets/94c3601d-dfef-4037-97e5-c98ee5bc86b5)
+
+### 폴더 구조
+~~~
+🍎
+├── 🗂️Qapple
+│   ├── 🗂️Qapple
+│   │   ├── 📄QappleApp.swift         # 앱의 진입점
+│   │   ├── 🗂️QappleBox               # 앱의 설정 및 보안 관련 파일 저장소 (공개 X)
+│   │   ├── 🗂️Resource                # 앱에서 사용하는 리소스 (UI 및 설정 관련)
+│   │   └── 🗂️SourceCode
+│   │       ├── 🗂️App                 # 앱의 핵심 설정 및 진입점 관련 코드
+│   │       ├── 🗂️Data
+│   │       │   ├── 🗂️Repository      # 데이터 저장소 (데이터 관리 및 캐싱)
+│   │       │   └── 🗂️Service         # API 통신 및 데이터 서비스
+│   │       ├── 🗂️Entity              # 데이터 모델 정의
+│   │       ├── 🗂️Feature
+│   │       │   ├── 🗂️0.SignUpFlow    # 회원가입 및 로그인 관련 화면
+│   │       │   ├── 🗂️1.MainFlow      # 앱의 메인 화면 및 기본 네비게이션
+│   │       │   ├── 🗂️2.QuestionTab   # 질문 관련 UI 및 로직
+│   │       │   ├── 🗂️3.BulletinBoard # 게시판 관련 UI 및 로직
+│   │       │   ├── 🗂️4.Comment       # 댓글관련 UI 및 로직
+│   │       │   ├── 🗂️5.Profile       # 사용자 프로필 관련 UI 및 로직
+│   │       │   ├── 🗂️6.Notification  # 알림 기능 (푸시 알림 등)
+│   │       │   ├── 🗂️7.SeeMoreSheet  # 더보기 시트 UI
+│   │       │   └── 🗂️8.Report        # 신고 기능
+│   │       ├── 🗂️UIComponent         # 공통 UI 컴포넌트
+│   │       └── 🗂️Utility             # 유틸리티 함수 및 헬퍼 클래스
+│   ├── Qapple.xcodeproj              # Xcode 프로젝트 파일
+│   └── 🗂️QappleTests                 # 테스트 코드 폴더
+└── 📄README.md                       
+~~~
 
 ## 프로젝트 구조
 - 이벤트 Flow 정리(TCA) >> 한톨
