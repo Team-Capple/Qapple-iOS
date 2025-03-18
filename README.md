@@ -1,4 +1,4 @@
-# 🥕 Qapple-iOS
+# 🍎 Qapple-iOS / 아카데미 러너끼리 익명으로 소통하기!
 
 ## 프로젝트 개요
 |상태|앱스토어 배포 완료 및 업데이트 진행 중(v2.0.3)|
@@ -11,22 +11,22 @@
 #### 시즌 1) MVP 개발을 통한 빠른 피드백 수집 (24. 01. 22 ~ 24. 04. 01)
 |총 인원|7명|
 |:--|:--|
-|iOS|한톨 Hantol, 리버 Liver, 웰디 WellD|
-|Back-End|리버 Liver, 망고 Mango, 루시 Lucy, 아리 Ari|
-|UXUI|라무네 Ramune|
+|iOS|[한톨 Hantol](https://github.com/thinkySide), [리버 Liver](https://github.com/kyxxgsoo), [웰디 WellD](https://www.linkedin.com/in/hyeonheeshim/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)|
+|Back-End|[리버 Liver](https://github.com/kyxxgsoo), [망고 Mango](https://www.linkedin.com/in/재원-이-859981227/), [루시 Lucy](https://github.com/tnals2384), [아리 Ari](https://github.com/youngeun-dev)|
+|UXUI|[라무네 Ramune](https://www.linkedin.com/in/ramunesoojin/)|
 
 #### 시즌 2) 유지보수 및 TCA 리팩토링 (24. 04. 01 ~ 진행 중)
 |총 인원|10명|
 |:--|:--|
-|iOS|한톨 Hantol, 시몬스 Simmons, 무니 Mooni|
-|PM|프라이데이 Friday, 세미 Sammy|
-|Back-End|리버 Liver, 망고 Mango, 루시 Lucy, 아리 Ari|
-|UXUI|라무네 Ramune|
+|iOS|[한톨 Hantol](https://github.com/thinkySide), [시몬스 Simmons](https://github.com/OhMyungJin), [무니 Mooni](https://github.com/mooninbeom)|
+|PM|[프라이데이 Friday](https://www.linkedin.com/in/minwoo-kim-7b94952b7/), [세미 Sammy](https://www.linkedin.com/in/sammy-kwak-8b2286221/)|
+|Back-End|[리버 Liver](https://github.com/kyxxgsoo), [망고 Mango](https://www.linkedin.com/in/재원-이-859981227/), [루시 Lucy](https://github.com/tnals2384), [아리 Ari](https://github.com/youngeun-dev)|
+|UXUI|[라무네 Ramune](https://www.linkedin.com/in/ramunesoojin/)|
 
-### 스크린샷
-![image](https://github.com/user-attachments/assets/94c3601d-dfef-4037-97e5-c98ee5bc86b5)
+## 스크린샷
+![Group 1000012348 1](https://github.com/user-attachments/assets/78452cb1-b017-4e8b-8b90-ccd25f5083c6)
 
-### 폴더 구조
+## 폴더 구조
 ~~~
 🍎
 ├── 🗂️Qapple
@@ -57,9 +57,8 @@
 └── 📄README.md                       
 ~~~
 
-### 이벤트 Flow
-![image](https://github.com/user-attachments/assets/f8ca3858-7ca3-4191-b604-8d87688643cb)
-
+## 이벤트 Flow
+![image](https://github.com/user-attachments/assets/9b1112e0-7ce5-4a1e-9d2b-258cbcc1824a)
 
 ## 트러블 슈팅
 - [무니 Mooni의 CI/CD 구축기 with Github Actions (1)](https://velog.io/@mooninbeom/CICD-구축기-with-Github-Actions-1)
