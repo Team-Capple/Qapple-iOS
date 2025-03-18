@@ -37,6 +37,7 @@ struct BulletinBoardSearchFeature {
         case seeMoreAction(BulletinBoard)
         case networkingFailed(Error)
         case toggleLoading(Bool)
+        case filterBlockedUser
         
         case sheet(PresentationAction<Sheet.Action>)
         case alert(PresentationAction<Alert>)
@@ -80,12 +81,18 @@ struct BulletinBoardSearchFeature {
                 }
                 
             case let .searchBoardListResponse(searchBoardList, paginationInfo):
-                state.searchBoardList = searchBoardList.filter { !$0.isReported }
+                let result = searchBoardList
+                    .filter { !$0.isReported }
+                    .filter(UserDefaults.filterBoardBlockedUser)
+                state.searchBoardList = result
                 state.paginationInfo = paginationInfo
                 return .none
                 
             case let .paginationResponse(searchBoardList, paginationInfo):
-                state.searchBoardList += searchBoardList.filter { !$0.isReported }
+                let result = searchBoardList
+                    .filter { !$0.isReported }
+                    .filter(UserDefaults.filterBoardBlockedUser)
+                state.searchBoardList += result
                 state.paginationInfo = paginationInfo
                 return .none
                 
@@ -175,6 +182,21 @@ struct BulletinBoardSearchFeature {
                 
             case .sheet(.presented(.seeMore(.reportButtonTapped))):
                 state.sheet = nil
+                return .none
+                
+            case let .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockUser(sheetData)))))):
+                guard case let .bulletinBoard(board) = sheetData else { return .none }
+                return .run { send in
+                    UserDefaults.addBoardBlockedUser(board.writerId)
+                    await send(.sheet(.presented(.seeMore(.completionBlocking))))
+                }
+                
+            case .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockCompletion))))):
+                state.sheet = nil
+                return .send(.filterBlockedUser)
+                
+            case .filterBlockedUser:
+                state.searchBoardList = state.searchBoardList.filter(UserDefaults.filterBoardBlockedUser)
                 return .none
                 
             case .alert, .sheet, .binding:

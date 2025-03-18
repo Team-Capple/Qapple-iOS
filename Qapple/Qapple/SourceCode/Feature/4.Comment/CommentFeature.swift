@@ -238,6 +238,17 @@ struct CommentFeature {
                 state.sheet = nil
                 return .none
                 
+            case let .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockUser(sheetData)))))):
+                guard case let .bulletinBoard(board) = sheetData else { return .none }
+                return .run { send in
+                    UserDefaults.addBoardBlockedUser(board.writerId)
+                    await send(.sheet(.presented(.seeMore(.completionBlocking))))
+                }
+                
+            case .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockCompletion))))):
+                state.sheet = nil
+                return .send(.onDisappear)
+                
             case let .alert(.presented(.confirmDeletion(boardCommentId))):
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)

@@ -30,7 +30,7 @@ struct SeeMoreSheet: View {
                     }
                     
                     SeeMoreCell(title: "차단하기") {
-                        
+                        store.send(.blockButtonTapped)
                     }
                 }
                 
