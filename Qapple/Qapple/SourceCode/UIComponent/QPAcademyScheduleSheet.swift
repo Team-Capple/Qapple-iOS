@@ -173,6 +173,7 @@ private struct ScheduleCell: View {
     private func StartDateToEndDate() -> some View {
         HStack(spacing: 0) {
             Text(event.period.0.formatting(.md, separator: "/"))
+                .frame(width: 44)
             
             ZStack {
                 Image(isSelected ? .longHalfArrowActive: .longHalfArrowInActive)
@@ -180,17 +181,18 @@ private struct ScheduleCell: View {
                 Text("\(event.totalDays)일")
                     .foregroundStyle(isSelected ? .wh.opacity(0.8) : .icon.opacity(0.8))
                     .pretendard(isSelected ? .semiBold : .medium, 14)
-                    .padding(.horizontal, 8)
-                    .frame(height: 24)
+                    .frame(width: 44, height: 24)
                     .background(
                         RoundedRectangle(cornerRadius: 22)
                             .fill(isSelected ? .clear : .stroke)
                             .fill(isSelected ? LinearGradient.pink : LinearGradient.clear)
                     )
+                    .padding(.trailing, 2)
             }
             .padding(.leading, 8)
             
             Text(event.period.1.formatting(.md, separator: "/"))
+                .frame(width: 44)
                 .padding(.leading, 8)
             
             Spacer()
