@@ -29,6 +29,7 @@ struct TodayQuestionFeature {
         case refresh
         case mainQuestionResponse(Question)
         case answerListResponse([Answer])
+        case filterBlockedUser
         case networkingFailed(Error)
         case questionButtonTapped(Question)
         case seeAllAnswerButtonTapped(Question)
@@ -93,7 +94,7 @@ struct TodayQuestionFeature {
                 }
                 
             case let .answerListResponse(answerList):
-                state.answerPreviewList = answerList
+                state.answerPreviewList = answerList.filter(UserDefaults.filterAnswerBlockedUser)
                 return .none
                 
             case let .networkingFailed(error):
@@ -151,6 +152,21 @@ struct TodayQuestionFeature {
                 
             case .sheet(.presented(.seeMore(.reportButtonTapped))):
                 state.sheet = nil
+                return .none
+                
+            case let .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockUser(sheetData)))))):
+                guard case let .answer(answer) = sheetData else { return .none }
+                return .run { send in
+                    UserDefaults.addBlockedUser(answer.writerId)
+                    await send(.sheet(.presented(.seeMore(.completionBlocking))))
+                }
+                
+            case .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockCompletion))))):
+                state.sheet = nil
+                return .send(.filterBlockedUser)
+                
+            case .filterBlockedUser:
+                state.answerPreviewList = state.answerPreviewList.filter(UserDefaults.filterAnswerBlockedUser)
                 return .none
                 
             case let .toggleLoading(bool):

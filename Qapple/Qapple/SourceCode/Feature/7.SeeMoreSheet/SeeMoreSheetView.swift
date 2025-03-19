@@ -28,13 +28,17 @@ struct SeeMoreSheet: View {
                     SeeMoreCell(title: "신고하기") {
                         store.send(.reportButtonTapped(store.dataType))
                     }
+                    
+                    SeeMoreCell(title: "차단하기") {
+                        store.send(.blockButtonTapped)
+                    }
                 }
                 
                 Spacer()
             }
             .padding(.top, 24)
         }
-        .presentationDetents([.height(80)])
+        .presentationDetents([ store.sheetTarget == .mine ? .height(80) : .height(120) ])
         .presentationDragIndicator(.visible)
         .alert($store.scope(state: \.alert, action: \.alert))
     }

@@ -5,6 +5,7 @@
 //  Created by 김민준 on 1/24/25.
 //
 
+import Foundation
 import ComposableArchitecture
 
 @Reducer
@@ -28,6 +29,7 @@ struct AnswerListFeature {
         case pagination
         case answerListResponse([Answer], QappleAPI.TotalCount, QappleAPI.PaginationInfo)
         case paginagionResponse([Answer], QappleAPI.PaginationInfo)
+        case filterBlockedUser
         case networkingFailed(Error)
         case seeMoreAction(Answer)
         case backButtonTapped
@@ -85,14 +87,30 @@ struct AnswerListFeature {
                 }
                 
             case let .answerListResponse(answerList, totalCount, paginationInfo):
-                state.answerList = answerList.reversed()
+                state.answerList = answerList.reversed().filter(UserDefaults.filterAnswerBlockedUser)
                 state.totalCount = totalCount
                 state.paginationInfo = paginationInfo
                 return .none
                 
             case let .paginagionResponse(answerList, paginationInfo):
-                state.answerList.insert(contentsOf: answerList.reversed(), at: 0)
+                let result = answerList.reversed().filter(UserDefaults.filterAnswerBlockedUser)
+                state.answerList.insert(contentsOf: result, at: 0)
                 state.paginationInfo = paginationInfo
+                return .none
+                
+            case let .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockUser(sheetData)))))):
+                guard case let .answer(answer) = sheetData else { return .none }
+                return .run { send in
+                    UserDefaults.addBlockedUser(answer.writerId)
+                    await send(.sheet(.presented(.seeMore(.completionBlocking))))
+                }
+                
+            case .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockCompletion))))):
+                state.sheet = nil
+                return .send(.filterBlockedUser)
+                
+            case .filterBlockedUser:
+                state.answerList = state.answerList.reversed().filter(UserDefaults.filterAnswerBlockedUser)
                 return .none
                 
             case let .networkingFailed(error):

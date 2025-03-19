@@ -39,6 +39,7 @@ struct BulletinBoardFeature {
         case seeMoreAction(BulletinBoard)
         case networkingFailed(Error)
         case toggleLoading(Bool)
+        case filterBlockedUser
         
         case sheet(PresentationAction<Sheet.Action>)
         case alert(PresentationAction<Alert>)
@@ -84,12 +85,12 @@ struct BulletinBoardFeature {
                 
             case let .bulletinBoardListResponse(bulletinBoardList, paginationInfo):
                 state.isFirstLaunch = false
-                state.bulletinBoardList = bulletinBoardList
+                state.bulletinBoardList = bulletinBoardList.filter(UserDefaults.filterBoardBlockedUser)
                 state.paginationInfo = paginationInfo
                 return .none
                 
             case let .paginationResponse(bulletinBoardList, paginationInfo):
-                state.bulletinBoardList += bulletinBoardList
+                state.bulletinBoardList += bulletinBoardList.filter(UserDefaults.filterBoardBlockedUser)
                 state.paginationInfo = paginationInfo
                 return .none
                 
@@ -181,6 +182,21 @@ struct BulletinBoardFeature {
                 
             case .sheet(.presented(.seeMore(.reportButtonTapped))):
                 state.sheet = nil
+                return .none
+                
+            case let .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockUser(sheetData)))))):
+                guard case let .bulletinBoard(board) = sheetData else { return .none }
+                return .run { send in
+                    UserDefaults.addBlockedUser(board.writerId)
+                    await send(.sheet(.presented(.seeMore(.completionBlocking))))
+                }
+                
+            case .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockCompletion))))):
+                state.sheet = nil
+                return .send(.filterBlockedUser)
+                
+            case .filterBlockedUser:
+                state.bulletinBoardList = state.bulletinBoardList.filter(UserDefaults.filterBoardBlockedUser)
                 return .none
                 
             case .alert(.presented(.confirmReport)):

@@ -38,6 +38,7 @@ extension AnswerRepository: DependencyKey {
             let answerList = response.content.map {
                 Answer(
                     id: $0.answerId,
+                    writerId: $0.writerId,
                     content: $0.content,
                     authorNickname: $0.nickname,
                     authorGeneration: $0.writerGeneration,
@@ -66,6 +67,7 @@ extension AnswerRepository: DependencyKey {
             return response.content.map {
                 Answer(
                     id: $0.answerId,
+                    writerId: $0.writerId,
                     content: $0.content,
                     authorNickname: $0.nickname,
                     authorGeneration: $0.writerGeneration,
@@ -89,6 +91,7 @@ extension AnswerRepository: DependencyKey {
             let answerList = response.content.map {
                 Answer(
                     id: $0.answerId,
+                    writerId: $0.writerId,
                     content: $0.content,
                     authorNickname: $0.nickname,
                     authorGeneration: $0.writerGeneration,
@@ -130,6 +133,7 @@ extension AnswerRepository: DependencyKey {
             let stubProfiles = (0..<10).map { i in
                 Answer(
                     id: i,
+                    writerId: i,
                     content: "테스트 답변 \(i)",
                     authorNickname: "시몬스",
                     authorGeneration: "3기",
@@ -171,6 +175,7 @@ extension AnswerRepository {
             answerList.append(
                 Answer(
                     id: i,
+                    writerId: i,
                     content: "테스트 답변 \(i)",
                     authorNickname: "\(i)번째 러너",
                     authorGeneration: "3기",

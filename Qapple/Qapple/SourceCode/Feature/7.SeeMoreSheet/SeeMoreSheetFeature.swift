@@ -20,12 +20,17 @@ struct SeeMoreSheetFeature {
     enum Action {
         case deleteButtonTapped
         case reportButtonTapped(DataType)
+        case blockButtonTapped
         case completionDeletion
+        case completionBlocking
         case alert(PresentationAction<Alert>)
         
         enum Alert: Equatable {
             case confirmDeletion(DataType)
             case confirmCompletion
+            
+            case confirmBlockUser(DataType)
+            case confirmBlockCompletion
         }
     }
     
@@ -39,8 +44,16 @@ struct SeeMoreSheetFeature {
             case .reportButtonTapped:
                 return .none
                 
+            case .blockButtonTapped:
+                state.alert = .blockingCheck(from: state.dataType)
+                return .none
+                
             case .completionDeletion:
                 state.alert = .deletionComplete(from: state.dataType)
+                return .none
+                
+            case .completionBlocking:
+                state.alert = .blockingComplete(from: state.dataType)
                 return .none
                 
             case .alert:
@@ -105,6 +118,43 @@ extension AlertState where Action == SeeMoreSheetFeature.Action.Alert {
         } actions: {
             ButtonState(role: .none, action: .confirmCompletion) {
                 TextState("확인")
+            }
+        }
+    }
+    
+    /// 차단 확인
+    static func blockingCheck(from dataType: DataType) -> Self {
+        let targetText = switch dataType {
+        case .answer: "답변"
+        case .bulletinBoard: "게시글"
+        case .comment: "댓글"
+        }
+        return Self {
+            TextState("\(targetText) 사용자를 차단하시겠어요?")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("취소")
+            }
+            ButtonState(role: .destructive, action: .confirmBlockUser(dataType)) {
+                TextState("차단하기")
+            }
+        } message: {
+            TextState("차단한 이용자는 다시 되돌릴 수 없어요")
+        }
+    }
+    
+    /// 차단 완료
+    static func blockingComplete(from dataType: DataType) -> Self {
+        let targetText = switch dataType {
+        case .answer: "답변"
+        case .bulletinBoard: "게시글"
+        case .comment: "댓글"
+        }
+        return Self {
+            TextState("\(targetText) 사용자가 차단되었어요")
+        } actions: {
+            ButtonState(role: .none, action: .confirmBlockCompletion) {
+                TextState("완료")
             }
         }
     }
