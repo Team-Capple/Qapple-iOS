@@ -137,9 +137,10 @@ var body: some View {
 
 ### 흐름 예시도(NicknameFormView Push 과정)
 
-![Navigation Flow 정리](https://github.com/user-attachments/assets/afd1140b-b909-40ca-9605-22afcb7509f9)
+![image](https://github.com/user-attachments/assets/2f195726-aed7-497e-9f15-e888774a0435)
 
 ### 네비게이션 구조
+~~~
 - SignUp(회원가입)
     - SocialLoginView
     - EmailFormView
@@ -171,7 +172,7 @@ var body: some View {
     - NotifiactionView
     - SeeMoreSheetView
     - ReportView
-
+~~~
 
 
 ## 트러블 슈팅
@@ -182,4 +183,4 @@ var body: some View {
 - [한톨의 캐플 리팩토링 네 번째 이야기 - Repository 모듈 만들기](https://thinkyside.tistory.com/90)
 
 ## 프로젝트 회고
-- [시몬스의 회고](https://dding-genie.tistory.com/38)
+- [시몬스의 Qapple 프로젝트에 대한 나의 생각](https://dding-genie.tistory.com/38)
