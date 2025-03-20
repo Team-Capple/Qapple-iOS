@@ -60,6 +60,120 @@
 ## 이벤트 Flow
 ![image](https://github.com/user-attachments/assets/9b1112e0-7ce5-4a1e-9d2b-258cbcc1824a)
 
+## 네비게이션 Flow
+캐플 팀은 TCA를 활용한 스택형 네비게이션을 정의했습니다.
+
+NavigationStack을 담당하는 Reducer가 하위 View에서 발생하는 Action들을 관찰합니다. 그 중 특정한 Action이 실행될 경우 Path가 변경될 수 있게 했습니다.
+
+### 네비게이션 과정
+1. 관찰을 원하는 Reducer을 Path 열거형으로 정의합니다.
+
+```swift
+// in SighUpFlowFeature.swift
+extension SignUpFlowFeature {
+    
+    @Reducer(state: .equatable)
+    enum Path {
+        case emailForm(EmailFormFeature)
+        case authCodeForm(AuthCodeFormFeature)
+        case nicknameForm(NicknameFormFeature)
+        case termsAgreement(TermsAgreementFeature)
+        case signUpComplete(SignUpCompleteFeature)
+    }
+}
+```
+
+2. 트리거거가 될(추적을 할) 액션을 선택한 후 해당 액션의 실행 코드를 재정의합니다.
+
+```swift
+// in SighUpFlowFeature.swift
+case let .path(stackAction):
+    switch stackAction {
+    case let .element(id: _, action: .emailForm(.sendCertificationEmailResponse(email))):
+        state.path.append(.authCodeForm(.init(emailText: email)))
+        return .none
+        
+    case let .element(id: _, action: .authCodeForm(.authCodeFormComplete(email))):
+        state.path.append(.nicknameForm(.init(emailText: email)))
+        return .none
+        
+    case let .element(id: _, action: .nicknameForm(.nicknameFormComplete(email, nickname))):
+        state.path.append(.termsAgreement(.init(emailText: email, nicknameText: nickname)))
+        return .none
+        
+    case .element(id: _, action: .termsAgreement(.signUpResponse)):
+        state.path.append(.signUpComplete(.init()))
+        HapticService.notification(type: .success)
+        return .none
+        
+    case .element(id: _, action: .signUpComplete(.startButtonTapped)):
+        state.$isSignIn.withLock { $0 = true }
+        state.path.removeAll()
+        return .none
+        
+    default:
+        return .none
+    }
+```
+
+3. Path의 추가되는 열거형의 타입에 따른 추가될 View를 적어줍니다.
+
+```swift
+// in SignUpView.swift
+var body: some View {
+    NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+        SocialLoginView(store: store.scope(state: \.socialLogin, action: \.socialLogin))
+    } destination: { store in
+        switch store.case {
+        case let .emailForm(store): EmailFormView(store: store)
+        case let .authCodeForm(store): AuthCodeFormView(store: store)
+        case let .nicknameForm(store): NicknameFormView(store: store)
+        case let .termsAgreement(store): TermsAgreementView(store: store)
+        case let .signUpComplete(store): SignUpCompleteView(store: store)
+        }
+    }
+}
+```
+
+### 흐름 예시도(NicknameFormView Push 과정)
+
+![Navigation Flow 정리](https://github.com/user-attachments/assets/afd1140b-b909-40ca-9605-22afcb7509f9)
+
+### 네비게이션 구조
+- SignUp(회원가입)
+    - SocialLoginView
+    - EmailFormView
+    - AuthCodeFormView
+    - NicknameFormView
+    - TermsAgreementView
+    - TermsContentView
+    - SignUpCompleteView
+- MainFlow(앱 메인)
+    - QuestionTab
+        - TodayQuestionView
+            - AnswerListView
+            - WriteAnswerView
+                - CompleteAnswerView
+        - QuestionListView
+            - AnswerListView
+            - WriteAnswerView
+                - CompleteAnswerView
+    - BulletinBoardTab
+        - BulletinBoardView
+            - BulletinBoardSearchView
+            - BulletinBoardPostView
+            - CommentView
+    - ProfileTab
+        - ProfileView
+            - ProfileEditView
+            - MyAnswerListView
+            - PeopleWhoMadeQappleView
+    - NotifiactionView
+    - SeeMoreSheetView
+    - ReportView
+
+
+
 ## 트러블 슈팅
 - [무니 Mooni의 CI/CD 구축기 with Github Actions (1)](https://velog.io/@mooninbeom/CICD-구축기-with-Github-Actions-1)
 - [한톨의 캐플 리팩토링 첫 번째 이야기 - 방향성 설정하기](https://thinkyside.tistory.com/56)
