@@ -84,7 +84,7 @@ enum AcademyEventFor4th: CaseIterable {
         case .challenge2: (ymdToDate(4, 7), ymdToDate(4, 27))
         case .bridge2: (ymdToDate(4, 28), ymdToDate(5, 7))
         case .challenge3: (ymdToDate(5, 8), ymdToDate(6, 15))
-        case .bridge3: (ymdToDate(6, 16), ymdToDate(6, 20))
+        case .bridge3: (ymdToDate(6, 16), ymdToDate(6, 22))
         case .challenge4: (ymdToDate(6, 23), ymdToDate(8, 3))
         case .bridge4: (ymdToDate(8, 4), ymdToDate(8, 10))
         case .challenge5: (ymdToDate(8, 11), ymdToDate(8, 24))
