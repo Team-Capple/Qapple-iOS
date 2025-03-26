@@ -78,19 +78,19 @@ enum AcademyEventFor4th: CaseIterable {
     var period: (StartDate, EndDate) {
         switch self {
         case .fourthStart: (ymdToDate(1, 1), ymdToDate(3, 9))
-        case .prelude: (ymdToDate(3, 10), ymdToDate(3, 14))
-        case .challenge1: (ymdToDate(3, 17), ymdToDate(3, 28))
-        case .bridge1: (ymdToDate(3, 31), ymdToDate(4, 4))
-        case .challenge2: (ymdToDate(4, 7), ymdToDate(4, 25))
-        case .bridge2: (ymdToDate(4, 28), ymdToDate(5, 2))
-        case .challenge3: (ymdToDate(5, 7), ymdToDate(6, 14))
+        case .prelude: (ymdToDate(3, 10), ymdToDate(3, 16))
+        case .challenge1: (ymdToDate(3, 17), ymdToDate(3, 30))
+        case .bridge1: (ymdToDate(3, 31), ymdToDate(4, 6))
+        case .challenge2: (ymdToDate(4, 7), ymdToDate(4, 27))
+        case .bridge2: (ymdToDate(4, 28), ymdToDate(5, 7))
+        case .challenge3: (ymdToDate(5, 8), ymdToDate(6, 15))
         case .bridge3: (ymdToDate(6, 16), ymdToDate(6, 20))
-        case .challenge4: (ymdToDate(6, 23), ymdToDate(8, 1))
-        case .bridge4: (ymdToDate(8, 4), ymdToDate(8, 8))
-        case .challenge5: (ymdToDate(8, 11), ymdToDate(8, 22))
-        case .bridge5: (ymdToDate(8, 25), ymdToDate(8, 29))
-        case .challenge6: (ymdToDate(9, 26), ymdToDate(11, 28))
-        case .epilogue: (ymdToDate(12, 1), ymdToDate(12, 13))
+        case .challenge4: (ymdToDate(6, 23), ymdToDate(8, 3))
+        case .bridge4: (ymdToDate(8, 4), ymdToDate(8, 10))
+        case .challenge5: (ymdToDate(8, 11), ymdToDate(8, 24))
+        case .bridge5: (ymdToDate(8, 25), ymdToDate(8, 31))
+        case .challenge6: (ymdToDate(9, 1), ymdToDate(11, 30))
+        case .epilogue: (ymdToDate(12, 1), ymdToDate(12, 12))
         }
     }
     
