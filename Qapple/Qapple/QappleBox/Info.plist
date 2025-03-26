@@ -4,10 +4,6 @@
 <dict>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
-	<key>PRODUCTION_URL</key>
-	<string>$(PRODUCTION_URL)</string>
-	<key>TEST_URL</key>
-	<string>$(TEST_URL)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -15,6 +11,10 @@
 	</dict>
 	<key>PORT_NUM</key>
 	<string>$(PORT_NUM)</string>
+	<key>PRODUCTION_URL</key>
+	<string>$(PRODUCTION_URL)</string>
+	<key>TEST_URL</key>
+	<string>$(TEST_URL)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Black.otf</string>
