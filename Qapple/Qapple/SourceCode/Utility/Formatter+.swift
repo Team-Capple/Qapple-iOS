@@ -75,21 +75,26 @@ extension Date {
 
 extension String {
     
-    /// 서버에서 받은 태그(키워드)를 공백을 기준으로 분리해 컬렉션 타입으로 반환합니다.
-    var splitTag: [String] {
-        return self.split(separator: " ").map(String.init)
+    enum ISO8601ToDateFormat: String {
+        case yearMonthDateTime = "yyyy-MM-dd'T'HH:mm:ss"
+        case yearMonthDateTimeMilliseconds = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     }
     
     /// 서버에서 받은 시간(String)을 Date 타입으로 반환합니다.
-    var ISO8601ToDate: Date {
+    func ISO8601ToDate(_ format: ISO8601ToDateFormat) -> Date {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        dateFormatter.dateFormat = format.rawValue
         
         if let date = dateFormatter.date(from: self) {
             return date
         }
         
         return .now
+    }
+    
+    /// 서버에서 받은 태그(키워드)를 공백을 기준으로 분리해 컬렉션 타입으로 반환합니다.
+    var splitTag: [String] {
+        return self.split(separator: " ").map(String.init)
     }
 }
 

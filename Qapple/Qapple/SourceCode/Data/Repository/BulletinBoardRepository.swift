@@ -41,7 +41,7 @@ extension BulletinBoardRepository: DependencyKey {
                     content: $0.content,
                     heartCount: $0.heartCount,
                     commentCount: $0.commentCount,
-                    createAt: $0.createdAt.ISO8601ToDate,
+                    createAt: $0.createdAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isMine: $0.isMine,
                     isReported: $0.isReported,
                     isLiked: $0.isLiked
@@ -79,7 +79,7 @@ extension BulletinBoardRepository: DependencyKey {
                 content: response.content,
                 heartCount: response.heartCount,
                 commentCount: response.commentCount,
-                createAt: response.createdAt.ISO8601ToDate,
+                createAt: response.createdAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                 isMine: response.isMine,
                 isReported: response.isReported,
                 isLiked: response.isLiked
@@ -122,7 +122,7 @@ extension BulletinBoardRepository: DependencyKey {
                     content: $0.content,
                     heartCount: $0.heartCount,
                     commentCount: $0.commentCount,
-                    createAt: $0.createdAt.ISO8601ToDate,
+                    createAt: $0.createdAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isMine: $0.isMine,
                     isReported: $0.isReported,
                     isLiked: $0.isLiked

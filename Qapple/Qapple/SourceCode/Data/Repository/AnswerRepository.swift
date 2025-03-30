@@ -42,7 +42,7 @@ extension AnswerRepository: DependencyKey {
                     content: $0.content,
                     authorNickname: $0.nickname,
                     authorGeneration: $0.writerGeneration,
-                    publishedDate: $0.writeAt.ISO8601ToDate,
+                    publishedDate: $0.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReported: false,
                     isMine: true,
                     isResignMember: false
@@ -71,7 +71,7 @@ extension AnswerRepository: DependencyKey {
                     content: $0.content,
                     authorNickname: $0.nickname,
                     authorGeneration: $0.writerGeneration,
-                    publishedDate: $0.writeAt.ISO8601ToDate,
+                    publishedDate: $0.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReported: $0.isReported,
                     isMine: $0.isMine,
                     isResignMember: $0.nickname == "알 수 없음"
@@ -95,7 +95,7 @@ extension AnswerRepository: DependencyKey {
                     content: $0.content,
                     authorNickname: $0.nickname,
                     authorGeneration: $0.writerGeneration,
-                    publishedDate: $0.writeAt.ISO8601ToDate,
+                    publishedDate: $0.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReported: $0.isReported,
                     isMine: $0.isMine,
                     isResignMember: $0.nickname == "알 수 없음"

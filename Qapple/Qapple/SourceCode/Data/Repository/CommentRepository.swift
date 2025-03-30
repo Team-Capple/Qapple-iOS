@@ -45,7 +45,7 @@ extension CommentRepository: DependencyKey {
                     isLiked: $0.isLiked,
                     isMine: $0.isMine,
                     isReport: $0.isReport,
-                    createdAt: $0.createdAt.ISO8601ToDate,
+                    createdAt: $0.createdAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     anonymityId: -2
                 )
             }

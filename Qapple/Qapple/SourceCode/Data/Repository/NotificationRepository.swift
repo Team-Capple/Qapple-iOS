@@ -43,7 +43,7 @@ extension NotificationRepository: DependencyKey {
                     title: $0.title,
                     subtitle: $0.subtitle,
                     content: $0.content ?? "",
-                    createAt: $0.createdAt.ISO8601ToDate,
+                    createAt: $0.createdAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReadStatus: false
                 )
             }
@@ -71,7 +71,7 @@ extension NotificationRepository: DependencyKey {
                 content: response.content,
                 heartCount: response.heartCount,
                 commentCount: response.commentCount,
-                createAt: response.createdAt.ISO8601ToDate,
+                createAt: response.createdAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                 isMine: response.isMine,
                 isReported: response.isReported,
                 isLiked: response.isLiked

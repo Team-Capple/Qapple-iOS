@@ -33,7 +33,7 @@ extension QuestionRepository: DependencyKey {
                 Question(
                     id: $0.questionId,
                     content: $0.content,
-                    publishedDate: $0.livedAt?.ISO8601ToDate ?? .now,
+                    publishedDate: $0.livedAt?.ISO8601ToDate(.yearMonthDateTime) ?? .now,
                     isAnswered: $0.isAnswered,
                     isLived: $0.questionStatus == ("LIVE")
                 )
