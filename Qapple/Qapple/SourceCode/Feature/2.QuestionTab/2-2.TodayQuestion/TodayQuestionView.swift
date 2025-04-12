@@ -13,18 +13,14 @@ struct TodayQuestionView: View {
     @Bindable var store: StoreOf<TodayQuestionFeature>
     
     var body: some View {
-        ZStack {
-            Color.second.ignoresSafeArea()
+        VStack(spacing: 0) {
+            HeaderView(store: store)
             
             ScrollView {
-                VStack(spacing: 0) {
-                    HeaderView(store: store)
-                    QuestionButton(store: store)
-                    AnswerPreviewList(store: store)
-                }
+                AnswerPreviewList(store: store)
             }
-            .scrollIndicators(.hidden)
         }
+        .scrollIndicators(.hidden)
         .onAppear {
             store.send(.onAppear)
         }
@@ -36,10 +32,7 @@ struct TodayQuestionView: View {
         }
         .loadingIndicator(isLoading: store.isLoading)
         .alert($store.scope(state: \.alert, action: \.alert))
-        .sheet(item: $store.scope(
-            state: \.sheet,
-            action: \.sheet)
-        ) { store in
+        .sheet(item: $store.scope(state: \.sheet, action: \.sheet)) { store in
             switch store.case {
             case let .seeMore(store): SeeMoreSheet(store: store)
             }
@@ -50,6 +43,81 @@ struct TodayQuestionView: View {
 // MARK: - HeaderView
 
 private struct HeaderView: View {
+    
+    let store: StoreOf<TodayQuestionFeature>
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(store.questionState.graphicImage)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 40, height: 40)
+            
+            Text(store.questionState.mainTitle)
+                .font(.pretendard(.semiBold, size: 18))
+                .foregroundStyle(.wh)
+                .tracking(-1)
+            
+            Spacer()
+            
+            if store.questionState == .creating {
+                QuestionTimer()
+            } else {
+                AnsweringButton()
+            }
+        }
+        .padding(.horizontal, 24)
+        .frame(maxWidth: .infinity)
+        .frame(height: 90)
+        .background(.second)
+        .cornerRadius(32, corners: [.bottomLeft, .bottomRight])
+    }
+    
+    /// 질문 타이머
+    private func QuestionTimer() -> some View {
+        Text(store.timeRemainingForQuestion.timerFormat)
+            .font(.pretendard(.bold, size: 22))
+            .foregroundStyle(LinearGradient.timer)
+            .monospacedDigit()
+            .kerning(-2)
+    }
+    
+    /// 답변하기 버튼
+    private func AnsweringButton() -> some View {
+        Button {
+            store.send(.questionButtonTapped(store.todayQuestion))
+        } label: {
+            Text(title)
+                .font(.pretendard(.semiBold, size: 15))
+                .frame(width: 84)
+                .padding(.vertical, 10)
+                .foregroundStyle(.main)
+                .background(backgroundColor)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+        .opacity(store.isLoading ? 0 : 1)
+        .buttonStyle(ScalableButtonStyle())
+    }
+    
+    /// 버튼 제목
+    private var title: String {
+        store.questionState.buttonTitle(
+            isAnswerd: store.todayQuestion.isAnswered
+        )
+    }
+    
+    /// 버튼 배경 색상
+    private var backgroundColor: Color {
+        switch store.questionState {
+        case .creating:
+            store.todayQuestion.isAnswered ? .secondaryButton : .button
+        case .ready: .button
+        case .complete: .secondaryButton
+        }
+    }
+}
+
+private struct LegacyHeaderView: View {
     
     @State private var offsetY: CGFloat = 0
     
@@ -165,7 +233,7 @@ private struct AnswerPreviewList: View {
                 if store.answerPreviewList.isEmpty {
                     Spacer()
                     
-                    Text("아직 답변이 달리지않았어요\n첫 답변을 달아보세요!")
+                    Text("첫 답변을 달아보세요!")
                         .font(.pretendard(.semiBold, size: 14))
                         .foregroundStyle(.sub4)
                         .multilineTextAlignment(.center)
