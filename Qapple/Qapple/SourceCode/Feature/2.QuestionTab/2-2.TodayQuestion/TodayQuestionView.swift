@@ -289,6 +289,12 @@ private struct AnswerPreviewList: View {
                     state: .normal,
                     seeMoreAction: {
                         store.send(.seeMoreAnswerButtonTapped(answer))
+                    },
+                    likeAction: {
+                        
+                    },
+                    commentAction: {
+                        
                     }
                 )
             }

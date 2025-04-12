@@ -139,6 +139,12 @@ private struct AnswerList: View {
                         state: .normal,
                         seeMoreAction: {
                             store.send(.seeMoreAction(answer))
+                        },
+                        likeAction: {
+                            
+                        },
+                        commentAction: {
+                            
                         }
                     )
                     .configurePagination(

@@ -18,6 +18,8 @@ struct QPAnswerCell: View {
     let index: Int
     let state: State
     let seeMoreAction: () -> Void
+    let likeAction: () -> Void
+    let commentAction: () -> Void
     
     var body: some View {
         switch state {
@@ -33,7 +35,9 @@ struct QPAnswerCell: View {
                     answer: answer,
                     index: index,
                     author: author(index: index),
-                    seeMoreAction: seeMoreAction
+                    seeMoreAction: seeMoreAction,
+                    likeAction: likeAction,
+                    commentAction: commentAction
                 )
             }
             
@@ -42,7 +46,9 @@ struct QPAnswerCell: View {
                 answer: answer,
                 index: index,
                 author: answer.authorNickname,
-                seeMoreAction: seeMoreAction
+                seeMoreAction: seeMoreAction,
+                likeAction: likeAction,
+                commentAction: commentAction
             )
         }
     }
@@ -62,6 +68,8 @@ private struct NormalCell: View {
     let index: Int
     let author: String
     let seeMoreAction: () -> Void
+    let likeAction: () -> Void
+    let commentAction: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -70,11 +78,16 @@ private struct NormalCell: View {
             }
             
             Header()
-                .padding(.top, 18)
+                .padding(.top, 20)
                 .padding(.horizontal, 16)
             
             Content()
-                .padding(.bottom, 16)
+                .padding(.top, 8)
+                .padding(.horizontal, 16)
+            
+            Footer()
+                .padding(.top, 8)
+                .padding(.bottom, 20)
                 .padding(.horizontal, 16)
         }
         .background(.first)
@@ -129,6 +142,44 @@ private struct NormalCell: View {
                 .pretendard(.medium, 16)
                 .foregroundStyle(.main)
                 .padding(.top, 2)
+        }
+    }
+    
+    private func Footer() -> some View {
+        HStack(spacing: 0) {
+            Circle()
+                .foregroundStyle(.clear)
+                .frame(width: 28, height: 28)
+            
+            Button {
+                likeAction()
+            } label: {
+                HStack(spacing: 4) {
+                    Image(true ? .heartActive : .heart)
+                        .resizable()
+                        .frame(width: 18, height: 18)
+                    
+                    Text("32")
+                        .pretendard(.regular, 13)
+                        .foregroundStyle(.sub3)
+                }
+            }
+            .padding(.leading, 8)
+            
+            Button {
+                commentAction()
+            } label: {
+                HStack(spacing: 4) {
+                    Image(systemName: "text.bubble.fill")
+                        .resizable()
+                        .frame(width: 15, height: 14)
+                    
+                    Text("32")
+                        .pretendard(.regular, 13)
+                }
+                .foregroundStyle(.sub3)
+            }
+            .padding(.leading, 12)
         }
     }
 }
@@ -303,11 +354,46 @@ private struct ReportedCell: View {
         Color.first.ignoresSafeArea()
         
         VStack(alignment: .leading, spacing: 0) {
-            QPAnswerCell(answer: answers[0], index: 0, state: .normal) {}
-            QPAnswerCell(answer: answers[1], index: 1, state: .normal) {}
-            QPAnswerCell(answer: answers[2], index: 2, state: .normal) {}
-            QPAnswerCell(answer: answers[3], index: 3, state: .normal) {}
-            QPAnswerCell(answer: answers[1], index: 4, state: .written) {}
+            QPAnswerCell(
+                answer: answers[0],
+                index: 0,
+                state: .normal,
+                seeMoreAction: {},
+                likeAction: {},
+                commentAction: {}
+            )
+            QPAnswerCell(
+                answer: answers[1],
+                index: 1,
+                state: .normal,
+                seeMoreAction: {},
+                likeAction: {},
+                commentAction: {}
+            )
+            QPAnswerCell(
+                answer: answers[2],
+                index: 2,
+                state: .normal,
+                seeMoreAction: {},
+                likeAction: {},
+                commentAction: {}
+            )
+            QPAnswerCell(
+                answer: answers[3],
+                index: 3,
+                state: .normal,
+                seeMoreAction: {},
+                likeAction: {},
+                commentAction: {}
+            )
+            QPAnswerCell(
+                answer: answers[1],
+                index: 4,
+                state: .written,
+                seeMoreAction: {},
+                likeAction: {},
+                commentAction: {}
+            )
         }
     }
 }

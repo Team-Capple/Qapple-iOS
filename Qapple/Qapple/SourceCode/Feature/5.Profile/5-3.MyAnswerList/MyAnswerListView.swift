@@ -70,6 +70,12 @@ private struct MyAnswerList: View {
                             state: .written,
                             seeMoreAction:{
                                 store.send(.seeMoreAction(answer))
+                            },
+                            likeAction: {
+                                
+                            },
+                            commentAction: {
+                                
                             }
                         )
                         .configurePagination(
