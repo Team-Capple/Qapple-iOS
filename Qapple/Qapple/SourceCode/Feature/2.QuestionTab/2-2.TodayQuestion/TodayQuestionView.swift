@@ -13,13 +13,16 @@ struct TodayQuestionView: View {
     @Bindable var store: StoreOf<TodayQuestionFeature>
     
     var body: some View {
-        VStack(spacing: 0) {
-            HeaderView(store: store)
-            
-            ScrollView {
+        ScrollView {
+            VStack(spacing: 0) {
+                LargeHeaderView(store: store)
+                LargeQuestionButton(store: store)
+                // SmallHeaderView(store: store)
                 AnswerPreviewList(store: store)
             }
+            
         }
+        .background(.second)
         .scrollIndicators(.hidden)
         .onAppear {
             store.send(.onAppear)
@@ -40,37 +43,41 @@ struct TodayQuestionView: View {
     }
 }
 
-// MARK: - HeaderView
+// MARK: - SmallHeaderView
 
-private struct HeaderView: View {
+private struct SmallHeaderView: View {
     
     let store: StoreOf<TodayQuestionFeature>
     
     var body: some View {
-        HStack(spacing: 8) {
-            Image(store.questionState.graphicImage)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 40, height: 40)
+        ZStack {
+            Color.first.ignoresSafeArea()
             
-            Text(store.questionState.mainTitle)
-                .font(.pretendard(.semiBold, size: 18))
-                .foregroundStyle(.wh)
-                .tracking(-1)
-            
-            Spacer()
-            
-            if store.questionState == .creating {
-                QuestionTimer()
-            } else {
-                AnsweringButton()
+            HStack(spacing: 8) {
+                Image(store.questionState.graphicImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 40, height: 40)
+                
+                Text(store.questionState.mainTitle)
+                    .font(.pretendard(.semiBold, size: 18))
+                    .foregroundStyle(.wh)
+                    .tracking(-1)
+                
+                Spacer()
+                
+                if store.questionState == .creating {
+                    QuestionTimer()
+                } else {
+                    AnsweringButton()
+                }
             }
+            .padding(.horizontal, 24)
+            .frame(maxWidth: .infinity)
+            .frame(height: 90)
+            .background(.second)
+            .cornerRadius(32, corners: [.bottomLeft, .bottomRight])
         }
-        .padding(.horizontal, 24)
-        .frame(maxWidth: .infinity)
-        .frame(height: 90)
-        .background(.second)
-        .cornerRadius(32, corners: [.bottomLeft, .bottomRight])
     }
     
     /// 질문 타이머
@@ -117,7 +124,9 @@ private struct HeaderView: View {
     }
 }
 
-private struct LegacyHeaderView: View {
+// MARK: - LargeHeaderView
+
+private struct LargeHeaderView: View {
     
     @State private var offsetY: CGFloat = 0
     
@@ -161,9 +170,9 @@ private struct LegacyHeaderView: View {
     }
 }
 
-// MARK: - QuestionButton
+// MARK: - LargeQuestionButton
 
-private struct QuestionButton: View {
+private struct LargeQuestionButton: View {
     
     let store: StoreOf<TodayQuestionFeature>
     
@@ -209,7 +218,6 @@ private struct QuestionButton: View {
         }
     }
 }
-
 // MARK: - AnswerPreviewList
 
 private struct AnswerPreviewList: View {
