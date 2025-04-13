@@ -19,8 +19,10 @@ struct TodayQuestionFeature {
         var timeRemainingForQuestion: TimeInterval = 0
         var isLoading = true
         var isFirstLaunch = true
+        var isNewQuestion = false
         @Presents var sheet: Sheet.State?
         @Presents var alert: AlertState<Action.Alert>?
+        @Shared(.appStorage(Constant.recentQuestionID)) var recentQuestionID = 0
     }
     
     enum Action {
@@ -79,6 +81,14 @@ struct TodayQuestionFeature {
             case let .mainQuestionResponse(mainQuestion):
                 state.isFirstLaunch = false
                 state.todayQuestion = mainQuestion
+                
+                if mainQuestion.id != state.recentQuestionID {
+                    state.isNewQuestion = true
+                    state.$recentQuestionID.withLock { $0 = mainQuestion.id }
+                } else {
+                    state.isNewQuestion = false
+                }
+                
                 if isQuestionLiveTime {
                     state.questionState = mainQuestion.isAnswered ? .complete : .ready
                     return .none
