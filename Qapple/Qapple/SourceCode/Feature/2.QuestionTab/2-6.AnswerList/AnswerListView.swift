@@ -141,10 +141,10 @@ private struct AnswerList: View {
                             store.send(.seeMoreAction(answer))
                         },
                         likeAction: {
-                            
+                            store.send(.likeAnswerButtonTapped)
                         },
                         commentAction: {
-                            
+                            store.send(.answerCommentButtonTapped(answer))
                         }
                     )
                     .configurePagination(

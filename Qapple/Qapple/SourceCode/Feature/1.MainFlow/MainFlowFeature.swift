@@ -141,6 +141,10 @@ struct MainFlowFeature {
                     state.path.append(.report(.init(dataType: dataType)))
                     return .none
                     
+                case let .element(id: _, action: .answerList(.answerCommentButtonTapped(answer))):
+                    state.path.append(.answerCommentList(.init(answer: answer)))
+                    return .none
+                    
                 case let .element(id: _, action: .answerCommentList(.sheet(.presented(.seeMore(.reportButtonTapped(dataType)))))):
                     state.path.append(.report(.init(dataType: dataType)))
                     return .none
