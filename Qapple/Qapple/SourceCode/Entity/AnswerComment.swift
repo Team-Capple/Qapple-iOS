@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: 임시 Entity
 struct AnswerComment: Identifiable, Equatable {
     let id: Int
     let writeId: Int
