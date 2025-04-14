@@ -8,6 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
+// TODO: 4/14 - Reducer 업데이트 필요
 @Reducer
 struct AnswerCommentFeature {
     @ObservableState
@@ -28,7 +29,7 @@ struct AnswerCommentFeature {
         case pagination
         case commentListResponse([AnswerComment], QappleAPI.PaginationInfo)
         case paginationResponse([AnswerComment], QappleAPI.PaginationInfo)
-        case boardResponse(Answer)
+        case answerResponse(Answer)
         
         case backButtonTapped
         case likeCommentButtonTapped(AnswerComment)
@@ -39,8 +40,8 @@ struct AnswerCommentFeature {
         case deleteCommentButtonTapped(AnswerComment)
         case successDeletion
         
-        case likeBoardButtonTapped
-        case likeBoard
+        case likeAnswerButtonTapped
+        case likeAnswer
         case seeMoreAction
         case networkingFailed(Error)
         case toggleLoading(Bool)
@@ -55,8 +56,6 @@ struct AnswerCommentFeature {
         }
     }
     
-    @Dependency(\.commentRepository) var commentRepository
-    @Dependency(\.bulletinBoardRepository) var bulletinBoardRepository
     @Dependency(\.dismiss) var dismiss
     
     var body: some ReducerOf<Self> {
@@ -105,7 +104,7 @@ struct AnswerCommentFeature {
 //                state.paginationInfo = paginationInfo
                 return .none
                 
-            case let .boardResponse(answer):
+            case let .answerResponse(answer):
                 state.answer = answer
                 return .none
                 
@@ -114,10 +113,10 @@ struct AnswerCommentFeature {
                     await dismiss()
                 }
                 
-            case let .likeCommentButtonTapped(boardComment):
+            case let .likeCommentButtonTapped(answerComment):
                 HapticService.impact(style: .light)
                 return .run { [answer = state.answer] send in
-//                    await send(.toggleLoading(true), animation: .bouncy)
+                    await send(.toggleLoading(true), animation: .bouncy)
 //                    do {
 //                        try await commentRepository.likeBoardComment(boardComment.id)
 //                        await send(.likeComment(boardComment.id))
@@ -128,7 +127,7 @@ struct AnswerCommentFeature {
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
-            case let .likeComment(boardCommentId):
+            case let .likeComment(answerCommentId):
 //                if let index = state.commentList.firstIndex(where: { $0.id == boardCommentId }) {
 //                    state.commentList[index].isLiked.toggle()
 //                    state.commentList[index].heartCount += state.commentList[index].isLiked ? 1 : -1
@@ -171,7 +170,7 @@ struct AnswerCommentFeature {
                 NotificationCenter.default.post(name: .updateCommentCellToggle, object: nil)
                 return .send(.refresh)
                 
-            case .likeBoardButtonTapped:
+            case .likeAnswerButtonTapped:
                 HapticService.impact(style: .light)
                 return .run { [answer = state.answer] send in
                     await send(.toggleLoading(true), animation: .bouncy)
@@ -185,7 +184,7 @@ struct AnswerCommentFeature {
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
-            case .likeBoard:
+            case .likeAnswer:
 //                if state.answer.isLiked {
 //                    state.answer.heartCount -= 1
 //                } else {
@@ -195,12 +194,12 @@ struct AnswerCommentFeature {
                 return .none
                 
             case .seeMoreAction:
-//                state.sheet = .seeMore(
-//                    .init(
-//                        sheetTarget: state.board.isMine ? .mine : .others,
-//                        dataType: .bulletinBoard(state.board)
-//                    )
-//                )
+                state.sheet = .seeMore(
+                    .init(
+                        sheetTarget: state.answer.isMine ? .mine : .others,
+                        dataType: .answer(state.answer)
+                    )
+                )
                 return .none
                 
             case let .networkingFailed(error):
@@ -216,7 +215,7 @@ struct AnswerCommentFeature {
                 return .none
                 
             case let .sheet(.presented(.seeMore(.alert(.presented(.confirmDeletion(sheetData)))))):
-//                guard case let .bulletinBoard(board) = sheetData else { return .none }
+                guard case let .answer(answer) = sheetData else { return .none }
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)
 //                    do {
@@ -239,23 +238,23 @@ struct AnswerCommentFeature {
                 return .none
                 
             case let .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockUser(sheetData)))))):
-//                guard case let .bulletinBoard(board) = sheetData else { return .none }
+                guard case let .answer(answer) = sheetData else { return .none }
                 return .run { send in
-//                    UserDefaults.addBlockedUser(board.writerId)
-//                    await send(.sheet(.presented(.seeMore(.completionBlocking))))
+                    UserDefaults.addBlockedUser(answer.writerId)
+                    await send(.sheet(.presented(.seeMore(.completionBlocking))))
                 }
                 
             case .sheet(.presented(.seeMore(.alert(.presented(.confirmBlockCompletion))))):
                 state.sheet = nil
                 return .send(.onDisappear)
                 
-            case let .alert(.presented(.confirmDeletion(boardCommentId))):
+            case let .alert(.presented(.confirmDeletion(answerId))):
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)
 //                    do {
 //                        try await commentRepository.deleteBoardComment(boardCommentId)
-//                        await send(.refresh)
-//                        await send(.successDeletion)
+                        await send(.refresh)
+                        await send(.successDeletion)
 //                    } catch {
 //                        await send(.networkingFailed(error))
 //                    }
@@ -283,14 +282,14 @@ extension AnswerCommentFeature {
 // MARK: - CommentAlert
 
 extension AlertState where Action == AnswerCommentFeature.Action.Alert {
-    static func confirmDeletion(_ boardCommentId: Int) -> Self {
+    static func confirmDeletion(_ answerCommentId: Int) -> Self {
         return Self {
             TextState("정말로 댓글을 삭제하시겠습니까?")
         } actions: {
             ButtonState(role: .cancel){
                 TextState("취소")
             }
-            ButtonState(role: .destructive, action: .confirmDeletion(boardCommentId)) {
+            ButtonState(role: .destructive, action: .confirmDeletion(answerCommentId)) {
                 TextState("삭제")
             }
         }
@@ -350,5 +349,40 @@ extension AnswerCommentFeature {
                 )
             }
         }
+    }
+}
+
+
+extension AnswerCommentFeature {
+    public static var sampleComment: [AnswerComment] {
+        var result = [AnswerComment]()
+        for i in 0..<10 {
+            result.append(.init(
+                id: i,
+                writeId: i,
+                writerGeneration: "4기",
+                content: "\(i)번째 댓글",
+                heartCount: i,
+                isLiked: false,
+                isMine: false,
+                isReport: false,
+                createdAt: .init(),
+                anonymityId: i
+            ))
+        }
+        
+        result.append(.init(
+            id: 10,
+            writeId: 10,
+            writerGeneration: "3기",
+            content: "하이용",
+            heartCount: 3,
+            isLiked: true,
+            isMine: true,
+            isReport: false,
+            createdAt: .init(),
+            anonymityId: -1
+        ))
+        return result
     }
 }

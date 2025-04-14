@@ -25,25 +25,28 @@ struct AnswerCommentView: View {
                 }
             )
             
-//            BulletinBoardCell(
-//                board: store.board,
-//                seeMore: {
-//                    store.send(.seeMoreAction)
-//                },
-//                like: {
-//                    store.send(.likeBoardButtonTapped)
-//                }
-//            )
-//            .frame(width: screenWidth)
-//            .disabled(store.isLoading)
+            QPAnswerCell(
+                answer: store.answer,
+                index: 0,
+                state: .normal,
+                seeMoreAction: {
+                    store.send(.seeMoreAction)
+                },
+                likeAction: {
+                    store.send(.likeAnswerButtonTapped)
+                },
+                commentAction: {}
+            )
+            .frame(width: screenWidth)
+            .disabled(store.isLoading)
             
-//            CommentListView(store: store)
-//            
-//            Spacer()
-//            
-//            AddCommentView(store: store)
-//                .frame(width: screenWidth)
-//                .padding(.bottom, 8)
+            CommentListView(store: store)
+            
+            Spacer()
+            
+            AddCommentView(store: store)
+                .frame(width: screenWidth)
+                .padding(.bottom, 8)
 
         }
         .background(Color.bk)
@@ -74,7 +77,7 @@ struct AnswerCommentView: View {
             .frame(height: 1)
     }
 }
-/*
+
 // MARK: - CommentListView
 
 private struct CommentListView: View {
@@ -85,9 +88,35 @@ private struct CommentListView: View {
             ScrollView {
                 LazyVStack(spacing: 0) {
                     seperator
+                    // TODO: 4/14 데이터 연결 필요
+//                    ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
+//                        AnswerCommentCell(
+//                            comment: comment,
+//                            like: {
+//                                store.send(.likeCommentButtonTapped(comment))
+//                            },
+//                            delete: {
+//                                store.send(.deleteCommentButtonTapped(comment))
+//                            },
+//                            report: {
+//                                store.send(.reportButtonTapped(comment))
+//                            }
+//                        )
+//                        .configurePagination(
+//                            store.commentList,
+//                            currentIndex: index,
+//                            hasNext: store.paginationInfo.hasNext,
+//                            pagination: {
+//                                store.send(.pagination)
+//                            }
+//                        )
+//                        .disabled(store.isLoading)
+//                        
+//                        seperator
+//                    }
                     
-                    ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
-                        CommentCell(
+                    ForEach(AnswerCommentFeature.sampleComment) { comment in
+                        AnswerCommentCell(
                             comment: comment,
                             like: {
                                 store.send(.likeCommentButtonTapped(comment))
@@ -99,15 +128,6 @@ private struct CommentListView: View {
                                 store.send(.reportButtonTapped(comment))
                             }
                         )
-                        .configurePagination(
-                            store.commentList,
-                            currentIndex: index,
-                            hasNext: store.paginationInfo.hasNext,
-                            pagination: {
-                                store.send(.pagination)
-                            }
-                        )
-                        .disabled(store.isLoading)
                         
                         seperator
                     }
@@ -116,17 +136,17 @@ private struct CommentListView: View {
             .scrollDismissesKeyboard(.immediately)
             .background(Color.bk)
             
-            if store.commentList.isEmpty && !store.isLoading {
-                VStack {
-                    Text("아직 작성된 댓글이 없습니다")
-                        .font(.pretendard(.medium, size: 14))
-                        .foregroundStyle(.sub5)
-                        .multilineTextAlignment(.center)
-                        .padding(.top, 24)
-                    
-                    Spacer()
-                }
-            }
+//            if store.commentList.isEmpty && !store.isLoading {
+//                VStack {
+//                    Text("아직 작성된 댓글이 없습니다")
+//                        .font(.pretendard(.medium, size: 14))
+//                        .foregroundStyle(.sub5)
+//                        .multilineTextAlignment(.center)
+//                        .padding(.top, 24)
+//                    
+//                    Spacer()
+//                }
+//            }
         }
     }
     
@@ -172,26 +192,23 @@ private struct AddCommentView: View {
 
 // MARK: - Preview
 
-//#Preview {
-//    CommentView(
-//        store: Store(
-//            initialState: AnswerCommentFeature.State(
-//                board: BulletinBoard(
-//                    id: 1,
-//                    writerId: 1,
-//                    writerNickname: "이호창",
-//                    writerGeneration: "3기",
-//                    content: "특전사",
-//                    heartCount: 10,
-//                    commentCount: 13,
-//                    createAt: .init(),
-//                    isMine: false,
-//                    isReported: false,
-//                    isLiked: true
-//                )
-//            )
-//        ){
-//        CommentFeature()
-//    })
-//}
-*/
+#Preview {
+    AnswerCommentView(
+        store: Store(
+            initialState: AnswerCommentFeature.State(
+                answer: Answer(
+                    id: 1,
+                    writerId: 1,
+                    content: "특전사",
+                    authorNickname: "이호창",
+                    authorGeneration: "3기",
+                    publishedDate: .init(),
+                    isReported: false,
+                    isMine: false,
+                    isResignMember: false
+                )
+            )
+        ){
+        AnswerCommentFeature()
+    })
+}
