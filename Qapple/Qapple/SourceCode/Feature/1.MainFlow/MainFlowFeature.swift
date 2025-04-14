@@ -74,6 +74,10 @@ struct MainFlowFeature {
                 state.path.append(.report(.init(dataType: dataType)))
                 return .none
                 
+            case let .questionTab(.todayQuestion((.answerCommentButtonTapped(answer)))):
+                state.path.append(.answerCommentList(.init(answer: answer)))
+                return .none
+                
             case let .bulletinBoardTab(.boardCellTapped(board)):
                 state.path.append(.comment(.init(board: board)))
                 return .none
@@ -207,6 +211,7 @@ extension MainFlowFeature {
         case writeAnswer(WriteAnswerFeature)
         case completeAnswer(CompleteAnswerFeature)
         case answerList(AnswerListFeature)
+        case answerCommentList(AnswerCommentFeature)
         case bulletinBoard(BulletinBoardFeature)
         case bulletinBoardSearch(BulletinBoardSearchFeature)
         case bulletinBoardPost(BulletinBoardPostFeature)

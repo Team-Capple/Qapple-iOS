@@ -48,6 +48,7 @@ struct MainFlowView: View {
             case let .writeAnswer(store): WriteAnswerView(store: store)
             case let .completeAnswer(store): CompleteAnswerView(store: store)
             case let .answerList(store): AnswerListView(store: store)
+            case let .answerCommentList(store): AnswerCommentView(store: store)
             case let .bulletinBoard(store): BulletinBoardView(store: store)
             case let .bulletinBoardSearch(store): BulletinBoardSearchView(store: store)
             case let .bulletinBoardPost(store): BulletinBoardPostView(store: store)

@@ -304,7 +304,7 @@ private struct AnswerPreviewList: View {
                         
                     },
                     commentAction: {
-                        
+                        store.send(.answerCommentButtonTapped(answer))
                     }
                 )
             }
