@@ -259,7 +259,7 @@ private struct CommentReportButton: View {
 
 
 #Preview {
-    let comment = BoardComment(
+    let comment = AnswerComment(
         id: 4,
         writeId: 5,
         writerGeneration: "3기",
@@ -272,10 +272,11 @@ private struct CommentReportButton: View {
         anonymityId: 2
     )
     
-    CommentCell(
+    AnswerCommentCell(
         comment: comment,
         like: {},
         delete: {},
-        report: {})
+        report: {}
+    )
 }
 
