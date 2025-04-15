@@ -26,7 +26,7 @@ struct QPAcademyDayCounter: View {
                 }
             }
         }
-        .padding(.vertical, 16)
+        .padding(.vertical, 14)
         .padding(.horizontal, 20)
         .background(.second)
         .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -44,21 +44,21 @@ private struct ContentView: View {
         VStack(spacing: 0) {
             Header(event: event, dayLeft: dayLeft, isCurrentEvent: true)
             
-            HStack {
-                Text(event.period.0.formatting(.mdKorean))
-                Spacer()
-                Text(event.period.1.formatting(.mdKorean))
-            }
-            .padding(.top, 16)
-            .padding(.horizontal, 2)
-            .foregroundStyle(.main).opacity(0.6)
-            .pretendard(.semiBold, 14)
+//            HStack {
+//                Text(event.period.0.formatting(.mdKorean))
+//                Spacer()
+//                Text(event.period.1.formatting(.mdKorean))
+//            }
+//            .padding(.top, 16)
+//            .padding(.horizontal, 2)
+//            .foregroundStyle(.main).opacity(0.6)
+//            .pretendard(.semiBold, 14)
             
-            ProgressBar(
-                event: event,
-                dayLeft: dayLeft
-            )
-            .padding(.top, 8)
+//            ProgressBar(
+//                event: event,
+//                dayLeft: dayLeft
+//            )
+//            .padding(.top, 8)
         }
     }
 }

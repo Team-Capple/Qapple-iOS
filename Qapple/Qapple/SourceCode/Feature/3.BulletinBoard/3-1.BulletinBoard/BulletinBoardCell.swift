@@ -53,18 +53,18 @@ private struct NormalBoardCell: View {
                 board: board,
                 seeMore: seeMore
             )
-            .padding(.horizontal, 16)
+            .padding(.top)
+            .padding(.horizontal)
             
             ContentView(
                 board: board,
                 like: like
             )
-                .padding(.horizontal, 16)
+            .padding(.horizontal, 16)
             
             Divider()
                 .padding(.top, 16)
         }
-        .padding(.top, 16)
         .background(Background.first)
     }
 }
@@ -115,7 +115,7 @@ private struct HeaderView: View {
                 .padding(.leading, 8)
             
             Text("\(board.createAt.timeAgo)")
-                .pretendard(.regular, 14)
+                .pretendard(.regular, 12)
                 .foregroundStyle(TextLabel.sub4)
                 .padding(.leading, 6)
             
@@ -158,8 +158,8 @@ private struct ContentView: View {
                     board: board,
                     like: like
                 )
-                    .padding(.top, 12)
-                    .disabled(board.isReported)
+                .padding(.top, 12)
+                .disabled(board.isReported)
             }
         }
     }
