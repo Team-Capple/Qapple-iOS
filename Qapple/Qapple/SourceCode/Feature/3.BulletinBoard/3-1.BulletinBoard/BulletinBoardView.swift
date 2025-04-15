@@ -82,6 +82,77 @@ private struct BulletinBoardContentView: View {
     }
 }
 
+// MARK: - QuestionNotificationView
+
+private struct QuestionNotificationView: View {
+    
+    let store: StoreOf<BulletinBoardFeature>
+    
+    var body: some View {
+        if !store.todayQuestion.isAnswered {
+            Button {
+                store.send(.questionNotiTapped(store.todayQuestion))
+            } label: {
+                HStack(spacing: 0) {
+                    Image("questionReady")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .padding(.trailing, 6)
+                        .padding(.leading, 18)
+                    
+                    Text("오늘의 질문이 도착했어요!")
+                        .font(.pretendard(.semiBold, size: 15))
+                        .foregroundStyle(.white)
+                    
+                    Spacer()
+                }
+                .frame(width: 361, height: 47)
+                .background(RoundedRectangle(cornerRadius: 12)
+                    .fill(.questionNoti)
+                    .stroke(.button.opacity(0.17), lineWidth: 0.6)) // TODO: 그라데이션
+            }
+        } else {
+            Button {
+                store.send(.popularAnswerTapped(store.todayQuestion))
+            } label: {
+                HStack(spacing: 0) {
+                    VStack(spacing: 0) {
+                        Image("questionComplete")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .padding(.trailing, 8)
+                            .padding(.leading, 18)
+                        
+                        Spacer()
+                    }
+                    
+                    
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("오늘의 인기 답변")
+                            .font(.pretendard(.regular, size: 12))
+                            .foregroundStyle(TextLabel.sub4)
+                        
+                        Spacer()
+                        
+                        Text("프라이데이는 여자친구가 가지고 싶어요") // TODO: 인기 답변으로
+                            .font(.pretendard(.regular, size: 15))
+                            .foregroundStyle(.white)
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.vertical, 12)
+                .frame(width: 361, height: 67)
+                .background(RoundedRectangle(cornerRadius: 12)
+                    .fill(.questionNoti)
+                    .stroke(.button.opacity(0.17), lineWidth: 0.6)) // TODO: 그라데이션
+            }
+        }
+    }
+}
+
 // MARK: - BulletionBoardListView
 
 private struct BulletionBoardListView: View {
@@ -90,6 +161,11 @@ private struct BulletionBoardListView: View {
     
     var body: some View {
         ScrollView {
+            
+            QuestionNotificationView(store: store)
+                .padding(.horizontal)
+                .padding(.top, 2)
+            
             LazyVStack(spacing: 0) {
                 ForEach(enumerated(store.bulletinBoardList), id: \.offset) { index, board in
                     Button {

@@ -15,6 +15,7 @@ struct BulletinBoardFeature {
         @Presents var sheet: Sheet.State?
         @Presents var alert: AlertState<Action.Alert>?
         var bulletinBoardList: [BulletinBoard] = []
+        var todayQuestion: Question = .initialState
         var paginationInfo = QappleAPI.PaginationInfo(threshold: "", hasNext: false)
         var isLoading: Bool = false
         var isFirstLaunch = true
@@ -24,7 +25,7 @@ struct BulletinBoardFeature {
         case onAppear
         case refresh
         case pagination
-        case bulletinBoardListResponse([BulletinBoard], QappleAPI.PaginationInfo)
+        case bulletinBoardListResponse(Question, [BulletinBoard], QappleAPI.PaginationInfo)
         case paginationResponse([BulletinBoard], QappleAPI.PaginationInfo)
         
         case academyDayCounterTapped
@@ -40,6 +41,8 @@ struct BulletinBoardFeature {
         case networkingFailed(Error)
         case toggleLoading(Bool)
         case filterBlockedUser
+        case questionNotiTapped(Question)
+        case popularAnswerTapped(Question)
         
         case sheet(PresentationAction<Sheet.Action>)
         case alert(PresentationAction<Alert>)
@@ -54,6 +57,7 @@ struct BulletinBoardFeature {
         }
     }
     
+    @Dependency(\.questionRepository.fetchMainQuestion) var fetchMainQuestion
     @Dependency(\.bulletinBoardRepository) var bulletinBoardRepository
     
     var body: some ReducerOf<Self> {
@@ -63,8 +67,9 @@ struct BulletinBoardFeature {
                 return .run { [isFirstLaunch = state.isFirstLaunch] send in
                     if isFirstLaunch { await send(.toggleLoading(true), animation: .bouncy) }
                     do {
+                        let mainQuestion = try await fetchMainQuestion()
                         let response = try await bulletinBoardRepository.fetchBulletinBoardList(nil)
-                        await send(.bulletinBoardListResponse(response.0, response.1))
+                        await send(.bulletinBoardListResponse(mainQuestion, response.0, response.1))
                     } catch {
                         await send(.networkingFailed(error))
                     }
@@ -83,7 +88,8 @@ struct BulletinBoardFeature {
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
-            case let .bulletinBoardListResponse(bulletinBoardList, paginationInfo):
+            case let .bulletinBoardListResponse(mainQuestion, bulletinBoardList, paginationInfo):
+                state.todayQuestion = mainQuestion
                 state.isFirstLaunch = false
                 state.bulletinBoardList = bulletinBoardList.filter(UserDefaults.filterBoardBlockedUser)
                 state.paginationInfo = paginationInfo
@@ -142,6 +148,12 @@ struct BulletinBoardFeature {
                 return .none
                 
             case .postBoardButtonTapped:
+                return .none
+                
+            case .questionNotiTapped:
+                return .none
+                
+            case .popularAnswerTapped:
                 return .none
                 
             case let .seeMoreAction(board):

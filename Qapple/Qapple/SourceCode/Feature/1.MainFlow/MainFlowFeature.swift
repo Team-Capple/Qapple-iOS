@@ -90,9 +90,20 @@ struct MainFlowFeature {
                 state.path.append(.bulletinBoardPost(.init()))
                 return .none
                 
+            case let .bulletinBoardTab(.questionNotiTapped(question)):
+                state.path.append(.writeAnswer(.init(question: question)))
+                return .none
+                
+            case let .bulletinBoardTab(.popularAnswerTapped(question)):
+                if question.isAnswered {
+                    state.path.append(.answerList(.init(question: question)))
+                }
+                return .none
+                
             case let .bulletinBoardTab(.sheet(.presented(.seeMore(.reportButtonTapped(dataType))))):
                 state.path.append(.report(.init(dataType: dataType)))
                 return .none
+                
             case let .profileTab(.editProfileButtonTapped(nickname)):
                 state.path.append(.profileEdit(.init(nickname: nickname, defaultNickname: nickname)))
                 return .none
