@@ -17,5 +17,6 @@ enum Constant {
 
 extension Constant {
     static let isSignIn = "isSignIn"
+    static let recentQuestionID = "recentQuestionID"
     static let userRandomID = "userRandomID"
 }
