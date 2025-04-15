@@ -33,6 +33,8 @@ struct AnswerListFeature {
         case networkingFailed(Error)
         case seeMoreAction(Answer)
         case backButtonTapped
+        case likeAnswerButtonTapped
+        case answerCommentButtonTapped(Answer)
         case toggleLoading(Bool)
         case sheet(PresentationAction<Sheet.Action>)
         case alert(PresentationAction<Alert>)
@@ -111,6 +113,13 @@ struct AnswerListFeature {
                 
             case .filterBlockedUser:
                 state.answerList = state.answerList.reversed().filter(UserDefaults.filterAnswerBlockedUser)
+                return .none
+                
+            case .likeAnswerButtonTapped:
+                // TODO: 좋아요 기능 구현 필요
+                return .none
+                
+            case .answerCommentButtonTapped:
                 return .none
                 
             case let .networkingFailed(error):

@@ -36,6 +36,7 @@ struct TodayQuestionFeature {
         case questionButtonTapped(Question)
         case seeAllAnswerButtonTapped(Question)
         case seeMoreAnswerButtonTapped(Answer)
+        case answerCommentButtonTapped(Answer)
         case questionTimerTick
         case cancelQuestionTimer
         case toggleLoading(Bool)
@@ -140,6 +141,9 @@ struct TodayQuestionFeature {
                 
             case .cancelQuestionTimer:
                 return .cancel(id: CancelID.questionTimer)
+                
+            case .answerCommentButtonTapped:
+                return .none
                 
             case let .sheet(.presented(.seeMore(.alert(.presented(.confirmDeletion(sheetData)))))):
                 guard case let .answer(answer) = sheetData else { return .none }

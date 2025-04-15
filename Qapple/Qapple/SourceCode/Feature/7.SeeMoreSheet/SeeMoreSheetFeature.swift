@@ -90,7 +90,7 @@ extension AlertState where Action == SeeMoreSheetFeature.Action.Alert {
         let targetText = switch dataType {
         case .answer: "답변"
         case .bulletinBoard: "게시글"
-        case .comment: "댓글"
+        case .comment, .answerComment: "댓글"
         }
         return Self {
             TextState("\(targetText)을 삭제하시겠어요?")
@@ -111,7 +111,7 @@ extension AlertState where Action == SeeMoreSheetFeature.Action.Alert {
         let targetText = switch dataType {
         case .answer: "답변"
         case .bulletinBoard: "게시글"
-        case .comment: "댓글"
+        case .comment, .answerComment: "댓글"
         }
         return Self {
             TextState("\(targetText)이 삭제되었어요")
@@ -127,7 +127,7 @@ extension AlertState where Action == SeeMoreSheetFeature.Action.Alert {
         let targetText = switch dataType {
         case .answer: "답변"
         case .bulletinBoard: "게시글"
-        case .comment: "댓글"
+        case .comment, .answerComment: "댓글"
         }
         return Self {
             TextState("\(targetText) 사용자를 차단하시겠어요?")
@@ -148,7 +148,7 @@ extension AlertState where Action == SeeMoreSheetFeature.Action.Alert {
         let targetText = switch dataType {
         case .answer: "답변"
         case .bulletinBoard: "게시글"
-        case .comment: "댓글"
+        case .comment, .answerComment: "댓글"
         }
         return Self {
             TextState("\(targetText) 사용자가 차단되었어요")
