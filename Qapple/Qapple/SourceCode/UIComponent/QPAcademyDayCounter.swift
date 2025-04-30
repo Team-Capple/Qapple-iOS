@@ -7,41 +7,6 @@
 
 import SwiftUI
 
-//struct QPAcademyDayCounter: View {
-//    
-//    let event: AcademyEventFor4th
-//    
-//    var body: some View {
-//        Header(
-//            event: event,
-//            dayLeft: 0,
-//            isCurrentEvent: true
-//        )
-//        
-////        Group {
-////            if let currentEvent = AcademyEventFor4th.currentEvent {
-////                Header(
-////                    event: currentEvent,
-////                    dayLeft: currentEvent.period.1.dayLeft,
-////                    isCurrentEvent: true
-////                )
-////            } else {
-////                if let nextEvent = AcademyEventFor4th.nextEvent {
-////                    Header(
-////                        event: nextEvent,
-////                        dayLeft: nextEvent.period.0.dayLeft,
-////                        isCurrentEvent: false
-////                    )
-////                }
-////            }
-////        }
-//        .padding(.vertical, 14)
-//        .padding(.horizontal, 20)
-//        .background(.second)
-//        .clipShape(RoundedRectangle(cornerRadius: 12))
-//    }
-//}
-
 struct QPAcademyDayCounter: View {
     
     let event: AcademyEventFor4th
