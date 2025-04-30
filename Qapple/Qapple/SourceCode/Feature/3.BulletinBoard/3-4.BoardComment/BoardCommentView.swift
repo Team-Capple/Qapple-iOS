@@ -1,5 +1,5 @@
 //
-//  CommentView.swift
+//  BoardCommentView.swift
 //  Qapple
 //
 //  Created by 문인범 on 1/21/25.
@@ -8,8 +8,8 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct CommentView: View {
-    @Bindable var store: StoreOf<CommentFeature>
+struct BoardCommentView: View {
+    @Bindable var store: StoreOf<BoardCommentFeature>
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
@@ -78,7 +78,7 @@ struct CommentView: View {
 // MARK: - CommentListView
 
 private struct CommentListView: View {
-    let store: StoreOf<CommentFeature>
+    let store: StoreOf<BoardCommentFeature>
     
     var body: some View {
         ZStack {
@@ -87,7 +87,7 @@ private struct CommentListView: View {
                     seperator
                     
                     ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
-                        CommentCell(
+                        BoardCommentCell(
                             comment: comment,
                             like: {
                                 store.send(.likeCommentButtonTapped(comment))
@@ -140,7 +140,7 @@ private struct CommentListView: View {
 // MARK: - AddCommentView
 
 private struct AddCommentView: View {
-    @Bindable var store: StoreOf<CommentFeature>
+    @Bindable var store: StoreOf<BoardCommentFeature>
     
     var body: some View {
         HStack(alignment: .bottom) {
@@ -173,9 +173,9 @@ private struct AddCommentView: View {
 // MARK: - Preview
 
 #Preview {
-    CommentView(
+    BoardCommentView(
         store: Store(
-            initialState: CommentFeature.State(
+            initialState: BoardCommentFeature.State(
                 board: BulletinBoard(
                     id: 1,
                     writerId: 1,
@@ -191,6 +191,6 @@ private struct AddCommentView: View {
                 )
             )
         ){
-        CommentFeature()
-    })
+            BoardCommentFeature()
+        })
 }

@@ -52,7 +52,7 @@ struct MainFlowView: View {
             case let .bulletinBoard(store): BulletinBoardView(store: store)
             case let .bulletinBoardSearch(store): BulletinBoardSearchView(store: store)
             case let .bulletinBoardPost(store): BulletinBoardPostView(store: store)
-            case let .comment(store): CommentView(store: store)
+            case let .comment(store): BoardCommentView(store: store)
             case let .profileEdit(store): ProfileEditView(store: store)
             case let .myAnswerList(store): MyAnswerListView(store: store)
             case .peopleWhoMadeQapple: PeopleWhoMadeQappleView()

@@ -1,5 +1,5 @@
 //
-//  CommentCell.swift
+//  BoardCommentCell.swift
 //  Qapple
 //
 //  Created by 문인범 on 1/21/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CommentCell: View {
+struct BoardCommentCell: View {
     let comment: BoardComment
     let like: () -> Void
     let delete: () -> Void
@@ -272,7 +272,7 @@ private struct CommentReportButton: View {
         anonymityId: 2
     )
     
-    CommentCell(
+    BoardCommentCell(
         comment: comment,
         like: {},
         delete: {},
