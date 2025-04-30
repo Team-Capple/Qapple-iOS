@@ -16,6 +16,7 @@ struct BulletinBoardFeature {
         @Presents var alert: AlertState<Action.Alert>?
         var bulletinBoardList: [BulletinBoard] = []
         var todayQuestion: Question = .initialState
+        var event: AcademyEventFor4th = .fourthStart
         var paginationInfo = QappleAPI.PaginationInfo(threshold: "", hasNext: false)
         var isLoading: Bool = false
         var isFirstLaunch = true
@@ -23,6 +24,7 @@ struct BulletinBoardFeature {
     
     enum Action {
         case onAppear
+        case active
         case refresh
         case pagination
         case bulletinBoardListResponse(Question, [BulletinBoard], QappleAPI.PaginationInfo)
@@ -61,9 +63,12 @@ struct BulletinBoardFeature {
     @Dependency(\.bulletinBoardRepository) var bulletinBoardRepository
     
     var body: some ReducerOf<Self> {
-        Reduce { state,action in
+        Reduce { state, action in
             switch action {
-            case .onAppear, .refresh:
+            case .onAppear, .active, .refresh:
+                if let currentEvent = AcademyEventFor4th.currentEvent {
+                    state.event = currentEvent
+                }
                 return .run { [isFirstLaunch = state.isFirstLaunch] send in
                     if isFirstLaunch { await send(.toggleLoading(true), animation: .bouncy) }
                     do {

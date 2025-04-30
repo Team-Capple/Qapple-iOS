@@ -12,6 +12,8 @@ import ComposableArchitecture
 
 struct BulletinBoardView: View {
     
+    @Environment(\.scenePhase) private var scenePhase
+    
     @Bindable var store: StoreOf<BulletinBoardFeature>
     
     var body: some View {
@@ -22,7 +24,11 @@ struct BulletinBoardView: View {
                 .padding(.bottom, 20)
         }
         .background(.first)
-        
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                store.send(.active)
+            }
+        }
         .onAppear{
             store.send(.onAppear)
         }
@@ -67,7 +73,7 @@ private struct BulletinBoardContentView: View {
             Button {
                 store.send(.academyDayCounterTapped)
             } label: {
-                QPAcademyDayCounter()
+                QPAcademyDayCounter(event: store.event)
                     .padding(.top, 8)
                     .padding(.horizontal, 16)
             }

@@ -99,6 +99,11 @@ enum AcademyEventFor4th: CaseIterable {
         let (startDate, endDate) = period
         return daysBetween(startDate, endDate) + 1
     }
+    
+    /// 현재 이벤트의 남은 일수를 반환합니다.
+    var leftDays: Int {
+        daysBetween(.now, self.period.1) + 1
+    }
 }
 
 // MARK: - Helper
