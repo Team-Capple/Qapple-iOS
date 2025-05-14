@@ -12,7 +12,7 @@ import Foundation
 struct AnswerRepository {
     var fetchAnswerListOfProfile: (_ threshold: Int?) async throws -> ([Answer], QappleAPI.PaginationInfo)
     var fetchAnswerPreviewList: (_ questionId: Int) async throws -> [Answer]
-    var fetchAnswerListOfQuestion: (_ questionId: Int, _ threshold: String?) async throws -> (
+    var fetchAnswerListOfQuestion: (_ questionId: Int, _ threshold: Int?) async throws -> (
         [Answer],
         QappleAPI.TotalCount,
         QappleAPI.PaginationInfo

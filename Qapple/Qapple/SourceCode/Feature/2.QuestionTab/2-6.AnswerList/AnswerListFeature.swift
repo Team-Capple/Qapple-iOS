@@ -79,7 +79,7 @@ struct AnswerListFeature {
                     do {
                         let response = try await answerRepository.fetchAnswerListOfQuestion(
                             state.question.id,
-                            state.paginationInfo.threshold
+                            Int(state.paginationInfo.threshold)
                         )
                         await send(.paginagionResponse(response.0, response.2))
                     } catch {
