@@ -120,7 +120,7 @@ private struct QuestionNotificationView: View {
             }
         } else {
             Button {
-                store.send(.popularAnswerTapped(store.todayQuestion))
+                // store.send(.popularAnswerTapped(store.todayQuestion))
             } label: {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
@@ -136,13 +136,15 @@ private struct QuestionNotificationView: View {
                     
                     
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("오늘의 인기 답변")
-                            .font(.pretendard(.regular, size: 12))
-                            .foregroundStyle(TextLabel.sub4)
+//                        Text("오늘의 인기 답변")
+//                            .font(.pretendard(.regular, size: 12))
+//                            .foregroundStyle(TextLabel.sub4)
+//                        
+//                        Spacer()
                         
-                        Spacer()
-                        
-                        Text("프라이데이는 여자친구가 가지고 싶어요") // TODO: 인기 답변으로
+                        Text("이전에 개발자의 실수로 이상한(?) 정보가 표시됐었답니다.") // TODO: 인기 답변으로
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
                             .font(.pretendard(.regular, size: 15))
                             .foregroundStyle(.white)
                     }
