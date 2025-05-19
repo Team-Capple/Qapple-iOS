@@ -1,5 +1,5 @@
 //
-//  CommentView.swift
+//  BoardCommentView.swift
 //  Qapple
 //
 //  Created by 문인범 on 1/21/25.
@@ -8,8 +8,8 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct CommentView: View {
-    @Bindable var store: StoreOf<CommentFeature>
+struct BoardCommentView: View {
+    @Bindable var store: StoreOf<BoardCommentFeature>
     
     private let screenWidth: CGFloat = UIScreen.main.bounds.width
     
@@ -44,7 +44,7 @@ struct CommentView: View {
             AddCommentView(store: store)
                 .frame(width: screenWidth)
                 .padding(.bottom, 8)
-
+            
         }
         .background(Color.bk)
         .onTapGesture {
@@ -78,38 +78,49 @@ struct CommentView: View {
 // MARK: - CommentListView
 
 private struct CommentListView: View {
-    let store: StoreOf<CommentFeature>
+    let store: StoreOf<BoardCommentFeature>
     
     var body: some View {
         ZStack {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    seperator
-                    
-                    ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
-                        CommentCell(
-                            comment: comment,
-                            like: {
-                                store.send(.likeCommentButtonTapped(comment))
-                            },
-                            delete: {
-                                store.send(.deleteCommentButtonTapped(comment))
-                            },
-                            report: {
-                                store.send(.reportButtonTapped(comment))
-                            }
-                        )
-                        .configurePagination(
-                            store.commentList,
-                            currentIndex: index,
-                            hasNext: store.paginationInfo.hasNext,
-                            pagination: {
-                                store.send(.pagination)
-                            }
-                        )
-                        .disabled(store.isLoading)
-                        
-                        seperator
+            VStack {
+                seperator
+                
+                HStack {
+                    Text("댓글")
+                        .pretendard(.medium, 14)
+                        .foregroundStyle(.sub3)
+                    Spacer()
+                }
+                .padding(.top, 12)
+                .padding(.horizontal, 20)
+                
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
+                            BoardCommentCell(
+                                comment: comment,
+                                like: {
+                                    store.send(.likeCommentButtonTapped(comment))
+                                },
+                                delete: {
+                                    store.send(.deleteCommentButtonTapped(comment))
+                                },
+                                report: {
+                                    store.send(.reportButtonTapped(comment))
+                                }
+                            )
+                            .configurePagination(
+                                store.commentList,
+                                currentIndex: index,
+                                hasNext: store.paginationInfo.hasNext,
+                                pagination: {
+                                    store.send(.pagination)
+                                }
+                            )
+                            .disabled(store.isLoading)
+                            
+                            seperator
+                        }
                     }
                 }
             }
@@ -140,7 +151,7 @@ private struct CommentListView: View {
 // MARK: - AddCommentView
 
 private struct AddCommentView: View {
-    @Bindable var store: StoreOf<CommentFeature>
+    @Bindable var store: StoreOf<BoardCommentFeature>
     
     var body: some View {
         HStack(alignment: .bottom) {
@@ -173,9 +184,9 @@ private struct AddCommentView: View {
 // MARK: - Preview
 
 #Preview {
-    CommentView(
+    BoardCommentView(
         store: Store(
-            initialState: CommentFeature.State(
+            initialState: BoardCommentFeature.State(
                 board: BulletinBoard(
                     id: 1,
                     writerId: 1,
@@ -191,6 +202,6 @@ private struct AddCommentView: View {
                 )
             )
         ){
-        CommentFeature()
-    })
+            BoardCommentFeature()
+        })
 }

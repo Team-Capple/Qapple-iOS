@@ -85,51 +85,63 @@ private struct CommentListView: View {
     
     var body: some View {
         ZStack {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    seperator
-                    // TODO: 4/14 데이터 연결 필요
-//                    ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
-//                        AnswerCommentCell(
-//                            comment: comment,
-//                            like: {
-//                                store.send(.likeCommentButtonTapped(comment))
-//                            },
-//                            delete: {
-//                                store.send(.deleteCommentButtonTapped(comment))
-//                            },
-//                            report: {
-//                                store.send(.reportButtonTapped(comment))
-//                            }
-//                        )
-//                        .configurePagination(
-//                            store.commentList,
-//                            currentIndex: index,
-//                            hasNext: store.paginationInfo.hasNext,
-//                            pagination: {
-//                                store.send(.pagination)
-//                            }
-//                        )
-//                        .disabled(store.isLoading)
-//                        
-//                        seperator
-//                    }
-                    
-                    ForEach(AnswerCommentFeature.sampleComment) { comment in
-                        AnswerCommentCell(
-                            comment: comment,
-                            like: {
-                                store.send(.likeCommentButtonTapped(comment))
-                            },
-                            delete: {
-                                store.send(.deleteCommentButtonTapped(comment))
-                            },
-                            report: {
-                                store.send(.reportButtonTapped(comment))
-                            }
-                        )
+            VStack {
+                seperator
+                
+                HStack {
+                    Text("댓글")
+                        .pretendard(.medium, 14)
+                        .foregroundStyle(.sub3)
+                    Spacer()
+                }
+                .padding(.top, 12)
+                .padding(.horizontal, 20)
+                
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        // TODO: 4/14 데이터 연결 필요
+    //                    ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
+    //                        AnswerCommentCell(
+    //                            comment: comment,
+    //                            like: {
+    //                                store.send(.likeCommentButtonTapped(comment))
+    //                            },
+    //                            delete: {
+    //                                store.send(.deleteCommentButtonTapped(comment))
+    //                            },
+    //                            report: {
+    //                                store.send(.reportButtonTapped(comment))
+    //                            }
+    //                        )
+    //                        .configurePagination(
+    //                            store.commentList,
+    //                            currentIndex: index,
+    //                            hasNext: store.paginationInfo.hasNext,
+    //                            pagination: {
+    //                                store.send(.pagination)
+    //                            }
+    //                        )
+    //                        .disabled(store.isLoading)
+    //
+    //                        seperator
+    //                    }
                         
-                        seperator
+                        ForEach(AnswerCommentFeature.sampleComment) { comment in
+                            AnswerCommentCell(
+                                comment: comment,
+                                like: {
+                                    store.send(.likeCommentButtonTapped(comment))
+                                },
+                                delete: {
+                                    store.send(.deleteCommentButtonTapped(comment))
+                                },
+                                report: {
+                                    store.send(.reportButtonTapped(comment))
+                                }
+                            )
+                            
+                            seperator
+                        }
                     }
                 }
             }

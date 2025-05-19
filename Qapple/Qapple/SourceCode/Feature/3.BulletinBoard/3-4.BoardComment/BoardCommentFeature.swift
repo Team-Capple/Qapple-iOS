@@ -1,5 +1,5 @@
 //
-//  CommentFeature.swift
+//  BoardCommentFeature.swift
 //  Qapple
 //
 //  Created by 문인범 on 1/21/25.
@@ -9,7 +9,7 @@ import Foundation
 import ComposableArchitecture
 
 @Reducer
-struct CommentFeature {
+struct BoardCommentFeature {
     @ObservableState
     struct State: Equatable {
         var board: BulletinBoard
@@ -273,7 +273,7 @@ struct CommentFeature {
 
 // MARK: - BulletinBoardSheet
 
-extension CommentFeature {
+extension BoardCommentFeature {
     @Reducer(state: .equatable)
     enum Sheet {
         case seeMore(SeeMoreSheetFeature)
@@ -282,7 +282,7 @@ extension CommentFeature {
 
 // MARK: - CommentAlert
 
-extension AlertState where Action == CommentFeature.Action.Alert {
+extension AlertState where Action == BoardCommentFeature.Action.Alert {
     static func confirmDeletion(_ boardCommentId: Int) -> Self {
         return Self {
             TextState("정말로 댓글을 삭제하시겠습니까?")
@@ -305,7 +305,7 @@ extension AlertState where Action == CommentFeature.Action.Alert {
     }
 }
 
-extension CommentFeature {
+extension BoardCommentFeature {
     // 이름을 익명화 해주는 method
     private func anonymizeCommentList(_ BoardWriterId: Int, _ commentList: [BoardComment]) -> [BoardComment] {
         var anonymousArray: [Int: Int] = [:]

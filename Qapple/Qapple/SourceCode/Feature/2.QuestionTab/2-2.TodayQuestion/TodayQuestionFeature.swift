@@ -28,6 +28,7 @@ struct TodayQuestionFeature {
     enum Action {
         case onAppear
         case onDisappear
+        case active
         case refresh
         case mainQuestionResponse(Question)
         case answerListResponse([Answer])
@@ -58,7 +59,7 @@ struct TodayQuestionFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .onAppear, .refresh:
+            case .onAppear, .active, .refresh:
                 return .run { [isFirstLaunch = state.isFirstLaunch] send in
                     if isFirstLaunch { await send(.toggleLoading(true), animation: .bouncy) }
                     do {

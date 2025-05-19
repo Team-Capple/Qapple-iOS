@@ -10,6 +10,8 @@ import SwiftUI
 
 struct TodayQuestionView: View {
     
+    @Environment(\.scenePhase) private var scenePhase
+    
     @Bindable var store: StoreOf<TodayQuestionFeature>
     
     var body: some View {
@@ -26,6 +28,11 @@ struct TodayQuestionView: View {
         }
         .background(.second)
         .scrollIndicators(.hidden)
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                store.send(.active)
+            }
+        }
         .onAppear {
             store.send(.onAppear)
         }

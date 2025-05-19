@@ -60,10 +60,11 @@ private struct NormalBoardCell: View {
                 board: board,
                 like: like
             )
+            .padding(.top, 16)
             .padding(.horizontal, 16)
             
             Divider()
-                .padding(.top, 16)
+                .padding(.top, 24)
         }
         .background(Background.first)
     }
@@ -158,7 +159,7 @@ private struct ContentView: View {
                     board: board,
                     like: like
                 )
-                .padding(.top, 12)
+                .padding(.top, 16)
                 .disabled(board.isReported)
             }
         }

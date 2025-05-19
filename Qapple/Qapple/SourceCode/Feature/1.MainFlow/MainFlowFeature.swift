@@ -238,7 +238,7 @@ extension MainFlowFeature {
         case bulletinBoard(BulletinBoardFeature)
         case bulletinBoardSearch(BulletinBoardSearchFeature)
         case bulletinBoardPost(BulletinBoardPostFeature)
-        case comment(CommentFeature)
+        case comment(BoardCommentFeature)
         case profileEdit(ProfileEditFeature)
         case myAnswerList(MyAnswerListFeature)
         case peopleWhoMadeQapple
