@@ -1,5 +1,5 @@
 //
-//  CommentRepository.swift
+//  BoardCommentRepository.swift
 //  Qapple
 //
 //  Created by 문인범 on 1/23/25.
@@ -13,7 +13,7 @@ import ComposableArchitecture
 /**
  Comment API 의존성
  */
-struct CommentRepository {
+struct BoardCommentRepository {
     var fetchBoardCommentList: (_ boardId: Int, _ threshold: Int?) async throws -> ([BoardComment], QappleAPI.PaginationInfo)
     var deleteBoardComment: (_ boardCommentId: Int) async throws -> Void
     var postBoardComment: (_ boardId: Int, _ content: String) async throws -> Void
@@ -22,9 +22,9 @@ struct CommentRepository {
 
 
 // MARK: - DependencyKey
-extension CommentRepository: DependencyKey {
+extension BoardCommentRepository: DependencyKey {
     
-    static let liveValue: CommentRepository = Self(
+    static let liveValue: BoardCommentRepository = Self(
         fetchBoardCommentList: { boardId, threshold in
             let response = try await RepositoryService.shared.request { server, accessToken in
                 try await BoardCommentAPI.fetchList(
@@ -85,7 +85,7 @@ extension CommentRepository: DependencyKey {
         }
     )
     
-    static let previewValue: CommentRepository = Self(
+    static let previewValue: BoardCommentRepository = Self(
         fetchBoardCommentList: { _, _ in
             (sampleCommentList, .init(threshold: "", hasNext: false))
         },
@@ -100,9 +100,9 @@ extension CommentRepository: DependencyKey {
         }
     )
     
-    static let testValue: CommentRepository = Self(
+    static let testValue: BoardCommentRepository = Self(
         fetchBoardCommentList: { _, _ in
-            (CommentRepository.sampleCommentList, CommentRepository.samplePaginationInfo)
+            (BoardCommentRepository.sampleCommentList, BoardCommentRepository.samplePaginationInfo)
         },
         deleteBoardComment: { _ in },
         postBoardComment: { _, _ in },
@@ -113,15 +113,15 @@ extension CommentRepository: DependencyKey {
 
 // MARK: - DependencyValues
 extension DependencyValues {
-    var commentRepository: CommentRepository {
-        get { self[CommentRepository.self] }
-        set { self[CommentRepository.self] = newValue }
+    var boardCommentRepository: BoardCommentRepository {
+        get { self[BoardCommentRepository.self] }
+        set { self[BoardCommentRepository.self] = newValue }
     }
 }
 
 
 // MARK: - TestValues
-extension CommentRepository {
+extension BoardCommentRepository {
     private static let sampleCommentList: [BoardComment] = [
         .init(
             id: 1,
