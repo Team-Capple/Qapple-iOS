@@ -315,7 +315,10 @@ private struct ReportedCell: View {
             publishedDate: .now,
             isReported: false,
             isMine: false,
-            isResignMember: false
+            isLiked: false,
+            isResignMember: false,
+            commentCount: 1,
+            heartCount: 1
         ),
         Answer(
             id: 1,
@@ -326,7 +329,10 @@ private struct ReportedCell: View {
             publishedDate: .now,
             isReported: false,
             isMine: true,
-            isResignMember: false
+            isLiked: false,
+            isResignMember: false,
+            commentCount: 1,
+            heartCount: 1
         ),
         Answer(
             id: 2,
@@ -337,7 +343,10 @@ private struct ReportedCell: View {
             publishedDate: .now,
             isReported: false,
             isMine: false,
-            isResignMember: true
+            isLiked: false,
+            isResignMember: false,
+            commentCount: 1,
+            heartCount: 1
         ),
         Answer(
             id: 3,
@@ -348,7 +357,10 @@ private struct ReportedCell: View {
             publishedDate: .now,
             isReported: true,
             isMine: false,
-            isResignMember: false
+            isLiked: false,
+            isResignMember: false,
+            commentCount: 1,
+            heartCount: 1
         )
     ]
     ZStack {

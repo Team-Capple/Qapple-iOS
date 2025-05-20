@@ -365,7 +365,10 @@ private struct SeeAllButton: View {
                     publishedDate: .now,
                     isReported: false,
                     isMine: false,
-                    isResignMember: false
+                    isLiked: false,
+                    isResignMember: false,
+                    commentCount: 1,
+                    heartCount: 1
                 ),
                 Answer(
                     id: 1,
@@ -376,7 +379,10 @@ private struct SeeAllButton: View {
                     publishedDate: .now,
                     isReported: false,
                     isMine: false,
-                    isResignMember: false
+                    isLiked: false,
+                    isResignMember: false,
+                    commentCount: 1,
+                    heartCount: 1
                 ),
                 Answer(
                     id: 2,
@@ -387,7 +393,10 @@ private struct SeeAllButton: View {
                     publishedDate: .now,
                     isReported: false,
                     isMine: false,
-                    isResignMember: false
+                    isLiked: false,
+                    isResignMember: false,
+                    commentCount: 1,
+                    heartCount: 1
                 )
             ]
         )

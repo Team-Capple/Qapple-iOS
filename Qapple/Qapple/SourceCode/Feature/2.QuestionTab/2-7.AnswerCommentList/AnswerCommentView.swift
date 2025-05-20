@@ -217,7 +217,10 @@ private struct AddCommentView: View {
                     publishedDate: .init(),
                     isReported: false,
                     isMine: false,
-                    isResignMember: false
+                    isLiked: false,
+                    isResignMember: false,
+                    commentCount: 1,
+                    heartCount: 1
                 )
             )
         ){

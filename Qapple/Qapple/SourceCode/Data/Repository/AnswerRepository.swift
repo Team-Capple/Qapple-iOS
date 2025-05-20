@@ -45,7 +45,11 @@ extension AnswerRepository: DependencyKey {
                     publishedDate: $0.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReported: false,
                     isMine: true,
-                    isResignMember: false
+                    isLiked: $0.isLiked,
+                    isResignMember: false,
+                    // TODO: 5/20 논의 필요
+                    commentCount: 0,
+                    heartCount: $0.heartCount
                 )
             }
             let paginationInfo = QappleAPI.PaginationInfo(
@@ -74,7 +78,10 @@ extension AnswerRepository: DependencyKey {
                     publishedDate: $0.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReported: $0.isReported,
                     isMine: $0.isMine,
-                    isResignMember: $0.nickname == "알 수 없음"
+                    isLiked: $0.isLiked ?? false,
+                    isResignMember: $0.nickname == "알 수 없음",
+                    commentCount: $0.commentCount,
+                    heartCount: $0.heartCount
                 )
             }
         },
@@ -83,7 +90,7 @@ extension AnswerRepository: DependencyKey {
                 try await AnswerAPI.fetchListOfQuestion(
                     questionId: Int(questionId),
                     // TODO: 5/20 수정 필요
-                    threshold: "",
+                    threshold: threshold,
                     pageSize: 30,
                     server: server,
                     accessToken: accessToken
@@ -99,7 +106,10 @@ extension AnswerRepository: DependencyKey {
                     publishedDate: $0.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReported: $0.isReported,
                     isMine: $0.isMine,
-                    isResignMember: $0.nickname == "알 수 없음"
+                    isLiked: $0.isLiked ?? false,
+                    isResignMember: $0.nickname == "알 수 없음",
+                    commentCount: $0.commentCount,
+                    heartCount: $0.heartCount
                 )
             }
             let paginationInfo = QappleAPI.PaginationInfo(
@@ -141,7 +151,10 @@ extension AnswerRepository: DependencyKey {
                     publishedDate: .init(timeIntervalSinceNow: TimeInterval(i * -5000)),
                     isReported: false,
                     isMine: true,
-                    isResignMember: false
+                    isLiked: false,
+                    isResignMember: false,
+                    commentCount: 0,
+                    heartCount: 0
                 )
             }
             return (stubProfiles, .init(threshold: "10", hasNext: false))
@@ -183,7 +196,10 @@ extension AnswerRepository {
                     publishedDate: .init(timeIntervalSinceNow: TimeInterval(i*(-10000))),
                     isReported: i == 2,
                     isMine: i == 1,
-                    isResignMember: i == 3
+                    isLiked: i == 4,
+                    isResignMember: i == 3,
+                    commentCount: i,
+                    heartCount: i
                 )
             )
         }
