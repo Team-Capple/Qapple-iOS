@@ -92,7 +92,7 @@ struct AnswerCommentFeature {
                     do {
                         try await answerCommentRepository.likeAnswerComment(answerComment.id)
                         await send(.likeComment(answerComment.id))
-                        // TODO: 5/20 Google Analytics 추가
+                        GAService.log(.likeAnswerComment(answer: answer, answerComment: answerComment))
                     } catch {
                         await send(.networkingFailed(error))
                     }
@@ -115,7 +115,7 @@ struct AnswerCommentFeature {
                     do {
                         try await answerCommentRepository.createAnswerComment(answer.id, text)
                         HapticService.notification(type: .success)
-                        // TODO: 5/20 Google Analytics 추가
+                        GAService.log(.postAnswerComment(answer: answer, comment: text))
                         await send(.refresh)
                         await send(.commentTextReset)
                     } catch {
@@ -149,7 +149,7 @@ struct AnswerCommentFeature {
                     do {
                         try await answerRepository.likeAnswer(answer.id)
                         await send(.likeAnswer)
-                        // TODO: 5/20 GA 업데이트
+                        if !answer.isLiked { GAService.log(.likeAnswerFromDetail(answer: answer)) }
                     } catch {
                         await send(.networkingFailed(error))
                     }

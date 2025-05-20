@@ -121,6 +121,7 @@ struct AnswerListFeature {
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
                         try await answerRepository.likeAnswer(answer.id)
+                        GAService.log(.likeAnswerFromList(answer: answer))
                         await send(.likeAnswer(answer))
                     } catch {
                         await send(.networkingFailed(error))
