@@ -82,7 +82,8 @@ extension AnswerRepository: DependencyKey {
             let response = try await RepositoryService.shared.request { server, accessToken in
                 try await AnswerAPI.fetchListOfQuestion(
                     questionId: Int(questionId),
-                    threshold: threshold,
+                    // TODO: 5/20 수정 필요
+                    threshold: "",
                     pageSize: 30,
                     server: server,
                     accessToken: accessToken
