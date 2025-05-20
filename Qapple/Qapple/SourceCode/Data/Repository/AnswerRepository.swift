@@ -19,6 +19,7 @@ struct AnswerRepository {
     )
     var postAnswer: (_ questionId: Int, _ answer: String) async throws -> Void
     var deleteAnswer: (_ answerId: Int) async throws -> Void
+    var likeAnswer: (_ questionId: Int) async throws -> Void
 }
 
 // MARK: - DependencyKey
@@ -136,6 +137,15 @@ extension AnswerRepository: DependencyKey {
                     accessToken: accessToken
                 )
             }
+        },
+        likeAnswer: { answerId in
+            let response = try await RepositoryService.shared.request { server, accessToken in
+                try await AnswerAPI.like(
+                    answerId: answerId,
+                    server: server,
+                    accessToken: accessToken
+                )
+            }
         }
     )
     
@@ -166,7 +176,8 @@ extension AnswerRepository: DependencyKey {
             (stubAnswerList, 25, .init(threshold: "", hasNext: false))
         },
         postAnswer: { _, _ in },
-        deleteAnswer: { _ in }
+        deleteAnswer: { _ in },
+        likeAnswer: { _ in }
     )
 }
 

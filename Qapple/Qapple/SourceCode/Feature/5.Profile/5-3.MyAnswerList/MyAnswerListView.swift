@@ -72,10 +72,10 @@ private struct MyAnswerList: View {
                                 store.send(.seeMoreAction(answer))
                             },
                             likeAction: {
-                                
+                                // TODO: 5/20 좋아요 기능 연결?
                             },
                             commentAction: {
-                                
+                                // TODO: 5/20 댓글 기능 연결?
                             }
                         )
                         .configurePagination(

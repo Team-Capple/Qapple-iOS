@@ -141,7 +141,7 @@ private struct AnswerList: View {
                             store.send(.seeMoreAction(answer))
                         },
                         likeAction: {
-                            store.send(.likeAnswerButtonTapped)
+                            store.send(.likeAnswerButtonTapped(answer))
                         },
                         commentAction: {
                             store.send(.answerCommentButtonTapped(answer))

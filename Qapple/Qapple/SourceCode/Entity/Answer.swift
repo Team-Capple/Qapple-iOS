@@ -34,7 +34,7 @@ struct Answer: Identifiable, Equatable {
     let isMine: Bool
     
     /// 내가 좋아요를 눌렀는지 여부
-    let isLiked: Bool
+    var isLiked: Bool
     
     /// 탈퇴한 사용자의 답변인지 여부
     let isResignMember: Bool
@@ -43,7 +43,7 @@ struct Answer: Identifiable, Equatable {
     let commentCount: Int
     
     /// 답변의 좋아요 갯수
-    let heartCount: Int
+    var heartCount: Int
     
     /// 초기화용 답변 엔티티
     static var initialState: Answer {

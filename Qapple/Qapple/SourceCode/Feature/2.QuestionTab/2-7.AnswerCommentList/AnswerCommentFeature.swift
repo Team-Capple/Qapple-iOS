@@ -57,6 +57,7 @@ struct AnswerCommentFeature {
     }
     
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.answerRepository) var answerRepository
     
     var body: some ReducerOf<Self> {
         BindingReducer()
@@ -174,6 +175,13 @@ struct AnswerCommentFeature {
                 HapticService.impact(style: .light)
                 return .run { [answer = state.answer] send in
                     await send(.toggleLoading(true), animation: .bouncy)
+                    do {
+                        try await answerRepository.likeAnswer(answer.id)
+                        await send(.likeAnswer)
+                        // TODO: 5/20 GA 업데이트
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
 //                    do {
 //                        try await bulletinBoardRepository.likeBoard(answer.id)
 //                        await send(.likeBoard)
@@ -185,12 +193,13 @@ struct AnswerCommentFeature {
                 }
                 
             case .likeAnswer:
-//                if state.answer.isLiked {
-//                    state.answer.heartCount -= 1
-//                } else {
-//                    state.answer.heartCount += 1
-//                }
-//                state.answer.isLiked.toggle()
+                if state.answer.isLiked {
+                    state.answer.heartCount -= 1
+                } else {
+                    state.answer.heartCount += 1
+                }
+                
+                state.answer.isLiked.toggle()
                 return .none
                 
             case .seeMoreAction:
