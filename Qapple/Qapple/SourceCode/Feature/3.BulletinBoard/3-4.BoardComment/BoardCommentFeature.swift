@@ -307,7 +307,7 @@ extension AlertState where Action == BoardCommentFeature.Action.Alert {
 
 extension BoardCommentFeature {
     // 이름을 익명화 해주는 method
-    private func anonymizeCommentList(_ BoardWriterId: Int, _ commentList: [BoardComment]) -> [BoardComment] {
+    private func anonymizeCommentList(_ boardWriterId: Int, _ commentList: [BoardComment]) -> [BoardComment] {
         var anonymousArray: [Int: Int] = [:]
         var anonymousIndex: Int = 0
         
@@ -317,7 +317,7 @@ extension BoardCommentFeature {
             if !isContainName {
                 anonymousIndex += 1
                 
-                let anonymityId = (comment.writeId == BoardWriterId) ? -1 : anonymousIndex
+                let anonymityId = (comment.writeId == boardWriterId) ? -1 : anonymousIndex
                 
                 anonymousArray.updateValue(comment.writeId, forKey: anonymityId)
                 
@@ -331,7 +331,7 @@ extension BoardCommentFeature {
                     isMine: comment.isMine,
                     isReport: comment.isReport,
                     createdAt: comment.createdAt,
-                    anonymityId: (comment.writeId == BoardWriterId) ? -1 : anonymousIndex
+                    anonymityId: (comment.writeId == boardWriterId) ? -1 : anonymousIndex
                 )
             } else {
                 let currentIndex = anonymousArray.first(where: { $0.value == comment.writeId })?.key ?? 0
