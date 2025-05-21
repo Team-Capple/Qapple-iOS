@@ -8,9 +8,10 @@
 import SwiftUI
 
 
-enum PopularAnswerCellStatus {
+enum PopularAnswerCellStatus: Equatable {
+    case none
     case todayQuestion
-    case popularAnswer
+    case popularAnswer(Answer, Question)
 }
 
 struct QPPopularAnswerCell: View {
@@ -31,19 +32,22 @@ struct QPPopularAnswerCell: View {
                     .foregroundStyle(.main)
                     .padding(.top, 15)
                     .padding(.leading, 6)
-            case .popularAnswer:
+            case let .popularAnswer(answer, _):
                 VStack(alignment: .leading, spacing: 5) {
                     Text("오늘의 인기 답변")
                         .font(.pretendard(.light, size: 12))
                         .foregroundStyle(.main.opacity(0.5))
                     
-                    Text("프라이데이는 여자친구가 가지고 싶어요")
+                    Text(answer.content)
                         .font(.pretendard(.regular, size: 15))
                         .foregroundStyle(.main)
                         .lineLimit(1)
                 }
                 .padding(.vertical, 13)
                 .padding(.leading, 7.5)
+                
+            case .none:
+                EmptyView()
             }
                
             Spacer()
@@ -76,7 +80,6 @@ struct QPPopularAnswerCell: View {
 #Preview {
     VStack {
         QPPopularAnswerCell(status: .todayQuestion)
-        QPPopularAnswerCell(status: .popularAnswer)
     }
     .padding(.horizontal, 10)
 }

@@ -17,6 +17,7 @@ struct AnswerRepository {
         QappleAPI.TotalCount,
         QappleAPI.PaginationInfo
     )
+    var fetchPopularAnswer: () async throws -> (Answer?, Question?, Bool)
     var postAnswer: (_ questionId: Int, _ answer: String) async throws -> Void
     var deleteAnswer: (_ answerId: Int) async throws -> Void
     var likeAnswer: (_ questionId: Int) async throws -> Void
@@ -90,7 +91,6 @@ extension AnswerRepository: DependencyKey {
             let response = try await RepositoryService.shared.request { server, accessToken in
                 try await AnswerAPI.fetchListOfQuestion(
                     questionId: Int(questionId),
-                    // TODO: 5/20 수정 필요
                     threshold: threshold,
                     pageSize: 30,
                     server: server,
@@ -118,6 +118,114 @@ extension AnswerRepository: DependencyKey {
                 hasNext: response.hasNext
             )
             return (answerList, response.total, paginationInfo)
+        },
+        fetchPopularAnswer: {
+            let currentHour = Calendar.current.component(.hour, from: .now)
+            if currentHour > 12 && currentHour < 19 {
+                return (nil, nil, false)
+            }
+            
+            let response = try await RepositoryService.shared.request { server, accessToken in
+                try await QuestionAPI.fetchQuestionList(
+                    threshold: nil,
+                    pageSize: 1,
+                    server: server,
+                    accessToken: accessToken
+                )
+            }
+            
+            guard let question = response.content.first else { return (nil, nil, true) }
+            
+            let currentQuestion = Question(
+                id: question.questionId,
+                content: question.content,
+                publishedDate: question.livedAt?.ISO8601ToDate(.yearMonthDateTime) ?? .now,
+                isAnswered: question.isAnswered,
+                isLived: question.questionStatus == ("LIVE")
+            )
+            
+            var popularAnswer: Answer = .init(
+                id: -1,
+                writerId: -1,
+                content: "",
+                authorNickname: "",
+                authorGeneration: "",
+                publishedDate: .init(timeIntervalSince1970: 0),
+                isReported: false,
+                isMine: false,
+                isLiked: false,
+                isResignMember: false,
+                commentCount: 0,
+                heartCount: 0
+            )
+            
+            var hasNext = true
+            var threshold: Int?
+            
+            while hasNext {
+                let answersOfQuestion = try await RepositoryService.shared.request { server, accessToken in
+                    try await AnswerAPI.fetchListOfQuestion(
+                        questionId: Int(question.questionId),
+                        threshold: threshold,
+                        pageSize: 30,
+                        server: server,
+                        accessToken: accessToken
+                    )
+                }
+                
+                if answersOfQuestion.content.isEmpty {
+                    return (nil, nil, true)
+                }
+                
+                for answer in answersOfQuestion.content {
+                    if answer.isReported { continue }
+                    
+                    let sum = answer.commentCount + answer.heartCount
+                    let popularSum = popularAnswer.heartCount + popularAnswer.commentCount
+                    
+                    if sum > popularSum {
+                        popularAnswer = .init(
+                            id: answer.answerId,
+                            writerId: answer.writerId,
+                            content: answer.content,
+                            authorNickname: answer.nickname,
+                            authorGeneration: answer.writerGeneration,
+                            publishedDate: answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
+                            isReported: false,
+                            isMine: answer.isMine,
+                            isLiked: answer.isLiked ?? false,
+                            isResignMember: answer.nickname == "알 수 없음",
+                            commentCount: answer.commentCount,
+                            heartCount: answer.heartCount
+                        )
+                    } else if sum == popularSum {
+                        let popularAnswerDate = popularAnswer.publishedDate
+                        let answerDate = answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds)
+                        
+                        if answerDate > popularAnswerDate {
+                            popularAnswer = .init(
+                                id: answer.answerId,
+                                writerId: answer.writerId,
+                                content: answer.content,
+                                authorNickname: answer.nickname,
+                                authorGeneration: answer.writerGeneration,
+                                publishedDate: answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
+                                isReported: false,
+                                isMine: answer.isMine,
+                                isLiked: answer.isLiked ?? false,
+                                isResignMember: answer.nickname == "알 수 없음",
+                                commentCount: answer.commentCount,
+                                heartCount: answer.heartCount
+                            )
+                        }
+                    }
+                }
+                
+                hasNext = answersOfQuestion.hasNext
+                threshold = Int(answersOfQuestion.threshold)
+            }
+            
+            return (popularAnswer, currentQuestion, false)
         },
         postAnswer: { questionId, answer in
             let response = try await RepositoryService.shared.request { server, accessToken in
@@ -174,6 +282,15 @@ extension AnswerRepository: DependencyKey {
         },
         fetchAnswerListOfQuestion: { _, _ in
             (stubAnswerList, 25, .init(threshold: "", hasNext: false))
+        }, fetchPopularAnswer: {
+            let currentHour = Calendar.current.component(.hour, from: .now)
+            if currentHour > 12 && currentHour < 19 {
+                return (nil, nil, false)
+            }
+            let question = Question(id: 0, content: "", publishedDate: .now, isAnswered: false, isLived: true)
+            
+            
+            return (AnswerRepository.stubAnswerList.first!, question, false)
         },
         postAnswer: { _, _ in },
         deleteAnswer: { _ in },
