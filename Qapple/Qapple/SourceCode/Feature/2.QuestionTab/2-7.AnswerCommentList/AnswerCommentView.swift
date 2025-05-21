@@ -85,7 +85,7 @@ private struct CommentListView: View {
     
     var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 0) {
                 seperator
                 
                 HStack {
@@ -94,39 +94,12 @@ private struct CommentListView: View {
                         .foregroundStyle(.sub3)
                     Spacer()
                 }
-                .padding(.top, 12)
+                .padding(.vertical, 12)
                 .padding(.horizontal, 20)
                 
                 ScrollView {
                     LazyVStack(spacing: 0) {
-                        // TODO: 4/14 데이터 연결 필요
-    //                    ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
-    //                        AnswerCommentCell(
-    //                            comment: comment,
-    //                            like: {
-    //                                store.send(.likeCommentButtonTapped(comment))
-    //                            },
-    //                            delete: {
-    //                                store.send(.deleteCommentButtonTapped(comment))
-    //                            },
-    //                            report: {
-    //                                store.send(.reportButtonTapped(comment))
-    //                            }
-    //                        )
-    //                        .configurePagination(
-    //                            store.commentList,
-    //                            currentIndex: index,
-    //                            hasNext: store.paginationInfo.hasNext,
-    //                            pagination: {
-    //                                store.send(.pagination)
-    //                            }
-    //                        )
-    //                        .disabled(store.isLoading)
-    //
-    //                        seperator
-    //                    }
-                        
-                        ForEach(AnswerCommentFeature.sampleComment) { comment in
+                        ForEach(Array(self.store.commentList.enumerated()), id: \.offset) { index, comment in
                             AnswerCommentCell(
                                 comment: comment,
                                 like: {
@@ -139,7 +112,8 @@ private struct CommentListView: View {
                                     store.send(.reportButtonTapped(comment))
                                 }
                             )
-                            
+                            .disabled(store.isLoading)
+    
                             seperator
                         }
                     }
@@ -148,17 +122,17 @@ private struct CommentListView: View {
             .scrollDismissesKeyboard(.immediately)
             .background(Color.bk)
             
-//            if store.commentList.isEmpty && !store.isLoading {
-//                VStack {
-//                    Text("아직 작성된 댓글이 없습니다")
-//                        .font(.pretendard(.medium, size: 14))
-//                        .foregroundStyle(.sub5)
-//                        .multilineTextAlignment(.center)
-//                        .padding(.top, 24)
-//                    
-//                    Spacer()
-//                }
-//            }
+            if store.commentList.isEmpty && !store.isLoading {
+                VStack {
+                    Text("아직 작성된 댓글이 없습니다")
+                        .font(.pretendard(.medium, size: 14))
+                        .foregroundStyle(.sub5)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 24)
+                    
+                    Spacer()
+                }
+            }
         }
     }
     
