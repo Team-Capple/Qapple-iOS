@@ -202,6 +202,10 @@ struct MainFlowFeature {
                     state.path.append(.comment(.init(board: board)))
                     return .none
                     
+                case let .element(id: _, action: .myAnswerList(.commentButtonTapped(answer))):
+                    state.path.append(.answerCommentList(.init(answer: answer)))
+                    return .none
+                    
                 case .element(id: _, action: .answerList(.backButtonTapped)):
                     state.path.removeAll()
                     return .none

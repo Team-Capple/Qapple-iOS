@@ -25,6 +25,9 @@ struct MyAnswerListFeature {
         case onAppear
         case refresh
         case pagination
+        case likeAnswerButtonTapped(Answer)
+        case commentButtonTapped(Answer)
+        case likeAnswer(Answer)
         case answerListResponse(
             [Answer],
             QappleAPI.PaginationInfo
@@ -70,6 +73,33 @@ struct MyAnswerListFeature {
                     await send(.paginagionResponse(response.0, response.1))
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
+                
+            case let .likeAnswerButtonTapped(answer):
+                return .run { send in
+                    await send(.toggleLoading(true), animation: .bouncy)
+                    do {
+                        try await answerRepository.likeAnswer(answer.id)
+                        await send(.likeAnswer(answer))
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
+                    await send(.toggleLoading(false), animation: .bouncy)
+                }
+                
+            case let .likeAnswer(answer):
+                guard let currentAnswerIdx = state.myAnswerList.firstIndex(where: { $0.id == answer.id })
+                else { return .none }
+                
+                if state.myAnswerList[currentAnswerIdx].isLiked {
+                    state.myAnswerList[currentAnswerIdx].heartCount -= 1
+                } else {
+                    state.myAnswerList[currentAnswerIdx].heartCount += 1
+                }
+                state.myAnswerList[currentAnswerIdx].isLiked.toggle()
+                return .none
+                
+            case .commentButtonTapped:
+                return .none
                 
             case let .answerListResponse(answerList, paginationInfo):
                 state.myAnswerList = answerList
