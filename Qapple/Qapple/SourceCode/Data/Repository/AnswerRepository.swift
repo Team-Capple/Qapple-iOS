@@ -49,8 +49,7 @@ extension AnswerRepository: DependencyKey {
                     isMine: true,
                     isLiked: $0.isLiked,
                     isResignMember: false,
-                    // TODO: 5/20 논의 필요
-                    commentCount: 0,
+                    commentCount: $0.commentCount,
                     heartCount: $0.heartCount
                 )
             }
@@ -80,7 +79,7 @@ extension AnswerRepository: DependencyKey {
                     publishedDate: $0.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReported: $0.isReported,
                     isMine: $0.isMine,
-                    isLiked: $0.isLiked ?? false,
+                    isLiked: $0.isLiked,
                     isResignMember: $0.nickname == "알 수 없음",
                     commentCount: $0.commentCount,
                     heartCount: $0.heartCount
@@ -107,7 +106,7 @@ extension AnswerRepository: DependencyKey {
                     publishedDate: $0.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     isReported: $0.isReported,
                     isMine: $0.isMine,
-                    isLiked: $0.isLiked ?? false,
+                    isLiked: $0.isLiked,
                     isResignMember: $0.nickname == "알 수 없음",
                     commentCount: $0.commentCount,
                     heartCount: $0.heartCount
@@ -193,7 +192,7 @@ extension AnswerRepository: DependencyKey {
                             publishedDate: answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                             isReported: false,
                             isMine: answer.isMine,
-                            isLiked: answer.isLiked ?? false,
+                            isLiked: answer.isLiked,
                             isResignMember: answer.nickname == "알 수 없음",
                             commentCount: answer.commentCount,
                             heartCount: answer.heartCount
@@ -212,7 +211,7 @@ extension AnswerRepository: DependencyKey {
                                 publishedDate: answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                                 isReported: false,
                                 isMine: answer.isMine,
-                                isLiked: answer.isLiked ?? false,
+                                isLiked: answer.isLiked,
                                 isResignMember: answer.nickname == "알 수 없음",
                                 commentCount: answer.commentCount,
                                 heartCount: answer.heartCount
@@ -282,7 +281,8 @@ extension AnswerRepository: DependencyKey {
         },
         fetchAnswerListOfQuestion: { _, _ in
             (stubAnswerList, 25, .init(threshold: "", hasNext: false))
-        }, fetchPopularAnswer: {
+        },
+        fetchPopularAnswer: {
             let currentHour = Calendar.current.component(.hour, from: .now)
             if currentHour > 12 && currentHour < 19 {
                 return (nil, nil, false)

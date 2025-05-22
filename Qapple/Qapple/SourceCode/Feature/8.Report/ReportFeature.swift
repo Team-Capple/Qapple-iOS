@@ -60,7 +60,7 @@ struct ReportFeature {
                         case let .comment(comment):
                             try await reportRepository.reportComment(comment.id, reportType)
                         case let .answerComment(comment):
-                            // TODO: 답면 댓글 신고 구현
+                            // TODO: 답변 댓글 신고 구현
                             break
                             
                         }
