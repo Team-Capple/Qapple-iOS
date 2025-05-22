@@ -140,6 +140,7 @@ private struct NormalCell: View {
             
             Text(answer.content)
                 .pretendard(.medium, 16)
+                .multilineTextAlignment(.leading)
                 .foregroundStyle(.main)
                 .padding(.top, 2)
         }

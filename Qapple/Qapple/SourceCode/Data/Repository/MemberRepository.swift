@@ -31,14 +31,22 @@ extension MemberRepository: DependencyKey {
     static let liveValue = Self(
         signIn: { code in
             let deviceToken = try keychainService.fetchData(.deviceToken)
-            let response = try await MemberAPI.signIn(
-                code: code,
-                deviceToken: deviceToken,
-                server: repositoryService.server
-            )
-            try keychainService.createData(.accessToken, response.accessToken ?? "")
-            try keychainService.createData(.refreshToken, response.refreshToken ?? "")
-            return response.isMember
+            
+            // print("code: \(code)")
+            // print("deviceToken: \(deviceToken)")
+            
+            try keychainService.createData(.accessToken, "")
+            
+            return true
+            
+//            let response = try await MemberAPI.signIn(
+//                code: code,
+//                deviceToken: deviceToken,
+//                server: repositoryService.server
+//            )
+//            try keychainService.createData(.accessToken, response.accessToken ?? "")
+//            try keychainService.createData(.refreshToken, response.refreshToken ?? "")
+//            return response.isMember
         },
         signUp: { email, nickname in
             let refreshToken = try keychainService.fetchData(.refreshToken)
