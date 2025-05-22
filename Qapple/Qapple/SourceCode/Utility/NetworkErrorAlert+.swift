@@ -11,7 +11,8 @@ extension AlertState {
     
     /// 네트워킹 실패 기본 Alert
     static func failedNetworking(with error: Error) -> Self {
-        Self {
+        print(error)
+        return Self {
             TextState("네트워크 상태가 불안정해요")
         } actions: {
             ButtonState(role: .cancel) {

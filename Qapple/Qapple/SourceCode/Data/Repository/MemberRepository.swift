@@ -32,8 +32,8 @@ extension MemberRepository: DependencyKey {
         signIn: { code in
             let deviceToken = try keychainService.fetchData(.deviceToken)
             
-            // print("code: \(code)")
-            // print("deviceToken: \(deviceToken)")
+            print("code: \(code)")
+            print("deviceToken: \(deviceToken)")
             
             try keychainService.createData(.accessToken, "")
             
