@@ -49,7 +49,8 @@ extension AnswerCommentRepository: DependencyKey {
                 )
             }
             
-            return list
+            // TODO: 추후 신고된 아이디 로직 수정 필요
+            return list.filter { !UserDefaultsService.reportedAnswerCommentIds.contains($0.id) }
         },
         createAnswerComment: { answerId, content in
             let _ = try await RepositoryService.shared.request { server, accessToken in

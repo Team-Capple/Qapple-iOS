@@ -58,11 +58,10 @@ struct ReportFeature {
                             try await reportRepository.reportBoard(board.id, reportType)
                             
                         case let .comment(comment):
-                            try await reportRepository.reportComment(comment.id, reportType)
-                        case let .answerComment(comment):
-                            // TODO: 답변 댓글 신고 구현
-                            break
+                            try await reportRepository.reportBoardComment(comment.id, reportType)
                             
+                        case let .answerComment(comment):
+                            try await reportRepository.reportAnswerComment(comment.id, reportType)
                         }
                         await send(.completionReport)
                     } catch {
