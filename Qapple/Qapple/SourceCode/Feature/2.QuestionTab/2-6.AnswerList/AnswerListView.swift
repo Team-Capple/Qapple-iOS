@@ -131,6 +131,11 @@ private struct AnswerList: View {
     var body: some View {
         ScrollView {
             LazyVStack {
+                if case let .popularAnswer(answer, question) = store.state.popularAnswerStatus {
+                    QPPopularAnswerCell(status: .popularAnswer(answer, question))
+                        .padding(.horizontal, 16)
+                }
+                
                 ForEach(enumerated(store.answerList), id: \.element.id) {
                     index, answer in
                     QPAnswerCell(

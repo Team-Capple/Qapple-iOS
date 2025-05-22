@@ -17,6 +17,7 @@ struct AnswerListFeature {
         var answerList: [Answer] = []
         var totalCount: QappleAPI.TotalCount = 0
         var paginationInfo = QappleAPI.PaginationInfo(threshold: "", hasNext: false)
+        var popularAnswerStatus: PopularAnswerCellStatus = .none
         var isLoading = false
         @Presents var sheet: Sheet.State?
         @Presents var alert: AlertState<Action.Alert>?
@@ -35,6 +36,7 @@ struct AnswerListFeature {
         case backButtonTapped
         case likeAnswerButtonTapped(Answer)
         case answerCommentButtonTapped(Answer)
+        case fetchPopularAnswer(Answer)
         case likeAnswer(Answer)
         case toggleLoading(Bool)
         case sheet(PresentationAction<Sheet.Action>)
@@ -58,6 +60,22 @@ struct AnswerListFeature {
                         let response = try await answerRepository.fetchAnswerListOfQuestion(
                             question.id, nil
                         )
+                        let currentHour = Calendar.current.component(.hour, from: .now)
+                        
+                        if question.isLived, !(currentHour > 12 && currentHour < 19){
+                            if !(currentHour > 12 && currentHour < 19) {
+                                let response = try await answerRepository.fetchPopularAnswer(question)
+                                if let answer = response.0 {
+                                    await send(.fetchPopularAnswer(answer))
+                                }
+                            }
+                        } else {
+                            let response = try await answerRepository.fetchPopularAnswer(question)
+                            if let answer = response.0 {
+                                await send(.fetchPopularAnswer(answer))
+                            }
+                        }
+                        
                         await send(
                             .answerListResponse(
                                 response.0,
@@ -130,6 +148,10 @@ struct AnswerListFeature {
                 }
                 
             case .answerCommentButtonTapped:
+                return .none
+                
+            case let .fetchPopularAnswer(answer):
+                state.popularAnswerStatus = .popularAnswer(answer, state.question)
                 return .none
                 
             case let .likeAnswer(answer):

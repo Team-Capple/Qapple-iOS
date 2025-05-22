@@ -87,7 +87,7 @@ private struct NormalCell: View {
                 .padding(.bottom, 5)
             
             Footer()
-                .padding(.bottom, 20)
+                .padding(.bottom, 14)
                 .padding(.horizontal, 16)
         }
         .background(.first)

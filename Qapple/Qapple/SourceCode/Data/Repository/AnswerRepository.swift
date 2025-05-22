@@ -17,7 +17,7 @@ struct AnswerRepository {
         QappleAPI.TotalCount,
         QappleAPI.PaginationInfo
     )
-    var fetchPopularAnswer: () async throws -> (Answer?, Question?, Bool)
+    var fetchPopularAnswer: (_ question: Question?) async throws -> (Answer?, Question?, Bool)
     var postAnswer: (_ questionId: Int, _ answer: String) async throws -> Void
     var deleteAnswer: (_ answerId: Int) async throws -> Void
     var likeAnswer: (_ questionId: Int) async throws -> Void
@@ -118,7 +118,7 @@ extension AnswerRepository: DependencyKey {
             )
             return (answerList, response.total, paginationInfo)
         },
-        fetchPopularAnswer: {
+        fetchPopularAnswer: { question in
             let currentHour = Calendar.current.component(.hour, from: .now)
             if currentHour > 12 && currentHour < 19 {
                 return (nil, nil, false)
@@ -133,14 +133,14 @@ extension AnswerRepository: DependencyKey {
                 )
             }
             
-            guard let question = response.content.first else { return (nil, nil, true) }
+            guard let questionContent = response.content.first else { return (nil, nil, true) }
             
-            let currentQuestion = Question(
-                id: question.questionId,
-                content: question.content,
-                publishedDate: question.livedAt?.ISO8601ToDate(.yearMonthDateTime) ?? .now,
-                isAnswered: question.isAnswered,
-                isLived: question.questionStatus == ("LIVE")
+            let currentQuestion = question ?? Question(
+                id: questionContent.questionId,
+                content: questionContent.content,
+                publishedDate: questionContent.livedAt?.ISO8601ToDate(.yearMonthDateTime) ?? .now,
+                isAnswered: questionContent.isAnswered,
+                isLived: questionContent.questionStatus == ("LIVE")
             )
             
             var popularAnswer: Answer = .init(
@@ -164,7 +164,7 @@ extension AnswerRepository: DependencyKey {
             while hasNext {
                 let answersOfQuestion = try await RepositoryService.shared.request { server, accessToken in
                     try await AnswerAPI.fetchListOfQuestion(
-                        questionId: Int(question.questionId),
+                        questionId: Int(currentQuestion.id),
                         threshold: threshold,
                         pageSize: 30,
                         server: server,
@@ -282,13 +282,8 @@ extension AnswerRepository: DependencyKey {
         fetchAnswerListOfQuestion: { _, _ in
             (stubAnswerList, 25, .init(threshold: "", hasNext: false))
         },
-        fetchPopularAnswer: {
-            let currentHour = Calendar.current.component(.hour, from: .now)
-            if currentHour > 12 && currentHour < 19 {
-                return (nil, nil, false)
-            }
+        fetchPopularAnswer: { _ in
             let question = Question(id: 0, content: "", publishedDate: .now, isAnswered: false, isLived: true)
-            
             
             return (AnswerRepository.stubAnswerList.first!, question, false)
         },

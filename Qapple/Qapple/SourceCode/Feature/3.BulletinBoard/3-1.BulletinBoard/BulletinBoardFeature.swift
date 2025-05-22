@@ -78,7 +78,7 @@ struct BulletinBoardFeature {
                     do {
                         let mainQuestion = try await fetchMainQuestion()
                         let response = try await bulletinBoardRepository.fetchBulletinBoardList(nil)
-                        let popularAnswer = try await fetchPopularAnswer()
+                        let popularAnswer = try await fetchPopularAnswer(nil)
                         await send(.fetchPopularAnswer(popularAnswer))
                         await send(.bulletinBoardListResponse(mainQuestion, response.0, response.1))
                     } catch {

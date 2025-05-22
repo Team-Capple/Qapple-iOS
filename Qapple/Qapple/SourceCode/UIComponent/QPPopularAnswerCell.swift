@@ -32,9 +32,9 @@ struct QPPopularAnswerCell: View {
                     .foregroundStyle(.main)
                     .padding(.top, 15)
                     .padding(.leading, 6)
-            case let .popularAnswer(answer, _):
+            case let .popularAnswer(answer, question):
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("오늘의 인기 답변")
+                    Text(question.isLived ? "오늘의 인기 답변" : "인기 답변")
                         .font(.pretendard(.light, size: 12))
                         .foregroundStyle(.main.opacity(0.5))
                     
@@ -61,12 +61,6 @@ struct QPPopularAnswerCell: View {
                 RoundedRectangle(cornerRadius: 12)
                     .stroke(lineWidth: 1)
                     .foregroundStyle(
-//                        LinearGradient(
-//                            colors: [.popularStart, .popularEnd],
-//                            startPoint: .leading,
-//                            endPoint: .trailing
-//                        )
-//                        .opacity(0.17)
                         RadialGradient(colors: [.popularStart, .popularEnd], center: .center, startRadius: 0, endRadius: 100)
                             .opacity(0.17)
                         
