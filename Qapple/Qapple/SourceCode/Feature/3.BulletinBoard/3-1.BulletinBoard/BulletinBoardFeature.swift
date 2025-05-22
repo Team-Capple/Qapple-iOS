@@ -17,6 +17,7 @@ struct BulletinBoardFeature {
         var bulletinBoardList: [BulletinBoard] = []
         var todayQuestion: Question = .initialState
         var event: AcademyEventFor4th = .fourthStart
+        var popularAnswerStatus: PopularAnswerCellStatus = .none
         var paginationInfo = QappleAPI.PaginationInfo(threshold: "", hasNext: false)
         var isLoading: Bool = false
         var isFirstLaunch = true
@@ -43,8 +44,10 @@ struct BulletinBoardFeature {
         case networkingFailed(Error)
         case toggleLoading(Bool)
         case filterBlockedUser
+
         case questionNotiTapped(Question)
         case popularAnswerTapped(Question)
+        case fetchPopularAnswer((Answer?, Question?, Bool))
         
         case sheet(PresentationAction<Sheet.Action>)
         case alert(PresentationAction<Alert>)
@@ -61,6 +64,7 @@ struct BulletinBoardFeature {
     
     @Dependency(\.questionRepository.fetchMainQuestion) var fetchMainQuestion
     @Dependency(\.bulletinBoardRepository) var bulletinBoardRepository
+    @Dependency(\.answerRepository.fetchPopularAnswer) var fetchPopularAnswer
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -74,6 +78,8 @@ struct BulletinBoardFeature {
                     do {
                         let mainQuestion = try await fetchMainQuestion()
                         let response = try await bulletinBoardRepository.fetchBulletinBoardList(nil)
+                        let popularAnswer = try await fetchPopularAnswer(nil)
+                        await send(.fetchPopularAnswer(popularAnswer))
                         await send(.bulletinBoardListResponse(mainQuestion, response.0, response.1))
                     } catch {
                         await send(.networkingFailed(error))
@@ -144,6 +150,15 @@ struct BulletinBoardFeature {
                 if let index = state.bulletinBoardList.firstIndex(where: {$0.id == boardId}) {
                     state.bulletinBoardList.remove(at: index)
                 }
+                return .none
+                
+            case let .fetchPopularAnswer(result):
+                if let answer = result.0, let question = result.1 {
+                    state.popularAnswerStatus = .popularAnswer(answer, question)
+                } else {
+                    state.popularAnswerStatus = result.2 ? .none : .todayQuestion
+                }
+                
                 return .none
                 
             case .searchButtonTapped:

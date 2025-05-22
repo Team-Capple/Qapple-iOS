@@ -72,10 +72,10 @@ private struct MyAnswerList: View {
                                 store.send(.seeMoreAction(answer))
                             },
                             likeAction: {
-                                
+                                store.send(.likeAnswerButtonTapped(answer))
                             },
                             commentAction: {
-                                
+                                store.send(.commentButtonTapped(answer))
                             }
                         )
                         .configurePagination(

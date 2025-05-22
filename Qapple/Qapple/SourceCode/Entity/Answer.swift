@@ -33,8 +33,17 @@ struct Answer: Identifiable, Equatable {
     /// 현재 사용자가 작성한 답변인지 여부
     let isMine: Bool
     
+    /// 내가 좋아요를 눌렀는지 여부
+    var isLiked: Bool
+    
     /// 탈퇴한 사용자의 답변인지 여부
     let isResignMember: Bool
+    
+    /// 답변에 대한 댓글 갯수
+    let commentCount: Int
+    
+    /// 답변의 좋아요 갯수
+    var heartCount: Int
     
     /// 초기화용 답변 엔티티
     static var initialState: Answer {
@@ -47,7 +56,10 @@ struct Answer: Identifiable, Equatable {
             publishedDate: .now,
             isReported: false,
             isMine: true,
-            isResignMember: false
+            isLiked: false,
+            isResignMember: false,
+            commentCount: 0,
+            heartCount: 0
         )
     }
 }

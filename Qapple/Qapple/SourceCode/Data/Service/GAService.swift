@@ -26,6 +26,12 @@ enum GAService {
         /// 게시글 상세 페이지에서 좋아요
         case likeBoardFromDetail(board: BulletinBoard)
         
+        /// 답변 리스트에서 좋아요
+        case likeAnswerFromList(answer: Answer)
+        
+        /// 답변 상세 페이지에서 좋아요
+        case likeAnswerFromDetail(answer: Answer)
+        
         /// 아카데미 일정 확인
         case checkAcademySchedule(event: AcademyEventFor4th)
         
@@ -34,6 +40,13 @@ enum GAService {
         
         /// 게시글 댓글 좋아요
         case likeBoardComment(board: BulletinBoard, boardComment: BoardComment)
+        
+        /// 답변 댓글 작성
+        case postAnswerComment(answer: Answer, comment: String)
+        
+        /// 답변 댓글 좋아요
+        case likeAnswerComment(answer: Answer, answerComment: AnswerComment)
+        
         
         /// Push 알림을 눌러 질문 탭으로 이동
         case navigateToQuestionTabFromPush(title: String, body: String, questionId: Int)
@@ -47,9 +60,13 @@ enum GAService {
             case .postBoard: "post_board"
             case .likeBoardFromList: "like_board_from_list"
             case .likeBoardFromDetail: "like_board_from_detail"
+            case .likeAnswerFromList: "like_answer_from_list"
+            case .likeAnswerFromDetail: "like_answer_from_detail"
             case .checkAcademySchedule: "check_academy_schedule"
             case .postBoardComment: "post_board_comment"
             case .likeBoardComment: "like_board_comment"
+            case .postAnswerComment: "post_answer_comment"
+            case .likeAnswerComment: "like_answer_comment"
             case .navigateToQuestionTabFromPush: "navigate_to_question_tab_from_push_notification"
             case .navigateToBoardCommentFromPush: "navigate_to_board_comment_from_push_notification"
             }
@@ -90,6 +107,20 @@ enum GAService {
                 "heart_count": board.heartCount + 1
             ]
             
+        case let .likeAnswerFromList(answer):
+            parameters = [
+                "answer_id": answer.id,
+                "content": answer.content,
+                "heart_count": answer.heartCount + 1
+            ]
+            
+        case let.likeAnswerFromDetail(answer):
+            parameters = [
+                "answer_id": answer.id,
+                "content": answer.content,
+                "heart_count": answer.heartCount + 1
+            ]
+            
         case let .checkAcademySchedule(event):
             parameters = [
                 "event_title": event.title
@@ -107,6 +138,22 @@ enum GAService {
                 "board_id": board.id,
                 "board_content": board.content,
                 "board_heart_count": board.heartCount,
+                "comment_content": comment.content,
+                "comment_heart_count": comment.heartCount + 1
+            ]
+            
+        case let .postAnswerComment(answer, comment):
+            parameters = [
+                "answer_id": answer.id,
+                "answer_content": answer.content,
+                "comment_content": comment
+            ]
+            
+        case let .likeAnswerComment(answer, comment):
+            parameters = [
+                "answer_id": answer.id,
+                "answer_content": answer.content,
+                "answer_heart_count": answer.heartCount,
                 "comment_content": comment.content,
                 "comment_heart_count": comment.heartCount + 1
             ]

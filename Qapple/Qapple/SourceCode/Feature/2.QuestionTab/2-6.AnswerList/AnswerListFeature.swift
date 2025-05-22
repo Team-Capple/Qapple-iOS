@@ -17,6 +17,7 @@ struct AnswerListFeature {
         var answerList: [Answer] = []
         var totalCount: QappleAPI.TotalCount = 0
         var paginationInfo = QappleAPI.PaginationInfo(threshold: "", hasNext: false)
+        var popularAnswerStatus: PopularAnswerCellStatus = .none
         var isLoading = false
         @Presents var sheet: Sheet.State?
         @Presents var alert: AlertState<Action.Alert>?
@@ -33,8 +34,10 @@ struct AnswerListFeature {
         case networkingFailed(Error)
         case seeMoreAction(Answer)
         case backButtonTapped
-        case likeAnswerButtonTapped
+        case likeAnswerButtonTapped(Answer)
         case answerCommentButtonTapped(Answer)
+        case fetchPopularAnswer(Answer)
+        case likeAnswer(Answer)
         case toggleLoading(Bool)
         case sheet(PresentationAction<Sheet.Action>)
         case alert(PresentationAction<Alert>)
@@ -57,6 +60,22 @@ struct AnswerListFeature {
                         let response = try await answerRepository.fetchAnswerListOfQuestion(
                             question.id, nil
                         )
+                        let currentHour = Calendar.current.component(.hour, from: .now)
+                        
+                        if question.isLived, !(currentHour > 12 && currentHour < 19){
+                            if !(currentHour > 12 && currentHour < 19) {
+                                let response = try await answerRepository.fetchPopularAnswer(question)
+                                if let answer = response.0 {
+                                    await send(.fetchPopularAnswer(answer))
+                                }
+                            }
+                        } else {
+                            let response = try await answerRepository.fetchPopularAnswer(question)
+                            if let answer = response.0 {
+                                await send(.fetchPopularAnswer(answer))
+                            }
+                        }
+                        
                         await send(
                             .answerListResponse(
                                 response.0,
@@ -115,11 +134,36 @@ struct AnswerListFeature {
                 state.answerList = state.answerList.reversed().filter(UserDefaults.filterAnswerBlockedUser)
                 return .none
                 
-            case .likeAnswerButtonTapped:
-                // TODO: 좋아요 기능 구현 필요
-                return .none
+            case let .likeAnswerButtonTapped(answer):
+                return .run { send in
+                    await send(.toggleLoading(true), animation: .bouncy)
+                    do {
+                        try await answerRepository.likeAnswer(answer.id)
+                        GAService.log(.likeAnswerFromList(answer: answer))
+                        await send(.likeAnswer(answer))
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
+                    await send(.toggleLoading(false), animation: .bouncy)
+                }
                 
             case .answerCommentButtonTapped:
+                return .none
+                
+            case let .fetchPopularAnswer(answer):
+                state.popularAnswerStatus = .popularAnswer(answer, state.question)
+                return .none
+                
+            case let .likeAnswer(answer):
+                guard let currentAnswerIdx = state.answerList.firstIndex(where: { $0.id == answer.id })
+                else { return .none }
+                
+                if state.answerList[currentAnswerIdx].isLiked {
+                    state.answerList[currentAnswerIdx].heartCount -= 1
+                } else {
+                    state.answerList[currentAnswerIdx].heartCount += 1
+                }
+                state.answerList[currentAnswerIdx].isLiked.toggle()
                 return .none
                 
             case let .networkingFailed(error):

@@ -84,12 +84,11 @@ private struct NormalCell: View {
             Content()
                 .padding(.top, 8)
                 .padding(.horizontal, 16)
-                .padding(.bottom, 20)
+                .padding(.bottom, 5)
             
-//            Footer()
-//                .padding(.top, 6)
-//                .padding(.bottom, 20)
-//                .padding(.horizontal, 16)
+            Footer()
+                .padding(.bottom, 14)
+                .padding(.horizontal, 16)
         }
         .background(.first)
     }
@@ -156,11 +155,11 @@ private struct NormalCell: View {
                 likeAction()
             } label: {
                 HStack(spacing: 4) {
-                    Image(true ? .heartActive : .heart)
+                    Image(answer.isLiked ? .heartActive : .heart)
                         .resizable()
                         .frame(width: 18, height: 18)
                     
-                    Text("32")
+                    Text("\(answer.heartCount)")
                         .pretendard(.regular, 13)
                         .foregroundStyle(.sub3)
                 }
@@ -175,7 +174,7 @@ private struct NormalCell: View {
                         .resizable()
                         .frame(width: 15, height: 14)
                     
-                    Text("32")
+                    Text("\(answer.commentCount)")
                         .pretendard(.regular, 13)
                 }
                 .foregroundStyle(.sub3)
@@ -315,7 +314,10 @@ private struct ReportedCell: View {
             publishedDate: .now,
             isReported: false,
             isMine: false,
-            isResignMember: false
+            isLiked: false,
+            isResignMember: false,
+            commentCount: 1,
+            heartCount: 1
         ),
         Answer(
             id: 1,
@@ -326,7 +328,10 @@ private struct ReportedCell: View {
             publishedDate: .now,
             isReported: false,
             isMine: true,
-            isResignMember: false
+            isLiked: false,
+            isResignMember: false,
+            commentCount: 1,
+            heartCount: 1
         ),
         Answer(
             id: 2,
@@ -337,7 +342,10 @@ private struct ReportedCell: View {
             publishedDate: .now,
             isReported: false,
             isMine: false,
-            isResignMember: true
+            isLiked: true,
+            isResignMember: false,
+            commentCount: 1,
+            heartCount: 1
         ),
         Answer(
             id: 3,
@@ -348,7 +356,10 @@ private struct ReportedCell: View {
             publishedDate: .now,
             isReported: true,
             isMine: false,
-            isResignMember: false
+            isLiked: true,
+            isResignMember: false,
+            commentCount: 1,
+            heartCount: 1
         )
     ]
     ZStack {

@@ -38,6 +38,8 @@ struct TodayQuestionFeature {
         case seeAllAnswerButtonTapped(Question)
         case seeMoreAnswerButtonTapped(Answer)
         case answerCommentButtonTapped(Answer)
+        case likeAnswerButtonTapped(Answer)
+        case likeAnswer(Answer)
         case questionTimerTick
         case cancelQuestionTimer
         case toggleLoading(Bool)
@@ -144,6 +146,30 @@ struct TodayQuestionFeature {
                 return .cancel(id: CancelID.questionTimer)
                 
             case .answerCommentButtonTapped:
+                return .none
+                
+            case let .likeAnswerButtonTapped(answer):
+                return .run { send in
+                    await send(.toggleLoading(true), animation: .bouncy)
+                    do {
+                        try await answerRepository.likeAnswer(answer.id)
+                        await send(.likeAnswer(answer))
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
+                    await send(.toggleLoading(false), animation: .bouncy)
+                }
+                
+            case let .likeAnswer(answer):
+                guard let currentAnswerIdx = state.answerPreviewList.firstIndex(where: { $0.id == answer.id })
+                else { return .none }
+                
+                if state.answerPreviewList[currentAnswerIdx].isLiked {
+                    state.answerPreviewList[currentAnswerIdx].heartCount -= 1
+                } else {
+                    state.answerPreviewList[currentAnswerIdx].heartCount += 1
+                }
+                state.answerPreviewList[currentAnswerIdx].isLiked.toggle()
                 return .none
                 
             case let .sheet(.presented(.seeMore(.alert(.presented(.confirmDeletion(sheetData)))))):

@@ -55,7 +55,7 @@ struct BoardCommentFeature {
         }
     }
     
-    @Dependency(\.commentRepository) var commentRepository
+    @Dependency(\.boardCommentRepository) var boardCommentRepository
     @Dependency(\.bulletinBoardRepository) var bulletinBoardRepository
     @Dependency(\.dismiss) var dismiss
     
@@ -67,7 +67,7 @@ struct BoardCommentFeature {
                 return .run { [boardId = state.board.id] send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
-                        let commentResponse = try await commentRepository.fetchBoardCommentList(boardId, nil)
+                        let commentResponse = try await boardCommentRepository.fetchBoardCommentList(boardId, nil)
                         let boardResponse = try await bulletinBoardRepository.fetchSingleBoard(boardId)
                         await send(.commentListResponse(commentResponse.0, commentResponse.1))
                         await send(.boardResponse(boardResponse))
@@ -87,7 +87,7 @@ struct BoardCommentFeature {
                 ] send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
-                        let response = try await commentRepository.fetchBoardCommentList(boardId, threshold)
+                        let response = try await boardCommentRepository.fetchBoardCommentList(boardId, threshold)
                         await send(.paginationResponse(response.0, response.1))
                     } catch {
                         await send(.networkingFailed(error))
@@ -119,7 +119,7 @@ struct BoardCommentFeature {
                 return .run { [board = state.board] send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
-                        try await commentRepository.likeBoardComment(boardComment.id)
+                        try await boardCommentRepository.likeBoardComment(boardComment.id)
                         await send(.likeComment(boardComment.id))
                         GAService.log(.likeBoardComment(board: board, boardComment: boardComment))
                     } catch {
@@ -142,7 +142,7 @@ struct BoardCommentFeature {
                 ] send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
-                        try await commentRepository.postBoardComment(board.id, text)
+                        try await boardCommentRepository.postBoardComment(board.id, text)
                         HapticService.notification(type: .success)
                         GAService.log(.postBoardComment(board: board, comment: text))
                         await send(.refresh)
@@ -253,7 +253,7 @@ struct BoardCommentFeature {
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)
                     do {
-                        try await commentRepository.deleteBoardComment(boardCommentId)
+                        try await boardCommentRepository.deleteBoardComment(boardCommentId)
                         await send(.refresh)
                         await send(.successDeletion)
                     } catch {
@@ -307,7 +307,7 @@ extension AlertState where Action == BoardCommentFeature.Action.Alert {
 
 extension BoardCommentFeature {
     // 이름을 익명화 해주는 method
-    private func anonymizeCommentList(_ BoardWriterId: Int, _ commentList: [BoardComment]) -> [BoardComment] {
+    private func anonymizeCommentList(_ boardWriterId: Int, _ commentList: [BoardComment]) -> [BoardComment] {
         var anonymousArray: [Int: Int] = [:]
         var anonymousIndex: Int = 0
         
@@ -317,7 +317,7 @@ extension BoardCommentFeature {
             if !isContainName {
                 anonymousIndex += 1
                 
-                let anonymityId = (comment.writeId == BoardWriterId) ? -1 : anonymousIndex
+                let anonymityId = (comment.writeId == boardWriterId) ? -1 : anonymousIndex
                 
                 anonymousArray.updateValue(comment.writeId, forKey: anonymityId)
                 
@@ -331,7 +331,7 @@ extension BoardCommentFeature {
                     isMine: comment.isMine,
                     isReport: comment.isReport,
                     createdAt: comment.createdAt,
-                    anonymityId: (comment.writeId == BoardWriterId) ? -1 : anonymousIndex
+                    anonymityId: (comment.writeId == boardWriterId) ? -1 : anonymousIndex
                 )
             } else {
                 let currentIndex = anonymousArray.first(where: { $0.value == comment.writeId })?.key ?? 0

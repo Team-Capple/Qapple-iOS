@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-// TODO: 4/14 - Reducer 업데이트 필요
+
 @Reducer
 struct AnswerCommentFeature {
     @ObservableState
@@ -16,7 +16,6 @@ struct AnswerCommentFeature {
         var answer: Answer
         var commentText: String = ""
         var commentList: [AnswerComment] = []
-        var paginationInfo = QappleAPI.PaginationInfo(threshold: "", hasNext: false)
         var isLoading: Bool = false
         @Presents var sheet: Sheet.State?
         @Presents var alert: AlertState<Action.Alert>?
@@ -26,10 +25,7 @@ struct AnswerCommentFeature {
         case onAppear
         case onDisappear
         case refresh
-        case pagination
-        case commentListResponse([AnswerComment], QappleAPI.PaginationInfo)
-        case paginationResponse([AnswerComment], QappleAPI.PaginationInfo)
-        case answerResponse(Answer)
+        case commentListResponse([AnswerComment])
         
         case backButtonTapped
         case likeCommentButtonTapped(AnswerComment)
@@ -57,6 +53,8 @@ struct AnswerCommentFeature {
     }
     
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.answerRepository) var answerRepository
+    @Dependency(\.answerCommentRepository) var answerCommentRepository
     
     var body: some ReducerOf<Self> {
         BindingReducer()
@@ -65,47 +63,21 @@ struct AnswerCommentFeature {
             case .onAppear, .refresh:
                 return .run { [answerId = state.answer.id] send in
                     await send(.toggleLoading(true), animation: .bouncy)
-//                    do {
-//                        let commentResponse = try await commentRepository.fetchBoardCommentList(boardId, nil)
-//                        let boardResponse = try await bulletinBoardRepository.fetchSingleBoard(boardId)
-//                        await send(.commentListResponse(commentResponse.0, commentResponse.1))
-//                        await send(.boardResponse(boardResponse))
-//                    } catch {
-//                        await send(.networkingFailed(error))
-//                    }
+                    do {
+                        let commentResponse = try await answerCommentRepository.fetchAnswerComments(answerId)
+                        // TODO: 5/20 단일 답변 패치 필요?
+                        await send(.commentListResponse(commentResponse))
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
             case .onDisappear:
                 return .none
                 
-            case .pagination:
-                return .run { [
-                    answerId = state.answer.id,
-                    threshold = Int(state.paginationInfo.threshold)
-                ] send in
-                    await send(.toggleLoading(true), animation: .bouncy)
-//                    do {
-//                        let response = try await commentRepository.fetchBoardCommentList(boardId, threshold)
-//                        await send(.paginationResponse(response.0, response.1))
-//                    } catch {
-//                        await send(.networkingFailed(error))
-//                    }
-                    await send(.toggleLoading(false), animation: .bouncy)
-                }
-                
-            case let .commentListResponse(commentList, paginationInfo):
-//                state.commentList = anonymizeCommentList(state.answer.writerId, commentList)
-//                state.paginationInfo = paginationInfo
-                return .none
-                
-            case let .paginationResponse(commentList, paginationInfo):
-//                state.commentList.append(contentsOf: anonymizeCommentList(state.answer.writerId, commentList))
-//                state.paginationInfo = paginationInfo
-                return .none
-                
-            case let .answerResponse(answer):
-                state.answer = answer
+            case let .commentListResponse(commentList):
+                state.commentList = anonymizeCommentList(state.answer.writerId, commentList)
                 return .none
                 
             case .backButtonTapped:
@@ -117,21 +89,21 @@ struct AnswerCommentFeature {
                 HapticService.impact(style: .light)
                 return .run { [answer = state.answer] send in
                     await send(.toggleLoading(true), animation: .bouncy)
-//                    do {
-//                        try await commentRepository.likeBoardComment(boardComment.id)
-//                        await send(.likeComment(boardComment.id))
-//                        GAService.log(.likeBoardComment(board: board, boardComment: boardComment))
-//                    } catch {
-//                        await send(.networkingFailed(error))
-//                    }
+                    do {
+                        try await answerCommentRepository.likeAnswerComment(answerComment.id)
+                        await send(.likeComment(answerComment.id))
+                        GAService.log(.likeAnswerComment(answer: answer, answerComment: answerComment))
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
             case let .likeComment(answerCommentId):
-//                if let index = state.commentList.firstIndex(where: { $0.id == boardCommentId }) {
-//                    state.commentList[index].isLiked.toggle()
-//                    state.commentList[index].heartCount += state.commentList[index].isLiked ? 1 : -1
-//                }
+                if let index = state.commentList.firstIndex(where: { $0.id == answerCommentId }) {
+                    state.commentList[index].isLiked.toggle()
+                    state.commentList[index].heartCount += state.commentList[index].isLiked ? 1 : -1
+                }
                 return .none
                 
             case .uploadCommentButtonTapped:
@@ -140,15 +112,15 @@ struct AnswerCommentFeature {
                     answer = state.answer
                 ] send in
                     await send(.toggleLoading(true), animation: .bouncy)
-//                    do {
-//                        try await commentRepository.postBoardComment(board.id, text)
-//                        HapticService.notification(type: .success)
-//                        GAService.log(.postBoardComment(board: board, comment: text))
-//                        await send(.refresh)
-//                        await send(.commentTextReset)
-//                    } catch {
-//                        await send(.networkingFailed(error))
-//                    }
+                    do {
+                        try await answerCommentRepository.createAnswerComment(answer.id, text)
+                        HapticService.notification(type: .success)
+                        GAService.log(.postAnswerComment(answer: answer, comment: text))
+                        await send(.refresh)
+                        await send(.commentTextReset)
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
@@ -160,9 +132,9 @@ struct AnswerCommentFeature {
                 NotificationCenter.default.post(name: .updateCommentCellToggle, object: nil)
                 return .none
                 
-            case let .deleteCommentButtonTapped(boardComment):
+            case let .deleteCommentButtonTapped(answerComment):
                 HapticService.notification(type: .error)
-                state.alert = .confirmDeletion(boardComment.id)
+                state.alert = .confirmDeletion(answerComment.id)
                 return .none
                 
             case .successDeletion:
@@ -174,23 +146,23 @@ struct AnswerCommentFeature {
                 HapticService.impact(style: .light)
                 return .run { [answer = state.answer] send in
                     await send(.toggleLoading(true), animation: .bouncy)
-//                    do {
-//                        try await bulletinBoardRepository.likeBoard(answer.id)
-//                        await send(.likeBoard)
-//                        if !answer.isLiked { GAService.log(.likeBoardFromDetail(board: answer)) }
-//                    } catch {
-//                        await send(.networkingFailed(error))
-//                    }
+                    do {
+                        try await answerRepository.likeAnswer(answer.id)
+                        await send(.likeAnswer)
+                        if !answer.isLiked { GAService.log(.likeAnswerFromDetail(answer: answer)) }
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
             case .likeAnswer:
-//                if state.answer.isLiked {
-//                    state.answer.heartCount -= 1
-//                } else {
-//                    state.answer.heartCount += 1
-//                }
-//                state.answer.isLiked.toggle()
+                if state.answer.isLiked {
+                    state.answer.heartCount -= 1
+                } else {
+                    state.answer.heartCount += 1
+                }
+                state.answer.isLiked.toggle()
                 return .none
                 
             case .seeMoreAction:
@@ -218,12 +190,12 @@ struct AnswerCommentFeature {
                 guard case let .answer(answer) = sheetData else { return .none }
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)
-//                    do {
-//                        try await bulletinBoardRepository.deleteBoard(board.id)
-//                        await send(.sheet(.presented(.seeMore(.completionDeletion))))
-//                    } catch {
-//                        await send(.networkingFailed(error))
-//                    }
+                    do {
+                        try await answerRepository.deleteAnswer(answer.id)
+                        await send(.sheet(.presented(.seeMore(.completionDeletion))))
+                    } catch {
+                        await send(.networkingFailed(error))
+                    }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
@@ -248,16 +220,14 @@ struct AnswerCommentFeature {
                 state.sheet = nil
                 return .send(.onDisappear)
                 
-            case let .alert(.presented(.confirmDeletion(answerId))):
+            case let .alert(.presented(.confirmDeletion(answerCommentId))):
                 return .run { send in
                     await send(.toggleLoading(true), animation: .bouncy)
-//                    do {
-//                        try await commentRepository.deleteBoardComment(boardCommentId)
+                    do {
+                        try await answerCommentRepository.deleteAnswerComment(answerCommentId)
                         await send(.refresh)
                         await send(.successDeletion)
-//                    } catch {
-//                        await send(.networkingFailed(error))
-//                    }
+                    }
                     await send(.toggleLoading(false), animation: .bouncy)
                 }
                 
@@ -306,7 +276,7 @@ extension AlertState where Action == AnswerCommentFeature.Action.Alert {
 
 extension AnswerCommentFeature {
     // 이름을 익명화 해주는 method
-    private func anonymizeCommentList(_ BoardWriterId: Int, _ commentList: [AnswerComment]) -> [AnswerComment] {
+    private func anonymizeCommentList(_ answerWriterId: Int, _ commentList: [AnswerComment]) -> [AnswerComment] {
         var anonymousArray: [Int: Int] = [:]
         var anonymousIndex: Int = 0
         
@@ -316,7 +286,7 @@ extension AnswerCommentFeature {
             if !isContainName {
                 anonymousIndex += 1
                 
-                let anonymityId = (comment.writeId == BoardWriterId) ? -1 : anonymousIndex
+                let anonymityId = (comment.writeId == answerWriterId) ? -1 : anonymousIndex
                 
                 anonymousArray.updateValue(comment.writeId, forKey: anonymityId)
                 
@@ -330,7 +300,7 @@ extension AnswerCommentFeature {
                     isMine: comment.isMine,
                     isReport: comment.isReport,
                     createdAt: comment.createdAt,
-                    anonymityId: (comment.writeId == BoardWriterId) ? -1 : anonymousIndex
+                    anonymityId: (comment.writeId == answerWriterId) ? -1 : anonymousIndex
                 )
             } else {
                 let currentIndex = anonymousArray.first(where: { $0.value == comment.writeId })?.key ?? 0
