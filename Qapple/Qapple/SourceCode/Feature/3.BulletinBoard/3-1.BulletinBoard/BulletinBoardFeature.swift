@@ -64,7 +64,7 @@ struct BulletinBoardFeature {
     
     @Dependency(\.questionRepository.fetchMainQuestion) var fetchMainQuestion
     @Dependency(\.bulletinBoardRepository) var bulletinBoardRepository
-    @Dependency(\.answerRepository.fetchPopularAnswer) var fetchPopularAnswer
+    @Dependency(\.answerRepository) var answerRepository
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -78,7 +78,7 @@ struct BulletinBoardFeature {
                     do {
                         let mainQuestion = try await fetchMainQuestion()
                         let response = try await bulletinBoardRepository.fetchBulletinBoardList(nil)
-                        let popularAnswer = try await fetchPopularAnswer(nil)
+                        let popularAnswer = try await answerRepository.fetchPopularAnswerOfMainQuestion()
                         await send(.fetchPopularAnswer(popularAnswer))
                         await send(.bulletinBoardListResponse(mainQuestion, response.0, response.1))
                     } catch {
@@ -152,13 +152,12 @@ struct BulletinBoardFeature {
                 }
                 return .none
                 
-            case let .fetchPopularAnswer(result):
-                if let answer = result.0, let question = result.1 {
+            case let .fetchPopularAnswer((answer, question, isEmpty)):
+                if let answer = answer, let question = question {
                     state.popularAnswerStatus = .popularAnswer(answer, question)
                 } else {
-                    state.popularAnswerStatus = result.2 ? .none : .todayQuestion
+                    state.popularAnswerStatus = isEmpty ? .none : .todayQuestion
                 }
-                
                 return .none
                 
             case .searchButtonTapped:

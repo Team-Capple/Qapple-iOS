@@ -29,9 +29,9 @@ extension AppDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         #if DEBUG
-        RepositoryService.shared.configureServer(to: .production)
+        RepositoryService.shared.configureServer(to: .test)
         #else
-        RepositoryService.shared.configureServer(to: .production)
+        RepositoryService.shared.configureServer(to: .test)
         #endif
         setupPushNotification(application)
         setupFirebase()
