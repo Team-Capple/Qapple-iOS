@@ -181,9 +181,11 @@ private struct RemoteView: View {
                 HStack(spacing: 4) {
                     Image(board.isLiked ? .heartActive : .heart)
                     
-                    Text("\(board.heartCount)")
-                        .pretendard(.regular, 13)
-                        .foregroundStyle(TextLabel.sub3)
+                    if board.heartCount > 0 {
+                        Text("\(board.heartCount)")
+                            .pretendard(.regular, 13)
+                            .foregroundStyle(TextLabel.sub3)
+                    }
                 }
             }
             
@@ -193,9 +195,11 @@ private struct RemoteView: View {
                     .frame(width: 15, height: 14)
                     .foregroundStyle(TextLabel.sub3)
                 
-                Text("\(board.commentCount)")
-                    .pretendard(.regular, 13)
-                    .foregroundStyle(TextLabel.sub3)
+                if board.commentCount > 0 {
+                    Text("\(board.commentCount)")
+                        .pretendard(.regular, 13)
+                        .foregroundStyle(TextLabel.sub3)
+                }
             }
         }
     }

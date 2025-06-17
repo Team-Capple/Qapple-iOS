@@ -403,7 +403,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Qapple/QappleBox/Qapple.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2505142036;
 				DEVELOPMENT_ASSET_PATHS = "\"Qapple/Resource/Preview Content\"";
@@ -430,7 +430,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.qapple.Apple-Developer-Academy-POSTECH";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Qapple+Distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = DevelopmentQapple2025;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -450,7 +450,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Qapple/QappleBox/Qapple.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2505142036;
 				DEVELOPMENT_ASSET_PATHS = "\"Qapple/Resource/Preview Content\"";
@@ -477,7 +477,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.qapple.Apple-Developer-Academy-POSTECH";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Qapple+Distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = DevelopmentQapple2025;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;

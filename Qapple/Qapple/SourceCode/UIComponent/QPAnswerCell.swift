@@ -160,9 +160,11 @@ private struct NormalCell: View {
                         .resizable()
                         .frame(width: 18, height: 18)
                     
-                    Text("\(answer.heartCount)")
-                        .pretendard(.regular, 13)
-                        .foregroundStyle(.sub3)
+                    if answer.heartCount > 0 {
+                        Text("\(answer.heartCount)")
+                            .pretendard(.regular, 13)
+                            .foregroundStyle(.sub3)
+                    }
                 }
             }
             .padding(.leading, 8)
@@ -175,8 +177,10 @@ private struct NormalCell: View {
                         .resizable()
                         .frame(width: 15, height: 14)
                     
-                    Text("\(answer.commentCount)")
-                        .pretendard(.regular, 13)
+                    if answer.commentCount > 0 {
+                        Text("\(answer.commentCount)")
+                            .pretendard(.regular, 13)
+                    }
                 }
                 .foregroundStyle(.sub3)
             }

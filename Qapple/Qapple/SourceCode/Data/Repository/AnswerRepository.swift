@@ -17,7 +17,7 @@ struct AnswerRepository {
         QappleAPI.TotalCount,
         QappleAPI.PaginationInfo
     )
-    var fetchPopularAnswerOfMainQuestion: () async throws -> (Answer?, Question?, Bool)
+    var fetchPopularAnswerOfMainQuestion: () async throws -> (Answer?, Question, Bool)
     var fetchPopularAnswer: (_ question: Question) async throws -> (Answer?, Question?, Bool)
     var postAnswer: (_ questionId: Int, _ answer: String) async throws -> Void
     var deleteAnswer: (_ answerId: Int) async throws -> Void
@@ -117,14 +117,10 @@ extension AnswerRepository: DependencyKey {
                 threshold: response.threshold,
                 hasNext: response.hasNext
             )
+            
             return (answerList, response.total, paginationInfo)
         },
         fetchPopularAnswerOfMainQuestion: {
-            let currentHour = Calendar.current.component(.hour, from: .now)
-            if currentHour > 12 && currentHour < 19 {
-                return (nil, nil, false)
-            }
-            
             let mainQuestion = try await RepositoryService.shared.request { server, accessToken in
                 try await QuestionAPI.fetchMainQuestion(server: server, accessToken: accessToken)
             }
@@ -136,6 +132,11 @@ extension AnswerRepository: DependencyKey {
                 isAnswered: mainQuestion.isAnswered,
                 isLived: mainQuestion.questionStatus == ("LIVE")
             )
+            
+            let currentHour = Calendar.current.component(.hour, from: .now)
+            if currentHour > 12 && currentHour < 19 {
+                return (nil, question, false)
+            }
             
             if let popularAnswer = try await getPopularQuestion(from: question) {
                 return (popularAnswer, question, true)

@@ -47,7 +47,7 @@ struct BulletinBoardFeature {
 
         case questionNotiTapped(Question)
         case popularAnswerTapped(Question)
-        case fetchPopularAnswer((Answer?, Question?, Bool))
+        case fetchPopularAnswer((Answer?, Question, Bool))
         
         case sheet(PresentationAction<Sheet.Action>)
         case alert(PresentationAction<Alert>)
@@ -153,10 +153,10 @@ struct BulletinBoardFeature {
                 return .none
                 
             case let .fetchPopularAnswer((answer, question, isEmpty)):
-                if let answer = answer, let question = question {
-                    state.popularAnswerStatus = .popularAnswer(answer, question)
+                if let popularAnswer = answer {
+                    state.popularAnswerStatus = .popularAnswer(popularAnswer, question)
                 } else {
-                    state.popularAnswerStatus = isEmpty ? .none : .todayQuestion
+                    state.popularAnswerStatus = question.isAnswered || isEmpty ? .none : .todayQuestion
                 }
                 return .none
                 
