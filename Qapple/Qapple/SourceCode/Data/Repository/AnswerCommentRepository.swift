@@ -33,7 +33,7 @@ extension AnswerCommentRepository: DependencyKey {
                 )
             }
             
-            let list = response.answerCommentInfos.map {
+            let list = response.content.map {
                 AnswerComment(
                     id: $0.answerCommentId,
                     writeId: $0.writerId,
@@ -41,8 +41,8 @@ extension AnswerCommentRepository: DependencyKey {
                     writerGeneration: "",
                     content: $0.content,
                     heartCount: $0.heartCount,
-                    isLiked: false,
-                    isMine: false,
+                    isLiked: $0.isLiked,
+                    isMine: $0.isMine,
                     isReport: false,
                     createdAt: $0.createdAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
                     anonymityId: -2
