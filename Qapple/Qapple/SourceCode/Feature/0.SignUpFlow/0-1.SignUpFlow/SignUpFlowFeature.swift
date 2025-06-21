@@ -46,15 +46,14 @@ struct SignUpFlowFeature {
                 return .run { send in
                     do {
                         try await appleLoginService.autoLogin()
-                        await send(.autoLoginResponse)
-                        
-//                        let isRecentVersion = try await VersionService.isRecentVersion()
-//                        if isRecentVersion {
-//                            try await appleLoginService.autoLogin()
-//                            await send(.autoLoginResponse)
-//                        } else {
-//                            await send(.updateVersion)
-//                        }
+                        await send(.autoLoginResponse)                 
+                        let isRecentVersion = try await VersionService.isRecentVersion()
+                        if isRecentVersion {
+                            try await appleLoginService.autoLogin()
+                            await send(.autoLoginResponse)
+                        } else {
+                            await send(.updateVersion)
+                        }
                     } catch {
                         print(error)
                     }
