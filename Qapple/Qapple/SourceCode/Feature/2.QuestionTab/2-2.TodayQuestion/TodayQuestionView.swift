@@ -17,12 +17,8 @@ struct TodayQuestionView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                if store.isNewQuestion {
-                    LargeHeaderView(store: store)
-                    LargeQuestionButton(store: store)
-                } else {
-                    SmallHeaderView(store: store)
-                }
+                LargeHeaderView(store: store)
+                LargeQuestionButton(store: store)
                 AnswerPreviewList(store: store)
             }
         }

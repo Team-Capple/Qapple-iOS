@@ -40,9 +40,9 @@ enum QuestionState: Codable {
     /// 질문 및 답변 여부에 따라 변화하는 버튼 문자열
     func buttonTitle(isAnswerd: Bool) -> String {
         switch self {
-        case .creating: isAnswerd ? "둘러보기" : "답변하기"
-        case .ready: "답변하기"
-        case .complete: "둘러보기"
+        case .creating: isAnswerd ? "다른 답변 둘러보기" : "이전 질문 답변하기"
+        case .ready: "질문에 답변하기"
+        case .complete: "다른 답변 둘러보기"
         }
     }
 }
