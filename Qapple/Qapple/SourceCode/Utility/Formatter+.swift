@@ -14,7 +14,7 @@ extension Date {
     /// DateFormatter 재사용을 위한 타입 프로퍼티
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.locale = .current
         return formatter
     }()
     
