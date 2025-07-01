@@ -21,13 +21,16 @@ struct SignUpFlowFeature {
     
     enum Action {
         case onAppear
+        case updateVersion
         case autoLoginResponse
         case socialLogin(SocialLoginFeature.Action)
         case networkingFailed(Error)
         case path(StackActionOf<Path>)
         case alert(PresentationAction<Alert>)
         
-        enum Alert: Equatable {}
+        enum Alert: Equatable {
+            case navigateToAppStore
+        }
     }
     
     @Dependency(\.appleLoginService) var appleLoginService
@@ -43,11 +46,22 @@ struct SignUpFlowFeature {
                 return .run { send in
                     do {
                         try await appleLoginService.autoLogin()
-                        await send(.autoLoginResponse)
+                        await send(.autoLoginResponse)                 
+                        let isRecentVersion = try await VersionService.isRecentVersion()
+                        if isRecentVersion {
+                            try await appleLoginService.autoLogin()
+                            await send(.autoLoginResponse)
+                        } else {
+                            await send(.updateVersion)
+                        }
                     } catch {
-                        await send(.networkingFailed(error))
+                        print(error)
                     }
                 }
+                
+            case .updateVersion:
+                state.alert = .requiredUpdate
+                return .none
                 
             case .autoLoginResponse:
                 state.isFirstLaunch = false
@@ -97,6 +111,10 @@ struct SignUpFlowFeature {
                     return .none
                 }
                 
+            case .alert(.presented(.navigateToAppStore)):
+                VersionService.openAppStore()
+                return .none
+                
             case .alert:
                 return .none
                 
@@ -120,5 +138,17 @@ extension SignUpFlowFeature {
         case nicknameForm(NicknameFormFeature)
         case termsAgreement(TermsAgreementFeature)
         case signUpComplete(SignUpCompleteFeature)
+    }
+}
+
+// MARK: - Alert
+
+extension AlertState where Action == SignUpFlowFeature.Action.Alert {
+    static let requiredUpdate = AlertState {
+        TextState("원활한 서비스 이용을 위해 캐플 앱 업데이트가 필요해요!")
+    } actions: {
+        ButtonState(role: .none, action: .navigateToAppStore) {
+            TextState("앱스토어 이동")
+        }
     }
 }

@@ -60,20 +60,10 @@ struct AnswerListFeature {
                         let response = try await answerRepository.fetchAnswerListOfQuestion(
                             question.id, nil
                         )
-                        let currentHour = Calendar.current.component(.hour, from: .now)
                         
-                        if question.isLived, !(currentHour > 12 && currentHour < 19){
-                            if !(currentHour > 12 && currentHour < 19) {
-                                let response = try await answerRepository.fetchPopularAnswer(question)
-                                if let answer = response.0 {
-                                    await send(.fetchPopularAnswer(answer))
-                                }
-                            }
-                        } else {
-                            let response = try await answerRepository.fetchPopularAnswer(question)
-                            if let answer = response.0 {
-                                await send(.fetchPopularAnswer(answer))
-                            }
+                        let (answer, _, isEmpty) = try await answerRepository.fetchPopularAnswer(question)
+                        if let popularAnswer = answer {
+                            await send(.fetchPopularAnswer(popularAnswer))
                         }
                         
                         await send(

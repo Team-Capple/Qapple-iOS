@@ -64,20 +64,24 @@ private struct MyAnswerList: View {
                 LazyVStack(spacing: 0) {
                     ForEach(enumerated(store.myAnswerList), id: \.element.id) {
                         index, answer in
-                        QPAnswerCell(
-                            answer: answer,
-                            index: index,
-                            state: .written,
-                            seeMoreAction:{
-                                store.send(.seeMoreAction(answer))
-                            },
-                            likeAction: {
-                                store.send(.likeAnswerButtonTapped(answer))
-                            },
-                            commentAction: {
-                                store.send(.commentButtonTapped(answer))
-                            }
-                        )
+                        Button {
+                            store.send(.commentButtonTapped(answer))
+                        } label: {
+                            QPAnswerCell(
+                                answer: answer,
+                                index: index,
+                                state: .written,
+                                seeMoreAction:{
+                                    store.send(.seeMoreAction(answer))
+                                },
+                                likeAction: {
+                                    store.send(.likeAnswerButtonTapped(answer))
+                                },
+                                commentAction: {
+                                    store.send(.commentButtonTapped(answer))
+                                }
+                            )
+                        }
                         .configurePagination(
                             store.myAnswerList,
                             currentIndex: index,

@@ -138,20 +138,24 @@ private struct AnswerList: View {
                 
                 ForEach(enumerated(store.answerList), id: \.element.id) {
                     index, answer in
-                    QPAnswerCell(
-                        answer: answer,
-                        index: index,
-                        state: .normal,
-                        seeMoreAction: {
-                            store.send(.seeMoreAction(answer))
-                        },
-                        likeAction: {
-                            store.send(.likeAnswerButtonTapped(answer))
-                        },
-                        commentAction: {
-                            store.send(.answerCommentButtonTapped(answer))
-                        }
-                    )
+                    Button {
+                        store.send(.answerCommentButtonTapped(answer))
+                    } label: {
+                        QPAnswerCell(
+                            answer: answer,
+                            index: index,
+                            state: .normal,
+                            seeMoreAction: {
+                                store.send(.seeMoreAction(answer))
+                            },
+                            likeAction: {
+                                store.send(.likeAnswerButtonTapped(answer))
+                            },
+                            commentAction: {
+                                store.send(.answerCommentButtonTapped(answer))
+                            }
+                        )
+                    }
                     .configurePagination(
                         store.answerList,
                         currentIndex: index,

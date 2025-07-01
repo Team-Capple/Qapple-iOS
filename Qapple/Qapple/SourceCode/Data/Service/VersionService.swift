@@ -15,12 +15,12 @@ struct VersionService {
     }
     
     /// 현재 버전이 최신 버전인지 확인
-    static func isRecentVersion() async -> Result<Bool, Error> {
+    static func isRecentVersion() async throws -> Bool {
         guard let recentVersion = await appStoreAppVersion() else {
-            return .failure(VersionError.networkError)
+            throw VersionError.networkError
         }
         
-        return .success(recentVersion == deviceAppVersion)
+        return recentVersion == deviceAppVersion
     }
     
     /// 앱스토어 내 최신 버전
@@ -55,7 +55,10 @@ struct VersionService {
     
     /// 앱스토어를 Open합니다.
     static func openAppStore() {
-        guard let url = URL(string: appStoreOpenUrlString) else { return }
+        guard let url = URL(string: appStoreOpenUrlString) else {
+            print("URL 생성 실패: \(appStoreOpenUrlString)")
+            return
+        }
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }

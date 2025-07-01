@@ -17,7 +17,8 @@ struct AnswerRepository {
         QappleAPI.TotalCount,
         QappleAPI.PaginationInfo
     )
-    var fetchPopularAnswer: (_ question: Question?) async throws -> (Answer?, Question?, Bool)
+    var fetchPopularAnswerOfMainQuestion: () async throws -> (Answer?, Question, Bool)
+    var fetchPopularAnswer: (_ question: Question) async throws -> (Answer?, Question?, Bool)
     var postAnswer: (_ questionId: Int, _ answer: String) async throws -> Void
     var deleteAnswer: (_ answerId: Int) async throws -> Void
     var likeAnswer: (_ questionId: Int) async throws -> Void
@@ -116,115 +117,47 @@ extension AnswerRepository: DependencyKey {
                 threshold: response.threshold,
                 hasNext: response.hasNext
             )
+            
             return (answerList, response.total, paginationInfo)
         },
-        fetchPopularAnswer: { question in
+        fetchPopularAnswerOfMainQuestion: {
+            let mainQuestion = try await RepositoryService.shared.request { server, accessToken in
+                try await QuestionAPI.fetchMainQuestion(server: server, accessToken: accessToken)
+            }
+            
+            let question = Question(
+                id: mainQuestion.questionId,
+                content: mainQuestion.content,
+                publishedDate: .now,
+                isAnswered: mainQuestion.isAnswered,
+                isLived: mainQuestion.questionStatus == ("LIVE")
+            )
+            
             let currentHour = Calendar.current.component(.hour, from: .now)
             if currentHour > 12 && currentHour < 19 {
+                return (nil, question, false)
+            }
+            
+            if let popularAnswer = try await getPopularQuestion(from: question) {
+                return (popularAnswer, question, true)
+            } else {
+                return (nil, question, true)
+            }
+        },
+        fetchPopularAnswer: { question in
+            let mainQuestion = try await RepositoryService.shared.request { server, accessToken in
+                try await QuestionAPI.fetchMainQuestion(server: server, accessToken: accessToken)
+            }
+            
+            if question.id == mainQuestion.questionId {
                 return (nil, nil, false)
             }
             
-            let response = try await RepositoryService.shared.request { server, accessToken in
-                try await QuestionAPI.fetchQuestionList(
-                    threshold: nil,
-                    pageSize: 1,
-                    server: server,
-                    accessToken: accessToken
-                )
+            if let popularAnswer = try await getPopularQuestion(from: question) {
+                return (popularAnswer, question, true)
+            } else {
+                return (nil, question, true)
             }
-            
-            guard let questionContent = response.content.first else { return (nil, nil, true) }
-            
-            let currentQuestion = question ?? Question(
-                id: questionContent.questionId,
-                content: questionContent.content,
-                publishedDate: questionContent.livedAt?.ISO8601ToDate(.yearMonthDateTime) ?? .now,
-                isAnswered: questionContent.isAnswered,
-                isLived: questionContent.questionStatus == ("LIVE")
-            )
-            
-            var popularAnswer: Answer = .init(
-                id: -1,
-                writerId: -1,
-                content: "",
-                authorNickname: "",
-                authorGeneration: "",
-                publishedDate: .init(timeIntervalSince1970: 0),
-                isReported: false,
-                isMine: false,
-                isLiked: false,
-                isResignMember: false,
-                commentCount: 0,
-                heartCount: 0
-            )
-            
-            var hasNext = true
-            var threshold: Int?
-            
-            while hasNext {
-                let answersOfQuestion = try await RepositoryService.shared.request { server, accessToken in
-                    try await AnswerAPI.fetchListOfQuestion(
-                        questionId: Int(currentQuestion.id),
-                        threshold: threshold,
-                        pageSize: 30,
-                        server: server,
-                        accessToken: accessToken
-                    )
-                }
-                
-                if answersOfQuestion.content.isEmpty {
-                    return (nil, nil, true)
-                }
-                
-                for answer in answersOfQuestion.content {
-                    if answer.isReported { continue }
-                    
-                    let sum = answer.commentCount + answer.heartCount
-                    let popularSum = popularAnswer.heartCount + popularAnswer.commentCount
-                    
-                    if sum > popularSum {
-                        popularAnswer = .init(
-                            id: answer.answerId,
-                            writerId: answer.writerId,
-                            content: answer.content,
-                            authorNickname: answer.nickname,
-                            authorGeneration: answer.writerGeneration,
-                            publishedDate: answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
-                            isReported: false,
-                            isMine: answer.isMine,
-                            isLiked: answer.isLiked,
-                            isResignMember: answer.nickname == "알 수 없음",
-                            commentCount: answer.commentCount,
-                            heartCount: answer.heartCount
-                        )
-                    } else if sum == popularSum {
-                        let popularAnswerDate = popularAnswer.publishedDate
-                        let answerDate = answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds)
-                        
-                        if answerDate > popularAnswerDate {
-                            popularAnswer = .init(
-                                id: answer.answerId,
-                                writerId: answer.writerId,
-                                content: answer.content,
-                                authorNickname: answer.nickname,
-                                authorGeneration: answer.writerGeneration,
-                                publishedDate: answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
-                                isReported: false,
-                                isMine: answer.isMine,
-                                isLiked: answer.isLiked,
-                                isResignMember: answer.nickname == "알 수 없음",
-                                commentCount: answer.commentCount,
-                                heartCount: answer.heartCount
-                            )
-                        }
-                    }
-                }
-                
-                hasNext = answersOfQuestion.hasNext
-                threshold = Int(answersOfQuestion.threshold)
-            }
-            
-            return (popularAnswer, currentQuestion, false)
         },
         postAnswer: { questionId, answer in
             let response = try await RepositoryService.shared.request { server, accessToken in
@@ -282,6 +215,9 @@ extension AnswerRepository: DependencyKey {
         fetchAnswerListOfQuestion: { _, _ in
             (stubAnswerList, 25, .init(threshold: "", hasNext: false))
         },
+        fetchPopularAnswerOfMainQuestion: {
+            return (Answer.initialState, Question.initialState, true)
+        },
         fetchPopularAnswer: { _ in
             let question = Question(id: 0, content: "", publishedDate: .now, isAnswered: false, isLived: true)
             
@@ -299,6 +235,79 @@ extension DependencyValues {
     var answerRepository: AnswerRepository {
         get { self[AnswerRepository.self] }
         set { self[AnswerRepository.self] = newValue }
+    }
+}
+
+// MARK: - Helper
+
+extension AnswerRepository {
+    
+    /// 질문에 따른 인기 답변을 계산합니다.
+    private static func getPopularQuestion(from question: Question) async throws -> Answer? {
+        var popularAnswer = Answer.initialState
+        var hasNext = true
+        var threshold: Int?
+        
+        while hasNext {
+            let answersOfQuestion = try await RepositoryService.shared.request { server, accessToken in
+                try await AnswerAPI.fetchListOfQuestion(
+                    questionId: Int(question.id),
+                    threshold: threshold,
+                    pageSize: 30,
+                    server: server,
+                    accessToken: accessToken
+                )
+            }
+            
+            if answersOfQuestion.content.isEmpty {
+                return nil
+            }
+            
+            for (index, answer) in answersOfQuestion.content.enumerated() {
+                guard index > 0 else {
+                    popularAnswer = toEntity(answer)
+                    continue
+                }
+                
+                if answer.isReported { continue }
+                
+                let sum = answer.commentCount + answer.heartCount
+                let popularSum = popularAnswer.heartCount + popularAnswer.commentCount
+                
+                if sum > popularSum {
+                    popularAnswer = toEntity(answer)
+                } else if sum == popularSum {
+                    let popularAnswerDate = popularAnswer.publishedDate
+                    let answerDate = answer.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds)
+                    
+                    if answerDate < popularAnswerDate {
+                        popularAnswer = toEntity(answer)
+                    }
+                }
+            }
+            
+            hasNext = answersOfQuestion.hasNext
+            threshold = Int(answersOfQuestion.threshold)
+        }
+        
+        return popularAnswer
+    }
+    
+    private static func toEntity(_ dto: AnswerListOfQuestion.Content) -> Answer {
+        .init(
+            id: dto.answerId,
+            writerId: dto.writerId,
+            content: dto.content,
+            authorNickname: dto.nickname,
+            authorGeneration: dto.writerGeneration,
+            publishedDate: dto.writeAt.ISO8601ToDate(.yearMonthDateTimeMilliseconds),
+            isReported: false,
+            isMine: dto.isMine,
+            isLiked: dto.isLiked,
+            isResignMember: dto.nickname == "알 수 없음",
+            commentCount: dto.commentCount,
+            heartCount: dto.heartCount
+        )
     }
 }
 

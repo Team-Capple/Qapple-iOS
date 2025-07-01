@@ -21,7 +21,7 @@ struct BulletinBoardView: View {
             BulletinBoardContentView(store: store)
             
             NewBoardPostButton(store: store)
-                .padding(.bottom, 20)
+                .padding(.bottom, 16)
         }
         .background(.first)
         .onChange(of: scenePhase) { _, newPhase in
@@ -70,17 +70,8 @@ private struct BulletinBoardContentView: View {
                 }
             )
             
-            Button {
-                store.send(.academyDayCounterTapped)
-            } label: {
-                QPAcademyDayCounter(event: store.event)
-                    .padding(.top, 8)
-                    .padding(.horizontal, 16)
-            }
-            .buttonStyle(ScalableButtonStyle())
-            
             BulletionBoardListView(store: store)
-                .padding(.top, 20)
+                .padding(.top, 8)
             
             Spacer()
                 .frame(height: 2)
@@ -96,6 +87,14 @@ private struct BulletionBoardListView: View {
     
     var body: some View {
         ScrollView {
+            Button {
+                store.send(.academyDayCounterTapped)
+            } label: {
+                QPAcademyDayCounter(event: store.event)
+                    .padding(.horizontal, 16)
+            }
+            .buttonStyle(ScalableButtonStyle())
+            
             Group {
                 switch store.state.popularAnswerStatus {
                 case .todayQuestion:
@@ -113,7 +112,7 @@ private struct BulletionBoardListView: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.top, 2)
+            .padding(.top, 12)
             
             LazyVStack(spacing: 0) {
                 ForEach(enumerated(store.bulletinBoardList), id: \.offset) { index, board in
